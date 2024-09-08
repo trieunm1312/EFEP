@@ -7,29 +7,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "`order_detail`")
-public class OrderDetail {
+@Table(name = "`cart_item`")
+public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "`order_id`")
-    private Order order;
+    @JoinColumn(name = "`cart_id`")
+    private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "`flower_id`")
     private Flower flower;
 
-    @Column(name = "`flower_name`")
-    private String flowerName;
-
     private int quantity;
-
-    private float price;
 }
