@@ -1,4 +1,4 @@
-package com.team1.efep.enums.controllers;
+package com.team1.efep.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
