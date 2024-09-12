@@ -10,6 +10,7 @@ import com.team1.efep.models.response_models.RegisterResponse;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.services.AccountService;
+import com.team1.efep.validations.RegisterValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,12 @@ public class AccountServiceImpl implements AccountService {
     //-------------------------------REGISTER----------------------------------//
     @Override
     public String register(RegisterRequest request, Model model) {
-        String msg = registerLogic(request);
-        if (!msg.isEmpty()) {
-            model.addAttribute("error", msg);
+        String error = registerLogic(request);
+        if (!error.isEmpty()) {
+            model.addAttribute("error", RegisterResponse.builder()
+                    .status("400")
+                    .message(error)
+                    .build());
             return "register";
         }
         return "login";
@@ -37,11 +41,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public RegisterResponse registerAPI(RegisterRequest request) {
-        String msg = registerLogic(request);
-        if (!msg.isEmpty()) {
+        String error = registerLogic(request);
+        if (!error.isEmpty()) {
             return RegisterResponse.builder()
                     .status("400")
-                    .message(msg)
+                    .message(error)
                     .build();
         }
         return RegisterResponse.builder()
@@ -52,57 +56,64 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private String registerLogic(RegisterRequest request) {
-        String msg = validateInput(request);
+        String error = validateInput(request);
 
-        if (msg.isEmpty()) {
+        if (error.isEmpty()) {
             createNewBuyer(request);
         }
 
-        return msg;
+        return error;
     }
 
     private String validateInput(RegisterRequest request) {
-        String msg = "";
+        String error = "";
+
+        // Check email, phone, password format using RegisterValidation
+        String validError = RegisterValidation.validateRegisterInput(request.getEmail(), request.getPhone(), request.getPassword());
+        if (!validError.isEmpty()) {
+            return validError;
+        }
+
         if (accountRepo.findByEmail(request.getEmail()).isPresent()) {
-            msg += "email, ";
+            error += "email, ";
         }
 
         if (userRepo.findByName(request.getName()).isPresent()) {
-            msg += "name, ";
+            error += "name, ";
         }
 
         if (userRepo.findByPhone(request.getPhone()).isPresent()) {
-            msg += "phone, ";
+            error += "phone, ";
         }
 
-        if (!msg.isEmpty()) {
-            msg = formatMessage(msg);
+        if (!error.isEmpty()) {
+            error = formatErrorMsg(error);
         }
 
         if(!request.getPassword().equals(request.getConfirmPassword())){
-            if(!msg.isEmpty()) {
-                msg += ", confirm password is not matched";
+            if(!error.isEmpty()) {
+                error += ", confirm password is not matched";
             } else {
-                msg += "Confirm password is not matched";
+                error += "Confirm password is not matched";
             }
 
         }
 
-        return msg;
+        return error;
     }
 
-    private String formatMessage(String msg) {
-        msg = msg.substring(0, 1).toUpperCase() + msg.trim().substring(1, msg.length() - 2);
+    private String formatErrorMsg(String error) {
+        error = error.substring(0, 1).toUpperCase() + error.trim().substring(1, error.length() - 2);
 
         String verbBe = "";
-        String[] fields = msg.trim().substring(0, msg.length() - 1).split("\\,");
+        String[] fields = error.trim().substring(0, error.length() - 1).split("\\,");
         if (fields.length == 1) {
             verbBe = " is existed";
         } else {
             verbBe = " are existed";
         }
 
-        return msg + verbBe;
+        return error + verbBe;
     }
 
     private void createNewBuyer(RegisterRequest request) {
@@ -133,10 +144,17 @@ public class AccountServiceImpl implements AccountService {
     public String login(LoginRequest request, Model model, HttpSession session) {
         Account loggedAccount = loginLogic(request);
         if (loggedAccount == null) {
-            model.addAttribute("error", "Invalid username or password");
+            model.addAttribute("error", LoginResponse.builder()
+                    .status("400")
+                    .message("Invalid username or password")
+                    .build());
             return "register";
         }
         session.setAttribute("acc", loggedAccount);
+        model.addAttribute("msg", LoginResponse.builder()
+                .status("200")
+                .message("Login successfully")
+                .build());
         return "login";
     }
 
