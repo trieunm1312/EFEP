@@ -19,9 +19,13 @@
 html{
     font-size: 62.5%;
     line-height: 1.6rem;
+    /* font-size: 1.4rem; */
+    font-weight: 400;
     font-family: 'Inter', sans-serif;
     box-sizing: border-box;
 }
+
+
 
 .grid{
     width: 1300px;
