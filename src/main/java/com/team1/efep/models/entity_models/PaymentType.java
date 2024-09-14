@@ -23,4 +23,9 @@ public class PaymentType {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Order> orderList;
+
+    @OneToMany(mappedBy = "paymentType")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<PurchasedPlan> purchasedPlanList;
 }

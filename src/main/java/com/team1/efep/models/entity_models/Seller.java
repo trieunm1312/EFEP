@@ -33,4 +33,9 @@ public class Seller {
     @EqualsAndHashCode.Exclude
     private List<Flower> flowerList;
 
+    @OneToMany(mappedBy = "seller")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<PurchasedPlan> purchasedPlanList;
+
 }

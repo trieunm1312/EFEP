@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventFlowerExchange</title>
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+
+
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/home.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <!-- Nav Bar -->
+        <nav class="navbar" th:fragment="navbar">
+            <div class="grid">
+                <div class="navbar__wrap">
+                    <!-- Phone contact -->
+                    <div class="navbar__item">
+                        <a href="" class="navbar__item-contact-info">
+                            <i class="navbar__item-icon fa-solid fa-phone"></i>
+                            <span class="navbar__item-phone">+1 (123) 8425733</span>
+                        </a>
+                    </div>
+
+                    <!-- Currency -->
+                    <div class="navbar__item">
+                        <div class="navbar__item-select" tabindex="0">
+                            <span class="navbar__item-select-label">Currency: US Dollar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <header class="header" th:fragment="header">
+            <div class="grid">
+                <div class="header__wrap">
+                    <!-- Logo -->
+                    <div class="header__item">
+                        <div class="header__item-logo">
+                            <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
+                                class="header__item-logo-img">
+                        </div>
+                    </div>
+
+                    <!-- Mega menu -->
+                    <div class="header__item">
+                        <ul class="header__item-megamenu">
+                            <li class="header__item-megamenu-item">
+                                <span class="header__item-megamenu-item-title">Home</span>
+                            </li>
+
+                            <li class="header__item-megamenu-item">
+                                <span
+                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
+                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                                <span class="header__item-megamenu-item-label-offer">Offer</span>
+                                <span class="header__item-megamenu-item-label-arrow-offer"></span>
+                            </li>
+
+                            <li class="header__item-megamenu-item">
+                                <span
+                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
+                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                                <span class="header__item-megamenu-item-label-hot">Hot</span>
+                                <span class="header__item-megamenu-item-label-arrow-hot"></span>
+                            </li>
+
+                            <a class="header__item-megamenu-item">
+                                <span class="header__item-megamenu-item-title">About Us</span>
+
+                            </a>
+
+                        </ul>
+                    </div>
+
+                    <!-- Icons -->
+                    <div class="header__item">
+                        <ul class="header__item-list-icon">
+                            <li class="header__item-icon header__item-icon-search" tabindex="0">
+                                <i class="header__item-icon-search fa-solid fa-magnifying-glass">
+                                    <form class="header__item-search-box" method="GET">
+                                        <input type="text" class="header__item-search-input" name="SearchValue"
+                                            placeholder="Search...">
+                                        <button class="header__item-search-icon">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </button>
+                                    </form>
+                                </i>
+                            </li>
+                            <li class="header__item-icon header__item-icon-user" tabindex="0">
+                                <i class="header__item-icon-user fa-solid fa-user">
+
+                                    <!-- Have not Login -->
+                                    <!-- <div class="header__item-account">
+                                        <a href="" class="header__item-account-item">Register</a>
+                                        <a href="" class="header__item-account-item">Login</a>
+                                    </div> -->
+
+                                    <!-- Login successfully -->
+                                    <div class="header__item-account">
+                                        <a href="" class="header__item-account-item">Update profile</a>
+                                        <a href="" class="header__item-account-item">Logout</a>
+                                    </div>
+                                </i>
+                            </li>
+                            <li class="header__item-icon">
+                                <i class="fa-solid fa-cart-shopping">
+                                    <div class="header__item-cart">
+
+                                    </div>
+                                </i>
+                                <span class="header__item-cart-notice">3</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Slider -->
+        <section id="slider">
+            <div class="wrap">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#slider-carousel" data-slide-to="1" class="active"></li>
+                            </ol>
+
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <div class="carousel-slide slide-1">
+                                        <div class="carousel-text-slide-1">
+                                            <h1>Flowerista</h1>
+                                            <h2>Beautiful Flowers</h2>
+                                            <p>Brighten your day with the beauty of flowers.</p>
+                                            <a href="" type="button" class="btn btn--primary btn-default get">Shop
+                                                now</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <div class="carousel-slide slide-2">
+                                        <div class="carousel-text-slide-2">
+                                            <h1>Flowerista</h1>
+                                            <h2>Fresh Flower For You</h2>
+                                            <p>Without darkness, nothing comes to birth. As without light, nothing
+                                                flowers.</p>
+                                            <a href="" type="button" class="btn btn--primary btn-default get">Shop
+                                                now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Container -->
+        <div class="container">
+            <div class="container__wrap">
+                <!-- Service -->
+                <div class="grid">
+                    <div class="service">
+                        <div class="service__item">
+                            <div class="service__icon">
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
+                            <div class="service__content">
+                                <h4>Cash On Delivery</h4>
+                                <span>100% money back guarantee</span>
+                            </div>
+                        </div>
+                        <div class="service__item">
+                            <div class="service__icon">
+                                <i class="fa-solid fa-gift"></i>
+                            </div>
+                            <div class="service__content">
+                                <h4>Cash On Delivery</h4>
+                                <span>100% money back guarantee</span>
+                            </div>
+                        </div>
+                        <div class="service__item">
+                            <div class="service__icon">
+                                <i class="fa-solid fa-headphones"></i>
+                            </div>
+                            <div class="service__content">
+                                <h4>Cash On Delivery</h4>
+                                <span>100% money back guarantee</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Category -->
+                <div class="top-category">
+                    <h2 class="top-category__title">Top 5 Categories<br>
+                        <img src="/src/main/resources/static/img/title-flower.png" alt="">
+                    </h2>
+                    <div class="top-category__list">
+                        <div class="top-category__item">
+                            <div class="top-category__img">
+                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <div class="overlay">
+
+
+                                    <a href="" class="add-to-cart">
+                                        <i class="fa-solid fa-bag-shopping"></i>
+                                        <span class="add-to-cart__msg">Add To Cart</span>
+                                    </a>
+
+                                    <a href="" class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <a href="" class="top-category__name">
+                                <h4>Creeper</h4>
+                            </a>
+                            <div class="top-category__content">
+                                <span>$200.00</span>
+                                <span>Sold: 1000</span>
+                            </div>
+                        </div>
+                        <div class="top-category__item">
+                            <div class="top-category__img">
+                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <div class="overlay">
+
+
+                                    <a href="" class="add-to-cart">
+                                        <i class="fa-solid fa-bag-shopping"></i>
+                                        <span class="add-to-cart__msg">Add To Cart</span>
+                                    </a>
+
+                                    <a href="" class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <a href="" class="top-category__name">
+                                <h4>Creeper</h4>
+                            </a>
+                            <div class="top-category__content">
+                                <span>$200.00</span>
+                                <span>Sold: 1000</span>
+                            </div>
+                        </div>
+                        <div class="top-category__item">
+                            <div class="top-category__img">
+                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <div class="overlay">
+
+
+                                    <a href="" class="add-to-cart">
+                                        <i class="fa-solid fa-bag-shopping"></i>
+                                        <span class="add-to-cart__msg">Add To Cart</span>
+                                    </a>
+
+                                    <a href="" class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <a href="" class="top-category__name">
+                                <h4>Creeper</h4>
+                            </a>
+                            <div class="top-category__content">
+                                <span>$200.00</span>
+                                <span>Sold: 1000</span>
+                            </div>
+                        </div>
+                        <div class="top-category__item">
+                            <div href="" class="top-category__img">
+                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <div class="overlay">
+
+
+                                    <a href="" class="add-to-cart">
+                                        <i class="fa-solid fa-bag-shopping"></i>
+                                        <span class="add-to-cart__msg">Add To Cart</span>
+                                    </a>
+
+                                    <a href="" class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <a href="" class="top-category__name">
+                                <h4>Creeper</h4>
+                            </a>
+                            <div class="top-category__content">
+                                <span>$200.00</span>
+                                <span>Sold: 1000</span>
+                            </div>
+                        </div>
+                        <div class="top-category__item">
+                            <div href="" class="top-category__img">
+                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <div class="overlay">
+
+
+                                    <a href="" class="add-to-cart">
+                                        <i class="fa-solid fa-bag-shopping"></i>
+                                        <span class="add-to-cart__msg">Add To Cart</span>
+                                    </a>
+
+                                    <a href="" class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <a href="" class="top-category__name">
+                                <h4>Creeper</h4>
+                            </a>
+                            <div class="top-category__content">
+                                <span>$200.00</span>
+                                <span>Sold: 1000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Breadbrum -->
+                <div class="breadbrum">
+                    <div class="grid">
+                        <h2 class="breadbrum__title">Login Account <br>
+                            <img src="/src/main/resources/static/img/title-flower-light.png" alt="">
+                        </h2><br>
+
+                        <p class="breadbrum__desc">Yêu như chưa yêu lần nà
+                            Baby, please tell me how
+                            Tưởng như đã hiểu được rồi
+                            Mà đầu óc cứ noise
+                            Có lẽ anh vẫn chưa thể nào hiểu được tình yêu
+
+                            Định nghĩa tình yêu là gì?
+                            Mà dễ đến rồi lại rời đi
+                            Chỉ là bài toán khó anh chưa thể giải
+                            Đáp án chúng ta dừng lại
+
+                            Sẽ đến lúc ai cũng phải nhận ra rằng mình đã thay đổi
+                            Đừng vì một người chẳng vì mình
+                            Một người chỉ biết đến bản thân
+                            Một người quá đỗi vô tâm
+
+                            Liệu người ấy có yêu em chân thành
+                            Nếu khóc cứ chạy lại với anh
+                            Gom hết nỗi đau này lên bờ vai để chữa lành
+                            Chân thành đổi lại gì đâu
+                            Chỉ toàn phải chứng kiến thấy
+                            Em đau, anh đau, ta đau
+                            Sao cứ phải xa nhau (xa nhau)
+                            Anh cứ hy vọng rồi ôm về mình mớ thất vọng
+                            Những gì đã từng hứa giờ đây cũng chỉ là lời bông đùa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Footer -->
+        <footer class="footer" th:fragment="footer">
+            <div class="grid">
+                <div class="footer__wrap">
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Contact</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <span href="" class="footer__item-contact-list-item-link">
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
+                                        <span>National park,d1 588436,United States</span>
+                                    </span>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <span href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
+                                        <span>+91 123 456 789</span>
+                                    </span>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <span href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
+                                        <span>0123-456-789</span>
+                                    </span>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <span href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
+                                        <span>demo@Yourstore.com</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Information</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Terms & Conditions</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Delivery Information</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>About Us</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Privacy Policy</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Contact Us</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">My Account</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>My Account</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Order History</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Wish List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Find Us On</h2>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Payment</h2>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-visa"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-brands fa-cc-mastercard"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-paypal"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-brands fa-cc-discover"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="/src/main/resources/static/js/jquery.js"></script>
+    <script src="/src/main/resources/static/js//bootstrap.min.js"></script>
+    <script src="/src/main/resources/static/js//jquery.scrollUp.min.js"></script>
+    <script src="/src/main/resources/static/js//price-range.js"></script>
+    <script src="/src/main/resources/static/js//jquery.prettyPhoto.js"></script>
+    <script src="/src/main/resources/static/js//main.js"></script>
+</body>
+
+</html>

@@ -197,12 +197,14 @@
                                                 <span class="header__cart-list-detail-price">122.000 VND</span>
                                             </div>
                                             <div class="header__cart-list-btn">
-                                                <a href="/src/main/resources/template/viewCart.html">
-                                                    <input class="btn-view-cart" type="submit" value="View cart"
-                                                    name="Action">
-                                                </a>
-                                                <input class="btn-view-cart" type="submit" value="Checkout"
-                                                    name="Action">
+                                                <form th:action="">
+                                                    <a href="/src/main/resources/template/viewCart.html">
+                                                        <input class="btn-view-cart" type="submit" value="View cart"
+                                                            name="Action">
+                                                    </a>
+                                                    <!-- <input class="btn-view-cart" type="submit" value="Checkout"
+                                                        name="Action"> -->
+                                                </form>
                                             </div>
 
                                         </div>
