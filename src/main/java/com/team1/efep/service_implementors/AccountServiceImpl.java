@@ -193,20 +193,21 @@ public class AccountServiceImpl implements AccountService {
     /////////////////////////////////////////////////////////////////////////////
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
-        ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
-        if (googleRegistration == null) {
-            throw new IllegalStateException("Google Client Registration not found.");
-        }
-         String url = googleRegistration.getProviderDetails().getAuthorizationUri()
-                + "?response_type=code"
-                + "&scope=" + googleRegistration.getScopes().stream().collect(Collectors.joining(" "))
-                + "&client_id=" + googleRegistration.getClientId()
-                + "&redirect_uri=" + googleRegistration.getRedirectUri();
-        return LoginGoogleResponse.builder()
-                .status("200")
-                .message("")
-                .loginUrl(url)
-                .build();
+//        ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
+//        if (googleRegistration == null) {
+//            throw new IllegalStateException("Google Client Registration not found.");
+//        }
+//         String url = googleRegistration.getProviderDetails().getAuthorizationUri()
+//                + "?response_type=code"
+//                + "&scope=" + googleRegistration.getScopes().stream().collect(Collectors.joining(" "))
+//                + "&client_id=" + googleRegistration.getClientId()
+//                + "&redirect_uri=" + googleRegistration.getRedirectUri();
+//        return LoginGoogleResponse.builder()
+//                .status("200")
+//                .message("")
+//                .loginUrl(url)
+//                .build();
+        return null;
     }
 
 
