@@ -16,18 +16,12 @@ import com.team1.efep.services.AccountService;
 import com.team1.efep.validations.RegisterValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-
-    private final ClientRegistrationRepository clientRegistrationRepository;
 
     private final AccountRepo accountRepo;
 
