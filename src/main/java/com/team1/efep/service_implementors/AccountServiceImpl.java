@@ -6,6 +6,7 @@ import com.team1.efep.models.entity_models.Cart;
 import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.request_models.LoginRequest;
 import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.models.response_models.LoginGoogleResponse;
 import com.team1.efep.models.response_models.LoginResponse;
 import com.team1.efep.models.response_models.RegisterResponse;
 import com.team1.efep.repositories.AccountRepo;
@@ -15,13 +16,18 @@ import com.team1.efep.services.AccountService;
 import com.team1.efep.validations.RegisterValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
+    private final ClientRegistrationRepository clientRegistrationRepository;
 
     private final AccountRepo accountRepo;
 
@@ -183,4 +189,25 @@ public class AccountServiceImpl implements AccountService {
     private Account loginLogic(LoginRequest request) {
         return accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null);
     }
+
+    /////////////////////////////////////////////////////////////////////////////
+    @Override
+    public LoginGoogleResponse getGoogleLoginUrl() {
+        ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
+        if (googleRegistration == null) {
+            throw new IllegalStateException("Google Client Registration not found.");
+        }
+         String url = googleRegistration.getProviderDetails().getAuthorizationUri()
+                + "?response_type=code"
+                + "&scope=" + googleRegistration.getScopes().stream().collect(Collectors.joining(" "))
+                + "&client_id=" + googleRegistration.getClientId()
+                + "&redirect_uri=" + googleRegistration.getRedirectUri();
+        return LoginGoogleResponse.builder()
+                .status("200")
+                .message("")
+                .loginUrl(url)
+                .build();
+    }
+
+
 }

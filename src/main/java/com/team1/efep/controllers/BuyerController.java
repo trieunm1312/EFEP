@@ -1,22 +1,17 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.request_models.AddToCartRequest;
-import com.team1.efep.models.request_models.ViewCartRequest;
+import com.team1.efep.models.request_models.ForgotRequest;
+import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.AddToCartResponse;
+import com.team1.efep.models.response_models.ForgotResponse;
+import com.team1.efep.models.response_models.RenewPasswordResponse;
 import com.team1.efep.models.response_models.ViewCartResponse;
 import com.team1.efep.services.BuyerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
-import ch.qos.logback.core.model.Model;
-import com.team1.efep.models.request_models.ForgotRequest;
-import com.team1.efep.models.request_models.RenewPasswordRequest;
-import com.team1.efep.models.response_models.ForgotResponse;
-import com.team1.efep.models.response_models.RenewPasswordResponse;
-import com.team1.efep.services.BuyerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +42,6 @@ public class BuyerController {
         return buyerService.renewPassAPI(request);
     }
 
-    private final BuyerService buyerService;
 
     @GetMapping("/cart")
     @Operation(hidden = true)

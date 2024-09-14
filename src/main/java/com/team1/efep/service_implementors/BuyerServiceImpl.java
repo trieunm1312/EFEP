@@ -1,12 +1,5 @@
 package com.team1.efep.service_implementors;
 
-import ch.qos.logback.core.model.Model;
-import com.team1.efep.models.entity_models.Account;
-import com.team1.efep.models.request_models.ForgotRequest;
-import com.team1.efep.models.request_models.RenewPasswordRequest;
-import com.team1.efep.models.response_models.ForgotResponse;
-import com.team1.efep.models.response_models.RenewPasswordResponse;
-import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.Account;
@@ -14,26 +7,32 @@ import com.team1.efep.models.entity_models.Cart;
 import com.team1.efep.models.entity_models.CartItem;
 import com.team1.efep.models.entity_models.Flower;
 import com.team1.efep.models.request_models.AddToCartRequest;
-import com.team1.efep.models.request_models.ViewCartRequest;
+import com.team1.efep.models.request_models.ForgotRequest;
+import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.AddToCartResponse;
+import com.team1.efep.models.response_models.ForgotResponse;
+import com.team1.efep.models.response_models.RenewPasswordResponse;
 import com.team1.efep.models.response_models.ViewCartResponse;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.CartRepo;
 import com.team1.efep.repositories.FlowerRepo;
 import com.team1.efep.services.BuyerService;
 import com.team1.efep.utils.FileReaderUtil;
+import com.team1.efep.utils.GoogleAuthUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -44,11 +43,6 @@ public class BuyerServiceImpl implements BuyerService {
     private final AccountRepo accountRepo;
     private final CartRepo cartRepo;
     private final FlowerRepo flowerRepo;
-
-    public BuyerServiceImpl(JavaMailSenderImpl mailSender, AccountRepo accountRepo) {
-        this.mailSender = mailSender;
-        this.accountRepo = accountRepo;
-    }
 
     @Override
     public String sendEmail(ForgotRequest request, Model model) {
@@ -151,7 +145,7 @@ public class BuyerServiceImpl implements BuyerService {
         CartItem cartItem = checkExistedItem(request, cart).get();
         if (checkExistedItem(request, cart).isPresent()) {
             cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
-        }else{
+        } else {
             return cart;
         }
         if (flower != null) {
@@ -181,10 +175,9 @@ public class BuyerServiceImpl implements BuyerService {
         return null;
     }
 
-}
 
     @Override
-    public ForgotResponse sendEmailAPI(ForgotRequest request){
+    public ForgotResponse sendEmailAPI(ForgotRequest request) {
         try {
             return sendEmailLogic(request);
         } catch (MessagingException e) {
@@ -248,7 +241,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     private RenewPasswordResponse renewPassLogic(RenewPasswordRequest request) {
         Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
-        if(acc != null && request.getPassword().equals(request.getConfirmPassword())) {
+        if (acc != null && request.getPassword().equals(request.getConfirmPassword())) {
             acc.setPassword(request.getPassword());
             accountRepo.save(acc);
             return RenewPasswordResponse.builder()
@@ -262,6 +255,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .message("Invalid email or password")
                 .build();
     }
+
 
 }
 

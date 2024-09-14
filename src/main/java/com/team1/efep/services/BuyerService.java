@@ -1,6 +1,5 @@
 package com.team1.efep.services;
 
-import ch.qos.logback.core.model.Model;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.ForgotResponse;
@@ -29,5 +28,7 @@ public interface BuyerService {
     String addToCart(HttpSession session, Model model);
 
     AddToCartResponse addToCartAPI(AddToCartRequest request);
+
+
 
 }
