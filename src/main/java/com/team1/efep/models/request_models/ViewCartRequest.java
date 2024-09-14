@@ -9,11 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddToCartRequest {
-
-    private Integer accountId;
-
-    private Integer flowerId;
-
-    private int quantity;
+public class ViewCartRequest {
+    private int accountId;
 }
