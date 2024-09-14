@@ -2,12 +2,14 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.Account;
+import com.team1.efep.models.entity_models.Cart;
 import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.request_models.LoginRequest;
 import com.team1.efep.models.request_models.RegisterRequest;
 import com.team1.efep.models.response_models.LoginResponse;
 import com.team1.efep.models.response_models.RegisterResponse;
 import com.team1.efep.repositories.AccountRepo;
+import com.team1.efep.repositories.CartRepo;
 import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.services.AccountService;
 import com.team1.efep.validations.RegisterValidation;
@@ -24,6 +26,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepo accountRepo;
 
     private final UserRepo userRepo;
+    private final CartRepo cartRepo;
 
     //-------------------------------REGISTER----------------------------------//
     @Override
@@ -90,8 +93,8 @@ public class AccountServiceImpl implements AccountService {
             error = formatErrorMsg(error);
         }
 
-        if(!request.getPassword().equals(request.getConfirmPassword())){
-            if(!error.isEmpty()) {
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            if (!error.isEmpty()) {
                 error += ", confirm password is not matched";
             } else {
                 error += "Confirm password is not matched";
@@ -106,7 +109,7 @@ public class AccountServiceImpl implements AccountService {
         error = error.substring(0, 1).toUpperCase() + error.trim().substring(1, error.length() - 2);
 
         String verbBe = "";
-        String[] fields = error.trim().substring(0, error.length() - 1).split("\\,");
+        String[] fields = error.trim().substring(0, error.length() - 1).split(",");
         if (fields.length == 1) {
             verbBe = " is existed";
         } else {
@@ -117,14 +120,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void createNewBuyer(RegisterRequest request) {
-        userRepo.save(
-                User.builder()
+
+        cartRepo.save(Cart.builder()
+                .user(userRepo.save(User.builder()
                         .account(createNewAccount(request))
                         .name(request.getName())
                         .phone(request.getPhone())
                         .avatar(request.getAvatar())
                         .background(request.getBackground())
-                        .build()
+                        .build()))
+                .build()
         );
     }
 
@@ -138,6 +143,7 @@ public class AccountServiceImpl implements AccountService {
                         .build()
         );
     }
+
 
     //-------------------------------LOGIN-------------------------------------//
     @Override
