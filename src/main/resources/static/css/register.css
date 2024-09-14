@@ -1,10 +1,12 @@
 /* Container */
 .container{
     margin-bottom: 52px;
+    margin: 0;
+    padding: 0;
 }
 
 .container__wrap{
-    width: 100%;
+    width: calc(100% + 190px);
 }
 
 .breadbrum{
@@ -13,7 +15,7 @@
     padding: 100px 0;
     text-align: center;
     color: var(--white-color);
-    background: url(https://flowerista.themability.com/image/cache/catalog/banners/breadcrumb_img-1920x300.png);
+    background: url(/src/main/resources/static/img/breadcrumb_img-1920x300.png);
     background-size: cover !important;
 }
 
@@ -66,12 +68,21 @@
     color: var(--text-color);
 }
 
+.auth-form__group-name{
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--text-color);
+    margin: 24px 0 -6px;
+}
+
 .auth-form__switch-btn{
     font-size: 1.6rem;
     color: var(--primary-color);
     font-weight: 400;
     text-decoration: none;
 }
+
+
 
 .auth-form__group{
     display: flex;
@@ -80,7 +91,7 @@
 }
 
 .auth-form__label{
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     margin-top: 16px;
     margin-right: 8px;
     width: 14%;
