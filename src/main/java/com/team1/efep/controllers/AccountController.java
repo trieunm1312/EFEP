@@ -5,6 +5,7 @@ import com.team1.efep.models.request_models.RegisterRequest;
 import com.team1.efep.models.response_models.LoginResponse;
 import com.team1.efep.models.response_models.RegisterResponse;
 import com.team1.efep.services.AccountService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/register")
+    @Operation(hidden = true)
     public String register(@RequestBody RegisterRequest request, Model model) {
         return accountService.register(request, model);
     }
@@ -32,6 +34,7 @@ public class AccountController {
     }
 
     @PostMapping("/login")
+    @Operation(hidden = true)
     public String login(@RequestBody LoginRequest request, Model model, HttpSession session){
         return accountService.login(request, model, session);
     }

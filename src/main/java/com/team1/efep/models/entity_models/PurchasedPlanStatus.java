@@ -6,25 +6,20 @@ import lombok.*;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "`payment_type`")
-public class PaymentType {
+@Table(name = "`purchased_plan_status`")
+public class PurchasedPlanStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String type;
+    private String status;
 
-    @OneToMany(mappedBy = "paymentType")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private List<Order> orderList;
-
-    @OneToMany(mappedBy = "paymentType")
+    @OneToMany(mappedBy = "purchasedPlanStatus")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<PurchasedPlan> purchasedPlanList;

@@ -33,8 +33,12 @@ public class Flower {
 
     private String description;
 
+    @Column(name = "`flower_amount`")
+    private int flowerAmount;
+
     private int quantity;
 
+    @Column(name = "`sold_quantity`")
     private int soldQuantity;
 
     @OneToMany(mappedBy = "flower")

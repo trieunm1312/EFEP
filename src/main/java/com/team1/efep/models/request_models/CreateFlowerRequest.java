@@ -5,15 +5,28 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddToCartRequest {
+public class CreateFlowerRequest {
 
-    private Integer accountId;
+    private int accountId;
 
-    private Integer flowerId;
+    private String name;
+
+    private float price;
+
+    private String description;
+
+    private int flowerAmount;
 
     private int quantity;
+
+    private List<String> imgList;
+
+
+
 }
