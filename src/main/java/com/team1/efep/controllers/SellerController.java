@@ -33,7 +33,7 @@ public class SellerController {
     @GetMapping("/order")
     @Operation(hidden = true)
     public String createFlower(HttpSession session, Model model) {
-        return sellerService.viewOrderHistoiry(session, model);
+        return sellerService.viewOrderHistory(session, model);
     }
 
     @GetMapping("/order/api/{id}")

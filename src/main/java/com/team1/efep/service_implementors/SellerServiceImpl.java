@@ -134,7 +134,7 @@ public class SellerServiceImpl implements SellerService {
     //---------------------------------------------VIEW ORDER HISTORY--------------------------------------------------------//
 
     @Override
-    public String viewOrderHistoiry(HttpSession session, Model model) {
+    public String viewOrderHistory(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ViewOrderHistoryResponse.builder()

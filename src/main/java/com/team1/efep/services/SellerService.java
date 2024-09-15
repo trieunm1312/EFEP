@@ -13,7 +13,7 @@ public interface SellerService {
 
     CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request);
 
-    String viewOrderHistoiry(HttpSession session, Model model);
+    String viewOrderHistory(HttpSession session, Model model);
 
     ViewOrderHistoryResponse viewOrderHistoryAPI(int id);
 
