@@ -55,7 +55,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         model.addAttribute("cart", viewCartItemList(account.getId()));
-        return "cart";
+        return "viewCart";
     }
 
     @Override
