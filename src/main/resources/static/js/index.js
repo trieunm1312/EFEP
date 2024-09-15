@@ -3,13 +3,13 @@ const selectShopping = shopping.querySelector(".header__cart-icon");
 const icon = shopping.querySelector(".header__cart-icon");
 
 
-icon.addEventListener("mouseenter", () => {
-    icon.classList.add("hovered");
-});
+// icon.addEventListener("mouseenter", () => {
+//     icon.classList.add("hovered");
+// });
 
-icon.addEventListener("mouseleave", () => {
-    icon.classList.remove("hovered");
-});
+// icon.addEventListener("mouseleave", () => {
+//     icon.classList.remove("hovered");
+// });
 
 selectShopping.addEventListener("click", () => {
     shopping.classList.toggle("active");

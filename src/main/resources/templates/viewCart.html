@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -62,8 +62,10 @@
             </table>
         </div>
         <div class="btn-cart">
-            <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
-            <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
+            <form th:action ="" method = "get"> 
+                <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
+            </form>
         </div>
     </div>
 </body>
