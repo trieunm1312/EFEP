@@ -46,4 +46,10 @@ public class AccountController {
     public LoginGoogleResponse googleLogin(){
         return accountService.getGoogleLoginUrl();
     }
+
+    @GetMapping("/login/google/info")
+    @Operation(hidden = true)
+    public void getGoogleInfo(@RequestParam(name = "code") String code){
+        accountService.exchangeGoogleCode(code);
+    }
 }

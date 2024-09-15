@@ -18,4 +18,6 @@ public interface AccountService {
     LoginResponse loginAPI(LoginRequest request);
 
     LoginGoogleResponse getGoogleLoginUrl();
+
+    void exchangeGoogleCode(String code);
 }

@@ -18,7 +18,6 @@ import com.team1.efep.repositories.CartRepo;
 import com.team1.efep.repositories.FlowerRepo;
 import com.team1.efep.services.BuyerService;
 import com.team1.efep.utils.FileReaderUtil;
-import com.team1.efep.utils.GoogleAuthUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -29,10 +28,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service

@@ -13,20 +13,26 @@ import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.CartRepo;
 import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.services.AccountService;
+import com.team1.efep.utils.GoogleLoginGeneratorUtil;
+import com.team1.efep.utils.GoogleLoginUtil;
 import com.team1.efep.validations.RegisterValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-
     private final AccountRepo accountRepo;
-
     private final UserRepo userRepo;
     private final CartRepo cartRepo;
+    private final GoogleLoginGeneratorUtil googleLoginGeneratorUtil;
 
     //-------------------------------REGISTER----------------------------------//
     @Override
@@ -185,24 +191,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /////////////////////////////////////////////////////////////////////////////
+
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
-//        ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
-//        if (googleRegistration == null) {
-//            throw new IllegalStateException("Google Client Registration not found.");
-//        }
-//         String url = googleRegistration.getProviderDetails().getAuthorizationUri()
-//                + "?response_type=code"
-//                + "&scope=" + googleRegistration.getScopes().stream().collect(Collectors.joining(" "))
-//                + "&client_id=" + googleRegistration.getClientId()
-//                + "&redirect_uri=" + googleRegistration.getRedirectUri();
-//        return LoginGoogleResponse.builder()
-//                .status("200")
-//                .message("")
-//                .loginUrl(url)
-//                .build();
-        return null;
+        return LoginGoogleResponse.builder()
+                .status("200")
+                .message("")
+                .loginUrl(GoogleLoginUtil.generateGoogleLoginUrl())
+                .build();
     }
+
+        @Override
+        public void exchangeGoogleCode(String code) {
+            GoogleLoginUtil.accessGoogleInfo(
+                    googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token()
+            );
+        }
 
 
 }
