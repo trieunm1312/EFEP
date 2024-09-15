@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Reset</title>
+</head>
+
+<body style="margin: 0;padding: 0;background-color: #f9f9f9;color: #000000;">
+  <table style="width: 100%;background-color: #f9f9f9;border-collapse: collapse;">
+    <tr>
+      <td style="padding: 0;">
+        <!-- Email Body -->
+        <table align="center" style="width: 600px;background-color: #ffffff;border-collapse: collapse;margin: 0 auto;">
+          <!-- Header -->
+          <tr style="background-color: #161a39;">
+            <td style="padding: 35px 10px;text-align: center;">
+              <img src="https://icons.veryicon.com/png/o/miscellaneous/test-2/reset-password-1.png" alt="Image" style="width: 58px;">
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 15px;text-align: center;">
+              <h1 style="font-size: 28px;color: #ffffff;">Please reset your password</h1>
+            </td>
+          </tr>
+          <!-- Body Content -->
+          <tr>
+            <td style="padding: 40px;color: #666666;">
+              <p style="font-size: 18px;">Hello,</p>
+              <p style="font-size: 18px;">We have sent you this email in response to your request to reset your password.</p>
+              <p style="font-size: 18px;">To reset your password, here is your OTP code:</p>
+              <div align="left">
+                <a href="#" style="display: inline-block;background-color: #18163a;color: #ffffff;padding: 15px 40px;text-decoration: none;border-radius: 1px;">@@@###</a>
+              </div>
+              <p style="font-size: 16px;color: #888888;"><em>Please ignore this email if you did not request a password change.</em></p>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr style="background-color: #1c103b;">
+            <td style="padding: 15px;text-align: center;color: #ffffff;">
+              <p style="font-size: 12px;">© 2024 Company Name. All rights reserved.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
