@@ -7,15 +7,24 @@ import com.team1.efep.models.entity_models.Cart;
 import com.team1.efep.models.entity_models.CartItem;
 import com.team1.efep.models.entity_models.Flower;
 import com.team1.efep.models.request_models.AddToCartRequest;
-import com.team1.efep.models.request_models.ViewCartRequest;
+import com.team1.efep.models.request_models.ForgotRequest;
+import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.AddToCartResponse;
+import com.team1.efep.models.response_models.ForgotResponse;
+import com.team1.efep.models.response_models.RenewPasswordResponse;
 import com.team1.efep.models.response_models.ViewCartResponse;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.CartRepo;
 import com.team1.efep.repositories.FlowerRepo;
 import com.team1.efep.services.BuyerService;
+import com.team1.efep.utils.FileReaderUtil;
+import com.team1.efep.utils.OTPGeneratorUtil;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -26,11 +35,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BuyerServiceImpl implements BuyerService {
 
+    private final JavaMailSenderImpl mailSender;
+    private final AccountRepo accountRepo;
     private final CartRepo cartRepo;
-
     private final FlowerRepo flowerRepo;
 
-    private final AccountRepo accountRepo;
+    @Override
+    public String sendEmail(ForgotRequest request, Model model) {
+        return "";
+    }
 
 
     //---------------------------------------VIEW CART------------------------------------------//
@@ -128,7 +141,7 @@ public class BuyerServiceImpl implements BuyerService {
         CartItem cartItem = checkExistedItem(request, cart).get();
         if (checkExistedItem(request, cart).isPresent()) {
             cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
-        }else{
+        } else {
             return cart;
         }
         if (flower != null) {
@@ -158,4 +171,87 @@ public class BuyerServiceImpl implements BuyerService {
         return null;
     }
 
+
+    @Override
+    public ForgotResponse sendEmailAPI(ForgotRequest request) {
+        try {
+            return sendEmailLogic(request);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ForgotResponse sendEmailLogic(ForgotRequest request) throws MessagingException {
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setFrom("quynhpvnse182895@fpt.edu.vn");
+//        message.setTo(request.getToEmail());
+//        String otp = OTPGeneratorUtil.generateOTP(6);
+//        message.setText(FileReaderUtil.readFile(otp));
+//        message.setSubject(request.getSubject());
+//        message.;
+//        mailSender.send(message);
+//        return ForgotResponse.builder()
+//                .status("200")
+//                .message("Send email successfully")
+//                .build();
+
+        // Generate the OTP
+        String otp = OTPGeneratorUtil.generateOTP(6);
+
+        // Create a MimeMessage
+        MimeMessage message = mailSender.createMimeMessage();
+
+        // Helper to set the attributes for the MimeMessage
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        // Set the email attributes
+        helper.setFrom("quynhpvnse182895@fpt.edu.vn");
+        helper.setTo(request.getToEmail());
+        helper.setSubject(request.getSubject());
+
+        // Read HTML content from a file and replace placeholders (e.g., OTP)
+        String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
+
+        // Set the email content as HTML
+        helper.setText(emailContent, true);  // 'true' indicates that the text is HTML
+
+        // Send the email
+        mailSender.send(message);
+
+        // Return response
+        return ForgotResponse.builder()
+                .status("200")
+                .message("Send email successfully")
+                .build();
+    }
+
+    @Override
+    public String renewPass(RenewPasswordRequest request, Model model) {
+        return "";
+    }
+
+    @Override
+    public RenewPasswordResponse renewPassAPI(RenewPasswordRequest request) {
+        return renewPassLogic(request);
+    }
+
+    private RenewPasswordResponse renewPassLogic(RenewPasswordRequest request) {
+        Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
+        if (acc != null && request.getPassword().equals(request.getConfirmPassword())) {
+            acc.setPassword(request.getPassword());
+            accountRepo.save(acc);
+            return RenewPasswordResponse.builder()
+                    .status("200")
+                    .message("Renew password successfully")
+                    .build();
+        }
+
+        return RenewPasswordResponse.builder()
+                .status("400")
+                .message("Invalid email or password")
+                .build();
+    }
+
+
 }
+
