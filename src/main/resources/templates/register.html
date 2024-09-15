@@ -88,22 +88,6 @@
                                 <span class="header__item-megamenu-item-label-hot">Hot</span>
                                 <span class="header__item-megamenu-item-label-arrow-hot"></span>
                             </li>
-    
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Pages</span>
-                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-                            </li>
-    
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title">Brand</span>
-    
-                            </li>
-    
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title">Blog</span>
-    
-                            </li>
-    
                         </ul>
                     </div>
                     
@@ -124,16 +108,16 @@
                                 <i class="header__item-icon-user fa-solid fa-user">
 
                                     <!-- Have not Login -->
-                                    <!-- <div class="header__item-account">
-                                        <a href="" class="header__item-account-item">Register</a>
-                                        <a href="" class="header__item-account-item">Login</a>
-                                    </div> -->
+                                    <div class="header__item-account">
+                                        <a href="register.html" class="header__item-account-item">Register</a>
+                                        <a href="login.html" class="header__item-account-item">Login</a>
+                                    </div>
 
                                     <!-- Login successfully -->
-                                    <div class="header__item-account">
+                                    <!-- <div class="header__item-account">
                                         <a href="" class="header__item-account-item">Update profile</a>
                                         <a href="" class="header__item-account-item">Logout</a>
-                                    </div>
+                                    </div> -->
                                 </i>
                             </li>
                             <li class="header__item-icon">
@@ -152,13 +136,14 @@
 
         <!-- Container -->
         <div class="container">
-            <div class="grid">
+            <!-- <div class="grid"> -->
                 <div class="container__wrap">
+                    <!-- Breadbrum -->
                     <div class="breadbrum">
                         <h1 class="breadbrum__title">Register Account</h1><br>
                         <ul class="breadbrum__element-list">
                             <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
+                                <a href="home.html" class="breadbrum__element-list-item-link">
                                     <i class="fa-solid fa-house"></i>
                                 </a>
                             </li>
@@ -171,7 +156,7 @@
                             </li>
 
                             <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
+                                <a href="register.html" class="breadbrum__element-list-item-link">
                                     <i class="fa-solid fa-angles-right"></i>
                                     <span>Register</span>
                                 </a>
@@ -179,6 +164,7 @@
                         </ul>
                     </div>
 
+                    <!-- Form register -->
                     <div class="auth-form">
                         <form class="auth-form__container" method="POST" action="">
                             <div class="auth-form__header">
@@ -187,6 +173,7 @@
                             </div>
         
                             <div class="auth-form__form">
+                                <h3 class="auth-form__group-name">Personal Information</h3>
                                 <div class="auth-form__group">
                                     <label for=".auth-form__input" class="auth-form__label">
                                         <strong>Name</strong>
@@ -209,6 +196,7 @@
                                 </div>
         
                                 <div class="auth-form__password">
+                                    <h3 class="auth-form__group-name">Password</h3>
                                     <div class="auth-form__group">
                                         <label for=".auth-form__input" class="auth-form__label">
                                             <strong>Password</strong>
@@ -234,7 +222,7 @@
                             </div>
         
                             <div class="auth-form__controls">
-                                <button class="btn btn--primary">Register</button>
+                                <input type="submit" name="btAction" value="REGISTER" class="btn btn--primary"></input>
                             </div>
                         </form>
         

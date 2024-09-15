@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventFlowerExchange</title>
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewCart.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="table-item-cart">
+            <table border="1" cellpadding="5" cellspacing="0" width="100%">
+                <!-- <caption>Tiêu đề Bảng</caption> -->
+                <thead>
+                    <tr>
+                        <th class="table-item-header">Image</th>
+                        <th class="table-item-header">Name</th>
+                        <th class="table-item-header">Model</th>
+                        <th class="table-item-header">Quantity</th>
+                        <th class="table-item-header">Unit Price</th>
+                        <th class="table-item-header">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-item-detail">
+                            <div class="table-item-img">
+                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                    alt="">
+                            </div>
+                        </td>
+                        <td class="table-item-detail">
+                            <span class="table-item-name">Hiptage</span>
+                        </td>
+                        <td class="table-item-detail">
+                            <span class="table-item-id">Product 1</span>
+                        </td>
+                        <td class="table-item-detail">
+                            <label for=""><input type="number" min="1"></label>
+                            <input type="submit" value="" name="action">
+                            <i class="fa-solid fa-circle-xmark table-item-removed "></i>
+                        </td>
+                        <td class="table-item-detail">
+                            <span class="table-item-price">$122.00</span>
+                        </td>
+                        <td class="table-item-detail">
+                            <span class="table-item-total">$122.00</span>
+                        </td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" class="table-item-footer">Total</td>
+                        <td colspan="1" class="table-item-footer-price">$120.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="btn-cart">
+            <form th:action ="" method = "get"> 
+                <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
