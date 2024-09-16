@@ -308,16 +308,16 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------VIEW BUYER SLIDE BAR---------------------------------------//
 
     @Override
-    public void viewSliderBar(Model model) {
-        model.addAttribute("msg", viewSliderBarLogic());
+    public void viewSlideBar(Model model) {
+        model.addAttribute("msg", viewSlideBarLogic());
     }
 
     @Override
-    public ViewSliderBarResponse viewSliderBarAPI() {
-        return viewSliderBarLogic();
+    public ViewSlideBarResponse viewSlideBarAPI() {
+        return viewSlideBarLogic();
     }
 
-    public ViewSliderBarResponse viewSliderBarLogic(){
+    public ViewSlideBarResponse viewSlideBarLogic(){
         List<String> flowerImageLinkList = new ArrayList<>();
 
         flowerImageLinkList.add("https://static.vecteezy.com/system/resources/previews/003/110/648/original/spring-sale-banner-season-floral-discount-poster-with-flowers-vector.jpg");
@@ -326,7 +326,7 @@ public class BuyerServiceImpl implements BuyerService {
         flowerImageLinkList.add("https://static.vecteezy.com/system/resources/previews/021/600/647/large_2x/3d-rendering-spring-sale-banner-with-beautiful-colorful-flower-can-be-used-for-template-banners-wallpaper-flyers-invitation-posters-brochure-voucher-discount-photo.jpg");
         flowerImageLinkList.add("https://as1.ftcdn.net/v2/jpg/02/40/86/86/1000_F_240868665_0HcnhSG2uUOvAvCdRrHnnTIDsCAGTUqK.jpg");
 
-        return ViewSliderBarResponse.builder()
+        return ViewSlideBarResponse.builder()
                 .status("200")
                 .message("")
                 .imageList(flowerImageLinkList)

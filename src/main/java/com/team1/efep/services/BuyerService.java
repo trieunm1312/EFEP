@@ -29,7 +29,7 @@ public interface BuyerService {
 
     ViewFlowerListResponse viewFlowerListAPI();
 
-    void viewSliderBar(Model model);
+    void viewSlideBar(Model model);
 
-    ViewSliderBarResponse viewSliderBarAPI();
+    ViewSlideBarResponse viewSlideBarAPI();
 }

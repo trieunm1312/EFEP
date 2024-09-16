@@ -15,7 +15,7 @@ public class PageController {
     
     @GetMapping("/")
     public String startPage(Model model) {
-        buyerService.viewSliderBar(model);
+        buyerService.viewSlideBar(model);
         return "base";
     }
 
@@ -26,7 +26,7 @@ public class PageController {
 
     @GetMapping("/base")
     public String basePage(Model model) {
-        buyerService.viewSliderBar(model);
+        buyerService.viewSlideBar(model);
         return "base";
     }
 
