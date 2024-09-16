@@ -55,8 +55,8 @@ public class BuyerController {
 
     @PostMapping("/cart")
     @Operation(hidden = true)
-    public String addToCart(HttpSession session, Model model) {
-        return buyerService.addToCart(session, model);
+    public String addToCart(AddToCartRequest request, HttpSession session, Model model) {
+        return buyerService.addToCart(request, session, model);
     }
 
     @PostMapping("/cart/api")

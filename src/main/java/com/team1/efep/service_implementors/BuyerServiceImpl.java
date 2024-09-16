@@ -1,6 +1,5 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.AddToCartRequest;
@@ -16,6 +15,7 @@ import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
+import com.team1.efep.validations.AddToCartValidation;
 import com.team1.efep.validations.ViewFlowerListValidation;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -29,7 +29,6 @@ import org.springframework.ui.Model;
 import java.util.*;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -90,17 +89,21 @@ public class BuyerServiceImpl implements BuyerService {
                 .toList();
     }
 
-    //---------------------------------------ADD TO CART--------------------------------------//
+    //-------------------------------------------------ADD TO CART-----------------------------------------------------//
 
     @Override
-    public String addToCart(HttpSession session, Model model) {
+    public String addToCart(AddToCartRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-        model.addAttribute("cart", viewCartItemList(account.getId()));
-        return "cart";
+        Object output = addToCartLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToCartResponse.class)){
+            model.addAttribute("msg", (AddToCartResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "base";
     }
 
     @Override
@@ -112,66 +115,60 @@ public class BuyerServiceImpl implements BuyerService {
                     .message("You are not logged in")
                     .build();
         }
-
-        Cart cart = addToCartLogic(request);
-        if (cart == null) {
-            return AddToCartResponse.builder()
-                    .status("400")
-                    .message("Flower is out of stock")
-                    .id(account.getUser().getCart().getId())
-                    .userId(account.getUser().getId())
-                    .userName(account.getUser().getName())
-                    .cartItemList(viewCartItemList(account.getId()))
-                    .build();
+        Object output = addToCartLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToCartResponse.class)){
+            return (AddToCartResponse) output;
         }
-
         return AddToCartResponse.builder()
-                .status("200")
-                .message("Add to cart successfully")
-                .id(account.getUser().getCart().getId())
-                .userId(account.getUser().getId())
-                .userName(account.getUser().getName())
-                .cartItemList(viewCartItemList(account.getId()))
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
-    private Cart addToCartLogic(AddToCartRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        Cart cart = account.getUser().getCart();
-        Flower flower = checkAvailableFlower(request.getFlowerId());
-        Optional<CartItem> cartItemOptional = checkExistedItem(request, cart);
-        if (flower == null) {
-            return cart;
+    private Object addToCartLogic(AddToCartRequest request) {
+        Map<String, String> errors = AddToCartValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
         }
-        if (cartItemOptional.isPresent()) {
-            CartItem cartItem = cartItemOptional.get();
-            cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
-        } else {
-            CartItem item = CartItem.builder()
-                    .cart(cart)
-                    .flower(flower)
-                    .quantity(request.getQuantity())
-                    .build();
-            cart.getCartItemList().add(item);
-            cartItemRepo.save(item);
-        }
-        return cartRepo.save(cart);
-    }
-
-    private Optional<CartItem> checkExistedItem(AddToCartRequest request, Cart cart) {
-        return cart.getCartItemList().stream()
-                .filter(item -> Objects.equals(item.getFlower().getId(), request.getFlowerId()))
-                .findFirst();
-    }
-
-    private Flower checkAvailableFlower(int flowerId) {
-        Flower flower = flowerRepo.findById(flowerId).orElse(null);
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
         assert flower != null;
-        if (flower.getFlowerStatus().getStatus().equals(Const.FLOWER_STATUS_AVAILABLE)) {
-            return flower;
+        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
+        assert account != null;
+        Cart cart = account.getUser().getCart();
+        if (checkExistedItem(request, cart)) {
+            CartItem cartItem = cartItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
+            assert cartItem != null;
+            cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
+            cartItemRepo.save(cartItem);
+        } else {
+            cart.getCartItemList().add(
+                    cartItemRepo.save(
+                            CartItem.builder()
+                                    .cart(cart)
+                                    .flower(flower)
+                                    .quantity(request.getQuantity())
+                                    .build()));
+            accountRepo.save(account);
         }
-        return null;
+        return AddToCartResponse.builder()
+                .status("200")
+                .message("Your flower has been added to cart successfully")
+                .build();
     }
+
+    private boolean checkExistedItem(AddToCartRequest request, Cart cart) {
+        return cart.getCartItemList().stream()
+                .anyMatch(item -> Objects.equals(item.getFlower().getId(), request.getFlowerId()));
+    }
+//
+//    private Flower checkAvailableFlower(int flowerId) {
+//        Flower flower = flowerRepo.findById(flowerId).orElse(null);
+//        assert flower != null;
+//        if (flower.getFlowerStatus().getStatus().equals(Const.FLOWER_STATUS_AVAILABLE)) {
+//            return flower;
+//        }
+//        return null;
+//    }
 
     //-----------------------------------------------------------------------------------------------------------//
     @Override
@@ -258,23 +255,23 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String viewFlowerList(HttpSession session, Model model) {
         Object output = viewFlowerListLogic();
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerListResponse.class)){
-            model.addAttribute("msg", (ViewFlowerListResponse)output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerListResponse.class)) {
+            model.addAttribute("msg", (ViewFlowerListResponse) output);
             return "home";
         }
-        model.addAttribute("error", ConvertMapIntoStringUtil.convert((Map<String, String>)output));
+        model.addAttribute("error", ConvertMapIntoStringUtil.convert((Map<String, String>) output));
         return "home";
     }
 
     @Override
     public ViewFlowerListResponse viewFlowerListAPI() {
         Object output = viewFlowerListLogic();
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerListResponse.class)){
-                return (ViewFlowerListResponse) output;
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerListResponse.class)) {
+            return (ViewFlowerListResponse) output;
         }
         return ViewFlowerListResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
@@ -322,7 +319,7 @@ public class BuyerServiceImpl implements BuyerService {
         return viewSlideBarLogic();
     }
 
-    public ViewSlideBarResponse viewSlideBarLogic(){
+    public ViewSlideBarResponse viewSlideBarLogic() {
         List<String> flowerImageLinkList = new ArrayList<>();
 
         flowerImageLinkList.add("https://static.vecteezy.com/system/resources/previews/003/110/648/original/spring-sale-banner-season-floral-discount-poster-with-flowers-vector.jpg");
