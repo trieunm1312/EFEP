@@ -21,7 +21,7 @@ public interface BuyerService {
 
     ViewCartResponse viewCartAPI(int id);
 
-    String addToCart(HttpSession session, Model model);
+    String addToCart(AddToCartRequest request, HttpSession session, Model model);
 
     AddToCartResponse addToCartAPI(AddToCartRequest request);
 
