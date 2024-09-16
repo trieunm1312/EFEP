@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+
+
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/main.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/home.css">
 </head>
 
 <body>
@@ -29,22 +32,6 @@
                     <div class="navbar__item">
                         <div class="navbar__item-select" tabindex="0">
                             <span class="navbar__item-select-label">Currency: US Dollar</span>
-                            <i class="navbar__item-select-icon fa-solid fa-angle-down"></i>
-                            <ul class="navbar__item-select-option">
-                                <li class="navbar__item-select-item navbar__item-select-item--active">
-                                    <i class="fa-solid fa-euro-sign"></i>
-                                    <span>Euro</span>
-                                </li>
-                                <li class="navbar__item-select-item navbar__item-select-item--active">
-                                    <i class="fa-solid fa-sterling-sign"></i>
-                                    <span>Pound</span>
-                                </li>
-                                <li class="navbar__item-select-item navbar__item-select-item--active">
-                                    <i class="fa-solid fa-dollar-sign"></i>
-                                    <span>US Dollar</span>
-                                </li>
-                            </ul>
-    
                         </div>
                     </div>
                 </div>
@@ -56,64 +43,52 @@
             <div class="grid">
                 <div class="header__wrap">
                     <!-- Logo -->
-                    <div class="header__item">
+                    <a href="home.html" class="header__item">
                         <div class="header__item-logo">
-                            <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo" class="header__item-logo-img">
+                            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Logo"
+                                class="header__item-logo-img">
                         </div>
-                    </div>
-                    
+                    </a>
+
                     <!-- Mega menu -->
                     <div class="header__item">
                         <ul class="header__item-megamenu">
                             <li class="header__item-megamenu-item">
                                 <span class="header__item-megamenu-item-title">Home</span>
                             </li>
-    
+
                             <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Shop</span>
-                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-    
-                            </li>
-    
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
+                                <span
+                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
                                 <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
                                 <span class="header__item-megamenu-item-label-offer">Offer</span>
                                 <span class="header__item-megamenu-item-label-arrow-offer"></span>
                             </li>
-    
+
                             <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
+                                <span
+                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
                                 <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
                                 <span class="header__item-megamenu-item-label-hot">Hot</span>
                                 <span class="header__item-megamenu-item-label-arrow-hot"></span>
                             </li>
-    
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Pages</span>
-                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-                            </li>
-    
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title">Brand</span>
-    
-                            </li>
-    
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title">Blog</span>
-    
-                            </li>
-    
+
+                            <a class="header__item-megamenu-item">
+                                <span class="header__item-megamenu-item-title">About Us</span>
+
+                            </a>
+
                         </ul>
                     </div>
-                    
+
                     <!-- Icons -->
                     <div class="header__item">
                         <ul class="header__item-list-icon">
                             <li class="header__item-icon header__item-icon-search" tabindex="0">
                                 <i class="header__item-icon-search fa-solid fa-magnifying-glass">
                                     <form class="header__item-search-box" method="GET">
-                                        <input type="text" class="header__item-search-input" name="SearchValue" placeholder="Search...">
+                                        <input type="text" class="header__item-search-input" name="SearchValue"
+                                            placeholder="Search...">
                                         <button class="header__item-search-icon">
                                             <i class="fa-solid fa-magnifying-glass"></i>
                                         </button>
@@ -124,22 +99,22 @@
                                 <i class="header__item-icon-user fa-solid fa-user">
 
                                     <!-- Have not Login -->
-                                    <!-- <div class="header__item-account">
-                                        <a href="" class="header__item-account-item">Register</a>
-                                        <a href="" class="header__item-account-item">Login</a>
-                                    </div> -->
+                                    <div class="header__item-account">
+                                        <a href="register.html" class="header__item-account-item">Register</a>
+                                        <a href="login.html" class="header__item-account-item">Login</a>
+                                    </div>
 
                                     <!-- Login successfully -->
-                                    <div class="header__item-account">
+                                    <!-- <div class="header__item-account">
                                         <a href="" class="header__item-account-item">Update profile</a>
                                         <a href="" class="header__item-account-item">Logout</a>
-                                    </div>
+                                    </div> -->
                                 </i>
                             </li>
                             <li class="header__item-icon">
                                 <i class="fa-solid fa-cart-shopping">
                                     <div class="header__item-cart">
-                                        
+
                                     </div>
                                 </i>
                                 <span class="header__item-cart-notice">3</span>
@@ -154,16 +129,73 @@
         
         
         <!-- Footer -->
-         <footer class="footer" th:fragment="footer">
+        <footer class="footer" th:fragment="footer">
             <div class="grid">
                 <div class="footer__wrap">
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <div class="footer__item-logo">
+                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
+                                    class="footer__item-logo-img">
+                            </div>
+                            <div class="footer__item-desc">
+                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
+                                    Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
+                                    Không bơ vơ
+                                    Khi vây quanh anh là những đôi mắt nhìn theo hò reo
+                                    Cũng vì chặng đường tương lai mà mình phải chia hai
+                                    Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
+                                    Và đến khi anh cất lời
+                                    Là giấc mơ mang cả đời -->
+                                    Khi anh đã có tất cả rồi lại chẳng còn em nữa
+                                    Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
+                                    Tình yêu này có thật đáng thương? (Oh no)
+                                    Ở phía dưới ngọn đèn, có gã khờ đang hát
+                                    Cố gắng mỉm cười, nhưng trong lòng tan nát
+                                    Mất đi người rất quan trọng
+                                    Có lẽ vì quá tham vọng
+                                    Không thấy vui trong lòng
+                                    Anh nhớ góc tối ở trong căn phòng
+                                    Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
+                                    Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
+                                    Lâu hơn một chút
+                                    Để anh ổn định cảm xúc
+                                    Có lẽ đến lúc chấm dứt, kết thúc thật rồi
+                                    Ký ức lại triệu hồi nỗi đau</span>
+                            </div>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
                     <div class="footer__item">
                         <div class="footer__item-contact">
                             <h2 class="footer__item-title">Contact</h2>
                             <ul class="footer__item-contact-list">
                                 <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
                                         <span>National park,d1 588436,United States</span>
                                     </span>
                                 </li>
@@ -229,91 +261,20 @@
                         </div>
                     </div>
 
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">My Account</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>My Account</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Order History</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Wish List</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Find Us On</h2>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>                                
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Payment</h2>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-visa"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-mastercard"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-paypal"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-discover"></i>                                
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
                     
+
+
 
                 </div>
             </div>
-         </footer>
+        </footer>
     </div>
+    <script src="/src/main/resources/static/js/jquery.js"></script>
+    <script src="/src/main/resources/static/js//bootstrap.min.js"></script>
+    <script src="/src/main/resources/static/js//jquery.scrollUp.min.js"></script>
+    <script src="/src/main/resources/static/js//price-range.js"></script>
+    <script src="/src/main/resources/static/js//jquery.prettyPhoto.js"></script>
+    <script src="/src/main/resources/static/js//base.js"></script>
 </body>
 
 </html>

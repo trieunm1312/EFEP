@@ -10,9 +10,10 @@
 }
 
 .breadbrum{
-    width: 100%;
+    width: 120%;
     height: 283px;
     padding: 100px 0;
+    margin-top: 32px;
     text-align: center;
     color: var(--white-color);
     background: url(/src/main/resources/static/img/breadcrumb_img-1920x300.png);
@@ -45,6 +46,7 @@
 /* Register + Login Form */
 .auth-form{
     margin: 52px auto;
+    margin-right:300px;
     width: 500px;
     border-radius: 5px;
     overflow: hidden;
@@ -75,6 +77,11 @@
     text-decoration: none;
 }
 
+.auth-form__switch-btn:hover{
+    text-decoration: none;
+    color: var(--text-color);
+}
+
 .auth-form__label{
     font-size: 1.4rem;
     margin-top: 16px;
@@ -97,6 +104,11 @@
 
 .auth-form_aside{
     margin-top: 18px;
+}
+
+.auth-form__help-link:hover{
+    text-decoration: none;
+    color: var(--text-color);
 }
 
 .auth-form__policy-text{

@@ -389,7 +389,7 @@ html {
 /* Search Bar */
 
 .header__item-search-box {
-    display: none; 
+
     position: absolute;
     height: 40px;
     width: 270px;
@@ -398,7 +398,8 @@ html {
     align-items: center;
     bottom: -65px;
     left: -224px;
-    animation: fadeIn ease .2s;
+    animation: fadeInDown ease .2s;
+    display: none; 
     z-index: 1;
 }
 
@@ -442,7 +443,7 @@ html {
 
 .header__item-icon-search:focus .header__item-search-box {
     cursor: pointer;
-    display: block;
+    display: flex;
 }
 
 /* User */
@@ -465,6 +466,17 @@ html {
     border-radius: 2px;
     display: none;
     animation: fadeInDown ease-in .2s;
+}
+
+.header__item-account::before{
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 32px;
+    top: -32px;
+    right: 0;
+    cursor: pointer;
+    /* background-color: var(--black-color); */
 }
 
 .header__item-account-item {
@@ -504,7 +516,29 @@ html {
 
 .footer__item {
     color: var(--white-color);
-    margin-top: 55px;
+    margin-top: 32px;
+}
+
+.footer__item:first-child{
+    width: 40%;
+}
+
+.footer__item:last-child{
+    margin-top: 28px;
+}
+
+
+.footer__item-logo{
+    margin: 8px 0 32px;
+}
+
+.footer__item-logo img{
+    width: 50%;
+}
+
+.footer__item-desc{
+    color: var(--white-color);
+    margin-bottom: 32px;
 }
 
 .footer__item-title {
@@ -544,7 +578,7 @@ html {
 
 .footer__item-contact-list-icons {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
 }
 
 .footer__item-contact-list-item-media a {
