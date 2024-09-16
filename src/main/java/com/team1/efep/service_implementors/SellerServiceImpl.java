@@ -4,6 +4,7 @@ import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
 import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
 import com.team1.efep.repositories.*;
@@ -11,6 +12,7 @@ import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.CreateFlowerValidation;
+import com.team1.efep.validations.ViewOrderHistoryValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -148,7 +150,7 @@ public class SellerServiceImpl implements SellerService {
             model.addAttribute("response", (ViewOrderHistoryResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "";
+        return "seller";
     }
 
     @Override
@@ -170,8 +172,8 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
+
     private Object viewOrderHistoryLogic(int accountId) {
-        Map<String, String> errors = new HashMap<>();
         List<Order> orderList = orderRepo.findAllByUser_Seller_Id(accountId);
         if (!orderList.isEmpty()) {
             List<ViewOrderHistoryResponse.OrderBill> orderBills = orderList.stream()
@@ -183,7 +185,7 @@ public class SellerServiceImpl implements SellerService {
                     .orderList(orderBills)
                     .build();
         }
-        return errors;
+        return ViewOrderHistoryValidation.orderHistoryValidation();
     }
 
     private ViewOrderHistoryResponse.OrderBill viewOrderList(Order order) {
@@ -210,7 +212,33 @@ public class SellerServiceImpl implements SellerService {
     }
 
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
+    @Override
+    public String changeOrderStatus(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ChangeOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        return "";
+    }
 
+    @Override
+    public ChangeOrderStatusResponse changeOrderStatusAPI(int id) {
+        Account account = Role.getCurrentLoggedAccount(id, accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            ChangeOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        return null;
+    }
 
+    private Object changeOrderStatusLogic(int accountId) {
+        return null;
+    }
 
 }

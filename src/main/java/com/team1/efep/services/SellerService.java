@@ -2,6 +2,7 @@ package com.team1.efep.services;
 
 import com.team1.efep.models.entity_models.Flower;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
 import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
 import jakarta.servlet.http.HttpSession;
@@ -16,5 +17,9 @@ public interface SellerService {
     String viewOrderHistory(HttpSession session, Model model);
 
     ViewOrderHistoryResponse viewOrderHistoryAPI(int id);
+
+    String changeOrderStatus(HttpSession session, Model model);
+
+    ChangeOrderStatusResponse changeOrderStatusAPI(int id);
 
 }

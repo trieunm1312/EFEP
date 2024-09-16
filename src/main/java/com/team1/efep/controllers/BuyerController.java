@@ -16,13 +16,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-//@RestController
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/buyer")
 public class BuyerController {
+
     private final BuyerService buyerService;
 
     @PostMapping("/pass/forgot")
+    @Operation(hidden = true)
     public String forgot(@RequestBody ForgotRequest request, Model model) {
         return buyerService.sendEmail(request, model);
     }
@@ -33,6 +35,7 @@ public class BuyerController {
     }
 
     @PostMapping("/pass/renew")
+    @Operation(hidden = true)
     public String renewPass(@RequestBody RenewPasswordRequest request, Model model) {
         return buyerService.renewPass(request, model);
     }
@@ -41,7 +44,6 @@ public class BuyerController {
     public RenewPasswordResponse renewPass(@RequestBody RenewPasswordRequest request) {
         return buyerService.renewPassAPI(request);
     }
-
 
     @GetMapping("/cart")
     @Operation(hidden = true)
