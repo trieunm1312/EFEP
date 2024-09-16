@@ -8,6 +8,7 @@ import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.AccountRepo;
+import com.team1.efep.repositories.CartItemRepo;
 import com.team1.efep.repositories.CartRepo;
 import com.team1.efep.repositories.FlowerRepo;
 import com.team1.efep.services.BuyerService;
@@ -27,6 +28,8 @@ import org.springframework.ui.Model;
 
 import java.util.*;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +39,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final AccountRepo accountRepo;
     private final CartRepo cartRepo;
     private final FlowerRepo flowerRepo;
+    private final CartItemRepo cartItemRepo;
 
     @Override
     public String sendEmail(ForgotRequest request, Model model) {
@@ -133,30 +137,31 @@ public class BuyerServiceImpl implements BuyerService {
 
     private Cart addToCartLogic(AddToCartRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        Cart cart = viewCartLogic(request.getAccountId());
+        Cart cart = account.getUser().getCart();
         Flower flower = checkAvailableFlower(request.getFlowerId());
-        CartItem cartItem = checkExistedItem(request, cart).get();
-        if (checkExistedItem(request, cart).isPresent()) {
-            cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
-        } else {
+        Optional<CartItem> cartItemOptional = checkExistedItem(request, cart);
+        if (flower == null) {
             return cart;
         }
-        if (flower != null) {
-            cart.getCartItemList().add(
-                    CartItem.builder()
-                            .cart(account.getUser().getCart())
-                            .flower(flower)
-                            .quantity(cartItem.getQuantity())
-                            .build());
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+            cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
+        } else {
+            CartItem item = CartItem.builder()
+                    .cart(cart)
+                    .flower(flower)
+                    .quantity(request.getQuantity())
+                    .build();
+            cart.getCartItemList().add(item);
+            cartItemRepo.save(item);
         }
         return cartRepo.save(cart);
     }
 
     private Optional<CartItem> checkExistedItem(AddToCartRequest request, Cart cart) {
-        Optional<CartItem> existingCartItem = cart.getCartItemList().stream()
-                .filter(item -> item.getFlower().getId() == request.getFlowerId())
+        return cart.getCartItemList().stream()
+                .filter(item -> Objects.equals(item.getFlower().getId(), request.getFlowerId()))
                 .findFirst();
-        return existingCartItem;
     }
 
     private Flower checkAvailableFlower(int flowerId) {
@@ -168,7 +173,7 @@ public class BuyerServiceImpl implements BuyerService {
         return null;
     }
 
-
+    //-----------------------------------------------------------------------------------------------------------//
     @Override
     public ForgotResponse sendEmailAPI(ForgotRequest request) {
         try {

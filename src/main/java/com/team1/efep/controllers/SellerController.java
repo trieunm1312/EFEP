@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-//@RestController
+@RestController
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/seller")
@@ -30,13 +30,13 @@ public class SellerController {
         return sellerService.createFlowerAPI(request);
     }
 
-    @GetMapping("/order")
+    @GetMapping("/order-history")
     @Operation(hidden = true)
     public String createFlower(HttpSession session, Model model) {
-        return sellerService.viewOrderHistoiry(session, model);
+        return sellerService.viewOrderHistory(session, model);
     }
 
-    @GetMapping("/order/api/{id}")
+    @GetMapping("/order-history/api/{id}")
     public ViewOrderHistoryResponse createFlower(@PathVariable int id) {
         return sellerService.viewOrderHistoryAPI(id);
     }
