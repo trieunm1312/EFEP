@@ -12,4 +12,6 @@ public class PageController {
     public String registerPage() {
         return "register";
     }
+
+
 }
