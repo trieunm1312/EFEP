@@ -3,10 +3,7 @@ package com.team1.efep.controllers;
 import com.team1.efep.models.request_models.AddToCartRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
-import com.team1.efep.models.response_models.AddToCartResponse;
-import com.team1.efep.models.response_models.ForgotResponse;
-import com.team1.efep.models.response_models.RenewPasswordResponse;
-import com.team1.efep.models.response_models.ViewCartResponse;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.BuyerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
@@ -65,6 +62,17 @@ public class BuyerController {
     @PostMapping("/cart/api")
     public AddToCartResponse addToCart(@RequestBody AddToCartRequest request) {
         return buyerService.addToCartAPI(request);
+    }
+
+    @GetMapping("/flower")
+    @Operation(hidden = true)
+    public String viewFlowerList(HttpSession session, Model model) {
+        return buyerService.viewFlowerList(session, model);
+    }
+
+    @GetMapping("/flower/api")
+    public ViewFlowerListResponse viewFlowerList() {
+        return buyerService.viewFlowerListAPI();
     }
 
 }
