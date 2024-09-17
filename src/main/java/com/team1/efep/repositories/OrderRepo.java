@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface OrderRepo extends JpaRepository<Order, Integer> {
 
     List<Order> findAllByUser_Seller_Id(int id);
+
+    List<Order> findAllByUser_Id(int id);
 }

@@ -3,20 +3,20 @@ package com.team1.efep.service_implementors;
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.AddToCartRequest;
+import com.team1.efep.models.request_models.DeleteCartItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
-import com.team1.efep.repositories.AccountRepo;
-import com.team1.efep.repositories.CartItemRepo;
-import com.team1.efep.repositories.CartRepo;
-import com.team1.efep.repositories.FlowerRepo;
+import com.team1.efep.repositories.*;
 import com.team1.efep.services.BuyerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.AddToCartValidation;
+import com.team1.efep.validations.DeleteCartItemValidation;
 import com.team1.efep.validations.ViewFlowerListValidation;
+import com.team1.efep.validations.ViewOrderHistoryValidation;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
@@ -29,6 +29,7 @@ import org.springframework.ui.Model;
 import java.util.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final CartRepo cartRepo;
     private final FlowerRepo flowerRepo;
     private final CartItemRepo cartItemRepo;
+    private final OrderRepo orderRepo;
 
     @Override
     public String sendEmail(ForgotRequest request, Model model) {
@@ -99,8 +101,9 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         Object output = addToCartLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToCartResponse.class)){
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToCartResponse.class)) {
             model.addAttribute("msg", (AddToCartResponse) output);
+            return "base";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "base";
@@ -116,7 +119,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .build();
         }
         Object output = addToCartLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToCartResponse.class)){
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToCartResponse.class)) {
             return (AddToCartResponse) output;
         }
         return AddToCartResponse.builder()
@@ -319,6 +322,7 @@ public class BuyerServiceImpl implements BuyerService {
         return viewSlideBarLogic();
     }
 
+
     public ViewSlideBarResponse viewSlideBarLogic() {
         List<String> flowerImageLinkList = new ArrayList<>();
 
@@ -335,5 +339,143 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+    //----------------------------------------------DELETE CART ITEM----------------------------------------------//
+
+
+    @Override
+    public String deleteCartItem(DeleteCartItemRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You are not logged in");
+            return "redirect:/login";
+        }
+        Object output = deleteCartItemLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteCartItemResponse.class)) {
+            model.addAttribute("msg", (DeleteCartItemResponse) output);
+            return "viewCart";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "";
+    }
+
+    @Override
+    public DeleteCartItemResponse deleteCartItemAPI(DeleteCartItemRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null) {
+            return DeleteCartItemResponse.builder()
+                    .status("400")
+                    .message("You are not logged in")
+                    .build();
+        }
+        Object output = deleteCartItemLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteCartItemResponse.class)) {
+            return (DeleteCartItemResponse) output;
+        }
+        return DeleteCartItemResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+
+    private Object deleteCartItemLogic(DeleteCartItemRequest request) {
+        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
+        assert account != null;
+        Map<String, String> errors = DeleteCartItemValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        Cart cart = account.getUser().getCart();
+        Optional<CartItem> cartItemOptional = cart.getCartItemList().stream()
+                .filter(item -> Objects.equals(item.getId(), request.getCartItemId()))
+                .findFirst();
+
+        CartItem cartItem = cartItemOptional.get();
+        cart.getCartItemList().remove(cartItem);
+        cartItemRepo.delete(cartItem);
+
+        accountRepo.save(account);
+        return DeleteCartItemResponse.builder()
+                .status("200")
+                .message("Flower is deleted")
+                .build();
+    }
+
+    //--------------------------------------VIEW ORDER HISTORY------------------------------------------//
+
+    @Override
+    public String viewOrderHistory(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ViewOrderHistoryResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = viewOrderHistoryLogic(account.getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
+            model.addAttribute("response", (ViewOrderHistoryResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
+    }
+
+    @Override
+    public ViewOrderHistoryResponse viewOrderHistoryAPI(int accountId) {
+        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            return ViewOrderHistoryResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build();
+        }
+        Object output = viewOrderHistoryLogic(account.getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
+            return (ViewOrderHistoryResponse) output;
+        }
+        return ViewOrderHistoryResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewOrderHistoryLogic(int accountId) {
+        List<Order> orderList = orderRepo.findAllByUser_Id(accountId);
+        Map<String, String> errors = ViewOrderHistoryValidation.orderHistoryValidation();
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        if (!orderList.isEmpty()) {
+            List<ViewOrderHistoryResponse.Order> orders = orderList.stream()
+                    .map(this::viewOrderList)
+                    .collect(Collectors.toList());
+            return ViewOrderHistoryResponse.builder()
+                    .status("200")
+                    .message("Orders found")
+                    .orderList(orders)
+                    .build();
+        }
+        return null;
+    }
+
+    private ViewOrderHistoryResponse.Order viewOrderList(Order order) {
+        return ViewOrderHistoryResponse.Order.builder()
+                .orderId(order.getId())
+                .totalPrice(order.getTotalPrice())
+                .status(order.getOrderStatus().getStatus())
+                .detailList(viewOrderDetailList(order.getOrderDetailList()))
+                .build();
+    }
+    private List<ViewOrderHistoryResponse.Detail> viewOrderDetailList(List<OrderDetail> orderDetails) {
+        return orderDetails.stream()
+                .map(detail -> ViewOrderHistoryResponse.Detail.builder()
+                        .sellerName(detail.getFlower().getSeller().getUser().getName())
+                        .flowerName(detail.getFlowerName())
+                        .quantity(detail.getQuantity())
+                        .price(detail.getPrice())
+                        .build())
+                .collect(Collectors.toList());
+    }
 }
 

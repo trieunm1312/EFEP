@@ -1,8 +1,10 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
-import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
+import com.team1.efep.models.response_models.ViewOrderListResponse;
 import com.team1.efep.services.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +23,7 @@ public class SellerController {
 
     @PostMapping("/flower")
     @Operation(hidden = true)
-    public String createFlower(@RequestBody CreateFlowerRequest request, HttpSession session, Model model) {
+    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
         return sellerService.createFlower(request, session, model);
     }
 
@@ -30,14 +32,25 @@ public class SellerController {
         return sellerService.createFlowerAPI(request);
     }
 
-    @GetMapping("/order-history")
+    @PutMapping("/order-status")
     @Operation(hidden = true)
-    public String createFlower(HttpSession session, Model model) {
-        return sellerService.viewOrderHistory(session, model);
+    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
+        return sellerService.changeOrderStatus(request, session, model);
     }
 
-    @GetMapping("/order-history/api/{id}")
-    public ViewOrderHistoryResponse createFlower(@PathVariable int id) {
-        return sellerService.viewOrderHistoryAPI(id);
+    @PutMapping("/order-status/api")
+    public ChangeOrderStatusResponse changeOrderStatus(@RequestBody ChangeOrderStatusRequest request) {
+        return sellerService.changeOrderStatusAPI(request);
+    }
+
+    @GetMapping("/order-list")
+    @Operation(hidden = true)
+    public String createFlower(HttpSession session, Model model) {
+        return sellerService.viewOrderList(session, model);
+    }
+
+    @GetMapping("/order-list/api/{id}")
+    public ViewOrderListResponse createFlower(@PathVariable int id) {
+        return sellerService.viewOrderListAPI(id);
     }
 }
