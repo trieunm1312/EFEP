@@ -10,16 +10,18 @@ import com.team1.efep.models.response_models.ViewFlowerListForSellerResponse;
 import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
 import com.team1.efep.services.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-//@RestController
+@RestController
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/seller")
+@Tag(name = "Seller")
 public class SellerController {
 
     private final SellerService sellerService;
@@ -63,7 +65,6 @@ public class SellerController {
     }
 
     @PostMapping("/view/flower/api")
-    @Operation(hidden = true)
     public ViewFlowerListForSellerResponse viewFlowerListForSeller(@RequestBody ViewFlowerListForSellerRequest request) {
         return sellerService.viewFlowerListForSellerAPI(request);
     }

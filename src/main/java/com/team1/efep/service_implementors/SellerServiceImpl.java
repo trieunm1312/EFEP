@@ -5,20 +5,17 @@ import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
-import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
 import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
-import com.team1.efep.models.response_models.CreateFlowerResponse;
-import com.team1.efep.models.response_models.ViewOrderListResponse;
-import com.team1.efep.models.response_models.ViewFlowerListForSellerResponse;
-import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.ChangeOrderStatusValidation;
 import com.team1.efep.validations.CreateFlowerValidation;
-import com.team1.efep.validations.ViewOrderListValidation;
 import com.team1.efep.validations.ViewFlowerListValidation;
+import com.team1.efep.validations.ViewOrderListValidation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -113,10 +110,13 @@ public class SellerServiceImpl implements SellerService {
 
 
     private Flower createNewFlower(CreateFlowerRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        assert account != null;
         Flower flower = Flower.builder()
                 .name(request.getName())
                 .price(request.getPrice())
                 .rating(0)
+                .seller(account.getUser().getSeller())
                 .description(request.getDescription())
                 .flowerAmount(request.getFlowerAmount())
                 .quantity(request.getQuantity())
@@ -281,17 +281,46 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
-        return null;
+        model.addAttribute("msg", viewFlowerListForSellerLogic(request));
+        return "home";
     }
 
     @Override
-    public ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(ViewFlowerListForSellerRequest request) {
-        return null;
+    public ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(@RequestBody ViewFlowerListForSellerRequest request) {
+        return viewFlowerListForSellerLogic(request);
     }
 
-    public Object viewFlowerListForSellerLogic() {
-        Map<String, String> errors = ViewFlowerListValidation.validate();
-        return null;
+    public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(ViewFlowerListForSellerRequest request) {
+        List<Flower> flowers = flowerRepo.findBySeller_Id(request.getSellerId());
+        return ViewFlowerListForSellerResponse.builder()
+                .status("200")
+                .message("Number of flower" + flowers.size())
+                .flowerList(viewFlowerList(flowers))
+                .build();
+        // if find -> print size of flower
+
+    }
+
+    private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
+        return flowers.stream()
+                .map(item -> ViewFlowerListForSellerResponse.Flower.builder()
+                        .id(item.getId())
+                        .name(item.getName())
+                        .price(item.getPrice())
+                        .imageList(viewImageList(item.getFlowerImageList()))
+                        .flower_amount(item.getFlowerAmount())
+                        .quantity(item.getQuantity())
+                        .sold_quantity(item.getSoldQuantity())
+                        .build())
+                .toList();
+    }
+
+    private List<ViewFlowerListForSellerResponse.Image> viewImageList(List<FlowerImage> imageList) {
+        return imageList.stream()
+                .map(img -> ViewFlowerListForSellerResponse.Image.builder()
+                        .link(img.getLink())
+                        .build())
+                .toList();
     }
 
 }

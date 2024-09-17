@@ -7,6 +7,7 @@ import com.team1.efep.models.response_models.LoginResponse;
 import com.team1.efep.models.response_models.RegisterResponse;
 import com.team1.efep.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/account")
+@Tag(name = "Account")
 public class AccountController {
     private final AccountService accountService;
 

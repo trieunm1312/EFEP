@@ -11,24 +11,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewFlowerListForSellerResponse {
+public class ViewFlowerDetailResponse {
     private String status;
     private String message;
-    private List<Flower> flowerList;
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Flower{
-        private int id;
-        private String name;
-        private float price;
-        private int flower_amount;
-        private int quantity;
-        private int sold_quantity;
-        private List<Image> imageList;
-    }
+    private int id;
+    private String name;
+    private float price;
+    private int flowerAmount;
+    private int quantity;
+    private int soldQuantity;
+    private List<Image> imageList;
 
     @Data
     @AllArgsConstructor
@@ -37,5 +30,4 @@ public class ViewFlowerListForSellerResponse {
     public static class Image{
         private String link;
     }
-
 }
