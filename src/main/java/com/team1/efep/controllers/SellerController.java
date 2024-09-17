@@ -1,8 +1,11 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
 import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
+import com.team1.efep.models.response_models.ViewOrderListResponse;
 import com.team1.efep.models.response_models.ViewFlowerListForSellerResponse;
 import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
 import com.team1.efep.services.SellerService;
@@ -32,16 +35,26 @@ public class SellerController {
         return sellerService.createFlowerAPI(request);
     }
 
-    @GetMapping("/order")
+    @PutMapping("/order-status")
     @Operation(hidden = true)
-    public String createFlower(HttpSession session, Model model) {
-        return sellerService.viewOrderHistoiry(session, model);
+    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
+        return sellerService.changeOrderStatus(request, session, model);
     }
 
-    @GetMapping("/order/api/{id}")
-    public ViewOrderHistoryResponse createFlower(@PathVariable int id) {
+    @PutMapping("/order-status/api")
+    public ChangeOrderStatusResponse changeOrderStatus(@RequestBody ChangeOrderStatusRequest request) {
+        return sellerService.changeOrderStatusAPI(request);
+    }
 
-        return sellerService.viewOrderHistoryAPI(id);
+    @GetMapping("/order-list")
+    @Operation(hidden = true)
+    public String createFlower(HttpSession session, Model model) {
+        return sellerService.viewOrderList(session, model);
+    }
+
+    @GetMapping("/order-list/api/{id}")
+    public ViewOrderListResponse createFlower(@PathVariable int id) {
+        return sellerService.viewOrderListAPI(id);
     }
 
     @PostMapping("/view/flower")
