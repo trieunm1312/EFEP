@@ -2,19 +2,19 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
-import com.team1.efep.models.entity_models.Account;
-import com.team1.efep.models.entity_models.Flower;
-import com.team1.efep.models.entity_models.FlowerImage;
+import com.team1.efep.models.entity_models.*;
+import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
-import com.team1.efep.repositories.AccountRepo;
-import com.team1.efep.repositories.FlowerImageRepo;
-import com.team1.efep.repositories.FlowerRepo;
-import com.team1.efep.repositories.FlowerStatusRepo;
+import com.team1.efep.models.response_models.ViewOrderListResponse;
+import com.team1.efep.repositories.*;
 import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
+import com.team1.efep.validations.ChangeOrderStatusValidation;
 import com.team1.efep.validations.CreateFlowerValidation;
+import com.team1.efep.validations.ViewOrderListValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,116 +33,12 @@ public class SellerServiceImpl implements SellerService {
     private final FlowerStatusRepo flowerStatusRepo;
 
     private final FlowerImageRepo flowerImageRepo;
+
     private final AccountRepo accountRepo;
 
+    private final OrderRepo orderRepo;
 
-    //--------------------------------CREATE FLOWER------------------------------------//
-//    @Override
-//    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
-//        Account account = (Account) session.getAttribute("acc");
-//        if (!Role.checkIfThisAccountIsSeller(account)) {
-//            model.addAttribute("error", "You are not seller");
-//            return "seller";
-//        }
-//
-//        String error = createFlowerLogic(request);
-//        if (!error.isEmpty()) {
-//            model.addAttribute("error", CreateFlowerResponse.builder()
-//                    .status("400")
-//                    .message(error)
-//                    .build());
-//            return "flower";
-//        }
-//
-//        model.addAttribute("flower", createFlowerLogic(request));
-//        return "flower";
-//    }
-//
-//    @Override
-//    public CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request) {
-//        if(!createFlowerLogic(request).isEmpty()){
-//            return CreateFlowerResponse.builder()
-//                    .status("400")
-//                    .message(createFlowerLogic(request))
-//                    .build();
-//        }
-//        return CreateFlowerResponse.builder()
-//                .status("200")
-//                .message("create flower success")
-//                .build();
-//    }
-//
-//    private String createFlowerLogic(CreateFlowerRequest request) {
-//        String error = validateInput(request);
-//
-//        if (error.isEmpty()) {
-//            createNewFlower(request);
-//        }
-//
-//        return error;
-//    }
-//
-//    private String validateInput(CreateFlowerRequest request) {
-//        String error = "";
-//        if(flowerRepo.findByName(request.getName()).isPresent()){
-//            error = "Flower name is existed, ";
-//        }
-//        if (request.getName() == null || request.getName().trim().isEmpty()) {
-//            error = "Flower name is empty, ";
-//        }
-//        if (request.getName().length() < 3 || request.getName().length() > 30) {
-//            error = "Flower name must be between 3 and 30 characters, ";
-//        }
-//
-//        if (request.getPrice() <= 0) {
-//            error = "Price must be numeric greater than 0, ";
-//        }
-//
-//        if (request.getFlowerAmount() <= 0) {
-//            error = "Flower amount must be numeric greater than 0, ";
-//        }
-//
-//        if (request.getQuantity() < 0) {
-//            error = "Quantity must be numeric greater than 0, ";
-//        }
-//
-//        if (!error.isEmpty()) {
-//            error = formatErrorMsg(error);
-//        }
-//
-//        return error;
-//    }
-//
-//    private String formatErrorMsg(String error) {
-//        error = error.substring(0, 1).toUpperCase() + error.trim().substring(1, error.length() - 2);
-//        return error;
-//    }
-//
-//    private void createNewFlower(CreateFlowerRequest request) {
-//        Flower flower = Flower.builder()
-//                .name(request.getName())
-//                .price(request.getPrice())
-//                .rating(0)
-//                .description(request.getDescription())
-//                .flowerAmount(request.getFlowerAmount())
-//                .quantity(request.getQuantity())
-//                .soldQuantity(0)
-//                .flowerStatus(flowerStatusRepo.findByStatus(Const.FLOWER_STATUS_AVAILABLE))
-//                .build();
-//
-//        List<FlowerImage> flowerImages = addFlowerImages(request, flower);
-//        flowerImageRepo.saveAll(flowerImages);
-//        flowerRepo.save(flower);
-//    }
-//
-//    private List<FlowerImage> addFlowerImages(CreateFlowerRequest request, Flower flower) {
-//        return request.getImgList().stream()
-//                .map(link -> FlowerImage.builder()
-//                        .flower(flower) // Gán đối tượng Flower vào FlowerImage
-//                        .link(link) // Gán link của ảnh từ request
-//                        .build())
-//                .collect(Collectors.toList());
-//    }
+    private final OrderStatusRepo orderStatusRepo;
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -168,7 +64,7 @@ public class SellerServiceImpl implements SellerService {
                     .build();
         }
         Object output = createFlowerLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)){
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
             return (CreateFlowerResponse) output;
         }
         return CreateFlowerResponse.builder()
@@ -176,6 +72,7 @@ public class SellerServiceImpl implements SellerService {
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
+
 
     private Object createFlowerLogic(CreateFlowerRequest request) {
         Map<String, String> errors = CreateFlowerValidation.validateInput(request, flowerRepo);
@@ -202,14 +99,13 @@ public class SellerServiceImpl implements SellerService {
                                                             .build())
                                                     .toList()
                                     )
-                            .build()
+                                    .build()
                     )
                     .build();
         }
         //failed
         return errors;
     }
-
 
 
     private Flower createNewFlower(CreateFlowerRequest request) {
@@ -238,4 +134,141 @@ public class SellerServiceImpl implements SellerService {
                 .collect(Collectors.toList());
         return flowerImageRepo.saveAll(flowerImages);
     }
+
+    //---------------------------------------------VIEW ORDER LIST--------------------------------------------------------//
+
+    @Override
+    public String viewOrderList(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewOrderListResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = viewOrderListLogic(account.getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
+            model.addAttribute("response", (ViewOrderListResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
+    }
+
+    @Override
+    public ViewOrderListResponse viewOrderListAPI(int id) {
+        Account account = Role.getCurrentLoggedAccount(id, accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return ViewOrderListResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = viewOrderListLogic(account.getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
+            return (ViewOrderListResponse) output;
+        }
+        return ViewOrderListResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+
+    private Object viewOrderListLogic(int accountId) {
+        List<Order> orderList = orderRepo.findAllByUser_Seller_Id(accountId);
+        if (!orderList.isEmpty()) {
+            List<ViewOrderListResponse.OrderBill> orderBills = orderList.stream()
+                    .map(this::viewOrderList)
+                    .collect(Collectors.toList());
+            return ViewOrderListResponse.builder()
+                    .status("200")
+                    .message("Orders found")
+                    .orderList(orderBills)
+                    .build();
+        }
+        return ViewOrderListValidation.orderListValidation();
+    }
+
+    private ViewOrderListResponse.OrderBill viewOrderList(Order order) {
+        return ViewOrderListResponse.OrderBill.builder()
+                .orderId(order.getId())
+                .buyerName(order.getBuyerName())
+                .createDate(order.getCreatedDate())
+                .totalPrice(order.getTotalPrice())
+                .status(order.getOrderStatus().getStatus())
+                .paymentType(order.getPaymentType().getType())
+                .paymentMethod(order.getPaymentMethod().getMethod())
+                .orderDetailList(viewOrderDetailList(order.getOrderDetailList()))
+                .build();
+    }
+    private List<ViewOrderListResponse.Item> viewOrderDetailList(List<OrderDetail> orderDetails) {
+        return orderDetails.stream()
+                .map(detail -> ViewOrderListResponse.Item.builder()
+                        .name(detail.getFlower().getName())
+                        .quantity(detail.getQuantity())
+                        .price(detail.getPrice())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
+    @Override
+    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ChangeOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = changeOrderStatusLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
+            model.addAttribute("response", (ChangeOrderStatusResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
+    }
+
+    @Override
+    public ChangeOrderStatusResponse changeOrderStatusAPI(ChangeOrderStatusRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            ChangeOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = changeOrderStatusLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
+            return (ChangeOrderStatusResponse) output;
+        }
+        return ChangeOrderStatusResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object changeOrderStatusLogic(ChangeOrderStatusRequest request) {
+        Map<String, String> errors = ChangeOrderStatusValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
+        OrderStatus orderStatus = orderStatusRepo.findByStatus(request.getStatus()).orElse(null);
+        assert orderStatus != null;
+        order.setOrderStatus(orderStatus);
+        orderRepo.save(order);
+        return ChangeOrderStatusResponse.builder()
+                .status("200")
+                .message("Change order status successful")
+                .order(ChangeOrderStatusResponse.ChangedStatus.builder()
+                        .id(order.getId())
+                        .status(order.getOrderStatus().getStatus())
+                        .build())
+                .build();
+    }
+
 }

@@ -11,10 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddToCartResponse {
-
+public class ViewSlideBarResponse {
     private String status;
-
     private String message;
-
+    private List<String> imageList;
 }
+

@@ -5,14 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/login.css">-->
-
-        <link rel="stylesheet" href="/css/all.min.css">
-        <link rel="stylesheet" href="/css/base.css">
-        <link rel="stylesheet" href="/css/login.css">
+    
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewCart.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
 </head>
 
 <body>
@@ -44,12 +41,12 @@
             <div class="grid">
                 <div class="header__wrap">
                     <!-- Logo -->
-                    <a href="home.html" class="header__item">
+                    <div class="header__item">
                         <div class="header__item-logo">
-                            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Logo"
+                            <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
                                 class="header__item-logo-img">
                         </div>
-                    </a>
+                    </div>
 
                     <!-- Mega menu -->
                     <div class="header__item">
@@ -100,16 +97,16 @@
                                 <i class="header__item-icon-user fa-solid fa-user">
 
                                     <!-- Have not Login -->
-                                    <div class="header__item-account">
-                                        <a href="register.html" class="header__item-account-item">Register</a>
-                                        <a href="login.html" class="header__item-account-item">Login</a>
-                                    </div>
+                                    <!-- <div class="header__item-account">
+                                        <a href="" class="header__item-account-item">Register</a>
+                                        <a href="" class="header__item-account-item">Login</a>
+                                    </div> -->
 
                                     <!-- Login successfully -->
-                                    <!-- <div class="header__item-account">
+                                    <div class="header__item-account">
                                         <a href="" class="header__item-account-item">Update profile</a>
                                         <a href="" class="header__item-account-item">Logout</a>
-                                    </div> -->
+                                    </div>
                                 </i>
                             </li>
                             <li class="header__item-icon">
@@ -186,153 +183,68 @@
             </div>
         </header>
 
-        <!-- Container -->
         <div class="container">
-            <!-- <div class="grid"> -->
-                <div class="container__wrap">
-                    <!-- Breadbrum -->
-                    <div class="breadbrum">
-                        <h1 class="breadbrum__title">Login Account</h1><br>
-                        <ul class="breadbrum__element-list">
-                            <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-house"></i>
-                                </a>
-                            </li>
-
-                            <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                    <span>Account</span>
-                                </a>
-                            </li>
-
-                            <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                    <span>Login</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Login Form -->
-                    <div class="auth-form">
-                        <form class="auth-form__container" method="POST" action="">
-                            <div class="auth-form__header">
-                                <h3 class="auth-form__heading">Login</h3>
-                                <a href="register.html" class="auth-form__switch-btn">Don't have an account?</a>
-                            </div>
-        
-                            <div class="auth-form__form">
-                                <div class="auth-form__group">
-                                    <label for="email" class="auth-form__label">
-                                        <strong>E-Mail Address</strong>
-                                    </label>
-                                    <input type="text" name="email" id="email" class="auth-form__input" placeholder="E-Mail Address" required>
+            <div class="table-item-cart">
+                <table border="1" cellpadding="5" cellspacing="0" width="100%">
+                    <!-- <caption>Tiêu đề Bảng</caption> -->
+                    <thead>
+                        <tr>
+                            <th class="table-item-header">Image</th>
+                            <th class="table-item-header">Name</th>
+                            <th class="table-item-header">Model</th>
+                            <th class="table-item-header">Quantity</th>
+                            <th class="table-item-header">Unit Price</th>
+                            <th class="table-item-header">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-item-detail">
+                                <div class="table-item-img">
+                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                        alt="">
                                 </div>
-        
-                                <div class="auth-form__group">
-                                    <label for="password" class="auth-form__label">
-                                        <strong>Password</strong>
-                                    </label>
-                                    <input type="password" name="password" id="password" class="auth-form__input" placeholder="Password" required>
-                                </div>
-                            </div>
-        
-                            <div class="auth-form_aside">
-                                <div class="auth-form__help">
-                                    <a href="forgotPassword.html" class="auth-form__help-link auth-form__help-forgot">Forgot password</a>
-                                    <span class="auth-form__help-separate"></span>
-                                    <a href="" class="auth-form__help-link">Need Help?</a>
-                                </div>
-                            </div>
-        
-                            <div class="auth-form__controls">
-                                <input type="submit" name="btAction" value="LOGIN" class="btn btn--primary"></input>
-                            </div>
-                        </form>
-        
-                        <div class="auth-form__socials">
-                            <a href="" class="auth-form__socials--facebook btn--normal btn btn--size-s btn--with-icon">
-                                <i class="auth-form__socials-icon fa-brands fa-square-facebook"></i>
-                                <span class="auth-form__socials-title">
-                                    Login with Facebook
-                                </span>
-                            </a>
-        
-                            <a href="" class="auth-form__socials--google btn--normal btn btn--size-s btn--with-icon">
-                                <i class="auth-form__socials-icon fa-brands fa-google"></i>
-                                <span class="auth-form__socials-title">
-                                    Login with Google
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            <!-- </div> -->
+                            </td>
+                            <td class="table-item-detail">
+                                <span class="table-item-name">Hiptage</span>
+                            </td>
+                            <td class="table-item-detail">
+                                <span class="table-item-id">Product 1</span>
+                            </td>
+                            <td class="table-item-detail">
+                                <label for=""><input type="number" min="1"></label>
+                                <input type="submit" value="Update cart" name="action">
+                                <i class="fa-solid fa-circle-xmark table-item-removed "></i>
+                            </td>
+                            <td class="table-item-detail">
+                                <span class="table-item-price">$122.00</span>
+                            </td>
+                            <td class="table-item-detail">
+                                <span class="table-item-total">$122.00</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="table-item-footer">Total</td>
+                            <td colspan="1" class="table-item-footer-price">$120.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div >
+                <form class="btn-cart" th:action ="" method = "get"> 
+                    <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                    <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
+                </form>
+            </div>
         </div>
-        
+
         <!-- Footer -->
         <footer class="footer" th:fragment="footer">
             <div class="grid">
                 <div class="footer__wrap">
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <div class="footer__item-logo">
-                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
-                                    class="footer__item-logo-img">
-                            </div>
-                            <div class="footer__item-desc">
-                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
-                                    Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
-                                    Không bơ vơ
-                                    Khi vây quanh anh là những đôi mắt nhìn theo hò reo
-                                    Cũng vì chặng đường tương lai mà mình phải chia hai
-                                    Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
-                                    Và đến khi anh cất lời
-                                    Là giấc mơ mang cả đời -->
-                                    Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                    Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                    Tình yêu này có thật đáng thương? (Oh no)
-                                    Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                    Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                    Mất đi người rất quan trọng
-                                    Có lẽ vì quá tham vọng
-                                    Không thấy vui trong lòng
-                                    Anh nhớ góc tối ở trong căn phòng
-                                    Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                    Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                    Lâu hơn một chút
-                                    Để anh ổn định cảm xúc
-                                    Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                    Ký ức lại triệu hồi nỗi đau</span>
-                            </div>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
                     <div class="footer__item">
                         <div class="footer__item-contact">
                             <h2 class="footer__item-title">Contact</h2>
@@ -406,20 +318,91 @@
                         </div>
                     </div>
 
-                    
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">My Account</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>My Account</span>
+                                    </a>
+                                </li>
 
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Order History</span>
+                                    </a>
+                                </li>
 
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Wish List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Find Us On</h2>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Payment</h2>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-visa"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-brands fa-cc-mastercard"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-paypal"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-brands fa-cc-discover"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
     </div>
-    <script src="/src/main/resources/static/js/jquery.js"></script>
-    <script src="/src/main/resources/static/js//bootstrap.min.js"></script>
-    <script src="/src/main/resources/static/js//jquery.scrollUp.min.js"></script>
-    <script src="/src/main/resources/static/js//price-range.js"></script>
-    <script src="/src/main/resources/static/js//jquery.prettyPhoto.js"></script>
-    <script src="/src/main/resources/static/js//base.js"></script>
+    <script src = "/js/index.js"></script>
 </body>
 
 </html>
