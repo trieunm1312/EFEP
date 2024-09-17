@@ -1,9 +1,13 @@
 package com.team1.efep;
 
-import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
-import com.team1.efep.models.entity_models.*;
-import com.team1.efep.repositories.*;
+import com.team1.efep.enums.Status;
+import com.team1.efep.models.entity_models.Account;
+import com.team1.efep.models.entity_models.Seller;
+import com.team1.efep.models.entity_models.User;
+import com.team1.efep.repositories.AccountRepo;
+import com.team1.efep.repositories.SellerRepo;
+import com.team1.efep.repositories.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -41,8 +45,8 @@ public class EfepApplication {
                                                 .phone("")
                                                 .account(
                                                         accountRepo.save(Account.builder()
-                                                                .accountStatus(null)
                                                                 .email("seller1@efep.com")
+                                                                .status(Status.ACCOUNT_STATUS_ACTIVE)
                                                                 .password("123")
                                                                 .role(Role.SELLER)
                                                                 .build())

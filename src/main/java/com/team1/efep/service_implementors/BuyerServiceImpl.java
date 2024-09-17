@@ -2,10 +2,6 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.*;
-import com.team1.efep.models.request_models.AddToWishlistRequest;
-import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
-import com.team1.efep.models.request_models.ForgotRequest;
-import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
@@ -14,10 +10,9 @@ import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
-import com.team1.efep.validations.*;
 import com.team1.efep.validations.AddToWishlistValidation;
 import com.team1.efep.validations.DeleteWishlistItemValidation;
-import com.team1.efep.validations.ViewFlowerListValidation;
+import com.team1.efep.validations.ViewFlowerDetailValidation;
 import com.team1.efep.validations.ViewOrderHistoryValidation;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -37,7 +32,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     private final JavaMailSenderImpl mailSender;
     private final AccountRepo accountRepo;
-    private final WishlistRepo wishlistRepo;
     private final FlowerRepo flowerRepo;
     private final WishlistItemRepo wishlistItemRepo;
     private final OrderRepo orderRepo;
