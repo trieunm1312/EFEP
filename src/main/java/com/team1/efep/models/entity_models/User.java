@@ -2,7 +2,6 @@ package com.team1.efep.models.entity_models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.commons.lang3.builder.EqualsExclude;
 
 import java.util.List;
 
@@ -35,11 +34,6 @@ public class User {
     @EqualsAndHashCode.Exclude
     private List<Order> orderList;
 
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private List<Address> addressList;
-
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -48,7 +42,7 @@ public class User {
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Cart cart;
+    private Wishlist wishlist;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude

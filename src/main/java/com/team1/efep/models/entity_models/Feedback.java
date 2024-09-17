@@ -29,9 +29,7 @@ public class Feedback {
     @JoinColumn(name = "`flower_id`")
     private Flower flower;
 
-    @ManyToOne
-    @JoinColumn(name = "`status_id`")
-    private FeedbackStatus feedbackStatus;
+    private String status;
 
     private int rating;
 
