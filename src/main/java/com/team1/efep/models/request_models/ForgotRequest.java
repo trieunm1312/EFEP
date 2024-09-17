@@ -1,20 +1,15 @@
-package com.team1.efep.models.response_models;
+package com.team1.efep.models.request_models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddToCartResponse {
-
-    private String status;
-
-    private String message;
-
+public class ForgotRequest {
+    private String toEmail;
+    private String subject;
 }
