@@ -1,6 +1,7 @@
 package com.team1.efep.controllers;
 
 import com.team1.efep.models.request_models.AddToCartRequest;
+import com.team1.efep.models.request_models.DeleteCartItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
@@ -22,7 +23,7 @@ public class BuyerController {
 
     @PostMapping("/pass/forgot")
     @Operation(hidden = true)
-    public String forgot(@RequestBody ForgotRequest request, Model model) {
+    public String forgot(ForgotRequest request, Model model) {
         return buyerService.sendEmail(request, model);
     }
 
@@ -33,7 +34,7 @@ public class BuyerController {
 
     @PostMapping("/pass/renew")
     @Operation(hidden = true)
-    public String renewPass(@RequestBody RenewPasswordRequest request, Model model) {
+    public String renewPass(RenewPasswordRequest request, Model model) {
         return buyerService.renewPass(request, model);
     }
 
@@ -73,6 +74,28 @@ public class BuyerController {
     @GetMapping("/flower/api")
     public ViewFlowerListResponse viewFlowerList() {
         return buyerService.viewFlowerListAPI();
+    }
+
+    @DeleteMapping("/cart-item")
+    @Operation(hidden = true)
+    public String deleteCartItem(DeleteCartItemRequest request, HttpSession session, Model model){
+        return buyerService.deleteCartItem(request, session, model);
+    }
+
+    @DeleteMapping("/cart-item/ap")
+    public DeleteCartItemResponse deleteCartItem(DeleteCartItemRequest request){
+        return buyerService.deleteCartItemAPI(request);
+    }
+
+    @GetMapping("/order-history")
+    @Operation(hidden = true)
+    public String viewOrderHistory(HttpSession session, Model model) {
+        return buyerService.viewOrderHistory(session, model);
+    }
+
+    @GetMapping("/order-history/api/{accountId}")
+    public ViewOrderHistoryResponse viewOrderHistory(@PathVariable int accountId) {
+        return buyerService.viewOrderHistoryAPI(accountId);
     }
 
 }

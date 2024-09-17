@@ -1,5 +1,6 @@
 package com.team1.efep.services;
 
+import com.team1.efep.models.request_models.DeleteCartItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
@@ -32,4 +33,12 @@ public interface BuyerService {
     void viewSlideBar(Model model);
 
     ViewSlideBarResponse viewSlideBarAPI();
+
+    String deleteCartItem(DeleteCartItemRequest request, HttpSession session, Model model);
+
+    DeleteCartItemResponse deleteCartItemAPI(DeleteCartItemRequest request);
+
+    String viewOrderHistory(HttpSession session, Model model);
+
+    ViewOrderHistoryResponse viewOrderHistoryAPI(int accountId);
 }

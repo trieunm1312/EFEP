@@ -5,48 +5,57 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewOrderHistoryResponse {
+public class ViewOrderListResponse {
 
+    //-----------------------------------//
     private String status;
 
     private String message;
 
-    private List<Order> orderList;
+    private List<OrderBill> orderList;
+    //-----------------------------------//
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Order {
+    public static class OrderBill {
 
         private int orderId;
+
+        private String buyerName;
+
+        private LocalDateTime createDate;
 
         private float totalPrice;
 
         private String status;
 
-        private List<Detail> detailList;
+        private String paymentType;
+
+        private String paymentMethod;
+
+        private List<Item> orderDetailList;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Detail {
+    public static class Item {
 
-        private String sellerName;
-
-        private String flowerName;
+        private String name;
 
         private int quantity;
 
         private float price;
     }
-}
 
+}
