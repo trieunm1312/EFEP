@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddToCartRequest {
+public class AddToWishlistRequest {
 
     private Integer accountId;
 

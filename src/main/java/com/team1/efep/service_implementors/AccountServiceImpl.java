@@ -2,7 +2,7 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.Account;
-import com.team1.efep.models.entity_models.Cart;
+import com.team1.efep.models.entity_models.Wishlist;
 import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.request_models.LoginRequest;
 import com.team1.efep.models.request_models.RegisterRequest;
@@ -10,7 +10,7 @@ import com.team1.efep.models.response_models.LoginGoogleResponse;
 import com.team1.efep.models.response_models.LoginResponse;
 import com.team1.efep.models.response_models.RegisterResponse;
 import com.team1.efep.repositories.AccountRepo;
-import com.team1.efep.repositories.CartRepo;
+import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.services.AccountService;
 import com.team1.efep.utils.GoogleLoginGeneratorUtil;
@@ -21,17 +21,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
     private final AccountRepo accountRepo;
     private final UserRepo userRepo;
-    private final CartRepo cartRepo;
+    private final WishlistRepo wishlistRepo;
     private final GoogleLoginGeneratorUtil googleLoginGeneratorUtil;
 
     //-------------------------------REGISTER----------------------------------//
@@ -127,7 +122,7 @@ public class AccountServiceImpl implements AccountService {
 
     private void createNewBuyer(RegisterRequest request) {
 
-        cartRepo.save(Cart.builder()
+        wishlistRepo.save(Wishlist.builder()
                 .user(userRepo.save(User.builder()
                         .account(createNewAccount(request))
                         .name(request.getName())
@@ -142,7 +137,7 @@ public class AccountServiceImpl implements AccountService {
     private Account createNewAccount(RegisterRequest request) {
         return accountRepo.save(
                 Account.builder()
-                        .accountStatus(null)
+                        .status(null)
                         .email(request.getEmail())
                         .password(request.getPassword())
                         .role(Role.BUYER)

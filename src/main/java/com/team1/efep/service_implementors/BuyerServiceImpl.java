@@ -2,8 +2,8 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.*;
-import com.team1.efep.models.request_models.AddToCartRequest;
-import com.team1.efep.models.request_models.DeleteCartItemRequest;
+import com.team1.efep.models.request_models.AddToWishlistRequest;
+import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
@@ -13,8 +13,8 @@ import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
-import com.team1.efep.validations.AddToCartValidation;
-import com.team1.efep.validations.DeleteCartItemValidation;
+import com.team1.efep.validations.AddToWishlistValidation;
+import com.team1.efep.validations.DeleteWishlistItemValidation;
 import com.team1.efep.validations.ViewFlowerListValidation;
 import com.team1.efep.validations.ViewOrderHistoryValidation;
 import jakarta.mail.MessagingException;
@@ -37,9 +37,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     private final JavaMailSenderImpl mailSender;
     private final AccountRepo accountRepo;
-    private final CartRepo cartRepo;
+    private final WishlistRepo wishlistRepo;
     private final FlowerRepo flowerRepo;
-    private final CartItemRepo cartItemRepo;
+    private final WishlistItemRepo wishlistItemRepo;
     private final OrderRepo orderRepo;
 
     @Override
@@ -50,59 +50,59 @@ public class BuyerServiceImpl implements BuyerService {
 
     //---------------------------------------VIEW CART------------------------------------------//
     @Override
-    public String viewCart(HttpSession session, Model model) {
+    public String viewWishlist(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-        model.addAttribute("cart", viewCartItemList(account.getId()));
-        return "viewCart";
+        model.addAttribute("msg", viewWishlistItemList(account.getId()));
+        return "viewWishlist";
     }
 
     @Override
-    public ViewCartResponse viewCartAPI(int id) {
+    public ViewWishlistResponse viewWishlistAPI(int id) {
         Account account = Role.getCurrentLoggedAccount(id, accountRepo);
         if (account == null) {
-            return ViewCartResponse.builder()
+            return ViewWishlistResponse.builder()
                     .status("400")
                     .message("You are not logged in")
                     .build();
         }
-        return ViewCartResponse.builder()
+        return ViewWishlistResponse.builder()
                 .status("200")
-                .message("View cart successfully")
-                .id(account.getUser().getCart().getId())
+                .message("View wishlist successfully")
+                .id(account.getUser().getWishlist().getId())
                 .userId(account.getUser().getId())
                 .userName(account.getUser().getName())
-                .cartItemList(viewCartItemList(account.getId()))
+                .wishlistItemList(viewWishlistItemList(account.getId()))
                 .build();
     }
 
-    private Cart viewCartLogic(int accountId) {
+    private Wishlist viewWishlistLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
         assert account != null;
-        return account.getUser().getCart();
+        return account.getUser().getWishlist();
     }
 
-    private List<ViewCartResponse.CartItems> viewCartItemList(int accountId) {
-        return viewCartLogic(accountId).getCartItemList().stream()
-                .map(item -> new ViewCartResponse.CartItems(item.getId(), item.getFlower().getName(), item.getQuantity(), item.getFlower().getPrice()))
+    private List<ViewWishlistResponse.WishlistItems> viewWishlistItemList(int accountId) {
+        return viewWishlistLogic(accountId).getWishlistItemList().stream()
+                .map(item -> new ViewWishlistResponse.WishlistItems(item.getId(), item.getFlower().getName(), item.getQuantity(), item.getFlower().getPrice()))
                 .toList();
     }
 
     //-------------------------------------------------ADD TO CART-----------------------------------------------------//
 
     @Override
-    public String addToCart(AddToCartRequest request, HttpSession session, Model model) {
+    public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
         Object output = addToCartLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToCartResponse.class)) {
-            model.addAttribute("msg", (AddToCartResponse) output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
+            model.addAttribute("msg", (AddToWishlistResponse) output);
             return "base";
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -110,26 +110,26 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public AddToCartResponse addToCartAPI(AddToCartRequest request) {
+    public AddToWishlistResponse addToWishlistAPI(AddToWishlistRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         if (account == null) {
-            return AddToCartResponse.builder()
+            return AddToWishlistResponse.builder()
                     .status("400")
                     .message("You are not logged in")
                     .build();
         }
         Object output = addToCartLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToCartResponse.class)) {
-            return (AddToCartResponse) output;
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
+            return (AddToWishlistResponse) output;
         }
-        return AddToCartResponse.builder()
+        return AddToWishlistResponse.builder()
                 .status("400")
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
-    private Object addToCartLogic(AddToCartRequest request) {
-        Map<String, String> errors = AddToCartValidation.validate(request);
+    private Object addToCartLogic(AddToWishlistRequest request) {
+        Map<String, String> errors = AddToWishlistValidation.validate(request);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -137,30 +137,30 @@ public class BuyerServiceImpl implements BuyerService {
         assert flower != null;
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
-        Cart cart = account.getUser().getCart();
-        if (checkExistedItem(request, cart)) {
-            CartItem cartItem = cartItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
-            assert cartItem != null;
-            cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
-            cartItemRepo.save(cartItem);
+        Wishlist wishlist = account.getUser().getWishlist();
+        if (checkExistedItem(request, wishlist)) {
+            WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
+            assert wishlistItem != null;
+            wishlistItem.setQuantity(wishlistItem.getQuantity() + request.getQuantity());
+            wishlistItemRepo.save(wishlistItem);
         } else {
-            cart.getCartItemList().add(
-                    cartItemRepo.save(
-                            CartItem.builder()
-                                    .cart(cart)
+            wishlist.getWishlistItemList().add(
+                    wishlistItemRepo.save(
+                            WishlistItem.builder()
+                                    .wishlist(wishlist)
                                     .flower(flower)
                                     .quantity(request.getQuantity())
                                     .build()));
             accountRepo.save(account);
         }
-        return AddToCartResponse.builder()
+        return AddToWishlistResponse.builder()
                 .status("200")
-                .message("Your flower has been added to cart successfully")
+                .message("Your flower has been added to wishlist successfully")
                 .build();
     }
 
-    private boolean checkExistedItem(AddToCartRequest request, Cart cart) {
-        return cart.getCartItemList().stream()
+    private boolean checkExistedItem(AddToWishlistRequest request, Wishlist wishlist) {
+        return wishlist.getWishlistItemList().stream()
                 .anyMatch(item -> Objects.equals(item.getFlower().getId(), request.getFlowerId()));
     }
 //
@@ -343,15 +343,15 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     @Override
-    public String deleteCartItem(DeleteCartItemRequest request, HttpSession session, Model model) {
+    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
         Object output = deleteCartItemLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteCartItemResponse.class)) {
-            model.addAttribute("msg", (DeleteCartItemResponse) output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
+            model.addAttribute("msg", (DeleteWishlistItemResponse) output);
             return "viewCart";
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -359,43 +359,43 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public DeleteCartItemResponse deleteCartItemAPI(DeleteCartItemRequest request) {
+    public DeleteWishlistItemResponse deleteWishlistItemAPI(DeleteWishlistItemRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         if (account == null) {
-            return DeleteCartItemResponse.builder()
+            return DeleteWishlistItemResponse.builder()
                     .status("400")
                     .message("You are not logged in")
                     .build();
         }
         Object output = deleteCartItemLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteCartItemResponse.class)) {
-            return (DeleteCartItemResponse) output;
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
+            return (DeleteWishlistItemResponse) output;
         }
-        return DeleteCartItemResponse.builder()
+        return DeleteWishlistItemResponse.builder()
                 .status("400")
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
 
-    private Object deleteCartItemLogic(DeleteCartItemRequest request) {
+    private Object deleteCartItemLogic(DeleteWishlistItemRequest request) {
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
-        Map<String, String> errors = DeleteCartItemValidation.validate(request);
+        Map<String, String> errors = DeleteWishlistItemValidation.validate(request);
         if (!errors.isEmpty()) {
             return errors;
         }
-        Cart cart = account.getUser().getCart();
-        Optional<CartItem> cartItemOptional = cart.getCartItemList().stream()
-                .filter(item -> Objects.equals(item.getId(), request.getCartItemId()))
+        Wishlist wishlist = account.getUser().getWishlist();
+        Optional<WishlistItem> cartItemOptional = wishlist.getWishlistItemList().stream()
+                .filter(item -> Objects.equals(item.getId(), request.getWishlistItemId()))
                 .findFirst();
 
-        CartItem cartItem = cartItemOptional.get();
-        cart.getCartItemList().remove(cartItem);
-        cartItemRepo.delete(cartItem);
+        WishlistItem wishlistItem = cartItemOptional.get();
+        wishlist.getWishlistItemList().remove(wishlistItem);
+        wishlistItemRepo.delete(wishlistItem);
 
         accountRepo.save(account);
-        return DeleteCartItemResponse.builder()
+        return DeleteWishlistItemResponse.builder()
                 .status("200")
                 .message("Flower is deleted")
                 .build();
@@ -463,7 +463,7 @@ public class BuyerServiceImpl implements BuyerService {
         return ViewOrderHistoryResponse.Order.builder()
                 .orderId(order.getId())
                 .totalPrice(order.getTotalPrice())
-                .status(order.getOrderStatus().getStatus())
+                .status(order.getStatus())
                 .detailList(viewOrderDetailList(order.getOrderDetailList()))
                 .build();
     }

@@ -1,4 +1,4 @@
-package com.team1.efep.models.request_models;
+package com.team1.efep.models.response_models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewCartRequest {
-    private int accountId;
+public class AddToWishlistResponse {
+
+    private String status;
+
+    private String message;
+
 }
