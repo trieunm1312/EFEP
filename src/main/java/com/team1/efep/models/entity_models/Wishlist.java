@@ -6,21 +6,24 @@ import lombok.*;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "`order_status`")
-public class OrderStatus {
+@Table(name = "`cart`")
+public class Wishlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String status;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "`user_id`")
+    private User user;
 
-    @OneToMany(mappedBy = "orderStatus")
+    @OneToMany(mappedBy = "cart")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<Order> orderList;
+    private List<WishlistItem> wishlistItemList;
+
 }

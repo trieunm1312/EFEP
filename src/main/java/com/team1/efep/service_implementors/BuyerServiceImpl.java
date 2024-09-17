@@ -37,9 +37,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     private final JavaMailSenderImpl mailSender;
     private final AccountRepo accountRepo;
-    private final CartRepo cartRepo;
+    private final WishlistRepo wishlistRepo;
     private final FlowerRepo flowerRepo;
-    private final CartItemRepo cartItemRepo;
+    private final WishlistItemRepo wishlistItemRepo;
     private final OrderRepo orderRepo;
 
     @Override
@@ -72,21 +72,21 @@ public class BuyerServiceImpl implements BuyerService {
         return ViewCartResponse.builder()
                 .status("200")
                 .message("View cart successfully")
-                .id(account.getUser().getCart().getId())
+                .id(account.getUser().getWishlist().getId())
                 .userId(account.getUser().getId())
                 .userName(account.getUser().getName())
                 .cartItemList(viewCartItemList(account.getId()))
                 .build();
     }
 
-    private Cart viewCartLogic(int accountId) {
+    private Wishlist viewCartLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
         assert account != null;
-        return account.getUser().getCart();
+        return account.getUser().getWishlist();
     }
 
     private List<ViewCartResponse.CartItems> viewCartItemList(int accountId) {
-        return viewCartLogic(accountId).getCartItemList().stream()
+        return viewCartLogic(accountId).getWishlistItemList().stream()
                 .map(item -> new ViewCartResponse.CartItems(item.getId(), item.getFlower().getName(), item.getQuantity(), item.getFlower().getPrice()))
                 .toList();
     }
@@ -137,17 +137,17 @@ public class BuyerServiceImpl implements BuyerService {
         assert flower != null;
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
-        Cart cart = account.getUser().getCart();
-        if (checkExistedItem(request, cart)) {
-            CartItem cartItem = cartItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
-            assert cartItem != null;
-            cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
-            cartItemRepo.save(cartItem);
+        Wishlist wishlist = account.getUser().getWishlist();
+        if (checkExistedItem(request, wishlist)) {
+            WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
+            assert wishlistItem != null;
+            wishlistItem.setQuantity(wishlistItem.getQuantity() + request.getQuantity());
+            wishlistItemRepo.save(wishlistItem);
         } else {
-            cart.getCartItemList().add(
-                    cartItemRepo.save(
-                            CartItem.builder()
-                                    .cart(cart)
+            wishlist.getWishlistItemList().add(
+                    wishlistItemRepo.save(
+                            WishlistItem.builder()
+                                    .wishlist(wishlist)
                                     .flower(flower)
                                     .quantity(request.getQuantity())
                                     .build()));
@@ -159,8 +159,8 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    private boolean checkExistedItem(AddToCartRequest request, Cart cart) {
-        return cart.getCartItemList().stream()
+    private boolean checkExistedItem(AddToCartRequest request, Wishlist wishlist) {
+        return wishlist.getWishlistItemList().stream()
                 .anyMatch(item -> Objects.equals(item.getFlower().getId(), request.getFlowerId()));
     }
 //
@@ -385,14 +385,14 @@ public class BuyerServiceImpl implements BuyerService {
         if (!errors.isEmpty()) {
             return errors;
         }
-        Cart cart = account.getUser().getCart();
-        Optional<CartItem> cartItemOptional = cart.getCartItemList().stream()
+        Wishlist wishlist = account.getUser().getWishlist();
+        Optional<WishlistItem> cartItemOptional = wishlist.getWishlistItemList().stream()
                 .filter(item -> Objects.equals(item.getId(), request.getCartItemId()))
                 .findFirst();
 
-        CartItem cartItem = cartItemOptional.get();
-        cart.getCartItemList().remove(cartItem);
-        cartItemRepo.delete(cartItem);
+        WishlistItem wishlistItem = cartItemOptional.get();
+        wishlist.getWishlistItemList().remove(wishlistItem);
+        wishlistItemRepo.delete(wishlistItem);
 
         accountRepo.save(account);
         return DeleteCartItemResponse.builder()

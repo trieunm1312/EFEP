@@ -1,6 +1,5 @@
 package com.team1.efep.models.response_models;
 
-import com.team1.efep.models.entity_models.CartItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
