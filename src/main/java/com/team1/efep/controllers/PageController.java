@@ -1,11 +1,12 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.services.BuyerService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.team1.efep.services.BuyerService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,3 +38,5 @@ public class PageController {
 
 
 }
+
+
