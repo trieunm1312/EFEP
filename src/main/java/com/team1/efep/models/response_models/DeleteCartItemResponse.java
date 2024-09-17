@@ -11,10 +11,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddToCartResponse {
-
+public class DeleteCartItemResponse {
     private String status;
 
     private String message;
 
+    private List<Item> cart;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Item {
+        private String id;
+        private String name;
+    }
 }

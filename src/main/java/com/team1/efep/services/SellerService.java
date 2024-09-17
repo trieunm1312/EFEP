@@ -1,9 +1,10 @@
 package com.team1.efep.services;
 
-import com.team1.efep.models.entity_models.Flower;
+import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
-import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
+import com.team1.efep.models.response_models.ViewOrderListResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
@@ -13,8 +14,12 @@ public interface SellerService {
 
     CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request);
 
-    String viewOrderHistoiry(HttpSession session, Model model);
+    String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model);
 
-    ViewOrderHistoryResponse viewOrderHistoryAPI(int id);
+    ChangeOrderStatusResponse changeOrderStatusAPI(ChangeOrderStatusRequest request);
+
+    String viewOrderList(HttpSession session, Model model);
+
+    ViewOrderListResponse viewOrderListAPI(int id);
 
 }
