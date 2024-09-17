@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DeleteCartItemRequest {
-
+public class ViewWishlistRequest {
     private int accountId;
-
-    private int cartItemId;
 }

@@ -11,31 +11,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewCartResponse {
-
+public class DeleteWishlistItemResponse {
     private String status;
 
     private String message;
 
-    private int id;
-
-    private int userId;
-
-    private String userName;
-
-    private List<CartItems> cartItemList;
-
-    private float totalPrice;
+    private List<Item> wishlist;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class CartItems {
-        private int id;
+    public static class Item {
+        private String id;
         private String name;
-        private int quantity;
-        private float price;
     }
-
 }

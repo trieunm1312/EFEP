@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "`cart`")
+@Table(name = "`wishlist`")
 public class Wishlist {
 
     @Id
@@ -21,7 +21,7 @@ public class Wishlist {
     @JoinColumn(name = "`user_id`")
     private User user;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "wishlist")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<WishlistItem> wishlistItemList;

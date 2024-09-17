@@ -1,7 +1,7 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.models.request_models.AddToCartRequest;
-import com.team1.efep.models.request_models.DeleteCartItemRequest;
+import com.team1.efep.models.request_models.AddToWishlistRequest;
+import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
@@ -43,26 +43,26 @@ public class BuyerController {
         return buyerService.renewPassAPI(request);
     }
 
-    @GetMapping("/cart")
+    @GetMapping("/wishlist")
     @Operation(hidden = true)
-    public String viewCart(HttpSession session, Model model) {
-        return buyerService.viewCart(session, model);
+    public String viewWishlist(HttpSession session, Model model) {
+        return buyerService.viewWishlist(session, model);
     }
 
-    @GetMapping("/cart/api/{id}")
-    public ViewCartResponse viewCart(@PathVariable int id) {
-        return buyerService.viewCartAPI(id);
+    @GetMapping("/wishlist/api/{id}")
+    public ViewWishlistResponse viewWishlist(@PathVariable int id) {
+        return buyerService.viewWishlistAPI(id);
     }
 
-    @PostMapping("/cart")
+    @PostMapping("/wishlist")
     @Operation(hidden = true)
-    public String addToCart(AddToCartRequest request, HttpSession session, Model model) {
-        return buyerService.addToCart(request, session, model);
+    public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
+        return buyerService.addToWishlist(request, session, model);
     }
 
-    @PostMapping("/cart/api")
-    public AddToCartResponse addToCart(@RequestBody AddToCartRequest request) {
-        return buyerService.addToCartAPI(request);
+    @PostMapping("/wishlist/api")
+    public AddToWishlistResponse addToWishlist(@RequestBody AddToWishlistRequest request) {
+        return buyerService.addToWishlistAPI(request);
     }
 
     @GetMapping("/flower")
@@ -76,15 +76,15 @@ public class BuyerController {
         return buyerService.viewFlowerListAPI();
     }
 
-    @DeleteMapping("/cart-item")
+    @DeleteMapping("/wishlist-item")
     @Operation(hidden = true)
-    public String deleteCartItem(DeleteCartItemRequest request, HttpSession session, Model model){
-        return buyerService.deleteCartItem(request, session, model);
+    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model){
+        return buyerService.deleteWishlistItem(request, session, model);
     }
 
-    @DeleteMapping("/cart-item/ap")
-    public DeleteCartItemResponse deleteCartItem(DeleteCartItemRequest request){
-        return buyerService.deleteCartItemAPI(request);
+    @DeleteMapping("/wishlist-item/api")
+    public DeleteWishlistItemResponse deleteWishlistItem(DeleteWishlistItemRequest request){
+        return buyerService.deleteWishlistItemAPI(request);
     }
 
     @GetMapping("/order-history")

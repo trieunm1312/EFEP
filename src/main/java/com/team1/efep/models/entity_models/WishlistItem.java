@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "`cart_item`")
+@Table(name = "`wishlist_item`")
 public class WishlistItem {
 
     @Id
@@ -19,7 +19,7 @@ public class WishlistItem {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "`cart_id`")
+    @JoinColumn(name = "`wishlist_id`")
     private Wishlist wishlist;
 
     @ManyToOne
