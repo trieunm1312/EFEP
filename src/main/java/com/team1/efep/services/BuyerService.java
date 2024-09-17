@@ -1,7 +1,12 @@
 package com.team1.efep.services;
 
+import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
+import com.team1.efep.models.request_models.ForgotRequest;
+import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
+
+import com.team1.efep.models.request_models.AddToWishlistRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
@@ -14,13 +19,13 @@ public interface BuyerService {
 
     RenewPasswordResponse renewPassAPI(RenewPasswordRequest request);
 
-    String viewCart(HttpSession session, Model model);
+    String viewWishlist(HttpSession session, Model model);
 
-    ViewCartResponse viewCartAPI(int id);
+    ViewWishlistResponse viewWishlistAPI(int id);
 
-    String addToCart(AddToCartRequest request, HttpSession session, Model model);
+    String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model);
 
-    AddToCartResponse addToCartAPI(AddToCartRequest request);
+    AddToWishlistResponse addToWishlistAPI(AddToWishlistRequest request);
 
     String viewFlowerList(HttpSession session, Model model);
 
@@ -30,9 +35,9 @@ public interface BuyerService {
 
     ViewSlideBarResponse viewSlideBarAPI();
 
-    String deleteCartItem(DeleteCartItemRequest request, HttpSession session, Model model);
+    String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model);
 
-    DeleteCartItemResponse deleteCartItemAPI(DeleteCartItemRequest request);
+    DeleteWishlistItemResponse deleteWishlistItemAPI(DeleteWishlistItemRequest request);
 
     String viewOrderHistory(HttpSession session, Model model);
 

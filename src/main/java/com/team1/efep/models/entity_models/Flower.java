@@ -17,9 +17,7 @@ public class Flower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "`status_id`")
-    private FlowerStatus flowerStatus;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "`seller_id`")
@@ -54,7 +52,7 @@ public class Flower {
     @OneToMany(mappedBy = "flower")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<CartItem> cartItemList;
+    private List<WishlistItem> wishlistItemList;
 
     @OneToMany(mappedBy = "flower")
     @ToString.Exclude

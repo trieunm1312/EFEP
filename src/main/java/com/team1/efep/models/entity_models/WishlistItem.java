@@ -7,20 +7,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "`address`")
-public class Address {
+@Table(name = "`wishlist_item`")
+public class WishlistItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "`user_id`")
-    private User user;
+    @JoinColumn(name = "`wishlist_id`")
+    private Wishlist wishlist;
 
-    private String address;
+    @ManyToOne
+    @JoinColumn(name = "`flower_id`")
+    private Flower flower;
+
+    private int quantity;
 }

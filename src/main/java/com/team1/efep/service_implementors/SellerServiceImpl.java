@@ -2,6 +2,7 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
+import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
@@ -31,15 +32,11 @@ public class SellerServiceImpl implements SellerService {
 
     private final FlowerRepo flowerRepo;
 
-    private final FlowerStatusRepo flowerStatusRepo;
-
     private final FlowerImageRepo flowerImageRepo;
 
     private final AccountRepo accountRepo;
 
     private final OrderRepo orderRepo;
-
-    private final OrderStatusRepo orderStatusRepo;
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -121,7 +118,7 @@ public class SellerServiceImpl implements SellerService {
                 .flowerAmount(request.getFlowerAmount())
                 .quantity(request.getQuantity())
                 .soldQuantity(0)
-                .flowerStatus(flowerStatusRepo.findByStatus(Const.FLOWER_STATUS_AVAILABLE))
+                .status(Status.FLOWER_STATUS_AVAILABLE)
                 .build();
 
 
@@ -200,7 +197,7 @@ public class SellerServiceImpl implements SellerService {
                 .buyerName(order.getBuyerName())
                 .createDate(order.getCreatedDate())
                 .totalPrice(order.getTotalPrice())
-                .status(order.getOrderStatus().getStatus())
+                .status(order.getStatus())
                 .paymentType(order.getPaymentType().getType())
                 .paymentMethod(order.getPaymentMethod().getMethod())
                 .orderDetailList(viewOrderDetailList(order.getOrderDetailList()))
@@ -261,16 +258,14 @@ public class SellerServiceImpl implements SellerService {
         }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        OrderStatus orderStatus = orderStatusRepo.findByStatus(request.getStatus()).orElse(null);
-        assert orderStatus != null;
-        order.setOrderStatus(orderStatus);
+        order.setStatus(request.getStatus());
         orderRepo.save(order);
         return ChangeOrderStatusResponse.builder()
                 .status("200")
                 .message("Change order status successful")
                 .order(ChangeOrderStatusResponse.ChangedStatus.builder()
                         .id(order.getId())
-                        .status(order.getOrderStatus().getStatus())
+                        .status(order.getStatus())
                         .build())
                 .build();
     }

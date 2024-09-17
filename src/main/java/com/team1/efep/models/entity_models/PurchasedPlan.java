@@ -28,9 +28,7 @@ public class PurchasedPlan {
     @JoinColumn(name = "`payment_method_id`")
     private PaymentMethod paymentMethod;
 
-    @ManyToOne
-    @JoinColumn(name = "`status_id`")
-    private PurchasedPlanStatus purchasedPlanStatus;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "`selller_id`")
