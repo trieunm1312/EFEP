@@ -141,12 +141,72 @@
                                 </i>
                             </li>
                             <li class="header__item-icon">
-                                <i class="fa-solid fa-cart-shopping">
-                                    <div class="header__item-cart">
-                                        
+                                <!-- Cart layout -->
+                                <div class="header__cart">
+                                    <div class="header__cart-wrap">
+                                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                                        <span class="header__cart-notice"> 10 </span>
+
+                                        <!-- No cart: header__cart-list--no-cart -->
+                                        <div class="header__cart-list">
+                                            <span class="header__cart-list-no-cart-msg">
+                                                Your shopping cart is empty!
+                                            </span>
+
+                                            <!-- Cart item -->
+                                            <ul class="header__cart-list-item">
+                                                <li class="header__cart-item">
+                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                        alt="" class="header__cart-img">
+                                                    <div class="header__cart-item-info">
+                                                        <div class="header__cart-item-head">
+                                                            <h5 class="header__cart-item-name">Hiptage</h5>
+                                                            <i
+                                                                class="fa-solid fa-circle-xmark header__cart-item-remove"></i>
+                                                                <span class="header__cart-item-remove-msg">Remove</span>
+                                                        </div>
+                                                        <div class="header__cart-item-body">
+                                                            <span class="header__cart-item-qnt">1</span>
+                                                            <span class="header__cart-item-multiply">x</span>
+                                                            <span class="header__cart-item-price">120.000 VND</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="header__cart-item">
+                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                        alt="" class="header__cart-img">
+                                                    <div class="header__cart-item-info">
+                                                        <div class="header__cart-item-head">
+                                                            <h5 class="header__cart-item-name">Hiptage</h5>
+                                                            <i
+                                                                class="fa-solid fa-circle-xmark header__cart-item-remove"></i>
+                                                                <span class="header__cart-item-remove-msg">Remove</span>
+                                                        </div>
+                                                        <div class="header__cart-item-body">
+                                                            <span class="header__cart-item-qnt">1</span>
+                                                            <span class="header__cart-item-multiply">x</span>
+                                                            <span class="header__cart-item-price">120.000 VND</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <hr class="short-line">
+                                            <div class="header__cart-list-detail">
+                                                <span class="header__cart-list-detail-total">Total</span>
+                                                <span class="header__cart-list-detail-price">122.000 VND</span>
+                                            </div>
+                                            <div class="header__cart-list-btn">
+                                                <form th:action="@{/buyer/cart}" method="get">
+                                                        <input class="btn-view-cart" type="submit" value="View cart"
+                                                            name="Action">
+                                                      <!--  <input class="btn-view-cart" type="submit" value="Checkout"
+                                                            name="Action"> -->
+                                                </form>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                </i>
-                                <span class="header__item-cart-notice">3</span>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -400,8 +460,9 @@
 
                 </div>
             </div>
-         </footer>
+        </footer>
     </div>
+    <script src = "/js/index.js"></script>
 </body>
 
 </html>

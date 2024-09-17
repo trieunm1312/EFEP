@@ -51,8 +51,15 @@
     border-radius: 10px;
     font-weight: 400;
     padding: 10px 30px;
+    transition: background-color 0.3s ease;
 }
 
 .btn-cart-checkout {
     margin-left: auto;
+}
+
+.btn-cart-continue:hover,
+.btn-cart-checkout:hover {
+    background-color: rgba(0, 0, 0, 0.789);
+    cursor: pointer;
 }
