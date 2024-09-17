@@ -1,7 +1,9 @@
 package com.team1.efep.controllers;
 
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
+import com.team1.efep.models.response_models.ViewFlowerListForSellerResponse;
 import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
 import com.team1.efep.services.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +23,7 @@ public class SellerController {
 
     @PostMapping("/flower")
     @Operation(hidden = true)
-    public String createFlower(@RequestBody CreateFlowerRequest request, HttpSession session, Model model) {
+    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
         return sellerService.createFlower(request, session, model);
     }
 
@@ -38,6 +40,19 @@ public class SellerController {
 
     @GetMapping("/order/api/{id}")
     public ViewOrderHistoryResponse createFlower(@PathVariable int id) {
+
         return sellerService.viewOrderHistoryAPI(id);
     }
+
+    @PostMapping("/view/flower")
+    public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request,HttpSession session, Model model) {
+        return sellerService.viewFlowerListForSeller(request, session, model);
+    }
+
+    @PostMapping("/view/flower/api")
+    @Operation(hidden = true)
+    public ViewFlowerListForSellerResponse viewFlowerListForSeller(@RequestBody ViewFlowerListForSellerRequest request) {
+        return sellerService.viewFlowerListForSellerAPI(request);
+    }
+
 }

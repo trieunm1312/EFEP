@@ -4,13 +4,16 @@ import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
+import com.team1.efep.models.response_models.ViewFlowerListForSellerResponse;
 import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.CreateFlowerValidation;
+import com.team1.efep.validations.ViewFlowerListValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -170,6 +173,7 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
+
     private Object viewOrderHistoryLogic(int accountId) {
         Map<String, String> errors = new HashMap<>();
         List<Order> orderList = orderRepo.findAllByUser_Seller_Id(accountId);
@@ -212,5 +216,24 @@ public class SellerServiceImpl implements SellerService {
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
 
 
+
+
+
+    //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
+
+    @Override
+    public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
+        return null;
+    }
+
+    @Override
+    public ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(ViewFlowerListForSellerRequest request) {
+        return null;
+    }
+
+    public Object viewFlowerListForSellerLogic() {
+        Map<String, String> errors = ViewFlowerListValidation.validate();
+        return null;
+    }
 
 }

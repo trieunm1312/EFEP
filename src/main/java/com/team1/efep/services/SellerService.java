@@ -2,7 +2,9 @@ package com.team1.efep.services;
 
 import com.team1.efep.models.entity_models.Flower;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
+import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
+import com.team1.efep.models.response_models.ViewFlowerListForSellerResponse;
 import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
@@ -16,5 +18,9 @@ public interface SellerService {
     String viewOrderHistoiry(HttpSession session, Model model);
 
     ViewOrderHistoryResponse viewOrderHistoryAPI(int id);
+
+    String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model);
+
+    ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(ViewFlowerListForSellerRequest request);
 
 }

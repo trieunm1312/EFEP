@@ -20,7 +20,7 @@ public class BuyerController {
     private final BuyerService buyerService;
 
     @PostMapping("/pass/forgot")
-    public String forgot(@RequestBody ForgotRequest request, Model model) {
+    public String forgot(ForgotRequest request, Model model) {
         return buyerService.sendEmail(request, model);
     }
 
@@ -30,7 +30,7 @@ public class BuyerController {
     }
 
     @PostMapping("/pass/renew")
-    public String renewPass(@RequestBody RenewPasswordRequest request, Model model) {
+    public String renewPass(RenewPasswordRequest request, Model model) {
         return buyerService.renewPass(request, model);
     }
 
