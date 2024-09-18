@@ -10,6 +10,10 @@ import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
+import com.team1.efep.validations.AddToWishlistValidation;
+import com.team1.efep.validations.DeleteWishlistItemValidation;
+import com.team1.efep.validations.ViewFlowerDetailValidation;
+import com.team1.efep.validations.ViewOrderHistoryValidation;
 import com.team1.efep.validations.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -21,8 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.*;
-import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +33,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     private final JavaMailSenderImpl mailSender;
     private final AccountRepo accountRepo;
-    private final WishlistRepo wishlistRepo;
     private final FlowerRepo flowerRepo;
     private final WishlistItemRepo wishlistItemRepo;
     private final OrderRepo orderRepo;
@@ -251,32 +252,19 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------VIEW BUYER FLOWER LIST---------------------------------------//
     @Override
     public String viewFlowerList(HttpSession session, Model model) {
-        Object output = viewFlowerListLogic();
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerListResponse.class)) {
-            model.addAttribute("msg", (ViewFlowerListResponse) output);
-            return "home";
-        }
-        model.addAttribute("error", ConvertMapIntoStringUtil.convert((Map<String, String>) output));
+        ViewFlowerListResponse output = viewFlowerListLogic();
+        model.addAttribute("msg", output);
         return "home";
     }
 
     @Override
     public ViewFlowerListResponse viewFlowerListAPI() {
-        Object output = viewFlowerListLogic();
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerListResponse.class)) {
-            return (ViewFlowerListResponse) output;
-        }
-        return ViewFlowerListResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
+        ViewFlowerListResponse output = viewFlowerListLogic();
+        return output;
     }
 
-
-    private Object viewFlowerListLogic() {
-        Map<String, String> errors = ViewFlowerListValidation.validate();
+    private ViewFlowerListResponse viewFlowerListLogic() {
         List<Flower> flowers = flowerRepo.findAll();
-
         // if find -> print size of flower
         return ViewFlowerListResponse.builder()
                 .status("200")
@@ -541,6 +529,140 @@ public class BuyerServiceImpl implements BuyerService {
                         .price(detail.getPrice())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    //--------------------------------------VIEW FLOWER TOP LIST------------------------------------------//
+
+    @Override
+    public void viewFlowerTopList(ViewFlowerTopListRequest request, Model model) {
+        model.addAttribute("msg", viewFlowerTopListLogic(request));
+    }
+
+    @Override
+    public ViewFlowerTopListResponse viewFlowerTopListAPI(ViewFlowerTopListRequest request) {
+        return viewFlowerTopListLogic(request);
+    }
+
+
+    public ViewFlowerTopListResponse viewFlowerTopListLogic(ViewFlowerTopListRequest request) {
+
+        return ViewFlowerTopListResponse.builder()
+                .status("200")
+                .message("")
+                .flowerList(
+                        flowerRepo.findAll()
+                                .stream()
+                                .limit(request.getTop())
+                                .map(
+                                        flower -> ViewFlowerTopListResponse.Flower.builder()
+                                                .id(flower.getId())
+                                                .name(flower.getName())
+                                                .price(flower.getPrice())
+                                                .images(
+                                                        flower.getFlowerImageList().stream()
+                                                                .map(img -> ViewFlowerTopListResponse.Image.builder()
+                                                                        .link(img.getLink())
+                                                                        .build())
+                                                                .toList()
+                                                )
+                                                .build()
+                                )
+                                .toList()
+                )
+                .build();
+    }
+
+    //--------------------------------------SEARCH FLOWER------------------------------------------//
+
+    @Override
+    public String searchFlower(SearchFlowerRequest request) {
+        return "search";
+    }
+
+    @Override
+    public SearchFlowerResponse searchFlowerAPI(SearchFlowerRequest request) {
+        return searchFlowerLogic(request);
+    }
+
+    public SearchFlowerResponse searchFlowerLogic(SearchFlowerRequest request) {
+        return SearchFlowerResponse.builder()
+                .status("200")
+                .message("")
+                .flowers(
+                        flowerRepo.findAll()
+                                .stream()
+                                .filter(flower -> flower.getName().contains(request.getName()))
+                                .map(
+                                        flower -> SearchFlowerResponse.Flower.builder()
+                                                .id(flower.getId())
+                                                .name(flower.getName())
+                                                .price(flower.getPrice())
+                                                .images(
+                                                        flower.getFlowerImageList().stream()
+                                                                .map(img -> SearchFlowerResponse.Image.builder()
+                                                                        .link(img.getLink())
+                                                                        .build())
+                                                                .toList()
+                                                )
+                                                .build()
+                                )
+                                .toList()
+                )
+                .build();
+    }
+
+ //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
+
+    @Override
+    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
+        Object output = viewFlowerDetailLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class))  {
+            model.addAttribute("msg", (ViewFlowerDetailResponse)output);
+            return "viewFlowerDetail";
+        }
+        model.addAttribute("error", (Map<String, String>)output);
+        return "home";
+    }
+
+    @Override
+    public ViewFlowerDetailResponse viewFlowerDetailAPI(ViewFlowerDetailRequest request) {
+        Object output = viewFlowerDetailLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class))  {
+            return (ViewFlowerDetailResponse) output;
+        }
+        return ViewFlowerDetailResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    public Object viewFlowerDetailLogic(ViewFlowerDetailRequest request) {
+        Map<String, String> errors = ViewFlowerDetailValidation.validate();
+        if (errors.isEmpty()) {
+            Flower flower = flowerRepo.findById(request.getId()).orElse(null);
+            assert flower != null;
+            return ViewFlowerDetailResponse.builder()
+                    .status("200")
+                    .message("")
+                    .id(flower.getId())
+                    .name(flower.getName())
+                    .price(flower.getPrice())
+                    .flowerAmount(flower.getFlowerAmount())
+                    .quantity(flower.getQuantity())
+                    .soldQuantity(flower.getSoldQuantity())
+                    .imageList(
+                            flower.getFlowerImageList().stream()
+                                    .map(
+                                            img -> ViewFlowerDetailResponse.Image.builder()
+                                                    .link(img.getLink())
+                                                    .build()
+                                    )
+                                    .toList()
+                    )
+                    .build();
+        }
+        ;
+        return errors;
     }
 }
 
