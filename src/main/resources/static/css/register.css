@@ -10,7 +10,7 @@
 }
 
 .breadbrum{
-    width: 120%;
+    width: 115%;
     height: 283px;
     padding: 100px 0;
     margin-top: 32px;
@@ -46,7 +46,7 @@
 /* Register + Login Form */
 .auth-form{
     margin: 52px auto;
-    margin-right: 260px;
+    margin-right: 270px;
     width: 600px;
     border-radius: 5px;
     overflow: hidden;

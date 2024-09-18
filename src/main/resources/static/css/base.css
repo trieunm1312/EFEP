@@ -315,7 +315,18 @@ html {
     border-color: #ff568d transparent transparent transparent;
 }
 
-.header__item-megamenu-item__category:hover .category__block{
+.header__item-megamenu-item__category::before {
+    content: "";
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    height: 48px; 
+    background: transparent; 
+}
+
+.header__item-megamenu-item__category:hover .category__block,
+.category__block:hover {
     display: block;
 }
 
@@ -371,7 +382,18 @@ html {
     margin-top: 20px;
 }
 
-.header__item-megamenu-item__product:hover .product__block{
+.header__item-megamenu-item__product::before {
+    content: "";
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    height: 48px; 
+    background: transparent; 
+}
+
+.header__item-megamenu-item__product:hover .product__block,
+.product__block:hover {
     display: block;
 }
 
