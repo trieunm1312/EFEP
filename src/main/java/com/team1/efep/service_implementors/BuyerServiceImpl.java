@@ -2,10 +2,7 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.*;
-import com.team1.efep.models.request_models.AddToWishlistRequest;
-import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
-import com.team1.efep.models.request_models.ForgotRequest;
-import com.team1.efep.models.request_models.RenewPasswordRequest;
+import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.BuyerService;
@@ -13,10 +10,7 @@ import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
-import com.team1.efep.validations.AddToWishlistValidation;
-import com.team1.efep.validations.DeleteWishlistItemValidation;
-import com.team1.efep.validations.ViewFlowerListValidation;
-import com.team1.efep.validations.ViewOrderHistoryValidation;
+import com.team1.efep.validations.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
@@ -56,7 +50,7 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-        model.addAttribute("msg", viewWishlistItemList(account.getId()));
+        model.addAttribute("response", viewWishlistItemList(account.getId()));
         return "viewWishlist";
     }
 
@@ -102,7 +96,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = addToCartLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
-            model.addAttribute("msg", (AddToWishlistResponse) output);
+            model.addAttribute("response", (AddToWishlistResponse) output);
             return "base";
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -440,6 +434,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+
     private Object viewOrderHistoryLogic(int accountId) {
         List<Order> orderList = orderRepo.findAllByUser_Id(accountId);
         Map<String, String> errors = ViewOrderHistoryValidation.orderHistoryValidation();
@@ -456,7 +451,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .orderList(orders)
                     .build();
         }
-        return null;
+        return errors;
     }
 
     private ViewOrderHistoryResponse.Order viewOrderList(Order order) {
@@ -470,6 +465,76 @@ public class BuyerServiceImpl implements BuyerService {
     private List<ViewOrderHistoryResponse.Detail> viewOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderHistoryResponse.Detail.builder()
+                        .sellerName(detail.getFlower().getSeller().getUser().getName())
+                        .flowerName(detail.getFlowerName())
+                        .quantity(detail.getQuantity())
+                        .price(detail.getPrice())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    //-------------------------------VIEW ORDER DETAIL--------------------------------------//
+
+    @Override
+    public String ViewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ViewOrderHistoryResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = viewOrderDetailLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
+            model.addAttribute("response", (ViewOrderDetailResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
+    }
+
+    @Override
+    public ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            return ViewOrderDetailResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build();
+        }
+        Object output = viewOrderDetailLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
+            return (ViewOrderDetailResponse) output;
+        }
+        return ViewOrderDetailResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
+        Map<String, String> errors = ViewOrderDetailValidation.validate(request);
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
+        List<ViewOrderDetailResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
+
+        return ViewOrderDetailResponse.builder()
+                .status("200")
+                .message("Order details retrieved successfully")
+                .orderId(order.getId())
+                .totalPrice(order.getTotalPrice())
+                .orderStatus(order.getStatus())
+                .detailList(detailList)
+                .build();
+    }
+
+    private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
+        return orderDetails.stream()
+                .map(detail -> ViewOrderDetailResponse.Detail.builder()
                         .sellerName(detail.getFlower().getSeller().getUser().getName())
                         .flowerName(detail.getFlowerName())
                         .quantity(detail.getQuantity())

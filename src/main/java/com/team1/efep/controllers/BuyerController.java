@@ -83,7 +83,7 @@ public class BuyerController {
     }
 
     @DeleteMapping("/wishlist-item/api")
-    public DeleteWishlistItemResponse deleteWishlistItem(DeleteWishlistItemRequest request){
+    public DeleteWishlistItemResponse deleteWishlistItem(@RequestBody DeleteWishlistItemRequest request){
         return buyerService.deleteWishlistItemAPI(request);
     }
 
