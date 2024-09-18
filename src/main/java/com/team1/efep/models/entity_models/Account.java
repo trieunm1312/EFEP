@@ -15,9 +15,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "`status_id`")
-    private AccountStatus accountStatus;
+    private String status;
 
     private String email;
 

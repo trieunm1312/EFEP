@@ -1,6 +1,5 @@
 package com.team1.efep.models.response_models;
 
-import com.team1.efep.models.entity_models.CartItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,31 +11,31 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewCartResponse {
-
+public class ViewFlowerListForSellerResponse {
     private String status;
-
     private String message;
-
-    private int id;
-
-    private int userId;
-
-    private String userName;
-
-    private List<CartItems> cartItemList;
-
-    private float totalPrice;
+    private List<Flower> flowerList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class CartItems {
+    public static class Flower{
         private int id;
         private String name;
-        private int quantity;
         private float price;
+        private int flower_amount;
+        private int quantity;
+        private int sold_quantity;
+        private List<Image> imageList;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Image{
+        private String link;
     }
 
 }

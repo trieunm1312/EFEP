@@ -2,19 +2,21 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
+import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
-import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
-import com.team1.efep.models.response_models.CreateFlowerResponse;
-import com.team1.efep.models.response_models.ViewOrderListResponse;
+import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.ChangeOrderStatusValidation;
 import com.team1.efep.validations.CreateFlowerValidation;
+import com.team1.efep.validations.ViewFlowerListValidation;
 import com.team1.efep.validations.ViewOrderListValidation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,15 +32,11 @@ public class SellerServiceImpl implements SellerService {
 
     private final FlowerRepo flowerRepo;
 
-    private final FlowerStatusRepo flowerStatusRepo;
-
     private final FlowerImageRepo flowerImageRepo;
 
     private final AccountRepo accountRepo;
 
     private final OrderRepo orderRepo;
-
-    private final OrderStatusRepo orderStatusRepo;
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -109,15 +107,18 @@ public class SellerServiceImpl implements SellerService {
 
 
     private Flower createNewFlower(CreateFlowerRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        assert account != null;
         Flower flower = Flower.builder()
                 .name(request.getName())
                 .price(request.getPrice())
                 .rating(0)
+                .seller(account.getUser().getSeller())
                 .description(request.getDescription())
                 .flowerAmount(request.getFlowerAmount())
                 .quantity(request.getQuantity())
                 .soldQuantity(0)
-                .flowerStatus(flowerStatusRepo.findByStatus(Const.FLOWER_STATUS_AVAILABLE))
+                .status(Status.FLOWER_STATUS_AVAILABLE)
                 .build();
 
 
@@ -196,7 +197,7 @@ public class SellerServiceImpl implements SellerService {
                 .buyerName(order.getBuyerName())
                 .createDate(order.getCreatedDate())
                 .totalPrice(order.getTotalPrice())
-                .status(order.getOrderStatus().getStatus())
+                .status(order.getStatus())
                 .paymentType(order.getPaymentType().getType())
                 .paymentMethod(order.getPaymentMethod().getMethod())
                 .orderDetailList(viewOrderDetailList(order.getOrderDetailList()))
@@ -257,18 +258,64 @@ public class SellerServiceImpl implements SellerService {
         }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        OrderStatus orderStatus = orderStatusRepo.findByStatus(request.getStatus()).orElse(null);
-        assert orderStatus != null;
-        order.setOrderStatus(orderStatus);
+        order.setStatus(request.getStatus());
         orderRepo.save(order);
         return ChangeOrderStatusResponse.builder()
                 .status("200")
                 .message("Change order status successful")
                 .order(ChangeOrderStatusResponse.ChangedStatus.builder()
                         .id(order.getId())
-                        .status(order.getOrderStatus().getStatus())
+                        .status(order.getStatus())
                         .build())
                 .build();
+    }
+
+
+
+    //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
+
+    @Override
+    public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
+        model.addAttribute("msg", viewFlowerListForSellerLogic(request));
+        return "home";
+    }
+
+    @Override
+    public ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(@RequestBody ViewFlowerListForSellerRequest request) {
+        return viewFlowerListForSellerLogic(request);
+    }
+
+    public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(ViewFlowerListForSellerRequest request) {
+        List<Flower> flowers = flowerRepo.findBySeller_Id(request.getSellerId());
+        return ViewFlowerListForSellerResponse.builder()
+                .status("200")
+                .message("Number of flower" + flowers.size())
+                .flowerList(viewFlowerList(flowers))
+                .build();
+        // if find -> print size of flower
+
+    }
+
+    private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
+        return flowers.stream()
+                .map(item -> ViewFlowerListForSellerResponse.Flower.builder()
+                        .id(item.getId())
+                        .name(item.getName())
+                        .price(item.getPrice())
+                        .imageList(viewImageList(item.getFlowerImageList()))
+                        .flower_amount(item.getFlowerAmount())
+                        .quantity(item.getQuantity())
+                        .sold_quantity(item.getSoldQuantity())
+                        .build())
+                .toList();
+    }
+
+    private List<ViewFlowerListForSellerResponse.Image> viewImageList(List<FlowerImage> imageList) {
+        return imageList.stream()
+                .map(img -> ViewFlowerListForSellerResponse.Image.builder()
+                        .link(img.getLink())
+                        .build())
+                .toList();
     }
 
 }

@@ -1,12 +1,14 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.models.request_models.AddToCartRequest;
-import com.team1.efep.models.request_models.DeleteCartItemRequest;
+import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.request_models.AddToWishlistRequest;
+import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.BuyerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 // @RestController
 @RequiredArgsConstructor
 @RequestMapping("/buyer")
+@Tag(name = "Buyer")
 public class BuyerController {
 
     private final BuyerService buyerService;
@@ -43,26 +46,26 @@ public class BuyerController {
         return buyerService.renewPassAPI(request);
     }
 
-    @GetMapping("/cart")
+    @GetMapping("/wishlist")
     @Operation(hidden = true)
-    public String viewCart(HttpSession session, Model model) {
-        return buyerService.viewCart(session, model);
+    public String viewWishlist(HttpSession session, Model model) {
+        return buyerService.viewWishlist(session, model);
     }
 
-    @GetMapping("/cart/api/{id}")
-    public ViewCartResponse viewCart(@PathVariable int id) {
-        return buyerService.viewCartAPI(id);
+    @GetMapping("/wishlist/api/{id}")
+    public ViewWishlistResponse viewWishlist(@PathVariable int id) {
+        return buyerService.viewWishlistAPI(id);
     }
 
-    @PostMapping("/cart")
+    @PostMapping("/wishlist")
     @Operation(hidden = true)
-    public String addToCart(AddToCartRequest request, HttpSession session, Model model) {
-        return buyerService.addToCart(request, session, model);
+    public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
+        return buyerService.addToWishlist(request, session, model);
     }
 
-    @PostMapping("/cart/api")
-    public AddToCartResponse addToCart(@RequestBody AddToCartRequest request) {
-        return buyerService.addToCartAPI(request);
+    @PostMapping("/wishlist/api")
+    public AddToWishlistResponse addToWishlist(@RequestBody AddToWishlistRequest request) {
+        return buyerService.addToWishlistAPI(request);
     }
 
     @GetMapping("/flower")
@@ -76,15 +79,15 @@ public class BuyerController {
         return buyerService.viewFlowerListAPI();
     }
 
-    @DeleteMapping("/cart-item")
+    @DeleteMapping("/wishlist-item")
     @Operation(hidden = true)
-    public String deleteCartItem(DeleteCartItemRequest request, HttpSession session, Model model){
-        return buyerService.deleteCartItem(request, session, model);
+    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model){
+        return buyerService.deleteWishlistItem(request, session, model);
     }
 
-    @DeleteMapping("/cart-item/ap")
-    public DeleteCartItemResponse deleteCartItem(DeleteCartItemRequest request){
-        return buyerService.deleteCartItemAPI(request);
+    @DeleteMapping("/wishlist-item/api")
+    public DeleteWishlistItemResponse deleteWishlistItem(DeleteWishlistItemRequest request){
+        return buyerService.deleteWishlistItemAPI(request);
     }
 
     @GetMapping("/order-history")
@@ -96,6 +99,32 @@ public class BuyerController {
     @GetMapping("/order-history/api/{accountId}")
     public ViewOrderHistoryResponse viewOrderHistory(@PathVariable int accountId) {
         return buyerService.viewOrderHistoryAPI(accountId);
+    }
+
+    //mac dinh chay song song vs home page ==> ko can controller cho Thymeleaf
+    @PostMapping("/flower/top/list/api")
+    public ViewFlowerTopListResponse viewFlowerTopList(@RequestBody ViewFlowerTopListRequest request) {
+        return buyerService.viewFlowerTopListAPI(request);
+    }
+
+    @PostMapping("/flower/search")
+    public String searchFlower(SearchFlowerRequest request, Model model){
+        return buyerService.searchFlower(request);
+    }
+
+    @PostMapping("/flower/search/api")
+    public SearchFlowerResponse searchFlower(@RequestBody SearchFlowerRequest request){
+        return buyerService.searchFlowerAPI(request);
+    }
+
+    @PostMapping("/flower/detail")
+    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model){
+        return buyerService.viewFlowerDetail(request, model);
+    }
+
+    @PostMapping("/flower/detail/api")
+    public ViewFlowerDetailResponse searchFlower(@RequestBody ViewFlowerDetailRequest request){
+        return buyerService.viewFlowerDetailAPI(request);
     }
 
 }

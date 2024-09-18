@@ -27,9 +27,7 @@ public class Order {
     @JoinColumn(name = "`payment_method_id`")
     private PaymentMethod paymentMethod;
 
-    @ManyToOne
-    @JoinColumn(name = "`status_id`")
-    private OrderStatus orderStatus;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "`buyer_id`")

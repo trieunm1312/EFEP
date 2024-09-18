@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewCartRequest {
-    private int accountId;
+public class AddToWishlistRequest {
+
+    private Integer accountId;
+
+    private Integer flowerId;
+
+    private int quantity;
 }
