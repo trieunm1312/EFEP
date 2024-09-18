@@ -3,6 +3,7 @@ package com.team1.efep.services;
 import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
+import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 
 import com.team1.efep.models.request_models.AddToWishlistRequest;
@@ -41,4 +42,16 @@ public interface BuyerService {
     String viewOrderHistory(HttpSession session, Model model);
 
     ViewOrderHistoryResponse viewOrderHistoryAPI(int accountId);
+
+    void viewFlowerTopList(ViewFlowerTopListRequest request, Model model);
+
+    ViewFlowerTopListResponse viewFlowerTopListAPI(ViewFlowerTopListRequest request);
+
+    String searchFlower(SearchFlowerRequest request);
+
+    SearchFlowerResponse searchFlowerAPI(SearchFlowerRequest request);
+
+    String viewFlowerDetail(ViewFlowerDetailRequest request, Model model);
+
+    ViewFlowerDetailResponse viewFlowerDetailAPI(ViewFlowerDetailRequest request);
 }

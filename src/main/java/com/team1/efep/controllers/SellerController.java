@@ -3,10 +3,14 @@ package com.team1.efep.controllers;
 import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
 import com.team1.efep.models.request_models.CreateFlowerRequest;
 import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
+import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
 import com.team1.efep.models.response_models.CreateFlowerResponse;
 import com.team1.efep.models.response_models.ViewOrderListResponse;
+import com.team1.efep.models.response_models.ViewFlowerListForSellerResponse;
+import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
 import com.team1.efep.services.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/seller")
+@Tag(name = "Seller")
 public class SellerController {
 
     private final SellerService sellerService;
@@ -53,4 +58,15 @@ public class SellerController {
     public ViewOrderListResponse createFlower(@PathVariable int id) {
         return sellerService.viewOrderListAPI(id);
     }
+
+    @PostMapping("/view/flower")
+    public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request,HttpSession session, Model model) {
+        return sellerService.viewFlowerListForSeller(request, session, model);
+    }
+
+    @PostMapping("/view/flower/api")
+    public ViewFlowerListForSellerResponse viewFlowerListForSeller(@RequestBody ViewFlowerListForSellerRequest request) {
+        return sellerService.viewFlowerListForSellerAPI(request);
+    }
+
 }
