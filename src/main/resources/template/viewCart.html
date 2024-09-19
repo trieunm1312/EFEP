@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventFlowerExchange</title>
+
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewCart.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <!-- Nav Bar -->
+        <nav class="navbar" th:fragment="navbar">
+            <div class="grid">
+                <div class="navbar__wrap">
+                    <!-- Phone contact -->
+                    <div class="navbar__item">
+                        <a href="" class="navbar__item-contact-info">
+                            <i class="navbar__item-icon fa-solid fa-phone"></i>
+                            <span class="navbar__item-phone">+1 (123) 8425733</span>
+                        </a>
+                    </div>
+
+                    <!-- Currency -->
+                    <div class="navbar__item">
+                        <div class="navbar__item-select" tabindex="0">
+                            <span class="navbar__item-select-label">Currency: US Dollar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <header class="header" th:fragment="header">
+            <div class="grid">
+                <div class="header__wrap">
+                    <!-- Logo -->
+                    <div class="header__item">
+                        <div class="header__item-logo">
+                            <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
+                                class="header__item-logo-img">
+                        </div>
+                    </div>
+
+                    <!-- Mega menu -->
+                    <div class="header__item">
+                        <ul class="header__item-megamenu">
+                            <li class="header__item-megamenu-item">
+                                <span class="header__item-megamenu-item-title">Home</span>
+                            </li>
+
+                            <li class="header__item-megamenu-item">
+                                <span
+                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
+                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                                <span class="header__item-megamenu-item-label-offer">Offer</span>
+                                <span class="header__item-megamenu-item-label-arrow-offer"></span>
+                            </li>
+
+                            <li class="header__item-megamenu-item">
+                                <span
+                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
+                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                                <span class="header__item-megamenu-item-label-hot">Hot</span>
+                                <span class="header__item-megamenu-item-label-arrow-hot"></span>
+                            </li>
+
+                            <a class="header__item-megamenu-item">
+                                <span class="header__item-megamenu-item-title">About Us</span>
+
+                            </a>
+
+                        </ul>
+                    </div>
+
+                    <!-- Icons -->
+                    <div class="header__item">
+                        <ul class="header__item-list-icon">
+                            <li class="header__item-icon header__item-icon-search" tabindex="0">
+                                <i class="header__item-icon-search fa-solid fa-magnifying-glass">
+                                    <form class="header__item-search-box" method="GET">
+                                        <input type="text" class="header__item-search-input" name="SearchValue"
+                                            placeholder="Search...">
+                                        <button class="header__item-search-icon">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </button>
+                                    </form>
+                                </i>
+                            </li>
+                            <li class="header__item-icon header__item-icon-user" tabindex="0">
+                                <i class="header__item-icon-user fa-solid fa-user">
+
+                                    <!-- Have not Login -->
+                                    <!-- <div class="header__item-account">
+                                        <a href="" class="header__item-account-item">Register</a>
+                                        <a href="" class="header__item-account-item">Login</a>
+                                    </div> -->
+
+                                    <!-- Login successfully -->
+                                    <div class="header__item-account">
+                                        <a href="" class="header__item-account-item">Update profile</a>
+                                        <a href="" class="header__item-account-item">Logout</a>
+                                    </div>
+                                </i>
+                            </li>
+                            <li class="header__item-icon">
+                                <!-- Cart layout -->
+                                <div class="header__cart">
+                                    <div class="header__cart-wrap">
+                                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                                        <span class="header__cart-notice"> 10 </span>
+
+                                        <!-- No cart: header__cart-list--no-cart -->
+                                        <div class="header__cart-list">
+                                            <span class="header__cart-list-no-cart-msg">
+                                                Your shopping cart is empty!
+                                            </span>
+
+                                            <!-- Cart item -->
+                                            <ul class="header__cart-list-item">
+                                                <li class="header__cart-item">
+                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                        alt="" class="header__cart-img">
+                                                    <div class="header__cart-item-info">
+                                                        <div class="header__cart-item-head">
+                                                            <h5 class="header__cart-item-name">Hiptage</h5>
+                                                            <form th:action="" method="get">
+                                                                <button class="header__cart-item-remove">
+                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span class="header__cart-item-remove-msg">Remove</span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="header__cart-item-body">
+                                                            <span class="header__cart-item-qnt">1</span>
+                                                            <span class="header__cart-item-multiply">x</span>
+                                                            <span class="header__cart-item-price">120.000 VND</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="header__cart-item">
+                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                        alt="" class="header__cart-img">
+                                                    <div class="header__cart-item-info">
+                                                        <div class="header__cart-item-head">
+                                                            <h5 class="header__cart-item-name">Hiptage</h5>
+                                                            <form th:action="" method="get">
+                                                                <button class="header__cart-item-remove">
+                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span class="header__cart-item-remove-msg">Remove</span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="header__cart-item-body">
+                                                            <span class="header__cart-item-qnt">1</span>
+                                                            <span class="header__cart-item-multiply">x</span>
+                                                            <span class="header__cart-item-price">120.000 VND</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <hr class="short-line">
+                                            <div class="header__cart-list-detail">
+                                                <span class="header__cart-list-detail-total">Total</span>
+                                                <span class="header__cart-list-detail-price">122.000 VND</span>
+                                            </div>
+                                            <div class="header__cart-list-btn">
+                                                <form th:action="@{/buyer/cart}" method="get">
+                                                        <input class="btn-view-cart" type="submit" value="View Wish list"
+                                                            name="Action">
+                                                      <!--  <input class="btn-view-cart" type="submit" value="Checkout"
+                                                            name="Action"> -->
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="table-item-cart">
+                <table border="1" cellpadding="5" cellspacing="0" width="100%">
+                    <!-- <caption>Tiêu đề Bảng</caption> -->
+                    <thead>
+                        <tr>
+                            <th class="table-item-header">Image</th>
+                            <th class="table-item-header">Name</th>
+                            <th class="table-item-header">Event</th>
+                            <th class="table-item-header">Quantity</th>
+                            <th class="table-item-header">Unit Price</th>
+                            <th class="table-item-header">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-item-detail">
+                                <div class="table-item-img">
+                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                        alt="">
+                                </div>
+                            </td>
+                            <td class="table-item-detail">
+                                <span class="table-item-name">Hiptage</span>
+                            </td>
+                            <td class="table-item-detail">
+                                <span class="table-item-id">Wedding</span>
+                            </td>
+                            <td class="table-item-detail">
+                                    <div>
+                                        <form class = "table-item-quantity" th:action="" method="get">
+                                            <label class = "input-quantity" for=""><input type="number" min="1"></label>
+                                            <button class = "table-item-btn"  value="" name="action">
+                                                <i class="fa-solid fa-arrows-rotate"></i>
+                                            </button>
+                                            <button class = "table-item-removed">
+                                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
+                                                <span class="table-item-remove-msg">Remove</span>
+                                            </button>
+                                        </form>
+                                    </div>                             
+                            </td>
+                            <td class="table-item-detail">
+                                <span class="table-item-price">$122.00</span>
+                            </td>
+                            <td class="table-item-detail">
+                                <span class="table-item-total">$122.00</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="table-item-footer">Total</td>
+                            <td colspan="1" class="table-item-footer-price">$120.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div >
+                <form class="btn-cart" th:action ="" method = "get">
+                    <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                    <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer" th:fragment="footer">
+            <div class="grid">
+                <div class="footer__wrap">
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Contact</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <span href="" class="footer__item-contact-list-item-link">
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
+                                        <span>National park,d1 588436,United States</span>
+                                    </span>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <span href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
+                                        <span>+91 123 456 789</span>
+                                    </span>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <span href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
+                                        <span>0123-456-789</span>
+                                    </span>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <span href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
+                                        <span>demo@Yourstore.com</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Information</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Terms & Conditions</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Delivery Information</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>About Us</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Privacy Policy</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Contact Us</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">My Account</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>My Account</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Order History</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Wish List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Find Us On</h2>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Payment</h2>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-visa"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-brands fa-cc-mastercard"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-paypal"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i
+                                            class="footer__item-contact-list-item-link-icon fa-brands fa-cc-discover"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src = "/js/index.js"></script>
+</body>
+
+</html>
