@@ -143,6 +143,11 @@ html {
     color: var(--white-color);
 }
 
+.navbar__item-contact-info:hover{
+    text-decoration: none;
+    color: var(--white-color);
+}
+
 .navbar__item-icon {
     font-size: 2.2rem;
 }

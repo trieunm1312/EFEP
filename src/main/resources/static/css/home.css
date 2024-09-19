@@ -115,6 +115,11 @@
     color: var(--white-color);
 }
 
+.control-carousel:focus{
+    color: var(--white-color);
+
+}
+
 .left{
     left: 10px;
 }
