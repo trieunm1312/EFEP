@@ -258,8 +258,7 @@ public class SellerServiceImpl implements SellerService {
         }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        order.setStatus(request.getStatus());
-        orderRepo.save(order);
+        Status.changeOrderStatus(order, request.getStatus(), orderRepo);
         return ChangeOrderStatusResponse.builder()
                 .status("200")
                 .message("Change order status successful")

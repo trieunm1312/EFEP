@@ -55,7 +55,19 @@ public interface BuyerService {
 
     ViewFlowerDetailResponse viewFlowerDetailAPI(ViewFlowerDetailRequest request);
 
-    String ViewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
+    String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
 
     ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request);
+
+    String viewOrderStatus(HttpSession session, Model model);
+
+    ViewOrderStatusResponse viewOrderStatusAPI(ViewOrderStatusRequest request);
+
+    String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model);
+
+    UpdateWishlistResponse updateWishlistAPI(UpdateWishlistRequest request);
+
+    String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model);
+
+    DeleteWishlistResponse deleteWishlistAPI(DeleteWishlistRequest request);
 }

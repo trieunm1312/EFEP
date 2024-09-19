@@ -36,6 +36,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final FlowerRepo flowerRepo;
     private final WishlistItemRepo wishlistItemRepo;
     private final OrderRepo orderRepo;
+    private final WishlistRepo wishlistRepo;
 
     @Override
     public String sendEmail(ForgotRequest request, Model model) {
@@ -450,6 +451,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .detailList(viewOrderDetailList(order.getOrderDetailList()))
                 .build();
     }
+
     private List<ViewOrderHistoryResponse.Detail> viewOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderHistoryResponse.Detail.builder()
@@ -464,7 +466,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------VIEW ORDER DETAIL--------------------------------------//
 
     @Override
-    public String ViewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             model.addAttribute("error", ViewOrderHistoryResponse.builder()
@@ -499,6 +501,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
+
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
         Map<String, String> errors = ViewOrderDetailValidation.validate(request);
@@ -611,23 +614,23 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
- //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
+    //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
 
     @Override
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
         Object output = viewFlowerDetailLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class))  {
-            model.addAttribute("msg", (ViewFlowerDetailResponse)output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class)) {
+            model.addAttribute("msg", (ViewFlowerDetailResponse) output);
             return "viewFlowerDetail";
         }
-        model.addAttribute("error", (Map<String, String>)output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "home";
     }
 
     @Override
     public ViewFlowerDetailResponse viewFlowerDetailAPI(ViewFlowerDetailRequest request) {
         Object output = viewFlowerDetailLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class))  {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class)) {
             return (ViewFlowerDetailResponse) output;
         }
         return ViewFlowerDetailResponse.builder()
@@ -664,5 +667,183 @@ public class BuyerServiceImpl implements BuyerService {
         ;
         return errors;
     }
+
+    //-----------------------------------VIEW ORDER STATUS-------------------------------------------//
+
+
+    @Override
+    public String viewOrderStatus(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You are not logged in");
+            return "redirect:/login";
+        }
+
+        int orderId = (int) session.getAttribute("orderId");
+        ViewOrderStatusResponse statusResponse = viewOrderStatusLogic(orderId);
+
+        if (statusResponse != null) {
+            model.addAttribute("orderStatus", statusResponse.getOrderStatus());
+            return "orderPage";
+        } else {
+            model.addAttribute("error", "Order not found");
+            return "errorPage";
+        }
+    }
+
+    @Override
+    public ViewOrderStatusResponse viewOrderStatusAPI(ViewOrderStatusRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            return ViewOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build();
+        }
+            return viewOrderStatusLogic(request.getOrderId());
+    }
+
+
+    private ViewOrderStatusResponse viewOrderStatusLogic(int orderId){
+        Order order = orderRepo.findById(orderId).orElse(null);
+        if (order != null) {
+            return ViewOrderStatusResponse.builder()
+                    .status("200")
+                    .message("View Order Status successful")
+                    .orderStatus(order.getStatus())
+                    .build();
+        }
+        return ViewOrderStatusResponse.builder()
+                .status("Order not found")
+                .build();
+    }
+
+    //------------------------------UPDATE WISHLIST--------------------------------------//
+
+    @Override
+    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You are not logged in");
+            return "redirect:/login";
+        }
+        Object output = updateWishlistLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
+            model.addAttribute("response", (UpdateWishlistResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "wishlist";
+    }
+
+    @Override
+    public UpdateWishlistResponse updateWishlistAPI(UpdateWishlistRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            return UpdateWishlistResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build();
+        }
+        Object output = updateWishlistLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
+            return (UpdateWishlistResponse) output;
+        }
+        return UpdateWishlistResponse.builder()
+                .status("400")
+                .message("Wishlist updated fail")
+                .build();
+    }
+
+
+    private Object updateWishlistLogic(UpdateWishlistRequest request) {
+        Map<String, String> errors = UpdateWishlistValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
+        Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
+        assert wishlist != null;
+
+        WishlistItem wishlistItem = wishlistItemRepo.findById(Integer.parseInt(request.getWishlistItemId())).orElse(null);
+        assert wishlistItem != null;
+
+        if ("plus".equals(request.getRequest())) {
+            wishlistItem.setQuantity(wishlistItem.getQuantity() + 1);
+        } else if ("minus".equals(request.getRequest())) {
+            if (wishlistItem.getQuantity() > 1) {
+                wishlistItem.setQuantity(wishlistItem.getQuantity() - 1);
+            } else {
+                wishlistItemRepo.delete(wishlistItem);
+            }
+        }
+
+        wishlistItemRepo.save(wishlistItem);
+        return UpdateWishlistResponse.builder()
+                .status("200")
+                .message("Wishlist updated successfully")
+                .build();
+    }
+
+    //--------------------------------DELETE WISHLIST-----------------------------------//
+
+
+    @Override
+    public String deleteWishlist(DeleteWishlistRequest request,HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You are not logged in");
+            return "redirect:/login";
+        }
+
+        Object output = deleteWishlistLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
+            model.addAttribute("response", (DeleteWishlistResponse) output);
+        }
+
+        model.addAttribute("response", (Map<String, String>) output);
+        return "wishlist";
+    }
+
+    @Override
+    public DeleteWishlistResponse deleteWishlistAPI(DeleteWishlistRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            return DeleteWishlistResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build();
+        }
+
+        Object output = deleteWishlistLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
+            return (DeleteWishlistResponse) output;
+        }
+
+        return DeleteWishlistResponse.builder()
+                .message("400")
+                .message("Wishlist deleted fail")
+                .build();
+    }
+
+    private Object deleteWishlistLogic(DeleteWishlistRequest request) {
+        Map<String, String> errors = DeleteWishlistValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
+        Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
+        assert wishlist != null;
+
+        wishlistItemRepo.deleteAll(wishlist.getWishlistItemList());
+
+        wishlist.getWishlistItemList().clear();
+        wishlistRepo.save(wishlist);
+
+        return DeleteWishlistResponse.builder()
+                .status("200")
+                .message("Wishlist deleted successfully")
+                .build();
+    }
+
 }
 
