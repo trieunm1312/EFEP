@@ -9,6 +9,7 @@
 
 .table-item-header {
     font-size: 1.5rem;
+    text-align: center;
 }
 
 .table-item-detail {
@@ -26,6 +27,85 @@
     height: auto;
 }
 
+.table-item-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-quantity {
+    margin-top: 5px;
+    
+}
+
+.input-quantity input {
+    height: 35px;
+    border: 1px solid #d9d8d8;
+    box-sizing: border-box;
+    font-size: 1.4rem;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    width: 16px;
+    height:32px;
+}
+
+
+.table-item-btn{
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    transition: background-color 0.5s ease;
+}
+
+.table-item-btn:hover {
+    background-color: var(--black-color);
+}
+
+.table-item-removed {
+    background-color: #d96f6b;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    position: relative;
+    border-radius: 0px 6px 6px 0px;
+    color: var(--white-color);
+    border: none;
+}
+
+.table-item-remove-msg {
+    position: absolute;
+    font-size: 1.2rem;
+    font-weight: 400;
+    width: 65px;
+    color: var(--white-color);
+    padding: 4px;
+    background-color: var(--black-color);
+    border-radius: 4px;
+    bottom: 44px;
+    left: -16px;
+    display: none;
+}
+
+.table-item-remove-msg::before {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    right: 27px;
+    border-width: 6px 5px 0px 5px;
+    border-style: solid;
+    border-color: var(--black-color) transparent transparent transparent;
+}
+
+.table-item-removed:hover .table-item-remove-msg{
+    display: block;
+}
+
 .table-item-footer {
     font-size: 1.5rem;
     font-weight: bold;
@@ -34,6 +114,7 @@
 .table-item-footer-price {
     font-size: 1.4rem;
     font-weight: bold;
+    text-align: center;
 }
 
 /* button table cart */
@@ -44,12 +125,12 @@
 
 .btn-cart-continue,
 .btn-cart-checkout {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     background-color: var(--primary-color);
     color: var(--white-color);
     border: none;
     border-radius: 10px;
-    font-weight: 400;
+    font-weight: 500;
     padding: 10px 30px;
     transition: background-color 0.3s ease;
 }
