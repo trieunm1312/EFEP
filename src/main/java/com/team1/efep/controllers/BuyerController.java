@@ -1,5 +1,6 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.request_models.AddToWishlistRequest;
 import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
@@ -7,6 +8,7 @@ import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.BuyerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 // @RestController
 @RequiredArgsConstructor
 @RequestMapping("/buyer")
+@Tag(name = "Buyer")
 public class BuyerController {
 
     private final BuyerService buyerService;
@@ -96,6 +99,32 @@ public class BuyerController {
     @GetMapping("/order-history/api/{accountId}")
     public ViewOrderHistoryResponse viewOrderHistory(@PathVariable int accountId) {
         return buyerService.viewOrderHistoryAPI(accountId);
+    }
+
+    //mac dinh chay song song vs home page ==> ko can controller cho Thymeleaf
+    @PostMapping("/flower/top/list/api")
+    public ViewFlowerTopListResponse viewFlowerTopList(@RequestBody ViewFlowerTopListRequest request) {
+        return buyerService.viewFlowerTopListAPI(request);
+    }
+
+    @PostMapping("/flower/search")
+    public String searchFlower(SearchFlowerRequest request, Model model){
+        return buyerService.searchFlower(request);
+    }
+
+    @PostMapping("/flower/search/api")
+    public SearchFlowerResponse searchFlower(@RequestBody SearchFlowerRequest request){
+        return buyerService.searchFlowerAPI(request);
+    }
+
+    @PostMapping("/flower/detail")
+    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model){
+        return buyerService.viewFlowerDetail(request, model);
+    }
+
+    @PostMapping("/flower/detail/api")
+    public ViewFlowerDetailResponse searchFlower(@RequestBody ViewFlowerDetailRequest request){
+        return buyerService.viewFlowerDetailAPI(request);
     }
 
 }

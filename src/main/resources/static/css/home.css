@@ -233,13 +233,13 @@
     position: absolute;
     font-size: 1rem;
     font-weight: 500;
-    width: 70px;
+    width: 80px;
     color: var(--white-color);
     padding: 4px;
     background-color: var(--black-color);
     border-radius: 4px;
     bottom: 44px;
-    left: -16px;
+    left: -22px;
     display: none;
 }
 

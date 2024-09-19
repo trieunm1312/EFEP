@@ -644,6 +644,13 @@ html {
     color: var(--primary-color);
 }
 
+.header__cart-item-remove {
+    border: none;
+    background-color: transparent;
+    width: 20px;
+    height: 25px;
+}
+
 .header__cart-item-icon-remove {
     margin-top: -8px;
     font-size: 1.4rem;
