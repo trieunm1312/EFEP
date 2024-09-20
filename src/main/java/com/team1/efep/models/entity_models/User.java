@@ -44,9 +44,5 @@ public class User {
     @EqualsAndHashCode.Exclude
     private Wishlist wishlist;
 
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private List<Feedback> feedbackList;
 
 }

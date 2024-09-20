@@ -155,7 +155,7 @@ public class BuyerController {
         return buyerService.updateWishlist(request, session, model);
     }
 
-    @PostMapping("/wishlist/api")
+    @PutMapping("/wishlist/api")
     public UpdateWishlistResponse updateWishlist(@RequestBody UpdateWishlistRequest request) {
         return buyerService.updateWishlistAPI(request);
     }
