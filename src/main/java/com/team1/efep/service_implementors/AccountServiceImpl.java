@@ -6,20 +6,27 @@ import com.team1.efep.models.entity_models.Wishlist;
 import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.request_models.LoginRequest;
 import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.models.request_models.ViewProfileRequest;
 import com.team1.efep.models.response_models.LoginGoogleResponse;
 import com.team1.efep.models.response_models.LoginResponse;
 import com.team1.efep.models.response_models.RegisterResponse;
+import com.team1.efep.models.response_models.ViewProfileResponse;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.services.AccountService;
+import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.GoogleLoginGeneratorUtil;
 import com.team1.efep.utils.GoogleLoginUtil;
+import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.RegisterValidation;
+import com.team1.efep.validations.ViewProfileValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -185,7 +192,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null);
     }
 
-    /////////////////////////////////////////////////////////////////////////////
+   //__________________________________________________________________________________//
 
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
@@ -203,5 +210,51 @@ public class AccountServiceImpl implements AccountService {
             );
         }
 
+    //-------------------------------VIEW PROFILE-------------------------------------//
 
-}
+    @Override
+    public String viewProfile(ViewProfileRequest request, Model model) {
+        Object output = viewProfileLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileRequest.class)) {
+            model.addAttribute("msg", (ViewProfileResponse) output);
+        return "home";
+    }
+        model.addAttribute("error", (Map<String, String>)output);
+        return "home";
+    }
+
+    @Override
+    public ViewProfileResponse viewProfileAPI(ViewProfileRequest request) {
+        Object output = viewProfileLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileRequest.class)) {
+            return (ViewProfileResponse) output;
+        }
+        return ViewProfileResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .build();
+    }
+
+    // việc trả về hồ sơ người dùng nên trả về ViewProfileResponse
+    // thay vì Object (nếu phải check kiểu dữ liệu của Object ở nhiều nơi khác nhau ==> lỗi runtime)
+    public Object viewProfileLogic(ViewProfileRequest request) {
+        Map<String, String> errors = ViewProfileValidation.validate();
+        if(!errors.isEmpty()) {
+            Account account = accountRepo.findById(request.getId()).orElse(null);
+            assert account != null;
+            return ViewProfileResponse.builder()
+                    .status("200")
+                    .message("View profile successfully")
+                    .email(account.getEmail())
+                    .role(account.getRole())
+                    .accountStatus(account.getStatus())
+                    .build();
+        }
+           return ViewProfileResponse.builder()
+                   .status("400")
+                   .message("Account not found")
+                   .build();
+        }
+    }
+
+
