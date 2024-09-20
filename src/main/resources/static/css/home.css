@@ -48,7 +48,7 @@
 .carousel-text-slide-1 {
     color: var(--text-color);
     text-align: left;
-    z-index: 2;
+    z-index: 1;
     max-width: 600px;
     margin-left: 170px;
 }
@@ -113,6 +113,11 @@
 .control-carousel:hover {
     background-color: var(--black-color);
     color: var(--white-color);
+}
+
+.control-carousel:focus{
+    color: var(--white-color);
+
 }
 
 .left{
@@ -195,7 +200,7 @@
 
 }
 
-.add-to-cart{
+.add-to-wishlist{
     position: absolute;
     bottom: 16px;
     left: 90px;
@@ -224,21 +229,21 @@
     animation: fadeInUp ease .3s;
 }
 
-.add-to-cart__msg{
+.add-to-wishlist__msg{
     position: absolute;
     font-size: 1rem;
     font-weight: 500;
-    width: 70px;
+    width: 80px;
     color: var(--white-color);
     padding: 4px;
     background-color: var(--black-color);
     border-radius: 4px;
     bottom: 44px;
-    left: -16px;
+    left: -22px;
     display: none;
 }
 
-.add-to-cart:hover .add-to-cart__msg{
+.add-to-wishlist:hover .add-to-wishlist__msg{
     display: block;
 }
 
