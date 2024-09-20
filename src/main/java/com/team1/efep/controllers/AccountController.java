@@ -2,11 +2,9 @@ package com.team1.efep.controllers;
 
 import com.team1.efep.models.request_models.LoginRequest;
 import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.models.request_models.UpdateProfileRequest;
 import com.team1.efep.models.request_models.ViewProfileRequest;
-import com.team1.efep.models.response_models.LoginGoogleResponse;
-import com.team1.efep.models.response_models.LoginResponse;
-import com.team1.efep.models.response_models.RegisterResponse;
-import com.team1.efep.models.response_models.ViewProfileResponse;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -66,5 +64,17 @@ public class AccountController {
     @GetMapping("/view/profile/api")
     public ViewProfileResponse viewProfile(@RequestBody ViewProfileRequest request) {
         return accountService.viewProfileAPI(request);
+    }
+
+    @PutMapping("/update/profile")
+    @Operation(hidden = true)
+    public String updateProfile(UpdateProfileRequest request, Model model) {
+        return accountService.updateProfile(request, model);
+    }
+
+    @PutMapping("/update/profile/api")
+    @Operation(hidden = true)
+    public UpdateProfileResponse updateProfile(@RequestBody UpdateProfileRequest request) {
+        return accountService.updateProfileAPI(request);
     }
 }

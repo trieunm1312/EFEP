@@ -6,11 +6,9 @@ import com.team1.efep.models.entity_models.Wishlist;
 import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.request_models.LoginRequest;
 import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.models.request_models.UpdateProfileRequest;
 import com.team1.efep.models.request_models.ViewProfileRequest;
-import com.team1.efep.models.response_models.LoginGoogleResponse;
-import com.team1.efep.models.response_models.LoginResponse;
-import com.team1.efep.models.response_models.RegisterResponse;
-import com.team1.efep.models.response_models.ViewProfileResponse;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.repositories.UserRepo;
@@ -255,6 +253,24 @@ public class AccountServiceImpl implements AccountService {
                    .message("Account not found")
                    .build();
         }
+
+//-------------------------------UPDATE PROFILE-------------------------------------//
+
+    @Override
+    public String updateProfile(UpdateProfileRequest request, Model model) {
+        return "";
     }
+
+    @Override
+    public UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request) {
+        return null;
+    }
+
+    public Object updateProfileLogic(UpdateProfileRequest request) {
+        return null;
+    }
+
+
+}
 
 
