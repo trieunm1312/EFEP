@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderList.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderHistory.css">
 </head>
 
 <body>
@@ -119,7 +119,7 @@
 
                                         <!-- No wishlist: header__cart-list--no-wishlist -->
                                         <div class="header__cart-list">
-                                            <span class="header__cart-list-no-cart-msg">
+                                            <span class="header__cart-list-no-wishlist-msg">
                                                 Your shopping wishlist is empty!
                                             </span>
 
@@ -133,8 +133,10 @@
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
                                                             <form th:action="" method="get">
                                                                 <button class="header__cart-item-remove">
-                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span class="header__cart-item-remove-msg">Remove</span>
+                                                                    <i
+                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span
+                                                                        class="header__cart-item-remove-msg">Remove</span>
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -153,8 +155,10 @@
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
                                                             <form th:action="" method="get">
                                                                 <button class="header__cart-item-remove">
-                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span class="header__cart-item-remove-msg">Remove</span>
+                                                                    <i
+                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span
+                                                                        class="header__cart-item-remove-msg">Remove</span>
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -173,13 +177,12 @@
                                             </div>
                                             <div class="header__cart-list-btn">
                                                 <form th:action="@{/buyer/wishlist}" method="get">
-                                                        <input class="btn-view-cart" type="submit" value="View wishlist"
-                                                            name="Action">
-                                                      <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
+                                                    <input class="btn-view-wishlist" type="submit" value="View wishlist"
+                                                        name="Action">
+                                                    <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
                                                             name="Action"> -->
                                                 </form>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -220,92 +223,79 @@
                     </ul>
                 </div>
 
-                <!-- Order list -->
-                <div class="order-list">
-                    <table border="1" cellpadding="20" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th class="table-order-header">Image</th>
-                                <th class="table-order-header">Name</th>
-                                <th class="table-order-header">Product code</th>
-                                <th class="table-order-header">Event</th>
-                                <th class="table-order-header">Quantity</th>
-                                <th class="table-order-header">Total</th>
-                                <th class="table-order-header">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <form th:action="" method="get">
-                                <tr>
-                                    <td class="table-order-detail">
-                                        <div class="table-order-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
-                                        </div>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-name">Hiptage</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-id">F123</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-event">Wedding</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-quantity">1</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-total">$122.00</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <select name="change-status" id="status">
-                                            <option value="processing" selected>processing</option>
-                                            <option value="packed">packed</option>
-                                            <option value="completed">completed</option>
-                                            <option value="cancelled">cancelled</option>
-                                        </select>
-                                        <button class="table-order-status-btn" value="Save" name="">Save</button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="table-order-detail">
-                                        <div class="table-order-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
-                                        </div>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-name">Hiptage</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-id">F123</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-event">Wedding</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-quantity">1</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-total">$122.00</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <select name="change-status" id="status">
-                                            <option value="processing" selected>processing</option>
-                                            <option value="packed">packed</option>
-                                            <option value="completed">completed</option>
-                                            <option value="cancelled">cancelled</option>
-                                        </select>
-                                        <button class="table-order-status-btn" value="Save" name="">Save</button>
-                                    </td>
-                                </tr>
-                            </form>
-                        </tbody>
-                    </table>
+                <!-- Order history -->
+            <div class="order__history">
+                <div class="order__history-item">
+                    <div class="order__history-item-description">
+                        <div class="order__history-item-img">
+                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                alt="">
+                        </div>
+                        <div class="order__history-item-info">
+                            <div class="order__history-item-header">
+                                <h4 class="order__history-item-header-name">Hiptage</h4>
+                                <p class="order__history-item-header-time">19/09/2024 24:00</p>
+                            </div>
+                            <p class="order__history-item-detail-event">Wedding</p>
+                            <p class="order__history-item-detail-status">completed</p>
+                            <div class="order__history-item-detail">
+                                <span class="order__history-item-detail-price">$120</span>
+                                <div class="order__history-item-detail-quantity-order">
+                                    <span class="order__history-item-detail-multiple">x</span>
+                                    <span class="order__history-item-detail-time">1</span>
+                                </div>
+                            </div>
+                            <hr class="line">
+                            <div class="order__history-item-detail-total-order">
+                                <span class="order__history-item-detail-total">$120</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order__history-item-btn">
+                        <form  th:action="" method="get">
+                            <button class="btn-cart-continue" value="view detail" name="Action">View detail</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="order__history-item">
+                    <div class="order__history-item-description">
+                        <div class="order__history-item-img">
+                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                alt="">
+                        </div>
+                        <div class="order__history-item-info">
+                            <div class="order__history-item-header">
+                                <h4 class="order__history-item-header-name">Hiptage</h4>
+                                <p class="order__history-item-header-time">19/09/2024 24:00</p>
+                            </div>
+                            
+                                <p class="order__history-item-detail-event">Wedding</p>
+                           
+                            
+                                <p class="order__history-item-detail-status">completed</p>
+                            
+                            <div class="order__history-item-detail">
+                                <span class="order__history-item-detail-price">$120</span>
+                                <div class="order__history-item-detail-quantity-order">
+                                    <span class="order__history-item-detail-multiple">x</span>
+                                    <span class="order__history-item-detail-time">1</span>
+                                </div>
+                            </div>
+                            <hr class="line">
+                            <div class="order__history-item-detail-total-order">
+                                <span class="order__history-item-detail-total">$120</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order__history-item-btn">
+                        <form  th:action="" method="get">
+                            <button class="btn-cart-continue" value="view detail" name="Action">View detail</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            </div>
+            
         </div>
 
         <!-- Footer -->
@@ -327,21 +317,21 @@
                                     Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
                                     Và đến khi anh cất lời
                                     Là giấc mơ mang cả đời -->
-                                    Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                    Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                    Tình yêu này có thật đáng thương? (Oh no)
-                                    Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                    Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                    Mất đi người rất quan trọng
-                                    Có lẽ vì quá tham vọng
-                                    Không thấy vui trong lòng
-                                    Anh nhớ góc tối ở trong căn phòng
-                                    Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                    Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                    Lâu hơn một chút
-                                    Để anh ổn định cảm xúc
-                                    Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                    Ký ức lại triệu hồi nỗi đau</span>
+                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
+                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
+                                Tình yêu này có thật đáng thương? (Oh no)
+                                Ở phía dưới ngọn đèn, có gã khờ đang hát
+                                Cố gắng mỉm cười, nhưng trong lòng tan nát
+                                Mất đi người rất quan trọng
+                                Có lẽ vì quá tham vọng
+                                Không thấy vui trong lòng
+                                Anh nhớ góc tối ở trong căn phòng
+                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
+                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
+                                Lâu hơn một chút
+                                Để anh ổn định cảm xúc
+                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
+                                Ký ức lại triệu hồi nỗi đau</span>
                             </div>
                             <ul class="footer__item-contact-list footer__item-contact-list-icons">
                                 <li class="footer__item-contact-list-item footer__item-contact-list-item-media">

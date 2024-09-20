@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderList.css">
 </head>
 
 <body>
@@ -119,7 +118,7 @@
 
                                         <!-- No wishlist: header__cart-list--no-wishlist -->
                                         <div class="header__cart-list">
-                                            <span class="header__cart-list-no-cart-msg">
+                                            <span class="header__cart-list-no-wishlist-msg">
                                                 Your shopping wishlist is empty!
                                             </span>
 
@@ -173,7 +172,7 @@
                                             </div>
                                             <div class="header__cart-list-btn">
                                                 <form th:action="@{/buyer/wishlist}" method="get">
-                                                        <input class="btn-view-cart" type="submit" value="View wishlist"
+                                                        <input class="btn-view-wishlist" type="submit" value="View wishlist"
                                                             name="Action">
                                                       <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
                                                             name="Action"> -->
@@ -235,7 +234,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form th:action="" method="get">
                                 <tr>
                                     <td class="table-order-detail">
                                         <div class="table-order-img">
@@ -259,13 +257,7 @@
                                         <span class="table-order-total">$122.00</span>
                                     </td>
                                     <td class="table-order-detail">
-                                        <select name="change-status" id="status">
-                                            <option value="processing" selected>processing</option>
-                                            <option value="packed">packed</option>
-                                            <option value="completed">completed</option>
-                                            <option value="cancelled">cancelled</option>
-                                        </select>
-                                        <button class="table-order-status-btn" value="Save" name="">Save</button>
+                                        <span class="table-order-status">processing</span>
                                     </td>
                                 </tr>
 
@@ -292,16 +284,9 @@
                                         <span class="table-order-total">$122.00</span>
                                     </td>
                                     <td class="table-order-detail">
-                                        <select name="change-status" id="status">
-                                            <option value="processing" selected>processing</option>
-                                            <option value="packed">packed</option>
-                                            <option value="completed">completed</option>
-                                            <option value="cancelled">cancelled</option>
-                                        </select>
-                                        <button class="table-order-status-btn" value="Save" name="">Save</button>
+                                        <span class="table-order-status">processing</span>
                                     </td>
                                 </tr>
-                            </form>
                         </tbody>
                     </table>
                 </div>
