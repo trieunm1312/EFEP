@@ -18,6 +18,7 @@ table {
 .table-order-detail { /*th,td*/
     text-align: center;
     padding: 16px;
+    font-weight: 400;
 }
 
 .table-order-header {
