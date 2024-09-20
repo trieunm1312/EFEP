@@ -1,10 +1,7 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.models.request_models.LoginRequest;
-import com.team1.efep.models.request_models.RegisterRequest;
-import com.team1.efep.models.response_models.LoginGoogleResponse;
-import com.team1.efep.models.response_models.LoginResponse;
-import com.team1.efep.models.response_models.RegisterResponse;
+import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,4 +51,38 @@ public class AccountController {
     public void getGoogleInfo(@RequestParam(name = "code") String code){
         accountService.exchangeGoogleCode(code);
     }
+
+    @GetMapping("/view/profile")
+    @Operation(hidden = true)
+    public String viewProfile(ViewProfileRequest request, Model model) {
+        return accountService.viewProfile(request, model);
+    }
+
+    @GetMapping("/view/profile/api")
+    public ViewProfileResponse viewProfile(@RequestBody ViewProfileRequest request) {
+        return accountService.viewProfileAPI(request);
+    }
+
+    @PutMapping("/update/profile")
+    @Operation(hidden = true)
+    public String updateProfile(UpdateProfileRequest request, Model model) {
+        return accountService.updateProfile(request, model);
+    }
+
+    @PutMapping("/update/profile/api")
+    public UpdateProfileResponse updateProfile(@RequestBody UpdateProfileRequest request) {
+        return accountService.updateProfileAPI(request);
+    }
+
+    @PostMapping("/change/password")
+    @Operation(hidden = true)
+    public String changePassword(ChangePasswordRequest request, Model model) {
+        return accountService.changePassword(request, model);
+    }
+
+    @PostMapping("/change/password/api")
+    public ChangePasswordResponse changePassword(@RequestBody ChangePasswordRequest request) {
+        return accountService.changePasswordAPI(request);
+    }
+
 }
