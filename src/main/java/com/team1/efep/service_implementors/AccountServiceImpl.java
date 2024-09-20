@@ -4,13 +4,8 @@ import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.Wishlist;
 import com.team1.efep.models.entity_models.User;
-import com.team1.efep.models.request_models.LoginRequest;
-import com.team1.efep.models.request_models.RegisterRequest;
-import com.team1.efep.models.request_models.ViewProfileRequest;
-import com.team1.efep.models.response_models.LoginGoogleResponse;
-import com.team1.efep.models.response_models.LoginResponse;
-import com.team1.efep.models.response_models.RegisterResponse;
-import com.team1.efep.models.response_models.ViewProfileResponse;
+import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.repositories.UserRepo;
@@ -19,7 +14,9 @@ import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.GoogleLoginGeneratorUtil;
 import com.team1.efep.utils.GoogleLoginUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
+import com.team1.efep.validations.ChangePasswordValidation;
 import com.team1.efep.validations.RegisterValidation;
+import com.team1.efep.validations.UpdateProfileValidation;
 import com.team1.efep.validations.ViewProfileValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -250,11 +247,93 @@ public class AccountServiceImpl implements AccountService {
                     .accountStatus(account.getStatus())
                     .build();
         }
-           return ViewProfileResponse.builder()
-                   .status("400")
-                   .message("Account not found")
-                   .build();
+           return errors;
         }
+
+//-------------------------------UPDATE PROFILE-------------------------------------//
+
+    @Override
+    public String updateProfile(UpdateProfileRequest request, Model model) {
+        Object output = updateProfileLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
+            model.addAttribute("msg", (UpdateProfileResponse)output);
+            return "update";
+        }
+            model.addAttribute("error",(Map<String, String>)output);
+        return "home";
     }
+
+    @Override
+    public UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request) {
+        Object output = updateProfileLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
+            return (UpdateProfileResponse) output;
+        }
+        return UpdateProfileResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    public Object updateProfileLogic(UpdateProfileRequest request) {
+        Map<String, String> errors = UpdateProfileValidation.validate(request);
+        if(!errors.isEmpty()) {
+            Account account = accountRepo.findById(request.getId()).orElse(null);
+            assert account != null;
+            User user = account.getUser();
+            user.setName(request.getName());
+            user.setPhone(request.getPhone());
+            user.setAvatar(request.getAvatar());
+            user.setBackground(request.getBackground());
+            userRepo.save(user);
+            return UpdateProfileResponse.builder()
+                    .status("200")
+                    .message("Update profile successfully")
+                    .build();
+        }
+        return errors;
+    }
+
+    //-------------------------------CHANGE PASSWORD-------------------------------------//
+
+    @Override
+    public String changePassword(ChangePasswordRequest request, Model model) {
+        Object output = changePasswordLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
+            model.addAttribute("msg", (ChangePasswordResponse)output);
+            return "home";
+        }
+        model.addAttribute("error",(Map<String, String>)output);
+        return "home";
+    }
+
+    @Override
+    public ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request) {
+        Object output = changePasswordLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
+            return (ChangePasswordResponse) output;
+        }
+        return ChangePasswordResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .build();
+    }
+
+    public Object changePasswordLogic(ChangePasswordRequest request) {
+        Map<String, String> errors = ChangePasswordValidation.validate(request);
+        if(!errors.isEmpty()) {
+            Account account = accountRepo.findById(request.getId()).orElse(null);
+            assert account != null;
+            account.setPassword(request.getNewPassword());
+            accountRepo.save(account);
+            return ChangePasswordResponse.builder()
+                    .status("200")
+                    .message("Change password successfully")
+                    .build();
+        }
+        return errors;
+    }
+
+}
 
 
