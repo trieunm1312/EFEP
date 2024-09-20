@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateProfileRequest {
+public class ChangePasswordRequest {
     private int id;
-    private String name;
-    private String phone;
-    private String avatar;
-    private String background;
+    private String oldPassword;
+    private String newPassword;
+    private String confirmPassword;
 }

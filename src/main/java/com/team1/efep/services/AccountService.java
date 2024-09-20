@@ -1,9 +1,6 @@
 package com.team1.efep.services;
 
-import com.team1.efep.models.request_models.LoginRequest;
-import com.team1.efep.models.request_models.RegisterRequest;
-import com.team1.efep.models.request_models.UpdateProfileRequest;
-import com.team1.efep.models.request_models.ViewProfileRequest;
+import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
@@ -28,4 +25,8 @@ public interface AccountService {
     String updateProfile(UpdateProfileRequest request, Model model);
 
     UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request);
+
+    String changePassword(ChangePasswordRequest request, Model model);
+
+    ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request);
 }

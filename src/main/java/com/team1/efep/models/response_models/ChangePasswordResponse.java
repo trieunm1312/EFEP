@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateProfileResponse {
+public class ChangePasswordResponse {
     private String status;
     private String message;
 }

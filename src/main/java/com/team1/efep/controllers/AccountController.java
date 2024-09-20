@@ -1,9 +1,6 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.models.request_models.LoginRequest;
-import com.team1.efep.models.request_models.RegisterRequest;
-import com.team1.efep.models.request_models.UpdateProfileRequest;
-import com.team1.efep.models.request_models.ViewProfileRequest;
+import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,8 +70,19 @@ public class AccountController {
     }
 
     @PutMapping("/update/profile/api")
-    @Operation(hidden = true)
     public UpdateProfileResponse updateProfile(@RequestBody UpdateProfileRequest request) {
         return accountService.updateProfileAPI(request);
     }
+
+    @PostMapping("/change/password")
+    @Operation(hidden = true)
+    public String changePassword(ChangePasswordRequest request, Model model) {
+        return accountService.changePassword(request, model);
+    }
+
+    @PostMapping("/change/password/api")
+    public ChangePasswordResponse changePassword(@RequestBody ChangePasswordRequest request) {
+        return accountService.changePasswordAPI(request);
+    }
+
 }
