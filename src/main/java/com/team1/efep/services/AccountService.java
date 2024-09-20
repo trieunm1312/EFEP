@@ -2,9 +2,11 @@ package com.team1.efep.services;
 
 import com.team1.efep.models.request_models.LoginRequest;
 import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.models.request_models.ViewProfileRequest;
 import com.team1.efep.models.response_models.LoginGoogleResponse;
 import com.team1.efep.models.response_models.LoginResponse;
 import com.team1.efep.models.response_models.RegisterResponse;
+import com.team1.efep.models.response_models.ViewProfileResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
@@ -20,4 +22,8 @@ public interface AccountService {
     LoginGoogleResponse getGoogleLoginUrl();
 
     void exchangeGoogleCode(String code);
+
+    String viewProfile(ViewProfileRequest request, Model model);
+
+    ViewProfileResponse viewProfileAPI(ViewProfileRequest request);
 }

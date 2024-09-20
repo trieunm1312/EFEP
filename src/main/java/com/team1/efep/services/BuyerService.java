@@ -4,9 +4,9 @@ import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
 import com.team1.efep.models.request_models.ForgotRequest;
 import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 
-import com.team1.efep.models.request_models.AddToWishlistRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
@@ -54,4 +54,20 @@ public interface BuyerService {
     String viewFlowerDetail(ViewFlowerDetailRequest request, Model model);
 
     ViewFlowerDetailResponse viewFlowerDetailAPI(ViewFlowerDetailRequest request);
+
+    String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
+
+    ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request);
+
+    String viewOrderStatus(HttpSession session, Model model);
+
+    ViewOrderStatusResponse viewOrderStatusAPI(ViewOrderStatusRequest request);
+
+    String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model);
+
+    UpdateWishlistResponse updateWishlistAPI(UpdateWishlistRequest request);
+
+    String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model);
+
+    DeleteWishlistResponse deleteWishlistAPI(DeleteWishlistRequest request);
 }

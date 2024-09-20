@@ -57,10 +57,5 @@ public class Flower {
     @OneToMany(mappedBy = "flower")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<Feedback> feedbackList;
-
-    @OneToMany(mappedBy = "flower")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private List<OrderDetail> orderDetailList;
 }
