@@ -1,3 +1,5 @@
+
+
 /* Container */
 .container{
     margin-bottom: 52px;
@@ -55,61 +57,78 @@ form {
     width: 1500px;
   }
 
-.flower-information {
+  .flower-information {
     margin: 50px 0 50px 100px;
     display: flex; 
     width: 120%;
 }
 
-.flower-information__img{
-    width: 70%;
+.flower-information__img {
+    width: 40%;
+    margin-right: 36px; 
+}
+
+.flower-information__img-main-screen {
+    width: 100%;
+    text-align: center; 
+}
+
+.flower-information__img-main-screen img {
+    width: 100%; 
+    height: auto; 
 }
 
 .flower-information__content {
-    width: 50%; 
+    width: 40%; 
 }
 
-.flower-information__img {
-    margin-right: 96px; 
-}
-
-.flower-information__img img {
-    width: 110%; 
-}
-
-.flower-information__img-list{
-    position: relative;
+.flower-information__img-list {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 16px;
 }
 
-.flower-information__img-item{
+.flower-information__img-item {
     margin-right: 12px;
 }
 
-.flower-information__img-list img{
-    width: 20%;
+
+.swiper {
+    width: 100%; 
+    margin-top: 20px; 
 }
 
-.img-carousel {
+.swiper-slide img {
+    width: 100%;
+    object-fit: cover; /* Adjust the size of the images in Swiper */
+}
+
+/* Adjust the image size in the Swiper */
+.flower-information__img-list img {
+    width: 100px; /* Adjust the size of images in Swiper */
+    height: auto;
+}
+
+
+.swiper-button-next::after, .swiper-button-prev::after {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 40%;
-    font-size: 3rem;
+    top: 60%;
+    font-size: 2rem;
+    font-weight: 500;
     color: var(--white-color);
     background-color: var(--primary-color);
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    padding-left: 10px;
+    padding-left: 0px;
 }
 
 
-.img-carousel:hover {
+.swiper-button-next::after:hover, .swiper-button-prev::after:hover {
     background-color: var(--black-color);
     color: var(--white-color);
 }
@@ -119,13 +138,14 @@ form {
 
 }
 
-.img-carousel.left{
-    left: -24px;
+ .swiper-button-prev::after{
+    left: 0;
 }
 
-.img-carousel.right {
-    right: -72px;
-}
+.swiper-button-next::after {
+    right: -10px;
+    z-index: 2;
+} 
 
 .flower-information__content {
     display: flex;
@@ -311,7 +331,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .related-product__item{
-    margin: 0 12px;
+    margin: 0 3px;
     /* width: 100% !important; */
 }
 
@@ -327,7 +347,7 @@ input[type=number]::-webkit-outer-spin-button {
 .overlay{
     position: absolute;
     top: 0;
-    right: 2px;
+    right: 28px;
     width: 200px;
     height: 240px;
     background-color: rgba(255, 86, 141, 0.2);
@@ -415,7 +435,7 @@ input[type=number]::-webkit-outer-spin-button {
     color: var(--text-color);
     text-align: start;
     font-weight: 600;
-
+    margin-left: 16px;
 }
 
 
@@ -427,13 +447,15 @@ input[type=number]::-webkit-outer-spin-button {
 .related-product__content{
     display: flex;
     justify-content: space-between;
+    margin-left: 16px;
+
 }
 
 .related-product__content span:first-child{
     font-weight: 600;
 }
 
-.related-carousel {
+/* .related-carousel {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -464,9 +486,36 @@ input[type=number]::-webkit-outer-spin-button {
 
 .related-carousel.right {
     right: -24px;
+} */
+
+.swiper__related-product{
+    width: 90%;
+    /* overflow-x: hidden; */
 }
 
+.swiper-button-product::after{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -40%;
+    font-size: 4rem;
+    font-weight: 500;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding-right: 0;
+}
 
+.swiper-button-product.left::after{
+    left: 32px;
+}
+
+.swiper-button-product.right::after{
+    right: -10px;
+}
 
 
 
