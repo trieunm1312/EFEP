@@ -1,0 +1,526 @@
+/* Container */
+.container{
+    margin-bottom: 52px;
+    margin: 0;
+    padding: 0;
+}
+
+.container__wrap{
+    width: calc(100% + 190px);
+}
+
+/* Breadrum */
+.breadbrum{
+    width: 120%;
+    padding-left: 0;
+    height: 283px;
+    padding: 100px 0;
+    margin-top: 32px;
+    text-align: center;
+    color: var(--white-color);
+    /* background: url('/img/breadcrumb_img-1920x300.png'); */
+    background: url(/src/main/resources/static/img/breadcrumb_img-1920x300.png);
+    background-size: cover !important;
+}
+
+.breadbrum__element-list{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.breadbrum__title{
+    font-size: 3.4rem;
+}
+
+.breadbrum__element-list-item-link{
+    text-decoration: none;
+    font-size: 1.6rem;
+    color: var(--white-color);
+    margin-right: 18px;
+}
+
+.breadbrum__element-list-item-link:hover{
+    text-decoration: none;
+    color: var(--white-color);
+}
+
+.fa-angles-right{
+    margin-right: 10px;
+}
+
+/* Flower Information */
+form {
+    width: 1500px;
+  }
+
+.flower-information {
+    margin: 50px 0 50px 100px;
+    display: flex; 
+    width: 120%;
+}
+
+.flower-information__img{
+    width: 70%;
+}
+
+.flower-information__content {
+    width: 50%; 
+}
+
+.flower-information__img {
+    margin-right: 96px; 
+}
+
+.flower-information__img img {
+    width: 110%; 
+}
+
+.flower-information__img-list{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.flower-information__img-item{
+    margin-right: 12px;
+}
+
+.flower-information__img-list img{
+    width: 20%;
+}
+
+.img-carousel {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 40%;
+    font-size: 3rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding-left: 10px;
+}
+
+
+.img-carousel:hover {
+    background-color: var(--black-color);
+    color: var(--white-color);
+}
+
+.img-carousel:focus{
+    color: var(--white-color);
+
+}
+
+.img-carousel.left{
+    left: -24px;
+}
+
+.img-carousel.right {
+    right: -72px;
+}
+
+.flower-information__content {
+    display: flex;
+    flex-direction: column; 
+}
+
+.flower-information__content hr{
+    margin: 16px 0;
+    border: 0;  
+    height: 1px;
+    background-color: #999;
+    opacity: 0.5; 
+    width: 600px;
+}
+
+.flower-information__name {
+    width: 300px;
+    font-weight: 600;
+}
+
+.flower-information__price{
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.flower-information__short-desc span {
+    display: flex;
+    margin-top: 16px;
+}
+
+.flower-information__short-desc p{
+    margin-left: 8px;
+    color: #666;
+    opacity: 0.9;
+}
+
+.flower-information__short-desc span:first-child{
+    margin-top: 0;
+}
+
+/* Buy Quantity */
+/* Adjusted Buy Quantity */
+.value-button {
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin: 0;
+    width: 40px;
+    height: 40px; 
+    text-align: center;
+    vertical-align: middle;
+    line-height: 3.8rem; 
+    background: #eee;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.value-button:hover {
+    cursor: pointer;
+}
+
+form #decrease {
+    margin-bottom: 3px;
+    padding-right: 1px;
+    margin-right: -4px;
+    border-radius: 8px 0 0 8px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+form #increase {
+    margin-bottom: 3px;
+    margin-left: -4px;
+    padding-left: 1px;
+    padding-top: 1.5px;
+    border-radius: 0 8px 8px 0;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+input#number {
+    text-align: center;
+    border: 1px solid #ddd; 
+    margin: 0;
+    width: 100px; 
+    height: 40px; 
+    font-size: 1.6rem; 
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.flower-information__quantity {
+    width: 120%;
+    margin: 8px 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+.flower-information__quantity h4 {
+    margin-right: 16px; 
+}
+
+.flower-information__quantity span{
+    color: #666;
+    opacity: 0.5;
+}
+
+.flower-information__quantity-separate{
+    padding: 0 2px;
+}
+
+.flower-information__button{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn{
+    border-radius: 4px;
+    font-size: 1.8rem;
+    padding: 12px;
+}
+
+.btn:hover{
+    opacity: 0.8;
+}
+
+.flower-information__wishlist-btn{
+    background-color: rgba(255, 86, 141, 0.2);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.flower-information__wishlist-btn:hover{
+    color: var(--primary-color);
+}
+
+.flower-information__desc{
+    display: block;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 96%;
+    padding: 24px 0;
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 54px;
+}
+
+.flower-information__desc-detail{
+    display: block;
+    width: 96%;
+    color: #666;
+    opacity: 0.9;
+    margin-left: 100px;
+    margin-top: 32px;
+}
+
+
+/* Related Product */
+.related-product{
+   margin: 100px 10px 54px 150px;
+   display: block;
+   text-align: center;
+}
+
+.related-product__title{
+    margin: 0 auto 32px;
+}
+
+.related-product__list{
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    /* width: 100%; */
+}
+
+.related-product__item{
+    margin: 0 12px;
+    /* width: 100% !important; */
+}
+
+.related-product__img{
+    position: relative;
+}
+
+.related-product__img img{
+    border-radius: 12px;
+    width: 200px;
+}
+
+.overlay{
+    position: absolute;
+    top: 0;
+    right: 2px;
+    width: 200px;
+    height: 240px;
+    background-color: rgba(255, 86, 141, 0.2);
+    border: 1px solid var();
+    display: block;
+    border-radius: 12px;
+    text-align: center;
+    display: none;
+
+}
+
+.add-to-wishlist{
+    position: absolute;
+    bottom: 16px;
+    left: 50px;
+    font-size: 2rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    padding: 4px 10px;
+    border-radius: 8px;
+    animation: fadeInUp ease .3s;
+}
+
+.overlay a:hover{
+    color: var(--white-color);
+    background-color: var(--black-color);
+    
+}
+
+.view-detail{
+    position: absolute;
+    bottom: 16px;
+    right: 50px;
+    font-size: 2rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    padding: 4px 8px;
+    border-radius: 8px;
+    animation: fadeInUp ease .3s;
+}
+
+.add-to-wishlist__msg{
+    position: absolute;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 80px;
+    color: var(--white-color);
+    padding: 4px;
+    background-color: var(--black-color);
+    border-radius: 4px;
+    bottom: 40px;
+    left: -20px;
+    display: none;
+}
+
+.add-to-wishlist:hover .add-to-wishlist__msg{
+    display: block;
+}
+
+.view-detail:hover .view-detail__msg{
+    display: block;
+}
+
+
+.view-detail__msg{
+    position: absolute;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--white-color);
+    width: 60px;
+    padding: 4px;
+    background-color: var(--black-color);
+    border-radius: 4px;
+    bottom: 40px;
+    right: -10px;
+    display: none;
+}
+
+.related-product__item:hover .overlay{
+    display: block;
+    border: 1px solid var(--primary-color);
+} 
+
+.related-product__name{
+    color: var(--text-color);
+    text-align: start;
+    font-weight: 600;
+
+}
+
+
+.related-product__name:hover{
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.related-product__content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.related-product__content span:first-child{
+    font-weight: 600;
+}
+
+.related-carousel {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 40%;
+    font-size: 3rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+
+.related-carousel:hover {
+    background-color: var(--black-color);
+    color: var(--white-color);
+}
+
+.related-carousel:focus{
+    color: var(--white-color);
+
+}
+
+.related-carousel.left{
+    left: -24px;
+}
+
+.related-carousel.right {
+    right: -24px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
