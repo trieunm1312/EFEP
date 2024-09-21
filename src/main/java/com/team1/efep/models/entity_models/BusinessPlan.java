@@ -24,6 +24,8 @@ public class BusinessPlan {
 
     private int duration;
 
+    private String status;
+
     @OneToMany(mappedBy = "businessPlan")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
