@@ -29,4 +29,6 @@ public interface AccountService {
     String changePassword(ChangePasswordRequest request, Model model);
 
     ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request);
+
+    String logout(HttpSession session);
 }

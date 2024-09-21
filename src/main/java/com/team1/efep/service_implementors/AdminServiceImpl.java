@@ -1,24 +1,22 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
-import com.team1.efep.models.entity_models.Account;
-import com.team1.efep.models.entity_models.BusinessPlan;
-import com.team1.efep.models.entity_models.BusinessService;
-import com.team1.efep.models.entity_models.PlanService;
+import com.team1.efep.enums.Status;
+import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.CreateBusinessPlanRequest;
+import com.team1.efep.models.request_models.DisableBusinessPlanRequest;
 import com.team1.efep.models.request_models.UpdateBusinessPlanRequest;
 import com.team1.efep.models.response_models.CreateBusinessPlanResponse;
+import com.team1.efep.models.response_models.DisableBusinessPlanResponse;
 import com.team1.efep.models.response_models.UpdateBusinessPlanResponse;
-import com.team1.efep.repositories.AccountRepo;
-import com.team1.efep.repositories.BusinessPlanRepo;
-import com.team1.efep.repositories.BusinessServiceRepo;
-import com.team1.efep.repositories.PlanServiceRepo;
+import com.team1.efep.repositories.*;
 import com.team1.efep.services.AdminService;
 import com.team1.efep.services.BuyerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.ChangePasswordValidation;
 import com.team1.efep.validations.CreateBusinessPlanValidation;
+import com.team1.efep.validations.DisableBusinessPlanValidation;
 import com.team1.efep.validations.UpdateBusinessPlanValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,6 +36,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final PlanServiceRepo planServiceRepo;
     private final AccountRepo accountRepo;
+    private final SellerRepo sellerRepo;
 
     //-------------------------------------CREATE BUSINESS PLAN------------------------------------------//
     @Override
@@ -136,6 +135,46 @@ public class AdminServiceImpl implements AdminService {
             return UpdateBusinessPlanResponse.builder()
                     .status("200")
                     .message("Updated business plan successfully")
+                    .build();
+        }
+        return errors;
+    }
+
+    //-------------------------------------DISABLE BUSINESS PLAN------------------------------------------//
+
+    @Override
+    public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model) {
+        Object output = disableBusinessPlanLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)){
+            model.addAttribute("msg", (DisableBusinessPlanResponse)output);
+            return "home";
+        }
+        model.addAttribute("error", (Map<String, String>)output);
+        return "home";
+    }
+
+    @Override
+    public DisableBusinessPlanResponse disableBusinessPlanAPI(DisableBusinessPlanRequest request) {
+        Object output = disableBusinessPlanLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)){
+            return (DisableBusinessPlanResponse) output;
+        }
+        return DisableBusinessPlanResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .build();
+    }
+
+    public Object disableBusinessPlanLogic(DisableBusinessPlanRequest request) {
+        Map<String, String> errors = DisableBusinessPlanValidation.validate(request);
+        if(errors.isEmpty()) {
+            BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
+            assert businessPlan != null;
+            businessPlan.setStatus(Status.BUSINESS_PLAN_STATUS_DISABLED);
+            businessPlanRepo.save(businessPlan);
+            return DisableBusinessPlanResponse.builder()
+                    .status("200")
+                    .message("Disabled successfully")
                     .build();
         }
         return errors;

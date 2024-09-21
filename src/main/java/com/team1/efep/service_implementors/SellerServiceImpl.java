@@ -4,18 +4,13 @@ import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
-import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
-import com.team1.efep.models.request_models.CreateFlowerRequest;
-import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
+import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
-import com.team1.efep.validations.ChangeOrderStatusValidation;
-import com.team1.efep.validations.CreateFlowerValidation;
-import com.team1.efep.validations.ViewFlowerListValidation;
-import com.team1.efep.validations.ViewOrderListValidation;
+import com.team1.efep.validations.*;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +32,7 @@ public class SellerServiceImpl implements SellerService {
     private final AccountRepo accountRepo;
 
     private final OrderRepo orderRepo;
+    private final SellerRepo sellerRepo;
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -203,6 +199,7 @@ public class SellerServiceImpl implements SellerService {
                 .orderDetailList(viewOrderDetailList(order.getOrderDetailList()))
                 .build();
     }
+
     private List<ViewOrderListResponse.Item> viewOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderListResponse.Item.builder()
@@ -270,7 +267,6 @@ public class SellerServiceImpl implements SellerService {
     }
 
 
-
     //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
 
     @Override
@@ -283,6 +279,7 @@ public class SellerServiceImpl implements SellerService {
     public ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(@RequestBody ViewFlowerListForSellerRequest request) {
         return viewFlowerListForSellerLogic(request);
     }
+
 
     public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(ViewFlowerListForSellerRequest request) {
         List<Flower> flowers = flowerRepo.findBySeller_Id(request.getSellerId());
@@ -315,6 +312,47 @@ public class SellerServiceImpl implements SellerService {
                         .link(img.getLink())
                         .build())
                 .toList();
+    }
+
+    //--------------------------------------CANCEL BUSINESS PLAN FOR SELLER---------------------------------------//
+
+    @Override
+    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
+        Object output = cancelBusinessPlanLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelBusinessPlanResponse.class)) {
+            model.addAttribute("msg", (CancelBusinessPlanResponse) output);
+            return "home";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "home";
+    }
+
+    @Override
+    public CancelBusinessPlanResponse cancelBusinessPlanAPI(CancelBusinessPlanRequest request) {
+        Object output = cancelBusinessPlanLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelBusinessPlanResponse.class)) {
+            return (CancelBusinessPlanResponse) output;
+        }
+        return CancelBusinessPlanResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    public Object cancelBusinessPlanLogic(CancelBusinessPlanRequest request) {
+        Map<String, String> errors = CancelBusinessPlanValidation.validate(request);
+        if (errors.isEmpty()) {
+            Seller seller = sellerRepo.findById(request.getId()).orElse(null);
+            assert seller != null;
+            seller.setPlanPurchaseDate(null);
+            seller.setBusinessPlan(null);
+            sellerRepo.save(seller);
+            return DisableBusinessPlanResponse.builder()
+                    .status("200")
+                    .message("Disabled successfully")
+                    .build();
+        }
+        return errors;
     }
 
 }

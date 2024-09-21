@@ -2,9 +2,11 @@ package com.team1.efep.controllers;
 
 import com.team1.efep.models.request_models.ChangePasswordRequest;
 import com.team1.efep.models.request_models.CreateBusinessPlanRequest;
+import com.team1.efep.models.request_models.DisableBusinessPlanRequest;
 import com.team1.efep.models.request_models.UpdateBusinessPlanRequest;
 import com.team1.efep.models.response_models.ChangePasswordResponse;
 import com.team1.efep.models.response_models.CreateBusinessPlanResponse;
+import com.team1.efep.models.response_models.DisableBusinessPlanResponse;
 import com.team1.efep.models.response_models.UpdateBusinessPlanResponse;
 import com.team1.efep.services.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,10 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -46,4 +45,13 @@ public class AdminController {
         return adminService.updateBusinessPlanAPI(request);
     }
 
+    @DeleteMapping("/plan")
+    public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model) {
+        return adminService.disableBusinessPlan(request, model);
+    }
+
+    @DeleteMapping("/plan/api")
+    public DisableBusinessPlanResponse disableBusinessPlan(@RequestBody DisableBusinessPlanRequest request) {
+        return adminService.disableBusinessPlanAPI(request);
+    }
 }
