@@ -1,13 +1,7 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
-import com.team1.efep.models.request_models.CreateFlowerRequest;
-import com.team1.efep.models.response_models.ChangeOrderStatusResponse;
-import com.team1.efep.models.request_models.ViewFlowerListForSellerRequest;
-import com.team1.efep.models.response_models.CreateFlowerResponse;
-import com.team1.efep.models.response_models.ViewOrderListResponse;
-import com.team1.efep.models.response_models.ViewFlowerListForSellerResponse;
-import com.team1.efep.models.response_models.ViewOrderHistoryResponse;
+import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -69,4 +63,13 @@ public class SellerController {
         return sellerService.viewFlowerListForSellerAPI(request);
     }
 
+    @PutMapping("/plan")
+    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
+        return sellerService.cancelBusinessPlan(request, model);
+    }
+
+    @PutMapping("/plan/api")
+    public CancelBusinessPlanResponse cancelBusinessPlan(@RequestBody CancelBusinessPlanRequest request) {
+        return sellerService.cancelBusinessPlanAPI(request);
+    }
 }

@@ -236,7 +236,7 @@ public class AccountServiceImpl implements AccountService {
     // thay vì Object (nếu phải check kiểu dữ liệu của Object ở nhiều nơi khác nhau ==> lỗi runtime)
     public Object viewProfileLogic(ViewProfileRequest request) {
         Map<String, String> errors = ViewProfileValidation.validate();
-        if(!errors.isEmpty()) {
+        if(errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             return ViewProfileResponse.builder()
@@ -277,7 +277,7 @@ public class AccountServiceImpl implements AccountService {
 
     public Object updateProfileLogic(UpdateProfileRequest request) {
         Map<String, String> errors = UpdateProfileValidation.validate(request);
-        if(!errors.isEmpty()) {
+        if(errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             User user = account.getUser();
@@ -319,9 +319,10 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
+
     public Object changePasswordLogic(ChangePasswordRequest request) {
         Map<String, String> errors = ChangePasswordValidation.validate(request);
-        if(!errors.isEmpty()) {
+        if(errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             account.setPassword(request.getNewPassword());
@@ -332,6 +333,17 @@ public class AccountServiceImpl implements AccountService {
                     .build();
         }
         return errors;
+    }
+
+    //-------------------------------LOG OUT-------------------------------------//
+
+    @Override
+    public String logout(HttpSession session) {
+        if(session.getAttribute("acc") != null) {
+            session.invalidate();
+            return "home";
+        }
+        return "home";
     }
 
 }

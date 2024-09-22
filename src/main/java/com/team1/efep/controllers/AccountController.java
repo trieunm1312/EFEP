@@ -85,4 +85,10 @@ public class AccountController {
         return accountService.changePasswordAPI(request);
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        return accountService.logout(session);
+    }
+
+
 }
