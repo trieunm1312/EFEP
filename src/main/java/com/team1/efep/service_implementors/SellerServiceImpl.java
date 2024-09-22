@@ -434,12 +434,39 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String filterOrder(FilterOrderRequest request, HttpSession session, Model model) {
-        return "";
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewOrderListResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = filterOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
+            model.addAttribute("response", (FilterOrderResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
     }
 
     @Override
     public FilterOrderResponse filterOrderAPI(FilterOrderRequest request) {
-        return null;
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return FilterOrderResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = filterOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
+            return (FilterOrderResponse) output;
+        }
+        return FilterOrderResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
     }
 
     private Object filterOrderLogic(FilterOrderRequest request) {

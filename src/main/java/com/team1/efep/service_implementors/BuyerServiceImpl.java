@@ -538,17 +538,17 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------------VIEW FLOWER TOP LIST------------------------------------------//
 
     @Override
-    public void viewFlowerTopList(ViewFlowerTopListRequest request, Model model) {
-        model.addAttribute("msg", viewFlowerTopListLogic(request));
+    public void viewFlowerTopList(int top, Model model) {
+        model.addAttribute("msg", viewFlowerTopListLogic(top));
     }
 
     @Override
-    public ViewFlowerTopListResponse viewFlowerTopListAPI(ViewFlowerTopListRequest request) {
-        return viewFlowerTopListLogic(request);
+    public ViewFlowerTopListResponse viewFlowerTopListAPI(int top) {
+        return viewFlowerTopListLogic(top);
     }
 
 
-    public ViewFlowerTopListResponse viewFlowerTopListLogic(ViewFlowerTopListRequest request) {
+    public ViewFlowerTopListResponse viewFlowerTopListLogic(int top) {
 
         return ViewFlowerTopListResponse.builder()
                 .status("200")
@@ -556,7 +556,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .flowerList(
                         flowerRepo.findAll()
                                 .stream()
-                                .limit(request.getTop())
+                                .limit(top)
                                 .map(
                                         flower -> ViewFlowerTopListResponse.Flower.builder()
                                                 .id(flower.getId())

@@ -5,11 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/home.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/home.css">-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/all.min.css">
 </head>
 
 <body>
@@ -43,7 +48,7 @@
                     <!-- Logo -->
                     <a href="home.html" class="header__item">
                         <div class="header__item-logo">
-                            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Logo"
+                            <img src="/img/flowrista-logo.png" alt="Logo"
                                 class="header__item-logo-img">
                         </div>
                     </a>
@@ -195,7 +200,7 @@
                                             <ul class="product__sub-list">
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -212,7 +217,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -229,7 +234,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -255,7 +260,7 @@
                                             <ul class="product__sub-list">
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -272,7 +277,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -289,7 +294,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -315,7 +320,7 @@
                                             <ul class="product__sub-list">
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -332,7 +337,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -349,7 +354,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -403,8 +408,8 @@
 
                                     <!-- Have not Login -->
                                     <div class="header__item-account">
-                                        <a href="register.html" class="header__item-account-item">Register</a>
-                                        <a href="login.html" class="header__item-account-item">Login</a>
+                                        <a th:href="@{/register}" class="header__item-account-item">Register</a>
+                                        <a th:href="@{/login}" class="header__item-account-item">Login</a>
                                     </div>
 
                                     <!-- Login successfully -->
@@ -418,7 +423,7 @@
                                 <!-- Cart layout -->
                                 <div class="header__cart">
                                     <div class="header__cart-wrap">
-                                        <i class="header__cart-icon fa-solid fa-wishlist-shopping"></i>
+                                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
                                         <span class="header__cart-notice"> 10 </span>
 
                                         <!-- No wishlist: header__cart-list--no-wishlist -->
@@ -435,7 +440,7 @@
                                                     <div class="header__cart-item-info">
                                                         <div class="header__cart-item-head">
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="" method="get">
+                                                            <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
                                                                     <i
                                                                         class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
@@ -457,7 +462,7 @@
                                                     <div class="header__cart-item-info">
                                                         <div class="header__cart-item-head">
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="" method="get">
+                                                            <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
                                                                     <i
                                                                         class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
@@ -589,15 +594,51 @@
                 <!-- Top Category -->
                 <div class="top-category">
                     <h2 class="top-category__title">Top 5 Categories<br>
-                        <img src="/src/main/resources/static/img/title-flower.png" alt="">
+                        <img src="/img/title-flower.png" alt="">
                     </h2>
                     <div class="top-category__list">
                         <div class="top-category__item">
                             <div class="top-category__img">
-                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <img src="/img/top-category.jpg" alt="">
                                 <div class="overlay">
 
-                                    <form th:action="" method="get">
+                                    <form th:action="@{/}" method="get">
+                                        <button class="add-to-wishlist">
+                                            <i class="fa-solid fa-heart"></i>
+                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                        </button>
+
+                                        <button class="view-detail">
+                                            <i class="fa-solid fa-eye"></i>
+                                            <span class="view-detail__msg">View detail</span>
+                                        </button>
+                                    </form>
+                                    <!-- <a href="" class="add-to-wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                    </a>
+
+                                    <a href="" class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </a> -->
+
+                                </div>
+                            </div>
+                            <a th:href="@{/register}" class="top-category__name">
+                                <h4>Creeper</h4>
+                            </a>
+                            <div class="top-category__content">
+                                <span>$200.00</span>
+                                <span>Sold: 1000</span>
+                            </div>
+                        </div>
+                        <div class="top-category__item">
+                            <div class="top-category__img">
+                                <img src="/img/top-category.jpg" alt="">
+                                <div class="overlay">
+
+                                    <form th:action="@{/}" method="get">
                                         <button class="add-to-wishlist">
                                             <i class="fa-solid fa-heart"></i>
                                             <span class="add-to-wishlist__msg">Add To Wishlist</span>
@@ -630,46 +671,10 @@
                         </div>
                         <div class="top-category__item">
                             <div class="top-category__img">
-                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <img src="/img/top-category.jpg" alt="">
                                 <div class="overlay">
 
-                                    <form th:action="" method="get">
-                                        <button class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-
-                                        <button class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="" class="add-to-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="" class="view-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-
-                                </div>
-                            </div>
-                            <a href="" class="top-category__name">
-                                <h4>Creeper</h4>
-                            </a>
-                            <div class="top-category__content">
-                                <span>$200.00</span>
-                                <span>Sold: 1000</span>
-                            </div>
-                        </div>
-                        <div class="top-category__item">
-                            <div class="top-category__img">
-                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
-                                <div class="overlay">
-
-                                    <form th:action="" method="get">
+                                    <form th:action="@{/}" method="get">
                                         <button class="add-to-wishlist">
                                             <i class="fa-solid fa-heart"></i>
                                             <span class="add-to-wishlist__msg">Add To Wishlist</span>
@@ -702,10 +707,10 @@
                         </div>
                         <div class="top-category__item">
                             <div href="" class="top-category__img">
-                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <img src="/img/top-category.jpg" alt="">
                                 <div class="overlay">
 
-                                    <form th:action="" method="get">
+                                    <form th:action="@{/}" method="get">
                                         <button class="add-to-wishlist">
                                             <i class="fa-solid fa-heart"></i>
                                             <span class="add-to-wishlist__msg">Add To Wishlist</span>
@@ -738,10 +743,10 @@
                         </div>
                         <div class="top-category__item">
                             <div href="" class="top-category__img">
-                                <img src="/src/main/resources/static/img/top-category.jpg" alt="">
+                                <img src="/img/top-category.jpg" alt="">
                                 <div class="overlay">
 
-                                    <form th:action="" method="get">
+                                    <form th:action="@{/}" method="get">
                                         <button class="add-to-wishlist">
                                             <i class="fa-solid fa-heart"></i>
                                             <span class="add-to-wishlist__msg">Add To Wishlist</span>
@@ -778,7 +783,7 @@
                 <div class="breadbrum">
                     <div class="grid">
                         <h2 class="breadbrum__title">Login Account <br>
-                            <img src="/src/main/resources/static/img/title-flower-light.png" alt="">
+                            <img src="/img/title-flower-light.png" alt="">
                         </h2><br>
 
                         <p class="breadbrum__desc">Yêu như chưa yêu lần nà
@@ -810,8 +815,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <!-- Footer -->
         <footer class="footer" th:fragment="footer">
@@ -954,13 +957,14 @@
             </div>
         </footer>
     </div>
-    <script src="/src/main/resources/static/js/jquery.js"></script>
-    <script src="/src/main/resources/static/js/bootstrap.min.js"></script>
-    <script src="/src/main/resources/static/js/jquery.scrollUp.min.js"></script>
-    <script src="/src/main/resources/static/js/price-range.js"></script>
-    <script src="/src/main/resources/static/js/jquery.prettyPhoto.js"></script>
-    <script src="/src/main/resources/static/js/main.js"></script>
-    <script src="/src/main/resources/static/js/index.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/price-range.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/base.js"></script>
+    <script src="/js/index.js"></script>
 </body>
 
 </html>
