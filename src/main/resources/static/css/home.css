@@ -209,10 +209,11 @@
     background-color: var(--primary-color);
     padding: 4px 10px;
     border-radius: 8px;
+    border: none;
     animation: fadeInUp ease .3s;
 }
 
-.overlay a:hover{
+.overlay button:hover{
     color: var(--white-color);
     background-color: var(--black-color);
 }
@@ -226,6 +227,7 @@
     background-color: var(--primary-color);
     padding: 4px 8px;
     border-radius: 8px;
+    border: none;
     animation: fadeInUp ease .3s;
 }
 

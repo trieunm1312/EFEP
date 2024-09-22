@@ -233,9 +233,10 @@
     padding: 4px 10px;
     border-radius: 8px;
     animation: fadeInUp ease .3s;
+    border: none;
 }
 
-.overlay a:hover{
+.overlay button:hover{
     color: var(--white-color);
     background-color: var(--black-color);
 }
@@ -249,6 +250,7 @@
     background-color: var(--primary-color);
     padding: 4px 8px;
     border-radius: 8px;
+    border: none;
     animation: fadeInUp ease .3s;
 }
 
@@ -367,6 +369,7 @@
     color: var(--white-color);
     background-color: var(--primary-color);
     border-radius: 8px;
+    border: none;
     margin-right: 16px;
     text-align: center;
     margin-top: 16px;
@@ -379,11 +382,11 @@
 }
 
 .flower-list__icon-wishlist{
-    padding: 8px 8px 8px 12px;
+    padding: 10px 10px 8px 10px;
 }
 
 .flower-list__icon-detail{
-    padding: 8px 12px;
+    padding: 10px 10px 8px 10px;
 }
 
 .add-to-wishlist__msg{
