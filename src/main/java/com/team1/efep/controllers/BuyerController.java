@@ -171,4 +171,15 @@ public class BuyerController {
         return buyerService.deleteWishlistAPI(request);
     }
 
+    @PutMapping("/order")
+    @Operation(hidden = true)
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model) {
+        return buyerService.cancelOrder(request, session, model);
+    }
+
+    @PutMapping("/order/api")
+    public CancelOrderResponse updateWishlist(@RequestBody CancelOrderRequest request) {
+        return buyerService.cancelOrderAPI(request);
+    }
+
 }

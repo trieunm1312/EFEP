@@ -32,7 +32,10 @@ public class SellerServiceImpl implements SellerService {
     private final AccountRepo accountRepo;
 
     private final OrderRepo orderRepo;
+
     private final SellerRepo sellerRepo;
+
+    private final OrderDetailRepo orderDetailRepo;
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -353,6 +356,163 @@ public class SellerServiceImpl implements SellerService {
                     .build();
         }
         return errors;
+    }
+
+    //--------------------------------VIEW ORDER DETAIL-----------------------------------//
+
+    @Override
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewOrderHistoryResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = viewOrderDetailLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
+            model.addAttribute("response", (ViewOrderDetailResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
+    }
+
+    @Override
+    public ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return ViewOrderDetailResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = viewOrderDetailLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
+            return (ViewOrderDetailResponse) output;
+        }
+        return ViewOrderDetailResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+
+    private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
+        Map<String, String> errors = ViewOrderDetailValidation.validate(request);
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
+        List<ViewOrderDetailForSellerResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
+
+        return ViewOrderDetailForSellerResponse.builder()
+                .status("200")
+                .message("Order details retrieved successfully")
+                .orderId(order.getId())
+                .buyerName(order.getUser().getName())
+                .totalPrice(order.getTotalPrice())
+                .orderStatus(order.getStatus())
+                .detailList(detailList)
+                .build();
+    }
+
+    private List<ViewOrderDetailForSellerResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
+        return orderDetails.stream()
+                .map(detail -> ViewOrderDetailForSellerResponse.Detail.builder()
+                        .sellerName(detail.getFlower().getSeller().getUser().getName())
+                        .flowerName(detail.getFlowerName())
+                        .quantity(detail.getQuantity())
+                        .price(detail.getPrice())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    //-----------------------------------------FILTER ORDER--------------------------------------//
+
+    @Override
+    public String filterOrder(FilterOrderRequest request, HttpSession session, Model model) {
+        return "";
+    }
+
+    @Override
+    public FilterOrderResponse filterOrderAPI(FilterOrderRequest request) {
+        return null;
+    }
+
+    private Object filterOrderLogic(FilterOrderRequest request) {
+        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
+        assert account != null;
+        Map<String, String> errors = FilterOrderValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
+        List<Order> orders = getOrdersBySeller(account.getUser().getSeller().getId());
+        assert !orders.isEmpty();
+
+        if (request.getStatus() != null && !request.getStatus().isEmpty()) {
+            orders = orders.stream()
+                    .filter(order -> order.getStatus().equalsIgnoreCase(request.getStatus()))
+                    .collect(Collectors.toList());
+        }
+
+        if (request.getCreatedDate() != null) {
+            orders = orders.stream()
+                    .filter(order -> order.getCreatedDate().getMonth().equals(request.getCreatedDate().getMonth()))
+                    .collect(Collectors.toList());
+        }
+
+        List<FilterOrderResponse.OrderBill> orderBills = orders.stream()
+                .map(this::viewFilterOrderList)
+                .toList();
+
+        if(!orders.isEmpty()) {
+            return FilterOrderResponse.builder()
+                    .status("200")
+                    .message("Filter successful")
+                    .orderList(orderBills)
+                    .build();
+        }
+        return FilterOrderResponse.builder()
+                .status("400")
+                .message("No order found")
+                .build();
+
+    }
+
+    public List<Order> getOrdersBySeller(int sellerId) {
+        List<OrderDetail> orderDetails = orderDetailRepo.findAllByFlower_Seller_Id(sellerId);
+
+        return orderDetails.stream()
+                .map(OrderDetail::getOrder)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    private FilterOrderResponse.OrderBill viewFilterOrderList(Order order) {
+        return FilterOrderResponse.OrderBill.builder()
+                .orderId(order.getId())
+                .buyerName(order.getBuyerName())
+                .createDate(order.getCreatedDate())
+                .totalPrice(order.getTotalPrice())
+                .status(order.getStatus())
+                .paymentType(order.getPaymentType().getType())
+                .paymentMethod(order.getPaymentMethod().getMethod())
+                .orderDetailList(viewFilterOrderDetailList(order.getOrderDetailList()))
+                .build();
+    }
+
+    private List<FilterOrderResponse.Item> viewFilterOrderDetailList(List<OrderDetail> orderDetails) {
+        return orderDetails.stream()
+                .map(detail -> FilterOrderResponse.Item.builder()
+                        .name(detail.getFlower().getName())
+                        .quantity(detail.getQuantity())
+                        .price(detail.getPrice())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 }
