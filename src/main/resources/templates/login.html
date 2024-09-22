@@ -444,7 +444,7 @@
                                                     <div class="header__cart-item-info">
                                                         <div class="header__cart-item-head">
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="" method="get">
+                                                            <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
                                                                     <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
                                                                     <span class="header__cart-item-remove-msg">Remove</span>
@@ -464,7 +464,7 @@
                                                     <div class="header__cart-item-info">
                                                         <div class="header__cart-item-head">
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="" method="get">
+                                                            <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
                                                                     <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
                                                                     <span class="header__cart-item-remove-msg">Remove</span>
@@ -485,7 +485,7 @@
                                                 <span class="header__cart-list-detail-price">122.000 VND</span>
                                             </div>
                                             <div class="header__cart-list-btn">
-                                                <form th:action="@{/buyer/cart}" method="get">
+                                                <form th:action="@{/buyer/wishlist}" method="get">
                                                         <input class="btn-view-cart" type="submit" value="View Wish list"
                                                             name="Action">
                                                       <!--  <input class="btn-view-cart" type="submit" value="Checkout"
@@ -538,7 +538,7 @@
                         <form class="auth-form__container" method="POST" action="">
                             <div class="auth-form__header">
                                 <h3 class="auth-form__heading">Login</h3>
-                                <a href="register.html" class="auth-form__switch-btn">Don't have an account?</a>
+                                <a th:href="@{/register}" class="auth-form__switch-btn">Don't have an account?</a>
                             </div>
         
                             <div class="auth-form__form">
