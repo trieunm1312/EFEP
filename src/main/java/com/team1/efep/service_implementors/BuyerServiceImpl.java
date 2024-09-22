@@ -1,6 +1,7 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
+import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
@@ -844,6 +845,61 @@ public class BuyerServiceImpl implements BuyerService {
                 .message("Wishlist deleted successfully")
                 .build();
     }
+
+    //--------------------------------CANCEL ORDER------------------------------------------//
+
+    @Override
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ChangeOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = cancelOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
+            model.addAttribute("response", (ChangeOrderStatusResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "buyer";
+    }
+
+    @Override
+    public CancelOrderResponse cancelOrderAPI(CancelOrderRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            ChangeOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build();
+        }
+        Object output = cancelOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
+            return (CancelOrderResponse) output;
+        }
+        return CancelOrderResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object cancelOrderLogic(CancelOrderRequest request) {
+        Map<String, String> errors = CancelOrderValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
+        Status.changeOrderStatus(order, "cancelled", orderRepo);
+
+        return CancelOrderResponse.builder()
+                .status("200")
+                .message("Cancel order successfully")
+                .build();
+    }
+
 
 }
 

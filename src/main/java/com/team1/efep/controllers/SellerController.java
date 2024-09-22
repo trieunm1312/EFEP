@@ -72,4 +72,14 @@ public class SellerController {
     public CancelBusinessPlanResponse cancelBusinessPlan(@RequestBody CancelBusinessPlanRequest request) {
         return sellerService.cancelBusinessPlanAPI(request);
     }
+
+    @PutMapping("/order-detail")
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+        return sellerService.viewOrderDetail(request,session, model);
+    }
+
+    @PutMapping("/order-detail/api")
+    public ViewOrderDetailResponse cancelBusinessPlan(@RequestBody ViewOrderDetailRequest request) {
+        return sellerService.viewOrderDetailAPI(request);
+    }
 }
