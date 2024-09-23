@@ -23,7 +23,7 @@
                 <div class="navbar__wrap">
                     <!-- Phone contact -->
                     <div class="navbar__item">
-                        <a href="" class="navbar__item-contact-info">
+                        <a th:href="@{/}" class="navbar__item-contact-info">
                             <i class="navbar__item-icon fa-solid fa-phone"></i>
                             <span class="navbar__item-phone">+1 (123) 8425733</span>
                         </a>
@@ -44,9 +44,9 @@
             <div class="grid">
                 <div class="header__wrap">
                     <!-- Logo -->
-                    <a href="home.html" class="header__item">
+                    <a th:href="@{/}" class="header__item">
                         <div class="header__item-logo">
-                            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Logo"
+                            <img src="/img/flowrista-logo.png" alt="Logo"
                                 class="header__item-logo-img">
                         </div>
                     </a>
@@ -198,7 +198,7 @@
                                             <ul class="product__sub-list">
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -215,7 +215,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -232,7 +232,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -258,7 +258,7 @@
                                             <ul class="product__sub-list">
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -275,7 +275,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -292,7 +292,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -318,7 +318,7 @@
                                             <ul class="product__sub-list">
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -335,7 +335,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -352,7 +352,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -406,8 +406,8 @@
 
                                     <!-- Have not Login -->
                                     <div class="header__item-account">
-                                        <a href="register.html" class="header__item-account-item">Register</a>
-                                        <a href="login.html" class="header__item-account-item">Login</a>
+                                        <a th:href="@{/register}" class="header__item-account-item">Register</a>
+                                        <a th:href="@{/login}" class="header__item-account-item">Login</a>
                                     </div>
 
                                     <!-- Login successfully -->
@@ -512,20 +512,14 @@
                         <h1 class="breadbrum__title">Login Account</h1><br>
                         <ul class="breadbrum__element-list">
                             <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
+                                <a th:href="@{/}" class="breadbrum__element-list-item-link">
                                     <i class="fa-solid fa-house"></i>
                                 </a>
                             </li>
 
-                            <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                    <span>Account</span>
-                                </a>
-                            </li>
 
                             <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
+                                <a th:href="@{/login}" class="breadbrum__element-list-item-link">
                                     <i class="fa-solid fa-angles-right"></i>
                                     <span>Login</span>
                                 </a>
@@ -535,7 +529,7 @@
 
                     <!-- Login Form -->
                     <div class="auth-form">
-                        <form class="auth-form__container" method="POST" action="">
+                        <form class="auth-form__container" method="POST" th:action="@{/account/login}">
                             <div class="auth-form__header">
                                 <h3 class="auth-form__heading">Login</h3>
                                 <a th:href="@{/register}" class="auth-form__switch-btn">Don't have an account?</a>
@@ -571,13 +565,6 @@
                         </form>
         
                         <div class="auth-form__socials">
-                            <a href="" class="auth-form__socials--facebook btn--normal btn btn--size-s btn--with-icon">
-                                <i class="auth-form__socials-icon fa-brands fa-square-facebook"></i>
-                                <span class="auth-form__socials-title">
-                                    Login with Facebook
-                                </span>
-                            </a>
-        
                             <a href="" class="auth-form__socials--google btn--normal btn btn--size-s btn--with-icon">
                                 <i class="auth-form__socials-icon fa-brands fa-google"></i>
                                 <span class="auth-form__socials-title">
@@ -731,12 +718,12 @@
             </div>
         </footer>
     </div>
-    <script src="/src/main/resources/static/js/jquery.js"></script>
-    <script src="/src/main/resources/static/js//bootstrap.min.js"></script>
-    <script src="/src/main/resources/static/js//jquery.scrollUp.min.js"></script>
-    <script src="/src/main/resources/static/js//price-range.js"></script>
-    <script src="/src/main/resources/static/js//jquery.prettyPhoto.js"></script>
-    <script src="/src/main/resources/static/js//base.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/price-range.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/base.js"></script>
 </body>
 
 </html>

@@ -21,6 +21,7 @@ public class PageController {
 
     @GetMapping("/login")
     public String loginPage() {
+
         return "login";
     }
 
@@ -32,6 +33,7 @@ public class PageController {
 
     @GetMapping("/register")
     public String registerPage() {
+
         return "register";
     }
 
