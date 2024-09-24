@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -342,7 +343,7 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    public Object cancelBusinessPlanLogic(CancelBusinessPlanRequest request) {
+    private Object cancelBusinessPlanLogic(CancelBusinessPlanRequest request) {
         Map<String, String> errors = CancelBusinessPlanValidation.validate(request);
         if (errors.isEmpty()) {
             Seller seller = sellerRepo.findById(request.getId()).orElse(null);
@@ -510,7 +511,7 @@ public class SellerServiceImpl implements SellerService {
 
     }
 
-    public List<Order> getOrdersBySeller(int sellerId) {
+    private List<Order> getOrdersBySeller(int sellerId) {
         List<OrderDetail> orderDetails = orderDetailRepo.findAllByFlower_Seller_Id(sellerId);
 
         return orderDetails.stream()
@@ -540,6 +541,31 @@ public class SellerServiceImpl implements SellerService {
                         .price(detail.getPrice())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    //-----------------------------------------VIEW BUYER LIST--------------------------------------//
+
+    @Override
+    public String viewBuyerList(HttpSession session, Model model) {
+        return "";
+    }
+
+    @Override
+    public ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request) {
+        return null;
+    }
+
+    private ViewBuyerListResponse viewBuyerListLogic(int sellerId) {
+//        List<Order> order = orderRepo.findAllByUser_Seller_Id(sellerId);
+//        if (order.isEmpty()) {
+//            return ViewBuyerListResponse.builder()
+//                    .status("200")
+//                    .message("")
+//                    .buyers(new ArrayList<>())
+//                    .build();
+//        }
+
+        return null;
     }
 
 }

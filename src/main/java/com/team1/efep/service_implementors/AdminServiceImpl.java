@@ -123,7 +123,7 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    public Object updateBusinessPlanLogic(UpdateBusinessPlanRequest request) {
+    private Object updateBusinessPlanLogic(UpdateBusinessPlanRequest request) {
         Map<String, String> errors = UpdateBusinessPlanValidation.validate(request);
         if (errors.isEmpty()) {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
@@ -165,7 +165,7 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    public Object disableBusinessPlanLogic(DisableBusinessPlanRequest request) {
+    private Object disableBusinessPlanLogic(DisableBusinessPlanRequest request) {
         Map<String, String> errors = DisableBusinessPlanValidation.validate(request);
         if(errors.isEmpty()) {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);

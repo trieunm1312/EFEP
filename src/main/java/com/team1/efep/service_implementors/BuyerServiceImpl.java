@@ -38,6 +38,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final WishlistItemRepo wishlistItemRepo;
     private final OrderRepo orderRepo;
     private final WishlistRepo wishlistRepo;
+    private final CategoryRepo categoryRepo;
 
     @Override
     public String sendEmail(ForgotRequest request, Model model) {
@@ -309,7 +310,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
 
-    public ViewSlideBarResponse viewSlideBarLogic() {
+    private ViewSlideBarResponse viewSlideBarLogic() {
         List<String> flowerImageLinkList = new ArrayList<>();
 
         flowerImageLinkList.add("https://static.vecteezy.com/system/resources/previews/003/110/648/original/spring-sale-banner-season-floral-discount-poster-with-flowers-vector.jpg");
@@ -590,7 +591,7 @@ public class BuyerServiceImpl implements BuyerService {
         return searchFlowerLogic(request);
     }
 
-    public SearchFlowerResponse searchFlowerLogic(SearchFlowerRequest request) {
+    private SearchFlowerResponse searchFlowerLogic(SearchFlowerRequest request) {
         return SearchFlowerResponse.builder()
                 .status("200")
                 .message("")
@@ -703,11 +704,11 @@ public class BuyerServiceImpl implements BuyerService {
                     .message("Please login a buyer account to do this action")
                     .build();
         }
-            return viewOrderStatusLogic(request.getOrderId());
+        return viewOrderStatusLogic(request.getOrderId());
     }
 
 
-    private ViewOrderStatusResponse viewOrderStatusLogic(int orderId){
+    private ViewOrderStatusResponse viewOrderStatusLogic(int orderId) {
         Order order = orderRepo.findById(orderId).orElse(null);
         if (order != null) {
             return ViewOrderStatusResponse.builder()
@@ -791,7 +792,7 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     @Override
-    public String deleteWishlist(DeleteWishlistRequest request,HttpSession session, Model model) {
+    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             model.addAttribute("error", "You are not logged in");
@@ -905,17 +906,32 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------VIEW CATEGORY------------------------------------------//
 
     @Override
-    public String viewCategory(ViewCategoryListRequest request, Model model) {
-        return "";
+    public String viewCategory(HttpSession session, Model model) {
+        model.addAttribute("msg", viewCategoryLogic());
+        return "category";
     }
 
     @Override
-    public ViewCategoryListResponse viewCategoryAPI(ViewCategoryListRequest request) {
-        return null;
+    public ViewCategoryListResponse viewCategoryAPI() {
+        return viewCategoryLogic();
     }
 
-    public Object viewCategoryLogic(ViewCategoryListRequest request) {
-        return null;
+    private ViewCategoryListResponse viewCategoryLogic() {
+        return ViewCategoryListResponse.builder()
+                .status("200")
+                .message("")
+                .categoryList(getCategoryList(categoryRepo.findAll()))
+                .build();
+    }
+
+    private List<ViewCategoryListResponse.Category> getCategoryList(List<Category> categories) {
+        return categories.stream()
+                .map(cate ->
+                        ViewCategoryListResponse.Category.builder()
+                        .name(cate.getName())
+                        .build())
+                .toList();
+
     }
 
 }

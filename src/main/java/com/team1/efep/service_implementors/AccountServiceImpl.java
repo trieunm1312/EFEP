@@ -189,7 +189,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null);
     }
 
-   //__________________________________________________________________________________//
+    //__________________________________________________________________________________//
 
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
@@ -200,12 +200,12 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
-        @Override
-        public void exchangeGoogleCode(String code) {
-            GoogleLoginUtil.accessGoogleInfo(
-                    googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token()
-            );
-        }
+    @Override
+    public void exchangeGoogleCode(String code) {
+        GoogleLoginUtil.accessGoogleInfo(
+                googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token()
+        );
+    }
 
     //-------------------------------VIEW PROFILE(LAM LAI --> HOI VO LY + KO HIEU VAN DE)-------------------------------------//
 
@@ -214,9 +214,9 @@ public class AccountServiceImpl implements AccountService {
         Object output = viewProfileLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileRequest.class)) {
             model.addAttribute("msg", (ViewProfileResponse) output);
-        return "myAccount";
-    }
-        model.addAttribute("error", (Map<String, String>)output);
+            return "myAccount";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
         return "login";
     }
 
@@ -228,15 +228,15 @@ public class AccountServiceImpl implements AccountService {
         }
         return ViewProfileResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
     // việc trả về hồ sơ người dùng nên trả về ViewProfileResponse
     // thay vì Object (nếu phải check kiểu dữ liệu của Object ở nhiều nơi khác nhau ==> lỗi runtime)
-    public Object viewProfileLogic(ViewProfileRequest request) {
+    private Object viewProfileLogic(ViewProfileRequest request) {
         Map<String, String> errors = ViewProfileValidation.validate();
-        if(errors.isEmpty()) {
+        if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             return ViewProfileResponse.builder()
@@ -247,19 +247,19 @@ public class AccountServiceImpl implements AccountService {
                     .accountStatus(account.getStatus())
                     .build();
         }
-           return errors;
-        }
+        return errors;
+    }
 
 //-------------------------------UPDATE PROFILE-------------------------------------//
 
     @Override
     public String updateProfile(UpdateProfileRequest request, Model model) {
         Object output = updateProfileLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
-            model.addAttribute("msg", (UpdateProfileResponse)output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
+            model.addAttribute("msg", (UpdateProfileResponse) output);
             return "myAccount";
         }
-            model.addAttribute("error",(Map<String, String>)output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "myAccount";
     }
 
@@ -275,9 +275,9 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
-    public Object updateProfileLogic(UpdateProfileRequest request) {
+    private Object updateProfileLogic(UpdateProfileRequest request) {
         Map<String, String> errors = UpdateProfileValidation.validate(request);
-        if(errors.isEmpty()) {
+        if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             User user = account.getUser();
@@ -299,30 +299,30 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public String changePassword(ChangePasswordRequest request, Model model) {
         Object output = changePasswordLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
-            model.addAttribute("msg", (ChangePasswordResponse)output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
+            model.addAttribute("msg", (ChangePasswordResponse) output);
             return "login";
         }
-        model.addAttribute("error",(Map<String, String>)output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "changePassword";
     }
 
     @Override
     public ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request) {
         Object output = changePasswordLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             return (ChangePasswordResponse) output;
         }
         return ChangePasswordResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
 
-    public Object changePasswordLogic(ChangePasswordRequest request) {
+    private Object changePasswordLogic(ChangePasswordRequest request) {
         Map<String, String> errors = ChangePasswordValidation.validate(request);
-        if(errors.isEmpty()) {
+        if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             account.setPassword(request.getNewPassword());
@@ -339,7 +339,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String logout(HttpSession session) {
-        if(session.getAttribute("acc") != null) {
+        if (session.getAttribute("acc") != null) {
             session.invalidate();
             return "home`````````````````````````````````````````                                                                                                                                                                                                                                                   ";
         }

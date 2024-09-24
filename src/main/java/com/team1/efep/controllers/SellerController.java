@@ -82,4 +82,15 @@ public class SellerController {
     public ViewOrderDetailResponse cancelBusinessPlan(@RequestBody ViewOrderDetailRequest request) {
         return sellerService.viewOrderDetailAPI(request);
     }
+
+    @GetMapping("/buyer/list")
+    public String viewBuyerList(HttpSession session, Model model) {
+        return sellerService.viewBuyerList(session, model);
+    }
+
+    @PostMapping("/buyer/list/api")
+    public ViewBuyerListResponse cancelBusinessPlan(@RequestBody ViewBuyerListRequest request) {
+        return sellerService.viewBuyerListAPI(request);
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.team1.efep.models.response_models;
 
-import com.team1.efep.models.entity_models.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,17 +11,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewCategoryListResponse {
+public class ViewBuyerListResponse {
     private String status;
     private String message;
-    private List<Category> categoryList;
+    private List<Buyer> buyers;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Category {
+    private static class Buyer {
+        private int id;
         private String name;
     }
-
 }

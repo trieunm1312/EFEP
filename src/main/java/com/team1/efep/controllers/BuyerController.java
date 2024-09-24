@@ -182,14 +182,15 @@ public class BuyerController {
         return buyerService.cancelOrderAPI(request);
     }
 
-    @PostMapping("/category")
-    public String viewCategory(ViewCategoryListRequest request, Model model) {
-        return buyerService.viewCategory(request, model);
+    @GetMapping("/category")
+    @Operation(hidden = true)
+    public String viewCategory(HttpSession session, Model model) {
+        return buyerService.viewCategory(session, model);
     }
 
-    @PostMapping("/category/api")
-    public ViewCategoryListResponse viewCategory(@RequestBody ViewCategoryListRequest request) {
-        return buyerService.viewCategoryAPI(request);
+    @GetMapping("/category/api")
+    public ViewCategoryListResponse viewCategory() {
+        return buyerService.viewCategoryAPI();
     }
 
 }
