@@ -22,7 +22,7 @@ public class PageController {
     public String startPage(HomePageRequest request, Model model) {
         buyerService.viewSlideBar(model);
         buyerService.viewFlowerTopList(request.getViewFlowerTopListRequest(), model);
-        return "base";
+        return "home";
     }
 
     @GetMapping("/login")

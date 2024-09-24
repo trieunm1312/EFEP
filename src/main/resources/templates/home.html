@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/home.css">
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/all.min.css"> -->
 </head>
 
 <body>
@@ -418,7 +423,7 @@
                                 <!-- Cart layout -->
                                 <div class="header__cart">
                                     <div class="header__cart-wrap">
-                                        <i class="header__cart-icon fa-solid fa-wishlist-shopping"></i>
+                                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
                                         <span class="header__cart-notice"> 10 </span>
 
                                         <!-- No wishlist: header__cart-list--no-wishlist -->
@@ -481,7 +486,7 @@
                                             </div>
                                             <div class="header__cart-list-btn">
                                                 <form th:action="@{/buyer/wishlist}" method="get">
-                                                    <input class="btn-view-wishlist" type="submit" value="View wishlist"
+                                                    <input class="btn-view-cart" type="submit" value="View wishlist"
                                                         name="Action">
                                                     <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
                                                             name="Action"> -->
