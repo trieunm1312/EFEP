@@ -317,7 +317,7 @@ public class SellerServiceImpl implements SellerService {
                 .toList();
     }
 
-    //--------------------------------------CANCEL BUSINESS PLAN FOR SELLER---------------------------------------//
+    //--------------------------------------CANCEL BUSINESS PLAN FOR SELLER(FE chua lam)---------------------------------------//
 
     @Override
     public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
