@@ -21,7 +21,7 @@ public class AccountController {
 
     @PostMapping("/register")
     @Operation(hidden = true)
-    public String register(@RequestBody RegisterRequest request, Model model) {
+    public String register(RegisterRequest request, Model model) {
         return accountService.register(request, model);
     }
 
@@ -32,7 +32,8 @@ public class AccountController {
 
     @PostMapping("/login")
     @Operation(hidden = true)
-    public String login(@RequestBody LoginRequest request, Model model, HttpSession session){
+    public String login(LoginRequest request, Model model, HttpSession session){
+        System.out.println("I stand here");
         return accountService.login(request, model, session);
     }
 
