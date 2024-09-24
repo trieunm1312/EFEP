@@ -182,4 +182,14 @@ public class BuyerController {
         return buyerService.cancelOrderAPI(request);
     }
 
+    @PostMapping("/category")
+    public String viewCategory(ViewCategoryListRequest request, Model model) {
+        return buyerService.viewCategory(request, model);
+    }
+
+    @PostMapping("/category/api")
+    public ViewCategoryListResponse viewCategory(@RequestBody ViewCategoryListRequest request) {
+        return buyerService.viewCategoryAPI(request);
+    }
+
 }
