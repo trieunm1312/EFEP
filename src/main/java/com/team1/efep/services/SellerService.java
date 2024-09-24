@@ -26,4 +26,12 @@ public interface SellerService {
     String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model);
 
     CancelBusinessPlanResponse cancelBusinessPlanAPI(CancelBusinessPlanRequest request);
+
+    String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
+
+    ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request);
+
+    String filterOrder(FilterOrderRequest request, HttpSession session, Model model);
+
+    FilterOrderResponse filterOrderAPI(FilterOrderRequest request);
 }

@@ -35,14 +35,14 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    background-image: url('/src/main/resources/static/img/mainbanner1-1920x800-Photoroom.png');
+    background-image: url('/img/mainbanner1-1920x800-Photoroom.png');
 }
 
 .slide-2 {
     display: flex;
     justify-content: end;
     align-items: center;
-    background-image: url('/src/main/resources/static/img/mainbanner2-1920x800-Photoroom.png');
+    background-image: url('/img/mainbanner2-1920x800-Photoroom.png');
 }
 
 .carousel-text-slide-1 {
@@ -313,6 +313,6 @@
     padding: 100px 0;
     text-align: center;
     color: var(--white-color);
-    background: url(/src/main/resources/static/img/testimonial-bg-1921x500.png);
+    background: url('/img/testimonial-bg-1921x500.png');
     background-size: cover;
 }

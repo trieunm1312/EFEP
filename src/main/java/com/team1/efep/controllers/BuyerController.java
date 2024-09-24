@@ -104,7 +104,7 @@ public class BuyerController {
     //mac dinh chay song song vs home page ==> ko can controller cho Thymeleaf
     @PostMapping("/flower/top/list/api")
     public ViewFlowerTopListResponse viewFlowerTopList(@RequestBody ViewFlowerTopListRequest request) {
-        return buyerService.viewFlowerTopListAPI(request);
+        return buyerService.viewFlowerTopListAPI(request.getTop());
     }
 
     @PostMapping("/flower/search")
@@ -169,6 +169,27 @@ public class BuyerController {
     @DeleteMapping("/wishlist/api")
     public DeleteWishlistResponse deleteWishlist(@RequestBody DeleteWishlistRequest request) {
         return buyerService.deleteWishlistAPI(request);
+    }
+
+    @PutMapping("/order")
+    @Operation(hidden = true)
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model) {
+        return buyerService.cancelOrder(request, session, model);
+    }
+
+    @PutMapping("/order/api")
+    public CancelOrderResponse updateWishlist(@RequestBody CancelOrderRequest request) {
+        return buyerService.cancelOrderAPI(request);
+    }
+
+    @PostMapping("/category")
+    public String viewCategory(ViewCategoryListRequest request, Model model) {
+        return buyerService.viewCategory(request, model);
+    }
+
+    @PostMapping("/category/api")
+    public ViewCategoryListResponse viewCategory(@RequestBody ViewCategoryListRequest request) {
+        return buyerService.viewCategoryAPI(request);
     }
 
 }

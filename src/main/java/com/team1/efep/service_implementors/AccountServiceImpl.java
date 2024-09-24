@@ -159,7 +159,7 @@ public class AccountServiceImpl implements AccountService {
                     .status("400")
                     .message("Invalid username or password")
                     .build());
-            return "register";
+            return "login";
         }
         session.setAttribute("acc", loggedAccount);
         model.addAttribute("msg", LoginResponse.builder()
@@ -207,17 +207,17 @@ public class AccountServiceImpl implements AccountService {
             );
         }
 
-    //-------------------------------VIEW PROFILE-------------------------------------//
+    //-------------------------------VIEW PROFILE(LAM LAI --> HOI VO LY + KO HIEU VAN DE)-------------------------------------//
 
     @Override
     public String viewProfile(ViewProfileRequest request, Model model) {
         Object output = viewProfileLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileRequest.class)) {
             model.addAttribute("msg", (ViewProfileResponse) output);
-        return "home";
+        return "myAccount";
     }
         model.addAttribute("error", (Map<String, String>)output);
-        return "home";
+        return "login";
     }
 
     @Override
@@ -257,10 +257,10 @@ public class AccountServiceImpl implements AccountService {
         Object output = updateProfileLogic(request);
         if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
             model.addAttribute("msg", (UpdateProfileResponse)output);
-            return "update";
+            return "myAccount";
         }
             model.addAttribute("error",(Map<String, String>)output);
-        return "home";
+        return "myAccount";
     }
 
     @Override
@@ -301,10 +301,10 @@ public class AccountServiceImpl implements AccountService {
         Object output = changePasswordLogic(request);
         if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             model.addAttribute("msg", (ChangePasswordResponse)output);
-            return "home";
+            return "login";
         }
         model.addAttribute("error",(Map<String, String>)output);
-        return "home";
+        return "changePassword";
     }
 
     @Override
@@ -341,7 +341,7 @@ public class AccountServiceImpl implements AccountService {
     public String logout(HttpSession session) {
         if(session.getAttribute("acc") != null) {
             session.invalidate();
-            return "home";
+            return "home`````````````````````````````````````````                                                                                                                                                                                                                                                   ";
         }
         return "home";
     }

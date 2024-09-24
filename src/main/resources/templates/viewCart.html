@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
 
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewCart.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/viewCart.css">
+    <link rel="stylesheet" href="/css/base.css">
 </head>
 
 <body>
@@ -434,7 +434,7 @@
                                                     <div class="header__cart-item-info">
                                                         <div class="header__cart-item-head">
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="" method="get">
+                                                            <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
                                                                     <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
                                                                     <span class="header__cart-item-remove-msg">Remove</span>
@@ -454,7 +454,7 @@
                                                     <div class="header__cart-item-info">
                                                         <div class="header__cart-item-head">
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="" method="get">
+                                                            <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
                                                                     <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
                                                                     <span class="header__cart-item-remove-msg">Remove</span>
@@ -523,13 +523,13 @@
                             </td>
                             <td class="table-item-detail">
                                     <div>
-                                        <form class = "table-item-quantity" th:action="" method="get">
-                                            <label class = "input-quantity" for=""><input type="number" value="1" min="1"></label>
+                                        <form class = "table-item-quantity" th:action="@{/}" method="get">
+                                            <label class = "input-quantity" for=""><input type="number" min="1"></label>
                                             <button class = "table-item-btn"  value="" name="action">
                                                 <i class="fa-solid fa-arrows-rotate"></i>
                                             </button>
                                             <button class = "table-item-removed">
-                                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"> </i>
+                                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
                                                 <span class="table-item-remove-msg">Remove</span>
                                             </button>
                                         </form>
@@ -553,7 +553,7 @@
                 </table>
             </div>
             <div >
-                <form class="btn-cart" th:action ="" method = "get">
+                <form class="btn-cart" th:action ="@{/}" method = "get">
                     <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
                     <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
                 </form>

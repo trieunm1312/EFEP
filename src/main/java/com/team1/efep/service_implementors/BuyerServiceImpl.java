@@ -1,6 +1,7 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
+import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
@@ -169,7 +170,7 @@ public class BuyerServiceImpl implements BuyerService {
 //        return null;
 //    }
 
-    //-----------------------------------------------------------------------------------------------------------//
+    //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
     public ForgotResponse sendEmailAPI(ForgotRequest request) {
         try {
@@ -223,9 +224,11 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+    //-----------------------------------------------RENEW PASSWORD------------------------------------------------------------//
+
     @Override
     public String renewPass(RenewPasswordRequest request, Model model) {
-        return "";
+        return "home";
     }
 
     @Override
@@ -255,7 +258,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String viewFlowerList(HttpSession session, Model model) {
         ViewFlowerListResponse output = viewFlowerListLogic();
         model.addAttribute("msg", output);
-        return "home";
+        return "category";
     }
 
     @Override
@@ -537,17 +540,17 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------------VIEW FLOWER TOP LIST------------------------------------------//
 
     @Override
-    public void viewFlowerTopList(ViewFlowerTopListRequest request, Model model) {
-        model.addAttribute("msg", viewFlowerTopListLogic(request));
+    public void viewFlowerTopList(int top, Model model) {
+        model.addAttribute("msg", viewFlowerTopListLogic(top));
     }
 
     @Override
-    public ViewFlowerTopListResponse viewFlowerTopListAPI(ViewFlowerTopListRequest request) {
-        return viewFlowerTopListLogic(request);
+    public ViewFlowerTopListResponse viewFlowerTopListAPI(int top) {
+        return viewFlowerTopListLogic(top);
     }
 
 
-    public ViewFlowerTopListResponse viewFlowerTopListLogic(ViewFlowerTopListRequest request) {
+    public ViewFlowerTopListResponse viewFlowerTopListLogic(int top) {
 
         return ViewFlowerTopListResponse.builder()
                 .status("200")
@@ -555,7 +558,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .flowerList(
                         flowerRepo.findAll()
                                 .stream()
-                                .limit(request.getTop())
+                                .limit(top)
                                 .map(
                                         flower -> ViewFlowerTopListResponse.Flower.builder()
                                                 .id(flower.getId())
@@ -579,7 +582,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String searchFlower(SearchFlowerRequest request) {
-        return "search";
+        return "category";
     }
 
     @Override
@@ -614,14 +617,14 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
+    //--------------------------------------VIEW FLOWER DETAIL(CHUA CHAC FE)------------------------------------------//
 
     @Override
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
         Object output = viewFlowerDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class)) {
             model.addAttribute("msg", (ViewFlowerDetailResponse) output);
-            return "viewFlowerDetail";
+            return "flowerDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -843,6 +846,76 @@ public class BuyerServiceImpl implements BuyerService {
                 .status("200")
                 .message("Wishlist deleted successfully")
                 .build();
+    }
+
+    //--------------------------------CANCEL ORDER------------------------------------------//
+
+    @Override
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ChangeOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = cancelOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
+            model.addAttribute("response", (ChangeOrderStatusResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "buyer";
+    }
+
+    @Override
+    public CancelOrderResponse cancelOrderAPI(CancelOrderRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            ChangeOrderStatusResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build();
+        }
+        Object output = cancelOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
+            return (CancelOrderResponse) output;
+        }
+        return CancelOrderResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object cancelOrderLogic(CancelOrderRequest request) {
+        Map<String, String> errors = CancelOrderValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
+        Status.changeOrderStatus(order, "cancelled", orderRepo);
+
+        return CancelOrderResponse.builder()
+                .status("200")
+                .message("Cancel order successfully")
+                .build();
+    }
+
+    //--------------------------------VIEW CATEGORY------------------------------------------//
+
+    @Override
+    public String viewCategory(ViewCategoryListRequest request, Model model) {
+        return "";
+    }
+
+    @Override
+    public ViewCategoryListResponse viewCategoryAPI(ViewCategoryListRequest request) {
+        return null;
+    }
+
+    public Object viewCategoryLogic(ViewCategoryListRequest request) {
+        return null;
     }
 
 }
