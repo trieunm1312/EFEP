@@ -902,6 +902,21 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+    //--------------------------------VIEW CATEGORY------------------------------------------//
+
+    @Override
+    public String viewCategory(ViewCategoryListRequest request, Model model) {
+        return "";
+    }
+
+    @Override
+    public ViewCategoryListResponse viewCategoryAPI(ViewCategoryListRequest request) {
+        return null;
+    }
+
+    public Object viewCategoryLogic(ViewCategoryListRequest request) {
+        return null;
+    }
 
 }
 
