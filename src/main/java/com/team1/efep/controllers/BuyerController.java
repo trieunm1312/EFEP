@@ -17,8 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-//@Controller
- @RestController
+@Controller
+// @RestController
 @RequiredArgsConstructor
 @RequestMapping("/buyer")
 @Tag(name = "Buyer")
@@ -192,6 +192,16 @@ public class BuyerController {
     @GetMapping("/order/payment/result")
     public void getPaymentResult(@RequestParam(name = "vnp_Amount") String amount){
         System.out.println("Amount: " + amount);
+    }
+
+    @PostMapping("/category")
+    public String viewCategory(ViewCategoryListRequest request, Model model) {
+        return buyerService.viewCategory(request, model);
+    }
+
+    @PostMapping("/category/api")
+    public ViewCategoryListResponse viewCategory(@RequestBody ViewCategoryListRequest request) {
+        return buyerService.viewCategoryAPI(request);
     }
 
 }

@@ -79,4 +79,8 @@ public interface BuyerService {
     String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest);
 
     VNPayResponse createVNPayPaymentLinkAPI(VNPayRequest request, HttpServletRequest httpServletRequest);
+
+    String viewCategory(ViewCategoryListRequest request, Model model);
+
+    ViewCategoryListResponse viewCategoryAPI(ViewCategoryListRequest request);
 }

@@ -176,7 +176,7 @@ public class BuyerServiceImpl implements BuyerService {
 //        return null;
 //    }
 
-    //-----------------------------------------------------------------------------------------------------------//
+    //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
     public ForgotResponse sendEmailAPI(ForgotRequest request) {
         try {
@@ -230,9 +230,11 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+    //-----------------------------------------------RENEW PASSWORD------------------------------------------------------------//
+
     @Override
     public String renewPass(RenewPasswordRequest request, Model model) {
-        return "";
+        return "home";
     }
 
     @Override
@@ -262,7 +264,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String viewFlowerList(HttpSession session, Model model) {
         ViewFlowerListResponse output = viewFlowerListLogic();
         model.addAttribute("msg", output);
-        return "home";
+        return "category";
     }
 
     @Override
@@ -596,7 +598,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String searchFlower(SearchFlowerRequest request) {
-        return "search";
+        return "category";
     }
 
     @Override
@@ -631,14 +633,14 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
+    //--------------------------------------VIEW FLOWER DETAIL(CHUA CHAC FE)------------------------------------------//
 
     @Override
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
         Object output = viewFlowerDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class)) {
             model.addAttribute("msg", (ViewFlowerDetailResponse) output);
-            return "viewFlowerDetail";
+            return "flowerDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -917,6 +919,21 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+    //--------------------------------VIEW CATEGORY------------------------------------------//
+
+    @Override
+    public String viewCategory(ViewCategoryListRequest request, Model model) {
+        return "";
+    }
+
+    @Override
+    public ViewCategoryListResponse viewCategoryAPI(ViewCategoryListRequest request) {
+        return null;
+    }
+
+    public Object viewCategoryLogic(ViewCategoryListRequest request) {
+        return null;
+    }
     //--------------------------------VN Pay------------------------------------------//
 
     @Override
