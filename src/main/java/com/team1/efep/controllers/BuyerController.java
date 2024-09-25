@@ -17,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
-// @RestController
+//@RestController
 @RequiredArgsConstructor
 @RequestMapping("/buyer")
 @Tag(name = "Buyer")
@@ -110,6 +112,7 @@ public class BuyerController {
     }
 
     @PostMapping("/flower/search")
+    @Operation(hidden = true)
     public String searchFlower(SearchFlowerRequest request, Model model){
         return buyerService.searchFlower(request);
     }
@@ -120,6 +123,7 @@ public class BuyerController {
     }
 
     @PostMapping("/flower/detail")
+    @Operation(hidden = true)
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model){
         return buyerService.viewFlowerDetail(request, model);
     }
@@ -184,17 +188,30 @@ public class BuyerController {
         return buyerService.cancelOrderAPI(request);
     }
 
+    @PostMapping("/order/payment")
+    @Operation(hidden = true)
+    public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest){
+        return buyerService.createVNPayPaymentLink(request, model, httpServletRequest);
+    }
+
     @PostMapping("/order/payment/api")
     public VNPayResponse createVNPayPaymentLink(@RequestBody VNPayRequest request, HttpServletRequest httpServletRequest){
         return buyerService.createVNPayPaymentLinkAPI(request, httpServletRequest);
     }
 
     @GetMapping("/order/payment/result")
-    public void getPaymentResult(@RequestParam(name = "vnp_Amount") String amount){
-        System.out.println("Amount: " + amount);
+    @Operation(hidden = true)
+    public String getPaymentResult(@RequestParam Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session){
+        return buyerService.getPaymentResult(params, httpServletRequest, model, session);
     }
 
+//    @GetMapping("/order/payment/result")
+//    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params,@RequestParam int accountId, HttpServletRequest httpServletRequest){
+//        return buyerService.getPaymentResultAPI(params, accountId, httpServletRequest);
+//    }
+
     @PostMapping("/category")
+    @Operation(hidden = true)
     public String viewCategory(ViewCategoryListRequest request, Model model) {
         return buyerService.viewCategory(request, model);
     }

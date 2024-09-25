@@ -10,6 +10,9 @@ import com.team1.efep.models.response_models.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 public interface BuyerService {
     String sendEmail(ForgotRequest request, Model model);
@@ -79,6 +82,10 @@ public interface BuyerService {
     String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest);
 
     VNPayResponse createVNPayPaymentLinkAPI(VNPayRequest request, HttpServletRequest httpServletRequest);
+
+    String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session);
+
+    VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest);
 
     String viewCategory(ViewCategoryListRequest request, Model model);
 
