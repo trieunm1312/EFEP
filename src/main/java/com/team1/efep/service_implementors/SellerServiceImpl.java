@@ -176,7 +176,8 @@ public class SellerServiceImpl implements SellerService {
 
 
     private Object viewOrderListLogic(int accountId) {
-        List<Order> orderList = orderRepo.findAllByUser_Seller_Id(accountId);
+        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
+        List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
         if (!orderList.isEmpty()) {
             List<ViewOrderListResponse.OrderBill> orderBills = orderList.stream()
                     .map(this::viewOrderList)
@@ -283,7 +284,6 @@ public class SellerServiceImpl implements SellerService {
         return viewFlowerListForSellerLogic(request);
     }
 
-
     public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(ViewFlowerListForSellerRequest request) {
         List<Flower> flowers = flowerRepo.findBySeller_Id(request.getSellerId());
         return ViewFlowerListForSellerResponse.builder()
@@ -292,7 +292,6 @@ public class SellerServiceImpl implements SellerService {
                 .flowerList(viewFlowerList(flowers))
                 .build();
         // if find -> print size of flower
-
     }
 
     private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
@@ -396,7 +395,6 @@ public class SellerServiceImpl implements SellerService {
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
-
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
         Map<String, String> errors = ViewOrderDetailValidation.validate(request);

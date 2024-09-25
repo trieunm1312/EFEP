@@ -9,6 +9,8 @@ import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.BuyerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -127,24 +129,24 @@ public class BuyerController {
         return buyerService.viewFlowerDetailAPI(request);
     }
 
-    @GetMapping("/order-detail")
+    @GetMapping("/order/detail")
     @Operation(hidden = true)
     public String viewOrderHistory(ViewOrderDetailRequest request, HttpSession session, Model model) {
         return buyerService.viewOrderDetail(request, session, model);
     }
 
-    @PostMapping("/order-detail/api")
+    @PostMapping("/order/detail/api")
     public ViewOrderDetailResponse viewOrderHistory(@RequestBody ViewOrderDetailRequest request) {
         return buyerService.viewOrderDetailAPI(request);
     }
 
-    @GetMapping("/order-status")
+    @GetMapping("/order/status")
     @Operation(hidden = true)
     public String viewOrderStatus(HttpSession session, Model model) {
         return buyerService.viewOrderStatus(session, model);
     }
 
-    @PostMapping("/order-status/api")
+    @PostMapping("/order/status/api")
     public ViewOrderStatusResponse viewOrderStatus(@RequestBody ViewOrderStatusRequest request) {
         return buyerService.viewOrderStatusAPI(request);
     }
@@ -180,6 +182,16 @@ public class BuyerController {
     @PutMapping("/order/api")
     public CancelOrderResponse updateWishlist(@RequestBody CancelOrderRequest request) {
         return buyerService.cancelOrderAPI(request);
+    }
+
+    @PostMapping("/order/payment/api")
+    public VNPayResponse createVNPayPaymentLink(@RequestBody VNPayRequest request, HttpServletRequest httpServletRequest){
+        return buyerService.createVNPayPaymentLinkAPI(request, httpServletRequest);
+    }
+
+    @GetMapping("/order/payment/result")
+    public void getPaymentResult(@RequestParam(name = "vnp_Amount") String amount){
+        System.out.println("Amount: " + amount);
     }
 
     @PostMapping("/category")
