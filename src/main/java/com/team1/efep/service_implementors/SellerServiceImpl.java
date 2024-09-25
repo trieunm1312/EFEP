@@ -137,58 +137,59 @@ public class SellerServiceImpl implements SellerService {
 
     //---------------------------------------------VIEW ORDER LIST--------------------------------------------------------//
 
-//    @Override
-//    public String viewOrderList(HttpSession session, Model model) {
-//        Account account = Role.getCurrentLoggedAccount(session);
-//        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-//            model.addAttribute("error", ViewOrderListResponse.builder()
-//                    .status("400")
-//                    .message("Please login a seller account to do this action")
-//                    .build());
-//            return "login";
-//        }
-//        Object output = viewOrderListLogic(account.getId());
-//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
-//            model.addAttribute("response", (ViewOrderListResponse) output);
-//        }
-//        model.addAttribute("error", (Map<String, String>) output);
-//        return "seller";
-//    }
-//
-//    @Override
-//    public ViewOrderListResponse viewOrderListAPI(int id) {
-//        Account account = Role.getCurrentLoggedAccount(id, accountRepo);
-//        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-//            return ViewOrderListResponse.builder()
-//                    .status("400")
-//                    .message("Please login a seller account to do this action")
-//                    .build();
-//        }
-//        Object output = viewOrderListLogic(account.getId());
-//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
-//            return (ViewOrderListResponse) output;
-//        }
-//        return ViewOrderListResponse.builder()
-//                .status("400")
-//                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-//                .build();
-//    }
-//
-//
-//    private Object viewOrderListLogic(int accountId) {
-//        List<Order> orderList = orderRepo.findAllByUser_Seller_Id(accountId);
-//        if (!orderList.isEmpty()) {
-//            List<ViewOrderListResponse.OrderBill> orderBills = orderList.stream()
-//                    .map(this::viewOrderList)
-//                    .collect(Collectors.toList());
-//            return ViewOrderListResponse.builder()
-//                    .status("200")
-//                    .message("Orders found")
-//                    .orderList(orderBills)
-//                    .build();
-//        }
-//        return ViewOrderListValidation.orderListValidation();
-//    }
+    @Override
+    public String viewOrderList(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewOrderListResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = viewOrderListLogic(account.getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
+            model.addAttribute("response", (ViewOrderListResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
+    }
+
+    @Override
+    public ViewOrderListResponse viewOrderListAPI(int id) {
+        Account account = Role.getCurrentLoggedAccount(id, accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return ViewOrderListResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = viewOrderListLogic(account.getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
+            return (ViewOrderListResponse) output;
+        }
+        return ViewOrderListResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+
+    private Object viewOrderListLogic(int accountId) {
+        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
+        List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
+        if (!orderList.isEmpty()) {
+            List<ViewOrderListResponse.OrderBill> orderBills = orderList.stream()
+                    .map(this::viewOrderList)
+                    .collect(Collectors.toList());
+            return ViewOrderListResponse.builder()
+                    .status("200")
+                    .message("Orders found")
+                    .orderList(orderBills)
+                    .build();
+        }
+        return ViewOrderListValidation.orderListValidation();
+    }
 
     private ViewOrderListResponse.OrderBill viewOrderList(Order order) {
         return ViewOrderListResponse.OrderBill.builder()
@@ -283,7 +284,6 @@ public class SellerServiceImpl implements SellerService {
         return viewFlowerListForSellerLogic(request);
     }
 
-
     public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(ViewFlowerListForSellerRequest request) {
         List<Flower> flowers = flowerRepo.findBySeller_Id(request.getSellerId());
         return ViewFlowerListForSellerResponse.builder()
@@ -292,7 +292,6 @@ public class SellerServiceImpl implements SellerService {
                 .flowerList(viewFlowerList(flowers))
                 .build();
         // if find -> print size of flower
-
     }
 
     private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
@@ -396,7 +395,6 @@ public class SellerServiceImpl implements SellerService {
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
-
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
         Map<String, String> errors = ViewOrderDetailValidation.validate(request);
