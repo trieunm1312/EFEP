@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.VNPay.VNPayConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -18,6 +19,7 @@ import com.team1.efep.validations.ViewOrderHistoryValidation;
 import com.team1.efep.validations.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -25,6 +27,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,6 +43,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final WishlistItemRepo wishlistItemRepo;
     private final OrderRepo orderRepo;
     private final WishlistRepo wishlistRepo;
+    private final OrderDetailRepo orderDetailRepo;
 
     @Override
     public String sendEmail(ForgotRequest request, Model model) {
@@ -426,7 +432,8 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object viewOrderHistoryLogic(int accountId) {
-        List<Order> orderList = orderRepo.findAllByUser_Id(accountId);
+        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
+        List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
         Map<String, String> errors = ViewOrderHistoryValidation.orderHistoryValidation();
         if (!errors.isEmpty()) {
             return errors;
@@ -442,6 +449,15 @@ public class BuyerServiceImpl implements BuyerService {
                     .build();
         }
         return errors;
+    }
+
+    public List<Order> getOrdersBySeller(int sellerId) {
+        List<OrderDetail> orderDetails = orderDetailRepo.findAllByFlower_Seller_Id(sellerId);
+
+        return orderDetails.stream()
+                .map(OrderDetail::getOrder)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     private ViewOrderHistoryResponse.Order viewOrderList(Order order) {
@@ -885,6 +901,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+
     private Object cancelOrderLogic(CancelOrderRequest request) {
         Map<String, String> errors = CancelOrderValidation.validate(request);
         if (!errors.isEmpty()) {
@@ -900,6 +917,106 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+    //--------------------------------VN Pay------------------------------------------//
 
+    @Override
+    public VNPayResponse createVNPayPaymentLinkAPI(VNPayRequest request, HttpServletRequest httpServletRequest) {
+        return createVNPayPaymentLinkLogic(request, httpServletRequest);
+    }
+
+    @Override
+    public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+        model.addAttribute("msg", createVNPayPaymentLinkLogic(request, httpServletRequest));
+        return "home";
+    }
+
+    private VNPayResponse createVNPayPaymentLinkLogic(VNPayRequest request, HttpServletRequest httpServletRequest){
+        Map<String, String> paramList = new HashMap<>();
+
+        long amount = getAmount(request);
+        String txnRef = VNPayConfig.getRandomNumber(8);
+        String ipAddress = VNPayConfig.getIpAddress(httpServletRequest);
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        paramList.put("vnp_Version", getVersion());
+        paramList.put("vnp_Command", getCommand());
+        paramList.put("vnp_TmnCode", VNPayConfig.vnp_TmnCode);
+        paramList.put("vnp_Amount", String.valueOf(amount));
+        paramList.put("vnp_CurrCode", "VND");
+        paramList.put("vnp_TxnRef", txnRef);
+        paramList.put("vnp_OrderInfo", "Order payment No " + txnRef + ", Amount: " + amount);
+        paramList.put("vnp_OrderType", getOrderType());
+        paramList.put("vnp_Locale", "vn");
+        paramList.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
+        paramList.put("vnp_IpAddr", ipAddress);
+        paramList.put("vnp_CreateDate", getCreateDate(calendar, formatter));
+        paramList.put("vnp_ExpireDate", getExpiredDate(15, calendar, formatter));
+
+        return VNPayResponse.builder()
+                .status("200")
+                .message("Create payment link successfully")
+                .paymentURL(buildVNPayLink(paramList))
+                .build();
+    }
+
+    private String getVersion(){
+        return "2.1.0";
+    }
+
+    private String getCommand(){
+        return "pay";
+    }
+
+    private String getOrderType(){
+        return "other";
+    }
+
+    private Long getAmount(VNPayRequest request){
+        return request.getAmount() * 100;
+    }
+
+    private String getCreateDate(Calendar calendar, SimpleDateFormat dateFormat){
+        return dateFormat.format(calendar.getTime());
+    }
+
+    private String getExpiredDate(int minutes, Calendar calendar, SimpleDateFormat dateFormat){
+        calendar.add(Calendar.MINUTE, minutes);
+        return dateFormat.format(calendar.getTime());
+    }
+
+    private String buildVNPayLink(Map<String, String> paramList){
+        try {
+            List<String> fieldNames = new ArrayList<>(paramList.keySet());
+            Collections.sort(fieldNames);
+            StringBuilder hashData = new StringBuilder();
+            StringBuilder query = new StringBuilder();
+            Iterator<String> itr = fieldNames.iterator();
+            while (itr.hasNext()) {
+                String fieldName = (String) itr.next();
+                String fieldValue = (String) paramList.get(fieldName);
+                if ((fieldValue != null) && (!fieldValue.isEmpty())) {
+                    //Build hash data
+                    hashData.append(fieldName);
+                    hashData.append('=');
+                    hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+                    //Build query
+                    query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
+                    query.append('=');
+                    query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+                    if (itr.hasNext()) {
+                        query.append('&');
+                        hashData.append('&');
+                    }
+                }
+            }
+            String queryUrl = query.toString();
+            String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
+            queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
+            return VNPayConfig.vnp_PayUrl + "?" + queryUrl;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }
 
