@@ -1,17 +1,15 @@
-package com.team1.efep.models.request_models;
+package com.team1.efep.models.response_models;
 
-import com.team1.efep.models.entity_models.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewCategoryListRequest {
-
+public class DeleteBusinessServiceResponse {
+    private String status;
+    private String message;
 }

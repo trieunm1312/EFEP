@@ -80,7 +80,7 @@ public interface BuyerService {
 
     VNPayResponse createVNPayPaymentLinkAPI(VNPayRequest request, HttpServletRequest httpServletRequest);
 
-    String viewCategory(ViewCategoryListRequest request, Model model);
+    String viewCategory(HttpSession session, Model model);
 
-    ViewCategoryListResponse viewCategoryAPI(ViewCategoryListRequest request);
+    ViewCategoryListResponse viewCategoryAPI();
 }
