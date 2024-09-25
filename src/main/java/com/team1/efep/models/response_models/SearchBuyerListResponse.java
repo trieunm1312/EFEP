@@ -11,16 +11,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewBuyerListResponse {
+public class SearchBuyerListResponse {
     private String status;
     private String message;
-    private List<Buyer> buyers;
+    private List<Buyer> buyerList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Buyer {
+    public static class Buyer{
         private int id;
         private String name;
     }

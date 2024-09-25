@@ -15,9 +15,9 @@ public interface SellerService {
 
     ChangeOrderStatusResponse changeOrderStatusAPI(ChangeOrderStatusRequest request);
 
-    String viewOrderList(HttpSession session, Model model);
-
-    ViewOrderListResponse viewOrderListAPI(int id);
+//    String viewOrderList(HttpSession session, Model model);
+//
+//    ViewOrderListResponse viewOrderListAPI(int id);
 
     String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model);
 
@@ -38,4 +38,8 @@ public interface SellerService {
     String viewBuyerList(HttpSession session, Model model);
 
     ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request);
+
+    String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model);
+
+    SearchBuyerListResponse searchBuyerListAPI(SearchBuyerListRequest request, int sellerId);
 }

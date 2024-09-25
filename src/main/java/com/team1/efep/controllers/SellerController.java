@@ -42,16 +42,16 @@ public class SellerController {
         return sellerService.changeOrderStatusAPI(request);
     }
 
-    @GetMapping("/order-list")
-    @Operation(hidden = true)
-    public String createFlower(HttpSession session, Model model) {
-        return sellerService.viewOrderList(session, model);
-    }
-
-    @GetMapping("/order-list/api/{id}")
-    public ViewOrderListResponse createFlower(@PathVariable int id) {
-        return sellerService.viewOrderListAPI(id);
-    }
+//    @GetMapping("/order-list")
+//    @Operation(hidden = true)
+//    public String createFlower(HttpSession session, Model model) {
+//        return sellerService.viewOrderList(session, model);
+//    }
+//
+//    @GetMapping("/order-list/api/{id}")
+//    public ViewOrderListResponse createFlower(@PathVariable int id) {
+//        return sellerService.viewOrderListAPI(id);
+//    }
 
     @PostMapping("/view/flower")
     public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request,HttpSession session, Model model) {
@@ -91,6 +91,16 @@ public class SellerController {
     @PostMapping("/buyer/list/api")
     public ViewBuyerListResponse cancelBusinessPlan(@RequestBody ViewBuyerListRequest request) {
         return sellerService.viewBuyerListAPI(request);
+    }
+
+    @PostMapping("/search/buyer/")
+    public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
+        return sellerService.searchBuyerList(session, request, model);
+    }
+
+    @PostMapping("/search/buyer/api")
+    public SearchBuyerListResponse searchBuyerList(@RequestBody SearchBuyerListRequest request, @RequestBody int id) {
+        return sellerService.searchBuyerListAPI(request, id);
     }
 
 }

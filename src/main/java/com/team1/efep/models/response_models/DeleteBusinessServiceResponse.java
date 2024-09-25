@@ -5,23 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewBuyerListResponse {
+public class DeleteBusinessServiceResponse {
     private String status;
     private String message;
-    private List<Buyer> buyers;
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Buyer {
-        private int id;
-        private String name;
-    }
 }
