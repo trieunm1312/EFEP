@@ -15,9 +15,9 @@ public interface SellerService {
 
     ChangeOrderStatusResponse changeOrderStatusAPI(ChangeOrderStatusRequest request);
 
-//    String viewOrderList(HttpSession session, Model model);
-//
-//    ViewOrderListResponse viewOrderListAPI(int id);
+    String viewOrderList(HttpSession session, Model model);
+
+    ViewOrderListResponse viewOrderListAPI(int id);
 
     String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model);
 
