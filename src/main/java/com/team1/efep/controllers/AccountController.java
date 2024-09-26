@@ -33,7 +33,6 @@ public class AccountController {
     @PostMapping("/login")
     @Operation(hidden = true)
     public String login(LoginRequest request, Model model, HttpSession session){
-        System.out.println("I stand here");
         return accountService.login(request, model, session);
     }
 

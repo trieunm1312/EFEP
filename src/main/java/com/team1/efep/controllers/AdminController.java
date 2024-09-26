@@ -1,13 +1,7 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.models.request_models.ChangePasswordRequest;
-import com.team1.efep.models.request_models.CreateBusinessPlanRequest;
-import com.team1.efep.models.request_models.DisableBusinessPlanRequest;
-import com.team1.efep.models.request_models.UpdateBusinessPlanRequest;
-import com.team1.efep.models.response_models.ChangePasswordResponse;
-import com.team1.efep.models.response_models.CreateBusinessPlanResponse;
-import com.team1.efep.models.response_models.DisableBusinessPlanResponse;
-import com.team1.efep.models.response_models.UpdateBusinessPlanResponse;
+import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,6 +40,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/plan")
+    @Operation(hidden = true)
     public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model) {
         return adminService.disableBusinessPlan(request, model);
     }
@@ -53,5 +48,38 @@ public class AdminController {
     @DeleteMapping("/plan/api")
     public DisableBusinessPlanResponse disableBusinessPlan(@RequestBody DisableBusinessPlanRequest request) {
         return adminService.disableBusinessPlanAPI(request);
+    }
+
+    @PostMapping("/service")
+    @Operation(hidden = true)
+    public String createBusinessService(CreateBusinessServiceRequest request, Model model) {
+        return adminService.createBusinessService(request, model);
+    }
+
+    @PostMapping("/service/api")
+    public CreateBusinessServiceResponse createBusinessService(@RequestBody CreateBusinessServiceRequest request) {
+        return adminService.createBusinessServiceAPI(request);
+    }
+
+    @PutMapping("/service")
+    @Operation(hidden = true)
+    public String updateBusinessService(UpdateBusinessServiceRequest request, Model model) {
+        return adminService.updateBusinessService(request, model);
+    }
+
+    @PutMapping("/service/api")
+    public UpdateBusinessServiceResponse updateBusinessService(@RequestBody UpdateBusinessServiceRequest request) {
+        return adminService.updateBusinessServiceAPI(request);
+    }
+
+    @DeleteMapping("/service")
+    @Operation(hidden = true)
+    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model ) {
+        return adminService.deleteBusinessService(request, model);
+    }
+
+    @DeleteMapping("/service/api")
+    public DeleteBusinessServiceResponse deleteBusinessService(@RequestBody DeleteBusinessServiceRequest request) {
+        return adminService.deleteBusinessServiceAPI(request);
     }
 }

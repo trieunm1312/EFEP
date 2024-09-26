@@ -2,13 +2,13 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.Account;
-import com.team1.efep.models.entity_models.Wishlist;
 import com.team1.efep.models.entity_models.User;
+import com.team1.efep.models.entity_models.Wishlist;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.AccountRepo;
-import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.repositories.UserRepo;
+import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.services.AccountService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.GoogleLoginGeneratorUtil;
@@ -159,7 +159,7 @@ public class AccountServiceImpl implements AccountService {
                     .status("400")
                     .message("Invalid username or password")
                     .build());
-            return "register";
+            return "login";
         }
         session.setAttribute("acc", loggedAccount);
         model.addAttribute("msg", LoginResponse.builder()
@@ -189,7 +189,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null);
     }
 
-   //__________________________________________________________________________________//
+    //__________________________________________________________________________________//
 
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
@@ -200,24 +200,24 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
-        @Override
-        public void exchangeGoogleCode(String code) {
-            GoogleLoginUtil.accessGoogleInfo(
-                    googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token()
-            );
-        }
+    @Override
+    public void exchangeGoogleCode(String code) {
+        GoogleLoginUtil.accessGoogleInfo(
+                googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token()
+        );
+    }
 
-    //-------------------------------VIEW PROFILE-------------------------------------//
+    //-------------------------------VIEW PROFILE(LAM LAI --> HOI VO LY + KO HIEU VAN DE)-------------------------------------//
 
     @Override
     public String viewProfile(ViewProfileRequest request, Model model) {
         Object output = viewProfileLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileRequest.class)) {
             model.addAttribute("msg", (ViewProfileResponse) output);
-        return "home";
-    }
-        model.addAttribute("error", (Map<String, String>)output);
-        return "home";
+            return "myAccount";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "login";
     }
 
     @Override
@@ -228,15 +228,15 @@ public class AccountServiceImpl implements AccountService {
         }
         return ViewProfileResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
     // việc trả về hồ sơ người dùng nên trả về ViewProfileResponse
     // thay vì Object (nếu phải check kiểu dữ liệu của Object ở nhiều nơi khác nhau ==> lỗi runtime)
-    public Object viewProfileLogic(ViewProfileRequest request) {
+    private Object viewProfileLogic(ViewProfileRequest request) {
         Map<String, String> errors = ViewProfileValidation.validate();
-        if(errors.isEmpty()) {
+        if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             return ViewProfileResponse.builder()
@@ -247,20 +247,20 @@ public class AccountServiceImpl implements AccountService {
                     .accountStatus(account.getStatus())
                     .build();
         }
-           return errors;
-        }
+        return errors;
+    }
 
 //-------------------------------UPDATE PROFILE-------------------------------------//
 
     @Override
     public String updateProfile(UpdateProfileRequest request, Model model) {
         Object output = updateProfileLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
-            model.addAttribute("msg", (UpdateProfileResponse)output);
-            return "update";
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
+            model.addAttribute("msg", (UpdateProfileResponse) output);
+            return "myAccount";
         }
-            model.addAttribute("error",(Map<String, String>)output);
-        return "home";
+        model.addAttribute("error", (Map<String, String>) output);
+        return "myAccount";
     }
 
     @Override
@@ -275,9 +275,9 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
-    public Object updateProfileLogic(UpdateProfileRequest request) {
+    private Object updateProfileLogic(UpdateProfileRequest request) {
         Map<String, String> errors = UpdateProfileValidation.validate(request);
-        if(errors.isEmpty()) {
+        if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             User user = account.getUser();
@@ -299,30 +299,30 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public String changePassword(ChangePasswordRequest request, Model model) {
         Object output = changePasswordLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
-            model.addAttribute("msg", (ChangePasswordResponse)output);
-            return "home";
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
+            model.addAttribute("msg", (ChangePasswordResponse) output);
+            return "login";
         }
-        model.addAttribute("error",(Map<String, String>)output);
-        return "home";
+        model.addAttribute("error", (Map<String, String>) output);
+        return "changePassword";
     }
 
     @Override
     public ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request) {
         Object output = changePasswordLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             return (ChangePasswordResponse) output;
         }
         return ChangePasswordResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
 
-    public Object changePasswordLogic(ChangePasswordRequest request) {
+    private Object changePasswordLogic(ChangePasswordRequest request) {
         Map<String, String> errors = ChangePasswordValidation.validate(request);
-        if(errors.isEmpty()) {
+        if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             account.setPassword(request.getNewPassword());
@@ -339,9 +339,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String logout(HttpSession session) {
-        if(session.getAttribute("acc") != null) {
+        if (session.getAttribute("acc") != null) {
             session.invalidate();
-            return "home";
+            return "home`````````````````````````````````````````                                                                                                                                                                                                                                                   ";
         }
         return "home";
     }

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderStatusDetail.css">
+
 </head>
 
 <body>
@@ -132,8 +134,10 @@
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
                                                             <form th:action="" method="get">
                                                                 <button class="header__cart-item-remove">
-                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span class="header__cart-item-remove-msg">Remove</span>
+                                                                    <i
+                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span
+                                                                        class="header__cart-item-remove-msg">Remove</span>
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -152,8 +156,10 @@
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
                                                             <form th:action="" method="get">
                                                                 <button class="header__cart-item-remove">
-                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span class="header__cart-item-remove-msg">Remove</span>
+                                                                    <i
+                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span
+                                                                        class="header__cart-item-remove-msg">Remove</span>
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -172,9 +178,9 @@
                                             </div>
                                             <div class="header__cart-list-btn">
                                                 <form th:action="@{/buyer/wishlist}" method="get">
-                                                        <input class="btn-view-wishlist" type="submit" value="View wishlist"
-                                                            name="Action">
-                                                      <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
+                                                    <input class="btn-view-wishlist" type="submit" value="View wishlist"
+                                                        name="Action">
+                                                    <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
                                                             name="Action"> -->
                                                 </form>
                                             </div>
@@ -220,73 +226,82 @@
                 </div>
 
                 <!-- Order list -->
-                <div class="order-list">
+                <div class="step-progress">
+                    <div class="navigation-order">
+                        <form th:action="@{/}">
+                            <button class="nav-order-btn">
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span>Back</span>
+                            </button>
+                        </form>
+                        <span class="navigation-order-code text-orange">ORDER CODE: ABC12345</span>
+                    </div>
+                    <section class="step-wizard">
+                        <ul class="step-wizard-list">
+                            <li class="step-wizard-item current-item">
+                                <span class="progress-count">1</span>
+                                <span class="progress-label">Process</span>
+                            </li>
+                            <li class="step-wizard-item ">
+                                <span class="progress-count">2</span>
+                                <span class="progress-label">Packed</span>
+                            </li>
+                            <li class="step-wizard-item ">
+                                <span class="progress-count">3</span>
+                                <span class="progress-label">completed</span>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+                <div class="order__detail-item">
                     <table border="1" cellpadding="20" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th class="table-order-header">Image</th>
-                                <th class="table-order-header">Name</th>
-                                <th class="table-order-header">Product code</th>
-                                <th class="table-order-header">Event</th>
-                                <th class="table-order-header">Quantity</th>
-                                <th class="table-order-header">Total</th>
-                                <th class="table-order-header">Status</th>
-                            </tr>
-                        </thead>
                         <tbody>
+                            <form th:action="@{/}">
                                 <tr>
-                                    <td class="table-order-detail">
+                                    <td class="table-order-detail" colspan="2">
+                                        <button class="order-btn">View more flower</button>
+                                    </td>
+                                </tr>
+                            </form>
+                            <tr>
+                                <td class="table-order-detail" colspan="2">
+                                    <div class="text-flex">
                                         <div class="table-order-img">
                                             <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
                                                 alt="">
                                         </div>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-name">Hiptage</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-id">F123</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-event">Wedding</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-quantity">1</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-total">$122.00</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-status">processing</span>
-                                    </td>
-                                </tr>
+                                        <div class="table-order-info">
+                                            <h4 class="table-order-name">Hiptage</h4>
+                                            <!-- <span class="table-order-id">F123</span> -->
+                                            <span class="table-order-event">Wedding</span>
+                                            <div class="table-order-info-price">
+                                                <div class="table-order-info-qnt">
+                                                    <span class="table-order-multiple">x</span>
+                                                    <span class="table-order-quantity">1</span>
+                                                </div>
+                                                <span class="table-order-price text-orange">$122.00</span>
+                                            </div>
 
-                                <tr>
-                                    <td class="table-order-detail">
-                                        <div class="table-order-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
                                         </div>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-name">Hiptage</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-id">F123</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-event">Wedding</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-quantity">1</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-total">$122.00</span>
-                                    </td>
-                                    <td class="table-order-detail">
-                                        <span class="table-order-status">processing</span>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-order-detail text-left" colspan="1">
+                                    <span class="table-order-total">Total</span>
+                                </td>
+                                <td class="table-order-detail text-left" colspan="1">
+                                    <span class="table-order-total-price text-orange">$122.00</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-order-detail text-left" colspan="1">
+                                    <span class="table-order-payment">Phuong thuc thanh toan</span>
+                                </td>
+                                <td class="table-order-detail text-left" colspan="1">
+                                    <span class="table-order-payment-type">VNPay</span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -312,21 +327,21 @@
                                     Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
                                     Và đến khi anh cất lời
                                     Là giấc mơ mang cả đời -->
-                                    Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                    Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                    Tình yêu này có thật đáng thương? (Oh no)
-                                    Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                    Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                    Mất đi người rất quan trọng
-                                    Có lẽ vì quá tham vọng
-                                    Không thấy vui trong lòng
-                                    Anh nhớ góc tối ở trong căn phòng
-                                    Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                    Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                    Lâu hơn một chút
-                                    Để anh ổn định cảm xúc
-                                    Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                    Ký ức lại triệu hồi nỗi đau</span>
+                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
+                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
+                                Tình yêu này có thật đáng thương? (Oh no)
+                                Ở phía dưới ngọn đèn, có gã khờ đang hát
+                                Cố gắng mỉm cười, nhưng trong lòng tan nát
+                                Mất đi người rất quan trọng
+                                Có lẽ vì quá tham vọng
+                                Không thấy vui trong lòng
+                                Anh nhớ góc tối ở trong căn phòng
+                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
+                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
+                                Lâu hơn một chút
+                                Để anh ổn định cảm xúc
+                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
+                                Ký ức lại triệu hồi nỗi đau</span>
                             </div>
                             <ul class="footer__item-contact-list footer__item-contact-list-icons">
                                 <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
