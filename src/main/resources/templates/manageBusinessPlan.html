@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/manageBusinessPlan.css">
+    <link rel="stylesheet" href="/css/adminBase.css">
+    <link rel="stylesheet" href="/css/manageBusinessPlan.css">
 </head>
 
 <body>
     <aside class="sidebar">
         <a href="" class="sidebar__logo">
-            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Web Logo">
+            <img src="/img/flowrista-logo.png" alt="Web Logo">
         </a>
         <hr class="horizontal dark ">
         <div class="sidebar__components">
@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="sidebar__link">
+                    <a th:href="@{/plan}" class="sidebar__link">
                         <div class="sidebar__item active">
                             <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Plan</span>
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="sidebar__link ">
+                    <a th:href="@{/service}" class="sidebar__link ">
                         <div class="sidebar__item">
                             <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Service</span>
@@ -131,7 +131,7 @@
                     <div class="business-plan__collection">
                         <div class="business-plan__card">
                             <div class="business-plan__card-info">
-                                <form action="" method="" class="business-plan__card-form">
+                                <form th:action="@{/admin/plan}" th:method="put" class="business-plan__card-form">
                                     <div class="business-plan__card-name">
                                         <h4>Standard</h4>
                                         <h4 style="display: none;">
@@ -193,248 +193,29 @@
                                 </form>
                             </div>
                             <div class="business-plan__card-modify">
-                                <a href="" class="business-plan__card-delete">
-                                    <i class="fa-regular fa-trash-can modify-icon"></i>
-                                    <span>Delete</span>
-                                </a>
-                                <div class="business-plan__card-edit">
-                                    <i class="fa-solid fa-pencil modify-icon"></i>
-                                    <span>Edit</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="business-plan__card">
-                            <div class="business-plan__card-info">
-                                <form action="" method="" class="business-plan__card-form">
-                                    <div class="business-plan__card-name">
-                                        <h4>Standard</h4>
-                                        <h4 style="display: none;">
-                                            <input type="text" name="name" value="Standard" placeholder="Name">
-                                        </h4>
+                                <form th:action="@{/admin/plan}" method="delete">
+                                    <div class="business-plan__card-delete">
+                                        <i class="fa-regular fa-trash-can modify-icon"></i>
+                                        <span>Delete</span>
                                     </div>
-                                    <div class="business-plan__card-desc">
-                                        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. At enim harum fugit
-                                            consequatur animi ab ullam reiciendis, quaerat amet! Illum non ipsam consequuntur
-                                            unde accusantium nam repellat quidem delectus quam.</span>
-                                            <textarea name="description" id="" placeholder="Description" style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. At enim harum fugit
-                                                consequatur animi ab ullam reiciendis, quaerat amet! Illum non ipsam consequuntur
-                                                unde accusantium nam repellat quidem delectus quam.</textarea>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 2 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 4 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 8 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-duration">
-                                        Duration: 
-                                        <span>6</span>
-                                        <input type="text" name="duration" value="6" placeholder="Duration" style="display: none;">
-                                        Months
-                                    </div>
-                                    <div class="business-plan__card-price">
-                                        <h4>$200.00</h4>
-                                        <h4 style="display: none;">
-                                            $
-                                            <input type="text" name="price" value="200" placeholder="Price" >
-                                        </h4>
-                                    </div>
-                                    <input style="display: none;" type="submit" class="business-plan__card-new-btn" name="action" value="Save">
                                 </form>
-                            </div>
-                            <div class="business-plan__card-modify">
-                                <a href="" class="business-plan__card-delete">
-                                    <i class="fa-regular fa-trash-can modify-icon"></i>
-                                    <span>Delete</span>
-                                </a>
                                 <div class="business-plan__card-edit">
                                     <i class="fa-solid fa-pencil modify-icon"></i>
                                     <span>Edit</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="business-plan__card">
-                            <div class="business-plan__card-info">
-                                <form action="" method="" class="business-plan__card-form">
-                                    <div class="business-plan__card-name">
-                                        <h4>Standard</h4>
-                                        <h4 style="display: none;">
-                                            <input type="text" name="name" value="Standard" placeholder="Name">
-                                        </h4>
-                                    </div>
-                                    <div class="business-plan__card-desc">
-                                        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. At enim harum fugit
-                                            consequatur animi ab ullam reiciendis, quaerat amet! Illum non ipsam consequuntur
-                                            unde accusantium nam repellat quidem delectus quam.</span>
-                                            <textarea name="description" id="" placeholder="Description" style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. At enim harum fugit
-                                                consequatur animi ab ullam reiciendis, quaerat amet! Illum non ipsam consequuntur
-                                                unde accusantium nam repellat quidem delectus quam.</textarea>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 2 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 4 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 8 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-duration">
-                                        Duration: 
-                                        <span>6</span>
-                                        <input type="text" name="duration" value="6" placeholder="Duration" style="display: none;">
-                                        Months
-                                    </div>
-                                    <div class="business-plan__card-price">
-                                        <h4>$200.00</h4>
-                                        <h4 style="display: none;">
-                                            $
-                                            <input type="text" name="price" value="200" placeholder="Price" >
-                                        </h4>
-                                    </div>
-                                    <input style="display: none;" type="submit" class="business-plan__card-new-btn" name="action" value="Save">
-                                </form>
-                            </div>
-                            <div class="business-plan__card-modify">
-                                <a href="" class="business-plan__card-delete">
-                                    <i class="fa-regular fa-trash-can modify-icon"></i>
-                                    <span>Delete</span>
-                                </a>
-                                <div class="business-plan__card-edit">
-                                    <i class="fa-solid fa-pencil modify-icon"></i>
-                                    <span>Edit</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="business-plan__card">
-                            <div class="business-plan__card-info">
-                                <form action="" method="" class="business-plan__card-form">
-                                    <div class="business-plan__card-name">
-                                        <h4>Standard</h4>
-                                        <h4 style="display: none;">
-                                            <input type="text" name="name" value="Standard" placeholder="Name">
-                                        </h4>
-                                    </div>
-                                    <div class="business-plan__card-desc">
-                                        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. At enim harum fugit
-                                            consequatur animi ab ullam reiciendis, quaerat amet! Illum non ipsam consequuntur
-                                            unde accusantium nam repellat quidem delectus quam.</span>
-                                            <textarea name="description" id="" placeholder="Description" style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. At enim harum fugit
-                                                consequatur animi ab ullam reiciendis, quaerat amet! Illum non ipsam consequuntur
-                                                unde accusantium nam repellat quidem delectus quam.</textarea>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 2 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 4 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 8 post per day</span>
-                                        <select name="serviceList" style="display: none;">
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-duration">
-                                        Duration: 
-                                        <span>6</span>
-                                        <input type="text" name="duration" value="6" placeholder="Duration" style="display: none;">
-                                        Months
-                                    </div>
-                                    <div class="business-plan__card-price">
-                                        <h4>$200.00</h4>
-                                        <h4 style="display: none;">
-                                            $
-                                            <input type="text" name="price" value="200" placeholder="Price" >
-                                        </h4>
-                                    </div>
-                                    <input style="display: none;" type="submit" class="business-plan__card-new-btn" name="action" value="Save">
-                                </form>
-                            </div>
-                            <div class="business-plan__card-modify">
-                                <a href="" class="business-plan__card-delete">
-                                    <i class="fa-regular fa-trash-can modify-icon"></i>
-                                    <span>Delete</span>
-                                </a>
-                                <div class="business-plan__card-edit">
-                                    <i class="fa-solid fa-pencil modify-icon"></i>
-                                    <span>Edit</span>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="business-plan__card business-plan__card-new">
                             <div class="business-plan__card-info">
-                                <form action="" method="" class="business-plan__card-form">
+                                <form th:action="@{/admin/plan}" method="post" class="business-plan__card-form">
                                     <div class="business-plan__card-name">
                                         <h4>
                                             <input type="text" name="name" value="New Business Plan" placeholder="Name">
                                         </h4>
                                     </div>
                                     <div class="business-plan__card-desc">
-                                        <textarea name="description" id="" placeholder="Description"></textarea>
+                                        <textarea name="description" id="desc" placeholder="Description"></textarea>
                                     </div>
                                     <div class="business-plan__card-services-container">
                                         <div class="business-plan__card-service">
@@ -473,8 +254,8 @@
 
         </div>
     </div>
-    <script src="/src/main/resources/static/js/adminBase.js"></script>
-    <script src="/src/main/resources/static/js/manageBusinessPlan.js"></script>
+    <script src="/js/adminBase.js"></script>
+    <script src="/js/manageBusinessPlan.js"></script>
 </body>
 
 </html>

@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/manageBusinessService.css">
+    <link rel="stylesheet" href="/css/adminBase.css">
+    <link rel="stylesheet" href="/css/manageBusinessService.css">
 </head>
 
 <body>
     <aside class="sidebar">
         <a href="" class="sidebar__logo">
-            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Web Logo">
+            <img src="/img/flowrista-logo.png" alt="Web Logo">
         </a>
         <hr class="horizontal dark ">
         <div class="sidebar__components">
@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="sidebar__link">
+                    <a th:href="@{/plan}" class="sidebar__link">
                         <div class="sidebar__item">
                             <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Plan</span>
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="sidebar__link ">
+                    <a th:href="@{/service}" class="sidebar__link ">
                         <div class="sidebar__item active">
                             <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Service</span>
@@ -138,7 +138,7 @@
                             </tr>
                         </thead>
                         <tbody class="table__body">
-                            <form action="" method="" class="business-service__form">
+                            <form th:action="/admin/service" method="put" class="business-service__form">
                                 <tr class="table__body-item">
                                     <td class="table__body-name">
                                         <span class="name-text">ABC</span>
@@ -162,12 +162,14 @@
                                         <input type="submit" name="action" class="save-btn" value="Save" style="display: none;">
                                     </td>
                                     <td class="table__body-toggle">
-                                        <input type="submit" name="action" value="Disable" class="toggle-btn">
+                                        <form th:action="@{/admin/service}" method="delete">
+                                            <input type="submit" name="action" value="Disable" class="toggle-btn">
+                                        </form>
                                     </td>
                                 </tr>
                             </form>
                             
-                            <form action="" method="" class="business-service__form">
+                            <form th:action="@{/admin/service}" method="post" class="business-service__form">
                                 <tr class="table__body-item-new" style="display: none;">
                                     <td class="table__body-name">
                                         <input name="name" value="New Service"></input>
@@ -198,8 +200,8 @@
 
         </div>
     </div>
-    <script src="/src/main/resources/static/js/adminBase.js"></script>
-    <script src="/src/main/resources/static/js/manageBusinessService.js"></script>
+    <script src="/js/adminBase.js"></script>
+    <script src="/js/manageBusinessService.js"></script>
 
 </body>
 
