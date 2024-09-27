@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = createBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
             model.addAttribute("msg", (CreateBusinessPlanResponse) output);
-            return "home";
+            return "manageBusinessPlan";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
