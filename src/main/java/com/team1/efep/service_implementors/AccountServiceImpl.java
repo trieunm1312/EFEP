@@ -166,7 +166,7 @@ public class AccountServiceImpl implements AccountService {
                 .status("200")
                 .message("Login successfully")
                 .build());
-        return "login";
+        return "home";
     }
 
     @Override
