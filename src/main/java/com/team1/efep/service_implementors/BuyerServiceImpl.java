@@ -56,8 +56,8 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-        model.addAttribute("response", viewWishlistItemList(account.getId()));
-        return "viewWishlist";
+        model.addAttribute("response", viewWishlistLogic(account.getId()));
+        return "viewCart";
     }
 
     @Override
