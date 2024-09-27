@@ -93,7 +93,6 @@ public class SellerServiceImpl implements SellerService {
                                     .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
-                                    .rating(flower.getRating())
                                     .description(flower.getDescription())
                                     .flowerAmount(flower.getFlowerAmount())
                                     .quantity(flower.getQuantity())
@@ -120,7 +119,6 @@ public class SellerServiceImpl implements SellerService {
         Flower flower = Flower.builder()
                 .name(request.getName())
                 .price(request.getPrice())
-                .rating(0)
                 .seller(account.getUser().getSeller())
                 .description(request.getDescription())
                 .flowerAmount(request.getFlowerAmount())
@@ -753,6 +751,59 @@ public class SellerServiceImpl implements SellerService {
                 .message("Sort order successfully")
                 .orderList(orders)
                 .build();
+    }
+
+    //------------------------------UPDATE FLOWER--=-==-=--=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-//
+
+    @Override
+    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", CreateFlowerResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        model.addAttribute("response", updateFlowerLogic(request));
+        return "seller";
+    }
+
+    @Override
+    public UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return UpdateFlowerResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = updateFlowerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateFlowerResponse.class)) {
+            return (UpdateFlowerResponse) output;
+        }
+        return UpdateFlowerResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object updateFlowerLogic(UpdateFlowerRequest request) {
+        Map<String, String> errors = UpdateFlowerValidation.validate(request);
+        if(!errors.isEmpty()) {
+            return errors;
+        }
+        Flower flower = flowerRepo.findById(request.getFlowerId())
+                .orElseThrow(() -> new RuntimeException("Flower not found with id: " + request.getFlowerId()));
+
+            flower.setName(request.getName());
+            flower.setPrice(request.getPrice());
+            flower.setDescription(request.getDescription());
+            flower.setFlowerAmount(request.getFlowerAmount());
+            flower.setQuantity(request.getQuantity());
+            flower.setStatus(request.getStatus());
+
+        return flowerRepo.save(flower);
     }
 
 }

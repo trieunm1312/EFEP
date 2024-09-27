@@ -49,4 +49,8 @@ public interface SellerService {
     String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model);
 
     SortOrderResponse sortOrderAPI(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest);
+
+    String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model);
+
+    UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request);
 }

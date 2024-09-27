@@ -289,7 +289,6 @@ public class BuyerServiceImpl implements BuyerService {
                 .map(item -> ViewFlowerListResponse.Flower.builder()
                         .name(item.getName())
                         .price(item.getPrice())
-                        .rating(item.getRating())
                         .images(viewImageList(item.getFlowerImageList()))
                         .build()
                 ).toList();

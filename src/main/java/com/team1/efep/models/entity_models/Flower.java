@@ -27,8 +27,6 @@ public class Flower {
 
     private float price;
 
-    private float rating;
-
     private String description;
 
     @Column(name = "`flower_amount`")
