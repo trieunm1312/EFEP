@@ -175,13 +175,14 @@
                                                 <span class="header__cart-list-detail-total">Total</span>
                                                 <span class="header__cart-list-detail-price">122.000 VND</span>
                                             </div>
-                                            <div class="header__cart-list-btn">
+                                            <!-- <div class="header__cart-list-btn">
                                                 <form th:action="@{/buyer/wishlist}" method="get">
                                                     <input class="btn-view-wishlist" type="submit" value="View wishlist"
                                                         name="Action">
-                                                    <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
-                                                            name="Action"> -->
                                                 </form>
+                                            </div> -->
+                                            <div class="header__cart-list-btn">
+                                                <button id="viewWishlistBtn" class="btn-view-wishlist">View wishlist</button>
                                             </div>
                                         </div>
                                     </div>
@@ -292,6 +293,14 @@
                             <button class="btn-cart-continue" value="view detail" name="Action">View detail</button>
                         </form>
                     </div>
+                    <ul id="wishlist">
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                    </ul>
+                    
+                    <button id="deleteWishlistBtn">Xóa tất cả các mục trong Wishlist</button>
+                    
                 </div>
             </div>
             </div>
