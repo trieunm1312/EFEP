@@ -1,6 +1,5 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -36,6 +35,7 @@ public class SellerServiceImpl implements SellerService {
     private final SellerRepo sellerRepo;
 
     private final OrderDetailRepo orderDetailRepo;
+    private final UserRepo userRepo;
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -176,7 +176,8 @@ public class SellerServiceImpl implements SellerService {
 
 
     private Object viewOrderListLogic(int accountId) {
-        List<Order> orderList = orderRepo.findAllByUser_Seller_Id(accountId);
+        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
+        List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
         if (!orderList.isEmpty()) {
             List<ViewOrderListResponse.OrderBill> orderBills = orderList.stream()
                     .map(this::viewOrderList)
@@ -283,7 +284,6 @@ public class SellerServiceImpl implements SellerService {
         return viewFlowerListForSellerLogic(request);
     }
 
-
     public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(ViewFlowerListForSellerRequest request) {
         List<Flower> flowers = flowerRepo.findBySeller_Id(request.getSellerId());
         return ViewFlowerListForSellerResponse.builder()
@@ -292,7 +292,6 @@ public class SellerServiceImpl implements SellerService {
                 .flowerList(viewFlowerList(flowers))
                 .build();
         // if find -> print size of flower
-
     }
 
     private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
@@ -342,7 +341,7 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    public Object cancelBusinessPlanLogic(CancelBusinessPlanRequest request) {
+    private Object cancelBusinessPlanLogic(CancelBusinessPlanRequest request) {
         Map<String, String> errors = CancelBusinessPlanValidation.validate(request);
         if (errors.isEmpty()) {
             Seller seller = sellerRepo.findById(request.getId()).orElse(null);
@@ -396,7 +395,6 @@ public class SellerServiceImpl implements SellerService {
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
-
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
         Map<String, String> errors = ViewOrderDetailValidation.validate(request);
@@ -496,7 +494,7 @@ public class SellerServiceImpl implements SellerService {
                 .map(this::viewFilterOrderList)
                 .toList();
 
-        if(!orders.isEmpty()) {
+        if (!orders.isEmpty()) {
             return FilterOrderResponse.builder()
                     .status("200")
                     .message("Filter successful")
@@ -510,7 +508,7 @@ public class SellerServiceImpl implements SellerService {
 
     }
 
-    public List<Order> getOrdersBySeller(int sellerId) {
+    private List<Order> getOrdersBySeller(int sellerId) {
         List<OrderDetail> orderDetails = orderDetailRepo.findAllByFlower_Seller_Id(sellerId);
 
         return orderDetails.stream()
@@ -541,5 +539,106 @@ public class SellerServiceImpl implements SellerService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    //-----------------------------------------VIEW BUYER LIST--------------------------------------//
+
+    @Override
+    public String viewBuyerList(HttpSession session, Model model) {
+        Object output = viewBuyerListLogic(((Account) session.getAttribute("acc")).getUser().getSeller().getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewBuyerListResponse.class)) {
+            model.addAttribute("msg", (ViewBuyerListResponse) output);
+            return "home";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "home";
+    }
+
+    @Override
+    public ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request) {
+        Object output = viewBuyerListLogic(request.getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewBuyerListResponse.class)) {
+            return (ViewBuyerListResponse) output;
+        }
+        return ViewBuyerListResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewBuyerListLogic(int sellerId) {
+        Map<String, String> errors = ViewBuyerListValidation.validate();
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        return ViewBuyerListResponse.builder()
+                .status("200")
+                .message("")
+                .buyers(getBuyerList(sellerId).stream()
+                        .map(seller -> ViewBuyerListResponse.Buyer.builder()
+                                .id(seller.getId())
+                                .name(seller.getName())
+                                .build())
+                        .toList())
+                .build();
+    }
+
+    private List<User> getBuyerList(int sellerId) {
+        return getOrderList(sellerId).stream()
+                .map(Order::getUser)
+                .filter(user -> user.getAccount().getRole().equals(Role.BUYER))
+                .distinct()
+                .toList();
+    }
+
+    // :: sai lai ham(thay vi tao moi) (kieu funtional)
+    private List<Order> getOrderList(int sellerId) {
+        return getOrderDetailList(sellerId).stream()
+                .map(OrderDetail::getOrder)
+                .toList();
+    }
+
+    private List<OrderDetail> getOrderDetailList(int sellerId) {
+        return getFlowerList(sellerId).stream()
+                .map(Flower::getOrderDetailList)
+                .flatMap(List::stream)
+                .toList();
+        //The syntax is ClassName::methodName
+        //In this case, Flower::getOrderDetailList is equivalent to the lambda expression flower -> flower.getOrderDetailList()
+    }
+
+    private List<Flower> getFlowerList(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        assert seller != null;
+        return seller.getFlowerList();
+    }
+
+    //-----------------------------------------SEARCH BUYER LIST--------------------------------------//
+
+    @Override
+    public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
+        model.addAttribute("msg", searchBuyerListLogic(request,((Account)session.getAttribute("acc")).getUser().getSeller().getId()));
+        return "searchBuyerList";
+    }
+
+    @Override
+    public SearchBuyerListResponse searchBuyerListAPI(SearchBuyerListRequest request, int sellerId) {
+        return searchBuyerListLogic(request, sellerId);
+    }
+
+    private SearchBuyerListResponse searchBuyerListLogic(SearchBuyerListRequest request, int sellerId) {
+        return SearchBuyerListResponse.builder()
+                .status("200")
+                .message("")
+                .buyerList(getBuyerList(sellerId).stream()
+                        .filter(buyer -> buyer.getName().contains(request.getKeyword()))
+                        .map(user -> SearchBuyerListResponse.Buyer.builder()
+                                .id(user.getId())
+                                .name(user.getName())
+                                .build())
+                        .toList()
+                )
+                .build();
+    }
+
 
 }

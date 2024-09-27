@@ -10,14 +10,14 @@
 }
 
 .breadbrum{
-    width: 100%;
+    width: 120%;
     height: 283px;
     padding: 100px 0;
     margin-top: 32px;
     text-align: center;
     color: var(--white-color);
-    background: url('/img/breadcrumb_img-1920x300.png');
-    /* background: url(/src/main/resources/static/img/breadcrumb_img-1920x300.png); */
+     background: url('/img/breadcrumb_img-1920x300.png');
+    /*background: url(/src/main/resources/static/img/breadcrumb_img-1920x300.png);*/
 
     background-size: cover !important;
 }
@@ -48,7 +48,7 @@
 /* Register + Login Form */
 .auth-form{
     margin: 52px auto;
-    /* margin-right:300px; */
+    margin-right:250px;
     width: 500px;
     border-radius: 5px;
     overflow: hidden;
@@ -81,7 +81,7 @@
 
 .auth-form__switch-btn:hover{
     text-decoration: none;
-    color: var(--secondary-color);
+    color: var(--primary-color);
 }
 
 .auth-form__label{
@@ -126,82 +126,44 @@
     text-decoration: none;
 }
 
-.btn{
-    min-width: 124px;
-    min-height: 34px;
-    border-style: none;
-    text-decoration: none;
-    border-radius: 2px;
-    font-size: 1.5rem;
-    padding: 0 12px;
-    outline: none;
-    cursor: pointer;
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.6rem;
-}
-
-.btn.btn--primary{
-    color: var(--white-color);
-    background-color: var(--primary-color);
-}
-
-.btn--size-s{
-    height: 32px;
-    font-size: 1.2rem;
-    padding: 0 8px;
-}
-
-.btn + .btn{
-    margin-left: 8px;
-}
-
-.btn.btn--normal:hover{
-    background-color: rgba(0, 0, 0, 0.09);
-}
-
 
 .auth-form__controls{
     margin-top: 32px;
     display: flex;
-    justify-content: flex-end;
-   
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .auth-form__socials{
     background-color: #f5f5f5;
     padding: 16px 36px;
-    display: flex;
-    justify-content: space-between;
+    display: block;
+    text-align: center;
     margin-top: 22px;
-}
-
-.auth-form__socials-icon{
-    font-size: 1.8rem;
-}
-
-.auth-form__socials--facebook{
-    background-color: #3A5A98;
-    color: var(--white-color);
-}
-
-.auth-form__socials--facebook
-.auth-form__socials-icon{
-    color: var(--white-color);
-}
-
-.auth-form__socials-title{
-    margin: 0 24px;
 }
 
 .auth-form__socials--google{
     background-color: var(--white-color);
-    color: #666;
+    color: var(--text-color);
+    border: 1px solid #999;
+    width: 50%;
+}
+
+/* .auth-form__socials-icon{
+    font-size: 2.4rem;
+} */
+
+.auth-form__socials--google img{
+    width: 12%;
+    margin-right: 0;
 }
 
 
+.auth-form__socials-title{
+    font-size: 1.6rem;
+    margin: 0 24px;
+}
 
 /* Only Login Form */
 .auth-form__help{

@@ -1,11 +1,7 @@
 package com.team1.efep.services;
 
-import com.team1.efep.models.request_models.CreateBusinessPlanRequest;
-import com.team1.efep.models.request_models.DisableBusinessPlanRequest;
-import com.team1.efep.models.request_models.UpdateBusinessPlanRequest;
-import com.team1.efep.models.response_models.CreateBusinessPlanResponse;
-import com.team1.efep.models.response_models.DisableBusinessPlanResponse;
-import com.team1.efep.models.response_models.UpdateBusinessPlanResponse;
+import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.response_models.*;
 import org.springframework.ui.Model;
 
 public interface AdminService {
@@ -21,4 +17,16 @@ public interface AdminService {
     String disableBusinessPlan(DisableBusinessPlanRequest request, Model model);
 
     DisableBusinessPlanResponse disableBusinessPlanAPI(DisableBusinessPlanRequest request);
+
+    String createBusinessService(CreateBusinessServiceRequest request, Model model);
+
+    CreateBusinessServiceResponse createBusinessServiceAPI(CreateBusinessServiceRequest request);
+
+    String updateBusinessService(UpdateBusinessServiceRequest request, Model model);
+
+    UpdateBusinessServiceResponse updateBusinessServiceAPI(UpdateBusinessServiceRequest request);
+
+    String deleteBusinessService(DeleteBusinessServiceRequest request, Model model);
+
+    DeleteBusinessServiceResponse deleteBusinessServiceAPI(DeleteBusinessServiceRequest request);
 }

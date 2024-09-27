@@ -31,24 +31,24 @@ public class SellerController {
         return sellerService.createFlowerAPI(request);
     }
 
-    @PutMapping("/order-status")
+    @PutMapping("/order/status")
     @Operation(hidden = true)
     public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
         return sellerService.changeOrderStatus(request, session, model);
     }
 
-    @PutMapping("/order-status/api")
+    @PutMapping("/order/status/api")
     public ChangeOrderStatusResponse changeOrderStatus(@RequestBody ChangeOrderStatusRequest request) {
         return sellerService.changeOrderStatusAPI(request);
     }
 
-    @GetMapping("/order-list")
+    @GetMapping("/order/list")
     @Operation(hidden = true)
     public String createFlower(HttpSession session, Model model) {
         return sellerService.viewOrderList(session, model);
     }
 
-    @GetMapping("/order-list/api/{id}")
+    @GetMapping("/order/list/api/{id}")
     public ViewOrderListResponse createFlower(@PathVariable int id) {
         return sellerService.viewOrderListAPI(id);
     }
@@ -73,13 +73,34 @@ public class SellerController {
         return sellerService.cancelBusinessPlanAPI(request);
     }
 
-    @PutMapping("/order-detail")
+    @PutMapping("/order/detail")
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
         return sellerService.viewOrderDetail(request,session, model);
     }
 
-    @PutMapping("/order-detail/api")
+    @PutMapping("/order/detail/api")
     public ViewOrderDetailResponse cancelBusinessPlan(@RequestBody ViewOrderDetailRequest request) {
         return sellerService.viewOrderDetailAPI(request);
     }
+
+    @GetMapping("/buyer/list")
+    public String viewBuyerList(HttpSession session, Model model) {
+        return sellerService.viewBuyerList(session, model);
+    }
+
+    @PostMapping("/buyer/list/api")
+    public ViewBuyerListResponse cancelBusinessPlan(@RequestBody ViewBuyerListRequest request) {
+        return sellerService.viewBuyerListAPI(request);
+    }
+
+    @PostMapping("/search/buyer/")
+    public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
+        return sellerService.searchBuyerList(session, request, model);
+    }
+
+    @PostMapping("/search/buyer/api")
+    public SearchBuyerListResponse searchBuyerList(@RequestBody SearchBuyerListRequest request, @RequestBody int id) {
+        return sellerService.searchBuyerListAPI(request, id);
+    }
+
 }

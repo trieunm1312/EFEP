@@ -34,4 +34,12 @@ public interface SellerService {
     String filterOrder(FilterOrderRequest request, HttpSession session, Model model);
 
     FilterOrderResponse filterOrderAPI(FilterOrderRequest request);
+
+    String viewBuyerList(HttpSession session, Model model);
+
+    ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request);
+
+    String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model);
+
+    SearchBuyerListResponse searchBuyerListAPI(SearchBuyerListRequest request, int sellerId);
 }
