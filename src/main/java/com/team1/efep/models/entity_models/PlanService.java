@@ -24,5 +24,6 @@ public class PlanService {
 
     @ManyToOne
     @JoinColumn(name = "`service_id`")
-    private BusinessService businessService; ;
+    private BusinessService businessService;
+    ;
 }

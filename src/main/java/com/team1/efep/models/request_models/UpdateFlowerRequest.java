@@ -1,5 +1,7 @@
 package com.team1.efep.models.request_models;
 
+import com.team1.efep.models.entity_models.FlowerCategory;
+import com.team1.efep.models.entity_models.FlowerImage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateFlowerRequest {
-
+public class UpdateFlowerRequest {
     private int accountId;
+
+    private int flowerId;
 
     private String name;
 
@@ -21,11 +24,13 @@ public class CreateFlowerRequest {
 
     private String description;
 
+    private String status;
+
     private int flowerAmount;
 
     private int quantity;
 
-    private List<String> imgList;
+    private List<FlowerImage> flowerImageList;
 
-
+    private List<FlowerCategory> flowerCategoryList;
 }

@@ -193,7 +193,7 @@ public class AdminServiceImpl implements AdminService {
         }
         return CreateBusinessServiceResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 

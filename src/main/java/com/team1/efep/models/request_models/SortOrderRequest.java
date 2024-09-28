@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewFlowerListForSellerRequest {
-    private int sellerId;
+public class SortOrderRequest {
+    private String sortDirection;
 }
