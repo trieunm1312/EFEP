@@ -79,7 +79,7 @@ public class SellerController {
     }
 
     @PutMapping("/order/detail/api")
-    public ViewOrderDetailResponse cancelBusinessPlan(@RequestBody ViewOrderDetailRequest request) {
+    public ViewOrderDetailResponse viewOrderDetail(@RequestBody ViewOrderDetailRequest request) {
         return sellerService.viewOrderDetailAPI(request);
     }
 
@@ -89,7 +89,7 @@ public class SellerController {
     }
 
     @PostMapping("/buyer/list/api")
-    public ViewBuyerListResponse cancelBusinessPlan(@RequestBody ViewBuyerListRequest request) {
+    public ViewBuyerListResponse viewBuyerList(@RequestBody ViewBuyerListRequest request) {
         return sellerService.viewBuyerListAPI(request);
     }
 

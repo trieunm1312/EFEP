@@ -1,9 +1,8 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
-import com.team1.efep.models.entity_models.BusinessPlan;
-import com.team1.efep.models.entity_models.BusinessService;
-import com.team1.efep.models.entity_models.PlanService;
+import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
@@ -11,6 +10,7 @@ import com.team1.efep.services.AdminService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -31,13 +31,13 @@ public class AdminServiceImpl implements AdminService {
     private final AccountRepo accountRepo;
     private final SellerRepo sellerRepo;
 
-    //-------------------------------------CREATE BUSINESS PLAN(FE CHUA LAM)------------------------------------------//
+    //-------------------------------------CREATE BUSINESS PLAN------------------------------------------//
     @Override
     public String createBusinessPlan(CreateBusinessPlanRequest request, Model model) {
         Object output = createBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
             model.addAttribute("msg", (CreateBusinessPlanResponse) output);
-            return "home";
+            return "manageBusinessPlan";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -90,14 +90,14 @@ public class AdminServiceImpl implements AdminService {
         planServiceRepo.saveAll(planServices);
     }
 
-    //-------------------------------------UPDATE BUSINESS PLAN(FE CHUA LAM)------------------------------------------//
+    //-------------------------------------UPDATE BUSINESS PLAN------------------------------------------//
 
     @Override
     public String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model) {
         Object output = updateBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
             model.addAttribute("msg", (UpdateBusinessPlanResponse) output);
-            return "home";
+            return "manageBusinessPlan";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -133,14 +133,14 @@ public class AdminServiceImpl implements AdminService {
         return errors;
     }
 
-    //-------------------------------------DISABLE BUSINESS PLAN(FE CHUA LAM)------------------------------------------//
+    //-------------------------------------DISABLE BUSINESS PLAN------------------------------------------//
 
     @Override
     public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model) {
         Object output = disableBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)) {
             model.addAttribute("msg", (DisableBusinessPlanResponse) output);
-            return "home";
+            return "manageBusinessPlan";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -179,7 +179,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = createBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
             model.addAttribute("msg", (CreateBusinessServiceResponse) output);
-            return "home";
+            return "manageBusinessService";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -220,7 +220,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = updateBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
             model.addAttribute("msg", (UpdateBusinessServiceResponse) output);
-            return "home";
+            return "manageBusinessService";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -261,7 +261,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = deleteBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
             model.addAttribute("msg", (DeleteBusinessServiceResponse) output);
-            return "home";
+            return "manageBusinessService";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -293,4 +293,25 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
+    //-------------------------------------VIEW USER LIST----------------------------//
+
+    @Override
+    public String viewUserList(HttpSession session, Model model) {
+        return null;
+    }
+
+    @Override
+    public ViewUserListResponse viewUserListAPI(ViewUserListRequest request) {
+       return null;
+    }
+
+    private Object viewUserListLogic(ViewUserListRequest request) {
+        Map<String, String> errors = ViewUserListValidation.validate();
+        if(!errors.isEmpty()) {
+            return errors;
+        }
+
+
+        return null;
+    }
 }

@@ -5,6 +5,7 @@ import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/plan")
+    @Operation(hidden = true)
     public String createBusinessPlan(CreateBusinessPlanRequest request, Model model) {
         return adminService.createBusinessPlan(request, model);
     }
@@ -81,5 +83,16 @@ public class AdminController {
     @DeleteMapping("/service/api")
     public DeleteBusinessServiceResponse deleteBusinessService(@RequestBody DeleteBusinessServiceRequest request) {
         return adminService.deleteBusinessServiceAPI(request);
+    }
+
+    @GetMapping("/user/list")
+    @Operation(hidden = true)
+    public String viewUserList(HttpSession session, Model model) {
+        return adminService.viewUserList(session, model);
+    }
+
+    @PostMapping("/user/list/api")
+    public ViewUserListResponse viewUserList(@RequestBody ViewUserListRequest request) {
+        return adminService.viewUserListAPI(request);
     }
 }

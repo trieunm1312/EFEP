@@ -2,6 +2,7 @@ package com.team1.efep.services;
 
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 public interface AdminService {
@@ -29,4 +30,8 @@ public interface AdminService {
     String deleteBusinessService(DeleteBusinessServiceRequest request, Model model);
 
     DeleteBusinessServiceResponse deleteBusinessServiceAPI(DeleteBusinessServiceRequest request);
+
+    String viewUserList(HttpSession session, Model model);
+
+    ViewUserListResponse viewUserListAPI(ViewUserListRequest request);
 }
