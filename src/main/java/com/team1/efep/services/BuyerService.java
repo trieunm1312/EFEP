@@ -19,7 +19,7 @@ public interface BuyerService {
 
     String viewWishlist(HttpSession session, Model model);
 
-    ViewWishlistResponse viewWishlistAPI(int id);
+    ViewWishlistResponse viewWishlistAPI(int accountId);
 
     String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model);
 
