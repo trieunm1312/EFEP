@@ -179,7 +179,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = createBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
             model.addAttribute("msg", (CreateBusinessServiceResponse) output);
-            return "home";
+            return "manageBusinessService";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -198,7 +198,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object createBusinessServiceLogic(CreateBusinessServiceRequest request) {
-        Map<String, String> errors = CreateBusinessServiceValidation.validate(request);
+        Map<String, String> errors = CreateBusinessServiceValidation.validate();
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -207,7 +207,7 @@ public class AdminServiceImpl implements AdminService {
                 .description(request.getDescription())
                 .price(request.getPrice())
                 .build());
-        return CreateBusinessPlanResponse.builder()
+        return CreateBusinessServiceResponse.builder()
                 .status("200")
                 .message("Created business service successfully")
                 .build();

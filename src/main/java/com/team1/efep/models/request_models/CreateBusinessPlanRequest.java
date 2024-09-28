@@ -16,7 +16,7 @@ public class CreateBusinessPlanRequest {
     private String description;
     private float price;
     private int duration;
-    List<BusinessPlanService> serviceList;
+    private List<BusinessPlanService> serviceList;
 
 
     @Data

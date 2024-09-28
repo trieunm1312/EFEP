@@ -54,3 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
     });
 });
+
+//Submit form without button
+function submitFormByClass() {
+    document.querySelector('.form').submit();
+}

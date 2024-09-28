@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const servicesContainer = document.querySelector('.business-plan__card-services-container');
 
     addServiceButton.addEventListener('click', function(event) {
-        event.preventDefault(); 
+        event.preventDefault();
 
         const newServiceDiv = document.createElement('div');
         newServiceDiv.classList.add('business-plan__card-service');
@@ -30,11 +30,11 @@ document.addEventListener("DOMContentLoaded", function() {
         newServiceDiv.innerHTML = `
             Service:
             <select name="serviceList">
-                <option value="">Post 2 post per day</option>
-                <option value="">Post 4 post per day</option>
-                <option value="">Post 8 post per day</option>
-                <option value="">Post 16 post per day</option>
-                <option value="">Post 32 post per day</option>
+                <option value="2">Post 2 post per day</option>
+                <option value="4">Post 4 post per day</option>
+                <option value="6">Post 8 post per day</option>
+                <option value="8">Post 16 post per day</option>
+                <option value="10">Post 32 post per day</option>
             </select>
         `;
 
