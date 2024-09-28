@@ -1,7 +1,6 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.VNPayConfig;
-import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -626,7 +625,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
-        model.addAttribute("msg", searchBuyerListLogic(request,((Account)session.getAttribute("acc")).getUser().getSeller().getId()));
+        model.addAttribute("msg", searchBuyerListLogic(request, ((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
         return "searchBuyerList";
     }
 
@@ -650,10 +649,7 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-
-}
     //-------------------------------------------------VN PAY----------------------------------------//
-
 
     @Override
     public String createVNPayPaymentLink(VNPayBusinessPlanRequest request, Model model, HttpServletRequest httpServletRequest) {
@@ -894,18 +890,18 @@ public class SellerServiceImpl implements SellerService {
 
     private Object updateFlowerLogic(UpdateFlowerRequest request) {
         Map<String, String> errors = UpdateFlowerValidation.validate(request);
-        if(!errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             return errors;
         }
         Flower flower = flowerRepo.findById(request.getFlowerId())
                 .orElseThrow(() -> new RuntimeException("Flower not found with id: " + request.getFlowerId()));
 
-            flower.setName(request.getName());
-            flower.setPrice(request.getPrice());
-            flower.setDescription(request.getDescription());
-            flower.setFlowerAmount(request.getFlowerAmount());
-            flower.setQuantity(request.getQuantity());
-            flower.setStatus(request.getStatus());
+        flower.setName(request.getName());
+        flower.setPrice(request.getPrice());
+        flower.setDescription(request.getDescription());
+        flower.setFlowerAmount(request.getFlowerAmount());
+        flower.setQuantity(request.getQuantity());
+        flower.setStatus(request.getStatus());
 
         return flowerRepo.save(flower);
     }

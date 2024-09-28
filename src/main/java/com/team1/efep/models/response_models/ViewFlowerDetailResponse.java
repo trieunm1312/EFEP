@@ -27,7 +27,7 @@ public class ViewFlowerDetailResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Image{
+    public static class Image {
         private String link;
     }
 }

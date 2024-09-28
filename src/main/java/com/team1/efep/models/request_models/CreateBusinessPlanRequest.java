@@ -23,7 +23,7 @@ public class CreateBusinessPlanRequest {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class BusinessPlanService{
+    public static class BusinessPlanService {
         private int id;
     }
 }

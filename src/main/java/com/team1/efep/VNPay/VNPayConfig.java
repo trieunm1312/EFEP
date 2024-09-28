@@ -1,4 +1,3 @@
-
 package com.team1.efep.VNPay;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
- *
  * @author CTT VNPAY
  */
 public class VNPayConfig {
@@ -76,9 +74,9 @@ public class VNPayConfig {
                 sb.append("&");
             }
         }
-        return hmacSHA512(secretKey,sb.toString());
+        return hmacSHA512(secretKey, sb.toString());
     }
-    
+
     public static String hmacSHA512(final String key, final String data) {
         try {
 
@@ -101,7 +99,7 @@ public class VNPayConfig {
             return "";
         }
     }
-    
+
     public static String getIpAddress(HttpServletRequest request) {
         String ipAdress;
         try {

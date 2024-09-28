@@ -74,7 +74,7 @@ public class AdminController {
 
     @DeleteMapping("/service")
     @Operation(hidden = true)
-    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model ) {
+    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model) {
         return adminService.deleteBusinessService(request, model);
     }
 

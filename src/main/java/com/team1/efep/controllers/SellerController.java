@@ -57,7 +57,7 @@ public class SellerController {
     }
 
     @PostMapping("/view/flower")
-    public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request,HttpSession session, Model model) {
+    public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
         return sellerService.viewFlowerListForSeller(request, session, model);
     }
 
@@ -79,18 +79,18 @@ public class SellerController {
     @PutMapping("/order/detail")
     @Operation(hidden = true)
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
-        return sellerService.viewOrderDetail(request,session, model);
+        return sellerService.viewOrderDetail(request, session, model);
     }
 
     @PutMapping("/order/detail/api")
-    public ViewOrderDetailResponse cancelBusinessPlan(@RequestBody ViewOrderDetailRequest request) {
+    public ViewOrderDetailResponse viewOrderDetail(@RequestBody ViewOrderDetailRequest request) {
         return sellerService.viewOrderDetailAPI(request);
     }
 
     @PostMapping("/order/filter")
     @Operation(hidden = true)
     public String filterOrder(FilterOrderRequest request, HttpSession session, Model model) {
-        return sellerService.filterOrder(request,session, model);
+        return sellerService.filterOrder(request, session, model);
     }
 
     @PostMapping("/order/filter/api")
@@ -99,40 +99,40 @@ public class SellerController {
     }
 
     @PostMapping("/order/payment/api")
-    public VNPayResponse createVNPayPaymentLink(@RequestBody VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest){
+    public VNPayResponse createVNPayPaymentLink(@RequestBody VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest) {
         return sellerService.createVNPayPaymentLinkAPI(request, httpServletRequest);
     }
 
     @GetMapping("/order/payment/result")
     @Operation(hidden = true)
-    public String getPaymentResult(@RequestParam Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session){
+    public String getPaymentResult(@RequestParam Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         return sellerService.getPaymentResult(params, httpServletRequest, model, session);
     }
 
-    @GetMapping("/order/payment/result")
-    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params,@RequestParam int accountId, HttpServletRequest httpServletRequest){
-        return sellerService.getPaymentResultAPI(params, accountId, httpServletRequest);
-    }
+//    @GetMapping("/order/payment/result")
+//    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params, @RequestParam int accountId, HttpServletRequest httpServletRequest) {
+//        return sellerService.getPaymentResultAPI(params, accountId, httpServletRequest);
+//    }
 
     @GetMapping("/order/sort")
     @Operation(hidden = true)
-    public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model){
+    public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model) {
         return sellerService.sortOrder(filterOrderRequest, sortOrderRequest, session, model);
     }
 
     @PostMapping("/order/sort/api")
-    public SortOrderResponse sortOrder(@RequestBody FilterOrderRequest filterOrderRequest, @RequestBody SortOrderRequest sortOrderRequest){
+    public SortOrderResponse sortOrder(@RequestBody FilterOrderRequest filterOrderRequest, @RequestBody SortOrderRequest sortOrderRequest) {
         return sellerService.sortOrderAPI(filterOrderRequest, sortOrderRequest);
     }
 
     @PutMapping("/flower/")
     @Operation(hidden = true)
-    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model){
+    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
         return sellerService.updateFlower(request, session, model);
     }
 
     @PutMapping("/flower/api")
-    public UpdateFlowerResponse updateFlower(@RequestBody UpdateFlowerRequest request){
+    public UpdateFlowerResponse updateFlower(@RequestBody UpdateFlowerRequest request) {
         return sellerService.updateFlowerAPI(request);
     }
 

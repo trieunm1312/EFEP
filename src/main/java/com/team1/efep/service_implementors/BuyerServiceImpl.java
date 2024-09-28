@@ -941,8 +941,8 @@ public class BuyerServiceImpl implements BuyerService {
         return categories.stream()
                 .map(cate ->
                         ViewCategoryListResponse.Category.builder()
-                        .name(cate.getName())
-                        .build())
+                                .name(cate.getName())
+                                .build())
                 .toList();
 
     }
@@ -1077,7 +1077,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    private Object getPaymentResultLogic(Map<String, String> params,int accountId, HttpServletRequest httpServletRequest){
+    private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
         Map<String, String> errors = VNPayValidation.validate(params, httpServletRequest);
         if (!errors.isEmpty()) {

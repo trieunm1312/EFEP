@@ -4,15 +4,6 @@ import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.repositories.AccountRepo;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 
 @RequiredArgsConstructor
 public class Role {

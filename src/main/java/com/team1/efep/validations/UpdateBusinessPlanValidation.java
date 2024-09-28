@@ -1,6 +1,5 @@
 package com.team1.efep.validations;
 
-import com.team1.efep.models.request_models.CreateBusinessPlanRequest;
 import com.team1.efep.models.request_models.UpdateBusinessPlanRequest;
 
 import java.util.HashMap;

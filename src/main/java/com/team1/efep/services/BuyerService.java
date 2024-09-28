@@ -1,16 +1,10 @@
 package com.team1.efep.services;
 
-import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
-import com.team1.efep.models.request_models.ForgotRequest;
-import com.team1.efep.models.request_models.RenewPasswordRequest;
-import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 

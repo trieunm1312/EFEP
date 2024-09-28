@@ -1,8 +1,5 @@
 package com.team1.efep.validations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ForgotPasswordValidation {
 
     public static String validateForgotPasswordInput(String email) {

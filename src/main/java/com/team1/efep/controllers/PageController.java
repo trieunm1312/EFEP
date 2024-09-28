@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PageController {
 
     private final BuyerService buyerService;
-    
+
     @GetMapping("/")
     public String startPage(Model model) {
         buyerService.viewSlideBar(model);

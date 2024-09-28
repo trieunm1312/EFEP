@@ -3,7 +3,6 @@ package com.team1.efep.models.entity_models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
