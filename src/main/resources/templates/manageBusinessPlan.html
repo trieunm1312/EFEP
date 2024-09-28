@@ -194,10 +194,11 @@
                             </div>
                             <div class="business-plan__card-modify">
                                 <form th:action="@{/admin/plan}" method="delete">
-                                    <div class="business-plan__card-delete">
+                                    <button class="business-plan__card-delete">
                                         <i class="fa-regular fa-trash-can modify-icon"></i>
                                         <span>Delete</span>
-                                    </div>
+                                    </button>
+                                    <input type="hidden" name="planId" value="123">
                                 </form>
                                 <div class="business-plan__card-edit">
                                     <i class="fa-solid fa-pencil modify-icon"></i>
@@ -221,18 +222,19 @@
                                         <div class="business-plan__card-service">
                                             Service:
                                             <select name="serviceList">
-                                                <option value="">Post 2 post per day</option>
-                                                <option value="">Post 4 post per day</option>
-                                                <option value="">Post 8 post per day</option>
-                                                <option value="">Post 16 post per day</option>
-                                                <option value="">Post 32 post per day</option>
+                                                <option value="2">Post 2 post per day</option>
+                                                <option value="4">Post 4 post per day</option>
+                                                <option value="6">Post 8 post per day</option>
+                                                <option value="8">Post 16 post per day</option>
+                                                <option value="10">Post 32 post per day</option>
                                             </select>
                                         </div>
                                     </div>
                                     <button class="business-plan__card-add-service">+ Add more service</button>
                                     <div class="business-plan__card-duration">
-                                        Duration:
-                                        <input type="text" name="duration" value="1 Month" placeholder="Duration">
+                                        Duration in Months:
+                                        <input type="text" name="duration" value="1" placeholder="Duration">
+
                                     </div>
                                     <div class="business-plan__card-price">
                                         <h4>

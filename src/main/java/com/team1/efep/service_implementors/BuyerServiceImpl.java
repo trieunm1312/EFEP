@@ -612,7 +612,8 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------------SEARCH FLOWER------------------------------------------//
 
     @Override
-    public String searchFlower(SearchFlowerRequest request) {
+    public String searchFlower(SearchFlowerRequest request, Model model) {
+        model.addAttribute("msg", searchFlowerLogic(request));
         return "category";
     }
 

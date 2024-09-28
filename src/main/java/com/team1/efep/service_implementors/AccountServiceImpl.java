@@ -141,7 +141,7 @@ public class AccountServiceImpl implements AccountService {
     private Account createNewAccount(RegisterRequest request) {
         return accountRepo.save(
                 Account.builder()
-                        .status(null)
+                        .status("200")
                         .email(request.getEmail())
                         .password(request.getPassword())
                         .role(Role.BUYER)
@@ -341,7 +341,7 @@ public class AccountServiceImpl implements AccountService {
     public String logout(HttpSession session) {
         if (session.getAttribute("acc") != null) {
             session.invalidate();
-            return "home`````````````````````````````````````````                                                                                                                                                                                                                                                   ";
+            return "home";
         }
         return "home";
     }
