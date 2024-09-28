@@ -415,9 +415,9 @@
 
                                         <!-- Login successfully -->
                                         <div th:if="${session.acc != null}" class="header__item-account">
-                                            <form th:action="@{/account/view/profile}" th:object="${ViewProfileRequest}" class="form" method="get">
+                                            <form th:action="@{/account/view/profile}" th:object="${viewProfileRequest}" class="form" method="get">
                                                 <input type="submit" name="action" value="Update profile" class="header__item-account-item"></input>
-                                                <input type="hidden" name="buyerId" value="${account.email}">
+                                                <input type="hidden" name="accountId" th:field="*{id}"></input>
                                             </form>
                                            <form th:action="@{/account/logout}" class="form" method="get">
                                                <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>

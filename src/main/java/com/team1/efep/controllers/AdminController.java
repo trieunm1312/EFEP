@@ -19,6 +19,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/plan")
+    @Operation(hidden = true)
     public String createBusinessPlan(CreateBusinessPlanRequest request, Model model) {
         return adminService.createBusinessPlan(request, model);
     }

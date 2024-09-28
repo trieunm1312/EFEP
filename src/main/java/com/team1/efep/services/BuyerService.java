@@ -45,7 +45,7 @@ public interface BuyerService {
 
     ViewFlowerTopListResponse viewFlowerTopListAPI(int top);
 
-    String searchFlower(SearchFlowerRequest request);
+    String searchFlower(SearchFlowerRequest request, Model model);
 
     SearchFlowerResponse searchFlowerAPI(SearchFlowerRequest request);
 

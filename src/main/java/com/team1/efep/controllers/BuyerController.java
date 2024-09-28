@@ -109,7 +109,7 @@ public class BuyerController {
     @PostMapping("/flower/search")
     @Operation(hidden = true)
     public String searchFlower(SearchFlowerRequest request, Model model) {
-        return buyerService.searchFlower(request);
+        return buyerService.searchFlower(request, model);
     }
 
     @PostMapping("/flower/search/api")
