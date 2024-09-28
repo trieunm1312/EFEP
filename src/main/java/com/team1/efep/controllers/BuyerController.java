@@ -51,14 +51,14 @@ public class BuyerController {
         return buyerService.viewWishlist(session, model);
     }
 
-    @GetMapping("/wishlist/api/{id}")
-    public ViewWishlistResponse viewWishlist(@PathVariable int id) {
-        return buyerService.viewWishlistAPI(id);
+    @GetMapping("/wishlist/api/{accountId}")
+    public ViewWishlistResponse viewWishlist(@PathVariable int accountId) {
+        return buyerService.viewWishlistAPI(accountId);
     }
 
     @PostMapping("/wishlist")
     @Operation(hidden = true)
-    public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
+    public String addToWishlist(@ModelAttribute AddToWishlistRequest request, HttpSession session, Model model) {
         return buyerService.addToWishlist(request, session, model);
     }
 
