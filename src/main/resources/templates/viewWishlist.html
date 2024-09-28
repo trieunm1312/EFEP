@@ -440,8 +440,10 @@
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
                                                             <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
-                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span class="header__cart-item-remove-msg">Remove</span>
+                                                                    <i
+                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span
+                                                                        class="header__cart-item-remove-msg">Remove</span>
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -460,8 +462,10 @@
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
                                                             <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
-                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span class="header__cart-item-remove-msg">Remove</span>
+                                                                    <i
+                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span
+                                                                        class="header__cart-item-remove-msg">Remove</span>
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -480,9 +484,9 @@
                                             </div>
                                             <div class="header__cart-list-btn">
                                                 <form th:action="@{/buyer/wishlist}" method="get">
-                                                        <input class="btn-view-cart" type="submit" value="View Wish list"
-                                                            name="Action">
-                                                      <!--  <input class="btn-view-cart" type="submit" value="Checkout"
+                                                    <input class="btn-view-cart" type="submit" value="View Wish list"
+                                                        name="Action">
+                                                    <!--  <input class="btn-view-cart" type="submit" value="Checkout"
                                                             name="Action"> -->
                                                 </form>
                                             </div>
@@ -499,6 +503,11 @@
 
         <div class="container">
             <div class="table-item-cart">
+                <div class="btn-delete-wishlist">
+                    <form th:action="@{/}" method="get">
+                        <button class="btn-delete">Delete Wishlist</button>
+                    </form>
+                </div>
                 <table border="1" cellpadding="5" cellspacing="0" width="100%">
                     <!-- <caption>Tiêu đề Bảng</caption> -->
                     <thead>
@@ -526,18 +535,20 @@
                                 <span class="table-item-id">Product 1</span>
                             </td>
                             <td class="table-item-detail">
-                                    <div>
-                                        <form class = "table-item-quantity" th:action="@{/}" method="get">
-                                            <label class = "input-quantity" for=""><input type="number" min="1"></label>
-                                            <button class = "table-item-btn"  value="" name="action">
-                                                <i class="fa-solid fa-arrows-rotate"></i>
-                                            </button>
-                                            <button class = "table-item-removed">
-                                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
-                                                <span class="table-item-remove-msg">Remove</span>
-                                            </button>
-                                        </form>
-                                    </div>                             
+                                <div class="table-item-quantity">
+                                    <form class="form-quantity" th:action="@{/}" method="get">
+                                        <input class="input-quantity" type="number" min="1">
+                                        <button class="table-item-btn" value="" name="action">
+                                            <i class="fa-solid fa-arrows-rotate"></i>
+                                        </button>
+                                    </form>
+                                    <form  th:action="@{/}" method="get">
+                                        <button class="table-item-removed">
+                                            <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
+                                            <span class="table-item-remove-msg">Remove</span>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                             <td class="table-item-detail">
                                 <span class="table-item-price">$122.00</span>
@@ -557,10 +568,10 @@
                 </table>
             </div>
             <div class="btn-cart">
-                <form  th:action ="@{/}" method = "get">
+                <form th:action="@{/}" method="get">
                     <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
                 </form>
-                <form th:action ="@{/}" method = "get">
+                <form th:action="@{/}" method="get">
                     <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
                 </form>
             </div>
@@ -727,7 +738,7 @@
             </div>
         </footer>
     </div>
-    <script src = "/js/index.js"></script>
+    <script src="/js/index.js"></script>
 </body>
 
 </html>
