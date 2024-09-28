@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeleteWishlistValidation {
-    public static Map<String, String> validate(DeleteWishlistRequest request){
+    public static Map<String, String> validate(DeleteWishlistRequest request) {
         Map<String, String> errors = new HashMap<>();
         return errors;
     }

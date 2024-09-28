@@ -20,7 +20,7 @@ public class ViewFlowerListForSellerResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Flower{
+    public static class Flower {
         private int id;
         private String name;
         private float price;
@@ -34,7 +34,7 @@ public class ViewFlowerListForSellerResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Image{
+    public static class Image {
         private String link;
     }
 

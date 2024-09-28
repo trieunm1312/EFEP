@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewFlowerListForSellerRequest {
-    private int sellerId;
+public class VNPayBusinessPlanRequest {
+
+    private int businessPlanId;
+
+    private long Amount;
 }

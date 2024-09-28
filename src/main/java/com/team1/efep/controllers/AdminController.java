@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
+//@RestController
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
@@ -74,7 +74,7 @@ public class AdminController {
 
     @DeleteMapping("/service")
     @Operation(hidden = true)
-    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model ) {
+    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model) {
         return adminService.deleteBusinessService(request, model);
     }
 

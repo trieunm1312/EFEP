@@ -1,4 +1,4 @@
-package com.team1.efep.models.request_models;
+package com.team1.efep.models.response_models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewFlowerListForSellerRequest {
-    private int sellerId;
+public class UpdateFlowerResponse {
+    private String status;
+
+    private String message;
+
 }

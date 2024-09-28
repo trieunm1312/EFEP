@@ -20,7 +20,7 @@ public class SearchBuyerListResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Buyer{
+    public static class Buyer {
         private int id;
         private String name;
     }

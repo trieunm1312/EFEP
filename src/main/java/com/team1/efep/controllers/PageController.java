@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PageController {
 
     private final BuyerService buyerService;
-    
+
     @GetMapping("/")
     public String startPage(Model model) {
         buyerService.viewSlideBar(model);
@@ -37,7 +37,15 @@ public class PageController {
         return "register";
     }
 
+    @GetMapping("/plan")
+    public String planPage() {
+        return "manageBusinessPlan";
+    }
 
+    @GetMapping("/service")
+    public String servicePage() {
+        return "manageBusinessService";
+    }
 }
 
 

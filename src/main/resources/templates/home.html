@@ -407,16 +407,18 @@
                                 <i class="header__item-icon-user fa-solid fa-user">
 
                                     <!-- Have not Login -->
-                                    <div class="header__item-account">
-                                        <a th:href="@{/register}" class="header__item-account-item">Register</a>
-                                        <a th:href="@{/login}" class="header__item-account-item">Login</a>
-                                    </div>
+                                    <div th:if="${error == null}">
+                                        <div th:if="${session.acc == null}" class="header__item-account">
+                                            <a th:href="@{/register}" class="header__item-account-item">Register</a>
+                                            <a th:href="@{/login}" class="header__item-account-item">Login</a>
+                                        </div>
 
-                                    <!-- Login successfully -->
-                                    <!-- <div class="header__item-account">
-                                        <a href="" class="header__item-account-item">Update profile</a>
-                                        <a href="" class="header__item-account-item">Logout</a>
-                                    </div> -->
+                                        <!-- Login successfully -->
+                                        <div th:if="${session.acc != null}" class="header__item-account">
+                                            <a th:href="@{/account/view/profile}" class="header__item-account-item">My profile</a>
+                                            <a th:href="@{/account/logout}" class="header__item-account-item">Logout</a>
+                                        </div>
+                                    </div>
                                 </i>
                             </li>
                             <li class="header__item-icon">
@@ -486,13 +488,11 @@
                                             </div>
                                             <div class="header__cart-list-btn">
                                                 <form th:action="@{/buyer/wishlist}" method="get">
-                                                    <input class="btn-view-cart" type="submit" value="View wishlist"
-                                                        name="Action">
+                                                    <input class="btn-view-cart" type="submit" value="View wishlist" name="Action">
                                                     <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
                                                             name="Action"> -->
                                                 </form>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

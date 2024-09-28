@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.VNPay.VNPayConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -11,13 +12,17 @@ import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.List;
-import java.util.Map;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +40,12 @@ public class SellerServiceImpl implements SellerService {
     private final SellerRepo sellerRepo;
 
     private final OrderDetailRepo orderDetailRepo;
+
     private final UserRepo userRepo;
+
+    private final PurchasedPlanRepo purchasedPlanRepo;
+
+    private final BusinessPlanRepo businessPlanRepo;
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -84,7 +94,6 @@ public class SellerServiceImpl implements SellerService {
                                     .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
-                                    .rating(flower.getRating())
                                     .description(flower.getDescription())
                                     .flowerAmount(flower.getFlowerAmount())
                                     .quantity(flower.getQuantity())
@@ -111,7 +120,6 @@ public class SellerServiceImpl implements SellerService {
         Flower flower = Flower.builder()
                 .name(request.getName())
                 .price(request.getPrice())
-                .rating(0)
                 .seller(account.getUser().getSeller())
                 .description(request.getDescription())
                 .flowerAmount(request.getFlowerAmount())
@@ -467,6 +475,7 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
+
     private Object filterOrderLogic(FilterOrderRequest request) {
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
@@ -616,7 +625,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
-        model.addAttribute("msg", searchBuyerListLogic(request,((Account)session.getAttribute("acc")).getUser().getSeller().getId()));
+        model.addAttribute("msg", searchBuyerListLogic(request, ((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
         return "searchBuyerList";
     }
 
@@ -640,5 +649,263 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
+    //-------------------------------------------------VN PAY----------------------------------------//
+
+    @Override
+    public String createVNPayPaymentLink(VNPayBusinessPlanRequest request, Model model, HttpServletRequest httpServletRequest) {
+        model.addAttribute("msg", createVNPayPaymentLinkLogic(request, httpServletRequest));
+        return "home";
+    }
+
+    @Override
+    public VNPayResponse createVNPayPaymentLinkAPI(VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest) {
+        return createVNPayPaymentLinkLogic(request, httpServletRequest);
+    }
+
+    private VNPayResponse createVNPayPaymentLinkLogic(VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest) {
+        Map<String, String> paramList = new HashMap<>();
+
+        long amount = getAmount(request);
+        int busPlanId = getBusPlanId(request);
+        String txnRef = VNPayConfig.getRandomNumber(8);
+        String ipAddress = VNPayConfig.getIpAddress(httpServletRequest);
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        paramList.put("vnp_Version", getVersion());
+        paramList.put("vnp_Command", getCommand());
+        paramList.put("vnp_TmnCode", VNPayConfig.vnp_TmnCode);
+        paramList.put("vnp_BusPlanId", String.valueOf(busPlanId));
+        paramList.put("vnp_Amount", String.valueOf(amount));
+        paramList.put("vnp_CurrCode", "VND");
+        paramList.put("vnp_TxnRef", txnRef);
+        paramList.put("vnp_OrderInfo", "Order payment No " + txnRef + ", Amount: " + amount);
+        paramList.put("vnp_OrderType", getOrderType());
+        paramList.put("vnp_Locale", "vn");
+        paramList.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
+        paramList.put("vnp_IpAddr", ipAddress);
+        paramList.put("vnp_CreateDate", getCreateDate(calendar, formatter));
+        paramList.put("vnp_ExpireDate", getExpiredDate(15, calendar, formatter));
+
+        return VNPayResponse.builder()
+                .status("200")
+                .message("Create payment link successfully")
+                .paymentURL(buildVNPayLink(paramList))
+                .build();
+    }
+
+    private String getVersion() {
+        return "2.1.0";
+    }
+
+    private String getCommand() {
+        return "pay";
+    }
+
+    private String getOrderType() {
+        return "other";
+    }
+
+    private Long getAmount(VNPayBusinessPlanRequest request) {
+        return request.getAmount() * 100;
+    }
+
+    private Integer getBusPlanId(VNPayBusinessPlanRequest request) {
+        return request.getBusinessPlanId();
+    }
+
+    private String getCreateDate(Calendar calendar, SimpleDateFormat dateFormat) {
+        return dateFormat.format(calendar.getTime());
+    }
+
+    private String getExpiredDate(int minutes, Calendar calendar, SimpleDateFormat dateFormat) {
+        calendar.add(Calendar.MINUTE, minutes);
+        return dateFormat.format(calendar.getTime());
+    }
+
+    private String buildVNPayLink(Map<String, String> paramList) {
+        try {
+            List<String> fieldNames = new ArrayList<>(paramList.keySet());
+            Collections.sort(fieldNames);
+            StringBuilder hashData = new StringBuilder();
+            StringBuilder query = new StringBuilder();
+            Iterator<String> itr = fieldNames.iterator();
+            while (itr.hasNext()) {
+                String fieldName = (String) itr.next();
+                String fieldValue = (String) paramList.get(fieldName);
+                if ((fieldValue != null) && (!fieldValue.isEmpty())) {
+                    //Build hash data
+                    hashData.append(fieldName);
+                    hashData.append('=');
+                    hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+                    //Build query
+                    query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
+                    query.append('=');
+                    query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+                    if (itr.hasNext()) {
+                        query.append('&');
+                        hashData.append('&');
+                    }
+                }
+            }
+            String queryUrl = query.toString();
+            String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
+            queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
+            return VNPayConfig.vnp_PayUrl + "?" + queryUrl;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //------------------------GET PAYMENT RESULT-------------------------------------//
+
+    @Override
+    public String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            model.addAttribute("msg", (VNPayResponse) output);
+            return "paymentSuccess";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "paymentFailed";
+    }
+
+    @Override
+    public VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
+
+        Object output = getPaymentResultLogic(params, accountId, httpServletRequest);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            return (VNPayResponse) output;
+        }
+        return VNPayResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+
+    private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
+        User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
+        Map<String, String> errors = VNPayValidation.validate(params, httpServletRequest);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        String transactionStatus = params.get("vnp_TransactionStatus");
+        if ("00".equals(transactionStatus)) {
+            int busPlanId = Integer.parseInt(params.get("vnp_BusPlanId"));
+            BusinessPlan businessPlan = businessPlanRepo.findById(busPlanId).orElse(null);
+            savePurchasedPlan(params, user, businessPlan);
+        }
+        return VNPayResponse.builder()
+                .status("200")
+                .message("Your payment is successfully")
+                .build();
+    }
+
+    private void savePurchasedPlan(Map<String, String> params, User user, BusinessPlan businessPlan) {
+
+        float vnpAmount = Float.parseFloat(params.get("vnp_Amount"));
+
+        sellerRepo.save(Seller.builder()
+                .businessPlan(businessPlan)
+                .planPurchaseDate(LocalDateTime.now())
+                .build());
+
+        purchasedPlanRepo.save(PurchasedPlan.builder()
+                .seller(user.getSeller())
+                .status(Status.ORDER_STATUS_PROCESSING)
+                .name(businessPlan.getName())
+                .purchasedDate(LocalDateTime.now())
+                .price(vnpAmount / 100)
+                .build());
+    }
+
+    //----------------------------------SORT ORDER BY CREATE DATE-------------------------------------//
+
+
+    @Override
+    public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model) {
+        model.addAttribute("msg", sortOrderLogic(filterOrderRequest, sortOrderRequest));
+        return "sellerOrder";
+    }
+
+    @Override
+    public SortOrderResponse sortOrderAPI(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest) {
+        return sortOrderLogic(filterOrderRequest, sortOrderRequest);
+    }
+
+    private SortOrderResponse sortOrderLogic(FilterOrderRequest filterRequest, SortOrderRequest sortRequest) {
+        FilterOrderResponse response = (FilterOrderResponse) filterOrderLogic(filterRequest);
+        List<FilterOrderResponse.OrderBill> orders = response.getOrderList();
+
+        if ("asc".equalsIgnoreCase(sortRequest.getSortDirection())) {
+            orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate));
+        } else if ("desc".equalsIgnoreCase(sortRequest.getSortDirection())) {
+            orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate).reversed());
+        }
+
+        return SortOrderResponse.builder()
+                .status("200")
+                .message("Sort order successfully")
+                .orderList(orders)
+                .build();
+    }
+
+    //------------------------------UPDATE FLOWER--=-==-=--=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-//
+
+    @Override
+    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", CreateFlowerResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        model.addAttribute("response", updateFlowerLogic(request));
+        return "seller";
+    }
+
+    @Override
+    public UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return UpdateFlowerResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = updateFlowerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateFlowerResponse.class)) {
+            return (UpdateFlowerResponse) output;
+        }
+        return UpdateFlowerResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object updateFlowerLogic(UpdateFlowerRequest request) {
+        Map<String, String> errors = UpdateFlowerValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        Flower flower = flowerRepo.findById(request.getFlowerId())
+                .orElseThrow(() -> new RuntimeException("Flower not found with id: " + request.getFlowerId()));
+
+        flower.setName(request.getName());
+        flower.setPrice(request.getPrice());
+        flower.setDescription(request.getDescription());
+        flower.setFlowerAmount(request.getFlowerAmount());
+        flower.setQuantity(request.getQuantity());
+        flower.setStatus(request.getStatus());
+
+        return flowerRepo.save(flower);
+    }
 
 }
+
+
