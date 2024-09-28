@@ -1,23 +1,16 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
-import com.team1.efep.models.entity_models.*;
-import com.team1.efep.models.request_models.CreateBusinessPlanRequest;
-import com.team1.efep.models.request_models.DisableBusinessPlanRequest;
-import com.team1.efep.models.request_models.UpdateBusinessPlanRequest;
-import com.team1.efep.models.response_models.CreateBusinessPlanResponse;
-import com.team1.efep.models.response_models.DisableBusinessPlanResponse;
-import com.team1.efep.models.response_models.UpdateBusinessPlanResponse;
+import com.team1.efep.models.entity_models.BusinessPlan;
+import com.team1.efep.models.entity_models.BusinessService;
+import com.team1.efep.models.entity_models.PlanService;
+import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.AdminService;
-import com.team1.efep.services.BuyerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
-import com.team1.efep.validations.ChangePasswordValidation;
-import com.team1.efep.validations.CreateBusinessPlanValidation;
-import com.team1.efep.validations.DisableBusinessPlanValidation;
-import com.team1.efep.validations.UpdateBusinessPlanValidation;
+import com.team1.efep.validations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -42,24 +35,24 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String createBusinessPlan(CreateBusinessPlanRequest request, Model model) {
         Object output = createBusinessPlanLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)){
-           model.addAttribute("msg", (CreateBusinessPlanResponse)output);
-            return "home";
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
+            model.addAttribute("msg", (CreateBusinessPlanResponse) output);
+            return "manageBusinessPlan";
         }
-        model.addAttribute("error", (Map<String, String>)output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "home";
     }
 
     @Override
     public CreateBusinessPlanResponse createBusinessPlanAPI(CreateBusinessPlanRequest request) {
         Object output = createBusinessPlanLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)){
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
             return (CreateBusinessPlanResponse) output;
         }
 
         return CreateBusinessPlanResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
@@ -102,11 +95,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model) {
         Object output = updateBusinessPlanLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)){
-            model.addAttribute("msg", (UpdateBusinessPlanResponse)output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
+            model.addAttribute("msg", (UpdateBusinessPlanResponse) output);
             return "home";
         }
-        model.addAttribute("error", (Map<String, String>)output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "home";
 
     }
@@ -114,7 +107,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UpdateBusinessPlanResponse updateBusinessPlanAPI(UpdateBusinessPlanRequest request) {
         Object output = updateBusinessPlanLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)){
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
             return (UpdateBusinessPlanResponse) output;
         }
         return UpdateBusinessPlanResponse.builder()
@@ -123,7 +116,7 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    public Object updateBusinessPlanLogic(UpdateBusinessPlanRequest request) {
+    private Object updateBusinessPlanLogic(UpdateBusinessPlanRequest request) {
         Map<String, String> errors = UpdateBusinessPlanValidation.validate(request);
         if (errors.isEmpty()) {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
@@ -145,29 +138,29 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model) {
         Object output = disableBusinessPlanLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)){
-            model.addAttribute("msg", (DisableBusinessPlanResponse)output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)) {
+            model.addAttribute("msg", (DisableBusinessPlanResponse) output);
             return "home";
         }
-        model.addAttribute("error", (Map<String, String>)output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "home";
     }
 
     @Override
     public DisableBusinessPlanResponse disableBusinessPlanAPI(DisableBusinessPlanRequest request) {
         Object output = disableBusinessPlanLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)){
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)) {
             return (DisableBusinessPlanResponse) output;
         }
         return DisableBusinessPlanResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
-    public Object disableBusinessPlanLogic(DisableBusinessPlanRequest request) {
+    private Object disableBusinessPlanLogic(DisableBusinessPlanRequest request) {
         Map<String, String> errors = DisableBusinessPlanValidation.validate(request);
-        if(errors.isEmpty()) {
+        if (errors.isEmpty()) {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
             assert businessPlan != null;
             businessPlan.setStatus(Status.BUSINESS_PLAN_STATUS_DISABLED);
@@ -178,6 +171,126 @@ public class AdminServiceImpl implements AdminService {
                     .build();
         }
         return errors;
+    }
+
+    //-------------------------------------CREATE BUSINESS SERVICE----------------------------//
+    @Override
+    public String createBusinessService(CreateBusinessServiceRequest request, Model model) {
+        Object output = createBusinessServiceLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+            model.addAttribute("msg", (CreateBusinessServiceResponse) output);
+            return "home";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "home";
+    }
+
+    @Override
+    public CreateBusinessServiceResponse createBusinessServiceAPI(CreateBusinessServiceRequest request) {
+        Object output = createBusinessServiceLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+            return (CreateBusinessServiceResponse) output;
+        }
+        return CreateBusinessServiceResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .build();
+    }
+
+    private Object createBusinessServiceLogic(CreateBusinessServiceRequest request) {
+        Map<String, String> errors = CreateBusinessServiceValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        businessServiceRepo.save(BusinessService.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .build());
+        return CreateBusinessPlanResponse.builder()
+                .status("200")
+                .message("Created business service successfully")
+                .build();
+    }
+
+    //-------------------------------------UPDATE BUSINESS SERVICE----------------------------//
+
+    @Override
+    public String updateBusinessService(UpdateBusinessServiceRequest request, Model model) {
+        Object output = updateBusinessServiceLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+            model.addAttribute("msg", (UpdateBusinessServiceResponse) output);
+            return "home";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "home";
+    }
+
+    @Override
+    public UpdateBusinessServiceResponse updateBusinessServiceAPI(UpdateBusinessServiceRequest request) {
+        Object output = updateBusinessServiceLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+            return (UpdateBusinessServiceResponse) output;
+        }
+        return UpdateBusinessServiceResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object updateBusinessServiceLogic(UpdateBusinessServiceRequest request) {
+        Map<String, String> errors = UpdateBusinessServiceValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        BusinessService businessService = businessServiceRepo.findById(request.getId()).orElse(null);
+        assert businessService != null;
+        businessService.setName(request.getName());
+        businessService.setDescription(request.getDescription());
+        businessService.setPrice(request.getPrice());
+        businessServiceRepo.save(businessService);
+        return UpdateBusinessServiceResponse.builder()
+                .status("200")
+                .message("Updated business service successfully")
+                .build();
+    }
+    //-------------------------------------DELETE BUSINESS SERVICE----------------------------//
+
+    @Override
+    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model) {
+        Object output = deleteBusinessServiceLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+            model.addAttribute("msg", (DeleteBusinessServiceResponse) output);
+            return "home";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "home";
+    }
+
+    @Override
+    public DeleteBusinessServiceResponse deleteBusinessServiceAPI(DeleteBusinessServiceRequest request) {
+        Object output = deleteBusinessServiceLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteBusinessServiceResponse.class)) {
+            return (DeleteBusinessServiceResponse) output;
+        }
+        return DeleteBusinessServiceResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object deleteBusinessServiceLogic(DeleteBusinessServiceRequest request) {
+        Map<String, String> errors = DeleteBusinessServiceValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        BusinessService businessService = businessServiceRepo.findById(request.getId()).orElse(null);
+        assert businessService != null;
+        businessServiceRepo.delete(businessService);
+        return DeleteBusinessServiceResponse.builder()
+                .status("200")
+                .message("Deleted business service successfully")
+                .build();
     }
 
 }

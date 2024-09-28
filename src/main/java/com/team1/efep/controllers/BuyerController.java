@@ -210,15 +210,16 @@ public class BuyerController {
 //        return buyerService.getPaymentResultAPI(params, accountId, httpServletRequest);
 //    }
 
-    @PostMapping("/category")
+
+    @GetMapping("/category")
     @Operation(hidden = true)
-    public String viewCategory(ViewCategoryListRequest request, Model model) {
-        return buyerService.viewCategory(request, model);
+    public String viewCategory(HttpSession session, Model model) {
+        return buyerService.viewCategory(session, model);
     }
 
-    @PostMapping("/category/api")
-    public ViewCategoryListResponse viewCategory(@RequestBody ViewCategoryListRequest request) {
-        return buyerService.viewCategoryAPI(request);
+    @GetMapping("/category/api")
+    public ViewCategoryListResponse viewCategory() {
+        return buyerService.viewCategoryAPI();
     }
 
 }

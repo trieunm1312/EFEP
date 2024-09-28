@@ -87,7 +87,7 @@ public interface BuyerService {
 
     VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest);
 
-    String viewCategory(ViewCategoryListRequest request, Model model);
+    String viewCategory(HttpSession session, Model model);
 
-    ViewCategoryListResponse viewCategoryAPI(ViewCategoryListRequest request);
+    ViewCategoryListResponse viewCategoryAPI();
 }

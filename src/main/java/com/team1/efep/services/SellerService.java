@@ -53,4 +53,12 @@ public interface SellerService {
     String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model);
 
     UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request);
+
+    String viewBuyerList(HttpSession session, Model model);
+
+    ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request);
+
+    String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model);
+
+    SearchBuyerListResponse searchBuyerListAPI(SearchBuyerListRequest request, int sellerId);
 }

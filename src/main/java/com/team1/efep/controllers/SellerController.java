@@ -135,4 +135,25 @@ public class SellerController {
     public UpdateFlowerResponse updateFlower(@RequestBody UpdateFlowerRequest request){
         return sellerService.updateFlowerAPI(request);
     }
+
+    @GetMapping("/buyer/list")
+    public String viewBuyerList(HttpSession session, Model model) {
+        return sellerService.viewBuyerList(session, model);
+    }
+
+    @PostMapping("/buyer/list/api")
+    public ViewBuyerListResponse cancelBusinessPlan(@RequestBody ViewBuyerListRequest request) {
+        return sellerService.viewBuyerListAPI(request);
+    }
+
+    @PostMapping("/search/buyer/")
+    public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
+        return sellerService.searchBuyerList(session, request, model);
+    }
+
+    @PostMapping("/search/buyer/api")
+    public SearchBuyerListResponse searchBuyerList(@RequestBody SearchBuyerListRequest request, @RequestBody int id) {
+        return sellerService.searchBuyerListAPI(request, id);
+    }
+
 }
