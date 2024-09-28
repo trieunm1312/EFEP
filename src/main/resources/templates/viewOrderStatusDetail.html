@@ -256,13 +256,20 @@
                 <div class="order__detail-item">
                     <table border="1" cellpadding="20" cellspacing="0">
                         <tbody>
-                            <form th:action="@{/}">
-                                <tr>
-                                    <td class="table-order-detail" colspan="2">
-                                        <button class="order-btn">View more flower</button>
-                                    </td>
-                                </tr>
-                            </form>
+
+                            <tr>
+                                <td class="table-order-detail" colspan="2">
+                                    <div class="order-nav">
+                                        <form th:action="@{/}">
+                                            <button class="order-btn">View more flower</button>
+                                        </form>
+                                        <form th:action="@{/}">
+                                            <button class="order-btn-cancel">Cancel order</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+
                             <tr>
                                 <td class="table-order-detail" colspan="2">
                                     <div class="text-flex">

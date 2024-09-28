@@ -545,7 +545,7 @@
                                 </a>
                             </li>
                             <li class="sidebar__item">
-                                <a href="changePassword.html" class="sidebar__item-link">
+                                <a th:href="@{/account/change/password}" class="sidebar__item-link">
                                     <span>Change Password</span>
                                 </a>
                             </li>
@@ -569,7 +569,7 @@
                 </div>
                 <div class="profile">
 
-                    <form th:action="@{/account/update/profile}" method="" class="profile__form">
+                    <form th:action="@{/account/update/profile}" method="put" class="profile__form">
                         <h3 class="profile__header">Your Profile</h3>
                         <div class="profile__information">
                             <div class="user__name profile__information-part">
@@ -587,7 +587,7 @@
                             
                         </div>
                         <div class="profile__avatar">
-                            <img src="/src/main/resources/static/img/default-avatar.jpg" alt="Default Avatar">
+                            <img src="/img/default-avatar.jpg" alt="Default Avatar">
                             <input type="submit" name="action" value="Change Avatar" class="choose-img-btn btn btn--primary">
                             <div class="profile__avatar-note">
                                 <span>Maximum file size is 1 MB</span>

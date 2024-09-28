@@ -923,7 +923,10 @@ html {
     font-size: 1.4rem;
     font-weight: 300;
     display: block;
-    text-decoration: none;
+    margin-bottom: 8px;
+    background-color: transparent;
+    border: none;
+    text-align: start;
     padding-left: 16px;
     font-family: sans-serif;
     color: var(--text-color);
