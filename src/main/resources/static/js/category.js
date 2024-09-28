@@ -23,3 +23,8 @@ listIcon.addEventListener('click', function() {
     document.querySelector('.flower-list').classList.add('active-view');
     document.querySelector('.flower__grid').classList.remove('active-view');
 });
+
+//Submit delete
+function submitForm() {
+    document.getElementById("flowerForm").submit();
+}

@@ -394,7 +394,7 @@
                         <ul class="header__item-list-icon">
                             <li class="header__item-icon header__item-icon-search" tabindex="0">
                                 <i class="header__item-icon-search fa-solid fa-magnifying-glass">
-                                    <form class="header__item-search-box" method="GET">
+                                    <form th:action="@{/buyer/flower/search}" class="header__item-search-box" method="post">
                                         <input type="text" class="header__item-search-input" name="SearchValue"
                                             placeholder="Search...">
                                         <button class="header__item-search-icon">
@@ -415,8 +415,13 @@
 
                                         <!-- Login successfully -->
                                         <div th:if="${session.acc != null}" class="header__item-account">
-                                            <a th:href="@{/account/view/profile}" class="header__item-account-item">My profile</a>
-                                            <a th:href="@{/account/logout}" class="header__item-account-item">Logout</a>
+                                            <form th:action="@{/account/view/profile}" th:object="${ViewProfileRequest}" class="form" method="get">
+                                                <input type="submit" name="action" value="Update profile" class="header__item-account-item"></input>
+                                                <input type="hidden" name="buyerId" value="${account.email}">
+                                            </form>
+                                           <form th:action="@{/account/logout}" class="form" method="get">
+                                               <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
+                                           </form>
                                         </div>
                                     </div>
                                 </i>

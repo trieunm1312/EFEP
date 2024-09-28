@@ -141,7 +141,7 @@ public class AccountServiceImpl implements AccountService {
     private Account createNewAccount(RegisterRequest request) {
         return accountRepo.save(
                 Account.builder()
-                        .status(null)
+                        .status("200")
                         .email(request.getEmail())
                         .password(request.getPassword())
                         .role(Role.BUYER)

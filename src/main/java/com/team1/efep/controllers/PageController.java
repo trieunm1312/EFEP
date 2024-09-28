@@ -37,6 +37,11 @@ public class PageController {
         return "register";
     }
 
+    @GetMapping("/account/change/password")
+    public String passwordPage() {
+        return "changePassword";
+    }
+
     @GetMapping("/plan")
     public String planPage() {
         return "manageBusinessPlan";
