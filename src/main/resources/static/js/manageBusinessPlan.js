@@ -16,10 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+
 // Add more service
 document.addEventListener("DOMContentLoaded", function() {
     const addServiceButton = document.querySelector('.business-plan__card-add-service');
     const servicesContainer = document.querySelector('.business-plan__card-services-container');
+    let serviceIndex = 1;
 
     addServiceButton.addEventListener('click', function(event) {
         event.preventDefault();
@@ -29,18 +31,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
         newServiceDiv.innerHTML = `
             Service:
-            <select name="serviceList">
-                <option value="2">Post 2 post per day</option>
-                <option value="4">Post 4 post per day</option>
-                <option value="6">Post 8 post per day</option>
-                <option value="8">Post 16 post per day</option>
-                <option value="10">Post 32 post per day</option>
+            <select name="serviceList[${serviceIndex}].id">
+                <option value="2">Post 2 posts per day</option>
+                <option value="4">Post 4 posts per day</option>
+                <option value="6">Post 8 posts per day</option>
+                <option value="8">Post 16 posts per day</option>
+                <option value="10">Post 32 posts per day</option>
             </select>
         `;
 
         servicesContainer.appendChild(newServiceDiv);
+        serviceIndex++;
     });
 });
+
 
 
 //Click edit to edit content

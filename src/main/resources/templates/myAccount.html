@@ -395,7 +395,7 @@
                         <ul class="header__item-list-icon">
                             <li class="header__item-icon header__item-icon-search" tabindex="0">
                                 <i class="header__item-icon-search fa-solid fa-magnifying-glass">
-                                    <form class="header__item-search-box" method="GET">
+                                    <form class="header__item-search-box" th:method="GET">
                                         <input type="text" class="header__item-search-input" name="SearchValue"
                                             placeholder="Search...">
                                         <button class="header__item-search-icon">
@@ -441,7 +441,7 @@
                                                     <div class="header__cart-item-info">
                                                         <div class="header__cart-item-head">
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="" method="get">
+                                                            <form th:action="@{/}" th:method="get">
                                                                 <button class="header__cart-item-remove">
                                                                     <i
                                                                         class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
@@ -463,7 +463,7 @@
                                                     <div class="header__cart-item-info">
                                                         <div class="header__cart-item-head">
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="" method="get">
+                                                            <form th:action="@{/}" th:method="get">
                                                                 <button class="header__cart-item-remove">
                                                                     <i
                                                                         class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
@@ -486,7 +486,7 @@
                                                 <span class="header__cart-list-detail-price">122.000 VND</span>
                                             </div>
                                             <div class="header__cart-list-btn">
-                                                <form th:action="@{/buyer/wishlist}" method="get">
+                                                <form th:action="@{/buyer/wishlist}" th:method="get">
                                                     <input class="btn-view-wishlist" type="submit" value="View wishlist"
                                                         name="Action">
                                                     <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
@@ -545,9 +545,9 @@
                                 </a>
                             </li>
                             <li class="sidebar__item">
-                                <a th:href="@{/account/change/password}" class="sidebar__item-link">
-                                    <span>Change Password</span>
-                                </a>
+                                <form th:action="@{/account/change/password}" th:method="post" class="sidebar__item-link">
+                                    <input type="submit" name="action" value="Change Password"></input>
+                                </form>
                             </li>
                             <li class="sidebar__item">
                                 <a href="#" class="sidebar__item-link">
@@ -567,9 +567,9 @@
                         </ul>
                     </div>
                 </div>
-                <div class="profile">
 
-                    <form th:action="@{/account/update/profile}" method="put" class="profile__form">
+                <div class="profile">
+                    <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
                         <h3 class="profile__header">Your Profile</h3>
                         <div class="profile__information">
                             <div class="user__name profile__information-part">

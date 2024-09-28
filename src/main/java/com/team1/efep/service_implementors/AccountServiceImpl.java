@@ -212,7 +212,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public String viewProfile(ViewProfileRequest request, Model model) {
         Object output = viewProfileLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileRequest.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileResponse.class)) {
             model.addAttribute("msg", (ViewProfileResponse) output);
             return "myAccount";
         }
@@ -223,7 +223,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ViewProfileResponse viewProfileAPI(ViewProfileRequest request) {
         Object output = viewProfileLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileRequest.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileResponse.class)) {
             return (ViewProfileResponse) output;
         }
         return ViewProfileResponse.builder()
@@ -260,7 +260,7 @@ public class AccountServiceImpl implements AccountService {
             return "myAccount";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "myAccount";
+        return "home";
     }
 
     @Override

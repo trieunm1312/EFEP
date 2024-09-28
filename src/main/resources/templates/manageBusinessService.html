@@ -75,7 +75,7 @@
 
             <!-- Header search -->
             <div class="header__search">
-                <form action="" method="GET" class="header__search-form">
+                <form action="" th:method="GET" class="header__search-form">
                     <button class="header__search-btn">
                         <i class="fa-solid  fa-magnifying-glass"></i>
                     </button>
@@ -138,7 +138,7 @@
                             </tr>
                         </thead>
                         <tbody class="table__body">
-                            <form th:action="@{/admin/service}" method="put" class="business-service__form">
+                            <form th:action="@{/admin/service}" th:method="put" class="business-service__form">
                                 <tr class="table__body-item">
                                     <td class="table__body-name">
                                         <span class="name-text">ABC</span>
@@ -162,14 +162,14 @@
                                         <input type="submit" name="action" class="save-btn" value="Save" style="display: none;">
                                     </td>
                                     <td class="table__body-toggle">
-                                        <form th:action="@{/admin/service}" method="delete">
+                                        <form th:action="@{/admin/service}" th:method="delete">
                                             <input type="submit" name="action" value="Disable" class="toggle-btn">
                                         </form>
                                     </td>
                                 </tr>
                             </form>
                             
-                            <form th:action="@{/admin/service}" method="post" class="business-service__form">
+                            <form th:action="@{/admin/service}" th:method="post" class="business-service__form">
                                 <tr class="table__body-item-new" style="display: none;">
                                     <td class="table__body-name">
                                         <input name="name" value="New Service"></input>
