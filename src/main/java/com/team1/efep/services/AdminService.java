@@ -1,7 +1,9 @@
 package com.team1.efep.services;
 
+import com.team1.efep.models.response_models.ViewBusinessServiceResponse;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 public interface AdminService {
@@ -29,4 +31,24 @@ public interface AdminService {
     String deleteBusinessService(DeleteBusinessServiceRequest request, Model model);
 
     DeleteBusinessServiceResponse deleteBusinessServiceAPI(DeleteBusinessServiceRequest request);
+
+    String viewUserList(HttpSession session, Model model);
+
+    ViewUserListResponse viewUserListAPI();
+
+    String viewBusinessPlan(HttpSession session, Model model);
+
+    ViewBusinessPlanResponse viewBusinessPlanAPI();
+
+    String viewBusinessService(HttpSession session, Model model);
+
+    ViewBusinessServiceResponse viewBusinessServiceAPI();
+
+    String banUser(BanUserRequest request, Model model);
+
+    BanUserResponse banUserAPI(BanUserRequest request);
+
+    String unBanUser(UnBanUserRequest request, Model model);
+
+    UnBanUserResponse unBanUserAPI(UnBanUserRequest request);
 }
