@@ -142,7 +142,7 @@ public class SellerController {
     }
 
     @PostMapping("/buyer/list/api")
-    public ViewBuyerListResponse cancelBusinessPlan(@RequestBody ViewBuyerListRequest request) {
+    public ViewBuyerListResponse viewBuyerList(@RequestBody ViewBuyerListRequest request) {
         return sellerService.viewBuyerListAPI(request);
     }
 

@@ -1,13 +1,8 @@
 package com.team1.efep.enums;
 
-import com.team1.efep.models.entity_models.Account;
-import com.team1.efep.models.entity_models.Flower;
-import com.team1.efep.models.entity_models.Order;
-import com.team1.efep.models.entity_models.PurchasedPlan;
-import com.team1.efep.repositories.AccountRepo;
-import com.team1.efep.repositories.FlowerRepo;
-import com.team1.efep.repositories.OrderRepo;
-import com.team1.efep.repositories.PurchasedPlanRepo;
+import com.team1.efep.models.entity_models.*;
+import com.team1.efep.models.response_models.ViewBusinessPlanResponse;
+import com.team1.efep.repositories.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -25,6 +20,7 @@ public class Status {
     public static String FLOWER_STATUS_OUT_OF_STOCK = "out of stock";
     public static String FLOWER_STATUS_DELETED = "deleted";
     public static String BUSINESS_PLAN_STATUS_DISABLED = "disabled";
+
 
     public static void changeAccountStatus(Account account, String status, AccountRepo accountRepo) {
         account.setStatus(status);
@@ -44,6 +40,11 @@ public class Status {
     public static void changeFlowerStatus(Flower flower, String status, FlowerRepo flowerRepo) {
         flower.setStatus(status);
         flowerRepo.save(flower);
+    }
+
+    public static void getRoleStatus(BusinessPlan businessPlan, String status, BusinessPlanRepo businessPlanRepo) {
+        businessPlan.setStatus(status);
+        businessPlanRepo.save(businessPlan);
     }
 
 }

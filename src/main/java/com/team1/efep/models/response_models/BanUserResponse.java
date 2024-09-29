@@ -9,18 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewProfileResponse {
+public class BanUserResponse {
     private String status;
-
     private String message;
-
-    private int id;
-
-    private String name;
-
-    private String phone;
-
-    private String avatar;
-
-    private String background;
 }
