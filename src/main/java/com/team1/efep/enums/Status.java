@@ -20,8 +20,6 @@ public class Status {
     public static String FLOWER_STATUS_OUT_OF_STOCK = "out of stock";
     public static String FLOWER_STATUS_DELETED = "deleted";
     public static String BUSINESS_PLAN_STATUS_DISABLED = "disabled";
-    public static String BAN_STATUS_USER = "BANNED";
-    public static String UNBAN_STATUS_USER = "UNBANNED";
 
 
     public static void changeAccountStatus(Account account, String status, AccountRepo accountRepo) {

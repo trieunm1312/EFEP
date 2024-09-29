@@ -444,7 +444,7 @@ public class AdminServiceImpl implements AdminService {
             User user = userRepo.findById(request.getId()).orElse(null);
             assert user != null;
             Account account = user.getAccount();
-            account.setStatus(Status.BAN_STATUS_USER);
+            account.setStatus(Status.ACCOUNT_STATUS_BANNED);
             accountRepo.save(account);
             return BanUserResponse.builder()
                     .status("200")
@@ -486,7 +486,7 @@ public class AdminServiceImpl implements AdminService {
             User user = userRepo.findById(request.getId()).orElse(null);
             assert user != null;
             Account account = user.getAccount();
-            account.setStatus(Status.UNBAN_STATUS_USER);
+            account.setStatus(Status.ACCOUNT_STATUS_ACTIVE);
             accountRepo.save(account);
             return UnBanUserResponse.builder()
                     .status("200")
