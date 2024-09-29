@@ -11,9 +11,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ViewProfileResponse {
     private String status;
+
     private String message;
-    private String email;
-    //private String password; ==> đảm bảo sự bảo mật của khách hàng ko nên trả về pass
-    private String role;
-    private String accountStatus;
+
+    private int id;
+
+    private String name;
+
+    private String phone;
+
+    private String avatar;
+
+    private String background;
 }
