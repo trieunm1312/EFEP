@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewUserListRequest {
+public class UnBanUserRequest {
     private int id;
 }

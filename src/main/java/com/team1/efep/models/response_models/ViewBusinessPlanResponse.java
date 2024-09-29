@@ -1,4 +1,5 @@
 package com.team1.efep.models.response_models;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,40 +11,34 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewUserListResponse {
+public class ViewBusinessPlanResponse {
     private String status;
     private String message;
-    private List<User> userList;
+    private List<BusinessPlan> businessPlanList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class User{
-
+    public static class BusinessPlan{
         private int id;
-
         private String name;
-
-        private String phone;
-
-        private String avatar;
-
-        private String background;
-
-        private Account accountUser;
+        private String description;
+        private float price;
+        private int duration;
+        private String status;
+        private List<BusinessService> businessServiceList;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Account{
-
+    public static class BusinessService{
         private int id;
-
-        private String status;
-
-        private String role;
+        private String name;
+        private String description;
+        private float price;
     }
+
 }

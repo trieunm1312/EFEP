@@ -2,6 +2,7 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
+import com.team1.efep.models.response_models.ViewBusinessServiceResponse;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
@@ -30,6 +31,7 @@ public class AdminServiceImpl implements AdminService {
     private final PlanServiceRepo planServiceRepo;
     private final AccountRepo accountRepo;
     private final SellerRepo sellerRepo;
+    private final UserRepo userRepo;
 
     //-------------------------------------CREATE BUSINESS PLAN------------------------------------------//
     @Override
@@ -293,25 +295,205 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
+    //-------------------------------------VIEW BUSINESS PLAN----------------------------//
+    @Override
+    public String viewBusinessPlan(HttpSession session, Model model) {
+        model.addAttribute("msg", viewBusinessPlanLogic());
+        return "manageBusinessPlan";
+    }
+
+    @Override
+    public ViewBusinessPlanResponse viewBusinessPlanAPI() {
+        return viewBusinessPlanLogic();
+    }
+
+    private ViewBusinessPlanResponse viewBusinessPlanLogic() {
+        return ViewBusinessPlanResponse.builder()
+                .status("200")
+                .message("")
+                .businessPlanList(
+                        businessPlanRepo.findAll()
+                                .stream()
+                                .map(
+                                        plan -> ViewBusinessPlanResponse.BusinessPlan.builder()
+                                                .id(plan.getId())
+                                                .name(plan.getName())
+                                                .description(plan.getDescription())
+                                                .price(plan.getPrice())
+                                                .status(plan.getStatus())
+                                                .businessServiceList(plan.getPlanServiceList().stream()
+                                                        .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
+                                                                .id(service.getBusinessService().getId())
+                                                                .name(service.getBusinessService().getName())
+                                                                .description(service.getBusinessService().getDescription())
+                                                                .price(service.getBusinessService().getPrice())
+                                                                .build()
+                                                        )
+                                                        .toList())
+                                                .build()
+                                )
+                                .toList())
+                .build();
+
+    }
+
+    //-------------------------------------VIEW BUSINESS SERVICE----------------------------//
+
+    @Override
+    public String viewBusinessService(HttpSession session, Model model) {
+        model.addAttribute("msg", viewBusinessServiceLogic());
+        return "manageBusinessService";
+    }
+
+    @Override
+    public ViewBusinessServiceResponse viewBusinessServiceAPI() {
+        return viewBusinessServiceLogic();
+    }
+
+    private ViewBusinessServiceResponse viewBusinessServiceLogic() {
+        return ViewBusinessServiceResponse.builder()
+                .status("200")
+                .message("")
+                .servicesList(
+                        businessServiceRepo.findAll()
+                                .stream()
+                                .map(
+                                        service -> ViewBusinessServiceResponse.Services.builder()
+                                                .id(service.getId())
+                                                .name(service.getName())
+                                                .description(service.getDescription())
+                                                .price(service.getPrice())
+                                                .build()
+                                )
+                                .toList()
+                )
+                .build();
+
+    }
+
     //-------------------------------------VIEW USER LIST----------------------------//
 
     @Override
     public String viewUserList(HttpSession session, Model model) {
-        return null;
+        model.addAttribute("msg", viewUserListLogic());
+        return "adminBase";
     }
 
     @Override
-    public ViewUserListResponse viewUserListAPI(ViewUserListRequest request) {
-       return null;
+    public ViewUserListResponse viewUserListAPI() {
+        return viewUserListLogic();
     }
 
-    private Object viewUserListLogic(ViewUserListRequest request) {
-        Map<String, String> errors = ViewUserListValidation.validate();
-        if(!errors.isEmpty()) {
-            return errors;
+    private ViewUserListResponse viewUserListLogic() {
+        return ViewUserListResponse.builder()
+                .status("200")
+                .message("")
+                .userList(
+                        userRepo.findAll().stream()
+                                .map(
+                                        user -> ViewUserListResponse.User.builder()
+                                                .id(user.getId())
+                                                .name(user.getName())
+                                                .phone(user.getPhone())
+                                                .avatar(user.getAvatar())
+                                                .background(user.getBackground())
+                                                .accountUser(
+                                                        ViewUserListResponse.Account.builder()
+                                                                .id(user.getAccount().getId())
+                                                                .status(user.getAccount().getStatus())
+                                                                .role(user.getAccount().getRole())
+                                                                .build()
+                                                )
+                                                .build()
+                                )
+                                .toList()
+                )
+                .build();
+
+    }
+
+
+    //-------------------------------------BAN USER----------------------------//
+
+    @Override
+    public String banUser(BanUserRequest request, Model model) {
+        Object output = banUserLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, BanUserResponse.class)) {
+            model.addAttribute("msg", (BanUserResponse) output);
+            return "home";
         }
+        model.addAttribute("error", ((Map<String, String>) output));
+        return "home";
+    }
+
+    @Override
+    public BanUserResponse banUserAPI(BanUserRequest request) {
+        Object output = banUserLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, BanUserResponse.class)) {
+            return (BanUserResponse) output;
+        }
+        return BanUserResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object banUserLogic(BanUserRequest request) {
+        Map<String, String> error = BanUserValidation.validate(request);
+        if (error.isEmpty()) {
+            User user = userRepo.findById(request.getId()).orElse(null);
+            assert user != null;
+            Account account = user.getAccount();
+            account.setStatus(Status.BAN_STATUS_USER);
+            accountRepo.save(account);
+            return BanUserResponse.builder()
+                    .status("200")
+                    .message("Ban user successfully")
+                    .build();
+        }
+        return error;
+    }
+
+    //-------------------------------------UNBAN USER----------------------------//
+
+    @Override
+    public String unBanUser(UnBanUserRequest request, Model model) {
+        Object output = unBanUserLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UnBanUserResponse.class)) {
+            model.addAttribute("msg", (UnBanUserResponse) output);
+            return "home";
+        }
+        model.addAttribute("error", ((Map<String, String>) output));
+        return "home";
+    }
+
+    @Override
+    public UnBanUserResponse unBanUserAPI(UnBanUserRequest request) {
+        Object output = unBanUserLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UnBanUserResponse.class)) {
+            return (UnBanUserResponse) output;
+        }
+        return UnBanUserResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
 
 
-        return null;
+    private Object unBanUserLogic(UnBanUserRequest request) {
+        Map<String, String> error = UnBanUserValidation.validate(request);
+        if (error.isEmpty()) {
+            User user = userRepo.findById(request.getId()).orElse(null);
+            assert user != null;
+            Account account = user.getAccount();
+            account.setStatus(Status.UNBAN_STATUS_USER);
+            accountRepo.save(account);
+            return UnBanUserResponse.builder()
+                    .status("200")
+                    .message("Unban user successfully")
+                    .build();
+        }
+        return error;
     }
 }
+

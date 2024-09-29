@@ -1,5 +1,6 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.models.response_models.ViewBusinessServiceResponse;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AdminService;
@@ -91,8 +92,54 @@ public class AdminController {
         return adminService.viewUserList(session, model);
     }
 
-    @PostMapping("/user/list/api")
-    public ViewUserListResponse viewUserList(@RequestBody ViewUserListRequest request) {
-        return adminService.viewUserListAPI(request);
+    @GetMapping("/user/list/api")
+    public ViewUserListResponse viewUserList() {
+        return adminService.viewUserListAPI();
     }
+
+    @GetMapping("/view/plan")
+    @Operation(hidden = true)
+    public String viewBusinessPlan(HttpSession session, Model model) {
+        return adminService.viewBusinessPlan(session, model);
+    }
+
+    @GetMapping("/view/plan/api")
+    public ViewBusinessPlanResponse viewBusinessPlan() {
+        return adminService.viewBusinessPlanAPI();
+    }
+
+    @GetMapping("/view/service")
+    @Operation(hidden = true)
+    public String viewBusinessService(HttpSession session, Model model) {
+        return adminService.viewBusinessService(session, model);
+    }
+
+    @GetMapping("/view/service/api")
+    public ViewBusinessServiceResponse viewBusinessService() {
+        return adminService.viewBusinessServiceAPI();
+    }
+
+
+    @PutMapping("/ban/user")
+    @Operation(hidden = true)
+    public String banUser(BanUserRequest request, Model model) {
+        return adminService.banUser(request, model);
+    }
+
+    @PutMapping("/ban/user/api")
+    public BanUserResponse banUser(@RequestBody BanUserRequest request) {
+        return adminService.banUserAPI(request);
+    }
+
+    @PutMapping("/unban/user")
+    @Operation(hidden = true)
+    public String unBanUser(UnBanUserRequest request, Model model) {
+        return adminService.unBanUser(request, model);
+    }
+
+    @PutMapping("/ban/user/api")
+    public UnBanUserResponse unBanUser(@RequestBody UnBanUserRequest request) {
+        return adminService.unBanUserAPI(request);
+    }
+
 }
