@@ -56,4 +56,5 @@ public class Flower {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<OrderDetail> orderDetailList;
+
 }
