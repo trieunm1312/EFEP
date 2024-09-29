@@ -75,7 +75,7 @@
 
             <!-- Header search -->
             <div class="header__search">
-                <form action="" method="GET" class="header__search-form">
+                <form action="" th:method="GET" class="header__search-form">
                     <button class="header__search-btn">
                         <i class="fa-solid  fa-magnifying-glass"></i>
                     </button>
@@ -148,7 +148,7 @@
                                     </div>
                                     <div class="business-plan__card-service">
                                         <span>Post 2 post per day</span>
-                                        <select name="serviceList" style="display: none;">
+                                        <select name="serviceList" style="display: none;" multiple>
                                             <option value="">Post 2 post per day</option>
                                             <option value="">Post 4 post per day</option>
                                             <option value="">Post 8 post per day</option>
@@ -158,7 +158,7 @@
                                     </div>
                                     <div class="business-plan__card-service">
                                         <span>Post 4 post per day</span>
-                                        <select name="serviceList" style="display: none;">
+                                        <select name="serviceList" style="display: none;" multiple>
                                             <option value="">Post 2 post per day</option>
                                             <option value="">Post 4 post per day</option>
                                             <option value="">Post 8 post per day</option>
@@ -168,7 +168,7 @@
                                     </div>
                                     <div class="business-plan__card-service">
                                         <span>Post 8 post per day</span>
-                                        <select name="serviceList" style="display: none;">
+                                        <select name="serviceList" style="display: none;" multiple>
                                             <option value="">Post 2 post per day</option>
                                             <option value="">Post 4 post per day</option>
                                             <option value="">Post 8 post per day</option>
@@ -193,7 +193,7 @@
                                 </form>
                             </div>
                             <div class="business-plan__card-modify">
-                                <form th:action="@{/admin/plan}" method="delete">
+                                <form th:action="@{/admin/plan}" th:method="delete">
                                     <button class="business-plan__card-delete">
                                         <i class="fa-regular fa-trash-can modify-icon"></i>
                                         <span>Delete</span>
@@ -209,7 +209,7 @@
 
                         <div class="business-plan__card business-plan__card-new">
                             <div class="business-plan__card-info">
-                                <form th:action="@{/admin/plan}" method="post" class="business-plan__card-form">
+                                <form th:action="@{/admin/plan}" th:method="post" class="business-plan__card-form">
                                     <div class="business-plan__card-name">
                                         <h4>
                                             <input type="text" name="name" value="New Business Plan" placeholder="Name">
@@ -221,7 +221,7 @@
                                     <div class="business-plan__card-services-container">
                                         <div class="business-plan__card-service">
                                             Service:
-                                            <select name="serviceList">
+                                            <select name="serviceList[0].id">
                                                 <option value="2">Post 2 post per day</option>
                                                 <option value="4">Post 4 post per day</option>
                                                 <option value="6">Post 8 post per day</option>
