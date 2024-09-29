@@ -28,5 +28,4 @@ public class CreateFlowerRequest {
     private List<String> imgList;
 
 
-
 }

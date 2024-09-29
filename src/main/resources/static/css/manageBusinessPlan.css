@@ -1,0 +1,145 @@
+/* Container */
+.container {
+    width: 98%;
+    margin-top: 40px;
+    background-color: var(--white-color);
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+    padding-left: 0;
+    margin-right: 2%;
+    border-radius: 8px;
+}
+
+.business-plan {
+    margin: 32px 24px;
+}
+
+.business-plan__heading {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.business-plan__title {
+    font-weight: 600;
+}
+
+.business-plan__create-btn {
+    margin-right: 48px;
+    background-color: #00D25B;
+    color: var(--white-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/* Business Plan */
+.business-plan__collection{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+.business-plan__card{
+    width: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    margin-bottom: 32px;
+    margin-right: 32px;
+}
+
+.business-plan__card-info{
+    margin: 16px 24px;
+}
+
+
+.business-plan__card-info div,
+.business-plan__card-add-service{
+    margin-bottom: 16px;
+}
+
+.business-plan__card-info div h4{
+    font-weight: 600;
+}
+
+.business-plan__card-modify{
+    position: absolute;
+    right: 12px;
+    top: 28px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.business-plan__card-delete{
+    margin-right: 12px;
+    color: #ea0606;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.business-plan__card-delete:hover{
+    text-decoration: none;
+    color: #ea0606;
+
+}
+
+.business-plan__card-edit{
+    display: flex;
+    justify-content: space-between;
+    color: #344767;
+    cursor: pointer;
+}
+
+.modify-icon{
+    margin-right: 6px;
+}
+
+.business-plan__card-new{
+    display: none;
+}
+
+.business-plan__card-desc textarea{
+    width: 100%;
+    height: 100px;
+}
+
+.business-plan__card-new-btn{
+    display: block;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

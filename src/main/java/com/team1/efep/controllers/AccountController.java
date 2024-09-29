@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-// @RestController
+//@RestController
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/account")
@@ -32,29 +32,29 @@ public class AccountController {
 
     @PostMapping("/login")
     @Operation(hidden = true)
-    public String login(LoginRequest request, Model model, HttpSession session){
+    public String login(LoginRequest request, Model model, HttpSession session) {
         return accountService.login(request, model, session);
     }
 
     @PostMapping("/login/api")
-    public LoginResponse login(@RequestBody LoginRequest request){
+    public LoginResponse login(@RequestBody LoginRequest request) {
         return accountService.loginAPI(request);
     }
 
     @GetMapping("/login/google")
-    public LoginGoogleResponse googleLogin(){
+    public LoginGoogleResponse googleLogin() {
         return accountService.getGoogleLoginUrl();
     }
 
     @GetMapping("/login/google/info")
     @Operation(hidden = true)
-    public void getGoogleInfo(@RequestParam(name = "code") String code){
+    public void getGoogleInfo(@RequestParam(name = "code") String code) {
         accountService.exchangeGoogleCode(code);
     }
 
     @GetMapping("/view/profile")
     @Operation(hidden = true)
-    public String viewProfile(ViewProfileRequest request, Model model) {
+    public String viewProfile(@ModelAttribute ViewProfileRequest request, Model model) {
         return accountService.viewProfile(request, model);
     }
 

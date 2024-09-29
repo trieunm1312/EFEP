@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class GoogleLoginUtil {
-    public static String generateGoogleLoginUrl(){
+    public static String generateGoogleLoginUrl() {
         String clientId = "660098983556-fc8ls122j77h1fongo4gj6dgk4plak7u.apps.googleusercontent.com";
         String scopes = "openid email profile";
         String redirectUri = "http://localhost:8080/account/login/google/info";
@@ -19,7 +19,7 @@ public class GoogleLoginUtil {
                 "&access_type=offline";
     }
 
-    public static void accessGoogleInfo(String accessToken){
+    public static void accessGoogleInfo(String accessToken) {
         String apiUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken;
 
         try {

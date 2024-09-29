@@ -193,12 +193,12 @@ public class AdminServiceImpl implements AdminService {
         }
         return CreateBusinessServiceResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
     private Object createBusinessServiceLogic(CreateBusinessServiceRequest request) {
-        Map<String, String> errors = CreateBusinessServiceValidation.validate(request);
+        Map<String, String> errors = CreateBusinessServiceValidation.validate();
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -207,7 +207,7 @@ public class AdminServiceImpl implements AdminService {
                 .description(request.getDescription())
                 .price(request.getPrice())
                 .build());
-        return CreateBusinessPlanResponse.builder()
+        return CreateBusinessServiceResponse.builder()
                 .status("200")
                 .message("Created business service successfully")
                 .build();

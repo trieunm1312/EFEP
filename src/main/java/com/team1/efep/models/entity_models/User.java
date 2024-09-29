@@ -34,12 +34,12 @@ public class User {
     @EqualsAndHashCode.Exclude
     private List<Order> orderList;
 
-    @OneToOne(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Seller seller;
 
-    @OneToOne(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Wishlist wishlist;

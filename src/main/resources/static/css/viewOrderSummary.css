@@ -1,0 +1,52 @@
+.notify-block {
+    background-color: rgba(211, 206, 206, 0.389);
+    width: 55%;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    line-height: 3.5rem;
+    font-size: 1.6rem;
+    padding: 20px;
+}
+
+.font-size-text {
+    font-size: 2rem;
+}
+
+.notify-msg-success {
+    color: green;
+}
+
+.notify-msg-fail {
+    color: red;
+}
+
+.notify-btn {
+    font-size: 1.4rem;
+    margin: 8px;
+}
+
+.btn-home {
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-radius: 4px;
+}
+
+#countdown {
+    color: red;
+}
+
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8); /* Thu nhỏ */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Đưa về kích thước ban đầu */
+    }
+}
+

@@ -26,6 +26,7 @@ import org.springframework.ui.Model;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
 
-    //---------------------------------------VIEW CART------------------------------------------//
+    //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
     public String viewWishlist(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
@@ -56,42 +57,60 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-        model.addAttribute("response", viewWishlistLogic(account.getId()));
-        return "viewCart";
+        Object output = viewWishlistLogic(account.getId());
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewWishlistResponse.class)) {
+            model.addAttribute("msg", (ViewWishlistResponse) output);
+            return "viewWishlist";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "home";
     }
 
     @Override
-    public ViewWishlistResponse viewWishlistAPI(int id) {
-        Account account = Role.getCurrentLoggedAccount(id, accountRepo);
+    public ViewWishlistResponse viewWishlistAPI(int accountId) {
+        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
         if (account == null) {
             return ViewWishlistResponse.builder()
                     .status("400")
                     .message("You are not logged in")
                     .build();
         }
+        Object output = viewWishlistLogic(accountId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewWishlistResponse.class)) {
+            return (ViewWishlistResponse) output;
+        }
+        return ViewWishlistResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewWishlistLogic(int accountId) {
+        Map<String, String> errors = ViewWishlistValidation.validate(accountId);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        Account account = accountRepo.findById(accountId).orElse(null);
+        assert account != null;
         return ViewWishlistResponse.builder()
                 .status("200")
                 .message("View wishlist successfully")
                 .id(account.getUser().getWishlist().getId())
                 .userId(account.getUser().getId())
                 .userName(account.getUser().getName())
-                .wishlistItemList(viewWishlistItemList(account.getId()))
+                .wishlistItemList(viewWishlistItemList(accountId))
                 .build();
     }
 
-    private Wishlist viewWishlistLogic(int accountId) {
-        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
-        assert account != null;
-        return account.getUser().getWishlist();
-    }
-
     private List<ViewWishlistResponse.WishlistItems> viewWishlistItemList(int accountId) {
-        return viewWishlistLogic(accountId).getWishlistItemList().stream()
+        Account account = accountRepo.findById(accountId).orElse(null);
+        assert account != null;
+        return account.getUser().getWishlist().getWishlistItemList().stream()
                 .map(item -> new ViewWishlistResponse.WishlistItems(item.getId(), item.getFlower().getName(), item.getQuantity(), item.getFlower().getPrice()))
                 .toList();
     }
 
-    //-------------------------------------------------ADD TO CART-----------------------------------------------------//
+    //-------------------------------------------------ADD TO WISHLIST-----------------------------------------------------//
 
     @Override
     public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
@@ -100,9 +119,9 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-        Object output = addToCartLogic(request);
+        Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
-            model.addAttribute("response", (AddToWishlistResponse) output);
+            model.addAttribute("msg", (AddToWishlistResponse) output);
             return "base";
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -118,7 +137,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .message("You are not logged in")
                     .build();
         }
-        Object output = addToCartLogic(request);
+        Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             return (AddToWishlistResponse) output;
         }
@@ -128,7 +147,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    private Object addToCartLogic(AddToWishlistRequest request) {
+    private Object addToWishlistLogic(AddToWishlistRequest request) {
         Map<String, String> errors = AddToWishlistValidation.validate(request);
         if (!errors.isEmpty()) {
             return errors;
@@ -285,7 +304,6 @@ public class BuyerServiceImpl implements BuyerService {
                 .map(item -> ViewFlowerListResponse.Flower.builder()
                         .name(item.getName())
                         .price(item.getPrice())
-                        .rating(item.getRating())
                         .images(viewImageList(item.getFlowerImageList()))
                         .build()
                 ).toList();
@@ -328,7 +346,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    //----------------------------------------------DELETE CART ITEM----------------------------------------------//
+    //----------------------------------------------DELETE WISHLIST ITEM----------------------------------------------//
 
 
     @Override
@@ -338,13 +356,13 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-        Object output = deleteCartItemLogic(request);
+        Object output = deleteWishlistItemLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
             model.addAttribute("msg", (DeleteWishlistItemResponse) output);
-            return "viewCart";
+            return "viewWishlist";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "";
+        return "home";
     }
 
     @Override
@@ -356,7 +374,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .message("You are not logged in")
                     .build();
         }
-        Object output = deleteCartItemLogic(request);
+        Object output = deleteWishlistItemLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
             return (DeleteWishlistItemResponse) output;
         }
@@ -367,7 +385,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
 
-    private Object deleteCartItemLogic(DeleteWishlistItemRequest request) {
+    private Object deleteWishlistItemLogic(DeleteWishlistItemRequest request) {
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
         Map<String, String> errors = DeleteWishlistItemValidation.validate(request);
@@ -375,11 +393,11 @@ public class BuyerServiceImpl implements BuyerService {
             return errors;
         }
         Wishlist wishlist = account.getUser().getWishlist();
-        Optional<WishlistItem> cartItemOptional = wishlist.getWishlistItemList().stream()
+        Optional<WishlistItem> wishlistItemOptional = wishlist.getWishlistItemList().stream()
                 .filter(item -> Objects.equals(item.getId(), request.getWishlistItemId()))
                 .findFirst();
 
-        WishlistItem wishlistItem = cartItemOptional.get();
+        WishlistItem wishlistItem = wishlistItemOptional.get();
         wishlist.getWishlistItemList().remove(wishlistItem);
         wishlistItemRepo.delete(wishlistItem);
 
@@ -404,7 +422,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = viewOrderHistoryLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
-            model.addAttribute("response", (ViewOrderHistoryResponse) output);
+            model.addAttribute("msg", (ViewOrderHistoryResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "seller";
@@ -493,7 +511,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            model.addAttribute("response", (ViewOrderDetailResponse) output);
+            model.addAttribute("msg", (ViewOrderDetailResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "seller";
@@ -700,7 +718,7 @@ public class BuyerServiceImpl implements BuyerService {
         ViewOrderStatusResponse statusResponse = viewOrderStatusLogic(orderId);
 
         if (statusResponse != null) {
-            model.addAttribute("orderStatus", statusResponse.getOrderStatus());
+            model.addAttribute("msg", statusResponse.getOrderStatus());
             return "orderPage";
         } else {
             model.addAttribute("error", "Order not found");
@@ -717,11 +735,11 @@ public class BuyerServiceImpl implements BuyerService {
                     .message("Please login a buyer account to do this action")
                     .build();
         }
-            return viewOrderStatusLogic(request.getOrderId());
+        return viewOrderStatusLogic(request.getOrderId());
     }
 
 
-    private ViewOrderStatusResponse viewOrderStatusLogic(int orderId){
+    private ViewOrderStatusResponse viewOrderStatusLogic(int orderId) {
         Order order = orderRepo.findById(orderId).orElse(null);
         if (order != null) {
             return ViewOrderStatusResponse.builder()
@@ -746,7 +764,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = updateWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
-            model.addAttribute("response", (UpdateWishlistResponse) output);
+            model.addAttribute("msg", (UpdateWishlistResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "wishlist";
@@ -805,7 +823,7 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     @Override
-    public String deleteWishlist(DeleteWishlistRequest request,HttpSession session, Model model) {
+    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             model.addAttribute("error", "You are not logged in");
@@ -814,7 +832,7 @@ public class BuyerServiceImpl implements BuyerService {
 
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
-            model.addAttribute("response", (DeleteWishlistResponse) output);
+            model.addAttribute("msg", (DeleteWishlistResponse) output);
         }
 
         model.addAttribute("response", (Map<String, String>) output);
@@ -876,7 +894,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = cancelOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
-            model.addAttribute("response", (ChangeOrderStatusResponse) output);
+            model.addAttribute("msg", (ChangeOrderStatusResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "buyer";
@@ -942,17 +960,13 @@ public class BuyerServiceImpl implements BuyerService {
         return categories.stream()
                 .map(cate ->
                         ViewCategoryListResponse.Category.builder()
-                        .name(cate.getName())
-                        .build())
+                                .name(cate.getName())
+                                .build())
                 .toList();
 
     }
-    //--------------------------------VN Pay------------------------------------------//
 
-    @Override
-    public VNPayResponse createVNPayPaymentLinkAPI(VNPayRequest request, HttpServletRequest httpServletRequest) {
-        return createVNPayPaymentLinkLogic(request, httpServletRequest);
-    }
+    //--------------------------------VN Pay------------------------------------------//
 
     @Override
     public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
@@ -960,7 +974,12 @@ public class BuyerServiceImpl implements BuyerService {
         return "home";
     }
 
-    private VNPayResponse createVNPayPaymentLinkLogic(VNPayRequest request, HttpServletRequest httpServletRequest){
+    @Override
+    public VNPayResponse createVNPayPaymentLinkAPI(VNPayRequest request, HttpServletRequest httpServletRequest) {
+        return createVNPayPaymentLinkLogic(request, httpServletRequest);
+    }
+
+    private VNPayResponse createVNPayPaymentLinkLogic(VNPayRequest request, HttpServletRequest httpServletRequest) {
         Map<String, String> paramList = new HashMap<>();
 
         long amount = getAmount(request);
@@ -990,32 +1009,32 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    private String getVersion(){
+    private String getVersion() {
         return "2.1.0";
     }
 
-    private String getCommand(){
+    private String getCommand() {
         return "pay";
     }
 
-    private String getOrderType(){
+    private String getOrderType() {
         return "other";
     }
 
-    private Long getAmount(VNPayRequest request){
+    private Long getAmount(VNPayRequest request) {
         return request.getAmount() * 100;
     }
 
-    private String getCreateDate(Calendar calendar, SimpleDateFormat dateFormat){
+    private String getCreateDate(Calendar calendar, SimpleDateFormat dateFormat) {
         return dateFormat.format(calendar.getTime());
     }
 
-    private String getExpiredDate(int minutes, Calendar calendar, SimpleDateFormat dateFormat){
+    private String getExpiredDate(int minutes, Calendar calendar, SimpleDateFormat dateFormat) {
         calendar.add(Calendar.MINUTE, minutes);
         return dateFormat.format(calendar.getTime());
     }
 
-    private String buildVNPayLink(Map<String, String> paramList){
+    private String buildVNPayLink(Map<String, String> paramList) {
         try {
             List<String> fieldNames = new ArrayList<>(paramList.keySet());
             Collections.sort(fieldNames);
@@ -1044,9 +1063,83 @@ public class BuyerServiceImpl implements BuyerService {
             String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
             queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
             return VNPayConfig.vnp_PayUrl + "?" + queryUrl;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    //------------------------GET PAYMENT RESULT-------------------------------------//
+
+    @Override
+    public String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            model.addAttribute("msg", (VNPayResponse) output);
+            return "paymentSuccess";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "paymentFailed";
+    }
+
+    @Override
+    public VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
+
+        Object output = getPaymentResultLogic(params, accountId, httpServletRequest);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            return (VNPayResponse) output;
+        }
+        return VNPayResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
+        User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
+        Map<String, String> errors = VNPayValidation.validate(params, httpServletRequest);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        String transactionStatus = params.get("vnp_TransactionStatus");
+        if ("00".equals(transactionStatus)) {
+            List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
+            saveOrder(params, user, items);
+        }
+        return VNPayResponse.builder()
+                .status("200")
+                .message("Your payment is successfully")
+                .build();
+    }
+
+    private void saveOrder(Map<String, String> params, User user, List<WishlistItem> items) {
+
+        float vnpAmount = Float.parseFloat(params.get("vnp_Amount"));
+
+        Order savedOrder = orderRepo.save(Order.builder()
+                .user(user)
+                .buyerName(user.getName())
+                .createdDate(LocalDateTime.now())
+                .totalPrice(vnpAmount / 100)
+                .status(Status.ORDER_STATUS_PROCESSING)
+                .build());
+
+        for (WishlistItem item : items) {
+            OrderDetail orderDetail = OrderDetail.builder()
+                    .order(savedOrder)
+                    .flower(item.getFlower())
+                    .flowerName(item.getFlower().getName())
+                    .quantity(item.getQuantity())
+                    .price(item.getFlower().getPrice())
+                    .build();
+            orderDetailRepo.save(orderDetail);
+        }
+
+        // xoá wishlist item trong wishlist
+        wishlistItemRepo.deleteAll(items);
+    }
+
+
 }
 

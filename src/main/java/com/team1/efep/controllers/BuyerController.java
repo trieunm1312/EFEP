@@ -1,24 +1,21 @@
 package com.team1.efep.controllers;
 
 import com.team1.efep.models.request_models.*;
-import com.team1.efep.models.request_models.AddToWishlistRequest;
-import com.team1.efep.models.request_models.DeleteWishlistItemRequest;
-import com.team1.efep.models.request_models.ForgotRequest;
-import com.team1.efep.models.request_models.RenewPasswordRequest;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.BuyerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
-// @RestController
+//@RestController
 @RequiredArgsConstructor
 @RequestMapping("/buyer")
 @Tag(name = "Buyer")
@@ -54,14 +51,14 @@ public class BuyerController {
         return buyerService.viewWishlist(session, model);
     }
 
-    @GetMapping("/wishlist/api/{id}")
-    public ViewWishlistResponse viewWishlist(@PathVariable int id) {
-        return buyerService.viewWishlistAPI(id);
+    @GetMapping("/wishlist/api/{accountId}")
+    public ViewWishlistResponse viewWishlist(@PathVariable int accountId) {
+        return buyerService.viewWishlistAPI(accountId);
     }
 
     @PostMapping("/wishlist")
     @Operation(hidden = true)
-    public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
+    public String addToWishlist(@ModelAttribute AddToWishlistRequest request, HttpSession session, Model model) {
         return buyerService.addToWishlist(request, session, model);
     }
 
@@ -83,12 +80,12 @@ public class BuyerController {
 
     @DeleteMapping("/wishlist-item")
     @Operation(hidden = true)
-    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model){
+    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model) {
         return buyerService.deleteWishlistItem(request, session, model);
     }
 
     @DeleteMapping("/wishlist-item/api")
-    public DeleteWishlistItemResponse deleteWishlistItem(@RequestBody DeleteWishlistItemRequest request){
+    public DeleteWishlistItemResponse deleteWishlistItem(@RequestBody DeleteWishlistItemRequest request) {
         return buyerService.deleteWishlistItemAPI(request);
     }
 
@@ -110,22 +107,24 @@ public class BuyerController {
     }
 
     @PostMapping("/flower/search")
-    public String searchFlower(SearchFlowerRequest request, Model model){
+    @Operation(hidden = true)
+    public String searchFlower(SearchFlowerRequest request, Model model) {
         return buyerService.searchFlower(request, model);
     }
 
     @PostMapping("/flower/search/api")
-    public SearchFlowerResponse searchFlower(@RequestBody SearchFlowerRequest request){
+    public SearchFlowerResponse searchFlower(@RequestBody SearchFlowerRequest request) {
         return buyerService.searchFlowerAPI(request);
     }
 
     @PostMapping("/flower/detail")
-    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model){
+    @Operation(hidden = true)
+    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
         return buyerService.viewFlowerDetail(request, model);
     }
 
     @PostMapping("/flower/detail/api")
-    public ViewFlowerDetailResponse searchFlower(@RequestBody ViewFlowerDetailRequest request){
+    public ViewFlowerDetailResponse searchFlower(@RequestBody ViewFlowerDetailRequest request) {
         return buyerService.viewFlowerDetailAPI(request);
     }
 
@@ -184,15 +183,27 @@ public class BuyerController {
         return buyerService.cancelOrderAPI(request);
     }
 
+    @PostMapping("/order/payment")
+    @Operation(hidden = true)
+    public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+        return buyerService.createVNPayPaymentLink(request, model, httpServletRequest);
+    }
+
     @PostMapping("/order/payment/api")
-    public VNPayResponse createVNPayPaymentLink(@RequestBody VNPayRequest request, HttpServletRequest httpServletRequest){
+    public VNPayResponse createVNPayPaymentLink(@RequestBody VNPayRequest request, HttpServletRequest httpServletRequest) {
         return buyerService.createVNPayPaymentLinkAPI(request, httpServletRequest);
     }
 
     @GetMapping("/order/payment/result")
-    public void getPaymentResult(@RequestParam(name = "vnp_Amount") String amount){
-        System.out.println("Amount: " + amount);
+    @Operation(hidden = true)
+    public String getPaymentResult(@RequestParam Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
+        return buyerService.getPaymentResult(params, httpServletRequest, model, session);
     }
+
+//    @GetMapping("/order/payment/result")
+//    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params,@RequestParam int accountId, HttpServletRequest httpServletRequest){
+//        return buyerService.getPaymentResultAPI(params, accountId, httpServletRequest);
+//    }
 
 
     @GetMapping("/category")
