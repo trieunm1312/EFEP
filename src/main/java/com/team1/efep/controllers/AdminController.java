@@ -137,7 +137,7 @@ public class AdminController {
         return adminService.unBanUser(request, model);
     }
 
-    @PutMapping("/ban/user/api")
+    @PutMapping("/unban/user/api")
     public UnBanUserResponse unBanUser(@RequestBody UnBanUserRequest request) {
         return adminService.unBanUserAPI(request);
     }
