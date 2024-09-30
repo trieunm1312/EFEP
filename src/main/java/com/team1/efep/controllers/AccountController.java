@@ -65,8 +65,8 @@ public class AccountController {
 
     @PutMapping("/update/profile")
     @Operation(hidden = true)
-    public String updateProfile(UpdateProfileRequest request, Model model) {
-        return accountService.updateProfile(request, model);
+    public String updateProfile(UpdateProfileRequest request, HttpSession session, Model model) {
+        return accountService.updateProfile(request, session, model);
     }
 
     @PutMapping("/update/profile/api")

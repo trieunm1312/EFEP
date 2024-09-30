@@ -1,6 +1,5 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.models.response_models.ViewBusinessServiceResponse;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AdminService;
@@ -137,7 +136,7 @@ public class AdminController {
         return adminService.unBanUser(request, model);
     }
 
-    @PutMapping("/ban/user/api")
+    @PutMapping("/unban/user/api")
     public UnBanUserResponse unBanUser(@RequestBody UnBanUserRequest request) {
         return adminService.unBanUserAPI(request);
     }
