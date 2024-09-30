@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/plan}" class="sidebar__link">
+                    <a th:href="@{/admin/view/plan}" class="sidebar__link">
                         <div class="sidebar__item">
                             <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Plan</span>
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/service}" class="sidebar__link ">
+                    <a th:href="@{/admin/view/service}" class="sidebar__link ">
                         <div class="sidebar__item active">
                             <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Service</span>
@@ -46,7 +46,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="sidebar__link">
+                    <a th:href="@{/admin/view/service}" class="sidebar__link">
                         <div class="sidebar__item">
                             <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage User</span>
@@ -134,52 +134,53 @@
                                 <th class="table__header-name">Name</th>
                                 <th class="table__header-desc">Description</th>
                                 <th class="table__header-price">Price</th>
-                                <th class="table__header-status">Status</th>
                             </tr>
                         </thead>
                         <tbody class="table__body">
-                            <form th:action="@{/admin/service}" th:method="put" class="business-service__form">
-                                <tr class="table__body-item">
-                                    <td class="table__body-name">
-                                        <span class="name-text">ABC</span>
-                                        <input name="name" value="ABC" class="name-input" style="display: none;">
-                                    </td>
-                                    <td class="table__body-desc">
-                                        <span class="desc-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
-                                        <textarea name="description" class="desc-input" style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</textarea>
-                                    </td>
-                                    <td class="table__body-price">
-                                        $
-                                        <span class="price-text">46</span>
-                                        <input name="price" class="price-input" value="46" style="display: none;"></input>
-                                    </td>
-                                    <td class="table__body-status enabled">
-                                        Enabled
-                                    </td>
-                                    <td class="table__body-edit">
-                                        <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
-                                        <span class="edit-btn" onclick="editRow(this)">Edit</span>
-                                        <input type="submit" name="action" class="save-btn" value="Save" style="display: none;">
-                                    </td>
-                                    <td class="table__body-toggle">
-                                        <form th:action="@{/admin/service}" th:method="delete">
-                                            <input type="submit" name="action" value="Disable" class="toggle-btn">
-                                        </form>
-                                    </td>
-                                </tr>
-                            </form>
+                           <div th:if="${msg}">
+                               <div th:each="item : ${msg.servicesList}">
+                                   <form th:action="@{/admin/service}" th:method="put" class="business-service__form">
+                                       <tr class="table__body-item">
+                                           <td class="table__body-name">
+                                               <span th:text="${item.name}" class="name-text"></span>
+                                               <input name="name" th:value="${item.name}" class="name-input" style="display: none;">
+                                           </td>
+                                           <td class="table__body-desc">
+                                               <span th:text="${item.desc}" class="desc-text"></span>
+                                               <textarea name="description" th:text="${item.desc}" class="desc-input" style="display: none;"></textarea>
+                                           </td>
+                                           <td class="table__body-price">
+                                               $
+                                               <span th:text="${item.price}" class="price-text"></span>
+                                               <input name="price" class="price-input" th:value="${item.price}" style="display: none;"></input>
+                                           </td>
+                                           <td class="table__body-edit">
+                                               <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
+                                               <span class="edit-btn" onclick="editRow(this)">Edit</span>
+                                               <input type="submit" name="action" class="save-btn" value="Save" style="display: none;">
+                                           </td>
+                                           <td class="table__body-toggle">
+                                               <form th:action="@{/admin/service}" th:method="delete">
+                                                   <input type="submit" name="action" value="Delete" class="toggle-btn">
+                                                   <input type="hidden" name="id" th:value="${item.id}">
+                                               </form>
+                                           </td>
+                                       </tr>
+                                   </form>
+                               </div>
+                           </div>
                             
                             <form th:action="@{/admin/service}" th:method="post" class="business-service__form">
                                 <tr class="table__body-item-new" style="display: none;">
                                     <td class="table__body-name">
-                                        <input name="name" value="New Service"></input>
+                                        <input name="name" th:value="New Service"></input>
                                     </td>
                                     <td class="table__body-desc">
-                                        <textarea name="description" placeholder="Description"></textarea>
+                                        <textarea name="description" th:text="" placeholder="Description"></textarea>
                                     </td>
                                     <td class="table__body-price">
                                         <span>$</span>
-                                        <input name="price" value="100"></input>
+                                        <input name="price" th:value="100"></input>
                                     </td>
                                     <td class="table__body-save">
                                         <input type="submit" class="save-btn" name="action" value="Create">

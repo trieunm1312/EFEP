@@ -570,34 +570,36 @@
                 </div>
 
                 <div class="profile">
-                    <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
-                        <h3 class="profile__header">Your Profile</h3>
-                        <div class="profile__information">
-                            <div class="user__name profile__information-part">
-                                <h3 class="form-label">Name</h3>
-                                <input type="text" id="username" class="input-form" name="username" value="Lord Trump" required>
+                    <div th:if="${msg}">
+                        <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
+                            <h3 class="profile__header">Your Profile</h3>
+                            <div class="profile__information">
+                                <div class="user__name profile__information-part">
+                                    <h3 class="form-label">Name</h3>
+                                    <input type="text" id="username" class="input-form" name="username" th:value="${msg.name}" required>
+                                </div>
+                                <div class="email profile__information-part">
+                                    <h3 class="form-label">E-Mail</h3>
+                                    <input type="email" id="email" class="input-form" name="email" th:value="${msg.email}" readonly >
+                                </div>
+                                <div class="phone profile__information-part">
+                                    <h3 class="form-label">Phone</h3>
+                                    <input type="tel" id="phone" class="input-form" name="phone" th:value="${msg.phone}">
+                                </div>
+
                             </div>
-                            <div class="email profile__information-part">
-                                <h3 class="form-label">E-Mail</h3>
-                                <input type="email" id="email" class="input-form" name="email" value="trumpvipprozzz@yahoo.com" readonly >
+                            <div class="profile__avatar">
+                                <img src="/img/default-avatar.jpg" alt="Default Avatar">
+                                <input type="submit" name="action" value="Change Avatar" class="choose-img-btn btn btn--primary">
+                                <div class="profile__avatar-note">
+                                    <span>Maximum file size is 1 MB</span>
+                                    <span>Format: .JPEG, .PNG</span>
+                                </div>
                             </div>
-                            <div class="phone profile__information-part">
-                                <h3 class="form-label">Phone</h3>
-                                <input type="tel" id="phone" class="input-form" name="phone" value="911">
-                            </div>
-                            
-                        </div>
-                        <div class="profile__avatar">
-                            <img src="/img/default-avatar.jpg" alt="Default Avatar">
-                            <input type="submit" name="action" value="Change Avatar" class="choose-img-btn btn btn--primary">
-                            <div class="profile__avatar-note">
-                                <span>Maximum file size is 1 MB</span>
-                                <span>Format: .JPEG, .PNG</span>
-                            </div>
-                        </div>
-                        <input type="submit" name="action" class="update-btn btn btn--primary" value="Save Changes">
-                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                    </form>
+                            <input type="submit" name="action" class="update-btn btn btn--primary" value="Save Changes">
+                            <input type="hidden" name="id" th:value="${msg.id}"></input>
+                        </form>
+                    </div>
 
                 </div>
             </div>
