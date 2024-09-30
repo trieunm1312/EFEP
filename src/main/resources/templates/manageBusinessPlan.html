@@ -129,80 +129,61 @@
                         </div>
                     </div>
                     <div class="business-plan__collection">
-                        <div class="business-plan__card">
-                            <div class="business-plan__card-info">
-                                <form th:action="@{/admin/plan}" th:method="put" class="business-plan__card-form">
-                                    <div class="business-plan__card-name">
-                                        <h4>Standard</h4>
-                                        <h4 style="display: none;">
-                                            <input type="text" name="name" value="Standard" placeholder="Name">
-                                        </h4>
+                        <div th:if="${msg}">
+                            <div th:each="plan : ${msg.businessPlanList}" class="business-plan__item">
+                                <div class="business-plan__card">
+                                    <div class="business-plan__card-info">
+                                        <form th:action="@{/admin/plan}" th:method="put" class="business-plan__card-form">
+                                            <div class="business-plan__card-name">
+                                                <h4 th:text="${plan.name}"></h4>
+                                                <h4 style="display: none;">
+                                                    <input type="text" name="name" th:value="${plan.name}" placeholder="Name">
+                                                </h4>
+                                            </div>
+                                            <div class="business-plan__card-desc">
+                                                <span th:text="${plan.desc}"></span>
+                                                <textarea name="description" id="" th:text="${plan.desc}" placeholder="Description" style="display: none;"></textarea>
+                                            </div>
+                                            <div th:each="service : ${plan.serviceList}">
+                                                <div class="business-plan__card-service">
+                                                    <span th:text="${service.name}"></span>
+                                                    <select name="serviceList" style="display: none;" multiple>
+                                                        <div th:each="item : ${msg.serviceList}">
+                                                            <option th:text="${item.name}" th:value="${item.id}"></option>
+                                                        </div>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="business-plan__card-duration">
+                                                Duration:
+                                                <span th:text="${plan.duration}">6</span>
+                                                <input type="text" name="duration" th:value="${plan.duration}" placeholder="Duration" style="display: none;">
+                                                Months
+                                            </div>
+                                            <div class="business-plan__card-price">
+                                                <h4 th:text="${plan.price}">$200.00</h4>
+                                                <h4 style="display: none;">
+                                                    $
+                                                    <input type="text" name="price" th:value="${plan.price}" placeholder="Price" >
+                                                </h4>
+                                            </div>
+                                            <input style="display: none;" type="submit" class="business-plan__card-new-btn" name="action" value="Save">
+                                        </form>
                                     </div>
-                                    <div class="business-plan__card-desc">
-                                        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. At enim harum fugit
-                                            consequatur animi ab ullam reiciendis, quaerat amet! Illum non ipsam consequuntur
-                                            unde accusantium nam repellat quidem delectus quam.</span>
-                                            <textarea name="description" id="" placeholder="Description" style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. At enim harum fugit
-                                                consequatur animi ab ullam reiciendis, quaerat amet! Illum non ipsam consequuntur
-                                                unde accusantium nam repellat quidem delectus quam.</textarea>
+                                    <div class="business-plan__card-modify">
+                                        <form th:action="@{/admin/plan}" th:method="delete">
+                                            <button class="business-plan__card-delete">
+                                                <i class="fa-regular fa-trash-can modify-icon"></i>
+                                                <span>Delete</span>
+                                            </button>
+                                            <input type="hidden" name="id" th:value="${plan.id}">
+                                        </form>
+                                        <div class="business-plan__card-edit">
+                                            <i class="fa-solid fa-pencil modify-icon"></i>
+                                            <span>Edit</span>
+                                        </div>
                                     </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 2 post per day</span>
-                                        <select name="serviceList" style="display: none;" multiple>
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 4 post per day</span>
-                                        <select name="serviceList" style="display: none;" multiple>
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-service">
-                                        <span>Post 8 post per day</span>
-                                        <select name="serviceList" style="display: none;" multiple>
-                                            <option value="">Post 2 post per day</option>
-                                            <option value="">Post 4 post per day</option>
-                                            <option value="">Post 8 post per day</option>
-                                            <option value="">Post 16 post per day</option>
-                                            <option value="">Post 32 post per day</option>
-                                        </select>
-                                    </div>
-                                    <div class="business-plan__card-duration">
-                                        Duration: 
-                                        <span>6</span>
-                                        <input type="text" name="duration" value="6" placeholder="Duration" style="display: none;">
-                                        Months
-                                    </div>
-                                    <div class="business-plan__card-price">
-                                        <h4>$200.00</h4>
-                                        <h4 style="display: none;">
-                                            $
-                                            <input type="text" name="price" value="200" placeholder="Price" >
-                                        </h4>
-                                    </div>
-                                    <input style="display: none;" type="submit" class="business-plan__card-new-btn" name="action" value="Save">
-                                </form>
-                            </div>
-                            <div class="business-plan__card-modify">
-                                <form th:action="@{/admin/plan}" th:method="delete">
-                                    <button class="business-plan__card-delete">
-                                        <i class="fa-regular fa-trash-can modify-icon"></i>
-                                        <span>Delete</span>
-                                    </button>
-                                    <input type="hidden" name="planId" value="123">
-                                </form>
-                                <div class="business-plan__card-edit">
-                                    <i class="fa-solid fa-pencil modify-icon"></i>
-                                    <span>Edit</span>
                                 </div>
                             </div>
                         </div>
@@ -212,34 +193,33 @@
                                 <form th:action="@{/admin/plan}" th:method="post" class="business-plan__card-form">
                                     <div class="business-plan__card-name">
                                         <h4>
-                                            <input type="text" name="name" value="New Business Plan" placeholder="Name">
+                                            <input type="text" name="name" th:value="New Business Plan" placeholder="Name">
                                         </h4>
                                     </div>
                                     <div class="business-plan__card-desc">
-                                        <textarea name="description" id="desc" placeholder="Description"></textarea>
+                                        <textarea name="description" id="desc" th:text="" placeholder="Description"></textarea>
                                     </div>
                                     <div class="business-plan__card-services-container">
                                         <div class="business-plan__card-service">
                                             Service:
-                                            <select name="serviceList[0].id">
-                                                <option value="2">Post 2 post per day</option>
-                                                <option value="4">Post 4 post per day</option>
-                                                <option value="6">Post 8 post per day</option>
-                                                <option value="8">Post 16 post per day</option>
-                                                <option value="10">Post 32 post per day</option>
+                                            <select name="serviceList[0].id" style="display: none;" multiple>
+                                                <div th:each="item : ${msg.serviceList}">
+                                                    <option th:text="${item.name}" th:value="${item.id}"></option>
+                                                </div>
+
                                             </select>
                                         </div>
                                     </div>
                                     <button class="business-plan__card-add-service">+ Add more service</button>
                                     <div class="business-plan__card-duration">
                                         Duration in Months:
-                                        <input type="text" name="duration" value="1" placeholder="Duration">
+                                        <input type="text" name="duration" th:value="1" placeholder="Duration">
 
                                     </div>
                                     <div class="business-plan__card-price">
                                         <h4>
                                             $
-                                            <input type="text" name="price" value="200" placeholder="Price">
+                                            <input type="text" name="price" th:value="200" placeholder="Price">
                                         </h4>
                                     </div>
                                     <input type="submit" class="business-plan__card-new-btn" name="action" value="Create">

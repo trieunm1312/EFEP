@@ -261,7 +261,7 @@
                                             <ul class="product__sub-list">
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -278,7 +278,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -295,7 +295,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -321,7 +321,7 @@
                                             <ul class="product__sub-list">
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -338,7 +338,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -355,7 +355,7 @@
                                                 </li>
                                                 <li class="product__sub-item">
                                                     <a href="" class="product__sub-item-link">
-                                                        <img src="/src/main/resources/static/img/product-item.jpg"
+                                                        <img src="/img/product-item.jpg"
                                                             alt="">
                                                         <div class="product__sub-item-link-contnet">
                                                             <p class="product__sub-item-link-name">Lavender</p>
@@ -512,7 +512,7 @@
                 <h1 class="breadbrum__title">My Account</h1><br>
                 <ul class="breadbrum__element-list">
                     <li class="breadbrum__element-list-item">
-                        <a href="home.html" class="breadbrum__element-list-item-link">
+                        <a th:href="@{/}" class="breadbrum__element-list-item-link">
                             <i class="fa-solid fa-house"></i>
                         </a>
                     </li>
@@ -546,7 +546,8 @@
                             </li>
                             <li class="sidebar__item">
                                 <form th:action="@{/account/change/password}" th:method="post" class="sidebar__item-link">
-                                    <input type="submit" name="action" value="Change Password"></input>
+                                    <input type="submit" name="action" class="sidebar__item-link-change-password" value="Change Password"></input>
+                                    <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                                 </form>
                             </li>
                             <li class="sidebar__item">
@@ -560,7 +561,7 @@
                                 </a>
                             </li>
                             <li class="sidebar__item">
-                                <a href="#" class="sidebar__item-link">
+                                <a th:href="@{/account/logout}" class="sidebar__item-link">
                                     <span>Log out</span>
                                 </a>
                             </li>
@@ -569,34 +570,36 @@
                 </div>
 
                 <div class="profile">
-                    <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
-                        <h3 class="profile__header">Your Profile</h3>
-                        <input type="hidden" name="id" th:value="${session.acc.getUser().getId()}"/>
-                        <div class="profile__information">
-                            <div class="user__name profile__information-part">
-                                <h3 class="form-label">Name</h3>
-                                <input type="text" id="username" class="input-form" name="name" th:value="${session.acc.getUser().getName()}" required>
+                    <div th:if="${msg}">
+                        <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
+                            <h3 class="profile__header">Your Profile</h3>
+                            <div class="profile__information">
+                                <div class="user__name profile__information-part">
+                                    <h3 class="form-label">Name</h3>
+                                    <input type="text" id="username" class="input-form" name="username" th:value="${msg.name}" required>
+                                </div>
+                                <div class="email profile__information-part">
+                                    <h3 class="form-label">E-Mail</h3>
+                                    <input type="email" id="email" class="input-form" name="email" th:value="${msg.email}" readonly >
+                                </div>
+                                <div class="phone profile__information-part">
+                                    <h3 class="form-label">Phone</h3>
+                                    <input type="tel" id="phone" class="input-form" name="phone" th:value="${msg.phone}">
+                                </div>
+
                             </div>
-                            <div class="email profile__information-part">
-                                <h3 class="form-label">E-Mail</h3>
-                                <input type="email" id="email" class="input-form" name="email" th:value="${session.acc.getEmail()}" readonly >
+                            <div class="profile__avatar">
+                                <img src="/img/default-avatar.jpg" alt="Default Avatar">
+                                <input type="submit" name="action" value="Change Avatar" class="choose-img-btn btn btn--primary">
+                                <div class="profile__avatar-note">
+                                    <span>Maximum file size is 1 MB</span>
+                                    <span>Format: .JPEG, .PNG</span>
+                                </div>
                             </div>
-                            <div class="phone profile__information-part">
-                                <h3 class="form-label">Phone</h3>
-                                <input type="tel" id="phone" class="input-form" name="phone" th:value="${session.acc.getUser().getPhone()}" required>
-                            </div>
-                            
-                        </div>
-                        <div class="profile__avatar">
-                            <img src="/img/default-avatar.jpg" alt="Default Avatar">
-                            <input type="submit" name="action" value="Change Avatar" class="choose-img-btn btn btn--primary">
-                            <div class="profile__avatar-note">
-                                <span>Maximum file size is 1 MB</span>
-                                <span>Format: .JPEG, .PNG</span>
-                            </div>
-                        </div>
-                        <input type="submit" name="action" class="update-btn btn btn--primary" value="Save Changes">
-                    </form>
+                            <input type="submit" name="action" class="update-btn btn btn--primary" value="Save Changes">
+                            <input type="hidden" name="id" th:value="${msg.id}"></input>
+                        </form>
+                    </div>
 
                 </div>
             </div>

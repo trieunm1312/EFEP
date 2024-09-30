@@ -82,13 +82,8 @@
     color: #ea0606;
     display: flex;
     justify-content: space-between;
-    cursor: pointer;
-}
-
-.business-plan__card-delete:hover{
-    text-decoration: none;
-    color: #ea0606;
-
+    background-color: transparent;
+    border: none;
 }
 
 .business-plan__card-edit{
