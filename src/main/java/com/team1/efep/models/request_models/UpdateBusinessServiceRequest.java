@@ -10,8 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UpdateBusinessServiceRequest {
+
     private int id;
+
     private String name;
+
     private String description;
+
     private float price;
 }

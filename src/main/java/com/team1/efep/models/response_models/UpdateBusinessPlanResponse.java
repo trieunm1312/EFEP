@@ -10,6 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UpdateBusinessPlanResponse {
+
     private String status;
+
     private String message;
+
+    private String name;
+
+    private String description;
+
+    private float price;
+
+    private int duration;
 }
