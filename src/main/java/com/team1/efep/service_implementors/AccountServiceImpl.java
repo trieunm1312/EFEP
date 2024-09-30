@@ -237,14 +237,16 @@ public class AccountServiceImpl implements AccountService {
     private Object viewProfileLogic(ViewProfileRequest request) {
         Map<String, String> errors = ViewProfileValidation.validate();
         if (errors.isEmpty()) {
-            Account account = accountRepo.findById(request.getId()).orElse(null);
-            assert account != null;
+            User user = userRepo.findById(request.getId()).orElse(null);
+            assert user != null;
             return ViewProfileResponse.builder()
                     .status("200")
                     .message("View profile successfully")
-                    .email(account.getEmail())
-                    .role(account.getRole())
-                    .accountStatus(account.getStatus())
+                    .id(user.getId())
+                    .name(user.getName())
+                    .phone(user.getPhone())
+                    .avatar(user.getAvatar())
+                    .background(user.getBackground())
                     .build();
         }
         return errors;
@@ -285,10 +287,15 @@ public class AccountServiceImpl implements AccountService {
             user.setPhone(request.getPhone());
             user.setAvatar(request.getAvatar());
             user.setBackground(request.getBackground());
-            userRepo.save(user);
+            user = userRepo.save(user);
             return UpdateProfileResponse.builder()
                     .status("200")
                     .message("Update profile successfully")
+                    .id(user.getId())
+                    .name(user.getName())
+                    .phone(user.getPhone())
+                    .avatar(user.getAvatar())
+                    .background(user.getBackground())
                     .build();
         }
         return errors;
