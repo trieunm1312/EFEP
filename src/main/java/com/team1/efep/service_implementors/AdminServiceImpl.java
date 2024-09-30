@@ -219,7 +219,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String updateBusinessService(UpdateBusinessServiceRequest request, Model model) {
         Object output = updateBusinessServiceLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessServiceResponse.class)) {
             model.addAttribute("msg", (UpdateBusinessServiceResponse) output);
             return "manageBusinessService";
         }
@@ -230,7 +230,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UpdateBusinessServiceResponse updateBusinessServiceAPI(UpdateBusinessServiceRequest request) {
         Object output = updateBusinessServiceLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessServiceResponse.class)) {
             return (UpdateBusinessServiceResponse) output;
         }
         return UpdateBusinessServiceResponse.builder()
@@ -260,7 +260,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model) {
         Object output = deleteBusinessServiceLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteBusinessServiceResponse.class)) {
             model.addAttribute("msg", (DeleteBusinessServiceResponse) output);
             return "manageBusinessService";
         }
