@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UpdateProfileResponse {
     private String status;
+
     private String message;
 
     private int id;
