@@ -571,18 +571,19 @@
                 <div class="profile">
                     <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
                         <h3 class="profile__header">Your Profile</h3>
+                        <input type="hidden" name="id" th:value="${session.acc.getUser().getId()}"/>
                         <div class="profile__information">
                             <div class="user__name profile__information-part">
                                 <h3 class="form-label">Name</h3>
-                                <input type="text" id="username" class="input-form" name="username" value="Lord Trump" required>
+                                <input type="text" id="username" class="input-form" name="name" th:value="${session.acc.getUser().getName()}" required>
                             </div>
                             <div class="email profile__information-part">
                                 <h3 class="form-label">E-Mail</h3>
-                                <input type="email" id="email" class="input-form" name="email" value="trumpvipprozzz@yahoo.com" readonly >
+                                <input type="email" id="email" class="input-form" name="email" th:value="${session.acc.getEmail()}" readonly >
                             </div>
                             <div class="phone profile__information-part">
                                 <h3 class="form-label">Phone</h3>
-                                <input type="tel" id="phone" class="input-form" name="phone" value="911">
+                                <input type="tel" id="phone" class="input-form" name="phone" th:value="${session.acc.getUser().getPhone()}" required>
                             </div>
                             
                         </div>

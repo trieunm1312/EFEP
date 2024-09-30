@@ -255,9 +255,10 @@ public class AccountServiceImpl implements AccountService {
 //-------------------------------UPDATE PROFILE-------------------------------------//
 
     @Override
-    public String updateProfile(UpdateProfileRequest request, Model model) {
+    public String updateProfile(UpdateProfileRequest request, HttpSession session, Model model) {
         Object output = updateProfileLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
             model.addAttribute("msg", (UpdateProfileResponse) output);
             return "myAccount";
         }
@@ -279,6 +280,7 @@ public class AccountServiceImpl implements AccountService {
 
     private Object updateProfileLogic(UpdateProfileRequest request) {
         Map<String, String> errors = UpdateProfileValidation.validate(request);
+        System.out.println(request.getId());
         if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
