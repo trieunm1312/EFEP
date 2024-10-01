@@ -12,10 +12,15 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CreateBusinessPlanRequest {
+
     private String name;
+
     private String description;
+
     private float price;
+
     private int duration;
+
     private List<BusinessPlanService> serviceList;
 
 
@@ -24,6 +29,9 @@ public class CreateBusinessPlanRequest {
     @NoArgsConstructor
     @Builder
     public static class BusinessPlanService {
+
         private int id;
+
+        private String name;
     }
 }

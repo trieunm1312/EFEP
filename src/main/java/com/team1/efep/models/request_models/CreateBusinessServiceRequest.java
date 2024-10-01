@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateBusinessServiceRequest {
     private String name;
+
     private String description;
+
     private float price;
 }

@@ -26,7 +26,7 @@ public interface AccountService {
 
     UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request);
 
-    String changePassword(ChangePasswordRequest request, Model model);
+    String changePassword(ChangePasswordRequest request, HttpSession session, Model model);
 
     ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request);
 

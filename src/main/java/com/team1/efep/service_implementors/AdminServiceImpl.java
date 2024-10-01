@@ -28,9 +28,52 @@ public class AdminServiceImpl implements AdminService {
     private final BusinessPlanRepo businessPlanRepo;
 
     private final PlanServiceRepo planServiceRepo;
+
     private final AccountRepo accountRepo;
-    private final SellerRepo sellerRepo;
+
     private final UserRepo userRepo;
+
+    //-------------------------------------VIEW BUSINESS PLAN----------------------------//
+    @Override
+    public String viewBusinessPlan(HttpSession session, Model model) {
+        model.addAttribute("msg", viewBusinessPlanLogic());
+        return "manageBusinessPlan";
+    }
+
+    @Override
+    public ViewBusinessPlanResponse viewBusinessPlanAPI() {
+        return viewBusinessPlanLogic();
+    }
+
+    private ViewBusinessPlanResponse viewBusinessPlanLogic() {
+        return ViewBusinessPlanResponse.builder()
+                .status("200")
+                .message("")
+                .businessPlanList(
+                        businessPlanRepo.findAll()
+                                .stream()
+                                .map(
+                                        plan -> ViewBusinessPlanResponse.BusinessPlan.builder()
+                                                .id(plan.getId())
+                                                .name(plan.getName())
+                                                .description(plan.getDescription())
+                                                .price(plan.getPrice())
+                                                .status(plan.getStatus())
+                                                .businessServiceList(plan.getPlanServiceList().stream()
+                                                        .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
+                                                                .id(service.getBusinessService().getId())
+                                                                .name(service.getBusinessService().getName())
+                                                                .description(service.getBusinessService().getDescription())
+                                                                .price(service.getBusinessService().getPrice())
+                                                                .build()
+                                                        )
+                                                        .toList())
+                                                .build()
+                                )
+                                .toList())
+                .build();
+
+    }
 
     //-------------------------------------CREATE BUSINESS PLAN------------------------------------------//
     @Override
@@ -72,6 +115,13 @@ public class AdminServiceImpl implements AdminService {
             return CreateBusinessPlanResponse.builder()
                     .status("200")
                     .message("Created business plan successfully")
+                    .name(request.getName())
+                    .price(request.getPrice())
+                    .description(request.getDescription())
+                    .duration(request.getDuration())
+                    .services(businessPlan.getPlanServiceList().stream()
+                            .map(service -> CreateBusinessPlanResponse.BusinessPlanService.builder().name(businessPlan.getName()).build())
+                            .toList())
                     .build();
         }
         return errors;
@@ -129,6 +179,10 @@ public class AdminServiceImpl implements AdminService {
             return UpdateBusinessPlanResponse.builder()
                     .status("200")
                     .message("Updated business plan successfully")
+                    .name(request.getName())
+                    .price(request.getPrice())
+                    .description(request.getDescription())
+                    .duration(request.getDuration())
                     .build();
         }
         return errors;
@@ -174,6 +228,41 @@ public class AdminServiceImpl implements AdminService {
         return errors;
     }
 
+    //-------------------------------------VIEW BUSINESS SERVICE----------------------------//
+
+    @Override
+    public String viewBusinessService(HttpSession session, Model model) {
+        model.addAttribute("msg", viewBusinessServiceLogic());
+        return "manageBusinessService";
+    }
+
+    @Override
+    public ViewBusinessServiceResponse viewBusinessServiceAPI() {
+        return viewBusinessServiceLogic();
+    }
+
+    private ViewBusinessServiceResponse viewBusinessServiceLogic() {
+        return ViewBusinessServiceResponse.builder()
+                .status("200")
+                .message("")
+                .servicesList(
+                        businessServiceRepo.findAll()
+                                .stream()
+                                .map(
+                                        service -> ViewBusinessServiceResponse.Services.builder()
+                                                .id(service.getId())
+                                                .name(service.getName())
+                                                .description(service.getDescription())
+                                                .price(service.getPrice())
+                                                .build()
+                                )
+                                .toList()
+                )
+                .build();
+
+    }
+
+
     //-------------------------------------CREATE BUSINESS SERVICE----------------------------//
     @Override
     public String createBusinessService(CreateBusinessServiceRequest request, Model model) {
@@ -211,6 +300,9 @@ public class AdminServiceImpl implements AdminService {
         return CreateBusinessServiceResponse.builder()
                 .status("200")
                 .message("Created business service successfully")
+                .name(request.getName())
+                .description(request.getDescription())
+                .price(request.getPrice())
                 .build();
     }
 
@@ -219,7 +311,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String updateBusinessService(UpdateBusinessServiceRequest request, Model model) {
         Object output = updateBusinessServiceLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessServiceResponse.class)) {
             model.addAttribute("msg", (UpdateBusinessServiceResponse) output);
             return "manageBusinessService";
         }
@@ -230,7 +322,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UpdateBusinessServiceResponse updateBusinessServiceAPI(UpdateBusinessServiceRequest request) {
         Object output = updateBusinessServiceLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessServiceResponse.class)) {
             return (UpdateBusinessServiceResponse) output;
         }
         return UpdateBusinessServiceResponse.builder()
@@ -253,6 +345,9 @@ public class AdminServiceImpl implements AdminService {
         return UpdateBusinessServiceResponse.builder()
                 .status("200")
                 .message("Updated business service successfully")
+                .name(request.getName())
+                .description(request.getDescription())
+                .price(request.getPrice())
                 .build();
     }
     //-------------------------------------DELETE BUSINESS SERVICE----------------------------//
@@ -260,7 +355,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model) {
         Object output = deleteBusinessServiceLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteBusinessServiceResponse.class)) {
             model.addAttribute("msg", (DeleteBusinessServiceResponse) output);
             return "manageBusinessService";
         }
@@ -294,81 +389,6 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    //-------------------------------------VIEW BUSINESS PLAN----------------------------//
-    @Override
-    public String viewBusinessPlan(HttpSession session, Model model) {
-        model.addAttribute("msg", viewBusinessPlanLogic());
-        return "manageBusinessPlan";
-    }
-
-    @Override
-    public ViewBusinessPlanResponse viewBusinessPlanAPI() {
-        return viewBusinessPlanLogic();
-    }
-
-    private ViewBusinessPlanResponse viewBusinessPlanLogic() {
-        return ViewBusinessPlanResponse.builder()
-                .status("200")
-                .message("")
-                .businessPlanList(
-                        businessPlanRepo.findAll()
-                                .stream()
-                                .map(
-                                        plan -> ViewBusinessPlanResponse.BusinessPlan.builder()
-                                                .id(plan.getId())
-                                                .name(plan.getName())
-                                                .description(plan.getDescription())
-                                                .price(plan.getPrice())
-                                                .status(plan.getStatus())
-                                                .businessServiceList(plan.getPlanServiceList().stream()
-                                                        .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
-                                                                .id(service.getBusinessService().getId())
-                                                                .name(service.getBusinessService().getName())
-                                                                .description(service.getBusinessService().getDescription())
-                                                                .price(service.getBusinessService().getPrice())
-                                                                .build()
-                                                        )
-                                                        .toList())
-                                                .build()
-                                )
-                                .toList())
-                .build();
-
-    }
-
-    //-------------------------------------VIEW BUSINESS SERVICE----------------------------//
-
-    @Override
-    public String viewBusinessService(HttpSession session, Model model) {
-        model.addAttribute("msg", viewBusinessServiceLogic());
-        return "manageBusinessService";
-    }
-
-    @Override
-    public ViewBusinessServiceResponse viewBusinessServiceAPI() {
-        return viewBusinessServiceLogic();
-    }
-
-    private ViewBusinessServiceResponse viewBusinessServiceLogic() {
-        return ViewBusinessServiceResponse.builder()
-                .status("200")
-                .message("")
-                .servicesList(
-                        businessServiceRepo.findAll()
-                                .stream()
-                                .map(
-                                        service -> ViewBusinessServiceResponse.Services.builder()
-                                                .id(service.getId())
-                                                .name(service.getName())
-                                                .description(service.getDescription())
-                                                .price(service.getPrice())
-                                                .build()
-                                )
-                                .toList()
-                )
-                .build();
-
-    }
 
     //-------------------------------------VIEW USER LIST----------------------------//
 

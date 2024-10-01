@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     private final WishlistRepo wishlistRepo;
     private final GoogleLoginGeneratorUtil googleLoginGeneratorUtil;
 
-    //-------------------------------REGISTER----------------------------------//
+    //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model) {
         String error = registerLogic(request);
@@ -149,8 +149,7 @@ public class AccountServiceImpl implements AccountService {
         );
     }
 
-
-    //-------------------------------LOGIN-------------------------------------//
+    //-------------------------------------------LOGIN------------------------------------------------------//
     @Override
     public String login(LoginRequest request, Model model, HttpSession session) {
         Account loggedAccount = loginLogic(request);
@@ -189,7 +188,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null);
     }
 
-    //__________________________________________________________________________________//
+    //_____________________________________________________________________________________________________//
 
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
@@ -207,7 +206,7 @@ public class AccountServiceImpl implements AccountService {
         );
     }
 
-    //-------------------------------VIEW PROFILE(LAM LAI --> HOI VO LY + KO HIEU VAN DE)-------------------------------------//
+    //------------------------------------------VIEW PROFILE-----------------------------------------------//
 
     @Override
     public String viewProfile(ViewProfileRequest request, Model model) {
@@ -252,7 +251,7 @@ public class AccountServiceImpl implements AccountService {
         return errors;
     }
 
-//-------------------------------UPDATE PROFILE-------------------------------------//
+//------------------------------------------UPDATE PROFILE--------------------------------------------------//
 
     @Override
     public String updateProfile(UpdateProfileRequest request, HttpSession session, Model model) {
@@ -306,9 +305,10 @@ public class AccountServiceImpl implements AccountService {
     //-------------------------------CHANGE PASSWORD-------------------------------------//
 
     @Override
-    public String changePassword(ChangePasswordRequest request, Model model) {
+    public String changePassword(ChangePasswordRequest request, HttpSession session, Model model) {
         Object output = changePasswordLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
             model.addAttribute("msg", (ChangePasswordResponse) output);
             return "changePassword";
         }
