@@ -310,7 +310,7 @@ public class AccountServiceImpl implements AccountService {
         Object output = changePasswordLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             model.addAttribute("msg", (ChangePasswordResponse) output);
-            return "login";
+            return "changePassword";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "changePassword";

@@ -573,14 +573,15 @@
                     <div th:if="${msg}">
                         <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
                             <h3 class="profile__header">Your Profile</h3>
+                            <input type="hidden" name="id" th:value="${msg.id}"></input>
                             <div class="profile__information">
                                 <div class="user__name profile__information-part">
                                     <h3 class="form-label">Name</h3>
-                                    <input type="text" id="username" class="input-form" name="username" th:value="${msg.name}" required>
+                                    <input type="text" id="name" class="input-form" name="name" th:value="${msg.name}" required>
                                 </div>
                                 <div class="email profile__information-part">
                                     <h3 class="form-label">E-Mail</h3>
-                                    <input type="email" id="email" class="input-form" name="email" th:value="${msg.email}" readonly >
+                                    <input type="email" id="email" class="input-form" name="email" th:value="${session.acc.getEmail()}" readonly >
                                 </div>
                                 <div class="phone profile__information-part">
                                     <h3 class="form-label">Phone</h3>
@@ -597,7 +598,7 @@
                                 </div>
                             </div>
                             <input type="submit" name="action" class="update-btn btn btn--primary" value="Save Changes">
-                            <input type="hidden" name="id" th:value="${msg.id}"></input>
+
                         </form>
                     </div>
 
