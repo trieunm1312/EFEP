@@ -54,6 +54,10 @@ public interface SellerService {
 
     UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request);
 
+    String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model);
+
+    DeleteFlowerResponse deleteFlowerAPI(DeleteFlowerRequest request);
+
     String viewBuyerList(HttpSession session, Model model);
 
     ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request);
