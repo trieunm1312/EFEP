@@ -10,6 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateBusinessServiceResponse {
+
     private String status;
+
     private String message;
+
+    private String name;
+
+    private String description;
+
+    private float price;
 }

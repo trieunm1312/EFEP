@@ -68,8 +68,8 @@ public class AccountController {
 
     @PutMapping("/update/profile")
     @Operation(hidden = true)
-    public String updateProfile(UpdateProfileRequest request, Model model) {
-        return accountService.updateProfile(request, model);
+    public String updateProfile(UpdateProfileRequest request, HttpSession session, Model model) {
+        return accountService.updateProfile(request, session, model);
     }
 
     @PutMapping("/update/profile/api")
@@ -79,8 +79,8 @@ public class AccountController {
 
     @PostMapping("/change/password")
     @Operation(hidden = true)
-    public String changePassword(ChangePasswordRequest request, Model model) {
-        return accountService.changePassword(request, model);
+    public String changePassword(ChangePasswordRequest request, HttpSession session, Model model) {
+        return accountService.changePassword(request, session, model);
     }
 
     @PostMapping("/change/password/api")

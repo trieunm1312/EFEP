@@ -88,6 +88,15 @@
     padding: 16px 0;
 }
 
+.sidebar__item-link-change-password{
+    font-size: 1.5rem;
+    font-weight: 400;
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 0;
+}
+
 .sidebar__item a{
     text-decoration: none;
 }
