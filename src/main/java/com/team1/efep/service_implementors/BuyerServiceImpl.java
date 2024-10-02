@@ -310,6 +310,7 @@ public class BuyerServiceImpl implements BuyerService {
     private List<ViewFlowerListResponse.Flower> viewFlowerList(List<Flower> flowers) {
         return flowers.stream()
                 .map(item -> ViewFlowerListResponse.Flower.builder()
+                        .id(item.getId())
                         .name(item.getName())
                         .price(item.getPrice())
                         .images(viewImageList(item.getFlowerImageList()))
