@@ -1,5 +1,6 @@
 package com.team1.efep.models.request_models;
 
+import com.team1.efep.models.response_models.ViewBusinessPlanResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,8 @@ import java.util.List;
 @Builder
 public class CreateBusinessPlanRequest {
 
+    private int id;
+
     private String name;
 
     private String description;
@@ -21,17 +24,17 @@ public class CreateBusinessPlanRequest {
 
     private int duration;
 
-    private List<BusinessPlanService> serviceList;
+    private String status;
 
+    private List<BusinessService> businessServiceList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class BusinessPlanService {
+    public static class BusinessService {
 
         private int id;
 
-        private String name;
     }
 }

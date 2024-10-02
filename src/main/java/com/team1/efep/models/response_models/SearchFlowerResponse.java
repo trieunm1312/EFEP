@@ -12,8 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class SearchFlowerResponse {
+
     private String status;
+
     private String message;
+
     private List<Flower> flowerList;
 
     @Data
@@ -21,9 +24,13 @@ public class SearchFlowerResponse {
     @NoArgsConstructor
     @Builder
     public static class Flower {
+
         private int id;
+
         private String name;
+
         private float price;
+
         private List<Image> images;
     }
 
@@ -32,6 +39,7 @@ public class SearchFlowerResponse {
     @NoArgsConstructor
     @Builder
     public static class Image {
+
         private String link;
     }
 }
