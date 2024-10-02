@@ -842,7 +842,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             model.addAttribute("msg", (DeleteWishlistResponse) output);
-            return "viewWishlist";
+            return "redirect:/buyer/wishlist";
         }
 
         model.addAttribute("response", (Map<String, String>) output);
