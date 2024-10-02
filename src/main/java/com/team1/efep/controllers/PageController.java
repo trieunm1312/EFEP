@@ -37,7 +37,7 @@ public class PageController {
         return "register";
     }
 
-    @GetMapping("/account/change/password")
+    @GetMapping("/change/password")
     public String passwordPage() {
         return "changePassword";
     }

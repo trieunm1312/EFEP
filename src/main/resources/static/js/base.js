@@ -55,7 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-//Submit form without button
-function submitFormByClass() {
-    document.querySelector('.form').submit();
-}
+document.querySelectorAll('.header__item-megamenu-item__category').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+        item.querySelector('.category__block').style.display = 'block';
+    });
+    item.addEventListener('mouseleave', () => {
+        item.querySelector('.category__block').style.display = 'none';
+    });
+});
