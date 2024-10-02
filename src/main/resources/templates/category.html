@@ -608,7 +608,7 @@
                         <div th:each="item : ${msg.flowerList}" class="flower__grid active-view">
                             <div class="flower__item">
                                 <div class="flower__img">
-                                    <img th:src="@{item.images[0].link}"  alt="Flower Image">
+                                    <img th:src="@{${item.images[0].link}}"  alt="Flower Image">
                                     <div class="overlay">
     
     
@@ -628,7 +628,7 @@
                                             <button class="view-detail">
                                                 <i class="fa-solid fa-eye"></i>
                                                 <span class="view-detail__msg">View detail</span>
-                                                <input type="hidden" name="id" th:value="${item.id}">
+                                                <input type="text" name="id" th:value="${item.id}">
                                             </button>
                                         </form>
     
@@ -642,7 +642,7 @@
                                 <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
                                     <input type="submit" name="action" th:value="${item.name}" class="flower__name">
                                     </input>
-                                    <input type="hidden" name="id" th:value="${item.id}">
+                                    <input type="text" name="id" th:value="${item.id}">
                                 </form>
                                 <div class="flower__content">
                                     <span th:text="${item.price}"></span>
