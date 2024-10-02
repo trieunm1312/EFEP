@@ -54,7 +54,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String viewWishlist(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You are not logged in");
+            model.addAttribute("error", "You must log in");
             return "redirect:/login";
         }
         Object output = viewWishlistLogic(account.getId());
@@ -92,12 +92,20 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Account account = accountRepo.findById(accountId).orElse(null);
         assert account != null;
+
+        List<ViewWishlistResponse.WishlistItems> wishlistItems = viewWishlistItemList(accountId);
+
+        float totalPrice = wishlistItems.stream()
+                .map(item -> item.getPrice() * item.getQuantity())
+                .reduce(0f, Float::sum);
+
         return ViewWishlistResponse.builder()
                 .status("200")
                 .message("View wishlist successfully")
                 .id(account.getUser().getWishlist().getId())
                 .userId(account.getUser().getId())
                 .userName(account.getUser().getName())
+                .totalPrice(totalPrice)
                 .wishlistItemList(viewWishlistItemList(accountId))
                 .build();
     }
@@ -359,7 +367,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = deleteWishlistItemLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
             model.addAttribute("msg", (DeleteWishlistItemResponse) output);
-            return "viewWishlist";
+            return "redirect:/";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -765,6 +773,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = updateWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
             model.addAttribute("msg", (UpdateWishlistResponse) output);
+            return "redirect:/buyer/wishlist";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "wishlist";
@@ -802,9 +811,9 @@ public class BuyerServiceImpl implements BuyerService {
         WishlistItem wishlistItem = wishlistItemRepo.findById(Integer.parseInt(request.getWishlistItemId())).orElse(null);
         assert wishlistItem != null;
 
-        if ("plus".equals(request.getRequest())) {
+        if ("asc".equals(request.getRequest())) {
             wishlistItem.setQuantity(wishlistItem.getQuantity() + 1);
-        } else if ("minus".equals(request.getRequest())) {
+        } else if ("desc".equals(request.getRequest())) {
             if (wishlistItem.getQuantity() > 1) {
                 wishlistItem.setQuantity(wishlistItem.getQuantity() - 1);
             } else {
@@ -833,10 +842,11 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             model.addAttribute("msg", (DeleteWishlistResponse) output);
+            return "viewWishlist";
         }
 
         model.addAttribute("response", (Map<String, String>) output);
-        return "wishlist";
+        return "viewWishlist";
     }
 
     @Override
