@@ -18,958 +18,996 @@
 </head>
 
 <body>
-    <div class="wrap">
-        <!-- Nav Bar -->
-        <nav class="navbar" th:fragment="navbar">
-            <div class="grid">
-                <div class="navbar__wrap">
-                    <!-- Phone contact -->
-                    <div class="navbar__item">
-                        <a href="" class="navbar__item-contact-info">
-                            <i class="navbar__item-icon fa-solid fa-phone"></i>
-                            <span class="navbar__item-phone">+1 (123) 8425733</span>
-                        </a>
-                    </div>
-
-                    <!-- Currency -->
-                    <div class="navbar__item">
-                        <div class="navbar__item-select" tabindex="0">
-                            <span class="navbar__item-select-label">Currency: US Dollar</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Header -->
-        <header class="header" th:fragment="header">
-            <div class="grid">
-                <div class="header__wrap">
-                    <!-- Logo -->
-                    <a th:href="@{/}" class="header__item">
-                        <div class="header__item-logo">
-                            <img src="/img/flowrista-logo.png" alt="Logo"
-                                class="header__item-logo-img">
-                        </div>
+<div class="wrap">
+    <!-- Nav Bar -->
+    <nav class="navbar" th:fragment="navbar">
+        <div class="grid">
+            <div class="navbar__wrap">
+                <!-- Phone contact -->
+                <div class="navbar__item">
+                    <a href="" class="navbar__item-contact-info">
+                        <i class="navbar__item-icon fa-solid fa-phone"></i>
+                        <span class="navbar__item-phone">+1 (123) 8425733</span>
                     </a>
-
-                    <!-- Mega menu -->
-                    <div class="header__item">
-                        <ul class="header__item-megamenu">
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title">Home</span>
-                            </li>
-
-                            <li class="header__item-megamenu-item header__item-megamenu-item__category">
-                                <span
-                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
-                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-                                <span class="header__item-megamenu-item-label-offer">Offer</span>
-                                <span class="header__item-megamenu-item-label-arrow-offer"></span>
-                                <div class="category__block">
-                                    <ul class="category__list">
-                                        <li class="category__item">
-                                            <a th:href="@{/}" class="category__heading">
-                                                <h4>Event</h4>
-                                            </a>
-                                            <ul class="category__sub-list">
-                                                <li class="category__sub-item">
-                                                    <a th:href="@{/}" class="category__sub-item-link">
-                                                        <p>Wedding</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a th:href="@{/}" class="category__sub-item-link">
-                                                        <p>Birthday</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Anniversary</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Funeral</p>
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-                                        <li class="category__item">
-                                            <a href="" class="category__heading">
-                                                <h4>Event</h4>
-                                            </a>
-                                            <ul class="category__sub-list">
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Wedding</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Birthday</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Anniversary</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Funeral</p>
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-                                        <li class="category__item">
-                                            <a href="" class="category__heading">
-                                                <h4>Event</h4>
-                                            </a>
-                                            <ul class="category__sub-list">
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Wedding</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Birthday</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Anniversary</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Funeral</p>
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-                                        <li class="category__item">
-                                            <a href="" class="category__heading">
-                                                <h4>Event</h4>
-                                            </a>
-                                            <ul class="category__sub-list">
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Wedding</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Birthday</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Anniversary</p>
-                                                    </a>
-                                                </li>
-                                                <li class="category__sub-item">
-                                                    <a href="" class="category__sub-item-link">
-                                                        <p>Funeral</p>
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </li>
-
-                            <li class="header__item-megamenu-item header__item-megamenu-item__product">
-                                <span
-                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
-                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-                                <span class="header__item-megamenu-item-label-hot">Hot</span>
-                                <span class="header__item-megamenu-item-label-arrow-hot"></span>
-                                <div class="product__block">
-                                    <ul class="product__list">
-                                        <li class="product__item">
-                                            <a href="" class="product__heading">
-                                                <h4>Popular Products</h4>
-                                            </a>
-                                            <ul class="product__sub-list">
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-
-                                            </ul>
-                                        </li>
-                                        <li class="product__item">
-                                            <a href="" class="product__heading">
-                                                <h4>Best Seller Products</h4>
-                                            </a>
-                                            <ul class="product__sub-list">
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-
-                                            </ul>
-                                        </li>
-                                        <li class="product__item">
-                                            <a href="" class="product__heading">
-                                                <h4>Latest Products</h4>
-                                            </a>
-                                            <ul class="product__sub-list">
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                            alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-
-                                            </ul>
-                                        </li>
-
-                                    </ul>
-
-                                </div>
-                            </li>
-
-                            <li class="header__item-megamenu-item header__item-megamenu-item-about">
-                                <a href="">
-                                    <span class="header__item-megamenu-item-title">About Us</span>
-                                </a>
-
-                            </li>
-
-                        </ul>
-                    </div>
-
-                    <!-- Icons -->
-                    <div class="header__item">
-                        <ul class="header__item-list-icon">
-                            <li class="header__item-icon header__item-icon-search" tabindex="0">
-                                <i class="header__item-icon-search fa-solid fa-magnifying-glass">
-                                    <form th:action="@{/buyer/flower/search}" class="header__item-search-box" method="post">
-                                        <input type="text" class="header__item-search-input" name="SearchValue"
-                                            placeholder="Search...">
-                                        <button class="header__item-search-icon">
-                                            <i class="fa-solid fa-magnifying-glass"></i>
-                                        </button>
-                                    </form>
-                                </i>
-                            </li>
-                            <li class="header__item-icon header__item-icon-user" tabindex="0">
-                                <i class="header__item-icon-user fa-solid fa-user">
-
-                                    <!-- Have not Login -->
-                                    <div th:if="${error == null}">
-                                        <div th:if="${session.acc == null}" class="header__item-account">
-                                            <a th:href="@{/register}" class="header__item-account-item">Register</a>
-                                            <a th:href="@{/login}" class="header__item-account-item">Login</a>
-                                        </div>
-
-                                        <!-- Login successfully -->
-                                        <div th:if="${session.acc != null}" class="header__item-account">
-                                            <form th:action="@{/account/view/profile}"  class="form" method="get">
-                                                <input type="submit" name="action" value="Update profile" class="header__item-account-item"></input>
-                                                <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                                            </form>
-                                           <form th:action="@{/account/logout}" class="form" method="get">
-                                               <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
-                                           </form>
-                                        </div>
-                                    </div>
-                                </i>
-                            </li>
-                            <li class="header__item-icon">
-                                <!-- Cart layout -->
-                                <div class="header__cart">
-                                    <div class="header__cart-wrap">
-                                        <i class="header__cart-icon fa-solid fa-heart"></i>
-                                        <span class="header__cart-notice"> 10 </span>
-
-                                        <!-- No wishlist: header__cart-list--no-wishlist -->
-                                        <div class="header__cart-list">
-                                            <span class="header__cart-list-no-wishlist-msg">
-                                                Your shopping wishlist is empty!
-                                            </span>
-
-                                            <!-- Cart item -->
-                                            <ul class="header__cart-list-item">
-                                                <li class="header__cart-item">
-                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                        alt="" class="header__cart-img">
-                                                    <div class="header__cart-item-info">
-                                                        <div class="header__cart-item-head">
-                                                            <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="@{/}" method="get">
-                                                                <button class="header__cart-item-remove">
-                                                                    <i
-                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span
-                                                                        class="header__cart-item-remove-msg">Remove</span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="header__cart-item-body">
-                                                            <span class="header__cart-item-qnt">1</span>
-                                                            <span class="header__cart-item-multiply">x</span>
-                                                            <span class="header__cart-item-price">120.000 VND</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="header__cart-item">
-                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                        alt="" class="header__cart-img">
-                                                    <div class="header__cart-item-info">
-                                                        <div class="header__cart-item-head">
-                                                            <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="@{/}" method="get">
-                                                                <button class="header__cart-item-remove">
-                                                                    <i
-                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span
-                                                                        class="header__cart-item-remove-msg">Remove</span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="header__cart-item-body">
-                                                            <span class="header__cart-item-qnt">1</span>
-                                                            <span class="header__cart-item-multiply">x</span>
-                                                            <span class="header__cart-item-price">120.000 VND</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <hr class="short-line">
-                                            <div class="header__cart-list-detail">
-                                                <span class="header__cart-list-detail-total">Total</span>
-                                                <span class="header__cart-list-detail-price">122.000 VND</span>
-                                            </div>
-                                            <div class="header__cart-list-btn">
-                                                <form th:action="@{/buyer/wishlist}" method="get">
-                                                    <input class="btn-view-cart" type="submit" value="View wishlist" name="Action">
-                                                    <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
-                                                            name="Action"> -->
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Slider -->
-        <section id="slider">
-            <div class="wrap">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div id="slider-carousel" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
-                                <li data-target="#slider-carousel" data-slide-to="1" class="active"></li>
-                            </ol>
-
-                            <div class="carousel-inner">
-                                <div class="item active">
-                                    <div class="carousel-slide slide-1">
-                                        <div class="carousel-text-slide-1">
-                                            <h1>Flowerista</h1>
-                                            <h2>Beautiful Flowers</h2>
-                                            <p>Brighten your day with the beauty of flowers.</p>
-                                            <a href="" type="button" class="btn btn--primary btn-default get">Shop
-                                                now</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="item">
-                                    <div class="carousel-slide slide-2">
-                                        <div class="carousel-text-slide-2">
-                                            <h1>Flowerista</h1>
-                                            <h2>Fresh Flower For You</h2>
-                                            <p>Without darkness, nothing comes to birth. As without light, nothing
-                                                flowers.</p>
-                                            <a href="" type="button" class="btn btn--primary btn-default get">Shop
-                                                now</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Container -->
-        <div class="container">
-            <div class="container__wrap">
-                <!-- Service -->
-                <div class="grid">
-                    <div class="service">
-                        <div class="service__item">
-                            <div class="service__icon">
-                                <i class="fa-solid fa-wallet"></i>
-                            </div>
-                            <div class="service__content">
-                                <h4>Cash On Delivery</h4>
-                                <span>100% money back guarantee</span>
-                            </div>
-                        </div>
-                        <div class="service__item">
-                            <div class="service__icon">
-                                <i class="fa-solid fa-gift"></i>
-                            </div>
-                            <div class="service__content">
-                                <h4>Cash On Delivery</h4>
-                                <span>100% money back guarantee</span>
-                            </div>
-                        </div>
-                        <div class="service__item">
-                            <div class="service__icon">
-                                <i class="fa-solid fa-headphones"></i>
-                            </div>
-                            <div class="service__content">
-                                <h4>Cash On Delivery</h4>
-                                <span>100% money back guarantee</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Top Category -->
-                <div class="top-category">
-                    <h2 class="top-category__title">Top 5 Categories<br>
-                        <img src="/img/title-flower.png" alt="">
-                    </h2>
-                    <div class="top-category__list">
-                        <div class="top-category__item">
-                            <div class="top-category__img">
-                                <img src="/img/top-category.jpg" alt="">
-                                <div class="overlay">
-
-                                    <form th:action="@{/}" method="get">
-                                        <button class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-
-                                        <button class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="" class="add-to-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="" class="view-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-
-                                </div>
-                            </div>
-                            <a th:href="@{/}" class="top-category__name">
-                                <h4>Creeper</h4>
-                            </a>
-                            <div class="top-category__content">
-                                <span>$200.00</span>
-                                <span>Sold: 1000</span>
-                            </div>
-                        </div>
-                        <div class="top-category__item">
-                            <div class="top-category__img">
-                                <img src="/img/top-category.jpg" alt="">
-                                <div class="overlay">
-
-                                    <form th:action="@{/}" method="get">
-                                        <button class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-
-                                        <button class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="" class="add-to-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="" class="view-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-
-                                </div>
-                            </div>
-                            <a href="" class="top-category__name">
-                                <h4>Creeper</h4>
-                            </a>
-                            <div class="top-category__content">
-                                <span>$200.00</span>
-                                <span>Sold: 1000</span>
-                            </div>
-                        </div>
-                        <div class="top-category__item">
-                            <div class="top-category__img">
-                                <img src="/img/top-category.jpg" alt="">
-                                <div class="overlay">
-
-                                    <form th:action="@{/}" method="get">
-                                        <button class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-
-                                        <button class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="" class="add-to-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="" class="view-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-
-                                </div>
-                            </div>
-                            <a href="" class="top-category__name">
-                                <h4>Creeper</h4>
-                            </a>
-                            <div class="top-category__content">
-                                <span>$200.00</span>
-                                <span>Sold: 1000</span>
-                            </div>
-                        </div>
-                        <div class="top-category__item">
-                            <div href="" class="top-category__img">
-                                <img src="/img/top-category.jpg" alt="">
-                                <div class="overlay">
-
-                                    <form th:action="@{/}" method="get">
-                                        <button class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-
-                                        <button class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="" class="add-to-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="" class="view-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-
-                                </div>
-                            </div>
-                            <a href="" class="top-category__name">
-                                <h4>Creeper</h4>
-                            </a>
-                            <div class="top-category__content">
-                                <span>$200.00</span>
-                                <span>Sold: 1000</span>
-                            </div>
-                        </div>
-                        <div class="top-category__item">
-                            <div href="" class="top-category__img">
-                                <img src="/img/top-category.jpg" alt="">
-                                <div class="overlay">
-
-                                    <form th:action="@{/}" method="get">
-                                        <button class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-
-                                        <button class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="" class="add-to-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="" class="view-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-
-                                </div>
-                            </div>
-                            <a href="" class="top-category__name">
-                                <h4>Creeper</h4>
-                            </a>
-                            <div class="top-category__content">
-                                <span>$200.00</span>
-                                <span>Sold: 1000</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Breadbrum -->
-                <div class="breadbrum">
-                    <div class="grid">
-                        <h2 class="breadbrum__title">Login Account <br>
-                            <img src="/img/title-flower-light.png" alt="">
-                        </h2><br>
-
-                        <p class="breadbrum__desc">Yêu như chưa yêu lần nà
-                            Baby, please tell me how
-                            Tưởng như đã hiểu được rồi
-                            Mà đầu óc cứ noise
-                            Có lẽ anh vẫn chưa thể nào hiểu được tình yêu
-
-                            Định nghĩa tình yêu là gì?
-                            Mà dễ đến rồi lại rời đi
-                            Chỉ là bài toán khó anh chưa thể giải
-                            Đáp án chúng ta dừng lại
-
-                            Sẽ đến lúc ai cũng phải nhận ra rằng mình đã thay đổi
-                            Đừng vì một người chẳng vì mình
-                            Một người chỉ biết đến bản thân
-                            Một người quá đỗi vô tâm
-
-                            Liệu người ấy có yêu em chân thành
-                            Nếu khóc cứ chạy lại với anh
-                            Gom hết nỗi đau này lên bờ vai để chữa lành
-                            Chân thành đổi lại gì đâu
-                            Chỉ toàn phải chứng kiến thấy
-                            Em đau, anh đau, ta đau
-                            Sao cứ phải xa nhau (xa nhau)
-                            Anh cứ hy vọng rồi ôm về mình mớ thất vọng
-                            Những gì đã từng hứa giờ đây cũng chỉ là lời bông đùa</p>
+                <!-- Currency -->
+                <div class="navbar__item">
+                    <div class="navbar__item-select" tabindex="0">
+                        <span class="navbar__item-select-label">Currency: US Dollar</span>
                     </div>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <!-- Footer -->
-        <footer class="footer" th:fragment="footer">
-            <div class="grid">
-                <div class="footer__wrap">
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <div class="footer__item-logo">
-                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
-                                    class="footer__item-logo-img">
+    <!-- Header -->
+    <header class="header" th:fragment="header">
+        <div class="grid">
+            <div class="header__wrap">
+                <!-- Logo -->
+                <a th:href="@{/}" class="header__item">
+                    <div class="header__item-logo">
+                        <img src="/img/flowrista-logo.png" alt="Logo"
+                             class="header__item-logo-img">
+                    </div>
+                </a>
+
+                <!-- Mega menu -->
+                <div class="header__item">
+                    <ul class="header__item-megamenu">
+                        <li class="header__item-megamenu-item">
+                            <span class="header__item-megamenu-item-title">Home</span>
+                        </li>
+
+                        <li class="header__item-megamenu-item header__item-megamenu-item__category">
+                                <span
+                                        class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
+                            <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                            <span class="header__item-megamenu-item-label-offer">Offer</span>
+                            <span class="header__item-megamenu-item-label-arrow-offer"></span>
+                            <div class="category__block">
+                                <ul class="category__list">
+                                    <li class="category__item">
+                                        <a th:href="@{/}" class="category__heading">
+                                            <h4>Event</h4>
+                                        </a>
+                                        <ul class="category__sub-list">
+                                            <li class="category__sub-item">
+                                                <a th:href="@{/}" class="category__sub-item-link">
+                                                    <p>Wedding</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a th:href="@{/}" class="category__sub-item-link">
+                                                    <p>Birthday</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Anniversary</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Funeral</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="category__item">
+                                        <a href="" class="category__heading">
+                                            <h4>Event</h4>
+                                        </a>
+                                        <ul class="category__sub-list">
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Wedding</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Birthday</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Anniversary</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Funeral</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="category__item">
+                                        <a href="" class="category__heading">
+                                            <h4>Event</h4>
+                                        </a>
+                                        <ul class="category__sub-list">
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Wedding</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Birthday</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Anniversary</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Funeral</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="category__item">
+                                        <a href="" class="category__heading">
+                                            <h4>Event</h4>
+                                        </a>
+                                        <ul class="category__sub-list">
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Wedding</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Birthday</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Anniversary</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Funeral</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+
                             </div>
-                            <div class="footer__item-desc">
-                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
-                                    Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
-                                    Không bơ vơ
-                                    Khi vây quanh anh là những đôi mắt nhìn theo hò reo
-                                    Cũng vì chặng đường tương lai mà mình phải chia hai
-                                    Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
-                                    Và đến khi anh cất lời
-                                    Là giấc mơ mang cả đời -->
-                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                Tình yêu này có thật đáng thương? (Oh no)
-                                Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                Mất đi người rất quan trọng
-                                Có lẽ vì quá tham vọng
-                                Không thấy vui trong lòng
-                                Anh nhớ góc tối ở trong căn phòng
-                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                Lâu hơn một chút
-                                Để anh ổn định cảm xúc
-                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                Ký ức lại triệu hồi nỗi đau</span>
+                        </li>
+
+                        <li class="header__item-megamenu-item header__item-megamenu-item__product">
+                                <span
+                                        class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
+                            <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                            <span class="header__item-megamenu-item-label-hot">Hot</span>
+                            <span class="header__item-megamenu-item-label-arrow-hot"></span>
+                            <div class="product__block">
+                                <ul class="product__list">
+                                    <li class="product__item">
+                                        <a href="" class="product__heading">
+                                            <h4>Popular Products</h4>
+                                        </a>
+                                        <ul class="product__sub-list">
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </li>
+                                    <li class="product__item">
+                                        <a href="" class="product__heading">
+                                            <h4>Best Seller Products</h4>
+                                        </a>
+                                        <ul class="product__sub-list">
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </li>
+                                    <li class="product__item">
+                                        <a href="" class="product__heading">
+                                            <h4>Latest Products</h4>
+                                        </a>
+                                        <ul class="product__sub-list">
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="product__sub-item">
+                                                <a href="" class="product__sub-item-link">
+                                                    <img src="/img/product-item.jpg"
+                                                         alt="">
+                                                    <div class="product__sub-item-link-contnet">
+                                                        <p class="product__sub-item-link-name">Lavender</p>
+                                                        <div class="product__sub-item-link-rate">
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="product__sub-item-link-price">$399.00</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </li>
+
+                                </ul>
+
                             </div>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                        </li>
+
+                        <li class="header__item-megamenu-item header__item-megamenu-item-about">
+                            <a href="">
+                                <span class="header__item-megamenu-item-title">About Us</span>
+                            </a>
+
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- Icons -->
+                <div class="header__item">
+                    <ul class="header__item-list-icon">
+                        <li class="header__item-icon header__item-icon-search" tabindex="0">
+                            <i class="header__item-icon-search fa-solid fa-magnifying-glass">
+                                <form th:action="@{/buyer/flower/search}" class="header__item-search-box" method="post">
+                                    <input type="text" class="header__item-search-input" name="SearchValue"
+                                           placeholder="Search...">
+                                    <button class="header__item-search-icon">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </form>
+                            </i>
+                        </li>
+                        <li class="header__item-icon header__item-icon-user" tabindex="0">
+                            <i class="header__item-icon-user fa-solid fa-user">
+
+                                <!-- Have not Login -->
+                                <div th:if="${error == null}">
+                                    <div th:if="${session.acc == null}" class="header__item-account">
+                                        <a th:href="@{/register}" class="header__item-account-item">Register</a>
+                                        <a th:href="@{/login}" class="header__item-account-item">Login</a>
+                                    </div>
+
+                                    <!-- Login successfully -->
+                                    <div th:if="${session.acc != null}" class="header__item-account">
+                                        <form th:action="@{/account/view/profile}" class="form" method="get">
+                                            <input type="submit" name="action" value="My profile"
+                                                   class="header__item-account-item"></input>
+                                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                                        </form>
+                                        <form th:action="@{/account/logout}" class="form" method="get">
+                                            <input type="submit" name="action" value="Logout"
+                                                   class="header__item-account-item"></input>
+                                        </form>
+                                    </div>
+                                </div>
+                            </i>
+                        </li>
+                        <li class="header__item-icon">
+                            <!-- Cart layout -->
+                            <div class="header__cart">
+                                <div class="header__cart-wrap">
+                                    <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                                    <span class="header__cart-notice" th:if="${session.acc == null}"> 0 </span>
+                                    <span class="header__cart-notice" th:if="${session.acc != null}"
+                                          th:text="${session.acc.getUser().getWishlist().getWishlistItemList().size()}"> 0 </span>
+
+                                    <!-- No wishlist: header__cart-list--no-wishlist -->
+                                    <div class="header__cart-list">
+                                        <span class="header__cart-list-no-wishlist-msg" th:if="${session.acc == null}">Your shopping wishlist is empty!</span>
+
+                                        <!-- Cart item -->
+                                        <ul class="header__cart-list-item" th:if="${session.acc != null}">
+                                            <li class="header__cart-item"
+                                                th:each="item : ${session.acc.getUser().getWishlist().getWishlistItemList()}">
+                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                     alt="" class="header__cart-img">
+                                                <div class="header__cart-item-info">
+                                                    <div class="header__cart-item-head">
+                                                        <h5 class="header__cart-item-name" th:text="${item.flower.name}">Flower name</h5>
+                                                    </div>
+                                                    <div class="header__cart-item-body">
+                                                        <span class="header__cart-item-qnt" th:text="${item.quantity}">1</span>
+                                                        <span class="header__cart-item-multiply">x</span>
+                                                        <span class="header__cart-item-price" th:text="${'$ ' + item.flower.price * item.getQuantity()}">0</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="header__cart-list-btn">
+                                            <form th:action="@{/buyer/wishlist}" method="get">
+                                                <input class="btn-view-cart" type="submit" value="View wishlist" name="Action">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                            </li><li class="header__item-icon">-->
+                            <!--                                &lt;!&ndash; Cart layout &ndash;&gt;-->
+                            <!--                                <div class="header__cart">-->
+                            <!--                                    <div class="header__cart-wrap">-->
+                            <!--                                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>-->
+                            <!--                                        <span class="header__cart-notice"> 10 </span>-->
+
+                            <!--                                        &lt;!&ndash; No wishlist: header__cart-list&#45;&#45;no-wishlist &ndash;&gt;-->
+                            <!--                                        <div class="header__cart-list">-->
+                            <!--                                            <span class="header__cart-list-no-wishlist-msg">-->
+                            <!--                                                Your shopping wishlist is empty!-->
+                            <!--                                            </span>-->
+
+                            <!--                                            &lt;!&ndash; Cart item &ndash;&gt;-->
+                            <!--                                            <ul class="header__cart-list-item">-->
+                            <!--                                                <li class="header__cart-item">-->
+                            <!--                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"-->
+                            <!--                                                        alt="" class="header__cart-img">-->
+                            <!--                                                    <div class="header__cart-item-info">-->
+                            <!--                                                        <div class="header__cart-item-head">-->
+                            <!--                                                            <h5 class="header__cart-item-name">Hiptage</h5>-->
+                            <!--                                                            <form th:action="@{/}" method="get">-->
+                            <!--                                                                <button class="header__cart-item-remove">-->
+                            <!--                                                                    <i-->
+                            <!--                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>-->
+                            <!--                                                                    <span-->
+                            <!--                                                                        class="header__cart-item-remove-msg">Remove</span>-->
+                            <!--                                                                </button>-->
+                            <!--                                                            </form>-->
+                            <!--                                                        </div>-->
+                            <!--                                                        <div class="header__cart-item-body">-->
+                            <!--                                                            <span class="header__cart-item-qnt">1</span>-->
+                            <!--                                                            <span class="header__cart-item-multiply">x</span>-->
+                            <!--                                                            <span class="header__cart-item-price">120.000 VND</span>-->
+                            <!--                                                        </div>-->
+                            <!--                                                    </div>-->
+                            <!--                                                </li>-->
+                            <!--                                                <li class="header__cart-item">-->
+                            <!--                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"-->
+                            <!--                                                        alt="" class="header__cart-img">-->
+                            <!--                                                    <div class="header__cart-item-info">-->
+                            <!--                                                        <div class="header__cart-item-head">-->
+                            <!--                                                            <h5 class="header__cart-item-name">Hiptage</h5>-->
+                            <!--                                                            <form th:action="@{/}" method="get">-->
+                            <!--                                                                <button class="header__cart-item-remove">-->
+                            <!--                                                                    <i-->
+                            <!--                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>-->
+                            <!--                                                                    <span-->
+                            <!--                                                                        class="header__cart-item-remove-msg">Remove</span>-->
+                            <!--                                                                </button>-->
+                            <!--                                                            </form>-->
+                            <!--                                                        </div>-->
+                            <!--                                                        <div class="header__cart-item-body">-->
+                            <!--                                                            <span class="header__cart-item-qnt">1</span>-->
+                            <!--                                                            <span class="header__cart-item-multiply">x</span>-->
+                            <!--                                                            <span class="header__cart-item-price">120.000 VND</span>-->
+                            <!--                                                        </div>-->
+                            <!--                                                    </div>-->
+                            <!--                                                </li>-->
+                            <!--                                            </ul>-->
+                            <!--                                            <hr class="short-line">-->
+                            <!--                                            <div class="header__cart-list-detail">-->
+                            <!--                                                <span class="header__cart-list-detail-total">Total</span>-->
+                            <!--                                                <span class="header__cart-list-detail-price">122.000 VND</span>-->
+                            <!--                                            </div>-->
+                            <!--                                            <div class="header__cart-list-btn">-->
+                            <!--                                                <form th:action="@{/buyer/wishlist}" method="get">-->
+                            <!--                                                    <input class="btn-view-cart" type="submit" value="View wishlist" name="Action">-->
+                            <!--                                                    &lt;!&ndash;  <input class="btn-view-wishlist" type="submit" value="Checkout"-->
+                            <!--                                                            name="Action"> &ndash;&gt;-->
+                            <!--                                                </form>-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Slider -->
+    <section id="slider">
+        <div class="wrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#slider-carousel" data-slide-to="1" class="active"></li>
+                        </ol>
+
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <div class="carousel-slide slide-1">
+                                    <div class="carousel-text-slide-1">
+                                        <h1>Flowerista</h1>
+                                        <h2>Beautiful Flowers</h2>
+                                        <p>Brighten your day with the beauty of flowers.</p>
+                                        <a href="" type="button" class="btn btn--primary btn-default get">Shop
+                                            now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="carousel-slide slide-2">
+                                    <div class="carousel-text-slide-2">
+                                        <h1>Flowerista</h1>
+                                        <h2>Fresh Flower For You</h2>
+                                        <p>Without darkness, nothing comes to birth. As without light, nothing
+                                            flowers.</p>
+                                        <a href="" type="button" class="btn btn--primary btn-default get">Shop
+                                            now</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
+
+                        <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
                     </div>
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Contact</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Container -->
+    <div class="container">
+        <div class="container__wrap">
+            <!-- Service -->
+            <div class="grid">
+                <div class="service">
+                    <div class="service__item">
+                        <div class="service__icon">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <div class="service__content">
+                            <h4>Cash On Delivery</h4>
+                            <span>100% money back guarantee</span>
+                        </div>
+                    </div>
+                    <div class="service__item">
+                        <div class="service__icon">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <div class="service__content">
+                            <h4>Cash On Delivery</h4>
+                            <span>100% money back guarantee</span>
+                        </div>
+                    </div>
+                    <div class="service__item">
+                        <div class="service__icon">
+                            <i class="fa-solid fa-headphones"></i>
+                        </div>
+                        <div class="service__content">
+                            <h4>Cash On Delivery</h4>
+                            <span>100% money back guarantee</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Category -->
+            <div class="top-category">
+                <h2 class="top-category__title">Top 5 Categories<br>
+                    <img src="/img/title-flower.png" alt="">
+                </h2>
+                <div class="top-category__list">
+                    <div class="top-category__item">
+                        <div class="top-category__img">
+                            <img src="/img/top-category.jpg" alt="">
+                            <div class="overlay">
+
+                                <form th:action="@{/}" method="get">
+                                    <button class="add-to-wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                    </button>
+
+                                    <button class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </button>
+                                </form>
+                                <!-- <a href="" class="add-to-wishlist">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                </a>
+
+                                <a href="" class="view-detail">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view-detail__msg">View detail</span>
+                                </a> -->
+
+                            </div>
+                        </div>
+                        <a th:href="@{/}" class="top-category__name">
+                            <h4>Creeper</h4>
+                        </a>
+                        <div class="top-category__content">
+                            <span>$200.00</span>
+                            <span>Sold: 1000</span>
+                        </div>
+                    </div>
+                    <div class="top-category__item">
+                        <div class="top-category__img">
+                            <img src="/img/top-category.jpg" alt="">
+                            <div class="overlay">
+
+                                <form th:action="@{/}" method="get">
+                                    <button class="add-to-wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                    </button>
+
+                                    <button class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </button>
+                                </form>
+                                <!-- <a href="" class="add-to-wishlist">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                </a>
+
+                                <a href="" class="view-detail">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view-detail__msg">View detail</span>
+                                </a> -->
+
+                            </div>
+                        </div>
+                        <a href="" class="top-category__name">
+                            <h4>Creeper</h4>
+                        </a>
+                        <div class="top-category__content">
+                            <span>$200.00</span>
+                            <span>Sold: 1000</span>
+                        </div>
+                    </div>
+                    <div class="top-category__item">
+                        <div class="top-category__img">
+                            <img src="/img/top-category.jpg" alt="">
+                            <div class="overlay">
+
+                                <form th:action="@{/}" method="get">
+                                    <button class="add-to-wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                    </button>
+
+                                    <button class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </button>
+                                </form>
+                                <!-- <a href="" class="add-to-wishlist">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                </a>
+
+                                <a href="" class="view-detail">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view-detail__msg">View detail</span>
+                                </a> -->
+
+                            </div>
+                        </div>
+                        <a href="" class="top-category__name">
+                            <h4>Creeper</h4>
+                        </a>
+                        <div class="top-category__content">
+                            <span>$200.00</span>
+                            <span>Sold: 1000</span>
+                        </div>
+                    </div>
+                    <div class="top-category__item">
+                        <div href="" class="top-category__img">
+                            <img src="/img/top-category.jpg" alt="">
+                            <div class="overlay">
+
+                                <form th:action="@{/}" method="get">
+                                    <button class="add-to-wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                    </button>
+
+                                    <button class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </button>
+                                </form>
+                                <!-- <a href="" class="add-to-wishlist">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                </a>
+
+                                <a href="" class="view-detail">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view-detail__msg">View detail</span>
+                                </a> -->
+
+                            </div>
+                        </div>
+                        <a href="" class="top-category__name">
+                            <h4>Creeper</h4>
+                        </a>
+                        <div class="top-category__content">
+                            <span>$200.00</span>
+                            <span>Sold: 1000</span>
+                        </div>
+                    </div>
+                    <div class="top-category__item">
+                        <div href="" class="top-category__img">
+                            <img src="/img/top-category.jpg" alt="">
+                            <div class="overlay">
+
+                                <form th:action="@{/}" method="get">
+                                    <button class="add-to-wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                    </button>
+
+                                    <button class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                    </button>
+                                </form>
+                                <!-- <a href="" class="add-to-wishlist">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                </a>
+
+                                <a href="" class="view-detail">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view-detail__msg">View detail</span>
+                                </a> -->
+
+                            </div>
+                        </div>
+                        <a href="" class="top-category__name">
+                            <h4>Creeper</h4>
+                        </a>
+                        <div class="top-category__content">
+                            <span>$200.00</span>
+                            <span>Sold: 1000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Breadbrum -->
+            <div class="breadbrum">
+                <div class="grid">
+                    <h2 class="breadbrum__title">Login Account <br>
+                        <img src="/img/title-flower-light.png" alt="">
+                    </h2><br>
+
+                    <p class="breadbrum__desc">Yêu như chưa yêu lần nà
+                        Baby, please tell me how
+                        Tưởng như đã hiểu được rồi
+                        Mà đầu óc cứ noise
+                        Có lẽ anh vẫn chưa thể nào hiểu được tình yêu
+
+                        Định nghĩa tình yêu là gì?
+                        Mà dễ đến rồi lại rời đi
+                        Chỉ là bài toán khó anh chưa thể giải
+                        Đáp án chúng ta dừng lại
+
+                        Sẽ đến lúc ai cũng phải nhận ra rằng mình đã thay đổi
+                        Đừng vì một người chẳng vì mình
+                        Một người chỉ biết đến bản thân
+                        Một người quá đỗi vô tâm
+
+                        Liệu người ấy có yêu em chân thành
+                        Nếu khóc cứ chạy lại với anh
+                        Gom hết nỗi đau này lên bờ vai để chữa lành
+                        Chân thành đổi lại gì đâu
+                        Chỉ toàn phải chứng kiến thấy
+                        Em đau, anh đau, ta đau
+                        Sao cứ phải xa nhau (xa nhau)
+                        Anh cứ hy vọng rồi ôm về mình mớ thất vọng
+                        Những gì đã từng hứa giờ đây cũng chỉ là lời bông đùa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" th:fragment="footer">
+        <div class="grid">
+            <div class="footer__wrap">
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <div class="footer__item-logo">
+                            <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
+                                 class="footer__item-logo-img">
+                        </div>
+                        <div class="footer__item-desc">
+                            <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
+                                Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
+                                Không bơ vơ
+                                Khi vây quanh anh là những đôi mắt nhìn theo hò reo
+                                Cũng vì chặng đường tương lai mà mình phải chia hai
+                                Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
+                                Và đến khi anh cất lời
+                                Là giấc mơ mang cả đời -->
+                            Khi anh đã có tất cả rồi lại chẳng còn em nữa
+                            Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
+                            Tình yêu này có thật đáng thương? (Oh no)
+                            Ở phía dưới ngọn đèn, có gã khờ đang hát
+                            Cố gắng mỉm cười, nhưng trong lòng tan nát
+                            Mất đi người rất quan trọng
+                            Có lẽ vì quá tham vọng
+                            Không thấy vui trong lòng
+                            Anh nhớ góc tối ở trong căn phòng
+                            Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
+                            Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
+                            Lâu hơn một chút
+                            Để anh ổn định cảm xúc
+                            Có lẽ đến lúc chấm dứt, kết thúc thật rồi
+                            Ký ức lại triệu hồi nỗi đau</span>
+                        </div>
+                        <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <h2 class="footer__item-title">Contact</h2>
+                        <ul class="footer__item-contact-list">
+                            <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i
-                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
+                                                class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
                                         <span>National park,d1 588436,United States</span>
                                     </span>
-                                </li>
+                            </li>
 
-                                <li class="footer__item-contact-list-item">
+                            <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
                                         <span>+91 123 456 789</span>
                                     </span>
-                                </li>
+                            </li>
 
-                                <li class="footer__item-contact-list-item">
+                            <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
                                         <span>0123-456-789</span>
                                     </span>
-                                </li>
+                            </li>
 
-                                <li class="footer__item-contact-list-item">
+                            <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
                                         <span>demo@Yourstore.com</span>
                                     </span>
-                                </li>
-                            </ul>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
-
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Information</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Terms & Conditions</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Delivery Information</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>About Us</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Privacy Policy</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-
-
-
                 </div>
+
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <h2 class="footer__item-title">Information</h2>
+                        <ul class="footer__item-contact-list">
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Terms & Conditions</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Delivery Information</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>About Us</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Privacy Policy</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Contact Us</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
             </div>
-        </footer>
-    </div>
-    <script src="/js/jquery.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <script src="/js/price-range.js"></script>
-    <script src="/js/jquery.prettyPhoto.js"></script>
-    <script src="/js/main.js"></script>
-    <script src="/js/base.js"></script>
-    <script src="/js/index.js"></script>
+        </div>
+    </footer>
+</div>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/js/price-range.js"></script>
+<script src="/js/jquery.prettyPhoto.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/base.js"></script>
+<script src="/js/index.js"></script>
 </body>
 
 </html>

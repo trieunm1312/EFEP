@@ -6,13 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class CreateBusinessServiceRequest {
-    private String name;
+public class DeleteFlowerRequest {
+    private int accountId;
 
-    private String description;
-
-    private float price;
+    private int flowerId;
 }

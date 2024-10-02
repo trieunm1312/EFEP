@@ -22,11 +22,11 @@ public interface AccountService {
 
     ViewProfileResponse viewProfileAPI(ViewProfileRequest request);
 
-    String updateProfile(UpdateProfileRequest request, Model model);
+    String updateProfile(UpdateProfileRequest request, HttpSession session, Model model);
 
     UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request);
 
-    String changePassword(ChangePasswordRequest request, Model model);
+    String changePassword(ChangePasswordRequest request, HttpSession session, Model model);
 
     ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request);
 

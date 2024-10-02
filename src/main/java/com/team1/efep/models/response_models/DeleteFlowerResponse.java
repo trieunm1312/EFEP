@@ -6,21 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class UpdateProfileResponse {
+public class DeleteFlowerResponse {
     private String status;
 
     private String message;
-
-    private int id;
-
-    private String name;
-
-    private String phone;
-
-    private String avatar;
-
-    private String background;
 }
