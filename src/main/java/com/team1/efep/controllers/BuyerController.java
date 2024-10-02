@@ -58,7 +58,7 @@ public class BuyerController {
 
     @PostMapping("/wishlist")
     @Operation(hidden = true)
-    public String addToWishlist(@ModelAttribute AddToWishlistRequest request, HttpSession session, Model model) {
+    public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
         return buyerService.addToWishlist(request, session, model);
     }
 
