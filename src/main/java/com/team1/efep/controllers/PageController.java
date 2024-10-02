@@ -21,19 +21,11 @@ public class PageController {
 
     @GetMapping("/login")
     public String loginPage() {
-
         return "login";
-    }
-
-    @GetMapping("/base")
-    public String basePage(Model model) {
-        buyerService.viewSlideBar(model);
-        return "base";
     }
 
     @GetMapping("/register")
     public String registerPage() {
-
         return "register";
     }
 

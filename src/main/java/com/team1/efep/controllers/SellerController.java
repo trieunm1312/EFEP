@@ -156,4 +156,15 @@ public class SellerController {
         return sellerService.searchBuyerListAPI(request, id);
     }
 
+    @DeleteMapping("/flower")
+    @Operation(hidden = true)
+    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model) {
+        return sellerService.deleteFlower(request, session, model);
+    }
+
+    @DeleteMapping("/flower/api")
+    public DeleteFlowerResponse deleteFlower(@RequestBody DeleteFlowerRequest request) {
+        return sellerService.deleteFlowerAPI(request);
+    }
+
 }

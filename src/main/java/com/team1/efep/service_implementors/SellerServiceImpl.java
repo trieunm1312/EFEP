@@ -853,7 +853,7 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    //------------------------------UPDATE FLOWER--=-==-=--=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-//
+    //------------------------------UPDATE FLOWER------------------------------------------//
 
     @Override
     public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
@@ -906,6 +906,44 @@ public class SellerServiceImpl implements SellerService {
         return flowerRepo.save(flower);
     }
 
+    //----------------------------------------DELETE FLOWER--------------------------------------------//
+
+    @Override
+    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", DeleteFlowerResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        model.addAttribute("msg", deleteFlowerLogic(request));
+        return "redirect:/seller/view/flower";
+    }
+
+    @Override
+    public DeleteFlowerResponse deleteFlowerAPI(DeleteFlowerRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return DeleteFlowerResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        return deleteFlowerLogic(request);
+    }
+
+    private DeleteFlowerResponse deleteFlowerLogic(DeleteFlowerRequest request) {
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+        assert flower != null;
+        flower.setStatus(Status.FLOWER_STATUS_DELETED);
+        flowerRepo.save(flower);
+        return DeleteFlowerResponse.builder()
+                .status("200")
+                .message(flower.getName() + " has been deleted" + "(" + flower.getStatus() + ")")
+                .build();
+    }
 }
 
 

@@ -2,6 +2,7 @@ package com.team1.efep.controllers;
 
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
+import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Account")
 public class AccountController {
     private final AccountService accountService;
+    private final AccountRepo accountRepo;
 
     @PostMapping("/register")
     @Operation(hidden = true)
@@ -33,6 +35,7 @@ public class AccountController {
     @PostMapping("/login")
     @Operation(hidden = true)
     public String login(LoginRequest request, Model model, HttpSession session) {
+
         return accountService.login(request, model, session);
     }
 
