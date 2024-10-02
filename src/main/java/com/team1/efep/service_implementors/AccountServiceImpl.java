@@ -307,7 +307,7 @@ public class AccountServiceImpl implements AccountService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
             model.addAttribute("msg", (ChangePasswordResponse) output);
-            return "changePassword";
+            return "login";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "changePassword";
