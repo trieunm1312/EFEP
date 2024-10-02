@@ -626,7 +626,7 @@ public class BuyerServiceImpl implements BuyerService {
         return SearchFlowerResponse.builder()
                 .status("200")
                 .message("")
-                .flowers(
+                .flowerList(
                         flowerRepo.findAll()
                                 .stream()
                                 .filter(flower -> flower.getName().contains(request.getName()))
