@@ -529,9 +529,9 @@
 <!--                        </ul>-->
 <!--                    </div>-->
 <!--                </div>-->
-<!--                <div th:if="${msg == null}">-->
+                <div th:if="${msg != null}">
                     <div class="breadbrum">
-                        <h1 class="breadbrum__title">Wedding Flowers</h1><br>
+                        <h1 class="breadbrum__title">All Products</h1><br>
                         <ul class="breadbrum__element-list">
                             <li class="breadbrum__element-list-item">
                                 <a href="home.html" class="breadbrum__element-list-item-link">
@@ -539,22 +539,22 @@
                                 </a>
                             </li>
 
-                            <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                    <span>Event</span>
-                                </a>
-                            </li>
+<!--                            <li class="breadbrum__element-list-item">-->
+<!--                                <a href="" class="breadbrum__element-list-item-link">-->
+<!--                                    <i class="fa-solid fa-angles-right"></i>-->
+<!--                                    <span>Event</span>-->
+<!--                                </a>-->
+<!--                            </li>-->
 
                             <li class="breadbrum__element-list-item">
                                 <a href="" class="breadbrum__element-list-item-link">
                                     <i class="fa-solid fa-angles-right"></i>
-                                    <span>Wedding</span>
+                                    <span>Products</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
-<!--                </div>-->
+                </div>
 
                 <div class="grid content">
                     <!-- Side bar -->
@@ -600,13 +600,15 @@
                                 <i class="fa-solid fa-list sort-list"></i>
                                 <span>List View</span>
                             </div>
-                            <span>Found: (10) Results</span>
+                            <span>Found: (
+                                <span th:text="${#lists.size(msg.flowerList)}"></span>
+                                ) Results</span>
                         </div>
                         <!-- Flower Grid -->
-                        <div class="flower__grid active-view">
+                        <div th:each="item : ${msg.flowerList}" class="flower__grid active-view">
                             <div class="flower__item">
                                 <div class="flower__img">
-                                    <img src="/img/flower.jpg" alt="">
+                                    <img th:src="@{item.images[0].link}"  alt="Flower Image">
                                     <div class="overlay">
     
     
@@ -624,9 +626,10 @@
 
                                         <form th:action="@{/buyer/flower/detail}" method="post">
                                             <button class="view-detail">
+
                                                 <i class="fa-solid fa-eye"></i>
                                                 <span class="view-detail__msg">View detail</span>
-                                                <input type="hidden" name="flowerId" value="123">
+                                                <input type="hidden" name="id" th:value="${10}">
                                             </button>
                                         </form>
     
@@ -638,179 +641,68 @@
                                     </div>
                                 </div>
                                 <form th:action="@{/buyer/flower/detail}" class="form" method="post">
-                                    <a href="#" class="flower__name" onclick="submitForm()">
-                                        <h4>Creeper</h4>
-                                    </a>
-                                    <input type="hidden" name="flowerId" value="123">
+                                    <input type="submit" name="action" th:value="${item.name}" class="flower__name">
+                                    </input>
+                                    <input type="hidden" name="id" th:value="${10}">
                                 </form>
                                 <div class="flower__content">
-                                    <span>$200.00</span>
+                                    <span th:text="${item.price}"></span>
                                     <span>Sold: 1000</span>
                                 </div>
                             </div>
-                            <div class="flower__item">
-                                <div class="flower__img">
-                                    <img src="/img/flower.jpg" alt="">
-                                    <div class="overlay">
-    
-    
-                                        <form th:action="@{/}" method="get">
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
+<!--                            <div class="flower__item">-->
+<!--                                <div href="" class="flower__img">-->
+<!--                                    <img src="/img/flower.jpg" alt="">-->
+<!--                                    <div class="overlay">-->
+<!--    -->
+<!--                                        <form th:action="@{/}" method="get"></form>-->
+<!--                                            <button class="add-to-wishlist">-->
+<!--                                                <i class="fa-solid fa-heart"></i>-->
+<!--                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
+<!--                                            </button>-->
 
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-    
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-    
-                                    </div>
-                                </div>
-                                <a href="" class="flower__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="flower__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
-                            <div class="flower__item">
-                                <div class="flower__img">
-                                    <img src="/img/flower.jpg" alt="">
-                                    <div class="overlay">
-    
-                                        <form th:action="@{/}" method="get"></form>
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-    
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-    
-                                    </div>
-                                </div>
-                                <a href="" class="flower__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="flower__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
-                            <div class="flower__item">
-                                <div href="" class="flower__img">
-                                    <img src="/img/flower.jpg" alt="">
-                                    <div class="overlay">
-    
-                                        <form th:action="@{/}" method="get"></form>
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-    
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-    
-                                    </div>
-                                </div>
-                                <a href="" class="flower__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="flower__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
-                            <div class="flower__item">
-                                <div href="" class="flower__img">
-                                    <img src="/img/flower.jpg" alt="">
-                                    <div class="overlay">
-    
-                                        <form th:action="@{/}" method="get"></form>
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-    
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-    
-                                    </div>
-                                </div>
-                                <a href="" class="flower__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="flower__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
+<!--                                            <button class="view-detail">-->
+<!--                                                <i class="fa-solid fa-eye"></i>-->
+<!--                                                <span class="view-detail__msg">View detail</span>-->
+<!--                                            </button>-->
+<!--                                        </form>-->
+<!--                                        &lt;!&ndash; <a href="" class="add-to-wishlist">-->
+<!--                                            <i class="fa-solid fa-heart"></i>-->
+<!--                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
+<!--                                        </a>-->
+<!--    -->
+<!--                                        <a href="" class="view-detail">-->
+<!--                                            <i class="fa-solid fa-eye"></i>-->
+<!--                                            <span class="view-detail__msg">View detail</span>-->
+<!--                                        </a> &ndash;&gt;-->
+<!--    -->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <a href="" class="flower__name">-->
+<!--                                    <h4>Creeper</h4>-->
+<!--                                </a>-->
+<!--                                <div class="flower__content">-->
+<!--                                    <span>$200.00</span>-->
+<!--                                    <span>Sold: 1000</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                         
                         <!-- Flower List -->
-                        <div class="flower-list ">
+                        <div th:each="item : ${msg.flowerList}" class="flower-list ">
                             <div class="flower-list__item">
-                                <img src="/img/flower.jpg" alt="">
+                                <img th:src="${item.images[0].link}" alt="">
                                 <div class="flower-list__item-content">
                                     <form th:action="@{/buyer/flower/detail}" class="form" method="post">
-                                        <a href="#" class="flower__name" onclick="submitForm()">
-                                            <h4>Creeper</h4>
-                                        </a>
-                                        <input type="hidden" name="flowerId" value="123">
+                                        <input type="submit" name="action" th:value="${item.name}" class="flower__name">
+
+                                        </input>
+                                        <input type="hidden" name="id" th:value="${10}">
                                     </form>
                                     <div class="flower-list__content">
-                                        <span>$200.00</span>
+                                        $<span th:text="${item.price}"></span>
                                         <span>Sold: 1000</span>
                                     </div>
-                                    <p class="flower-list__desc" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque esse fugit earum aliquid dicta rerum illo saepe nam odit! Ipsam eaque, consequuntur asperiores veniam soluta natus quas exercitationem qui nulla.</p>
                                     <form th:action="@{/}" method="get">
                                         <button class="flower-list__icon flower-list__icon-wishlist">
                                             <i class="fa-solid fa-heart"></i>
@@ -821,7 +713,7 @@
                                         <button class="flower-list__icon flower-list__icon-detail">
                                             <i class="fa-solid fa-eye"></i>
                                             <span class="view-detail__msg">View detail</span>
-                                            <input type="hidden" name="flowerId" value="123">
+                                            <input type="hidden" name="id" th:value="${10}">
                                         </button>
                                     </form>
                                     <!-- <a href="#" class="flower-list__icon flower-list__icon-wishlist">
@@ -835,105 +727,39 @@
                                     </a> -->
                                 </div>
                             </div>
-                            <div class="flower-list__item">
-                                <img src="/img/flower.jpg" alt="">
-                                <div class="flower-list__item-content">
-                                    <a href="" class="flower-list__name">
-                                        <h4>Creeper</h4>
-                                    </a>
-                                    <div class="flower-list__content">
-                                        <span>$200.00</span>
-                                        <span>Sold: 1000</span>
-                                    </div>
-                                    <p class="flower-list__desc" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque esse fugit earum aliquid dicta rerum illo saepe nam odit! Ipsam eaque, consequuntur asperiores veniam soluta natus quas exercitationem qui nulla.</p>
-                                    <form th:action="@{/}" method="get">
-                                        <button class="flower-list__icon flower-list__icon-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
+<!--                            <div class="flower-list__item">-->
+<!--                                <img src="/img/flower.jpg" alt="">-->
+<!--                                <div class="flower-list__item-content">-->
+<!--                                    <a href="" class="flower-list__name">-->
+<!--                                        <h4>Creeper</h4>-->
+<!--                                    </a>-->
+<!--                                    <div class="flower-list__content">-->
+<!--                                        <span>$200.00</span>-->
+<!--                                        <span>Sold: 1000</span>-->
+<!--                                    </div>-->
+<!--                                    <p class="flower-list__desc" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque esse fugit earum aliquid dicta rerum illo saepe nam odit! Ipsam eaque, consequuntur asperiores veniam soluta natus quas exercitationem qui nulla.</p>-->
+<!--                                    <form th:action="@{/}" method="get">-->
+<!--                                        <button class="flower-list__icon flower-list__icon-wishlist">-->
+<!--                                            <i class="fa-solid fa-heart"></i>-->
+<!--                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
+<!--                                        </button>-->
 
-                                        <button class="flower-list__icon flower-list__icon-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="#" class="flower-list__icon flower-list__icon-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
+<!--                                        <button class="flower-list__icon flower-list__icon-detail">-->
+<!--                                            <i class="fa-solid fa-eye"></i>-->
+<!--                                            <span class="view-detail__msg">View detail</span>-->
+<!--                                        </button>-->
+<!--                                    </form>-->
+<!--                                    &lt;!&ndash; <a href="#" class="flower-list__icon flower-list__icon-wishlist">-->
+<!--                                        <i class="fa-solid fa-heart"></i>-->
+<!--                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
+<!--                                    </a>-->
 
-                                    <a href="#" class="flower-list__icon flower-list__icon-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-                                </div>
-                            </div>
-                            <div class="flower-list__item">
-                                <img src="/img/flower.jpg" alt="">
-                                <div class="flower-list__item-content">
-                                    <a href="" class="flower-list__name">
-                                        <h4>Creeper</h4>
-                                    </a>
-                                    <div class="flower-list__content">
-                                        <span>$200.00</span>
-                                        <span>Sold: 1000</span>
-                                    </div>
-                                    <p class="flower-list__desc" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque esse fugit earum aliquid dicta rerum illo saepe nam odit! Ipsam eaque, consequuntur asperiores veniam soluta natus quas exercitationem qui nulla.</p>
-                                    <form th:action="@{/}" method="get">
-                                        <button class="flower-list__icon flower-list__icon-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-
-                                        <button class="flower-list__icon flower-list__icon-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="#" class="flower-list__icon flower-list__icon-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="#" class="flower-list__icon flower-list__icon-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-                                </div>
-                            </div>
-                            <div class="flower-list__item">
-                                <img src="/img/flower.jpg" alt="">
-                                <div class="flower-list__item-content">
-                                    <a href="" class="flower-list__name">
-                                        <h4>Creeper</h4>
-                                    </a>
-                                    <div class="flower-list__content">
-                                        <span>$200.00</span>
-                                        <span>Sold: 1000</span>
-                                    </div>
-                                    <p class="flower-list__desc" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque esse fugit earum aliquid dicta rerum illo saepe nam odit! Ipsam eaque, consequuntur asperiores veniam soluta natus quas exercitationem qui nulla.</p>
-                                    <form th:action="@{/}" method="get">
-                                        <button class="flower-list__icon flower-list__icon-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-
-                                        <button class="flower-list__icon flower-list__icon-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </button>
-                                    </form>
-                                    <!-- <a href="#" class="flower-list__icon flower-list__icon-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="#" class="flower-list__icon flower-list__icon-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-                                </div>
-                            </div>
+<!--                                    <a href="#" class="flower-list__icon flower-list__icon-detail">-->
+<!--                                        <i class="fa-solid fa-eye"></i>-->
+<!--                                        <span class="view-detail__msg">View detail</span>-->
+<!--                                    </a> &ndash;&gt;-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </div>

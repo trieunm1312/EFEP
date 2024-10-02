@@ -14,7 +14,7 @@ import java.util.List;
 public class SearchFlowerResponse {
     private String status;
     private String message;
-    private List<Flower> flowers;
+    private List<Flower> flowerList;
 
     @Data
     @AllArgsConstructor
