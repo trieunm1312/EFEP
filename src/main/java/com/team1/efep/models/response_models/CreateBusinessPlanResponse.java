@@ -26,15 +26,19 @@ public class CreateBusinessPlanResponse {
 
     private int duration;
 
-    private List<BusinessPlanService> services;
+    private String plansStatus;
 
+    private List<BusinessService> businessServiceList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class BusinessPlanService {
+    public static class BusinessService{
+
+        private int id;
 
         private String name;
+
     }
 }

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +22,20 @@ public class UpdateBusinessPlanRequest {
     private float price;
 
     private int duration;
+
+    private String status;
+
+    private List<BusinessService> businessServiceList;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class BusinessService {
+
+        private int id;
+
+        private String name;
+
+    }
 }

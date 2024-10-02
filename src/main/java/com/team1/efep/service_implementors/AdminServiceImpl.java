@@ -81,7 +81,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = createBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
             model.addAttribute("msg", (CreateBusinessPlanResponse) output);
-            return "manageBusinessPlan";
+            return "redirect:/admin/view/plan";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -109,6 +109,7 @@ public class AdminServiceImpl implements AdminService {
                     .price(request.getPrice())
                     .description(request.getDescription())
                     .duration(request.getDuration())
+                    .planServiceList(new ArrayList<>())
                     .build()
             );
             importPlanService(request, businessPlan);
@@ -116,29 +117,51 @@ public class AdminServiceImpl implements AdminService {
                     .status("200")
                     .message("Created business plan successfully")
                     .name(request.getName())
-                    .price(request.getPrice())
                     .description(request.getDescription())
+                    .price(request.getPrice())
                     .duration(request.getDuration())
-                    .services(businessPlan.getPlanServiceList().stream()
-                            .map(service -> CreateBusinessPlanResponse.BusinessPlanService.builder().name(businessPlan.getName()).build())
-                            .toList())
+                    .plansStatus(Status.BUSINESS_PLAN_STATUS_ACTIVE)
+                    .businessServiceList(
+                            importPlanService(request, businessPlan).stream()
+                                    .map(
+                                            ps -> CreateBusinessPlanResponse.BusinessService.builder()
+                                                    .id(ps.getBusinessService().getId())
+                                                    .name(ps.getBusinessService().getName())
+                                                    .build()
+                                    )
+                                    .toList()
+                    )
                     .build();
         }
         return errors;
     }
 
-    private void importPlanService(CreateBusinessPlanRequest request, BusinessPlan businessPlan) {
-        List<PlanService> planServices = new ArrayList<>();
-        for (CreateBusinessPlanRequest.BusinessPlanService service : request.getServiceList()) {
-            BusinessService businessService = businessServiceRepo.findById(service.getId()).orElse(null);
-            assert businessService != null;
-            PlanService planService = PlanService.builder()
-                    .businessPlan(businessPlan)
-                    .businessService(businessService)
-                    .build();
-            planServices.add(planService);
-        }
-        planServiceRepo.saveAll(planServices);
+    private List<PlanService> importPlanService(CreateBusinessPlanRequest request, BusinessPlan businessPlan) {
+        return planServiceRepo.saveAll(
+                businessServiceRepo.findAll().stream()
+                        .filter(  //chuyen no sang Integer
+                                service -> request.getBusinessServiceList().stream()
+                                        .map(s -> Integer.valueOf(s.getId()))
+                                        .toList()
+                                        .contains(service.getId())
+                        )
+                        .map(
+                                service -> PlanService.builder()
+                                        .businessPlan(businessPlan)
+                                        .businessService(service)
+                                        .build()
+                        ).toList()
+        );
+//        for (CreateBusinessPlanRequest.BusinessService service : request.getBusinessServiceList()) {
+//            BusinessService businessService = businessServiceRepo.findById(service.getId()).orElse(null);
+//            assert businessService != null;
+//            PlanService planService = PlanService.builder()
+//                    .businessPlan(businessPlan)
+//                    .businessService(businessService)
+//                    .build();
+//            planServices.add(planService);
+//        }
+//        planServiceRepo.saveAll(planServices);
     }
 
     //-------------------------------------UPDATE BUSINESS PLAN------------------------------------------//
@@ -148,7 +171,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = updateBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
             model.addAttribute("msg", (UpdateBusinessPlanResponse) output);
-            return "manageBusinessPlan";
+            return "redirect:/admin/view/plan";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -183,11 +206,38 @@ public class AdminServiceImpl implements AdminService {
                     .price(request.getPrice())
                     .description(request.getDescription())
                     .duration(request.getDuration())
+                    .businessServiceList(updatePlanService(request, businessPlan).stream()
+                            .map(ps -> UpdateBusinessPlanResponse.BusinessService.builder()
+                                    .id(ps.getBusinessService().getId())
+                                    .name(ps.getBusinessService().getName())
+                                    .build())
+                            .toList())
                     .build();
         }
         return errors;
     }
 
+    private List<PlanService> updatePlanService(UpdateBusinessPlanRequest request, BusinessPlan businessPlan) {
+        //ko co status moi dc xoa trắng để tạo lại thằng mới
+        planServiceRepo.deleteAll(
+                planServiceRepo.findAll().stream().filter(ps -> ps.getBusinessPlan().equals(businessPlan)).toList()
+        );
+        return planServiceRepo.saveAll(
+                businessServiceRepo.findAll().stream()
+                        .filter(  //chuyen no sang Integer
+                                service -> request.getBusinessServiceList().stream()
+                                        .map(s -> Integer.valueOf(s.getId()))
+                                        .toList()
+                                        .contains(service.getId())
+                        )
+                        .map(
+                                service -> PlanService.builder()
+                                        .businessPlan(businessPlan)
+                                        .businessService(service)
+                                        .build()
+                        ).toList()
+        );
+    }
     //-------------------------------------DISABLE BUSINESS PLAN------------------------------------------//
 
     @Override
@@ -195,7 +245,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = disableBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)) {
             model.addAttribute("msg", (DisableBusinessPlanResponse) output);
-            return "manageBusinessPlan";
+            return "redirect:/admin/view/plan";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -313,7 +363,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = updateBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessServiceResponse.class)) {
             model.addAttribute("msg", (UpdateBusinessServiceResponse) output);
-            return "manageBusinessService";
+            return "redirect:/admin/view/service";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -357,7 +407,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = deleteBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteBusinessServiceResponse.class)) {
             model.addAttribute("msg", (DeleteBusinessServiceResponse) output);
-            return "manageBusinessService";
+            return "redirect:/admin/view/service";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
