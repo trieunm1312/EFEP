@@ -624,12 +624,11 @@
                                             </button>
                                         </form>
 
-                                        <form th:action="@{/buyer/flower/detail}" method="post">
+                                        <form th:action="@{/buyer/flower/detail}" th:method="post">
                                             <button class="view-detail">
-
                                                 <i class="fa-solid fa-eye"></i>
                                                 <span class="view-detail__msg">View detail</span>
-                                                <input type="hidden" name="id" th:value="${10}">
+                                                <input type="hidden" name="id" th:value="${item.id}">
                                             </button>
                                         </form>
     
@@ -640,10 +639,10 @@
     
                                     </div>
                                 </div>
-                                <form th:action="@{/buyer/flower/detail}" class="form" method="post">
+                                <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
                                     <input type="submit" name="action" th:value="${item.name}" class="flower__name">
                                     </input>
-                                    <input type="hidden" name="id" th:value="${10}">
+                                    <input type="hidden" name="id" th:value="${item.id}">
                                 </form>
                                 <div class="flower__content">
                                     <span th:text="${item.price}"></span>
@@ -697,7 +696,7 @@
                                         <input type="submit" name="action" th:value="${item.name}" class="flower__name">
 
                                         </input>
-                                        <input type="hidden" name="id" th:value="${10}">
+                                        <input type="hidden" name="id" th:value="${item.id}">
                                     </form>
                                     <div class="flower-list__content">
                                         $<span th:text="${item.price}"></span>
@@ -713,7 +712,7 @@
                                         <button class="flower-list__icon flower-list__icon-detail">
                                             <i class="fa-solid fa-eye"></i>
                                             <span class="view-detail__msg">View detail</span>
-                                            <input type="hidden" name="id" th:value="${10}">
+                                            <input type="hidden" name="id" th:value="${item.id}">
                                         </button>
                                     </form>
                                     <!-- <a href="#" class="flower-list__icon flower-list__icon-wishlist">
