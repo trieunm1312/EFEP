@@ -1,6 +1,7 @@
 package com.team1.efep.validations;
 
 import com.team1.efep.models.request_models.ChangeOrderStatusRequest;
+import com.team1.efep.models.request_models.ChangePasswordRequest;
 
 import java.util.HashMap;
 import java.util.Map;

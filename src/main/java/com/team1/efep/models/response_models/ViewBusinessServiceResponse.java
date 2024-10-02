@@ -14,7 +14,9 @@ import java.util.List;
 public class ViewBusinessServiceResponse {
 
     private String status;
+
     private String message;
+
     private List<Services> servicesList;
 
     @Data
@@ -22,9 +24,13 @@ public class ViewBusinessServiceResponse {
     @NoArgsConstructor
     @Builder
     public static class Services {
+
         private int id;
+
         private String name;
+
         private String description;
+
         private float price;
     }
 

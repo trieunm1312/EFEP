@@ -21,12 +21,19 @@ public class ViewBusinessPlanResponse {
     @NoArgsConstructor
     @Builder
     public static class BusinessPlan{
+
         private int id;
+
         private String name;
+
         private String description;
+
         private float price;
+
         private int duration;
+
         private String status;
+
         private List<BusinessService> businessServiceList;
     }
 
@@ -35,9 +42,13 @@ public class ViewBusinessPlanResponse {
     @NoArgsConstructor
     @Builder
     public static class BusinessService{
+
         private int id;
+
         private String name;
+
         private String description;
+
         private float price;
     }
 
