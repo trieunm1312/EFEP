@@ -85,5 +85,5 @@ public interface BuyerService {
 
     ViewCategoryListResponse viewCategoryAPI();
 
-    String checkout(HttpSession session, Model model);
+    String confirmOrder(HttpSession session, Model model);
 }
