@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ForgotResponse {
+
     private String status;
+
     private String message;
 }

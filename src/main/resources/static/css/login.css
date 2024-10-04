@@ -18,7 +18,6 @@
     color: var(--white-color);
      background: url('/img/breadcrumb_img-1920x300.png');
     /*background: url(/src/main/resources/static/img/breadcrumb_img-1920x300.png);*/
-
     background-size: cover !important;
 }
 

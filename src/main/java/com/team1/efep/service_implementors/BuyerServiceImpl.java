@@ -236,7 +236,6 @@ public class BuyerServiceImpl implements BuyerService {
         // Set the email attributes
         helper.setFrom("quynhpvnse182895@fpt.edu.vn");
         helper.setTo(request.getToEmail());
-        helper.setSubject(request.getSubject());
 
         // Read HTML content from a file and replace placeholders (e.g., OTP)
         String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
@@ -688,28 +687,44 @@ public class BuyerServiceImpl implements BuyerService {
         if (errors.isEmpty()) {
             Flower flower = flowerRepo.findById(request.getId()).orElse(null);
             assert flower != null;
-            return ViewFlowerDetailResponse.builder()
-                    .status("200")
-                    .message("")
+            return ViewFlowerDetailResponse.Flower.builder()
                     .id(flower.getId())
                     .name(flower.getName())
                     .price(flower.getPrice())
-                    .flowerAmount(flower.getFlowerAmount())
-                    .quantity(flower.getQuantity())
-                    .soldQuantity(flower.getSoldQuantity())
-                    .imageList(
-                            flower.getFlowerImageList().stream()
-                                    .map(
-                                            img -> ViewFlowerDetailResponse.Image.builder()
-                                                    .link(img.getLink())
-                                                    .build()
-                                    )
-                                    .toList()
-                    )
+                    .flower_amount(flower.getFlowerAmount())
+                    .sold_quantity(flower.getSoldQuantity())
+                    .imageList(flower.getFlowerImageList().stream()
+                            .map(
+                                    flowers -> ViewFlowerDetailResponse.Image.builder()
+                                            .link(flowers.getLink())
+                                            .build()
+                            )
+                            .toList())
                     .build();
+
+
+//                    ViewFlowerDetailResponse.builder()
+//                    .status("200")
+//                    .message("")
+//                    .id(flower.getId())
+//                    .name(flower.getName())
+//                    .price(flower.getPrice())
+//                    .flowerAmount(flower.getFlowerAmount())
+//                    .quantity(flower.getQuantity())
+//                    .soldQuantity(flower.getSoldQuantity())
+//                    .imageList(
+//                            flower.getFlowerImageList().stream()
+//                                    .map(
+//                                            img -> ViewFlowerDetailResponse.Image.builder()
+//                                                    .link(img.getLink())
+//                                                    .build()
+//                                    )
+//                                    .toList()
+//                    )
+//                    .build();
         }
-        ;
-        return errors;
+
+            return errors;
     }
 
     //-----------------------------------VIEW ORDER STATUS-------------------------------------------//

@@ -605,13 +605,13 @@
                                 ) Results</span>
                         </div>
                         <!-- Flower Grid -->
-                        <div th:each="item : ${msg.flowerList}" class="flower__grid active-view">
-                            <div class="flower__item">
+                        <div class="flower__grid active-view">
+                            <div th:each="item : ${msg.flowerList}" class="flower__item">
                                 <div class="flower__img">
                                     <img th:src="@{${item.images[0].link}}"  alt="Flower Image">
                                     <div class="overlay">
-    
-    
+
+
                                         <!--<a href="" class="add-to-wishlist">
                                             <i class="fa-solid fa-heart"></i>
                                             <span class="add-to-wishlist__msg">Add To Wishlist</span>
@@ -628,63 +628,69 @@
                                             <button class="view-detail">
                                                 <i class="fa-solid fa-eye"></i>
                                                 <span class="view-detail__msg">View detail</span>
-                                                <input type="text" name="id" th:value="${item.id}">
+                                                <input type="hidden" name="id" th:value="${item.id}">
                                             </button>
                                         </form>
-    
+
                                         <!-- <a href="" class="view-detail">
                                             <i class="fa-solid fa-eye"></i>
                                             <span class="view-detail__msg">View detail</span>
                                         </a> -->
-    
+
                                     </div>
                                 </div>
                                 <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
                                     <input type="submit" name="action" th:value="${item.name}" class="flower__name">
                                     </input>
-                                    <input type="text" name="id" th:value="${item.id}">
+                                    <input type="hidden" name="id" th:value="${item.id}">
                                 </form>
                                 <div class="flower__content">
-                                    <span th:text="${item.price}"></span>
+                                    <span>
+                                        $
+                                         <span th:text="${item.price}"></span>
+                                    </span>
                                     <span>Sold: 1000</span>
                                 </div>
                             </div>
-<!--                            <div class="flower__item">-->
-<!--                                <div href="" class="flower__img">-->
-<!--                                    <img src="/img/flower.jpg" alt="">-->
-<!--                                    <div class="overlay">-->
-<!--    -->
-<!--                                        <form th:action="@{/}" method="get"></form>-->
-<!--                                            <button class="add-to-wishlist">-->
-<!--                                                <i class="fa-solid fa-heart"></i>-->
-<!--                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-<!--                                            </button>-->
+                            <!--                            <div class="flower__item">-->
+                            <!--                                <div href="" class="flower__img">-->
+                            <!--                                    <img src="/img/flower.jpg" alt="">-->
+                            <!--                                    <div class="overlay">-->
+                            <!--    -->
+                            <!--                                        <form th:action="@{/}" method="get"></form>-->
+                            <!--                                            <button class="add-to-wishlist">-->
+                            <!--                                                <i class="fa-solid fa-heart"></i>-->
+                            <!--                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
+                            <!--                                            </button>-->
 
-<!--                                            <button class="view-detail">-->
-<!--                                                <i class="fa-solid fa-eye"></i>-->
-<!--                                                <span class="view-detail__msg">View detail</span>-->
-<!--                                            </button>-->
-<!--                                        </form>-->
-<!--                                        &lt;!&ndash; <a href="" class="add-to-wishlist">-->
-<!--                                            <i class="fa-solid fa-heart"></i>-->
-<!--                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-<!--                                        </a>-->
-<!--    -->
-<!--                                        <a href="" class="view-detail">-->
-<!--                                            <i class="fa-solid fa-eye"></i>-->
-<!--                                            <span class="view-detail__msg">View detail</span>-->
-<!--                                        </a> &ndash;&gt;-->
-<!--    -->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <a href="" class="flower__name">-->
-<!--                                    <h4>Creeper</h4>-->
-<!--                                </a>-->
-<!--                                <div class="flower__content">-->
-<!--                                    <span>$200.00</span>-->
-<!--                                    <span>Sold: 1000</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                                            <button class="view-detail">-->
+                            <!--                                                <i class="fa-solid fa-eye"></i>-->
+                            <!--                                                <span class="view-detail__msg">View detail</span>-->
+                            <!--                                            </button>-->
+                            <!--                                        </form>-->
+                            <!--                                        &lt;!&ndash; <a href="" class="add-to-wishlist">-->
+                            <!--                                            <i class="fa-solid fa-heart"></i>-->
+                            <!--                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
+                            <!--                                        </a>-->
+                            <!--    -->
+                            <!--                                        <a href="" class="view-detail">-->
+                            <!--                                            <i class="fa-solid fa-eye"></i>-->
+                            <!--                                            <span class="view-detail__msg">View detail</span>-->
+                            <!--                                        </a> &ndash;&gt;-->
+                            <!--    -->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                                <a href="" class="flower__name">-->
+                            <!--                                    <h4>Creeper</h4>-->
+                            <!--                                </a>-->
+                            <!--                                <div class="flower__content">-->
+                            <!--                                    <span>$200.00</span>-->
+                            <!--                                    <span>Sold: 1000</span>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                        </div>
+                        <div >
+
                         </div>
                         
                         <!-- Flower List -->
