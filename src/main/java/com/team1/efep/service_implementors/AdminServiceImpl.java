@@ -49,6 +49,7 @@ public class AdminServiceImpl implements AdminService {
         return ViewBusinessPlanResponse.builder()
                 .status("200")
                 .message("")
+
                 .businessPlanList(
                         businessPlanRepo.findAll()
                                 .stream()

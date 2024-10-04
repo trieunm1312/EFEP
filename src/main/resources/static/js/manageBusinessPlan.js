@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // Add more service
+
 document.addEventListener("DOMContentLoaded", function() {
     const addServiceButton = document.querySelector('.business-plan__card-add-service');
     const servicesContainer = document.querySelector('.business-plan__card-services-container');

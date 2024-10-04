@@ -236,7 +236,6 @@ public class BuyerServiceImpl implements BuyerService {
         // Set the email attributes
         helper.setFrom("quynhpvnse182895@fpt.edu.vn");
         helper.setTo(request.getToEmail());
-        helper.setSubject(request.getSubject());
 
         // Read HTML content from a file and replace placeholders (e.g., OTP)
         String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String

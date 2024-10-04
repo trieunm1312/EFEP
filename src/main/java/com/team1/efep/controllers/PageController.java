@@ -30,8 +30,13 @@ public class PageController {
     }
 
     @GetMapping("/change/password")
-    public String passwordPage() {
+    public String changePasswordPage() {
         return "changePassword";
+    }
+
+    @GetMapping("/forgot/password")
+    public String forgotPasswordPage() {
+        return "forgotPassword";
     }
 
     @GetMapping("/plan")
