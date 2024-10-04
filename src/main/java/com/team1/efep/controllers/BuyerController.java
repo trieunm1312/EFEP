@@ -217,4 +217,9 @@ public class BuyerController {
         return buyerService.viewCategoryAPI();
     }
 
+    @GetMapping("/checkout")
+    public String checkout(HttpSession session, Model model) {
+        return buyerService.checkout(session, model);
+    }
+
 }

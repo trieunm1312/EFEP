@@ -1,7 +1,6 @@
 package com.team1.efep.enums;
 
 import com.team1.efep.models.entity_models.*;
-import com.team1.efep.models.response_models.ViewBusinessPlanResponse;
 import com.team1.efep.repositories.*;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +20,8 @@ public class Status {
     public static String FLOWER_STATUS_DELETED = "deleted";
     public static String BUSINESS_PLAN_STATUS_DISABLED = "disabled";
     public static String BUSINESS_PLAN_STATUS_ACTIVE = "active";
+    public static String PAYMENT_METHOD_COD = "cod";
+    public static String PAYMENT_METHOD_VN_PAY = "vn-pay";
 
 
 
