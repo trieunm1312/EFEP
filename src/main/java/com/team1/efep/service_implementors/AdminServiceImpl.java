@@ -49,7 +49,19 @@ public class AdminServiceImpl implements AdminService {
         return ViewBusinessPlanResponse.builder()
                 .status("200")
                 .message("")
-
+                .serviceList(
+                        businessServiceRepo.findAll()
+                                .stream()
+                                .map(
+                                        service -> ViewBusinessPlanResponse.BusinessService.builder()
+                                                .id(service.getId())
+                                                .name(service.getName())
+                                                .description(service.getDescription())
+                                                .price(service.getPrice())
+                                                .build()
+                                )
+                                .toList()
+                )
                 .businessPlanList(
                         businessPlanRepo.findAll()
                                 .stream()
@@ -227,7 +239,7 @@ public class AdminServiceImpl implements AdminService {
                 businessServiceRepo.findAll().stream()
                         .filter(  //chuyen no sang Integer
                                 service -> request.getBusinessServiceList().stream()
-                                        .map(s -> Integer.valueOf(s.getId()))
+
                                         .toList()
                                         .contains(service.getId())
                         )

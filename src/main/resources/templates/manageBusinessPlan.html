@@ -146,23 +146,24 @@
                                     </div>
                                     <div th:each="service : ${plan.businessServiceList}">
                                         <div class="business-plan__card-service">
-                                            <span th:text="${service.name}" th:value="${service.id}" ></span>
-                                            <!--                                                    <select name="serviceList" style="display: none;" multiple>-->
-                                            <!--                                                        <div th:each="item : ${msg.serviceList}">-->
-                                            <!--                                                            <option th:text="${item.name}" th:value="${item.id}"></option>-->
-                                            <!--                                                        </div>-->
-                                            <!--                                                    </select>-->
+                                            <span th:text="${service.name}" th:value="${service.id}"></span>
+                                            <select name="businessServiceList" style="display: none;">
+                                                <option th:each="item : ${msg.serviceList}"
+                                                        th:text="${item.name}"
+                                                        th:value="${item.id}"
+                                                        th:selected="${item.id == service.id}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="business-plan__card-duration">
                                         Duration:
-                                        <span th:text="${plan.duration}">6</span>
+                                        <span th:text="${plan.duration}"></span>
                                         <input type="text" name="duration" th:value="${plan.duration}"
                                                placeholder="Duration" style="display: none;">
                                         Months
                                     </div>
                                     <div class="business-plan__card-price">
-                                        <h4 th:text="${plan.price}">$200.00</h4>
+                                        <h4 th:text="${plan.price}"></h4>
                                         <h4 style="display: none;">
                                             $
                                             <input type="text" name="price" th:value="${plan.price}"
@@ -203,17 +204,17 @@
                                                       placeholder="Description"></textarea>
                                     </div>
                                     <div class="business-plan__card-services-container">
-                                        <div th:each="service : ${msg.serviceList}">
-                                            <div class="business-plan__card-service">
-                                                <select name="serviceList" style="display: none;" multiple>
-                                                    <div th:each="item : ${msg.serviceList}">
-                                                        <option th:text="${item.name}" th:value="${item.id}"></option>
-                                                    </div>
-                                                </select>
-                                            </div>
+                                        <div class="business-plan__card-service">
+                                            Service:
+                                            <select name="businessServiceList[0].id">
+                                                <option th:each="service : ${msg.serviceList}"
+                                                        th:value="${service.id}"
+                                                        th:text="${service.name}">
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <button class="business-plan__card-add-service">+ Add more service</button>
+                                    <button type="button" class="business-plan__card-add-service">+ Add more service</button>
                                     <div class="business-plan__card-duration">
                                         Duration in Months:
                                         <input type="text" name="duration" value="1" placeholder="Duration">
