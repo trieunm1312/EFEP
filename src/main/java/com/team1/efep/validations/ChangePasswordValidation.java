@@ -9,8 +9,6 @@ public class ChangePasswordValidation {
     public static Map<String, String> validate(ChangePasswordRequest request) {
         Map<String, String> errors = new HashMap<String, String>();
 
-
-
         if(request.getNewPassword().equals(request.getCurrentPassword())) {
             errors.put("error", "New password must be different from the current password.");
         }

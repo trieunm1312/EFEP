@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Component
 public class GoogleLoginGeneratorUtil {
+
     private final RestTemplate restTemplate;
 
     @Autowired
