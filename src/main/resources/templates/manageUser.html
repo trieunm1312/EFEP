@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/animate.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
     <link rel="stylesheet" href="/css/adminBase.css">
-    <link rel="stylesheet" href="/css/manageBusinessService.css">
+    <link rel="stylesheet" href="/css/manageUser.css">
 </head>
 
 <body>
@@ -31,7 +31,7 @@
                 </li>
                 <li>
                     <a th:href="@{/admin/view/plan}" class="sidebar__link">
-                        <div class="sidebar__item active">
+                        <div class="sidebar__item">
                             <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Plan</span>
                         </div>
@@ -39,7 +39,7 @@
                 </li>
                 <li>
                     <a th:href="@{/admin/view/service}" class="sidebar__link ">
-                        <div class="sidebar__item">
+                        <div class="sidebar__item active">
                             <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Service</span>
                         </div>
@@ -66,16 +66,16 @@
                         <span>Admin Page</span>
                     </a>
                     <span>/</span>
-                    <span>Business Service</span><br>
+                    <span>User</span><br>
                 </div>
                 <div class="header__title">
-                    <h3>Manage Business Service</h3>
+                    <h3>Manage User</h3>
                 </div>
             </div>
 
             <!-- Header search -->
             <div class="header__search">
-                <form action="" th:method="GET" class="header__search-form">
+                <form action="" method="GET" class="header__search-form">
                     <button class="header__search-btn">
                         <i class="fa-solid  fa-magnifying-glass"></i>
                     </button>
@@ -110,7 +110,7 @@
                 <span class="header__separate">|</span>
                 <div class="header__account">
                     <img src="https://th.bing.com/th/id/OIP.fZnBtIe-qAaSrj3pGtJiQQHaHa?w=179&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                         alt="Avatar">
+                        alt="Avatar">
                     <span>Xuất Sắc Bảnh</span>
                     <i class="fa-solid fa-ellipsis-vertical"></i>
                 </div>
@@ -120,78 +120,80 @@
         <!-- Container -->
         <div class="container">
             <div class="grid">
-                <div class="business-service">
-                    <div class="business-service__heading">
-                        <h4 class="business-service__title">Service Table</h4>
-                        <div class="business-service__create-btn">
-                            <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                            <span>Create New</span>
-                        </div>
+                <div class="user">
+                    <div class="user__heading">
+                        <h4 class="user__title">User Table</h4>
                     </div>
-                    <table class="business-service__table">
+                    <table class="user__table">
                         <thead class="table__header">
-                        <tr>
-                            <th class="table__header-name">Name</th>
-                            <th class="table__header-desc">Description</th>
-                            <th class="table__header-price">Price</th>
-                        </tr>
+                            <tr>
+                                <th class="table__header-user">User</th>
+                                <th class="table__header-phone">Phone</th>
+                                <th class="table__header-role">Role</th>
+                                <th class="table__header-status">Status</th>
+                            </tr>
                         </thead>
                         <tbody class="table__body">
-                            <div th:if="${msg}">
-                                <div th:each="item : ${msg.servicesList}">
-                                    <tr class="table__body-item">
-                                        <form th:action="@{/admin/service}" th:method="put" class="business-service__form">
-                                            <input type="hidden" name="id" th:value="${item.id}">
-                                            <td class="table__body-name">
-                                                <span th:text="${item.name}" class="name-text"></span>
-                                                <input name="name" th:value="${item.name}" class="name-input"
-                                                       style="display: none;">
-                                            </td>
-                                            <td class="table__body-desc">
-                                                <span th:text="${item.description}" class="desc-text"></span>
-                                                <textarea name="description" th:text="${item.description}" class="desc-input"
-                                                          style="display: none;"></textarea>
-                                            </td>
-                                            <td class="table__body-price">
-                                                $
-                                                <span th:text="${item.price}" class="price-text"></span>
-                                                <input name="price" class="price-input" th:value="${item.price}"
-                                                       style="display: none;"></input>
-                                            </td>
-                                            <td class="table__body-edit">
-                                                <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
-                                                <span class="edit-btn" onclick="editRow(this)">Edit</span>
-                                                <input type="submit" name="action" class="save-btn" value="Save"
-                                                       style="display: none;">
+
+                                <tr th:each="user : ${msg.userList}" class="table__body-item">
+                                    <td class="table__body-user">
+                                        <img src="https://th.bing.com/th/id/OIP.8oJ6P_IAPbeUWEMKIebEzwHaG1?w=196&h=181&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Avatar" class="table__body-avt">
+                                        <span class="table__body-unique">
+                                            <span class="table__body-name" th:text="${user.name}"></span>
+                                            <span class="table__body-email" th:text="${user.accountUser.email}"></span>
+                                        </span>
+                                    </td>
+                                    <td class="table__body-phone">
+                                        <span class="desc-text" th:text="${user.phone}"></span>
+                                    </td>
+                                    <td class="table__body-role">
+                                        <span class="price-text" th:text="${user.accountUser.role}"></span>
+                                    </td>
+                                    <div th:if="${user.accountUser.status == 'active'}">
+                                        <td class="table__body-status unban ">
+                                            Available
+                                        </td>
+                                        <form th:action="@{/admin/ban/user}" th:method="put" class="user__form">
+                                            <td class="table__body-toggle">
+                                                <input type="submit" name="action" value="Ban" class="toggle-btn">
+                                                <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>
                                             </td>
                                         </form>
-                                        <td class="table__body-toggle">
-                                            <form th:action="@{/admin/service}" th:method="delete">
-                                                <input type="submit" name="action" value="Delete" class="toggle-btn">
-                                                <input type="hidden" name="id" th:value="${item.id}">
-                                            </form>
+                                    </div>
+                                    <div th:if="${user.accountUser.status != 'active'}">
+                                        <td class="table__body-status ban ">
+                                            Banned
                                         </td>
-                                    </tr>
-                                </div>
-                            </div>
-
-                            <form th:action="@{/admin/service}" th:method="post" class="business-service__form">
-                                <tr class="table__body-item-new" style="display: none;">
-                                    <td class="table__body-name">
-                                        <input name="name" th:value="${NewService}" placeholder="Service Name">
+                                        <form th:action="@{/admin/unban/user}" th:method="put" class="user__form">
+                                            <td class="table__body-toggle">
+                                                <input type="submit" name="action" value="Unban" class="toggle-btn">
+                                                <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>
+                                            </td>
+                                        </form>
+                                    </div>
+                                </tr>
+                                <tr class="table__body-item">
+                                    <td class="table__body-user">
+                                        <img src="https://th.bing.com/th?q=P.+Diddy+Full+Body+Pic&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-WW&cc=VN&setlang=en&adlt=moderate&t=1&mw=247" alt="Avatar" class="table__body-avt">
+                                        <span class="table__body-unique">
+                                            <span class="table__body-name">ABC</span>
+                                            <span class="table__body-email">trumppro@gmail.com</span>
+                                        </span>
                                     </td>
-                                    <td class="table__body-desc">
-                                        <textarea name="description" th:text="${Description}" placeholder="Description"></textarea>
+                                    <td class="table__body-phone">
+                                        <span class="desc-text">0369322979</span>
                                     </td>
-                                    <td class="table__body-price">
-                                        <span>$</span>
-                                        <input name="price" th:value="${100}" placeholder="Price">
+                                    <td class="table__body-role">
+                                        <span class="price-text">Buyer</span>
                                     </td>
-                                    <td class="table__body-save">
-                                        <input type="submit" class="save-btn" name="action" value="Create">
+                                    <td class="table__body-status ban ">
+                                        Banned
+                                    </td>
+                                    <td class="table__body-toggle">
+                                        <input type="submit" name="action" value="Unban" class="toggle-btn">
                                     </td>
                                 </tr>
-                            </form>
+
                         </tbody>
                     </table>
                 </div>

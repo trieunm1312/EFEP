@@ -42,6 +42,8 @@ public class ViewUserListResponse {
 
         private int id;
 
+        private String email;
+
         private String status;
 
         private String role;

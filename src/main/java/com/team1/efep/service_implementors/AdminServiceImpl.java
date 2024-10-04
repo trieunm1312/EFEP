@@ -458,7 +458,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String viewUserList(HttpSession session, Model model) {
         model.addAttribute("msg", viewUserListLogic());
-        return "adminBase";
+        return "manageUser";
     }
 
     @Override
@@ -484,6 +484,7 @@ public class AdminServiceImpl implements AdminService {
                                                                 .id(user.getAccount().getId())
                                                                 .status(user.getAccount().getStatus())
                                                                 .role(user.getAccount().getRole())
+                                                                .email(user.getAccount().getEmail())
                                                                 .build()
                                                 )
                                                 .build()
@@ -502,7 +503,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = banUserLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, BanUserResponse.class)) {
             model.addAttribute("msg", (BanUserResponse) output);
-            return "home";
+            return "redirect:/admin/user/list";
         }
         model.addAttribute("error", ((Map<String, String>) output));
         return "home";
@@ -543,7 +544,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = unBanUserLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UnBanUserResponse.class)) {
             model.addAttribute("msg", (UnBanUserResponse) output);
-            return "home";
+            return "redirect:/admin/user/list";
         }
         model.addAttribute("error", ((Map<String, String>) output));
         return "home";
