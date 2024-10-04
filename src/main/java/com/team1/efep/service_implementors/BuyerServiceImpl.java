@@ -842,7 +842,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             model.addAttribute("msg", (DeleteWishlistResponse) output);
-            return "viewWishlist";
+            return "redirect:/buyer/wishlist";
         }
 
         model.addAttribute("response", (Map<String, String>) output);
@@ -957,6 +957,8 @@ public class BuyerServiceImpl implements BuyerService {
     public ViewCategoryListResponse viewCategoryAPI() {
         return viewCategoryLogic();
     }
+
+
 
     private ViewCategoryListResponse viewCategoryLogic() {
         return ViewCategoryListResponse.builder()
@@ -1150,6 +1152,16 @@ public class BuyerServiceImpl implements BuyerService {
         wishlistItemRepo.deleteAll(items);
     }
 
+
+    //-------------------CHECK OUT---------------------------------//
+
+    @Override
+    public String confirmOrder(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        model.addAttribute("msg", viewWishlistLogic(account.getId()));
+        return "checkout";
+    }
 
 }
 
