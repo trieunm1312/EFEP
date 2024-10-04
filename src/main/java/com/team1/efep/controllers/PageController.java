@@ -43,6 +43,16 @@ public class PageController {
     public String servicePage() {
         return "manageBusinessService";
     }
+
+    @GetMapping("/category")
+    public String categoryPage() {
+        return "category";
+    }
+
+    @GetMapping("/checkout")
+    public String checkoutPage() {
+        return "checkout";
+    }
 }
 
 
