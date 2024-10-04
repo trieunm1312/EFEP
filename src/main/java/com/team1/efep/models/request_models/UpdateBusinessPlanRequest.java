@@ -25,17 +25,15 @@ public class UpdateBusinessPlanRequest {
 
     private String status;
 
-    private List<BusinessService> businessServiceList;
+    private List<Integer> businessServiceList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class BusinessService {
+    public static class BusinessServiceId {
 
         private int id;
-
-        private String name;
 
     }
 }

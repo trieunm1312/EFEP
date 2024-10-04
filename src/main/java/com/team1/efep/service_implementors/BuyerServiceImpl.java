@@ -236,7 +236,6 @@ public class BuyerServiceImpl implements BuyerService {
         // Set the email attributes
         helper.setFrom("quynhpvnse182895@fpt.edu.vn");
         helper.setTo(request.getToEmail());
-        helper.setSubject(request.getSubject());
 
         // Read HTML content from a file and replace placeholders (e.g., OTP)
         String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
@@ -975,6 +974,8 @@ public class BuyerServiceImpl implements BuyerService {
         return viewCategoryLogic();
     }
 
+
+
     private ViewCategoryListResponse viewCategoryLogic() {
         return ViewCategoryListResponse.builder()
                 .status("200")
@@ -1167,6 +1168,16 @@ public class BuyerServiceImpl implements BuyerService {
         wishlistItemRepo.deleteAll(items);
     }
 
+
+    //-------------------CHECK OUT---------------------------------//
+
+    @Override
+    public String confirmOrder(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        model.addAttribute("msg", viewWishlistLogic(account.getId()));
+        return "checkout";
+    }
 
 }
 

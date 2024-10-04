@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderList.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/forgotPassword.css">
+    <link rel="stylesheet" href="/css/viewOrderList.css">
 </head>
 
 <body>
@@ -467,10 +467,8 @@
                                                             <h5 class="header__cart-item-name">Hiptage</h5>
                                                             <form th:action="@{/}" method="get">
                                                                 <button class="header__cart-item-remove">
-                                                                    <i
-                                                                            class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span
-                                                                            class="header__cart-item-remove-msg">Remove</span>
+                                                                    <i class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
+                                                                    <span class="header__cart-item-remove-msg">Remove</span>
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -536,12 +534,49 @@
 
                 <!-- Order list -->
                 <div class="order-list">
+                    <div class="filter-sort">
+                        <div class="filter-order">
+                            <form th:action="@{/order/filter}" onchange="this.form.submit()">
+                                <select class="filter-by-status" name="" id="status">
+                                    <option value="f-status" disabled hidden selected>Status</option>
+                                    <option value="processing">processing</option>
+                                    <option value="packed">packed</option>
+                                    <option value="completed">completed</option>
+                                    <option value="cancelled">cancelled</option>
+                                </select>
+                                <select class="filter-by-Month" name="" id="month">
+                                    <option value="f-month" disabled hidden selected>Month</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </form>
+                        </div>
+                        <form th:action="@{/order/sort}" onchange="this.form.submit()">
+                            <select class="sort-order" name="" id="sorting">
+                                <option value="sort" disabled hidden selected>Sort</option>
+                                <option value="ASC">Ascending</option>
+                                <option value="DESC">Descending</option>
+                            </select>
+                        </form>
+                    </div>
+                    <hr class="line">
                     <table border="1" cellpadding="20" cellspacing="0">
                         <thead>
                             <tr>
                                 <th class="table-order-header">Image</th>
                                 <th class="table-order-header">Name</th>
-                                <th class="table-order-header">Product code</th>
+                                <th class="table-order-header">Time</th>
+                                <th class="table-order-header">Customer</th>
                                 <th class="table-order-header">Event</th>
                                 <th class="table-order-header">Quantity</th>
                                 <th class="table-order-header">Total</th>
@@ -549,7 +584,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form th:action="" method="get">
+                            <form th:action="@{/}" method="get">
                                 <tr>
                                     <td class="table-order-detail">
                                         <div class="table-order-img">
@@ -561,7 +596,10 @@
                                         <span class="table-order-name">Hiptage</span>
                                     </td>
                                     <td class="table-order-detail">
-                                        <span class="table-order-id">F123</span>
+                                        <span class="table-order-id">30/09/2024</span>
+                                    </td>
+                                    <td class="table-order-detail">
+                                        <span class="table-order-customer">EFEP</span>
                                     </td>
                                     <td class="table-order-detail">
                                         <span class="table-order-event">Wedding</span>
@@ -573,7 +611,7 @@
                                         <span class="table-order-total">$122.00</span>
                                     </td>
                                     <td class="table-order-detail">
-                                        <select name="change-status" id="status">
+                                        <select name="change-status" id="status-choose">
                                             <option value="processing" selected>processing</option>
                                             <option value="packed">packed</option>
                                             <option value="completed">completed</option>
@@ -594,7 +632,10 @@
                                         <span class="table-order-name">Hiptage</span>
                                     </td>
                                     <td class="table-order-detail">
-                                        <span class="table-order-id">F123</span>
+                                        <span class="table-order-id">1/10/2024</span>
+                                    </td>
+                                    <td class="table-order-detail">
+                                        <span class="table-order-customer">EFEP</span>
                                     </td>
                                     <td class="table-order-detail">
                                         <span class="table-order-event">Wedding</span>
@@ -606,7 +647,7 @@
                                         <span class="table-order-total">$122.00</span>
                                     </td>
                                     <td class="table-order-detail">
-                                        <select name="change-status" id="status">
+                                        <select name="change-status" id="status-choose1">
                                             <option value="processing" selected>processing</option>
                                             <option value="packed">packed</option>
                                             <option value="completed">completed</option>

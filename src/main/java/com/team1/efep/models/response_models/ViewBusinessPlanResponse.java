@@ -15,6 +15,8 @@ public class ViewBusinessPlanResponse {
     private String status;
     private String message;
     private List<BusinessPlan> businessPlanList;
+    private List<BusinessService> serviceList;
+
 
     @Data
     @AllArgsConstructor

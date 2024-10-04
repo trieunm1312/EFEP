@@ -16,34 +16,60 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+    // Inject serviceList as a JavaScript array
+    const serviceList = /*[[${msg.serviceList}]]*/ [];
+    console.log('Service List:', serviceList);  // Debugging: Check if this prints correct data
 
-// Add more service
-document.addEventListener("DOMContentLoaded", function() {
+
+
+    document.addEventListener("DOMContentLoaded", function() {
     const addServiceButton = document.querySelector('.business-plan__card-add-service');
     const servicesContainer = document.querySelector('.business-plan__card-services-container');
-    let serviceIndex = 1;
+
+    let serviceIndex = 1;  // Start with index 1 since the first select is already displayed
+
+    // Debug: Log serviceList data
+    console.log('Service List at Runtime:', serviceList);
 
     addServiceButton.addEventListener('click', function(event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        const newServiceDiv = document.createElement('div');
-        newServiceDiv.classList.add('business-plan__card-service');
+    // Create a new div for the service select
+    const newServiceDiv = document.createElement('div');
+    newServiceDiv.classList.add('business-plan__card-service');
 
-        newServiceDiv.innerHTML = `
-            Service:
-            <select name="serviceList[${serviceIndex}].id">
-                <option value="2">Post 2 posts per day</option>
-                <option value="4">Post 4 posts per day</option>
-                <option value="6">Post 8 posts per day</option>
-                <option value="8">Post 16 posts per day</option>
-                <option value="10">Post 32 posts per day</option>
-            </select>
-        `;
+    // Create the select tag with a unique name based on the service index
+    const newSelect = document.createElement('select');
+    newSelect.name = `businessServiceList[${serviceIndex}].id`;  // Use unique name for each select
 
-        servicesContainer.appendChild(newServiceDiv);
-        serviceIndex++;
-    });
+    // Check if serviceList is populated with options
+    if (serviceList.length > 0) {
+    // Populate the select options using the serviceList array
+    serviceList.forEach(service => {
+    const option = document.createElement('option');
+    option.value = service.id;  // Set option value
+    option.text = service.name; // Set option text
+    newSelect.appendChild(option);  // Append option to the select
 });
+} else {
+    console.error('No services available in serviceList');
+}
+
+    // Append the select to the new div
+    newServiceDiv.innerHTML = `Service: `;
+    newServiceDiv.appendChild(newSelect);
+
+    // Append the new div to the services container
+    servicesContainer.appendChild(newServiceDiv);
+
+    // Increment the index for the next service
+    serviceIndex++;
+});
+});
+
+
+
+
 
 
 
