@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ForgotRequest {
+
     private String toEmail;
+
     private String subject;
 }

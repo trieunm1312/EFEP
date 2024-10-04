@@ -16,4 +16,7 @@ public class Const {
     public final static String PURCHASED_PLAN_STATUS_INACTIVE = "inactive";
     public final static String PURCHASED_PLAN_STATUS_CANCELLED = "cancelled";
 
+
+    public final static String EMAIL_SUBJECT = "Flowerista: OTP Code To Verify Your Account";
+
 }

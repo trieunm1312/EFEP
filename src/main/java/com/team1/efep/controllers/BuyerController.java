@@ -1,5 +1,6 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.enums.Const;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.BuyerService;
@@ -26,11 +27,13 @@ public class BuyerController {
     @PostMapping("/pass/forgot")
     @Operation(hidden = true)
     public String forgot(ForgotRequest request, Model model) {
+        request.setSubject(Const.EMAIL_SUBJECT);
         return buyerService.sendEmail(request, model);
     }
 
     @PostMapping("/pass/forgot/api")
     public ForgotResponse forgot(@RequestBody ForgotRequest request) {
+        request.setSubject(Const.EMAIL_SUBJECT);
         return buyerService.sendEmailAPI(request);
     }
 

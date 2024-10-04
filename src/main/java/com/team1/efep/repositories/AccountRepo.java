@@ -10,4 +10,6 @@ public interface AccountRepo extends JpaRepository<Account, Integer> {
     Optional<Account> findByEmailAndPassword(String email, String password);
 
     Optional<Account> findByEmail(String email);
+
+    Optional<Account> findByIdAndPassword(int id, String password);
 }
