@@ -57,7 +57,8 @@
 
 /* button table cart */
 .btn-cart {
-    margin: 0 10%;
+    /* margin: 0 10%; */
+    height: 45px;
     display: flex;
     justify-content: space-between;
 }
@@ -81,6 +82,9 @@
 /* Payment */
 .payment-method {
     margin: 0 10%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .header {
@@ -90,8 +94,18 @@
     margin-bottom: 10px;
 }
 
+.inline-checkout {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.payment-header {
+    margin-top: 10px;
+}
+
 .payment-list {
-    margin-bottom: 15px;
     font-size: 14px;
     height: 40px;
     border-radius: 0;
