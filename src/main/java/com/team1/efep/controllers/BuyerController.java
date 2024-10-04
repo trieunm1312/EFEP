@@ -220,4 +220,9 @@ public class BuyerController {
         return buyerService.viewCategoryAPI();
     }
 
+    @GetMapping("/order/confirm")
+    public String confirmOrder(HttpSession session, Model model) {
+        return buyerService.confirmOrder(session, model);
+    }
+
 }

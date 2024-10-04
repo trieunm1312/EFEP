@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/viewWishlist.css">
     <link rel="stylesheet" href="/css/base.css">
-    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
-    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">-->
-    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/viewWishlist.css">-->
-    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">-->
+        <!-- <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/viewWishlist.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
 </head>
 
 <body>
@@ -91,6 +91,7 @@
                     <th class="table-item-header">Quantity</th>
                     <th class="table-item-header">Price</th>
                     <th class="table-item-header">Total</th>
+                    <th class="table-item-header">Remove</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -109,7 +110,7 @@
                     </td>
                     <td class="table-item-detail">
                         <div class="table-item-quantity">
-                            <form class="form-quantity" th:action="@{/buyer/wishlist}" method="post">
+                            <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="post">
                                 <input type="hidden" name="_method" value="put">
                                 <input type="hidden" name="wishlistId" th:value="${item.id}">
                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
@@ -119,7 +120,7 @@
 
                             <span class="input-quantity" th:text="${item.quantity}">1</span>
 
-                            <form th:action="@{/buyer/wishlist}" method="post">
+                            <form th:action="@{/buyer/wishlist}" th:method="post">
                                 <input type="hidden" name="_method" value="put">
                                 <input type="hidden" name="wishlistId" th:value="${item.id}">
                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
@@ -139,7 +140,18 @@
                         <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
                     </td>
                     <td class="table-item-detail">
-                        <span class="table-item-total" th:text="${item.quantity * item.price}">0</span>
+                        <span class="table-item-total" th:text="'$ ' + ${item.quantity * item.price}">0</span>
+                    </td>
+                    <td class="table-item-detail padding-delete">
+                        <form class="form-delete" th:action="@{/buyer/wishlist-item}" th:method="post">
+                            <button class="table-item-removed">
+                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
+                            </button>
+<!--                            <input type="submit" name="action" class="table-item-removed">-->
+<!--                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
+<!--                            </input>-->
+                            <input type="hidden" name="id" th:value="${item.id}">
+                        </form>   
                     </td>
                 </tr>
                 </tbody>
@@ -152,10 +164,10 @@
             </table>
         </div>
         <div class="btn-cart">
-            <form th:action="@{/}" method="get">
+            <form th:action="@{/category}" method="get">
                 <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
             </form>
-            <form th:action="@{/}" method="get">
+            <form th:action="@{/buyer/order/confirm}" method="get">
                 <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
             </form>
         </div>

@@ -30,8 +30,13 @@ public class PageController {
     }
 
     @GetMapping("/change/password")
-    public String passwordPage() {
+    public String changePasswordPage() {
         return "changePassword";
+    }
+
+    @GetMapping("/forgot/password")
+    public String forgotPasswordPage() {
+        return "forgotPassword";
     }
 
     @GetMapping("/plan")
@@ -42,6 +47,16 @@ public class PageController {
     @GetMapping("/service")
     public String servicePage() {
         return "manageBusinessService";
+    }
+
+    @GetMapping("/category")
+    public String categoryPage() {
+        return "category";
+    }
+
+    @GetMapping("/checkout")
+    public String checkoutPage() {
+        return "checkout";
     }
 }
 
