@@ -25,9 +25,13 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
+
     private final AccountRepo accountRepo;
+
     private final UserRepo userRepo;
+
     private final WishlistRepo wishlistRepo;
+
     private final GoogleLoginGeneratorUtil googleLoginGeneratorUtil;
 
     //----------------------------------------------REGISTER-------------------------------------------------//
@@ -329,7 +333,7 @@ public class AccountServiceImpl implements AccountService {
     private Object changePasswordLogic(ChangePasswordRequest request) {
         Map<String, String> errors = ChangePasswordValidation.validate(request);
         if (errors.isEmpty()) {
-            Account account = accountRepo.findById(request.getId()).orElse(null);
+            Account account = accountRepo.findByIdAndPassword(request.getId(), request.getCurrentPassword()).orElse(null);
             assert account != null;
             account.setPassword(request.getNewPassword());
             accountRepo.save(account);

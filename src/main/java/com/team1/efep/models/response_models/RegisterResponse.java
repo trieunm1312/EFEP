@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RegisterResponse {
+
     private String status;
+
     private String message;
+
 }

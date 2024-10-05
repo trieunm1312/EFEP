@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RenewPasswordRequest {
+
     private String password;
+
     private String confirmPassword;
+
     private String email;
 }
