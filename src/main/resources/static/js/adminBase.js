@@ -1,18 +1,3 @@
-// Click sidebar item keep css
-const sidebarLinks = document.querySelectorAll('.sidebar__link');
-
-sidebarLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-        event.preventDefault();  
-
-        const currentActive = document.querySelector('.sidebar__item.active');
-        if (currentActive) {
-            currentActive.classList.remove('active');
-        }
-
-        this.querySelector('.sidebar__item').classList.add('active');
-    });
-});
 
 
 // Click show the create block
