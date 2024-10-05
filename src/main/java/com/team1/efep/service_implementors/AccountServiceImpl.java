@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.User;
@@ -10,6 +11,7 @@ import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.services.AccountService;
+import com.team1.efep.services.BuyerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.GoogleLoginGeneratorUtil;
 import com.team1.efep.utils.GoogleLoginUtil;
@@ -33,6 +35,8 @@ public class AccountServiceImpl implements AccountService {
     private final WishlistRepo wishlistRepo;
 
     private final GoogleLoginGeneratorUtil googleLoginGeneratorUtil;
+
+    private final BuyerService buyerService;
 
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
@@ -166,6 +170,7 @@ public class AccountServiceImpl implements AccountService {
                 .status("200")
                 .message("Login successfully")
                 .build());
+        HomepageConfig.config(model, buyerService);
         return "home";
     }
 
@@ -263,6 +268,7 @@ public class AccountServiceImpl implements AccountService {
             return "myAccount";
         }
         model.addAttribute("error", (Map<String, String>) output);
+        HomepageConfig.config(model, buyerService);
         return "home";
     }
 

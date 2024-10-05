@@ -647,7 +647,7 @@
                     <img src="/img/title-flower.png" alt="">
                 </h2>
                 <div class="top-category__list">
-                    <div th:each="item : ${msg.flowerList}" class="top-category__item">
+                    <div th:each="item : ${msg2.flowerList}" class="top-category__item">
                         <div class="top-category__img">
                             <img th:src="@{${item.images[0].link}}" alt="Flower Image">
                             <div class="overlay">
