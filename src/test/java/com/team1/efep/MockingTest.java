@@ -4,13 +4,8 @@ import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.User;
-import com.team1.efep.models.request_models.ChangePasswordRequest;
-import com.team1.efep.models.request_models.LoginRequest;
-import com.team1.efep.models.request_models.UpdateProfileRequest;
-import com.team1.efep.models.request_models.ViewProfileRequest;
-import com.team1.efep.models.response_models.SearchBuyerListResponse;
-import com.team1.efep.models.response_models.UpdateProfileResponse;
-import com.team1.efep.models.response_models.ViewProfileResponse;
+import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.repositories.WishlistRepo;
@@ -138,5 +133,6 @@ public class MockingTest {
         assertEquals("Update profile successfully", response.getMessage());
         assertEquals("newBuyer", response.getName());
     }
+
 
 }

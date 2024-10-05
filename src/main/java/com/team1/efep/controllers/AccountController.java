@@ -21,8 +21,6 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    // private final AccountRepo accountRepo;
-
     @PostMapping("/register")
     @Operation(hidden = true)
     public String register(RegisterRequest request, Model model) {

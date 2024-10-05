@@ -351,9 +351,9 @@ public class AccountServiceImpl implements AccountService {
     public String logout(HttpSession session) {
         if (session.getAttribute("acc") != null) {
             session.invalidate();
-            return "home";
+            return "redirect:/";
         }
-        return "home";
+        return "redirect:/";
     }
 
 }
