@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-//@Controller
+//@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/account")
 @Tag(name = "Account")
@@ -37,7 +37,6 @@ public class AccountController {
     @PostMapping("/login")
     @Operation(hidden = true)
     public String login(LoginRequest request, Model model, HttpSession session) {
-
         return accountService.login(request, model, session);
     }
 

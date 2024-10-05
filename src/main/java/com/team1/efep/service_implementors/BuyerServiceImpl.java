@@ -130,10 +130,10 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             model.addAttribute("msg", (AddToWishlistResponse) output);
-            return "base";
+            return "redirect:/home";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "base";
+        return "home";
     }
 
     @Override
@@ -367,7 +367,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = deleteWishlistItemLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
             model.addAttribute("msg", (DeleteWishlistItemResponse) output);
-            return "redirect:/";
+            return "redirect:/viewWishlist";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
