@@ -71,6 +71,7 @@ public class AdminServiceImpl implements AdminService {
                                                 .name(plan.getName())
                                                 .description(plan.getDescription())
                                                 .price(plan.getPrice())
+                                                .duration(plan.getDuration())
                                                 .status(plan.getStatus())
                                                 .businessServiceList(plan.getPlanServiceList().stream()
                                                         .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
@@ -332,7 +333,7 @@ public class AdminServiceImpl implements AdminService {
         Object output = createBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
             model.addAttribute("msg", (CreateBusinessServiceResponse) output);
-            return "manageBusinessService";
+            return "redirect:/admin/view/service";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";

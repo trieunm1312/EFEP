@@ -31,7 +31,7 @@
                 </li>
                 <li>
                     <a th:href="@{/admin/view/plan}" class="sidebar__link">
-                        <div class="sidebar__item">
+                        <div class="sidebar__item active">
                             <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Plan</span>
                         </div>
@@ -39,7 +39,7 @@
                 </li>
                 <li>
                     <a th:href="@{/admin/view/service}" class="sidebar__link ">
-                        <div class="sidebar__item active">
+                        <div class="sidebar__item">
                             <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Business Service</span>
                         </div>
@@ -214,7 +214,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <button type="button" class="business-plan__card-add-service">+ Add more service</button>
+                                    <button class="business-plan__card-add-service">+ Add more service</button>
                                     <div class="business-plan__card-duration">
                                         Duration in Months:
                                         <input type="text" name="duration" value="1" placeholder="Duration">
@@ -241,6 +241,10 @@
 
         </div>
     </div>
+    <script th:inline="javascript">
+        var serviceList = /*[[${msg.serviceList}]]*/ [];
+        console.log(serviceList);
+    </script>
     <script src="/js/adminBase.js"></script>
     <script src="/js/manageBusinessPlan.js"></script>
 </body>
