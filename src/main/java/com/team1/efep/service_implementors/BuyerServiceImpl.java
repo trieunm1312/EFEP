@@ -168,7 +168,7 @@ public class BuyerServiceImpl implements BuyerService {
         if (checkExistedItem(request, wishlist)) {
             WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
             assert wishlistItem != null;
-            wishlistItem.setQuantity(wishlistItem.getQuantity() + request.getQuantity());
+            wishlistItem.setQuantity(wishlistItem.getQuantity() + 1);
             wishlistItemRepo.save(wishlistItem);
         } else {
             wishlist.getWishlistItemList().add(
@@ -176,7 +176,7 @@ public class BuyerServiceImpl implements BuyerService {
                             WishlistItem.builder()
                                     .wishlist(wishlist)
                                     .flower(flower)
-                                    .quantity(request.getQuantity())
+                                    .quantity(1)
                                     .build()));
             accountRepo.save(account);
         }
