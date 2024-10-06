@@ -167,4 +167,15 @@ public class SellerController {
         return sellerService.deleteFlowerAPI(request);
     }
 
+    @GetMapping("/view/plan")
+    @Operation(hidden = true)
+    public String viewBusinessPlan(HttpSession session, Model model) {
+        return sellerService.viewBusinessPlan(session, model);
+    }
+
+    @GetMapping("/view/plan/api")
+    public ViewBusinessPlanResponse viewBusinessPlan() {
+        return sellerService.viewBusinessPlanAPI();
+    }
+
 }

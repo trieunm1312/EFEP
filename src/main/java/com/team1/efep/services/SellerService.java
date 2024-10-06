@@ -65,4 +65,8 @@ public interface SellerService {
     String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model);
 
     SearchBuyerListResponse searchBuyerListAPI(SearchBuyerListRequest request, int sellerId);
+
+    String viewBusinessPlan(HttpSession session, Model model);
+
+    ViewBusinessPlanResponse viewBusinessPlanAPI();
 }
