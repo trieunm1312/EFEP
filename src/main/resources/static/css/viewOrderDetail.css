@@ -1,0 +1,36 @@
+.font-text {
+    font-size: 1.4rem;
+}
+
+.order-detail {
+    width: 100%;
+    text-align: left;
+    margin-top: 50px;
+}
+
+table {
+    text-align: center;
+}
+
+.tb-product-header, td {
+    border-width: 1px;
+    color: var(--text-color);
+}
+
+.tb-product-detail {
+    padding: 10px;
+}
+
+.table-item-img {
+    display: inline-block;
+    width: 90%;
+}
+
+.table-item-img img {
+    max-width: 90%;
+    height: auto;
+}
+
+.back {
+    margin-top: 10px;
+}
