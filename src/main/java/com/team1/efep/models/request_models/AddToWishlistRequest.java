@@ -15,5 +15,4 @@ public class AddToWishlistRequest {
 
     private Integer flowerId;
 
-    private int quantity;
 }
