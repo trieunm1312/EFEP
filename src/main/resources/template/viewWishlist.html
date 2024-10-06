@@ -115,7 +115,7 @@
                                 <input type="hidden" name="wishlistId" th:value="${item.id}">
                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                                 <input type="hidden" name="request" value="desc">
-                                <button class="table-item-btn-decrease" type="submit">-</button>
+                                <button class="table-item-btn-decrease" type="submit" th:disabled="${item.quantity == 1}">-</button>
                             </form>
 
                             <span class="input-quantity" th:text="${item.quantity}">1</span>
@@ -145,14 +145,15 @@
                     <td class="table-item-detail padding-delete">
                         <form class="form-delete" th:action="@{/buyer/wishlist-item}" method="post">
                             <input type="hidden" name="_method" value="delete"> <!-- muốn sử dụng put delete thì t -->
+                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                            <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                             <button class="table-item-removed">
                                 <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
                             </button>
 <!--                            <input type="submit" name="action" class="table-item-removed">-->
 <!--                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
 <!--                            </input>-->
-                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                            <input type="hidden" name="wishlistItemId" th:value="${item.id}">
+
                         </form>
                     </td>
                 </tr>
@@ -166,7 +167,7 @@
             </table>
         </div>
         <div class="btn-cart">
-            <form th:action="@{/category}" method="get">
+            <form th:action="@{/buyer/flower}" method="get">
                 <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
             </form>
             <form th:action="@{/buyer/order/confirm}" method="get">
