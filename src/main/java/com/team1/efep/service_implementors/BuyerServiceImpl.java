@@ -329,7 +329,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public void viewSlideBar(Model model) {
-        model.addAttribute("msg", viewSlideBarLogic());
+        model.addAttribute("msg1", viewSlideBarLogic());
     }
 
     @Override
@@ -580,7 +580,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public void viewFlowerTopList(int top, Model model) {
-        model.addAttribute("msg", viewFlowerTopListLogic(top));
+        model.addAttribute("msg2", viewFlowerTopListLogic(top));
     }
 
     @Override

@@ -642,16 +642,34 @@
                 </div>
 
             <!-- Top Category -->
-            <div class="top-category">
-                <h2 class="top-category__title">Top Sale Flowers<br>
-                    <img src="/img/title-flower.png" alt="">
-                </h2>
-                <div class="top-category__list">
-                    <div th:each="item : ${msg.flowerList}" class="top-category__item">
-                        <div class="top-category__img">
-                            <img th:src="@{${item.images[0].link}}" alt="Flower Image">
-                            <div class="overlay">
+ <!--          <div class="top-category">-->
+<!--                <h2 class="top-category__title">Top Sale Flowers<br>-->
+<!--                    <img src="/img/title-flower.png" alt="">-->
+<!--                </h2>-->
+<!--                <div class="top-category__list">-->
+<!--                    <div th:each="item : ${msg.flowerList}" class="top-category__item">-->
+<!--                        <div class="top-category__img">-->
+<!--                            <img th:src="@{${item.images[0].link}}" alt="Flower Image">-->
+<!--                            <div class="overlay">-->
 
+<!--                                <form th:action="@{/}" method="get">-->
+<!--                                    <button class="add-to-wishlist">-->
+<!--                                        <i class="fa-solid fa-heart"></i>-->
+<!--                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
+
+<!--                                    </button>-->
+<!--                                </form>-->
+<!--                                <form th:action="@{/buyer/flower/detail}" th:method="post">-->
+<!--                                    <button class="view-detail">-->
+<!--                                        <i class="fa-solid fa-eye"></i>-->
+<!--                                        <span class="view-detail__msg">View detail</span>-->
+<!--                                        <input type="hidden" name="id" th:value="${item.id}">-->
+<!--                                    </button>-->
+<!--                                </form>-->
+<!--                                &lt;!&ndash; <a href="" class="add-to-wishlist">-->
+<!--                                    <i class="fa-solid fa-heart"></i>-->
+<!--                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
+<!--                                </a>-->
                                 <form th:action="@{/buyer/wishlist}" method="post">
 <!--                                    <div th:if="${session.acc != null}">-->
 <!--                                        <input type="hidden" name="flowerId" th:value="${item.id}">-->
@@ -675,29 +693,29 @@
                                     <span class="add-to-wishlist__msg">Add To Wishlist</span>
                                 </a>
 
-                                <a href="" class="view-detail">
-                                    <i class="fa-solid fa-eye"></i>
-                                    <span class="view-detail__msg">View detail</span>
-                                </a> -->
+<!--                                <a href="" class="view-detail">-->
+<!--                                    <i class="fa-solid fa-eye"></i>-->
+<!--                                    <span class="view-detail__msg">View detail</span>-->
+<!--                                </a> &ndash;&gt;-->
 
-                            </div>
-                        </div>
-                        <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
-                            <input type="submit" name="action" th:value="${item.name}" class="top-category__name">
-                            </input>
-                            <input type="hidden" name="id" th:value="${item.id}">
-                        </form>
-                        <div class="top-category__content">
-                            <span>
-                                $
-                                <span th:text="${item.price}"></span>
-                            </span>
-                            <span>Sold: 1000</span>
-                        </div>
-                    </div>
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">-->
+<!--                            <input type="submit" name="action" th:value="${item.name}" class="top-category__name">-->
+<!--                            </input>-->
+<!--                            <input type="hidden" name="id" th:value="${item.id}">-->
+<!--                        </form>-->
+<!--                        <div class="top-category__content">-->
+<!--                            <span>-->
+<!--                                $-->
+<!--                                <span th:text="${item.price}"></span>-->
+<!--                            </span>-->
+<!--                            <span>Sold: 1000</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                </div>
-            </div>
+<!--                </div>-->
+<!--            </div>-->
             <!-- Breadbrum -->
             <div class="breadbrum">
                 <div class="grid">
