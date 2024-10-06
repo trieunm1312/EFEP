@@ -1,5 +1,6 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.services.BuyerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,7 @@ public class PageController {
 
     @GetMapping("/")
     public String startPage(Model model) {
-        buyerService.viewSlideBar(model);
-        buyerService.viewFlowerTopList(10, model);
+        HomepageConfig.config(model,buyerService);
         return "home";
     }
 
