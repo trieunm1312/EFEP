@@ -657,7 +657,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    //--------------------------------------VIEW FLOWER DETAIL(CHUA CHAC FE)------------------------------------------//
+    //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
 
     @Override
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
