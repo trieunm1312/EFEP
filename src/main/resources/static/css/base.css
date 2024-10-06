@@ -543,7 +543,7 @@ html {
 }
 
 .header__item-icon {
-    font-size: 1.8rem;
+    font-size: 3rem;
     position: relative;
     color: var(--primary-color);
     padding-top: 36px;
@@ -578,7 +578,7 @@ html {
 }
 
 .header__cart-icon {
-    font-size: 1.8rem;
+    font-size: 3rem;
     /* color: var(--white-color); */
     color: var(--primary-color);
     margin-top: 6px;
@@ -892,7 +892,13 @@ html {
 /* User */
 .header__item-icon-user {
     position: relative;
+    display: flex;
+    justify-content: flex-start;
 
+}
+
+.header__item-icon-user-icon{
+    margin-right: 16px;
 }
 
 .header__item-account {
