@@ -309,6 +309,11 @@ html {
     text-decoration: none;
 }
 
+.header__item-megamenu-item a:hover{
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
 
 .header__item-megamenu-item-label-offer {
     position: absolute;
@@ -543,7 +548,7 @@ html {
 }
 
 .header__item-icon {
-    font-size: 3rem;
+    font-size: 2.4rem;
     position: relative;
     color: var(--primary-color);
     padding-top: 36px;
@@ -579,7 +584,7 @@ html {
 }
 
 .header__cart-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
     /* color: var(--white-color); */
     color: var(--primary-color);
     margin-top: 6px;
@@ -900,6 +905,10 @@ html {
 
 .header__item-icon-user-icon{
     margin-right: 16px;
+}
+
+.header__item-icon-user-icon{
+    margin: 0 !important;
 }
 
 .header__item-account {
