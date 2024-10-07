@@ -140,7 +140,7 @@ public class AccountServiceImpl implements AccountService {
         return errors;
     }
 
-    //_____________________________________________________________________________________________________//
+    //__________________________________________________LOGIN WITH GMAIL_________________________________________________//
 
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
@@ -255,7 +255,7 @@ public class AccountServiceImpl implements AccountService {
         return errors;
     }
 
-    //-------------------------------CHANGE PASSWORD-------------------------------------//
+    //---------------------------------------CHANGE PASSWORD-------------------------------------//
 
     @Override
     public String changePassword(ChangePasswordRequest request, HttpSession session, Model model) {
@@ -297,7 +297,7 @@ public class AccountServiceImpl implements AccountService {
         return errors;
     }
 
-    //-------------------------------LOG OUT-------------------------------------//
+    //-------------------------------LOG OUT----------------------------------------------//
 
     @Override
     public String logout(HttpSession session) {

@@ -165,16 +165,6 @@ public class AdminServiceImpl implements AdminService {
                                         .build()
                         ).toList()
         );
-//        for (CreateBusinessPlanRequest.BusinessService service : request.getBusinessServiceList()) {
-//            BusinessService businessService = businessServiceRepo.findById(service.getId()).orElse(null);
-//            assert businessService != null;
-//            PlanService planService = PlanService.builder()
-//                    .businessPlan(businessPlan)
-//                    .businessService(businessService)
-//                    .build();
-//            planServices.add(planService);
-//        }
-//        planServiceRepo.saveAll(planServices);
     }
 
     //-------------------------------------UPDATE BUSINESS PLAN------------------------------------------//
