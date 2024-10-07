@@ -662,10 +662,11 @@ public class BuyerServiceImpl implements BuyerService {
         return SearchFlowerResponse.builder()
                 .status("200")
                 .message("")
+                .keyword(request.getKeyword())
                 .flowerList(
                         flowerRepo.findAll()
                                 .stream()
-                                .filter(flower -> flower.getName().contains(request.getName()))
+                                .filter(flower -> flower.getName().contains(request.getKeyword()))
                                 .map(
                                         flower -> SearchFlowerResponse.Flower.builder()
                                                 .id(flower.getId())
