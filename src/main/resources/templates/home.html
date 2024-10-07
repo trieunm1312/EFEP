@@ -18,6 +18,36 @@
 </head>
 
 <body>
+<div id="toast" th:if="${msg != null}">
+    <div th:if="${msg.status == '200'}">
+        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s .5s forwards;">
+            <div class="toast__icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">Successfully!</h3>
+                <p class="toast__msg" th:text="${msg.message}"></p>
+            </div>
+            <div class="toast__close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+    <div th:if="${msg.status != '200'}">
+        <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s .5s forwards;">
+            <div class="toast__icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">Error!</h3>
+                <p class="toast__msg" th:text="${msg.message}"></p>
+            </div>
+            <div class="toast__close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="wrap">
     <!-- Nav Bar -->
     <nav class="navbar" th:fragment="navbar">
@@ -398,7 +428,7 @@
                             <li class="header__item-icon header__item-icon-search" tabindex="0">
                                 <i class="header__item-icon-search fa-solid fa-magnifying-glass">
                                     <form th:action="@{/buyer/flower/search}" class="header__item-search-box" method="post">
-                                        <input type="text" class="header__item-search-input" name="name"
+                                        <input type="text" class="header__item-search-input" name="keyword"
                                             placeholder="Search...">
                                         <button class="header__item-search-icon">
                                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -425,7 +455,7 @@
                                             </form>
                                             <div th:if="${session.acc.getRole() == 'buyer'}">
                                                 <form th:action="@{/account/logout}" class="form" method="get">
-                                                    <input type="submit" name="action" value="My Plan"
+                                                    <input type="submit" name="action" value="Seller Channel"
                                                            class="header__item-account-item"></input>
                                                 </form>
                                             </div>
@@ -437,7 +467,7 @@
                                         </div>
                                     </div>
                                 </i>
-                                <div th:if="${session.acc != null}" class="header__item-icon-user-icon">
+                                <div th:if="${session.acc != null}" class="header__item-icon-user-name">
                                     <span th:text="${session.acc.getUser().getName()}"></span>
                                 </div>
                             </li>
