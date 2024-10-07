@@ -17,7 +17,7 @@ public class ViewFlowerDetailResponse {
 
     private String message;
 
-    private List<Flower> flowerList;
+    private Flower flower;
 
     @Data
     @AllArgsConstructor

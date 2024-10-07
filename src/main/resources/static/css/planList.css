@@ -1,0 +1,233 @@
+/* Header */
+.header{
+    height: 100px;
+    border-bottom: 1px solid #e6e6e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-link{
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.header__item-logo{
+    margin-bottom: 24px;
+}
+
+/* Container */
+.container{
+    width: 90%;
+    height: 1020px;
+    padding: 24px 36px;
+}
+
+.business-plan__list{
+    margin: 32px 24px;
+}
+
+.step{
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+}
+
+.step span:last-child,
+.introduction-block__heading{
+    font-weight: 600;
+}
+
+.business-plan__table{
+    margin-top: 52px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.business-plan__item{
+    width: 24%;
+    border: 1px solid rgba(128, 128, 128, 0.7);
+    border-radius: 18px;
+    box-sizing: border-box;
+    perspective: 1000px;
+}
+
+.business-plan__item:hover{
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 20px 0px;
+}
+
+.business-plan__item-header{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 94.5%;
+    height: 100px;
+     border-radius: 12px;
+     margin: 8px;
+     padding: 0 16px;
+    transition: transform 0.3s ease, background 0.5s ease;
+}
+
+.business-plan__item:nth-child(1) .business-plan__item-header{
+    background: radial-gradient(140.76% 131.96% at 100% 100%, 
+    rgb(255, 182, 193) 0%, rgba(255, 160, 174, 0.5) 73.57%, 
+    rgba(255, 160, 174, 0) 100%), rgb(255, 182, 193);
+}
+
+.business-plan__item:nth-child(2) .business-plan__item-header{
+    background: radial-gradient(140.76% 131.96% at 100% 100%, 
+    rgb(255, 160, 174) 0%, rgba(255, 140, 155, 0.5) 73.57%, 
+    rgba(255, 140, 155, 0) 100%), rgb(255, 160, 174);
+}
+.business-plan__item:nth-child(3) .business-plan__item-header{
+    background: radial-gradient(140.76% 131.96% at 100% 100%, 
+    rgb(255, 140, 155) 0%, rgba(255, 120, 135, 0.5) 73.57%, 
+    rgba(255, 120, 135, 0) 100%), rgb(255, 140, 155);
+}
+
+.business-plan__item:nth-child(4) .business-plan__item-header{
+    background: radial-gradient(140.76% 131.96% at 100% 100%, 
+    rgb(255, 120, 135) 0%, rgba(255, 100, 115, 0.5) 73.57%, 
+    rgba(255, 100, 115, 0) 100%), rgb(255, 120, 135);
+}
+
+.business-plan__item:hover .business-plan__item-header{
+    transform: scale(1.05);
+    background: radial-gradient(140.76% 131.96% at 100% 100%, 
+    rgb(255, 140, 160) 0%, rgba(255, 120, 140, 0.5) 73.57%, 
+    rgba(255, 120, 140, 0) 100%), rgb(255, 140, 160);
+}
+
+.business-plan__item-header-name{
+    display: block;
+    width: 55%;
+    text-align: center;
+}
+
+.business-plan__item-header-price{
+    display: block;
+    width: 40%;
+    text-align: center;
+}
+
+.business-plan__item-header h3{
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--white-color);
+    transition: transform 0.3s ease;
+}
+
+.business-plan__item:hover h3 {
+    transform: scale(1.1); 
+}
+
+.business-plan__item-header-price{
+    display: flex;
+    flex-direction: column;
+}
+
+.business-plan__item-header-price span:last-child{
+    font-size: 2rem;
+}
+
+.business-plan__item-header::after{
+    content: "";
+    position: absolute;
+    top: 22px;
+    right: 46%;
+    height: 64px;
+    width: 2px;
+    background-color: var(--white-color);
+    margin: 0 8px;
+}
+
+.business-plan__item-content{
+    margin: 16px 0;
+    padding: 0 24px;
+    list-style: none;
+}
+
+label{
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.53846;
+    color: rgb(118, 118, 118);
+    display: block;
+    width: 100%;
+}
+
+li{
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+}
+
+
+li span{
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.business-plan__item-service-item{
+    display: block;
+    width: 100%;
+    margin: 12px 0 0;
+}
+
+.checkout-btn{
+    width: 100%;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    padding: 16px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.business-plan__item:hover .checkout-btn{
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 8px 0px;
+}
+
+.footer__item-desc{
+    font-size: 1.4rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

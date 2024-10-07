@@ -706,20 +706,24 @@ public class BuyerServiceImpl implements BuyerService {
         if (errors.isEmpty()) {
             Flower flower = flowerRepo.findById(request.getId()).orElse(null);
             assert flower != null;
-            return ViewFlowerDetailResponse.Flower.builder()
-                    .id(flower.getId())
-                    .name(flower.getName())
-                    .price(flower.getPrice())
-                    .flower_amount(flower.getFlowerAmount())
-                    .sold_quantity(flower.getSoldQuantity())
-                    .imageList(flower.getFlowerImageList().stream()
-                            .map(
-                                    flowers -> ViewFlowerDetailResponse.Image.builder()
-                                            .link(flowers.getLink())
-                                            .build()
-                            )
-                            .toList())
-                    .build();
+            return ViewFlowerDetailResponse.builder()
+                    .status("200")
+                    .message("")
+                    .flower(
+                            ViewFlowerDetailResponse.Flower.builder().id(flower.getId())
+                                    .name(flower.getName())
+                                    .price(flower.getPrice())
+                                    .flower_amount(flower.getFlowerAmount())
+                                    .sold_quantity(flower.getSoldQuantity())
+                                    .imageList(flower.getFlowerImageList().stream()
+                                            .map(
+                                                    flowers -> ViewFlowerDetailResponse.Image.builder()
+                                                            .link(flowers.getLink())
+                                                            .build()
+                                            )
+                                            .toList())
+                                    .build()
+                    ).build();
 
 
 //                    ViewFlowerDetailResponse.builder()
@@ -743,7 +747,7 @@ public class BuyerServiceImpl implements BuyerService {
 //                    .build();
         }
 
-            return errors;
+        return errors;
     }
 
     //-----------------------------------VIEW ORDER STATUS-------------------------------------------//
@@ -990,7 +994,6 @@ public class BuyerServiceImpl implements BuyerService {
     public ViewCategoryListResponse viewCategoryAPI() {
         return viewCategoryLogic();
     }
-
 
 
     private ViewCategoryListResponse viewCategoryLogic() {
