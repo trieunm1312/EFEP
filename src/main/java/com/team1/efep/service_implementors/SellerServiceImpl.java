@@ -47,6 +47,9 @@ public class SellerServiceImpl implements SellerService {
 
     private final BusinessServiceRepo businessServiceRepo;
 
+
+    //--------------------------------------CREATE FLOWER------------------------------------------------//
+
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
@@ -223,6 +226,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
+
     @Override
     public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
@@ -405,9 +409,10 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
-        Map<String, String> errors = ViewOrderDetailValidation.validate(request);
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
+        Map<String, String> errors = ViewOrderDetailValidation.validate(request, account, order);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -823,7 +828,6 @@ public class SellerServiceImpl implements SellerService {
     }
 
     //----------------------------------SORT ORDER BY CREATE DATE-------------------------------------//
-
 
     @Override
     public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model) {

@@ -86,7 +86,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object viewWishlistLogic(int accountId) {
-        Map<String, String> errors = ViewWishlistValidation.validate(accountId);
+        Map<String, String> errors = ViewWishlistValidation.validate(accountId, accountRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -156,7 +156,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object addToWishlistLogic(AddToWishlistRequest request) {
-        Map<String, String> errors = AddToWishlistValidation.validate(request);
+        Map<String, String> errors = AddToWishlistValidation.validate(request, accountRepo, flowerRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -190,15 +190,6 @@ public class BuyerServiceImpl implements BuyerService {
         return wishlist.getWishlistItemList().stream()
                 .anyMatch(item -> Objects.equals(item.getFlower().getId(), request.getFlowerId()));
     }
-//
-//    private Flower checkAvailableFlower(int flowerId) {
-//        Flower flower = flowerRepo.findById(flowerId).orElse(null);
-//        assert flower != null;
-//        if (flower.getFlowerStatus().getStatus().equals(Const.FLOWER_STATUS_AVAILABLE)) {
-//            return flower;
-//        }
-//        return null;
-//    }
 
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
@@ -384,7 +375,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     //----------------------------------------------DELETE WISHLIST ITEM----------------------------------------------//
 
-
     @Override
     public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
@@ -420,11 +410,10 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-
     private Object deleteWishlistItemLogic(DeleteWishlistItemRequest request) {
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
-        Map<String, String> errors = DeleteWishlistItemValidation.validate(request);
+        Map<String, String> errors = DeleteWishlistItemValidation.validate(request, accountRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -487,7 +476,7 @@ public class BuyerServiceImpl implements BuyerService {
     private Object viewOrderHistoryLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
         List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
-        Map<String, String> errors = ViewOrderHistoryValidation.orderHistoryValidation();
+        Map<String, String> errors = ViewOrderHistoryValidation.orderHistoryValidation(account, orderList);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -574,9 +563,10 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
-        Map<String, String> errors = ViewOrderDetailValidation.validate(request);
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
+        Map<String, String> errors = ViewOrderDetailValidation.validate(request, account, order);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -758,7 +748,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     //-----------------------------------VIEW ORDER STATUS-------------------------------------------//
 
-
     @Override
     public String viewOrderStatus(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
@@ -845,7 +834,7 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object updateWishlistLogic(UpdateWishlistRequest request) {
-        Map<String, String> errors = UpdateWishlistValidation.validate(request);
+        Map<String, String> errors = UpdateWishlistValidation.validate(request, wishlistItemRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -874,7 +863,6 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     //--------------------------------DELETE WISHLIST-----------------------------------//
-
 
     @Override
     public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model) {
@@ -916,7 +904,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object deleteWishlistLogic(DeleteWishlistRequest request) {
-        Map<String, String> errors = DeleteWishlistValidation.validate(request);
+        Map<String, String> errors = DeleteWishlistValidation.validate(request, accountRepo, wishlistRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -976,13 +964,13 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object cancelOrderLogic(CancelOrderRequest request) {
-        Map<String, String> errors = CancelOrderValidation.validate(request);
+        Map<String, String> errors = CancelOrderValidation.validate(request, orderRepo, accountRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        Status.changeOrderStatus(order, "cancelled", orderRepo);
+        Status.changeOrderStatus(order, Status.ORDER_STATUS_CANCELLED, orderRepo);
 
         return CancelOrderResponse.builder()
                 .status("200")
