@@ -126,7 +126,6 @@ public class AdminServiceImpl implements AdminService {
                     .planServiceList(new ArrayList<>())
                     .build()
             );
-            importPlanService(request, businessPlan);
             return CreateBusinessPlanResponse.builder()
                     .status("200")
                     .message("Created business plan successfully")
