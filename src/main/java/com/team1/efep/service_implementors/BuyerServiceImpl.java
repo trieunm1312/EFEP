@@ -257,29 +257,57 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String renewPass(RenewPasswordRequest request, Model model) {
-        return "home";
+        Object output = renewPassLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
+            model.addAttribute("msg", (RenewPasswordResponse) output);
+            return "login";
+        }
+        model.addAttribute("error", (Map<String,String>) output);
+        return "renewPassword";
     }
 
     @Override
     public RenewPasswordResponse renewPassAPI(RenewPasswordRequest request) {
-        return renewPassLogic(request);
+        Object output = renewPassLogic(request);
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
+            return (RenewPasswordResponse) output;
+        }
+        return RenewPasswordResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .build();
     }
 
-    private RenewPasswordResponse renewPassLogic(RenewPasswordRequest request) {
+    private Object renewPassLogic(RenewPasswordRequest request) {
+
+        Map<String, String> errors = RenewPasswordValidation.validate(request);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
         Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
         if (acc != null && request.getPassword().equals(request.getConfirmPassword())) {
             acc.setPassword(request.getPassword());
             accountRepo.save(acc);
+        }
             return RenewPasswordResponse.builder()
                     .status("200")
                     .message("Renew password successfully")
                     .build();
-        }
-
-        return RenewPasswordResponse.builder()
-                .status("400")
-                .message("Invalid email or password")
-                .build();
+//        Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
+//        if (acc != null && request.getPassword().equals(request.getConfirmPassword())) {
+//            acc.setPassword(request.getPassword());
+//            accountRepo.save(acc);
+//            return RenewPasswordResponse.builder()
+//                    .status("200")
+//                    .message("Renew password successfully")
+//                    .build();
+//        }
+//
+//        return RenewPasswordResponse.builder()
+//                .status("400")
+//                .message("Invalid email or password")
+//                .build();
     }
 
     //-------------------------------------------VIEW BUYER FLOWER LIST---------------------------------------//
@@ -634,10 +662,11 @@ public class BuyerServiceImpl implements BuyerService {
         return SearchFlowerResponse.builder()
                 .status("200")
                 .message("")
+                .keyword(request.getKeyword())
                 .flowerList(
                         flowerRepo.findAll()
                                 .stream()
-                                .filter(flower -> flower.getName().contains(request.getName()))
+                                .filter(flower -> flower.getName().contains(request.getKeyword()))
                                 .map(
                                         flower -> SearchFlowerResponse.Flower.builder()
                                                 .id(flower.getId())
@@ -657,7 +686,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    //--------------------------------------VIEW FLOWER DETAIL(CHUA CHAC FE)------------------------------------------//
+    //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
 
     @Override
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {

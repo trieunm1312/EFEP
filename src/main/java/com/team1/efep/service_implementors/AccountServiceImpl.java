@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -41,92 +42,39 @@ public class AccountServiceImpl implements AccountService {
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model) {
-        String error = registerLogic(request);
-        if (!error.isEmpty()) {
-            model.addAttribute("error", RegisterResponse.builder()
-                    .status("400")
-                    .message(error)
-                    .build());
-            return "register";
+        Object output = registerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
+            model.addAttribute("msg", (RegisterResponse) output);
+            return "login";
         }
-        return "login";
+        model.addAttribute("error", (Map<String, String>)output);
+        return "register";
     }
 
     @Override
     public RegisterResponse registerAPI(RegisterRequest request) {
-        String error = registerLogic(request);
-        if (!error.isEmpty()) {
-            return RegisterResponse.builder()
-                    .status("400")
-                    .message(error)
-                    .build();
+        Object output = registerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
+            return (RegisterResponse) output;
         }
         return RegisterResponse.builder()
-                .status("200")
-                .message("Register successfully")
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
 
     }
 
-    private String registerLogic(RegisterRequest request) {
-        String error = validateInput(request);
-
-        if (error.isEmpty()) {
+    private Object registerLogic(RegisterRequest request) {
+        Map<String, String> errors = RegisterValidation.validate(request);
+        if (errors.isEmpty()) {
             createNewBuyer(request);
+            return RegisterResponse.builder()
+                    .status("200")
+                    .message("Register successfully")
+                    .build();
         }
 
-        return error;
-    }
-
-    private String validateInput(RegisterRequest request) {
-        String error = "";
-
-        // Check email, phone, password format using RegisterValidation
-        String validError = RegisterValidation.validateRegisterInput(request.getEmail(), request.getPhone(), request.getPassword());
-        if (!validError.isEmpty()) {
-            return validError;
-        }
-
-        if (accountRepo.findByEmail(request.getEmail()).isPresent()) {
-            error += "email, ";
-        }
-
-        if (userRepo.findByName(request.getName()).isPresent()) {
-            error += "name, ";
-        }
-
-        if (userRepo.findByPhone(request.getPhone()).isPresent()) {
-            error += "phone, ";
-        }
-
-        if (!error.isEmpty()) {
-            error = formatErrorMsg(error);
-        }
-
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            if (!error.isEmpty()) {
-                error += ", confirm password is not matched";
-            } else {
-                error += "Confirm password is not matched";
-            }
-
-        }
-
-        return error;
-    }
-
-    private String formatErrorMsg(String error) {
-        error = error.substring(0, 1).toUpperCase() + error.trim().substring(1, error.length() - 2);
-
-        String verbBe = "";
-        String[] fields = error.trim().substring(0, error.length() - 1).split(",");
-        if (fields.length == 1) {
-            verbBe = " is existed";
-        } else {
-            verbBe = " are existed";
-        }
-
-        return error + verbBe;
+        return errors;
     }
 
     private void createNewBuyer(RegisterRequest request) {
@@ -157,44 +105,42 @@ public class AccountServiceImpl implements AccountService {
     //-------------------------------------------LOGIN------------------------------------------------------//
     @Override
     public String login(LoginRequest request, Model model, HttpSession session) {
-        Account loggedAccount = loginLogic(request);
-        if (loggedAccount == null) {
-            model.addAttribute("error", LoginResponse.builder()
-                    .status("400")
-                    .message("Invalid username or password")
-                    .build());
-            return "login";
+        Object output = loginLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class)) {
+            session.setAttribute("acc", accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).get());
+            model.addAttribute("msg", (LoginResponse) output);
+            HomepageConfig.config(model, buyerService);
+            return "home";
         }
-        session.setAttribute("acc", loggedAccount);
-        model.addAttribute("msg", LoginResponse.builder()
-                .status("200")
-                .message("Login successfully")
-                .build());
-        HomepageConfig.config(model, buyerService);
-        return "home";
+        model.addAttribute("error", (Map<String, String>) output);
+        return "login";
     }
 
     @Override
     public LoginResponse loginAPI(LoginRequest request) {
-        Account loggedAccount = loginLogic(request);
-        if (loggedAccount == null) {
-            return LoginResponse.builder()
-                    .status("400")
-                    .message("Invalid username or password")
-                    .build();
+        Object output = loginLogic(request);
+
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class)) {
+            return (LoginResponse) output;
         }
         return LoginResponse.builder()
-                .status("200")
-                .message("Login successfully")
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
-
     }
 
-    private Account loginLogic(LoginRequest request) {
-        return accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null);
+    private Object loginLogic(LoginRequest request) {
+        Map<String, String> errors = LoginValidation.validate(request);
+        if (errors.isEmpty()) {
+            return LoginResponse.builder()
+                    .status("200")
+                    .message("Login successfully")
+                    .build();
+        }
+        return errors;
     }
 
-    //_____________________________________________________________________________________________________//
+    //__________________________________________________LOGIN WITH GMAIL_________________________________________________//
 
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
@@ -309,7 +255,7 @@ public class AccountServiceImpl implements AccountService {
         return errors;
     }
 
-    //-------------------------------CHANGE PASSWORD-------------------------------------//
+    //---------------------------------------CHANGE PASSWORD-------------------------------------//
 
     @Override
     public String changePassword(ChangePasswordRequest request, HttpSession session, Model model) {
@@ -351,7 +297,7 @@ public class AccountServiceImpl implements AccountService {
         return errors;
     }
 
-    //-------------------------------LOG OUT-------------------------------------//
+    //-------------------------------LOG OUT----------------------------------------------//
 
     @Override
     public String logout(HttpSession session) {

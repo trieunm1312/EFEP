@@ -313,7 +313,7 @@ public class EfepApplication {
                                 .description("Description of Plan 1")
                                 .price(500.0f)
                                 .duration(12)
-                                .status("ACTIVE")
+                                .status(Status.BUSINESS_PLAN_STATUS_ACTIVE)
                                 .build()
                 );
 
@@ -323,7 +323,7 @@ public class EfepApplication {
                                 .description("Description of Plan 2")
                                 .price(300.0f)
                                 .duration(6)
-                                .status("ACTIVE")
+                                .status(Status.BUSINESS_PLAN_STATUS_ACTIVE)
                                 .build()
                 );
 

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SearchFlowerRequest {
-    private String name;
+    private String keyword;
 }
