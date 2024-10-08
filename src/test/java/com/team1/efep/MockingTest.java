@@ -11,14 +11,17 @@ import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.service_implementors.AccountServiceImpl;
 import com.team1.efep.services.AccountService;
+import com.team1.efep.services.BuyerService;
 import com.team1.efep.utils.GoogleLoginGeneratorUtil;
-import lombok.RequiredArgsConstructor;
 import mockit.Expectations;
 import mockit.Mocked;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MockingTest {
 
@@ -36,26 +39,73 @@ public class MockingTest {
     @Mocked
     GoogleLoginGeneratorUtil googleLoginGeneratorUtil;
 
+    @Mocked
+    BuyerService buyerService;
+
     @BeforeEach
     public void setUp() {
-        accountService = new AccountServiceImpl(accountRepo, userRepo, wishlistRepo, googleLoginGeneratorUtil);
+        accountService = new AccountServiceImpl(accountRepo, userRepo, wishlistRepo, googleLoginGeneratorUtil, buyerService);
     }
 
     @Test
-    public void testLogin(){
+    public void testLogin_Success(){
 
         new Expectations() {{
-           accountRepo.findByEmailAndPassword("test@gmail.com", "123");
-           result = Account.builder()
-                   .email("test@gmail.com")
-                   .password("123")
-                   .status(Status.ACCOUNT_STATUS_ACTIVE)
-                   .role(Role.BUYER)
-                   .build();
+            accountRepo.findByEmailAndPassword("test@gmail.com", "123");
+            result = Account.builder()
+                    .email("test@gmail.com")
+                    .password("123")
+                    .status(Status.ACCOUNT_STATUS_ACTIVE)
+                    .role(Role.BUYER)
+                    .build();
         }};
 
         System.out.println(accountService.loginAPI(LoginRequest.builder().email("test@gmail.com").password("123").build()).getMessage());
     }
+
+    @Test
+    public void testLogin_InvalidEmail(){
+        new Expectations() {{
+            accountRepo.findByEmailAndPassword("invalid@gmail.com", "123");
+            result = Optional.empty(); // No account found
+        }};
+
+        LoginRequest loginRequest = LoginRequest.builder().email("invalid@gmail.com").password("123").build();
+        LoginResponse response = accountService.loginAPI(loginRequest);
+
+        assertEquals("Invalid username or password", response.getMessage());
+    }
+
+    @Test
+    public void testLogin_IncorrectPassword() {
+        new Expectations() {{
+            accountRepo.findByEmailAndPassword("test@gmail.com", "wrongpassword");
+            result = Optional.empty(); // Incorrect password
+        }};
+
+        LoginRequest loginRequest = LoginRequest.builder().email("test@gmail.com").password("wrongpassword").build();
+        LoginResponse response = accountService.loginAPI(loginRequest);
+
+        assertEquals("Invalid username or password", response.getMessage());
+    }
+
+    @Test
+    public void testLogin_BannedAccount() {
+        new Expectations() {{
+            accountRepo.findByEmailAndPassword("test@gmail.com", "123");
+            result = Account.builder()
+                    .email("test@gmail.com")
+                    .password("123")
+                    .build();
+        }};
+
+        LoginRequest loginRequest = LoginRequest.builder().email("test@gmail.com").password("123").build();
+        LoginResponse response = accountService.loginAPI(loginRequest);
+
+        assertEquals("Account is banned", response.getMessage());
+    }
+
+
 
 
     @Test

@@ -151,14 +151,14 @@ public class EfepApplication {
                 FlowerImage flowerImage1 = flowerImageRepo.save(
                         FlowerImage.builder()
                                 .flower(flower1)
-                                .link("https://www.rose.com")
+                                .link("https://iiflorist.com/wp-content/uploads/2023/08/12-redpink-rosegraduation-balloon-bouquet_iiflorist.jpg")
                                 .build()
                 );
 
                 FlowerImage flowerImage2 = flowerImageRepo.save(
                         FlowerImage.builder()
                                 .flower(flower1)
-                                .link("https://www.rose1.com")
+                                .link("https://iiflorist.com/wp-content/uploads/2023/08/12-redpink-rosegraduation-balloon-bouquet_iiflorist.jpg")
                                 .build()
                 );
 
@@ -167,14 +167,14 @@ public class EfepApplication {
                 FlowerImage flowerImage3 = flowerImageRepo.save(
                         FlowerImage.builder()
                                 .flower(flower2)
-                                .link("https://www.evelyn.com")
+                                .link("https://www.rayanesbhomes.com/wp-content/uploads/2024/01/White-Artificial-Tulip-Flower-Bouquet-for-Home-Decor-Wedding-Event-Party-Office-6.jpg")
                                 .build()
                 );
 
                 FlowerImage flowerImage4 = flowerImageRepo.save(
                         FlowerImage.builder()
                                 .flower(flower2)
-                                .link("https://www.evelyn1.com")
+                                .link("https://www.rayanesbhomes.com/wp-content/uploads/2024/01/White-Artificial-Tulip-Flower-Bouquet-for-Home-Decor-Wedding-Event-Party-Office-6.jpg")
                                 .build()
                 );
 
@@ -183,14 +183,14 @@ public class EfepApplication {
                 FlowerImage flowerImage5 = flowerImageRepo.save(
                         FlowerImage.builder()
                                 .flower(flower3)
-                                .link("https://www.tulip.com")
+                                .link("https://50gram.com.my/wp-content/uploads/2022/04/Hand-Bouquet-Product-Page-2023-07-11T014520.034.png.webp")
                                 .build()
                 );
 
                 FlowerImage flowerImage6 = flowerImageRepo.save(
                         FlowerImage.builder()
                                 .flower(flower3)
-                                .link("https://www.tulip1.com")
+                                .link("https://50gram.com.my/wp-content/uploads/2022/04/Hand-Bouquet-Product-Page-2023-07-11T014520.034.png.webp")
                                 .build()
                 );
 
@@ -313,7 +313,7 @@ public class EfepApplication {
                                 .description("Description of Plan 1")
                                 .price(500.0f)
                                 .duration(12)
-                                .status("ACTIVE")
+                                .status(Status.BUSINESS_PLAN_STATUS_ACTIVE)
                                 .build()
                 );
 
@@ -323,7 +323,7 @@ public class EfepApplication {
                                 .description("Description of Plan 2")
                                 .price(300.0f)
                                 .duration(6)
-                                .status("ACTIVE")
+                                .status(Status.BUSINESS_PLAN_STATUS_ACTIVE)
                                 .build()
                 );
 

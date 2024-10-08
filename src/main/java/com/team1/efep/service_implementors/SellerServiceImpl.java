@@ -41,11 +41,14 @@ public class SellerServiceImpl implements SellerService {
 
     private final OrderDetailRepo orderDetailRepo;
 
-    private final UserRepo userRepo;
-
     private final PurchasedPlanRepo purchasedPlanRepo;
 
     private final BusinessPlanRepo businessPlanRepo;
+
+    private final BusinessServiceRepo businessServiceRepo;
+
+
+    //--------------------------------------CREATE FLOWER------------------------------------------------//
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -223,6 +226,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
+
     @Override
     public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
@@ -405,9 +409,10 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
-        Map<String, String> errors = ViewOrderDetailValidation.validate(request);
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
+        Map<String, String> errors = ViewOrderDetailValidation.validate(request, account, order);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -824,7 +829,6 @@ public class SellerServiceImpl implements SellerService {
 
     //----------------------------------SORT ORDER BY CREATE DATE-------------------------------------//
 
-
     @Override
     public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model) {
         model.addAttribute("msg", sortOrderLogic(filterOrderRequest, sortOrderRequest));
@@ -956,6 +960,66 @@ public class SellerServiceImpl implements SellerService {
                 .message(flower.getName() + " has been deleted" + "(" + flower.getStatus() + ")")
                 .build();
     }
+
+    //----------------------------------------VIEW BUSINESS PLAN--------------------------------------------//
+
+    @Override
+    public String viewBusinessPlan(HttpSession session, Model model) {
+        model.addAttribute("msg", viewBusinessPlanLogic());
+        return "manageBusinessPlan";
+    }
+
+    @Override
+    public ViewBusinessPlanResponse viewBusinessPlanAPI() {
+
+        return viewBusinessPlanLogic();
+    }
+
+    private ViewBusinessPlanResponse viewBusinessPlanLogic() {
+
+        return ViewBusinessPlanResponse.builder()
+                .status("200")
+                .message("")
+                .serviceList(
+                        businessServiceRepo.findAll()
+                                .stream()
+                                .map(
+                                        service -> ViewBusinessPlanResponse.BusinessService.builder()
+                                                .id(service.getId())
+                                                .name(service.getName())
+                                                .description(service.getDescription())
+                                                .price(service.getPrice())
+                                                .build()
+                                )
+                                .toList()
+                )
+                .businessPlanList(
+                        businessPlanRepo.findAll()
+                                .stream()
+                                .map(
+                                        plan -> ViewBusinessPlanResponse.BusinessPlan.builder()
+                                                .id(plan.getId())
+                                                .name(plan.getName())
+                                                .description(plan.getDescription())
+                                                .price(plan.getPrice())
+                                                .duration(plan.getDuration())
+                                                .status(plan.getStatus())
+                                                .businessServiceList(plan.getPlanServiceList().stream()
+                                                        .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
+                                                                .id(service.getBusinessService().getId())
+                                                                .name(service.getBusinessService().getName())
+                                                                .description(service.getBusinessService().getDescription())
+                                                                .price(service.getBusinessService().getPrice())
+                                                                .build()
+                                                        )
+                                                        .toList())
+                                                .build()
+                                )
+                                .toList())
+                .build();
+
+    }
+
 }
 
 
