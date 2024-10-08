@@ -145,3 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+const toasts = document.querySelectorAll('.toast');
+toasts.forEach(toast => {
+    toast.addEventListener('animationend', () => {
+        toast.style.display = 'none';
+    });
+});
