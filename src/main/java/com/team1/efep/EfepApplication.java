@@ -167,14 +167,14 @@ public class EfepApplication {
                 FlowerImage flowerImage3 = flowerImageRepo.save(
                         FlowerImage.builder()
                                 .flower(flower2)
-                                .link("https://eventmetier.com.au/wp-content/uploads/2023/12/Tulip-Flower-White.jpg")
+                                .link("https://www.rayanesbhomes.com/wp-content/uploads/2024/01/White-Artificial-Tulip-Flower-Bouquet-for-Home-Decor-Wedding-Event-Party-Office-6.jpg")
                                 .build()
                 );
 
                 FlowerImage flowerImage4 = flowerImageRepo.save(
                         FlowerImage.builder()
                                 .flower(flower2)
-                                .link("https://eventmetier.com.au/wp-content/uploads/2023/12/Tulip-Flower-White.jpg")
+                                .link("https://www.rayanesbhomes.com/wp-content/uploads/2024/01/White-Artificial-Tulip-Flower-Bouquet-for-Home-Decor-Wedding-Event-Party-Office-6.jpg")
                                 .build()
                 );
 
