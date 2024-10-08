@@ -130,7 +130,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Object loginLogic(LoginRequest request) {
-        Map<String, String> errors = LoginValidation.validate(request);
+        Map<String, String> errors = LoginValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
             return LoginResponse.builder()
                     .status("200")
