@@ -17,6 +17,8 @@ public class ViewFlowerListResponse {
 
     private String message;
 
+    private String keyword;
+
     private List<Flower> flowerList;
 
     @Data

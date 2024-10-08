@@ -177,15 +177,14 @@
     width: 100%;
 }
 
-
-
-
 .top-category__img{
     position: relative;
 }
 
 .top-category__img img{
     border-radius: 12px;
+    width: 270px;
+    height: 320px;
 }
 
 .overlay{
@@ -200,7 +199,6 @@
     border-radius: 12px;
     text-align: center;
     display: none;
-
 }
 
 .add-to-wishlist{
