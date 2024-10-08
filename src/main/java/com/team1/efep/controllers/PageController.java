@@ -50,7 +50,7 @@ public class PageController {
     }
 
     @GetMapping("/orderList")
-    public String categoryPage() {
+    public String orderListPage() {
         return "viewOrderList";
     }
 
