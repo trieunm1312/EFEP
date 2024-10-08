@@ -321,6 +321,7 @@ public class BuyerServiceImpl implements BuyerService {
         return ViewFlowerListResponse.builder()
                 .status("200")
                 .message("Number of flowers: " + flowers.size())
+                .keyword("")
                 .flowerList(viewFlowerList(flowers))
                 .build();
     }
