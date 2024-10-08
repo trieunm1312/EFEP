@@ -107,10 +107,18 @@ public class AccountServiceImpl implements AccountService {
     public String login(LoginRequest request, Model model, HttpSession session) {
         Object output = loginLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class)) {
-            session.setAttribute("acc", accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).get());
+            Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).get();
+            session.setAttribute("acc", acc);
             model.addAttribute("msg", (LoginResponse) output);
-            HomepageConfig.config(model, buyerService);
-            return "home";
+            switch (acc.getRole()) {
+                case "SELLER" :
+                    return "";
+                case "ADMIN" :
+                    return "";
+                default:
+                    HomepageConfig.config(model, buyerService);
+                    return "home";
+            }
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "login";
