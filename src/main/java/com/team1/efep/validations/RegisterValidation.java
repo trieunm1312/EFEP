@@ -9,6 +9,8 @@ public class RegisterValidation {
     public static Map<String, String> validate(RegisterRequest request) {
         Map<String, String> errors = new HashMap<>();
         //code validate here
+
+        // 
         return errors;
     }
 }
