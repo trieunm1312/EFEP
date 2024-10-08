@@ -10,124 +10,287 @@
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
     <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css">
 </head>
 
 <body>
-    <aside class="sidebar">
-        <a href="" class="sidebar__logo">
-            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Web Logo">
-        </a>
-        <hr class="horizontal dark ">
-        <div class="sidebar__components">
-            <ul class="sidebar__List">
-                <li>
-                    <a href="" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Dashboard</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Flower</span>
-                        </div>
-                    </a>
-                </li> 
-                <li>
-                    <a href="" class="sidebar__link ">
-                        <div class="sidebar__item">
-                            <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Something here</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage User</span>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </aside>
-    <div class="wrap">
-        <!-- header -->
-        <header class="header">
-            <!-- Header direction -->
-            <div class="header__direction">
-                <div class="header__path">
-                    <a href="">
-                        <span>Seller Page</span>
-                    </a>
-                    <span>/</span>
-                    <span>Manage</span><br>
-                </div>
-                <div class="header__title">
-                    <h3>Manage Flower</h3>
-                </div>
+<aside class="sidebar">
+    <a href="" class="sidebar__logo">
+        <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Web Logo">
+    </a>
+    <hr class="horizontal dark ">
+    <div class="sidebar__components">
+        <ul class="sidebar__List">
+            <li>
+                <a th:href="@{/}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Dashboard</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Flower</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/orderList}" class="sidebar__link ">
+                    <div class="sidebar__item">
+                        <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Order</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage User</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+<div class="wrap">
+    <!-- header -->
+    <header class="header">
+        <!-- Header direction -->
+        <div class="header__direction">
+            <div class="header__path">
+                <a href="">
+                    <span>Seller Page</span>
+                </a>
+                <span>/</span>
+                <span>Manage</span><br>
             </div>
-
-            <!-- Header search -->
-            <div class="header__search">
-                <form action="" method="GET" class="header__search-form">
-                    <button class="header__search-btn">
-                        <i class="fa-solid  fa-magnifying-glass"></i>
-                    </button>
-                    <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
-                </form>
-            </div>
-            <div class="header__create-btn btn">
-                <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                <span>Create</span>
-                <div class="header__create-block">
-                    <h4 class="header__create-title">Create New</h4>
-                    <ul class="header__create-list">
-                        <li class="header__create-item">
-                            <a href="#">
-                                <i class="fa-regular fa-clipboard header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Business Service</span>
-                            </a>
-                        </li>
-                        <li class="header__create-item">
-                            <a href="#">
-                                <i class="fa-solid fa-briefcase header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Business Plan</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="header__others">
-                <div class="header__noti">
-                    <i class="fa-solid fa-bell"></i>
-                </div>
-                <span class="header__separate">|</span>
-                <div class="header__account">
-                    <img src="https://th.bing.com/th/id/OIP.fZnBtIe-qAaSrj3pGtJiQQHaHa?w=179&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Avatar">
-                    <span>Xuất Sắc Bảnh</span>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </div>
-            </div>
-        </header>
-
-        <!-- Container -->
-        <div class="container">
-            <div class="container-wrap">
-
+            <div class="header__title">
+                <h3>Manage Flower</h3>
             </div>
         </div>
 
-        <!-- Footer -->
-        <div class="footer">
+        <!-- Header search -->
+        <div class="header__search">
+            <form action="" method="GET" class="header__search-form">
+                <button class="header__search-btn">
+                    <i class="fa-solid  fa-magnifying-glass"></i>
+                </button>
+                <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
+            </form>
+        </div>
+        <div class="header__create-btn btn">
+            <i class="fa-solid fa-plus header__create-btn-icon"></i>
+            <span>Create</span>
+            <div class="header__create-block">
+                <h4 class="header__create-title">Create New</h4>
+                <ul class="header__create-list">
+                    <li class="header__create-item">
+                        <a href="#">
+                            <i class="fa-solid fa-flower header__create-item-icon"></i>
+                            <!-- <i class="fa-solid fa-spa"></i> -->
+                            <span class="sidebar__item-title">Flower</span>
+                        </a>
+                    </li>
+                    <li class="header__create-item">
+                        <a href="#">
+                            <i class="fa-solid fa-briefcase header__create-item-icon"></i>
+                            <span class="sidebar__item-title">Business Plan</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="header__others">
+            <div class="header__noti">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <span class="header__separate">|</span>
+            <div class="header__account">
+                <img src="https://th.bing.com/th/id/OIP.fZnBtIe-qAaSrj3pGtJiQQHaHa?w=179&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Avatar">
+                <span>Xuất Sắc Bảnh</span>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+        </div>
+    </header>
 
+    <!-- Container -->
+    <div class="container">
+        <div class="grid">
+            <div class="manage-flower">
+                <div class="manage-flower__heading">
+                    <h4 class="manage-flower__title">Manage Flower</h4>
+                    <div class="manage-flower__create-btn">
+                        <i class="fa-solid fa-plus header__create-btn-icon"></i>
+                        <span>Create New</span>
+                    </div>
+                </div>
+                <table class="manage-flower__table">
+                    <thead class="table__header">
+                    <tr>
+                        <th class="table__header-image">Image</th>
+                        <th class="table__header-name">Name</th>
+                        <th class="table__header-desc">Description</th>
+                        <th class="table__header-amount">Flower Amount</th>
+                        <th class="table__header-qnt">Quanity</th>
+                        <th class="table__header-price">Price</th>
+
+                    </tr>
+                    </thead>
+                    <tbody class="table__body">
+                    <div>
+                        <div>
+                            <tr class="table__body-item">
+                                <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
+                                    <input type="hidden" name="_method" value="put">
+                                    <input type="hidden" name="id" th:value="${item.id}">
+                                    <td class="table__body-img">
+                                        <img class="img" src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg" alt="">
+                                        <input type="url" name="image" class="img-input"
+                                               style="display: none;">
+                                    </td>
+                                    <td class="table__body-name">
+                                        <span th:text="${item.name}" class="name-text">hiptage</span>
+                                        <input name="name" class="name-input" th:text="${item.name}"
+                                               style="display: none;">
+                                    </td>
+                                    <td class="table__body-desc">
+                                        <span th:text="${item.description}" class="desc-text">beautifull</span>
+                                        <textarea name="description" th:text="${item.description}" class="desc-input"
+                                                  style="display: none;"></textarea>
+                                    </td>
+                                    <td class="table__body-amount">
+                                        <span th:text="${item.flowerAmount}" class="amount-text">100</span>
+                                        <input name="amount" class="amount-input" th:value="${item.flowerAmount}"
+                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>
+                                    </td>
+                                    <td class="table__body-qnt">
+                                        <span th:text="${item.quantity}" class="qnt-text">20</span>
+                                        <input name="quantity" class="qnt-input" th:value="${item.quantity}"
+                                               style="display: none;"/>
+                                    </td>
+                                    <td class="table__body-price">
+                                        <span th:text="${'$' + item.price}" class="price-text">120</span>
+                                        <input name="price" class="price-input" th:value="${item.price}"
+                                               style="display: none;"/>
+                                    </td>
+                                    <td class="table__body-edit">
+                                        <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
+                                        <span class="edit-btn" onclick="editRow(this)">Edit</span>
+                                        <input type="submit" name="action" class="save-btn" value="Save"
+                                               style="display: none;">
+                                    </td>
+                                </form>
+                                <td class="table__body-toggle">
+                                    <form th:action="@{/seller/flower}" method="post">
+                                        <input type="hidden" name="_method" value="delete">
+                                        <input type="submit" name="action" value="Delete" class="toggle-btn">
+                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                    </form>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+
+                    <form th:action="@{/admin/service}" method="post" class="manage-flower__form">
+                        <tr class="table__body-item-new" style="display: none;">
+                            <td class="table__body-img">
+                                <input type="url" name="img" th:value="${NewService}" placeholder="Image">
+                            </td>
+                            <td class="table__body-name">
+                                <input name="name" th:value="${NewService}" placeholder="Flower Name">
+                            </td>
+                            <td class="table__body-desc">
+                                <textarea name="description" th:text="${Description}" placeholder="Description"></textarea>
+                            </td>
+                            <td class="table__body-amount">
+                                <input name="flowerAmount" th:value="${100}" placeholder="Amount">
+                            </td>
+                            <td class="table__body-qnt">
+                                <span>$</span>
+                                <input name="quantity" th:value="${100}" placeholder="Quantity">
+                            </td>
+                            <td class="table__body-price">
+                                <span>$</span>
+                                <input name="price" th:value="${100}" placeholder="Price">
+                            </td>
+                            <td class="table__body-save">
+                                <input type="submit" class="save-btn" name="action" value="Create">
+                            </td>
+                        </tr>
+                    </form>
+
+                    <!-- <div th:if="${msg}">
+                        <div th:each="item : ${msg.servicesList}">
+                            <tr class="table__body-item">
+                                <form th:action="@{/admin/service}" th:method="put" class="business-service__form">
+                                    <input type="hidden" name="id" th:value="${item.id}">
+                                    <td class="table__body-name">
+                                        <span th:text="${item.name}" class="name-text"></span>
+                                        <input name="name" th:value="${item.name}" class="name-input"
+                                               style="display: none;">
+                                    </td>
+                                    <td class="table__body-desc">
+                                        <span th:text="${item.description}" class="desc-text"></span>
+                                        <textarea name="description" th:text="${item.description}" class="desc-input"
+                                                  style="display: none;"></textarea>
+                                    </td>
+                                    <td class="table__body-price">
+                                        $
+                                        <span th:text="${item.price}" class="price-text"></span>
+                                        <input name="price" class="price-input" th:value="${item.price}"
+                                               style="display: none;"></input>
+                                    </td>
+                                    <td class="table__body-edit">
+                                        <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
+                                        <span class="edit-btn" onclick="editRow(this)">Edit</span>
+                                        <input type="submit" name="action" class="save-btn" value="Save"
+                                               style="display: none;">
+                                    </td>
+                                </form>
+                                <td class="table__body-toggle">
+                                    <form th:action="@{/admin/service}" th:method="delete">
+                                        <input type="submit" name="action" value="Delete" class="toggle-btn">
+                                        <input type="hidden" name="id" th:value="${item.id}">
+                                    </form>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+
+                    <form th:action="@{/admin/service}" th:method="post" class="business-service__form">
+                        <tr class="table__body-item-new" style="display: none;">
+                            <td class="table__body-name">
+                                <input name="name" th:value="${NewService}" placeholder="Service Name">
+                            </td>
+                            <td class="table__body-desc">
+                                <textarea name="description" th:text="${Description}" placeholder="Description"></textarea>
+                            </td>
+                            <td class="table__body-price">
+                                <span>$</span>
+                                <input name="price" th:value="${100}" placeholder="Price">
+                            </td>
+                            <td class="table__body-save">
+                                <input type="submit" class="save-btn" name="action" value="Create">
+                            </td>
+                        </tr>
+                    </form> -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <script src="/src/main/resources/static/js/adminBase.js"></script>
+
+    <!-- Footer -->
+    <div class="footer">
+
+    </div>
+</div>
+<script src="/src/main/resources/static/js/adminBase.js"></script>
+<script src="/src/main/resources/static/js/manageFlower.js"></script>
 </body>
 
 </html>
