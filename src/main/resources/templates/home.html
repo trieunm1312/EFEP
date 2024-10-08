@@ -18,6 +18,36 @@
 </head>
 
 <body>
+<div id="toast" th:if="${msg != null}">
+    <div th:if="${msg.status == '200'}">
+        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1.5s forwards;">
+            <div class="toast__icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">Successfully!</h3>
+                <p class="toast__msg" th:text="${msg.message}"></p>
+            </div>
+            <div class="toast__close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+    <div th:if="${msg.status != '200'}">
+        <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s 1.5s forwards;">
+            <div class="toast__icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">Error!</h3>
+                <p class="toast__msg" th:text="${msg.message}"></p>
+            </div>
+            <div class="toast__close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="wrap">
     <!-- Nav Bar -->
     <nav class="navbar" th:fragment="navbar">
@@ -398,7 +428,7 @@
                             <li class="header__item-icon header__item-icon-search" tabindex="0">
                                 <i class="header__item-icon-search fa-solid fa-magnifying-glass">
                                     <form th:action="@{/buyer/flower/search}" class="header__item-search-box" method="post">
-                                        <input type="text" class="header__item-search-input" name="name"
+                                        <input type="text" class="header__item-search-input" name="keyword"
                                             placeholder="Search...">
                                         <button class="header__item-search-icon">
                                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -407,30 +437,40 @@
                                 </i>
                             </li>
                             <li class="header__item-icon header__item-icon-user" tabindex="0">
-                                <i class="header__item-icon-user fa-solid fa-user">
+                                <i class="header__item-icon-user-icon fa-solid fa-user">
 
                                 <!-- Have not Login -->
-                                <div th:if="${error == null}">
-                                    <div th:if="${session.acc == null}" class="header__item-account">
-                                        <a th:href="@{/register}" class="header__item-account-item">Register</a>
-                                        <a th:href="@{/login}" class="header__item-account-item">Login</a>
-                                    </div>
+                                    <div th:if="${error == null}">
+                                        <div th:if="${session.acc == null}" class="header__item-account">
+                                            <a th:href="@{/register}" class="header__item-account-item">Register</a>
+                                            <a th:href="@{/login}" class="header__item-account-item">Login</a>
+                                        </div>
 
-                                    <!-- Login successfully -->
-                                    <div th:if="${session.acc != null}" class="header__item-account">
-                                        <form th:action="@{/account/view/profile}" class="form" method="get">
-                                            <input type="submit" name="action" value="My profile"
-                                                   class="header__item-account-item"></input>
-                                            <input type="hidden" name="id" th:value="${session.acc.getId()}"></input>
-                                        </form>
-                                        <form th:action="@{/account/logout}" class="form" method="get">
-                                            <input type="submit" name="action" value="Logout"
-                                                   class="header__item-account-item"></input>
-                                        </form>
+                                        <!-- Login successfully -->
+                                        <div th:if="${session.acc != null}" class="header__item-account">
+                                            <form th:action="@{/account/view/profile}" class="form" method="get">
+                                                <input type="submit" name="action" value="My profile"
+                                                       class="header__item-account-item"></input>
+                                                <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                                            </form>
+                                            <div th:if="${session.acc.getRole() == 'buyer'}">
+                                                <form th:action="@{/account/logout}" class="form" method="get">
+                                                    <input type="submit" name="action" value="Seller Channel"
+                                                           class="header__item-account-item"></input>
+                                                </form>
+                                            </div>
+                                            <form th:action="@{/account/logout}" class="form" method="get">
+                                                <input type="submit" name="action" value="Logout"
+                                                       class="header__item-account-item"></input>
+                                            </form>
+
+                                        </div>
                                     </div>
+                                </i>
+                                <div th:if="${session.acc != null}" class="header__item-icon-user-name">
+                                    <span th:text="${session.acc.getUser().getName()}"></span>
                                 </div>
-                            </i>
-                        </li>
+                            </li>
                         <li class="header__item-icon">
                             <!-- Cart layout -->
                             <div class="header__cart">
@@ -642,80 +682,75 @@
                 </div>
 
             <!-- Top Category -->
- <!--          <div class="top-category">-->
-<!--                <h2 class="top-category__title">Top Sale Flowers<br>-->
-<!--                    <img src="/img/title-flower.png" alt="">-->
-<!--                </h2>-->
-<!--                <div class="top-category__list">-->
-<!--                    <div th:each="item : ${msg.flowerList}" class="top-category__item">-->
-<!--                        <div class="top-category__img">-->
-<!--                            <img th:src="@{${item.images[0].link}}" alt="Flower Image">-->
-<!--                            <div class="overlay">-->
-
-<!--                                <form th:action="@{/}" method="get">-->
-<!--                                    <button class="add-to-wishlist">-->
-<!--                                        <i class="fa-solid fa-heart"></i>-->
-<!--                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-
-<!--                                    </button>-->
-<!--                                </form>-->
-<!--                                <form th:action="@{/buyer/flower/detail}" th:method="post">-->
-<!--                                    <button class="view-detail">-->
-<!--                                        <i class="fa-solid fa-eye"></i>-->
-<!--                                        <span class="view-detail__msg">View detail</span>-->
-<!--                                        <input type="hidden" name="id" th:value="${item.id}">-->
-<!--                                    </button>-->
-<!--                                </form>-->
-<!--                                &lt;!&ndash; <a href="" class="add-to-wishlist">-->
-<!--                                    <i class="fa-solid fa-heart"></i>-->
-<!--                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-<!--                                </a>-->
-<!--                                <form th:action="@{/buyer/wishlist}" method="post">-->
-<!--                                    <div th:if="${session.acc != null}">-->
-<!--                                        <input type="hidden" name="flowerId" th:value="${item.id}">-->
-<!--                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
-<!--                                        <input type="hidden" name="quantity" value="1">-->
-<!--                                    </div>-->
-<!--                                    <button class="add-to-wishlist">-->
-<!--                                        <i class="fa-solid fa-heart"></i>-->
-<!--                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-<!--                                    </button>-->
-<!--                                </form>-->
-<!--                                <form th:action="@{/buyer/flower/detail}" method="post">-->
-<!--                                    <button class="view-detail">-->
-<!--                                        <i class="fa-solid fa-eye"></i>-->
-<!--                                        <span class="view-detail__msg">View detail</span>-->
-<!--                                        <input type="hidden" name="id" th:value="${item.id}">-->
-<!--                                    </button>-->
-<!--                                </form>-->
-                                <!-- <a href="" class="add-to-wishlist">
+           <div class="top-category">
+                <h2 class="top-category__title">Top Sale Flowers<br>
+                    <img src="/img/title-flower.png" alt="">
+                </h2>
+                <div class="top-category__list">
+                    <div th:each="item : ${msg2.flowerList}" class="top-category__item">
+                        <div class="top-category__img">
+                            <img th:src="@{${item.images[0].link}}" alt="Flower Image">
+                            <div class="overlay">
+                                <form th:action="@{/}" method="get">
+                                    <button class="add-to-wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                    </button>
+                                </form>
+                                <form th:action="@{/buyer/flower/detail}" th:method="post">
+                                    <button class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                        <input type="hidden" name="id" th:value="${item.id}">
+                                    </button>
+                                </form>
+                                 <a href="" class="add-to-wishlist">
                                     <i class="fa-solid fa-heart"></i>
                                     <span class="add-to-wishlist__msg">Add To Wishlist</span>
                                 </a>
-
-                                <a href="" class="view-detail">-->
-<!--                                    <i class="fa-solid fa-eye"></i>-->
-<!--                                    <span class="view-detail__msg">View detail</span>-->
-<!--                                </a> &ndash;&gt;-->
-
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">-->
-<!--                            <input type="submit" name="action" th:value="${item.name}" class="top-category__name">-->
-<!--                            </input>-->
-<!--                            <input type="hidden" name="id" th:value="${item.id}">-->
-<!--                        </form>-->
-<!--                        <div class="top-category__content">-->
-<!--                            <span>-->
-<!--                                $-->
-<!--                                <span th:text="${item.price}"></span>-->
-<!--                            </span>-->
-<!--                            <span>Sold: 1000</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                </div>-->
-<!--            </div>-->
+                                <form th:action="@{/buyer/wishlist}" method="post">
+                                    <div th:if="${session.acc != null}">
+                                        <input type="hidden" name="flowerId" th:value="${item.id}">
+                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                        <input type="hidden" name="quantity" value="1">
+                                    </div>
+                                    <button class="add-to-wishlist">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                    </button>
+                                </form>
+                                <form th:action="@{/buyer/flower/detail}" th:method="post">
+                                    <button class="view-detail">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="view-detail__msg">View detail</span>
+                                        <input type="hidden" name="id" th:value="${item.id}">
+                                    </button>
+                                </form>
+                                 <a href="" class="add-to-wishlist">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>
+                                </a>
+                                <a href="" class="view-detail">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view-detail__msg">View detail</span>
+                                </a>
+                            </div>
+                        </div>
+                        <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
+                            <input type="submit" name="action" th:value="${item.name}" class="top-category__name">
+                            </input>
+                            <input type="hidden" name="id" th:value="${item.id}">
+                        </form>
+                        <div class="top-category__content">
+                            <span>
+                                $
+                                <span th:text="${item.price}"></span>
+                            </span>
+                            <span>Sold: 1000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Breadbrum -->
             <div class="breadbrum">
                 <div class="grid">

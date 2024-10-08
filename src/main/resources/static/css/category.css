@@ -204,7 +204,8 @@
 }
 
 .flower__img img{
-    width: 100%;
+    width: 270px;
+    height: 320px;
     border-radius: 12px;
 }
 
@@ -219,7 +220,7 @@
     display: block;
     border-radius: 12px;
     text-align: center;
-    display: none;
+
 
 }
 
