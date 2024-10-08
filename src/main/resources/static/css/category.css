@@ -220,14 +220,13 @@
     display: block;
     border-radius: 12px;
     text-align: center;
-
-
+    display: none;
 }
 
 .add-to-wishlist{
     position: absolute;
     bottom: 16px;
-    left: 75px;
+    left: 85px;
     font-size: 1.8rem;
     color: var(--white-color);
     background-color: var(--primary-color);
@@ -245,7 +244,7 @@
 .view-detail{
     position: absolute;
     bottom: 16px;
-    right: 82px;
+    right: 92px;
     font-size: 1.8rem;
     color: var(--white-color);
     background-color: var(--primary-color);

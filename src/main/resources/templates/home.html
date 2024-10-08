@@ -691,49 +691,26 @@
                         <div class="top-category__img">
                             <img th:src="@{${item.images[0].link}}" alt="Flower Image">
                             <div class="overlay">
-                                <form th:action="@{/}" method="get">
-                                    <button class="add-to-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </button>
-                                </form>
-                                <form th:action="@{/buyer/flower/detail}" th:method="post">
-                                    <button class="view-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                        <input type="hidden" name="id" th:value="${item.id}">
-                                    </button>
-                                </form>
-                                 <a href="" class="add-to-wishlist">
-                                    <i class="fa-solid fa-heart"></i>
-                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                </a>
                                 <form th:action="@{/buyer/wishlist}" method="post">
                                     <div th:if="${session.acc != null}">
                                         <input type="hidden" name="flowerId" th:value="${item.id}">
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                        <input type="hidden" name="quantity" value="1">
                                     </div>
                                     <button class="add-to-wishlist">
                                         <i class="fa-solid fa-heart"></i>
                                         <span class="add-to-wishlist__msg">Add To Wishlist</span>
                                     </button>
                                 </form>
-                                <form th:action="@{/buyer/flower/detail}" th:method="post">
+
+                                <form th:action="@{/buyer/flower/detail}" method="post">
                                     <button class="view-detail">
                                         <i class="fa-solid fa-eye"></i>
                                         <span class="view-detail__msg">View detail</span>
                                         <input type="hidden" name="id" th:value="${item.id}">
                                     </button>
                                 </form>
-                                 <a href="" class="add-to-wishlist">
-                                    <i class="fa-solid fa-heart"></i>
-                                    <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                </a>
-                                <a href="" class="view-detail">
-                                    <i class="fa-solid fa-eye"></i>
-                                    <span class="view-detail__msg">View detail</span>
-                                </a>
+
+
                             </div>
                         </div>
                         <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
