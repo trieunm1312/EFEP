@@ -51,4 +51,8 @@ public interface AdminService {
     String unBanUser(UnBanUserRequest request, Model model);
 
     UnBanUserResponse unBanUserAPI(UnBanUserRequest request);
+
+    String searchUserList(HttpSession session, SearchUserListRequest request, Model model);
+
+    SearchUserListResponse searchUserListAPI(SearchUserListRequest request);
 }

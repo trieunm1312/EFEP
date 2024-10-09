@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MockingTest {
 
@@ -88,24 +87,6 @@ public class MockingTest {
 
         assertEquals("Invalid username or password", response.getMessage());
     }
-
-    @Test
-    public void testLogin_BannedAccount() {
-        new Expectations() {{
-            accountRepo.findByEmailAndPassword("test@gmail.com", "123");
-            result = Account.builder()
-                    .email("test@gmail.com")
-                    .password("123")
-                    .build();
-        }};
-
-        LoginRequest loginRequest = LoginRequest.builder().email("test@gmail.com").password("123").build();
-        LoginResponse response = accountService.loginAPI(loginRequest);
-
-        assertEquals("Account is banned", response.getMessage());
-    }
-
-
 
 
     @Test

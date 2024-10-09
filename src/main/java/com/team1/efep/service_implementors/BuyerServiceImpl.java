@@ -271,7 +271,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     private Object renewPassLogic(RenewPasswordRequest request) {
 
-        Map<String, String> errors = RenewPasswordValidation.validate(request);
+        Map<String, String> errors = RenewPasswordValidation.validate(request, accountRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
