@@ -11,12 +11,11 @@ public class LoginValidation {
     public static Map<String, String> validate(LoginRequest request, AccountRepo accountRepo) {
         Map<String, String> errors = new HashMap<>();
         // code validate here
-
         // check email (exist DB) and check pass  (exist DB)
+        // --> check email and check pass not exits Database
         if (accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null) == null) {
-            MapConfig.buildMapKey(errors, "Email or password is incorrect");
+            return MapConfig.buildMapKey(errors, "Email or password is incorrect");
         }
-
         return errors;
     }
 }

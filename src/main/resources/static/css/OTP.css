@@ -1,0 +1,250 @@
+/* Container */
+.container{
+    margin-bottom: 52px;
+    margin: 0;
+    padding: 0;
+}
+
+.container__wrap{
+    width: calc(100% + 190px);
+}
+
+.breadbrum{
+    width: 120%;
+    height: 283px;
+    padding: 100px 0;
+    margin-top: 32px;
+    text-align: center;
+    color: var(--white-color);
+    background: url('/img/breadcrumb_img-1920x300.png');
+    background-size: cover !important;
+}
+
+.breadbrum__element-list{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.breadbrum__title{
+    font-size: 3.4rem;
+}
+
+.breadbrum__element-list-item-link{
+    text-decoration: none;
+    font-size: 1.6rem;
+    color: var(--white-color);
+    margin-right: 18px;
+}
+
+.breadbrum__element-list-item-link:hover {
+    color:var(--white-color);
+    text-decoration: none;
+}
+
+.fa-angles-right{
+    margin-right: 10px;
+}
+
+/* Authen modal */
+/* Register + Login Form */
+.auth-form{
+    margin: 52px auto;
+    margin-right: 260px;
+    width: 600px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid var(--primary-color);
+    background-color: var(--white-color);
+    z-index: 1;
+}
+
+.auth-form__container{
+    padding: 0 32px;
+}
+
+.auth-form__header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+}
+
+.auth-form__heading{
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--text-color);
+}
+
+.auth-form__group-name{
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--text-color);
+    margin: 24px 0 -6px;
+}
+
+.auth-form__switch-btn{
+    margin: 0;
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.auth-form__switch-btn:hover{
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+.auth-form__group{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.auth-form__label{
+    font-size: 1.4rem;
+    margin-top: 16px;
+    margin-right: 8px;
+    width: 14%;
+}
+
+.auth-form__label:last-child{
+    padding-left: -4px;
+    margin-right: 32px;
+}
+
+.auth-form__input{
+    width: 100%;
+    height: 40px;
+    margin-top: 16px;
+    padding: 0 12px;
+    font-size: 1.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    outline: none;
+   
+}
+
+.auth-form__input:focus{
+    border-color: #888;
+}
+
+
+.second-form {
+    z-index: 1001; /* Just above the overlay */
+    position: relative;
+}
+
+.otp-Form {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 30px;
+    gap: 20px;
+    position: relative;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.082);
+    border-radius: 2px;
+}
+
+.mainHeading {
+    font-size: 2.2rem;
+    color: rgb(15, 15, 15);
+    font-weight: 700;
+}
+
+.otpSubheading {
+    font-size: 1.8rem;
+    color: black;
+    line-height: 17px;
+    text-align: center;
+}
+
+.inputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.otp-input {
+    background-color: rgb(228, 228, 228);
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    font-size: 3rem;
+    border: none;
+    border-radius: 7px;
+    caret-color: var(--primary-color);
+    color: var(--white-color);
+    outline: none;
+    font-weight: 600;
+}
+
+.otp-input:focus,
+.otp-input:valid {
+    background-color: var(--primary-color);
+    transition-duration: .3s;
+}
+
+.verifyButton {
+    width: 100%;
+    height: 30px;
+    border: none;
+    font-size: 2.2rem;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: .2s;
+}
+
+.verifyButton:hover {
+    background-color: rgb(144, 145, 255);
+    transition-duration: .2s;
+}
+
+.exitBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.171);
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    border: none;
+    color: black;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.resendNote {
+    font-size: 1.4rem;
+    color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.resendBtn {
+    background-color: transparent;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+

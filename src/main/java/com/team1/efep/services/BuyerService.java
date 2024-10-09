@@ -21,7 +21,7 @@ public interface BuyerService {
 
     ViewWishlistResponse viewWishlistAPI(int accountId);
 
-    String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model);
+    String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model);
 
     AddToWishlistResponse addToWishlistAPI(AddToWishlistRequest request);
 

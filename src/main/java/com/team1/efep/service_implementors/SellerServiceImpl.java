@@ -1020,6 +1020,104 @@ public class SellerServiceImpl implements SellerService {
 
     }
 
+    //----------------------------------------VIEW FLOWER IMAGE----------------------------------------------//
+
+    @Override
+    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewFlowerImageResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        model.addAttribute("msg", viewFlowerImageLogic(request));
+        return "redirect:/seller/view/flower";
+    }
+
+    @Override
+    public ViewFlowerImageResponse viewFlowerImageAPI(ViewFlowerImageRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return ViewFlowerImageResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        return viewFlowerImageLogic(request);
+    }
+
+    private ViewFlowerImageResponse viewFlowerImageLogic(ViewFlowerImageRequest request) {
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+        assert flower != null;
+        List<ViewFlowerImageResponse.FlowerImageLink> imageLinks = flower.getFlowerImageList().stream()
+                .map(image -> ViewFlowerImageResponse.FlowerImageLink.builder()
+                        .link(image.getLink())
+                        .build())
+                .toList();
+
+        return ViewFlowerImageResponse.builder()
+                .status("200")
+                .message("Flower images retrieved successfully")
+                .images(imageLinks)
+                .build();
+    }
+
+    //------------------------------ADD FLOWER IMAGE---------------------------------//
+
+    @Override
+    public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", AddFlowerImageResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+
+        model.addAttribute("msg", addFlowerImageLogic(request));
+        return "redirect:/seller/view/flower";
+    }
+
+    @Override
+    public AddFlowerImageResponse addFlowerImageAPI(AddFlowerImageRequest request) {
+//        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+//        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+//            return AddFlowerImageResponse.builder()
+//                    .status("400")
+//                    .message("Please login a seller account to do this action")
+//                    .build();
+//        }
+//
+//        return addFlowerImageLogic(request);
+        return null;
+    }
+
+    private Object addFlowerImageLogic(AddFlowerImageRequest request) {
+//        // Tìm Flower dựa trên flowerId từ request
+//        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+//
+//        // Lấy danh sách link hình ảnh từ request và tạo FlowerImage tương ứng
+//        List<String> imageLinks = Arrays.asList(request.getImageList().split(","));
+//        List<FlowerImage> flowerImages = imageLinks.stream()
+//                .map(link -> FlowerImage.builder()
+//                        .flower(flower)
+//                        .link(link)
+//                        .build())
+//                .toList();
+//
+//        // Lưu các FlowerImage vào cơ sở dữ liệu
+//        flowerRepo.saveAll(flowerImages);
+//
+//        return AddFlowerImageResponse.builder()
+//                .status("200")
+//                .message("Flower images added successfully")
+//                .build();
+        return null;
+    }
+
 }
 
 

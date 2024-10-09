@@ -215,8 +215,8 @@
 }
 
 .overlay button:hover{
-    color: var(--white-color);
-    background-color: var(--black-color);
+    color: var(--white-color) !important;
+    background-color: var(--black-color) !important;
 }
 
 .view-detail{
