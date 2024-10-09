@@ -19,7 +19,7 @@ public class RegisterValidation {
             return MapConfig.buildMapKey(errors, "Name cannot be empty");
         }
 
-        if (accountRepo.findByName(request.getName()).isPresent()) {
+        if (accountRepo.findByUser_Name(request.getName()).isPresent()) {
             return MapConfig.buildMapKey(errors, "Name already exists");
         }
 
@@ -29,7 +29,7 @@ public class RegisterValidation {
             return MapConfig.buildMapKey(errors, "Phone cannot be empty");
         }
 
-        if (accountRepo.findByPhone(request.getPhone()).isPresent()) {
+        if (accountRepo.findByUser_Phone(request.getPhone()).isPresent()) {
             return MapConfig.buildMapKey(errors, "Phone already exists");
         }
 
