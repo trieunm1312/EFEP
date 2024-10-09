@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-   <link rel="stylesheet" href="/css/all.min.css">
-   <link rel="stylesheet" href="/css/base.css">
-   <link rel="stylesheet" href="/css/category.css">
+    <link rel="stylesheet" href="/css/animate.css">
 
-    <!-- <link rel="stylesheet" href="/css/all.min.css">
+
+    <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/main.css"> -->
+    <link rel="stylesheet" href="/css/forgotPassword.css">
 </head>
 
 <body>
@@ -33,7 +32,6 @@
                     <div class="navbar__item">
                         <div class="navbar__item-select" tabindex="0">
                             <span class="navbar__item-select-label">Currency: US Dollar</span>
-    
                         </div>
                     </div>
                 </div>
@@ -429,7 +427,7 @@
                                 <!-- Cart layout -->
                                 <div class="header__cart">
                                     <div class="header__cart-wrap">
-                                        <i class="header__cart-icon fa-solid fa-heart"></i>
+                                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
                                         <span class="header__cart-notice"> 10 </span>
 
                                         <!-- No wishlist: header__cart-list--no-wishlist -->
@@ -507,283 +505,71 @@
             </div>
         </header>
 
+        <!-- Container -->
         <div class="container">
+            <!-- <div class="grid"> -->
             <div class="container__wrap">
                 <!-- Breadbrum -->
-                <div th:if="${not #strings.isEmpty(msg.keyword)}">
-                    <div class="breadbrum">
-                        <h1 class="breadbrum__title">Search For:
-                        <span th:text="${msg.keyword}"></span>
-                        </h1><br>
-                        <ul class="breadbrum__element-list">
-                            <li class="breadbrum__element-list-item">
-                                <a href="home.html" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-house"></i>
-                                </a>
-                            </li>
-                            <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                    <span>Search</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="breadbrum">
+                    <h1 class="breadbrum__title">OTP</h1><br>
+                    <ul class="breadbrum__element-list">
+                        <li class="breadbrum__element-list-item">
+                            <a href="home.html" class="breadbrum__element-list-item-link">
+                                <i class="fa-solid fa-house"></i>
+                            </a>
+                        </li>
+
+                        <li class="breadbrum__element-list-item">
+                            <a href="" class="breadbrum__element-list-item-link">
+                                <i class="fa-solid fa-angles-right"></i>
+                                <span>Account</span>
+                            </a>
+                        </li>
+
+                        <li class="breadbrum__element-list-item">
+                            <a href="register.html" class="breadbrum__element-list-item-link">
+                                <i class="fa-solid fa-angles-right"></i>
+                                <span>OTP</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div th:if="${#strings.isEmpty(msg.keyword)}">
-                    <div class="breadbrum">
-                        <h1 class="breadbrum__title">All Products</h1><br>
-                        <ul class="breadbrum__element-list">
-                            <li class="breadbrum__element-list-item">
-                                <a href="home.html" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-house"></i>
-                                </a>
-                            </li>
+                <div class="auth-form second-form">
+                    <form class="otp-Form">
+                        <h3 class="mainHeading">Enter OTP</h3>
+                        <h4 class="otpSubheading">We have sent a verification code to your mobile number</h4>
+                        <div class="inputContainer">
+                            <input required="required" maxlength="1" type="text" class="otp-input" id="otp-input1">
+                            <input required="required" maxlength="1" type="text" class="otp-input" id="otp-input2">
+                            <input required="required" maxlength="1" type="text" class="otp-input" id="otp-input3">
+                            <input required="required" maxlength="1" type="text" class="otp-input" id="otp-input4">
+                            <input required="required" maxlength="1" type="text" class="otp-input" id="otp-input5">
+                            <input required="required" maxlength="1" type="text" class="otp-input" id="otp-input6">
 
-<!--                            <li class="breadbrum__element-list-item">-->
-<!--                                <a href="" class="breadbrum__element-list-item-link">-->
-<!--                                    <i class="fa-solid fa-angles-right"></i>-->
-<!--                                    <span>Event</span>-->
-<!--                                </a>-->
-<!--                            </li>-->
-
-                            <li class="breadbrum__element-list-item">
-                                <a href="" class="breadbrum__element-list-item-link">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                    <span>Products</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="grid content">
-                    <!-- Side bar -->
-                    <div class="sidebar">
-                        <div class="sidebar__category">
-                            <h3 class="sidebar__heading">Categories</h3>
-                            <ul class="sidebar__list">
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Wedding</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Birthday</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Anniversary</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Mother's Day</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Graduation</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="flower-table">
-                        <div class="flower-table__sort-bar">
-                            <div class="grid-icon">
-                                <i class="fa-solid fa-table-cells"></i>
-                                <span>Grid View</span>
-                            </div>
-                            <div class="list-icon">
-                                <i class="fa-solid fa-list sort-list"></i>
-                                <span>List View</span>
-                            </div>
-                            <span>Found: (
-                                <span th:text="${#lists.size(msg.flowerList)}"></span>
-                                ) Results</span>
-                        </div>
-                        <!-- Flower Grid -->
-                        <div class="flower__grid active-view">
-                            <div th:each="item : ${msg.flowerList}" class="flower__item">
-                                <div class="flower__img">
-                                    <img th:src="@{${item.images[0].link}}"  alt="Flower Image">
-                                    <div class="overlay">
-                                        <form th:action="@{/buyer/wishlist}" method="post">
-                                            <div th:if="${session.acc != null}">
-                                                <input type="hidden" name="flowerId" th:value="${item.id}">
-                                                <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                            </div>
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-                                        </form>
-
-                                        <form th:action="@{/buyer/flower/detail}" method="post">
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                                <input type="hidden" name="id" th:value="${item.id}">
-                                            </button>
-                                        </form>
-
-                                        <!-- <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-
-                                    </div>
-                                </div>
-                                <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
-                                    <input type="submit" name="action" th:value="${item.name}" class="flower__name">
-                                    </input>
-                                    <input type="hidden" name="id" th:value="${item.id}">
-                                </form>
-                                <div class="flower__content">
-                                    <span>
-                                        $
-                                         <span th:text="${item.price}"></span>
-                                    </span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
-                            <!--                            <div class="flower__item">-->
-                            <!--                                <div href="" class="flower__img">-->
-                            <!--                                    <img src="/img/flower.jpg" alt="">-->
-                            <!--                                    <div class="overlay">-->
-                            <!--    -->
-                            <!--                                        <form th:action="@{/}" method="get"></form>-->
-                            <!--                                            <button class="add-to-wishlist">-->
-                            <!--                                                <i class="fa-solid fa-heart"></i>-->
-                            <!--                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-                            <!--                                            </button>-->
-
-                            <!--                                            <button class="view-detail">-->
-                            <!--                                                <i class="fa-solid fa-eye"></i>-->
-                            <!--                                                <span class="view-detail__msg">View detail</span>-->
-                            <!--                                            </button>-->
-                            <!--                                        </form>-->
-                            <!--                                        &lt;!&ndash; <a href="" class="add-to-wishlist">-->
-                            <!--                                            <i class="fa-solid fa-heart"></i>-->
-                            <!--                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-                            <!--                                        </a>-->
-                            <!--    -->
-                            <!--                                        <a href="" class="view-detail">-->
-                            <!--                                            <i class="fa-solid fa-eye"></i>-->
-                            <!--                                            <span class="view-detail__msg">View detail</span>-->
-                            <!--                                        </a> &ndash;&gt;-->
-                            <!--    -->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                                <a href="" class="flower__name">-->
-                            <!--                                    <h4>Creeper</h4>-->
-                            <!--                                </a>-->
-                            <!--                                <div class="flower__content">-->
-                            <!--                                    <span>$200.00</span>-->
-                            <!--                                    <span>Sold: 1000</span>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
-                        </div>
-                        <div >
 
                         </div>
-                        
-                        <!-- Flower List -->
-                        <div th:each="item : ${msg.flowerList}" class="flower-list ">
-                            <div class="flower-list__item">
-                                <img th:src="${item.images[0].link}" alt="">
-                                <div class="flower-list__item-content">
-                                    <form th:action="@{/buyer/flower/detail}" class="form" method="post">
-                                        <input type="submit" name="action" th:value="${item.name}" class="flower__name">
+                        <button class="verifyButton" type="submit">Verify</button>
+                        <button class="exitBtn">×</button>
+                        <p class="resendNote">Didn't receive the code? <button class="resendBtn">Resend Code</button></p>
 
-                                        </input>
-                                        <input type="hidden" name="id" th:value="${item.id}">
-                                    </form>
-                                    <div class="flower-list__content">
-                                        $<span th:text="${item.price}"></span>
-                                        <span>Sold: 1000</span>
-                                    </div>
-                                    <form th:action="@{/}" method="get">
-                                        <button class="flower-list__icon flower-list__icon-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-                                    </form>
-                                    <form th:action="@{/buyer/flower/detail}" method="post">
-                                        <button class="flower-list__icon flower-list__icon-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                            <input type="hidden" name="id" th:value="${item.id}">
-                                        </button>
-                                    </form>
-                                    <!-- <a href="#" class="flower-list__icon flower-list__icon-wishlist">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                    </a>
-
-                                    <a href="#" class="flower-list__icon flower-list__icon-detail">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <span class="view-detail__msg">View detail</span>
-                                    </a> -->
-                                </div>
-                            </div>
-<!--                            <div class="flower-list__item">-->
-<!--                                <img src="/img/flower.jpg" alt="">-->
-<!--                                <div class="flower-list__item-content">-->
-<!--                                    <a href="" class="flower-list__name">-->
-<!--                                        <h4>Creeper</h4>-->
-<!--                                    </a>-->
-<!--                                    <div class="flower-list__content">-->
-<!--                                        <span>$200.00</span>-->
-<!--                                        <span>Sold: 1000</span>-->
-<!--                                    </div>-->
-<!--                                    <p class="flower-list__desc" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque esse fugit earum aliquid dicta rerum illo saepe nam odit! Ipsam eaque, consequuntur asperiores veniam soluta natus quas exercitationem qui nulla.</p>-->
-<!--                                    <form th:action="@{/}" method="get">-->
-<!--                                        <button class="flower-list__icon flower-list__icon-wishlist">-->
-<!--                                            <i class="fa-solid fa-heart"></i>-->
-<!--                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-<!--                                        </button>-->
-
-<!--                                        <button class="flower-list__icon flower-list__icon-detail">-->
-<!--                                            <i class="fa-solid fa-eye"></i>-->
-<!--                                            <span class="view-detail__msg">View detail</span>-->
-<!--                                        </button>-->
-<!--                                    </form>-->
-<!--                                    &lt;!&ndash; <a href="#" class="flower-list__icon flower-list__icon-wishlist">-->
-<!--                                        <i class="fa-solid fa-heart"></i>-->
-<!--                                        <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-<!--                                    </a>-->
-
-<!--                                    <a href="#" class="flower-list__icon flower-list__icon-detail">-->
-<!--                                        <i class="fa-solid fa-eye"></i>-->
-<!--                                        <span class="view-detail__msg">View detail</span>-->
-<!--                                    </a> &ndash;&gt;-->
-<!--                                </div>-->
-<!--                            </div>-->
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
-
-
-
-        <!-- Footer -->
-        <footer class="footer" th:fragment="footer">
-            <div class="grid">
-                <div class="footer__wrap">
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <div class="footer__item-logo">
-                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
-                                    class="footer__item-logo-img">
-                            </div>
-                            <div class="footer__item-desc">
-                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
+    <!-- Footer -->
+    <footer class="footer" th:fragment="footer">
+        <div class="grid">
+            <div class="footer__wrap">
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <div class="footer__item-logo">
+                            <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
+                                class="footer__item-logo-img">
+                        </div>
+                        <div class="footer__item-desc">
+                            <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
                                     Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
                                     Không bơ vơ
                                     Khi vây quanh anh là những đôi mắt nhìn theo hò reo
@@ -791,127 +577,126 @@
                                     Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
                                     Và đến khi anh cất lời
                                     Là giấc mơ mang cả đời -->
-                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                Tình yêu này có thật đáng thương? (Oh no)
-                                Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                Mất đi người rất quan trọng
-                                Có lẽ vì quá tham vọng
-                                Không thấy vui trong lòng
-                                Anh nhớ góc tối ở trong căn phòng
-                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                Lâu hơn một chút
-                                Để anh ổn định cảm xúc
-                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                Ký ức lại triệu hồi nỗi đau</span>
-                            </div>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                            Khi anh đã có tất cả rồi lại chẳng còn em nữa
+                            Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
+                            Tình yêu này có thật đáng thương? (Oh no)
+                            Ở phía dưới ngọn đèn, có gã khờ đang hát
+                            Cố gắng mỉm cười, nhưng trong lòng tan nát
+                            Mất đi người rất quan trọng
+                            Có lẽ vì quá tham vọng
+                            Không thấy vui trong lòng
+                            Anh nhớ góc tối ở trong căn phòng
+                            Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
+                            Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
+                            Lâu hơn một chút
+                            Để anh ổn định cảm xúc
+                            Có lẽ đến lúc chấm dứt, kết thúc thật rồi
+                            Ký ức lại triệu hồi nỗi đau</span>
                         </div>
-
+                        <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Contact</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i
-                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
-                                        <span>National park,d1 588436,United States</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
-                                        <span>+91 123 456 789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
-                                        <span>0123-456-789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
-                                        <span>demo@Yourstore.com</span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Information</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Terms & Conditions</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Delivery Information</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>About Us</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Privacy Policy</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-
-
 
                 </div>
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <h2 class="footer__item-title">Contact</h2>
+                        <ul class="footer__item-contact-list">
+                            <li class="footer__item-contact-list-item">
+                                <span href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
+                                    <span>National park,d1 588436,United States</span>
+                                </span>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <span href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
+                                    <span>+91 123 456 789</span>
+                                </span>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <span href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
+                                    <span>0123-456-789</span>
+                                </span>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <span href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
+                                    <span>demo@Yourstore.com</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <h2 class="footer__item-title">Information</h2>
+                        <ul class="footer__item-contact-list">
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Terms & Conditions</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Delivery Information</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>About Us</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Privacy Policy</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Contact Us</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+
+
             </div>
-        </footer>
+        </div>
+    </footer>
     </div>
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
@@ -919,7 +704,6 @@
     <script src="/js/price-range.js"></script>
     <script src="/js/jquery.prettyPhoto.js"></script>
     <script src="/js/base.js"></script>
-    <script src="/js/category.js"></script>
 </body>
 
 </html>
