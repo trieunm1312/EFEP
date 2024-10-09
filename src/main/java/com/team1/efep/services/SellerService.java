@@ -69,4 +69,12 @@ public interface SellerService {
     String viewBusinessPlan(HttpSession session, Model model);
 
     ViewBusinessPlanResponse viewBusinessPlanAPI();
+
+    String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model);
+
+    ViewFlowerImageResponse viewFlowerImageAPI(ViewFlowerImageRequest request);
+
+    String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model);
+
+    AddFlowerImageResponse addFlowerImageAPI(AddFlowerImageRequest request);
 }

@@ -1019,8 +1019,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
-        model.addAttribute("msg", createVNPayPaymentLinkLogic(request, httpServletRequest));
-        return "home";
+        VNPayResponse vnPayResponse = createVNPayPaymentLinkLogic(request, httpServletRequest);
+        model.addAttribute("msg", vnPayResponse);
+        return "redỉrect:" + vnPayResponse.getPaymentURL();
     }
 
     @Override
