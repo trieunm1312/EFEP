@@ -48,7 +48,7 @@
             <div class="grid">
                 <div class="header__wrap">
                     <!-- Logo -->
-                    <a href="home.html" class="header__item">
+                    <a th:href="@{/}" class="header__item">
                         <div class="header__item-logo">
                             <img src="/img/flowrista-logo.png" alt="Logo" class="header__item-logo-img">
                         </div>
@@ -90,7 +90,7 @@
                         <ul class="header__item-list-icon">
                             <li class="header__item-icon header__item-icon-search" tabindex="0">
                                 <i class="header__item-icon-search fa-solid fa-magnifying-glass">
-                                    <form class="header__item-search-box" method="GET">
+                                    <form class="header__item-search-box" method="get">
                                         <input type="text" class="header__item-search-input" name="SearchValue"
                                             placeholder="Search...">
                                         <button class="header__item-search-icon">
@@ -279,7 +279,7 @@
                 <div class="inline-checkout">
                     <div class="payment-method">
                         <h3 class="payment-header">Choose Payment Method</h3>
-                        <form th:action="@{/}" method="get">
+                        <form th:action="@{/}" method="post">
                             <select class="payment-list" name="" id="">
                                 <option value="">COD</option>
                                 <option value="">VNPay</option>
@@ -288,7 +288,8 @@
 
                     </div>
                     <div class="btn-cart">
-                        <form th:action="@{/}" method="get">
+                        <form th:action="@{/buyer/order/payment}" method="get">
+                            <input type="hidden" name="amount" th:value="${msg.totalPrice}">
                             <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
                         </form>
                     </div>
@@ -432,13 +433,12 @@
             </div>
         </footer>
     </div>
-    <script src="/src/main/resources/static/js/jquery.js"></script>
-    <script src="/src/main/resources/static/js/bootstrap.min.js"></script>
-    <script src="/src/main/resources/static/js/jquery.scrollUp.min.js"></script>
-    <script src="/src/main/resources/static/js/price-range.js"></script>
-    <script src="/src/main/resources/static/js/jquery.prettyPhoto.js"></script>
-    <script src="/src/main/resources/static/js/base.js"></script>
-    <script src="/src/main/resources/static/js/index.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/price-range.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/base.js"></script>
 </body>
 
 </html>

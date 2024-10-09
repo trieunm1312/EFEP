@@ -611,13 +611,6 @@
                                 <div class="flower__img">
                                     <img th:src="@{${item.images[0].link}}"  alt="Flower Image">
                                     <div class="overlay">
-
-
-                                        <!--<a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>-->
-
                                         <form th:action="@{/buyer/wishlist}" method="post">
                                             <div th:if="${session.acc != null}">
                                                 <input type="hidden" name="flowerId" th:value="${item.id}">
@@ -636,12 +629,6 @@
                                                 <input type="hidden" name="id" th:value="${item.id}">
                                             </button>
                                         </form>
-
-                                        <!-- <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-
                                     </div>
                                 </div>
                                 <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
