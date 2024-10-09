@@ -121,7 +121,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------------ADD TO WISHLIST-----------------------------------------------------//
 
     @Override
-    public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
+    public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             model.addAttribute("error", "You are not logged in");
@@ -130,7 +130,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             model.addAttribute("msg", (AddToWishlistResponse) output);
-            return "redirect:/buyer/flower";
+            return "redirect:" + httpServletRequest.getHeader("Referer");
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -1019,8 +1019,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
-        model.addAttribute("msg", createVNPayPaymentLinkLogic(request, httpServletRequest));
-        return "home";
+        VNPayResponse vnPayResponse = createVNPayPaymentLinkLogic(request, httpServletRequest);
+        model.addAttribute("msg", vnPayResponse);
+        return "redỉrect:" + vnPayResponse.getPaymentURL();
     }
 
     @Override

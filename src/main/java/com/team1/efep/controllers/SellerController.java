@@ -178,6 +178,15 @@ public class SellerController {
         return sellerService.viewBusinessPlanAPI();
     }
 
+    @GetMapping("/flower/image")
+    @Operation(hidden = true)
+    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model) {
+        return sellerService.viewFlowerImage(request, session, model);
+    }
 
+    @PostMapping("/flower/image")
+    public ViewFlowerImageResponse viewFlowerImage(@RequestBody ViewFlowerImageRequest request) {
+        return sellerService.viewFlowerImageAPI(request);
+    }
 
 }
