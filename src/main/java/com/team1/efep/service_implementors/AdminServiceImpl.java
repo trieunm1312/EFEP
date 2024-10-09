@@ -486,6 +486,36 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
+    //-------------------------------------SEARCH USER LIST----------------------------//
+
+    @Override
+    public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
+        model.addAttribute("msg", searchUserListLogic(request));
+        return "manageUser";
+    }
+
+    @Override
+    public SearchUserListResponse searchUserListAPI(SearchUserListRequest request) {
+        return searchUserListLogic(request);
+    }
+
+    private SearchUserListResponse searchUserListLogic(SearchUserListRequest request) {
+        return SearchUserListResponse.builder()
+                .status("200")
+                .message("")
+                .userList(
+                        userRepo.findAll().stream()
+                                .filter(user -> user.getName().equals(request.getKeyword()))
+                                .map(user -> SearchUserListResponse.User.builder()
+                                        .id(user.getId())
+                                        .name(user.getName())
+                                        .createdDate(user.getCreatedDate())
+                                        .build())
+                                .toList()
+                )
+                .build();
+    }
+
     //-------------------------------------BAN USER----------------------------//
 
     @Override
