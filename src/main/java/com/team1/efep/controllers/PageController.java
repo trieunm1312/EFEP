@@ -49,9 +49,9 @@ public class PageController {
         return "manageBusinessService";
     }
 
-    @GetMapping("/category")
-    public String categoryPage() {
-        return "category";
+    @GetMapping("/orderList")
+    public String orderListPage() {
+        return "viewOrderList";
     }
 
     @GetMapping("/checkout")

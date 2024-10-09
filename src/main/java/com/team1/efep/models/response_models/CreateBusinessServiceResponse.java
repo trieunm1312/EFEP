@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateBusinessServiceResponse {
+public class  CreateBusinessServiceResponse {
 
     private String status;
 

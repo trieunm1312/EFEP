@@ -1,0 +1,128 @@
+/* Container */
+.container {
+    width: 98%;
+    margin-top: 40px;
+    background-color: var(--white-color);
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+    padding-left: 0;
+    margin-right: 2%;
+    border-radius: 8px;
+}
+
+.manage-flower {
+    margin: 32px 16px;
+}
+
+.manage-flower__heading {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.manage-flower__title {
+    font-weight: 600;
+}
+
+.manage-flower__create-btn {
+    margin-right: 48px;
+    background-color: #00D25B;
+    color: var(--white-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+
+.table__header th {
+    font-weight: 700;
+    font-size: .6rem;
+    color: #8392ab;
+    text-transform: uppercase;
+    opacity: .7;
+    padding-bottom: 12px;
+    text-align: center;
+}
+
+.table__body-item td {
+    text-align: center
+}
+
+.table__header-image {
+    width: 150px;
+}
+
+.table__header-name {
+    width: 150px;
+}
+
+.table__header-desc {
+    width: 200px;
+    /* display: block; */
+}
+
+.table__header-amount {
+    width: 130px;
+}
+
+.table__header-price,
+.table__header-qnt {
+    width: 150px;
+}
+
+.table__body-item td {
+    padding: 16px 0;
+    /* margin-top: 24px; */
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    box-sizing: border-box;
+
+}
+
+textarea {
+    width: 80%;
+    resize: vertical;
+    min-height: 40px;
+    box-sizing: border-box;
+}
+
+input{
+    width: 70%;
+}
+
+.toggle-btn {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border: none;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.table__body-edit,
+.table__body-toggle {
+    width: 100px;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.table__body-item-new td{
+    padding-top: 24px;
+}
+
+.save-btn{
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.enabled {
+    color: #81E12F;
+}
+
+.disabled {
+    color: #99A9C9;
+}
