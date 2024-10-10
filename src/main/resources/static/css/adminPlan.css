@@ -1,0 +1,37 @@
+.business-plan {
+    width: 60%;
+    margin-top: 40px;
+    background-color: var(--white-color);
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+    padding-left: 0;
+    border-radius: 8px;
+}
+
+.business-plan__header{
+    width: 100%;
+    height: 100px;
+    background: radial-gradient(140.76% 131.96% at 100% 100%, 
+    rgb(255, 140, 160) 0%, rgba(255, 120, 140, 0.5) 73.57%, 
+    rgba(255, 120, 140, 0) 100%), rgb(255, 140, 160);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    color: var(--white-color);
+}
+
+.business-plan__header h3 {
+    margin: 0; 
+}
+
+.business-plan__body{
+    margin: 8px;
+    font-size: 0.8rem;
+}
+
+.business-plan__price,
+.business-plan__duration{
+    font-weight: 600;
+}

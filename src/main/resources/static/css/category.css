@@ -313,6 +313,7 @@
 .flower__content{
     display: flex;
     justify-content: space-between;
+    margin: 0 2.5%;
 }
 
 .flower__content span:first-child{

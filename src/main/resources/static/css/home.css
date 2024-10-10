@@ -292,6 +292,7 @@
 .top-category__content{
     display: flex;
     justify-content: space-between;
+    margin: 0 2.5%;
 }
 
 .top-category__content span:first-child{
