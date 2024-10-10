@@ -26,13 +26,13 @@ public class BuyerController {
 
     @PostMapping("/pass/forgot")
     @Operation(hidden = true)
-    public String forgot(ForgotRequest request, Model model) {
+    public String forgot(ForgotPasswordRequest request, Model model) {
         request.setSubject(Const.EMAIL_SUBJECT);
         return buyerService.sendEmail(request, model);
     }
 
     @PostMapping("/pass/forgot/api")
-    public ForgotResponse forgot(@RequestBody ForgotRequest request) {
+    public ForgotPasswordResponse forgot(@RequestBody ForgotPasswordRequest request) {
         request.setSubject(Const.EMAIL_SUBJECT);
         return buyerService.sendEmailAPI(request);
     }

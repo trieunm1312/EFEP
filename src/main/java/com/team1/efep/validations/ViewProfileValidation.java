@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class ViewProfileValidation {
     public static Map<String, String> validate() {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         //code validate here
-        return errors;
+        return error;
     }
 }
 

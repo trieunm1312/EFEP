@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class DeleteBusinessServiceValidation {
     public static Map<String, String> validate(DeleteBusinessServiceRequest request) {
-        Map<String, String> errors = new HashMap<String, String>();
+        Map<String, String> error = new HashMap<String, String>();
         // code validate here
-        return errors;
+        return error;
     }
 }
