@@ -61,7 +61,7 @@ public class SellerServiceImpl implements SellerService {
             return "login";
         }
         model.addAttribute("response", createNewFlower(request));
-        return "flower";
+        return "manageFlower";
     }
 
     @Override

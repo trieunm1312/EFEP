@@ -1165,7 +1165,7 @@ public class BuyerServiceImpl implements BuyerService {
             return VNPayResponse.builder()
                     .status("400")
                     .message("Your payment is failed")
-                    .paymentURL("/buyer/wishlist")
+                    .paymentURL("/viewOrderSummary")
                     .build();
 
     }
