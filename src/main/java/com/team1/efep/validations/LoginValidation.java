@@ -9,13 +9,13 @@ import java.util.Map;
 
 public class LoginValidation {
     public static Map<String, String> validate(LoginRequest request, AccountRepo accountRepo) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         // code validate here
         // check email (exist DB) and check pass  (exist DB)
         // --> check email and check pass not exits Database
-        if (accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null) == null) {
-            return MapConfig.buildMapKey(errors, "Email or password is incorrect");
+        if (accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).isEmpty()) {
+            return MapConfig.buildMapKey(error, "Email or password is incorrect");
         }
-        return errors;
+        return error;
     }
 }

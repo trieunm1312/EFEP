@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class UpdateProfileValidation {
     public static Map<String, String> validate(UpdateProfileRequest request) {
-        Map<String, String> errors = new HashMap<String, String>();
+        Map<String, String> error = new HashMap<String, String>();
         //code validate here
-        return errors;
+        return error;
     }
 }
