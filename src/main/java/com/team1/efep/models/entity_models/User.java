@@ -3,6 +3,7 @@ package com.team1.efep.models.entity_models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -28,6 +29,8 @@ public class User {
     private String avatar;
 
     private String background;
+
+    private LocalDate createdDate;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude

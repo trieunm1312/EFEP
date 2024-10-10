@@ -6,9 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class VNPayRequest {
-    private float amount;
+public class AddFlowerImageRequest {
+    private int accountId;
+
+    private int flowerId;
+
+    private String imageList;
 }

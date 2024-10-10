@@ -121,7 +121,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------------ADD TO WISHLIST-----------------------------------------------------//
 
     @Override
-    public String addToWishlist(AddToWishlistRequest request, HttpSession session, Model model) {
+    public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             model.addAttribute("error", "You are not logged in");
@@ -130,7 +130,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             model.addAttribute("msg", (AddToWishlistResponse) output);
-            return "redirect:/buyer/flower";
+            return "redirect:" + httpServletRequest.getHeader("Referer");
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -271,7 +271,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     private Object renewPassLogic(RenewPasswordRequest request) {
 
-        Map<String, String> errors = RenewPasswordValidation.validate(request);
+        Map<String, String> errors = RenewPasswordValidation.validate(request, accountRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -1019,8 +1019,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
-        model.addAttribute("msg", createVNPayPaymentLinkLogic(request, httpServletRequest));
-        return "home";
+        VNPayResponse vnPayResponse = createVNPayPaymentLinkLogic(request, httpServletRequest);
+        model.addAttribute("msg", vnPayResponse);
+        return "redirect:" + vnPayResponse.getPaymentURL();
     }
 
     @Override
@@ -1071,7 +1072,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Long getAmount(VNPayRequest request) {
-        return request.getAmount() * 100;
+        return (long) request.getAmount() * 100;
     }
 
     private String getCreateDate(Calendar calendar, SimpleDateFormat dateFormat) {
@@ -1126,7 +1127,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
-            return "paymentSuccess";
+            return "redirect:" + ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "paymentFailed";
@@ -1155,11 +1156,18 @@ public class BuyerServiceImpl implements BuyerService {
         if ("00".equals(transactionStatus)) {
             List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
             saveOrder(params, user, items);
+            return VNPayResponse.builder()
+                    .status("200")
+                    .message("Your payment is successfully")
+                    .paymentURL("/viewOrderSummary")
+                    .build();
         }
-        return VNPayResponse.builder()
-                .status("200")
-                .message("Your payment is successfully")
-                .build();
+            return VNPayResponse.builder()
+                    .status("400")
+                    .message("Your payment is failed")
+                    .paymentURL("/buyer/wishlist")
+                    .build();
+
     }
 
     private void saveOrder(Map<String, String> params, User user, List<WishlistItem> items) {

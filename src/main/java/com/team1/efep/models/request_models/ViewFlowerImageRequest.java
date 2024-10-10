@@ -5,10 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class VNPayRequest {
-    private float amount;
+public class ViewFlowerImageRequest {
+
+    private int accountId;
+
+    private int flowerId;
+
 }

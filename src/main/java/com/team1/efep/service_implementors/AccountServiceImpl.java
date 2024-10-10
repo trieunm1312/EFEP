@@ -65,7 +65,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Object registerLogic(RegisterRequest request) {
-        Map<String, String> errors = RegisterValidation.validate(request);
+        Map<String, String> errors = RegisterValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
             createNewBuyer(request);
             return RegisterResponse.builder()

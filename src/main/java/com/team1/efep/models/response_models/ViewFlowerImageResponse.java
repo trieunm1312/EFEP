@@ -8,25 +8,22 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class SearchBuyerListResponse {
+public class ViewFlowerImageResponse {
 
     private String status;
 
     private String message;
 
-    private List<Buyer> buyerList;
+    private List<FlowerImageLink> images;
 
     @Data
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     @Builder
-    public static class Buyer {
-
-        private int id;
-
-        private String name;
+    public static class FlowerImageLink {
+        private String link;
     }
 }

@@ -1,5 +1,6 @@
 package com.team1.efep.validations;
 
+import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.Wishlist;
 import com.team1.efep.models.entity_models.WishlistItem;
@@ -16,7 +17,7 @@ public class DeleteWishlistItemValidation {
         Map<String, String> errors = new HashMap<>();
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         if (account == null) {
-            errors.put("account", "Account does not exist");
+            MapConfig.buildMapKey(errors, "Account does not exist");
             return errors;
         }
 
@@ -26,7 +27,7 @@ public class DeleteWishlistItemValidation {
                 .findFirst();
 
         if (wishlistItem.isEmpty()) {
-            errors.put("wishlistItem", "Wishlist item does not exist or does not belong to the account");
+            MapConfig.buildMapKey(errors, "Wishlist item does not exist or does not belong to the account");
             return errors;
         }
         return errors;

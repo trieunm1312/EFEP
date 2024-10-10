@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class VNPayRequest {
-    private float amount;
+public class SearchUserListRequest {
+
+    private String keyword;
 }
