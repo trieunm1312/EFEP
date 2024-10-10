@@ -141,8 +141,8 @@
                     </tr>
                     </thead>
                     <tbody class="table__body">
-                    <div>
-                        <div>
+                    <div th:if="${msg}">
+                        <div th:each="item : ${msg.flowerList}">
                             <tr class="table__body-item">
                                 <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
                                     <input type="hidden" name="_method" value="put">
