@@ -145,9 +145,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
 const toasts = document.querySelectorAll('.toast');
 toasts.forEach(toast => {
     toast.addEventListener('animationend', () => {
         toast.style.display = 'none';
     });
 });
+
+// View Order Summary
+var countdownElement = document.getElementById("countdown");
+var countdown = 5;
+
+var interval = setInterval(function() {
+    countdown--;
+    countdownElement.textContent = countdown;
+
+    if (countdown <= 0) {
+        clearInterval(interval);
+        //window.location.href = "/home.html";
+    }
+}, 1000); // Mỗi giây (1000ms) thực hiện một lần

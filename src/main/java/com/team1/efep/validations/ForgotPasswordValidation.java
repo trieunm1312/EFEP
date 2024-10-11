@@ -1,24 +1,21 @@
 package com.team1.efep.validations;
 
+import com.team1.efep.configurations.MapConfig;
+import com.team1.efep.models.entity_models.Account;
+import com.team1.efep.models.request_models.ForgotPasswordRequest;
+import com.team1.efep.repositories.AccountRepo;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class ForgotPasswordValidation {
-
-    public static String validateForgotPasswordInput(String email) {
-        String result = validateEmail(email);
-        return !result.isEmpty() ?
-                result.substring(0, 1).toUpperCase() + result.trim().substring(1, result.length() - 2) + " invalid" :
-                "";
+    public static Map<String, String> validate(ForgotPasswordRequest request, AccountRepo acc) {
+        Map<String, String> error = new HashMap<>();
+        // code validate here
+        Account account = acc.findByEmail(request.getToEmail()).orElse(null);
+        if(account == null) {
+            return MapConfig.buildMapKey(error, "Account with this email does not exist");
+        }
+        return error;
     }
-
-    private static String validateEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-        return email.matches(emailRegex) ? "" : "email, ";
-    }
-
-//    public static void main(String[] args) {
-//        List<String> list= new ArrayList<>();
-//        list.add("A");
-//        list.add("B");
-//        list.add("C");
-//        System.out.println(String.join(": ", list));
-//    }
 }

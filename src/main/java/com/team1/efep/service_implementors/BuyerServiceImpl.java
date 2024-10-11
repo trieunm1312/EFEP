@@ -44,7 +44,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final CategoryRepo categoryRepo;
 
     @Override
-    public String sendEmail(ForgotRequest request, Model model) {
+    public String sendEmail(ForgotPasswordRequest request, Model model) {
         return "";
     }
 
@@ -193,7 +193,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
-    public ForgotResponse sendEmailAPI(ForgotRequest request) {
+    public ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request) {
         try {
             return sendEmailLogic(request);
         } catch (MessagingException e) {
@@ -201,7 +201,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
     }
 
-    private ForgotResponse sendEmailLogic(ForgotRequest request) throws MessagingException {
+    private ForgotPasswordResponse sendEmailLogic(ForgotPasswordRequest request) throws MessagingException {
 //        SimpleMailMessage message = new SimpleMailMessage();
 //        message.setFrom("quynhpvnse182895@fpt.edu.vn");
 //        message.setTo(request.getToEmail());
@@ -238,7 +238,7 @@ public class BuyerServiceImpl implements BuyerService {
         mailSender.send(message);
 
         // Return response
-        return ForgotResponse.builder()
+        return ForgotPasswordResponse.builder()
                 .status("200")
                 .message("Send email successfully")
                 .build();
@@ -1165,7 +1165,7 @@ public class BuyerServiceImpl implements BuyerService {
             return VNPayResponse.builder()
                     .status("400")
                     .message("Your payment is failed")
-                    .paymentURL("/buyer/wishlist")
+                    .paymentURL("/viewOrderSummary")
                     .build();
 
     }
