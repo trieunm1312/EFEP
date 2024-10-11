@@ -1,4 +1,4 @@
-package com.team1.efep.models.request_models;
+package com.team1.efep.models.response_models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ForgotRequest {
-    private String toEmail;
+public class ForgotPasswordResponse {
 
-    private String subject;
+    private String status;
+
+    private String message;
 }

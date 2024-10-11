@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ViewOrderListValidation {
     public static Map<String, String> orderListValidation() {
-        Map<String, String> errors = new HashMap<>();
-        return errors;
+        Map<String, String> error = new HashMap<>();
+        return error;
     }
 }

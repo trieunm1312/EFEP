@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class DisableBusinessPlanValidation {
     public static Map<String, String> validate(DisableBusinessPlanRequest request) {
-        Map<String, String> errors = new HashMap<String, String>();
+        Map<String, String> error = new HashMap<String, String>();
         //code validation here
-        return errors;
+        return error;
     }
 }

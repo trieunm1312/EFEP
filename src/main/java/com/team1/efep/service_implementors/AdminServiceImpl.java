@@ -542,7 +542,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object banUserLogic(BanUserRequest request) {
-        Map<String, String> error = BanUserValidation.validate(request);
+        Map<String, String> error = BanUserValidation.validate(request, userRepo);
         if (error.isEmpty()) {
             User user = userRepo.findById(request.getId()).orElse(null);
             assert user != null;
@@ -584,7 +584,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     private Object unBanUserLogic(UnBanUserRequest request) {
-        Map<String, String> error = UnBanUserValidation.validate(request);
+        Map<String, String> error = UnBanUserValidation.validate(request, userRepo);
         if (error.isEmpty()) {
             User user = userRepo.findById(request.getId()).orElse(null);
             assert user != null;

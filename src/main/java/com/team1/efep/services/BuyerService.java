@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 import java.util.Map;
 
 public interface BuyerService {
-    String sendEmail(ForgotRequest request, Model model);
+    String sendEmail(ForgotPasswordRequest request, Model model);
 
-    ForgotResponse sendEmailAPI(ForgotRequest request);
+    ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request);
 
     String renewPass(RenewPasswordRequest request, Model model);
 
