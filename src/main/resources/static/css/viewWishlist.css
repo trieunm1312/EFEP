@@ -145,7 +145,7 @@
 
 .btn-cart-continue,
 .btn-cart-checkout {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     background-color: var(--primary-color);
     color: var(--white-color);
     border: none;
@@ -155,14 +155,28 @@
     transition: background-color 0.3s ease;
 }
 
-.btn-cart-checkout {
-    margin-left: auto;
+.btn-cart-continue {
+    margin-top: 10px;
 }
+
+/*.btn-cart-checkout {*/
+/*    margin-left: auto;*/
+/*}*/
 
 .btn-cart-continue:hover,
 .btn-cart-checkout:hover {
     background-color: rgba(0, 0, 0, 0.789);
     cursor: pointer;
+}
+
+/*When wishlist empty*/
+.shopping-wishlist-empty {
+    text-align: center;
+    margin-top: 55px;
+}
+
+.empty-msg {
+    font-size: 2.6rem;
 }
 
 .wishlist-show {
