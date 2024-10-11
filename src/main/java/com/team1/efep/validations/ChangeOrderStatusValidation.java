@@ -14,11 +14,11 @@ public class ChangeOrderStatusValidation {
     public static Map<String, String> validate(ChangeOrderStatusRequest request) {
         Map<String, String> errors = new HashMap<>();
         if (request.getOrderId() <= 0) {
-            MapConfig.buildMapKey(errors, "Invalid order ID");
+            return MapConfig.buildMapKey(errors, "Invalid order ID");
         }
 
         if (request.getStatus() == null || request.getStatus().trim().isEmpty()) {
-            MapConfig.buildMapKey(errors, "Order status is required");
+            return MapConfig.buildMapKey(errors, "Order status is required");
         }
 
         return errors;

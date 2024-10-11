@@ -17,13 +17,13 @@ public class CreateFlowerRequest {
 
     private String name;
 
-    private float price;
+    private Float price;
 
     private String description;
 
-    private int flowerAmount;
+    private Integer flowerAmount;
 
-    private int quantity;
+    private Integer quantity;
 
     private List<String> imgList;
 

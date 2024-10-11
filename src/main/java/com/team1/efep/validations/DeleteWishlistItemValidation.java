@@ -17,8 +17,7 @@ public class DeleteWishlistItemValidation {
         Map<String, String> errors = new HashMap<>();
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         if (account == null) {
-            MapConfig.buildMapKey(errors, "Account does not exist");
-            return errors;
+            return MapConfig.buildMapKey(errors, "Account does not exist");
         }
 
         Wishlist wishlist = account.getUser().getWishlist();
@@ -27,8 +26,7 @@ public class DeleteWishlistItemValidation {
                 .findFirst();
 
         if (wishlistItem.isEmpty()) {
-            MapConfig.buildMapKey(errors, "Wishlist item does not exist or does not belong to the account");
-            return errors;
+            return MapConfig.buildMapKey(errors, "Wishlist item does not exist or does not belong to the account");
         }
         return errors;
     }
