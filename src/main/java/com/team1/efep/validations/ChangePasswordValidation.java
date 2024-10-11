@@ -25,7 +25,7 @@ public class ChangePasswordValidation {
         if(!request.getNewPassword().equals(request.getConfirmPassword())) {
             return MapConfig.buildMapKey(error, "New password and confirm password do not match");
         }
-        // code validate here
+
         return error;
     }
 }

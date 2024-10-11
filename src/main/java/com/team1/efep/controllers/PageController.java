@@ -2,6 +2,7 @@ package com.team1.efep.controllers;
 
 import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.services.BuyerService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,7 +66,7 @@ public class PageController {
     }
 
     @GetMapping("/viewOrderSummary")
-    public String viewOrderSummaryPage() {
+    public String viewOrderSummaryPage(Model model, HttpSession session) {
         return "viewOrderSummary";
     }
 }

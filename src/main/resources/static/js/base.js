@@ -173,7 +173,7 @@ function handleCheckout() {
     const checkoutForm = document.getElementById('checkout');
 
     if (paymentMethod === 'COD') {
-        checkoutForm.action = '/viewOrderSummary';
+        checkoutForm.action = '/order/payment/result';
     } else if (paymentMethod === 'VNPay') {
         checkoutForm.action = '/buyer/order/payment';
     }
