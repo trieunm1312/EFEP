@@ -163,6 +163,19 @@ var interval = setInterval(function() {
 
     if (countdown <= 0) {
         clearInterval(interval);
-        //window.location.href = "/home.html";
+        window.location.href = "/";
     }
 }, 1000); // Mỗi giây (1000ms) thực hiện một lần
+
+//Checkout
+function handleCheckout() {
+    const paymentMethod = document.getElementById('paymentMethod').value;
+    const checkoutForm = document.getElementById('checkout');
+
+    if (paymentMethod === 'COD') {
+        checkoutForm.action = '/viewOrderSummary';
+    } else if (paymentMethod === 'VNPay') {
+        checkoutForm.action = '/buyer/order/payment';
+    }
+    return true;
+}

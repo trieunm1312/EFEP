@@ -508,14 +508,13 @@
         </header>
 
         <div id="overlay" class="overlay"></div>
-
         <div class="container">
-            <div class="notify-block" >
-                <div class="notify-msg-success font-size-text">
-                    <span id="paymentStatus" >Payment successful! Thank you for your purchase.</span>
+            <div class="notify-block" th:if="${msg}">
+                <div class="notify-msg-success font-size-text" th:if="${msg.status == '200'}">
+                    <span id="paymentStatus" th:text="${msg.message}">Payment successful! Thank you for your purchase.</span>
                 </div>
-                <div class="notify-msg-fail font-size-text">
-                    <span id="paymentStatus1">Payment failed! Please check your information or try again later.</span>
+                <div class="notify-msg-fail font-size-text" th:if="${msg.status == '400'}">
+                    <span id="paymentStatus1" th:text="${msg.message}">Payment failed! Please check your information or try again later.</span>
                 </div>
                 <div class="notify-btn">
                     <form th:action="@{/}" method="get">

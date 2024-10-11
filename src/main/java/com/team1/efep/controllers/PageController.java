@@ -63,6 +63,11 @@ public class PageController {
     public String manageFlowerPage() {
         return "manageFlower";
     }
+
+    @GetMapping("/viewOrderSummary")
+    public String viewOrderSummaryPage() {
+        return "viewOrderSummary";
+    }
 }
 
 

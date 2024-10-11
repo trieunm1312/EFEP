@@ -73,106 +73,110 @@
         </header>
 
     <div class="container">
-        <div class="table-item-cart">
-            <div class="btn-delete-wishlist">
-                <form th:action="@{/buyer/wishlist}" method="post">
-                    <input type="hidden" name="_method" value="delete">
-                    <input type="hidden" name="wishlistId" th:value="${session.acc.getUser().getWishlist().getId()}">
-                    <button class="btn-delete">Delete Wishlist</button>
+        <div class="wishlist-show">
+            <div class="table-item-cart">
+                <div class="btn-delete-wishlist">
+                    <form th:action="@{/buyer/wishlist}" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <input type="hidden" name="wishlistId" th:value="${session.acc.getUser().getWishlist().getId()}">
+                        <button class="btn-delete">Delete Wishlist</button>
+                    </form>
+                </div>
+                <table border="1" cellpadding="5" cellspacing="0" width="100%">
+                    <!-- <caption>Tiêu đề Bảng</caption> -->
+                    <thead>
+                    <tr>
+                        <th class="table-item-header">Image</th>
+                        <th class="table-item-header">Name</th>
+                        <th class="table-item-header">Model</th>
+                        <th class="table-item-header">Quantity</th>
+                        <th class="table-item-header">Price</th>
+                        <th class="table-item-header">Total</th>
+                        <th class="table-item-header">Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${msg.wishlistItemList}">
+                        <td class="table-item-detail">
+                            <div class="table-item-img">
+                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                     alt="">
+                            </div>
+                        </td>
+                        <td class="table-item-detail">
+                            <span class="table-item-name" th:text="${item.name}">Hiptage</span>
+                        </td>
+                        <td class="table-item-detail">
+                            <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
+                        </td>
+                        <td class="table-item-detail">
+                            <div class="table-item-quantity">
+                                <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="post">
+                                    <input type="hidden" name="_method" value="put">
+                                    <input type="hidden" name="wishlistId" th:value="${item.id}">
+                                    <input type="hidden" name="wishlistItemId" th:value="${item.id}">
+                                    <input type="hidden" name="request" value="desc">
+                                    <button class="table-item-btn-decrease" type="submit" th:disabled="${item.quantity == 1}">-</button>
+                                </form>
+
+                                <span class="input-quantity" th:text="${item.quantity}">1</span>
+
+                                <form th:action="@{/buyer/wishlist}" th:method="post">
+                                    <input type="hidden" name="_method" value="put">
+                                    <input type="hidden" name="wishlistId" th:value="${item.id}">
+                                    <input type="hidden" name="wishlistItemId" th:value="${item.id}">
+                                    <input type="hidden" name="request" value="asc">
+                                    <button class="table-item-btn-increase" type="submit">+</button>
+                                </form>
+
+                                <!--                            <form th:action="@{/}" method="get">-->
+                                <!--                                <button class="table-item-removed">-->
+                                <!--                                    <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
+                                <!--                                    <span class="table-item-remove-msg">Remove</span>-->
+                                <!--                                </button>-->
+                                <!--                            </form>-->
+                            </div>
+                        </td>
+                        <td class="table-item-detail">
+                            <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
+                        </td>
+                        <td class="table-item-detail">
+                            <span class="table-item-total" th:text="'$ ' + ${item.quantity * item.price}">0</span>
+                        </td>
+                        <td class="table-item-detail padding-delete">
+                            <form class="form-delete" th:action="@{/buyer/wishlist-item}" method="post">
+                                <input type="hidden" name="_method" value="delete"> <!-- muốn sử dụng put delete thì t -->
+                                <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                <input type="hidden" name="wishlistItemId" th:value="${item.id}">
+                                <button class="table-item-removed">
+                                    <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
+                                </button>
+    <!--                            <input type="submit" name="action" class="table-item-removed">-->
+    <!--                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
+    <!--                            </input>-->
+
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <form th:action="@{/buyer/flower}" method="get">
+                    <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
                 </form>
             </div>
-            <table border="1" cellpadding="5" cellspacing="0" width="100%">
-                <!-- <caption>Tiêu đề Bảng</caption> -->
-                <thead>
-                <tr>
-                    <th class="table-item-header">Image</th>
-                    <th class="table-item-header">Name</th>
-                    <th class="table-item-header">Model</th>
-                    <th class="table-item-header">Quantity</th>
-                    <th class="table-item-header">Price</th>
-                    <th class="table-item-header">Total</th>
-                    <th class="table-item-header">Remove</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="item : ${msg.wishlistItemList}">
-                    <td class="table-item-detail">
-                        <div class="table-item-img">
-                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                 alt="">
-                        </div>
-                    </td>
-                    <td class="table-item-detail">
-                        <span class="table-item-name" th:text="${item.name}">Hiptage</span>
-                    </td>
-                    <td class="table-item-detail">
-                        <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
-                    </td>
-                    <td class="table-item-detail">
-                        <div class="table-item-quantity">
-                            <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="post">
-                                <input type="hidden" name="_method" value="put">
-                                <input type="hidden" name="wishlistId" th:value="${item.id}">
-                                <input type="hidden" name="wishlistItemId" th:value="${item.id}">
-                                <input type="hidden" name="request" value="desc">
-                                <button class="table-item-btn-decrease" type="submit" th:disabled="${item.quantity == 1}">-</button>
-                            </form>
-
-                            <span class="input-quantity" th:text="${item.quantity}">1</span>
-
-                            <form th:action="@{/buyer/wishlist}" th:method="post">
-                                <input type="hidden" name="_method" value="put">
-                                <input type="hidden" name="wishlistId" th:value="${item.id}">
-                                <input type="hidden" name="wishlistItemId" th:value="${item.id}">
-                                <input type="hidden" name="request" value="asc">
-                                <button class="table-item-btn-increase" type="submit">+</button>
-                            </form>
-
-                            <!--                            <form th:action="@{/}" method="get">-->
-                            <!--                                <button class="table-item-removed">-->
-                            <!--                                    <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
-                            <!--                                    <span class="table-item-remove-msg">Remove</span>-->
-                            <!--                                </button>-->
-                            <!--                            </form>-->
-                        </div>
-                    </td>
-                    <td class="table-item-detail">
-                        <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
-                    </td>
-                    <td class="table-item-detail">
-                        <span class="table-item-total" th:text="'$ ' + ${item.quantity * item.price}">0</span>
-                    </td>
-                    <td class="table-item-detail padding-delete">
-                        <form class="form-delete" th:action="@{/buyer/wishlist-item}" method="post">
-                            <input type="hidden" name="_method" value="delete"> <!-- muốn sử dụng put delete thì t -->
-                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                            <input type="hidden" name="wishlistItemId" th:value="${item.id}">
-                            <button class="table-item-removed">
-                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
-                            </button>
-<!--                            <input type="submit" name="action" class="table-item-removed">-->
-<!--                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
-<!--                            </input>-->
-
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="5" class="table-item-footer">Total</td>
-                    <td colspan="1" class="table-item-footer-price" th:text="${'$ ' + msg.totalPrice}">0</td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-        <div class="btn-cart">
-            <form th:action="@{/buyer/flower}" method="get">
-                <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
-            </form>
-            <form th:action="@{/buyer/order/confirm}" method="get">
-                <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
-            </form>
+            <div class="total__wishlist">
+                <h2 class="total__wishlist-header">Total wishlist</h2>
+                <hr class="line">
+                <div class="total__wishlist-detail">
+                    <span class="total__wishlist-detail-title">Total</span>
+                    <span class="total__wishlist-detail-price" th:text="${'$ ' + msg.totalPrice}">0</span>
+                </div>
+                <div class="btn-cart">
+                    <form th:action="@{/buyer/order/confirm}" method="get">
+                        <input class="btn-cart-checkout" type="submit" value="Confirm order" name="Action">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -337,7 +341,7 @@
         </div>
     </footer>
 </div>
-<script src="/js/index.js"></script>
+<script src="/js/base.js"></script>
 </body>
 
 </html>
