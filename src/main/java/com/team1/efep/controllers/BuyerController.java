@@ -26,15 +26,19 @@ public class BuyerController {
 
     @PostMapping("/pass/forgot")
     @Operation(hidden = true)
-    public String forgot(ForgotPasswordRequest request, Model model) {
-        request.setSubject(Const.EMAIL_SUBJECT);
-        return buyerService.sendEmail(request, model);
+    public String forgot(ForgotPasswordRequest request, Model model, HttpSession session) {
+        return buyerService.sendEmail(request, model, session);
     }
 
     @PostMapping("/pass/forgot/api")
     public ForgotPasswordResponse forgot(@RequestBody ForgotPasswordRequest request) {
-        request.setSubject(Const.EMAIL_SUBJECT);
         return buyerService.sendEmailAPI(request);
+    }
+
+    @GetMapping("/otp/verify")
+    @Operation(hidden = true)
+    public String verifyOTP(@RequestParam(name = "code") String code, Model model, HttpSession session) {
+        return buyerService.handleOTP(code, model, session);
     }
 
     @PostMapping("/pass/renew")

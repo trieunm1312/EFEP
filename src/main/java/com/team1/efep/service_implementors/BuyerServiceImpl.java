@@ -1,6 +1,7 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.VNPayConfig;
+import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -42,12 +43,6 @@ public class BuyerServiceImpl implements BuyerService {
     private final WishlistRepo wishlistRepo;
     private final OrderDetailRepo orderDetailRepo;
     private final CategoryRepo categoryRepo;
-
-    @Override
-    public String sendEmail(ForgotPasswordRequest request, Model model) {
-        return "";
-    }
-
 
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
@@ -193,15 +188,34 @@ public class BuyerServiceImpl implements BuyerService {
 
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
-    public ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request) {
-        try {
-            return sendEmailLogic(request);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+    public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session) {
+        Object output = sendEmailLogic(request);
+        if(!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)){
+            model.addAttribute("error", (Map<String, String>)output);
+            return "redirect:/login";
         }
+        ForgotPasswordResponse response = (ForgotPasswordResponse) output;
+        session.setAttribute("mail", request.getToEmail());
+        session.setAttribute("otp" + request.getToEmail(), response.getExtraInfo());
+        model.addAttribute("email", request.getToEmail());
+        return "forgotPassword";
     }
 
-    private ForgotPasswordResponse sendEmailLogic(ForgotPasswordRequest request) throws MessagingException {
+    @Override
+    public ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request) {
+        Object output = sendEmailLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
+            ForgotPasswordResponse response = (ForgotPasswordResponse) output;
+            response.setExtraInfo("");
+            return response;
+        }
+        return ForgotPasswordResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object sendEmailLogic(ForgotPasswordRequest request) {
 //        SimpleMailMessage message = new SimpleMailMessage();
 //        message.setFrom("quynhpvnse182895@fpt.edu.vn");
 //        message.setTo(request.getToEmail());
@@ -214,34 +228,58 @@ public class BuyerServiceImpl implements BuyerService {
 //                .status("200")
 //                .message("Send email successfully")
 //                .build();
-
+        Map<String, String> errors = ForgotPasswordValidation.validate(request, accountRepo);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
         // Generate the OTP
-        String otp = OTPGeneratorUtil.generateOTP(6);
+        String otp = Const.OTP_LINK + OTPGeneratorUtil.generateOTP(6);
 
         // Create a MimeMessage
         MimeMessage message = mailSender.createMimeMessage();
 
         // Helper to set the attributes for the MimeMessage
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
 
-        // Set the email attributes
-        helper.setFrom("quynhpvnse182895@fpt.edu.vn");
-        helper.setTo(request.getToEmail());
+            // Set the email attributes
+            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setTo(request.getToEmail());
+            helper.setSubject(Const.EMAIL_SUBJECT);
 
-        // Read HTML content from a file and replace placeholders (e.g., OTP)
-        String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
+            // Read HTML content from a file and replace placeholders (e.g., OTP)
+            String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
 
-        // Set the email content as HTML
-        helper.setText(emailContent, true);  // 'true' indicates that the text is HTML
+            // Set the email content as HTML
+            helper.setText(emailContent, true);  // 'true' indicates that the text is HTML
 
-        // Send the email
-        mailSender.send(message);
+            // Send the email
+            mailSender.send(message);
 
-        // Return response
-        return ForgotPasswordResponse.builder()
-                .status("200")
-                .message("Send email successfully")
-                .build();
+            // Return response
+            return ForgotPasswordResponse.builder()
+                    .status("200")
+                    .message("Send email successfully")
+                    .extraInfo(otp)
+                    .build();
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //-----------------------------------------------Verify OTP------------------------------------------------------------//
+
+    @Override
+    public String handleOTP(String code, Model model, HttpSession session) {
+        return handleOTPLogic(code, session);
+    }
+
+    private String handleOTPLogic(String code, HttpSession session) {
+        System.out.println(code);
+        System.out.println(session.getAttribute("mail"));
+        System.out.println(session.getAttribute("otp" + session.getAttribute("mail")));
+        return code.equals(session.getAttribute("otp" + session.getAttribute("mail"))) ? "renewPassword" : "login";
     }
 
     //-----------------------------------------------RENEW PASSWORD------------------------------------------------------------//
@@ -249,23 +287,23 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String renewPass(RenewPasswordRequest request, Model model) {
         Object output = renewPassLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
             model.addAttribute("msg", (RenewPasswordResponse) output);
             return "login";
         }
-        model.addAttribute("error", (Map<String,String>) output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "renewPassword";
     }
 
     @Override
     public RenewPasswordResponse renewPassAPI(RenewPasswordRequest request) {
         Object output = renewPassLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
             return (RenewPasswordResponse) output;
         }
         return RenewPasswordResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
@@ -281,10 +319,10 @@ public class BuyerServiceImpl implements BuyerService {
             acc.setPassword(request.getPassword());
             accountRepo.save(acc);
         }
-            return RenewPasswordResponse.builder()
-                    .status("200")
-                    .message("Renew password successfully")
-                    .build();
+        return RenewPasswordResponse.builder()
+                .status("200")
+                .message("Renew password successfully")
+                .build();
 //        Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
 //        if (acc != null && request.getPassword().equals(request.getConfirmPassword())) {
 //            acc.setPassword(request.getPassword());
@@ -1162,11 +1200,11 @@ public class BuyerServiceImpl implements BuyerService {
                     .paymentURL("/viewOrderSummary")
                     .build();
         }
-            return VNPayResponse.builder()
-                    .status("400")
-                    .message("Your payment is failed")
-                    .paymentURL("/buyer/wishlist")
-                    .build();
+        return VNPayResponse.builder()
+                .status("400")
+                .message("Your payment is failed")
+                .paymentURL("/buyer/wishlist")
+                .build();
 
     }
 

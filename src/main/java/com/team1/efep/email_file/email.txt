@@ -28,9 +28,9 @@
             <td style="padding: 40px;color: #666666;">
               <p style="font-size: 18px;">Hello,</p>
               <p style="font-size: 18px;">We have sent you this email in response to your request to reset your password.</p>
-              <p style="font-size: 18px;">To reset your password, here is your OTP code:</p>
+              <p style="font-size: 18px;">To reset your password, access the verification link below:</p>
               <div align="left">
-                <a href="#" style="display: inline-block;background-color: #18163a;color: #ffffff;padding: 15px 40px;text-decoration: none;border-radius: 1px;">@@@###</a>
+                <a href="@@@###" style="display: inline-block;background-color: #18163a;color: #ffffff;padding: 15px 40px;text-decoration: none;border-radius: 1px;">@@@###</a>
               </div>
               <p style="font-size: 16px;color: #888888;"><em>Please ignore this email if you did not request a password change.</em></p>
             </td>

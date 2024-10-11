@@ -12,6 +12,4 @@ import lombok.NoArgsConstructor;
 public class ForgotPasswordRequest {
 
     private String toEmail;
-
-    private String subject;
 }
