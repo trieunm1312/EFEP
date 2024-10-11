@@ -194,7 +194,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object updateBusinessPlanLogic(UpdateBusinessPlanRequest request) {
-        Map<String, String> errors = UpdateBusinessPlanValidation.validate(request);
+        Map<String, String> errors = UpdateBusinessPlanValidation.validate(request, businessPlanRepo);
         if (errors.isEmpty()) {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
             assert businessPlan != null;
@@ -385,7 +385,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object updateBusinessServiceLogic(UpdateBusinessServiceRequest request) {
-        Map<String, String> errors = UpdateBusinessServiceValidation.validate(request);
+        Map<String, String> errors = UpdateBusinessServiceValidation.validate(request, businessServiceRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
