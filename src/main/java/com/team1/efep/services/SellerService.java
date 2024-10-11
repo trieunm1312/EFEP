@@ -26,9 +26,21 @@ public interface SellerService {
 
     ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(ViewFlowerListForSellerRequest request);
 
+    String viewBusinessPlan(HttpSession session, Model model);
+
+    ViewBusinessPlanResponse viewBusinessPlanAPI();
+
     String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model);
 
     CancelBusinessPlanResponse cancelBusinessPlanAPI(CancelBusinessPlanRequest request);
+
+    String viewBuyerList(HttpSession session, Model model);
+
+    ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request);
+
+    String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model);
+
+    SearchBuyerListResponse searchBuyerListAPI(SearchBuyerListRequest request, int sellerId);
 
     String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
 
@@ -57,18 +69,6 @@ public interface SellerService {
     String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model);
 
     DeleteFlowerResponse deleteFlowerAPI(DeleteFlowerRequest request);
-
-    String viewBuyerList(HttpSession session, Model model);
-
-    ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request);
-
-    String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model);
-
-    SearchBuyerListResponse searchBuyerListAPI(SearchBuyerListRequest request, int sellerId);
-
-    String viewBusinessPlan(HttpSession session, Model model);
-
-    ViewBusinessPlanResponse viewBusinessPlanAPI();
 
     String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model);
 
