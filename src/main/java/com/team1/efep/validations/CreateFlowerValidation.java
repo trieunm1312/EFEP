@@ -14,25 +14,25 @@ public class CreateFlowerValidation {
         if (request.getName() == null || request.getName().trim().isEmpty()) {
             return MapConfig.buildMapKey(errors, "Flower name is required");
         } else if (request.getName().length() < 3 || request.getName().length() > 30) {
-            errors.put("name", "Flower name must be between 3 and 30 characters");
+            return MapConfig.buildMapKey(errors, "Flower name must be between 3 and 30 characters");
         } else if (flowerRepo.findByName(request.getName()).isPresent()) {
-            errors.put("name", "Flower name already exists");
+            return MapConfig.buildMapKey(errors, "Flower name already exists");
         }
 
         if (request.getPrice() == null) {
-            errors.put("price", "Price is required");
+            return MapConfig.buildMapKey(errors, "Price is required");
         } else if (request.getPrice() <= 0) {
-            errors.put("price", "Price must be greater than 0");
+            return MapConfig.buildMapKey(errors, "Price must be greater than 0");
         }
 
         if (request.getFlowerAmount() == null) {
-            errors.put("price", "Price is required");
+            return MapConfig.buildMapKey(errors, "Price is required");
         } else if (request.getFlowerAmount() <= 0) {
-            errors.put("amount", "Price amount must be greater than 0");
+            return MapConfig.buildMapKey(errors, "Price amount must be greater than 0");
         }
 
         if (request.getQuantity() < 0) {
-            errors.put("quantity", "Quantity must be greater than 0");
+            return MapConfig.buildMapKey(errors, "Quantity must be greater than 0");
         }
 
         return errors;
