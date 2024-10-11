@@ -73,7 +73,7 @@
         </header>
 
     <div class="container">
-        <div class="wishlist-show">
+        <div class="wishlist-show" th:if="${msg != null}">
             <div class="table-item-cart">
                 <div class="btn-delete-wishlist">
                     <form th:action="@{/buyer/wishlist}" method="post">
@@ -177,6 +177,12 @@
                     </form>
                 </div>
             </div>
+        </div>
+        <div class="shopping-wishlist-empty" th:if="${msg == null}">
+            <span class="empty-msg">Your wishlist is empty. Buy flower now <3</span>
+            <form class="btn-form-empty" th:action="@{/buyer/flower}" method="get">
+                <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+            </form>
         </div>
     </div>
 

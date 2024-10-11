@@ -63,7 +63,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "viewWishlist";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "home";
+        return "viewWishlist";
     }
 
     @Override
