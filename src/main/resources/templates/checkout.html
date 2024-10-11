@@ -438,21 +438,5 @@
 <script src="/js/price-range.js"></script>
 <script src="/js/jquery.prettyPhoto.js"></script>
 <script src="/js/base.js"></script>
-<script src="/js/index.js"></script>
 </body>
-
-<script>
-    function handleCheckout() {
-        const paymentMethod = document.getElementById('paymentMethod').value;
-        const checkoutForm = document.getElementById('checkout');
-
-        if (paymentMethod === 'COD') {
-            checkoutForm.action = '/viewOrderSummary';
-        } else if (paymentMethod === 'VNPay') {
-            checkoutForm.action = '/buyer/order/payment';
-        }
-        return true;
-    }
-</script>
-
 </html>
