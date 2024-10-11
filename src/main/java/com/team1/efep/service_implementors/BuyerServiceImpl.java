@@ -1,6 +1,7 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.VNPayConfig;
+import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -63,7 +64,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "viewWishlist";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "home";
+        return "viewWishlist";
     }
 
     @Override
@@ -86,9 +87,9 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object viewWishlistLogic(int accountId) {
-        Map<String, String> errors = ViewWishlistValidation.validate(accountId, accountRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewWishlistValidation.validate(accountId, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         Account account = accountRepo.findById(accountId).orElse(null);
         assert account != null;
@@ -156,9 +157,9 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object addToWishlistLogic(AddToWishlistRequest request) {
-        Map<String, String> errors = AddToWishlistValidation.validate(request, accountRepo, flowerRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = AddToWishlistValidation.validate(request, accountRepo, flowerRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
         assert flower != null;
@@ -414,9 +415,9 @@ public class BuyerServiceImpl implements BuyerService {
     private Object deleteWishlistItemLogic(DeleteWishlistItemRequest request) {
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
-        Map<String, String> errors = DeleteWishlistItemValidation.validate(request, accountRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = DeleteWishlistItemValidation.validate(request, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         Wishlist wishlist = account.getUser().getWishlist();
         Optional<WishlistItem> wishlistItemOptional = wishlist.getWishlistItemList().stream()
@@ -477,9 +478,9 @@ public class BuyerServiceImpl implements BuyerService {
     private Object viewOrderHistoryLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
         List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
-        Map<String, String> errors = ViewOrderHistoryValidation.orderHistoryValidation(account, orderList);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewOrderHistoryValidation.orderHistoryValidation(account, orderList);
+        if (!error.isEmpty()) {
+            return error;
         }
         if (!orderList.isEmpty()) {
             List<ViewOrderHistoryResponse.Order> orders = orderList.stream()
@@ -491,7 +492,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .orderList(orders)
                     .build();
         }
-        return errors;
+        return error;
     }
 
     public List<Order> getOrdersBySeller(int sellerId) {
@@ -567,9 +568,9 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        Map<String, String> errors = ViewOrderDetailValidation.validate(request, account, order);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewOrderDetailValidation.validate(request, account, order);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         List<ViewOrderDetailResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
@@ -839,9 +840,9 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object updateWishlistLogic(UpdateWishlistRequest request) {
-        Map<String, String> errors = UpdateWishlistValidation.validate(request, wishlistItemRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = UpdateWishlistValidation.validate(request, wishlistItemRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
@@ -909,9 +910,9 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object deleteWishlistLogic(DeleteWishlistRequest request) {
-        Map<String, String> errors = DeleteWishlistValidation.validate(request, accountRepo, wishlistRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = DeleteWishlistValidation.validate(request, accountRepo, wishlistRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
@@ -969,9 +970,9 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object cancelOrderLogic(CancelOrderRequest request) {
-        Map<String, String> errors = CancelOrderValidation.validate(request, orderRepo, accountRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = CancelOrderValidation.validate(request, orderRepo, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
@@ -1148,9 +1149,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
-        Map<String, String> errors = VNPayValidation.validate(params, httpServletRequest);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
+        if (!error.isEmpty()) {
+            return error;
         }
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {

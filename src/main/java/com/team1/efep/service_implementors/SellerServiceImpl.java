@@ -85,8 +85,8 @@ public class SellerServiceImpl implements SellerService {
 
 
     private Object createFlowerLogic(CreateFlowerRequest request) {
-        Map<String, String> errors = CreateFlowerValidation.validateInput(request, flowerRepo);
-        if (errors.isEmpty()) {
+        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo);
+        if (error.isEmpty()) {
             //success
             Flower flower = createNewFlower(request);
             return CreateFlowerResponse.builder()
@@ -113,7 +113,7 @@ public class SellerServiceImpl implements SellerService {
                     .build();
         }
         //failed
-        return errors;
+        return error;
     }
 
 
@@ -265,9 +265,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object changeOrderStatusLogic(ChangeOrderStatusRequest request) {
-        Map<String, String> errors = ChangeOrderStatusValidation.validate(request);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ChangeOrderStatusValidation.validate(request);
+        if (!error.isEmpty()) {
+            return error;
         }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
@@ -412,9 +412,9 @@ public class SellerServiceImpl implements SellerService {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        Map<String, String> errors = ViewOrderDetailValidation.validate(request, account, order);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewOrderDetailValidation.validate(request, account, order);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         List<ViewOrderDetailForSellerResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
@@ -484,9 +484,9 @@ public class SellerServiceImpl implements SellerService {
     private Object filterOrderLogic(FilterOrderRequest request) {
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
-        Map<String, String> errors = FilterOrderValidation.validate(request);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = FilterOrderValidation.validate(request);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         List<Order> orders = getOrdersBySeller(account.getUser().getSeller().getId());
@@ -580,9 +580,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object viewBuyerListLogic(int sellerId) {
-        Map<String, String> errors = ViewBuyerListValidation.validate();
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewBuyerListValidation.validate();
+        if (!error.isEmpty()) {
+            return error;
         }
         return ViewBuyerListResponse.builder()
                 .status("200")
@@ -793,9 +793,9 @@ public class SellerServiceImpl implements SellerService {
 
     private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
-        Map<String, String> errors = VNPayValidation.validate(params, httpServletRequest);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
+        if (!error.isEmpty()) {
+            return error;
         }
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
@@ -893,9 +893,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object updateFlowerLogic(UpdateFlowerRequest request) {
-        Map<String, String> errors = UpdateFlowerValidation.validate(request);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = UpdateFlowerValidation.validate(request);
+        if (!error.isEmpty()) {
+            return error;
         }
         Flower flower = flowerRepo.findById(request.getFlowerId())
                 .orElseThrow(() -> new RuntimeException("Flower not found with id: " + request.getFlowerId()));

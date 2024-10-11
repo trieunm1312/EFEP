@@ -15,16 +15,16 @@ public class DeleteWishlistValidation {
     public static Map<String, String> validate(DeleteWishlistRequest request, AccountRepo accountRepo, WishlistRepo wishlistRepo) {
         Map<String, String> errors = new HashMap<>();
         if ( request.getWishlistId() <= 0) {
-            MapConfig.buildMapKey(errors, "Invalid wishlist ID.");
+            return MapConfig.buildMapKey(errors, "Invalid wishlist ID.");
         }
 
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            MapConfig.buildMapKey(errors, "Invalid account or unauthorized access.");
+            return MapConfig.buildMapKey(errors, "Invalid account or unauthorized access.");
         } else {
             Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
             if (wishlist == null || !wishlist.getUser().getId().equals(account.getUser().getId())) {
-                MapConfig.buildMapKey(errors, "Wishlist does not belong to the current user.");
+                return MapConfig.buildMapKey(errors, "Wishlist does not belong to the current user.");
             }
         }
         return errors;
