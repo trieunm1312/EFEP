@@ -118,6 +118,15 @@ public class AdminController {
         return adminService.viewBusinessServiceAPI();
     }
 
+    @PostMapping("/search/admin/")
+    public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
+        return adminService.searchUserList(session, request, model);
+    }
+
+    @PostMapping("/search/admin/api")
+    public SearchUserListResponse searchUserList(@RequestBody SearchUserListRequest request) {
+        return adminService.searchUserListAPI(request);
+    }
 
     @PutMapping("/ban/user")
     @Operation(hidden = true)
@@ -140,15 +149,4 @@ public class AdminController {
     public UnBanUserResponse unBanUser(@RequestBody UnBanUserRequest request) {
         return adminService.unBanUserAPI(request);
     }
-
-    @PostMapping("/search/admin/")
-    public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
-        return adminService.searchUserList(session, request, model);
-    }
-
-    @PostMapping("/search/admin/api")
-    public SearchUserListResponse searchUserList(@RequestBody SearchUserListRequest request) {
-        return adminService.searchUserListAPI(request);
-    }
-
 }
