@@ -145,9 +145,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
 const toasts = document.querySelectorAll('.toast');
 toasts.forEach(toast => {
     toast.addEventListener('animationend', () => {
         toast.style.display = 'none';
     });
 });
+
+// View Order Summary
+var countdownElement = document.getElementById("countdown");
+var countdown = 5;
+
+var interval = setInterval(function() {
+    countdown--;
+    countdownElement.textContent = countdown;
+
+    if (countdown <= 0) {
+        clearInterval(interval);
+        window.location.href = "/";
+    }
+}, 1000); // Mỗi giây (1000ms) thực hiện một lần
+
+//Checkout
+function handleCheckout() {
+    const paymentMethod = document.getElementById('paymentMethod').value;
+    const checkoutForm = document.getElementById('checkout');
+
+    if (paymentMethod === 'COD') {
+        checkoutForm.action = '/viewOrderSummary';
+    } else if (paymentMethod === 'VNPay') {
+        checkoutForm.action = '/buyer/order/payment';
+    }
+    return true;
+}

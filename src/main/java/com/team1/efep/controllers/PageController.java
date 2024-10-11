@@ -58,6 +58,16 @@ public class PageController {
     public String checkoutPage() {
         return "checkout";
     }
+
+    @GetMapping("/manageFlower")
+    public String manageFlowerPage() {
+        return "manageFlower";
+    }
+
+    @GetMapping("/viewOrderSummary")
+    public String viewOrderSummaryPage() {
+        return "viewOrderSummary";
+    }
 }
 
 

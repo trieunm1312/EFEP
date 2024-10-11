@@ -1165,7 +1165,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
-            return "redirect:" + ((VNPayResponse) output).getPaymentURL();
+            return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "paymentFailed";
@@ -1200,11 +1200,11 @@ public class BuyerServiceImpl implements BuyerService {
                     .paymentURL("/viewOrderSummary")
                     .build();
         }
-        return VNPayResponse.builder()
-                .status("400")
-                .message("Your payment is failed")
-                .paymentURL("/buyer/wishlist")
-                .build();
+            return VNPayResponse.builder()
+                    .status("400")
+                    .message("Your payment is failed")
+                    .paymentURL("/viewOrderSummary")
+                    .build();
 
     }
 

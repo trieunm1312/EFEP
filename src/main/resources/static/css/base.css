@@ -571,6 +571,7 @@ html {
 }
 
 .header__cart-list-no-wishlist-msg {
+    font-size: 1.8rem;
     margin-left: 22px;
     color: var(--text-color);
 }
@@ -616,7 +617,8 @@ html {
 }
 
 .header__cart-list-item{
-    padding-left: 0;
+    padding-left: 5px;
+    padding-top: 5px;
     list-style: none;
 
 }
