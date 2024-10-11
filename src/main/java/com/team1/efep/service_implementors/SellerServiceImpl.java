@@ -85,8 +85,8 @@ public class SellerServiceImpl implements SellerService {
 
 
     private Object createFlowerLogic(CreateFlowerRequest request) {
-        Map<String, String> errors = CreateFlowerValidation.validateInput(request, flowerRepo);
-        if (errors.isEmpty()) {
+        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo);
+        if (error.isEmpty()) {
             //success
             Flower flower = createNewFlower(request);
             return CreateFlowerResponse.builder()
@@ -113,7 +113,7 @@ public class SellerServiceImpl implements SellerService {
                     .build();
         }
         //failed
-        return errors;
+        return error;
     }
 
 
@@ -265,9 +265,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object changeOrderStatusLogic(ChangeOrderStatusRequest request) {
-        Map<String, String> errors = ChangeOrderStatusValidation.validate(request);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ChangeOrderStatusValidation.validate(request);
+        if (!error.isEmpty()) {
+            return error;
         }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
@@ -288,7 +288,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
         model.addAttribute("msg", viewFlowerListForSellerLogic(request));
-        return "home";
+        return "manageFlower";
     }
 
     @Override
@@ -328,7 +328,66 @@ public class SellerServiceImpl implements SellerService {
                 .toList();
     }
 
-    //--------------------------------------CANCEL BUSINESS PLAN FOR SELLER(FE chua lam)---------------------------------------//
+    //----------------------------------------VIEW BUSINESS PLAN FOR SELLER--------------------------------------------//
+
+    @Override
+    public String viewBusinessPlan(HttpSession session, Model model) {
+        model.addAttribute("msg", viewBusinessPlanLogic());
+        return "planList";
+    }
+
+    @Override
+    public ViewBusinessPlanResponse viewBusinessPlanAPI() {
+
+        return viewBusinessPlanLogic();
+    }
+
+    private ViewBusinessPlanResponse viewBusinessPlanLogic() {
+
+        return ViewBusinessPlanResponse.builder()
+                .status("200")
+                .message("")
+                .serviceList(
+                        businessServiceRepo.findAll()
+                                .stream()
+                                .map(
+                                        service -> ViewBusinessPlanResponse.BusinessService.builder()
+                                                .id(service.getId())
+                                                .name(service.getName())
+                                                .description(service.getDescription())
+                                                .price(service.getPrice())
+                                                .build()
+                                )
+                                .toList()
+                )
+                .businessPlanList(
+                        businessPlanRepo.findAll()
+                                .stream()
+                                .map(
+                                        plan -> ViewBusinessPlanResponse.BusinessPlan.builder()
+                                                .id(plan.getId())
+                                                .name(plan.getName())
+                                                .description(plan.getDescription())
+                                                .price(plan.getPrice())
+                                                .duration(plan.getDuration())
+                                                .status(plan.getStatus())
+                                                .businessServiceList(plan.getPlanServiceList().stream()
+                                                        .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
+                                                                .id(service.getBusinessService().getId())
+                                                                .name(service.getBusinessService().getName())
+                                                                .description(service.getBusinessService().getDescription())
+                                                                .price(service.getBusinessService().getPrice())
+                                                                .build()
+                                                        )
+                                                        .toList())
+                                                .build()
+                                )
+                                .toList())
+                .build();
+
+    }
+
+    //--------------------------------------CANCEL BUSINESS PLAN ---------------------------------------//
 
     @Override
     public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
@@ -354,7 +413,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object cancelBusinessPlanLogic(CancelBusinessPlanRequest request) {
-        Map<String, String> errors = CancelBusinessPlanValidation.validate(request);
+        Map<String, String> errors = CancelBusinessPlanValidation.validate(request, businessPlanRepo);
         if (errors.isEmpty()) {
             Seller seller = sellerRepo.findById(request.getId()).orElse(null);
             assert seller != null;
@@ -367,191 +426,6 @@ public class SellerServiceImpl implements SellerService {
                     .build();
         }
         return errors;
-    }
-
-    //--------------------------------VIEW ORDER DETAIL-----------------------------------//
-
-    @Override
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewOrderHistoryResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build());
-            return "login";
-        }
-        Object output = viewOrderDetailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            model.addAttribute("response", (ViewOrderDetailResponse) output);
-        }
-        model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
-    }
-
-    @Override
-    public ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            return ViewOrderDetailResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build();
-        }
-        Object output = viewOrderDetailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            return (ViewOrderDetailResponse) output;
-        }
-        return ViewOrderDetailResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
-    private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
-        assert order != null;
-        Map<String, String> errors = ViewOrderDetailValidation.validate(request, account, order);
-        if (!errors.isEmpty()) {
-            return errors;
-        }
-
-        List<ViewOrderDetailForSellerResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
-
-        return ViewOrderDetailForSellerResponse.builder()
-                .status("200")
-                .message("Order details retrieved successfully")
-                .orderId(order.getId())
-                .buyerName(order.getUser().getName())
-                .totalPrice(order.getTotalPrice())
-                .orderStatus(order.getStatus())
-                .detailList(detailList)
-                .build();
-    }
-
-    private List<ViewOrderDetailForSellerResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
-        return orderDetails.stream()
-                .map(detail -> ViewOrderDetailForSellerResponse.Detail.builder()
-                        .sellerName(detail.getFlower().getSeller().getUser().getName())
-                        .flowerName(detail.getFlowerName())
-                        .quantity(detail.getQuantity())
-                        .price(detail.getPrice())
-                        .build())
-                .collect(Collectors.toList());
-    }
-
-    //-----------------------------------------FILTER ORDER--------------------------------------//
-
-    @Override
-    public String filterOrder(FilterOrderRequest request, HttpSession session, Model model) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewOrderListResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build());
-            return "login";
-        }
-        Object output = filterOrderLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
-            model.addAttribute("response", (FilterOrderResponse) output);
-        }
-        model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
-    }
-
-    @Override
-    public FilterOrderResponse filterOrderAPI(FilterOrderRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            return FilterOrderResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build();
-        }
-        Object output = filterOrderLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
-            return (FilterOrderResponse) output;
-        }
-        return FilterOrderResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
-
-    private Object filterOrderLogic(FilterOrderRequest request) {
-        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
-        assert account != null;
-        Map<String, String> errors = FilterOrderValidation.validate(request);
-        if (!errors.isEmpty()) {
-            return errors;
-        }
-
-        List<Order> orders = getOrdersBySeller(account.getUser().getSeller().getId());
-        assert !orders.isEmpty();
-
-        if (request.getStatus() != null && !request.getStatus().isEmpty()) {
-            orders = orders.stream()
-                    .filter(order -> order.getStatus().equalsIgnoreCase(request.getStatus()))
-                    .collect(Collectors.toList());
-        }
-
-        if (request.getCreatedDate() != null) {
-            orders = orders.stream()
-                    .filter(order -> order.getCreatedDate().getMonth().equals(request.getCreatedDate().getMonth()))
-                    .collect(Collectors.toList());
-        }
-
-        List<FilterOrderResponse.OrderBill> orderBills = orders.stream()
-                .map(this::viewFilterOrderList)
-                .toList();
-
-        if (!orders.isEmpty()) {
-            return FilterOrderResponse.builder()
-                    .status("200")
-                    .message("Filter successful")
-                    .orderList(orderBills)
-                    .build();
-        }
-        return FilterOrderResponse.builder()
-                .status("400")
-                .message("No order found")
-                .build();
-
-    }
-
-    private List<Order> getOrdersBySeller(int sellerId) {
-        List<OrderDetail> orderDetails = orderDetailRepo.findAllByFlower_Seller_Id(sellerId);
-
-        return orderDetails.stream()
-                .map(OrderDetail::getOrder)
-                .distinct()
-                .collect(Collectors.toList());
-    }
-
-    private FilterOrderResponse.OrderBill viewFilterOrderList(Order order) {
-        return FilterOrderResponse.OrderBill.builder()
-                .orderId(order.getId())
-                .buyerName(order.getBuyerName())
-                .createDate(order.getCreatedDate())
-                .totalPrice(order.getTotalPrice())
-                .status(order.getStatus())
-                .paymentType(order.getPaymentType().getType())
-                .paymentMethod(order.getPaymentMethod().getMethod())
-                .orderDetailList(viewFilterOrderDetailList(order.getOrderDetailList()))
-                .build();
-    }
-
-    private List<FilterOrderResponse.Item> viewFilterOrderDetailList(List<OrderDetail> orderDetails) {
-        return orderDetails.stream()
-                .map(detail -> FilterOrderResponse.Item.builder()
-                        .name(detail.getFlower().getName())
-                        .quantity(detail.getQuantity())
-                        .price(detail.getPrice())
-                        .build())
-                .collect(Collectors.toList());
     }
 
     //-----------------------------------------VIEW BUYER LIST--------------------------------------//
@@ -653,6 +527,192 @@ public class SellerServiceImpl implements SellerService {
                 )
                 .build();
     }
+
+    //--------------------------------VIEW ORDER DETAIL-----------------------------------//
+
+    @Override
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewOrderHistoryResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = viewOrderDetailLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
+            model.addAttribute("response", (ViewOrderDetailResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
+    }
+
+    @Override
+    public ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return ViewOrderDetailResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = viewOrderDetailLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
+            return (ViewOrderDetailResponse) output;
+        }
+        return ViewOrderDetailResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
+        Map<String, String> error = ViewOrderDetailValidation.validate(request, account, order);
+        if (!error.isEmpty()) {
+            return error;
+        }
+
+        List<ViewOrderDetailForSellerResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
+
+        return ViewOrderDetailForSellerResponse.builder()
+                .status("200")
+                .message("Order details retrieved successfully")
+                .orderId(order.getId())
+                .buyerName(order.getUser().getName())
+                .totalPrice(order.getTotalPrice())
+                .orderStatus(order.getStatus())
+                .detailList(detailList)
+                .build();
+    }
+
+    private List<ViewOrderDetailForSellerResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
+        return orderDetails.stream()
+                .map(detail -> ViewOrderDetailForSellerResponse.Detail.builder()
+                        .sellerName(detail.getFlower().getSeller().getUser().getName())
+                        .flowerName(detail.getFlowerName())
+                        .quantity(detail.getQuantity())
+                        .price(detail.getPrice())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    //-----------------------------------------FILTER ORDER--------------------------------------//
+
+    @Override
+    public String filterOrder(FilterOrderRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewOrderListResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        Object output = filterOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
+            model.addAttribute("response", (FilterOrderResponse) output);
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "seller";
+    }
+
+    @Override
+    public FilterOrderResponse filterOrderAPI(FilterOrderRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return FilterOrderResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        Object output = filterOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
+            return (FilterOrderResponse) output;
+        }
+        return FilterOrderResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+
+    private Object filterOrderLogic(FilterOrderRequest request) {
+        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
+        assert account != null;
+        Map<String, String> error = FilterOrderValidation.validate(request);
+        if (!error.isEmpty()) {
+            return error;
+        }
+
+        List<Order> orders = getOrdersBySeller(account.getUser().getSeller().getId());
+        assert !orders.isEmpty();
+
+        if (request.getStatus() != null && !request.getStatus().isEmpty()) {
+            orders = orders.stream()
+                    .filter(order -> order.getStatus().equalsIgnoreCase(request.getStatus()))
+                    .collect(Collectors.toList());
+        }
+
+        if (request.getCreatedDate() != null) {
+            orders = orders.stream()
+                    .filter(order -> order.getCreatedDate().getMonth().equals(request.getCreatedDate().getMonth()))
+                    .collect(Collectors.toList());
+        }
+
+        List<FilterOrderResponse.OrderBill> orderBills = orders.stream()
+                .map(this::viewFilterOrderList)
+                .toList();
+
+        if (!orders.isEmpty()) {
+            return FilterOrderResponse.builder()
+                    .status("200")
+                    .message("Filter successful")
+                    .orderList(orderBills)
+                    .build();
+        }
+        return FilterOrderResponse.builder()
+                .status("400")
+                .message("No order found")
+                .build();
+
+    }
+
+    private List<Order> getOrdersBySeller(int sellerId) {
+        List<OrderDetail> orderDetails = orderDetailRepo.findAllByFlower_Seller_Id(sellerId);
+
+        return orderDetails.stream()
+                .map(OrderDetail::getOrder)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    private FilterOrderResponse.OrderBill viewFilterOrderList(Order order) {
+        return FilterOrderResponse.OrderBill.builder()
+                .orderId(order.getId())
+                .buyerName(order.getBuyerName())
+                .createDate(order.getCreatedDate())
+                .totalPrice(order.getTotalPrice())
+                .status(order.getStatus())
+                .paymentType(order.getPaymentType().getType())
+                .paymentMethod(order.getPaymentMethod().getMethod())
+                .orderDetailList(viewFilterOrderDetailList(order.getOrderDetailList()))
+                .build();
+    }
+
+    private List<FilterOrderResponse.Item> viewFilterOrderDetailList(List<OrderDetail> orderDetails) {
+        return orderDetails.stream()
+                .map(detail -> FilterOrderResponse.Item.builder()
+                        .name(detail.getFlower().getName())
+                        .quantity(detail.getQuantity())
+                        .price(detail.getPrice())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 
     //-------------------------------------------------VN PAY----------------------------------------//
 
@@ -793,9 +853,9 @@ public class SellerServiceImpl implements SellerService {
 
     private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
-        Map<String, String> errors = VNPayValidation.validate(params, httpServletRequest);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
+        if (!error.isEmpty()) {
+            return error;
         }
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
@@ -893,9 +953,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object updateFlowerLogic(UpdateFlowerRequest request) {
-        Map<String, String> errors = UpdateFlowerValidation.validate(request);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = UpdateFlowerValidation.validate(request);
+        if (!error.isEmpty()) {
+            return error;
         }
         Flower flower = flowerRepo.findById(request.getFlowerId())
                 .orElseThrow(() -> new RuntimeException("Flower not found with id: " + request.getFlowerId()));
@@ -961,64 +1021,7 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    //----------------------------------------VIEW BUSINESS PLAN--------------------------------------------//
 
-    @Override
-    public String viewBusinessPlan(HttpSession session, Model model) {
-        model.addAttribute("msg", viewBusinessPlanLogic());
-        return "manageBusinessPlan";
-    }
-
-    @Override
-    public ViewBusinessPlanResponse viewBusinessPlanAPI() {
-
-        return viewBusinessPlanLogic();
-    }
-
-    private ViewBusinessPlanResponse viewBusinessPlanLogic() {
-
-        return ViewBusinessPlanResponse.builder()
-                .status("200")
-                .message("")
-                .serviceList(
-                        businessServiceRepo.findAll()
-                                .stream()
-                                .map(
-                                        service -> ViewBusinessPlanResponse.BusinessService.builder()
-                                                .id(service.getId())
-                                                .name(service.getName())
-                                                .description(service.getDescription())
-                                                .price(service.getPrice())
-                                                .build()
-                                )
-                                .toList()
-                )
-                .businessPlanList(
-                        businessPlanRepo.findAll()
-                                .stream()
-                                .map(
-                                        plan -> ViewBusinessPlanResponse.BusinessPlan.builder()
-                                                .id(plan.getId())
-                                                .name(plan.getName())
-                                                .description(plan.getDescription())
-                                                .price(plan.getPrice())
-                                                .duration(plan.getDuration())
-                                                .status(plan.getStatus())
-                                                .businessServiceList(plan.getPlanServiceList().stream()
-                                                        .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
-                                                                .id(service.getBusinessService().getId())
-                                                                .name(service.getBusinessService().getName())
-                                                                .description(service.getBusinessService().getDescription())
-                                                                .price(service.getBusinessService().getPrice())
-                                                                .build()
-                                                        )
-                                                        .toList())
-                                                .build()
-                                )
-                                .toList())
-                .build();
-
-    }
 
     //----------------------------------------VIEW FLOWER IMAGE----------------------------------------------//
 

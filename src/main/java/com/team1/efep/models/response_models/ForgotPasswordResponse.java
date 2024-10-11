@@ -14,4 +14,6 @@ public class ForgotPasswordResponse {
     private String status;
 
     private String message;
+
+    private String extraInfo;
 }

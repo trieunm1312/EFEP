@@ -16,18 +16,16 @@ public class CancelOrderValidation {
         Map<String, String> errors = new HashMap<>();
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         if (order == null) {
-            MapConfig.buildMapKey(errors, "Order does not exist.");
-            return errors;
+            return MapConfig.buildMapKey(errors, "Order does not exist.");
         }
 
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         if (account == null || !order.getUser().getId().equals(account.getUser().getId())) {
-            MapConfig.buildMapKey(errors, "You are not authorized to cancel this order.");
-            return errors;
+            return MapConfig.buildMapKey(errors, "You are not authorized to cancel this order.");
         }
 
         if (!order.getStatus().equals(Status.ORDER_STATUS_PROCESSING)) {
-            MapConfig.buildMapKey(errors, "Order cannot be cancelled");
+            return MapConfig.buildMapKey(errors, "Order cannot be cancelled");
         }
         return errors;
     }

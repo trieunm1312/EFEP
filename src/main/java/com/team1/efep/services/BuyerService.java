@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import java.util.Map;
 
 public interface BuyerService {
-    String sendEmail(ForgotPasswordRequest request, Model model);
+    String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session);
 
     ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request);
 
@@ -86,4 +86,6 @@ public interface BuyerService {
     ViewCategoryListResponse viewCategoryAPI();
 
     String confirmOrder(HttpSession session, Model model);
+
+    String handleOTP(String code, Model model, HttpSession session);
 }

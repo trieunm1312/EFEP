@@ -26,7 +26,7 @@ public class ViewWishlistValidation {
         }
 
         if (account.getUser().getWishlist() == null || account.getUser().getWishlist().getWishlistItemList().isEmpty()) {
-            errors.put("wishlist", "Wishlist is empty or does not exist");
+            errors.put("wishlist", "Wishlist is empty");
         }
         return errors;
     }
