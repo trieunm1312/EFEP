@@ -561,7 +561,7 @@ public class SellerServiceImpl implements SellerService {
         Object output = viewBuyerListLogic(((Account) session.getAttribute("acc")).getUser().getSeller().getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewBuyerListResponse.class)) {
             model.addAttribute("msg", (ViewBuyerListResponse) output);
-            return "home";
+            return "buyerList";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
@@ -631,7 +631,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
         model.addAttribute("msg", searchBuyerListLogic(request, ((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
-        return "searchBuyerList";
+        return "buyerList";
     }
 
     @Override

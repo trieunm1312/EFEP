@@ -39,16 +39,6 @@ public class PageController {
         return "forgotPassword";
     }
 
-    @GetMapping("/plan")
-    public String planPage() {
-        return "manageBusinessPlan";
-    }
-
-    @GetMapping("/service")
-    public String servicePage() {
-        return "manageBusinessService";
-    }
-
     @GetMapping("/orderList")
     public String orderListPage() {
         return "viewOrderList";
@@ -62,6 +52,16 @@ public class PageController {
     @GetMapping("/manageFlower")
     public String manageFlowerPage() {
         return "manageFlower";
+    }
+
+    @GetMapping("/seller/plan")
+    public String myPlanPage() {
+        return "sellerPlan";
+    }
+
+    @GetMapping("/seller/plan/intro")
+    public String choosePlanPage() {
+        return "choosePlan";
     }
 }
 

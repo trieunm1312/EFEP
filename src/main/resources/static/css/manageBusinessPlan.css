@@ -46,6 +46,7 @@
 
 .business-plan__card{
     width: 300px;
+    height: fit-content;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -67,6 +68,14 @@
 
 .business-plan__card-info div h4{
     font-weight: 600;
+}
+
+label h3{
+    margin-bottom: -4px;
+}
+
+.business-plan__card-duration{
+    margin-top: 24px;
 }
 
 .business-plan__card-modify{
@@ -103,17 +112,93 @@
 
 .business-plan__card-desc textarea{
     width: 100%;
-    height: 100px;
+    height: fit-content;
 }
 
+/* Business card new */
+.business-plan__card label{
+    margin-bottom: -100px;
+    margin-right: 8px;
+
+}
+
+.business-plan__card-desc label,
+.business-plan__card-services-container label{
+    margin-bottom: 0;
+}
+
+.business-plan__card-name input,
+.business-plan__card-desc textarea,
+.business-plan__card-service select,
+.business-plan__card-duration input,
+.business-plan__card-price input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    border-bottom: 1px solid var(--text-color);
+    box-sizing: border-box;
+}
+
+.business-plan__card-desc textarea{
+    margin-top: 16px;
+}
+
+.business-plan__card-service select{
+    width: 100%;
+    border: none;
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+/* .business-plan__card-service select:hover{
+    background-color: blue;
+} */
+
+.business-plan__card-duration input,
+.business-plan__card-price h4{
+    width: 30%;
+    display: inline-block;
+}
+
+.business-plan__card-price h4{
+    width: 70%;
+}
+
+.business-plan__card-price span{
+    width: 10%;
+}
+
+.business-plan__card-price input{
+    width: 90%;
+}
+
+.business-plan__card h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.business-plan__card-add-service,
+.business-plan__card-more-service,
 .business-plan__card-new-btn{
     display: block;
+    margin-top: 32px;
+    font-size: 0.7rem;
     color: var(--white-color);
     background-color: var(--primary-color);
     border: none;
-    padding: 4px 8px;
+    padding: 8px 12px;
     border-radius: 4px;
     text-align: right;
+}
+
+.business-plan__card-more-service{
+    margin-top: 0;
+}
+
+.business-plan__card-new-btn{
+    text-align: center;
+    width: 100%;
 }
 
 
