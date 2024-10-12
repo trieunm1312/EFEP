@@ -1,16 +1,17 @@
 package com.team1.efep.validations;
 
 import com.team1.efep.VNPay.VNPayConfig;
+import com.team1.efep.configurations.MapConfig;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.*;
 
 public class VNPayValidation {
     public static Map<String, String> validate(Map<String, String> params, HttpServletRequest request) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
 
         if (params.get("vnp_TransactionStatus") == null) {
-            errors.put("transaction_status_missing", "Transaction status is missing.");
+            return MapConfig.buildMapKey(error, "Transaction status is missing.");
         }
 //
 //        if (params.get("vnp_TxnRef") == null) {
@@ -74,6 +75,6 @@ public class VNPayValidation {
 //
 //        // Bạn có thể tùy chỉnh cách kiểm tra thời gian, ví dụ như kiểm tra xem thời gian có hợp lệ không
 //        return true;  // Trả về true nếu hợp lệ
-        return errors;
+        return error;
     }
 }

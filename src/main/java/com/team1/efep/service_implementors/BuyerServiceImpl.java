@@ -1,6 +1,7 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.VNPayConfig;
+import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -43,12 +44,6 @@ public class BuyerServiceImpl implements BuyerService {
     private final OrderDetailRepo orderDetailRepo;
     private final CategoryRepo categoryRepo;
 
-    @Override
-    public String sendEmail(ForgotPasswordRequest request, Model model) {
-        return "";
-    }
-
-
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
     public String viewWishlist(HttpSession session, Model model) {
@@ -63,7 +58,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "viewWishlist";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "home";
+        return "viewWishlist";
     }
 
     @Override
@@ -86,9 +81,9 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object viewWishlistLogic(int accountId) {
-        Map<String, String> errors = ViewWishlistValidation.validate(accountId, accountRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewWishlistValidation.validate(accountId, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         Account account = accountRepo.findById(accountId).orElse(null);
         assert account != null;
@@ -156,9 +151,9 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object addToWishlistLogic(AddToWishlistRequest request) {
-        Map<String, String> errors = AddToWishlistValidation.validate(request, accountRepo, flowerRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = AddToWishlistValidation.validate(request, accountRepo, flowerRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
         assert flower != null;
@@ -193,15 +188,34 @@ public class BuyerServiceImpl implements BuyerService {
 
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
-    public ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request) {
-        try {
-            return sendEmailLogic(request);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+    public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session) {
+        Object output = sendEmailLogic(request);
+        if(!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)){
+            model.addAttribute("error", (Map<String, String>)output);
+            return "redirect:/login";
         }
+        ForgotPasswordResponse response = (ForgotPasswordResponse) output;
+        session.setAttribute("mail", request.getToEmail());
+        session.setAttribute("otp" + request.getToEmail(), response.getExtraInfo());
+        model.addAttribute("email", request.getToEmail());
+        return "forgotPassword";
     }
 
-    private ForgotPasswordResponse sendEmailLogic(ForgotPasswordRequest request) throws MessagingException {
+    @Override
+    public ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request) {
+        Object output = sendEmailLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
+            ForgotPasswordResponse response = (ForgotPasswordResponse) output;
+            response.setExtraInfo("");
+            return response;
+        }
+        return ForgotPasswordResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object sendEmailLogic(ForgotPasswordRequest request) {
 //        SimpleMailMessage message = new SimpleMailMessage();
 //        message.setFrom("quynhpvnse182895@fpt.edu.vn");
 //        message.setTo(request.getToEmail());
@@ -214,34 +228,58 @@ public class BuyerServiceImpl implements BuyerService {
 //                .status("200")
 //                .message("Send email successfully")
 //                .build();
-
+        Map<String, String> errors = ForgotPasswordValidation.validate(request, accountRepo);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
         // Generate the OTP
-        String otp = OTPGeneratorUtil.generateOTP(6);
+        String otp = Const.OTP_LINK + OTPGeneratorUtil.generateOTP(6);
 
         // Create a MimeMessage
         MimeMessage message = mailSender.createMimeMessage();
 
         // Helper to set the attributes for the MimeMessage
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
 
-        // Set the email attributes
-        helper.setFrom("quynhpvnse182895@fpt.edu.vn");
-        helper.setTo(request.getToEmail());
+            // Set the email attributes
+            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setTo(request.getToEmail());
+            helper.setSubject(Const.EMAIL_SUBJECT);
 
-        // Read HTML content from a file and replace placeholders (e.g., OTP)
-        String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
+            // Read HTML content from a file and replace placeholders (e.g., OTP)
+            String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
 
-        // Set the email content as HTML
-        helper.setText(emailContent, true);  // 'true' indicates that the text is HTML
+            // Set the email content as HTML
+            helper.setText(emailContent, true);  // 'true' indicates that the text is HTML
 
-        // Send the email
-        mailSender.send(message);
+            // Send the email
+            mailSender.send(message);
 
-        // Return response
-        return ForgotPasswordResponse.builder()
-                .status("200")
-                .message("Send email successfully")
-                .build();
+            // Return response
+            return ForgotPasswordResponse.builder()
+                    .status("200")
+                    .message("Send email successfully")
+                    .extraInfo(otp)
+                    .build();
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //-----------------------------------------------Verify OTP------------------------------------------------------------//
+
+    @Override
+    public String handleOTP(String code, Model model, HttpSession session) {
+        return handleOTPLogic(code, session);
+    }
+
+    private String handleOTPLogic(String code, HttpSession session) {
+        System.out.println(code);
+        System.out.println(session.getAttribute("mail"));
+        System.out.println(session.getAttribute("otp" + session.getAttribute("mail")));
+        return code.equals(session.getAttribute("otp" + session.getAttribute("mail"))) ? "renewPassword" : "login";
     }
 
     //-----------------------------------------------RENEW PASSWORD------------------------------------------------------------//
@@ -249,23 +287,23 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String renewPass(RenewPasswordRequest request, Model model) {
         Object output = renewPassLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
             model.addAttribute("msg", (RenewPasswordResponse) output);
             return "login";
         }
-        model.addAttribute("error", (Map<String,String>) output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "renewPassword";
     }
 
     @Override
     public RenewPasswordResponse renewPassAPI(RenewPasswordRequest request) {
         Object output = renewPassLogic(request);
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
             return (RenewPasswordResponse) output;
         }
         return RenewPasswordResponse.builder()
                 .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>)output))
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
 
@@ -281,10 +319,10 @@ public class BuyerServiceImpl implements BuyerService {
             acc.setPassword(request.getPassword());
             accountRepo.save(acc);
         }
-            return RenewPasswordResponse.builder()
-                    .status("200")
-                    .message("Renew password successfully")
-                    .build();
+        return RenewPasswordResponse.builder()
+                .status("200")
+                .message("Renew password successfully")
+                .build();
 //        Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
 //        if (acc != null && request.getPassword().equals(request.getConfirmPassword())) {
 //            acc.setPassword(request.getPassword());
@@ -414,9 +452,9 @@ public class BuyerServiceImpl implements BuyerService {
     private Object deleteWishlistItemLogic(DeleteWishlistItemRequest request) {
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
-        Map<String, String> errors = DeleteWishlistItemValidation.validate(request, accountRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = DeleteWishlistItemValidation.validate(request, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         Wishlist wishlist = account.getUser().getWishlist();
         Optional<WishlistItem> wishlistItemOptional = wishlist.getWishlistItemList().stream()
@@ -477,9 +515,9 @@ public class BuyerServiceImpl implements BuyerService {
     private Object viewOrderHistoryLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
         List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
-        Map<String, String> errors = ViewOrderHistoryValidation.orderHistoryValidation(account, orderList);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewOrderHistoryValidation.orderHistoryValidation(account, orderList);
+        if (!error.isEmpty()) {
+            return error;
         }
         if (!orderList.isEmpty()) {
             List<ViewOrderHistoryResponse.Order> orders = orderList.stream()
@@ -491,7 +529,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .orderList(orders)
                     .build();
         }
-        return errors;
+        return error;
     }
 
     public List<Order> getOrdersBySeller(int sellerId) {
@@ -567,9 +605,9 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        Map<String, String> errors = ViewOrderDetailValidation.validate(request, account, order);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewOrderDetailValidation.validate(request, account, order);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         List<ViewOrderDetailResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
@@ -839,9 +877,9 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object updateWishlistLogic(UpdateWishlistRequest request) {
-        Map<String, String> errors = UpdateWishlistValidation.validate(request, wishlistItemRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = UpdateWishlistValidation.validate(request, wishlistItemRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
@@ -909,9 +947,9 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object deleteWishlistLogic(DeleteWishlistRequest request) {
-        Map<String, String> errors = DeleteWishlistValidation.validate(request, accountRepo, wishlistRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = DeleteWishlistValidation.validate(request, accountRepo, wishlistRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
@@ -969,9 +1007,9 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object cancelOrderLogic(CancelOrderRequest request) {
-        Map<String, String> errors = CancelOrderValidation.validate(request, orderRepo, accountRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = CancelOrderValidation.validate(request, orderRepo, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
@@ -1127,7 +1165,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
-            return "redirect:" + ((VNPayResponse) output).getPaymentURL();
+            return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "paymentFailed";
@@ -1148,9 +1186,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
-        Map<String, String> errors = VNPayValidation.validate(params, httpServletRequest);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
+        if (!error.isEmpty()) {
+            return error;
         }
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {

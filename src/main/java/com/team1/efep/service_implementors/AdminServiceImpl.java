@@ -194,7 +194,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object updateBusinessPlanLogic(UpdateBusinessPlanRequest request) {
-        Map<String, String> errors = UpdateBusinessPlanValidation.validate(request);
+        Map<String, String> errors = UpdateBusinessPlanValidation.validate(request, businessPlanRepo, businessServiceRepo);
         if (errors.isEmpty()) {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
             assert businessPlan != null;
@@ -267,7 +267,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object disableBusinessPlanLogic(DisableBusinessPlanRequest request) {
-        Map<String, String> errors = DisableBusinessPlanValidation.validate(request);
+        Map<String, String> errors = DisableBusinessPlanValidation.validate(request, businessPlanRepo);
         if (errors.isEmpty()) {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
             assert businessPlan != null;
@@ -341,7 +341,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object createBusinessServiceLogic(CreateBusinessServiceRequest request) {
-        Map<String, String> errors = CreateBusinessServiceValidation.validate();
+        Map<String, String> errors = CreateBusinessServiceValidation.validate(request);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -385,7 +385,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object updateBusinessServiceLogic(UpdateBusinessServiceRequest request) {
-        Map<String, String> errors = UpdateBusinessServiceValidation.validate(request);
+        Map<String, String> errors = UpdateBusinessServiceValidation.validate(request, businessServiceRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -429,7 +429,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object deleteBusinessServiceLogic(DeleteBusinessServiceRequest request) {
-        Map<String, String> errors = DeleteBusinessServiceValidation.validate(request);
+        Map<String, String> errors = DeleteBusinessServiceValidation.validate(request,businessServiceRepo);
         if (!errors.isEmpty()) {
             return errors;
         }

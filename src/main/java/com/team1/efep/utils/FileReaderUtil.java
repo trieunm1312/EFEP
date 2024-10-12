@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class FileReaderUtil {
-    public static String readFile(String OTP) {
+    public static String readFile(String verificationLink) {
         String result = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/team1/efep/email_file/email.txt"));
@@ -12,8 +12,7 @@ public class FileReaderUtil {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            String[] array = result.split("@@@###");//A@B
-            result = array[0] + OTP + array[1];
+            result = result.replaceAll("@@@###", verificationLink);
             br.close();
         } catch (Exception e) {
             e.printStackTrace();

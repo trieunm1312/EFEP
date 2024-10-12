@@ -282,7 +282,7 @@
                     <label for="paymentMethod"></label>
                     <select class="payment-list" name="paymentMethod" id="paymentMethod">
                         <option value="COD">COD</option>
-                        <option value="VNPay">VNPay</option>
+                        <option value="VNPay" selected>VNPay</option>
                     </select>
                 </div>
                 <div class="btn-cart">
@@ -438,21 +438,5 @@
 <script src="/js/price-range.js"></script>
 <script src="/js/jquery.prettyPhoto.js"></script>
 <script src="/js/base.js"></script>
-<script src="/js/index.js"></script>
 </body>
-
-<script>
-    function handleCheckout() {
-        const paymentMethod = document.getElementById('paymentMethod').value;
-        const checkoutForm = document.getElementById('checkout');
-
-        if (paymentMethod === 'COD') {
-            checkoutForm.action = '/viewOrderSummary';
-        } else if (paymentMethod === 'VNPay') {
-            checkoutForm.action = '/buyer/order/payment';
-        }
-        return true;
-    }
-</script>
-
 </html>

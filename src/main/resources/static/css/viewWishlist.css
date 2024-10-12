@@ -1,7 +1,8 @@
 /* Table cart */
 .table-item-cart {
-    margin: 0 114px;
-    margin-top: 50px;
+    /* margin: 0 114px; */
+    width: 92%;
+    margin-top: 20px;
     margin-bottom: 30px;
     color: var(--text-color);
 }
@@ -138,14 +139,13 @@
 
 /* button table cart */
 .btn-cart {
-    margin: 0 114px;
-    display: flex;
-    justify-content: space-between;
+    float: right;
+    margin-top: 30px;
 }
 
 .btn-cart-continue,
 .btn-cart-checkout {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     background-color: var(--primary-color);
     color: var(--white-color);
     border: none;
@@ -155,12 +155,72 @@
     transition: background-color 0.3s ease;
 }
 
-.btn-cart-checkout {
-    margin-left: auto;
+.btn-cart-continue {
+    margin-top: 10px;
 }
+
+/*.btn-cart-checkout {*/
+/*    margin-left: auto;*/
+/*}*/
 
 .btn-cart-continue:hover,
 .btn-cart-checkout:hover {
     background-color: rgba(0, 0, 0, 0.789);
     cursor: pointer;
+}
+
+/*When wishlist empty*/
+.shopping-wishlist-empty {
+    text-align: center;
+    margin-top: 55px;
+}
+
+.empty-msg {
+    font-size: 2.6rem;
+}
+
+.wishlist-show {
+    display: grid;
+    /* flex-flow: row wrap; */
+    grid-template-columns: 1fr 0.5fr;
+    gap: 10px; /* Khoảng cách giữa các cột */
+}
+
+.total-wishlist {
+    /* width: 20%; */
+    border-left: 10px solid black;
+}
+
+.total__wishlist-header {
+    font-weight: 600;
+}
+
+.total__wishlist-detail-title {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.total__wishlist-detail-price {
+    font-size: 1.6rem;
+    font-weight: bold;
+    float: right;
+}
+
+.line {
+    color: rgba(0, 0, 0, 0.4);
+
+}
+
+table {
+    border: #fff;
+}
+
+thead {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: rgba(184, 181, 181, 0.103);
 }

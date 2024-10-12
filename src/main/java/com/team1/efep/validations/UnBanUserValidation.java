@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class UnBanUserValidation {
     public static Map<String, String> validate(UnBanUserRequest request, UserRepo userRepo) {
-        Map<String, String> error = new HashMap<String, String>();
+        Map<String, String> error = new HashMap<>();
         // code validate here
         User user = userRepo.findById(request.getId()).orElse(null);
         if(user == null) {
