@@ -179,16 +179,26 @@
     border-left: 1px solid #EFEFEF;
 }
 .profile__avatar img{
-    width: 90%;
+    width: 316px;
+    height: 316px;
     display: block;
 }
 
 .choose-img-btn{
     margin-top: 16px;
+    font-size: 1.6rem;
+    text-align: center;
     border-radius: 4px;
     display: inline-block;
     width: 40%;
     vertical-align: top;
+    padding: 8px 10px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+.file-input{
+    display: none;
 }
 
 .profile__avatar-note{

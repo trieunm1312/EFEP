@@ -5,58 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Page</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/manageUser.css">
+    <link rel="stylesheet" href="/css/adminBase.css">
+    <link rel="stylesheet" href="/css/manageUser.css">
 
 </head>
 
 <body>
-    <aside class="sidebar">
-        <a href="" class="sidebar__logo">
-            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Web Logo">
-        </a>
-        <hr class="horizontal dark ">
-        <div class="sidebar__components">
-            <ul class="sidebar__List">
-                <li>
-                    <a href="#" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Dashboard</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="manageFlower.html" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Flower</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="sidebar__link ">
-                        <div class="sidebar__item">
-                            <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">My Plan</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="sidebar__link">
-                        <div class="sidebar__item active">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Buyer List</span>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </aside>
+<aside class="sidebar">
+    <a href="" class="sidebar__logo">
+        <img src="/img/flowrista-logo.png" alt="Web Logo">
+    </a>
+    <hr class="horizontal dark ">
+    <div class="sidebar__components">
+        <ul class="sidebar__List">
+            <li>
+                <a th:href="@{/}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Dashboard</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/}" class="sidebar__link">
+                    <div class="sidebar__item active">
+                        <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Flower</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/orderList}" class="sidebar__link ">
+                    <div class="sidebar__item">
+                        <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Order</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/plan}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">My Plan</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/buyer/list}" class="sidebar__link">
+                    <div class="sidebar__item active">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Buyer List</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
     <div class="wrap">
         <!-- header -->
         <header class="header">
@@ -76,11 +84,11 @@
 
             <!-- Header search -->
             <div class="header__search">
-                <form action="" method="GET" class="header__search-form">
+                <form th:action="@{/seller/search/buyer/}" th:method="post" class="header__search-form">
                     <button class="header__search-btn">
                         <i class="fa-solid  fa-magnifying-glass"></i>
                     </button>
-                    <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
+                    <input type="text" class="header__search-input" name="keyword" placeholder="Search Buyer">
                 </form>
             </div>
             <div class="header__create-btn btn">
@@ -136,11 +144,11 @@
                             </thead>
                             <tbody class="table__body">
                                 <form action="" method="" class="user__form">
-                                    <tr class="table__body-item">
+                                    <tr th:each="buyer : ${msg.buyers}" class="table__body-item">
                                         <td class="table__body-user">
                                             <img src="https://th.bing.com/th/id/OIP.8oJ6P_IAPbeUWEMKIebEzwHaG1?w=196&h=181&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Avatar" class="table__body-avt">
                                             <span class="table__body-unique">
-                                                <span class="table__body-name">ABC</span>
+                                                <span class="table__body-name" th:text="${buyer.name}"></span>
                                                 <span class="table__body-email">trumppro@gmail.com</span>
                                             </span>
                                         </td>
@@ -155,24 +163,7 @@
                                         </td>
                                         
                                     </tr>
-                                    <tr class="table__body-item">
-                                        <td class="table__body-user">
-                                            <img src="https://th.bing.com/th?q=P.+Diddy+Full+Body+Pic&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-WW&cc=VN&setlang=en&adlt=moderate&t=1&mw=247" alt="Avatar" class="table__body-avt">
-                                            <span class="table__body-unique">
-                                                <span class="table__body-name">ABC</span>
-                                                <span class="table__body-email">trumppro@gmail.com</span>
-                                            </span>
-                                        </td>
-                                        <td class="table__body-phone">
-                                            <span class="desc-text">0369322979</span>
-                                        </td>
-                                        <td class="table__body-role">
-                                            <span class="price-text">100</span>
-                                        </td>
-                                        <td class="table__body-status">
-                                            03-10-2024
-                                        </td>
-                                    </tr>
+
                                 </form>
                             </tbody>
                         </table>

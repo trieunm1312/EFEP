@@ -19,21 +19,29 @@ document.addEventListener("DOMContentLoaded", function() {
 // Add more service
 document.addEventListener("DOMContentLoaded", function() {
     const addServiceButton = document.querySelector('.business-plan__card-add-service');
-    console.log(addServiceButton);
     const servicesContainer = document.querySelector('.business-plan__card-services-container');
 
     if (addServiceButton) {
         addServiceButton.addEventListener('click', function(event) {
             event.preventDefault();
-            console.log('Button clicked!'); // Check if the click event is firing
 
+            // Create new div for the service
             const newServiceDiv = document.createElement('div');
             newServiceDiv.classList.add('business-plan__card-service');
 
+            // Create a new select element
             const selectElement = document.createElement('select');
-            const selectName = `businessServiceList[${servicesContainer.children.length}].id`;
+            const newIndex = servicesContainer.children.length; // Increment index based on number of existing services
+            const selectName = `businessServiceList[${newIndex}].id`;
             selectElement.name = selectName;
 
+            // Add default "Select a service" option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "Select a service";
+            selectElement.appendChild(defaultOption);
+
+            // Populate the select element with service options
             serviceList.forEach(service => {
                 const option = document.createElement('option');
                 option.value = service.id;
@@ -41,9 +49,50 @@ document.addEventListener("DOMContentLoaded", function() {
                 selectElement.appendChild(option);
             });
 
-            newServiceDiv.innerHTML = 'Service: ';
+            // Append select element to new div and the container
+            newServiceDiv.appendChild(selectElement);
+            servicesContainer.appendChild(newServiceDiv);
+        });
+    }
+});
+
+// Add more service
+document.addEventListener("DOMContentLoaded", function() {
+    const addServiceButton = document.querySelector('.business-plan__card-more-service');
+    const servicesContainer = document.querySelector('.business-plan__card-services-box');
+
+    if (addServiceButton) {
+        addServiceButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Create new div for the service
+            const newServiceDiv = document.createElement('div');
+            newServiceDiv.classList.add('business-plan__card-service');
+
+            // Create a new select element
+            const selectElement = document.createElement('select');
+            const newIndex = servicesContainer.querySelectorAll('.business-plan__card-service').length; // Number of existing services
+            const selectName = `businessServiceList[${newIndex}].id`;
+            selectElement.name = selectName;
+
+            // Add default "Select a service" option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "Select a service";
+            selectElement.appendChild(defaultOption);
+
+            // Populate the select element with service options
+            serviceList.forEach(service => {
+                const option = document.createElement('option');
+                option.value = service.id;
+                option.textContent = service.name;
+                selectElement.appendChild(option);
+            });
+
+            // Append the select element to the new div
             newServiceDiv.appendChild(selectElement);
 
+            // Append the new div to the services container
             servicesContainer.appendChild(newServiceDiv);
         });
     }
@@ -62,20 +111,20 @@ document.querySelectorAll('.business-plan__card-edit').forEach(editBtn => {
         form.querySelectorAll('h4').forEach(h4 => {
             const input = h4.querySelector('input');
             if (input) {
-                h4.style.display = 'block'; 
+                h4.style.display = 'block';
             }
         });
 
         form.querySelectorAll('h4:not(:has(input))').forEach(h4 => {
-            h4.style.display = 'none';  
+            h4.style.display = 'none';
         });
 
-        form.querySelectorAll('input, textarea, select').forEach(input => {
-            input.style.display = 'inline'; 
+        form.querySelectorAll('input, textarea, select, label, button').forEach(input => {
+            input.style.display = 'inline';
         });
 
         form.querySelectorAll('span').forEach(span => {
-            span.style.display = 'none';  
+            span.style.display = 'none';
         });
 
         form.querySelector('.business-plan__card-new-btn').style.display = 'block';
