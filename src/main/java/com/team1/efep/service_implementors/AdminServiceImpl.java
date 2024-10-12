@@ -194,7 +194,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object updateBusinessPlanLogic(UpdateBusinessPlanRequest request) {
-        Map<String, String> errors = UpdateBusinessPlanValidation.validate(request, businessPlanRepo);
+        Map<String, String> errors = UpdateBusinessPlanValidation.validate(request, businessPlanRepo, businessServiceRepo);
         if (errors.isEmpty()) {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
             assert businessPlan != null;

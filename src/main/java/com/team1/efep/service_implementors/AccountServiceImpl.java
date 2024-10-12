@@ -194,7 +194,7 @@ public class AccountServiceImpl implements AccountService {
     // việc trả về hồ sơ người dùng nên trả về ViewProfileResponse
     // thay vì Object (nếu phải check kiểu dữ liệu của Object ở nhiều nơi khác nhau ==> lỗi runtime)
     private Object viewProfileLogic(ViewProfileRequest request) {
-        Map<String, String> errors = ViewProfileValidation.validate(request, accountRepo, userRepo);
+        Map<String, String> errors = ViewProfileValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
             User user = userRepo.findById(request.getId()).orElse(null);
             assert user != null;
