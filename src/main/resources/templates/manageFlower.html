@@ -31,7 +31,7 @@
             </li>
             <li>
                 <a th:href="@{/}" class="sidebar__link">
-                    <div class="sidebar__item">
+                    <div class="sidebar__item active">
                         <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                         <span class="sidebar__item-title">Manage Flower</span>
                     </div>
@@ -46,10 +46,18 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/}" class="sidebar__link">
+                <a th:href="@{/seller/plan}" class="sidebar__link">
                     <div class="sidebar__item">
                         <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                        <span class="sidebar__item-title">Manage User</span>
+                        <span class="sidebar__item-title">My Plan</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/buyer/list}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Buyer List</span>
                     </div>
                 </a>
             </li>

@@ -50,25 +50,7 @@
 </div>
 <div class="wrap">
     <!-- Nav Bar -->
-    <nav class="navbar" th:fragment="navbar">
-        <div class="grid">
-            <div class="navbar__wrap">
-                <!-- Phone contact -->
-                <div class="navbar__item">
-                    <a href="" class="navbar__item-contact-info">
-                        <i class="navbar__item-icon fa-solid fa-phone"></i>
-                        <span class="navbar__item-phone">+1 (123) 8425733</span>
-                    </a>
-                </div>
-
-                <!-- Currency -->
-                <div class="navbar__item">
-                    <div class="navbar__item-select" tabindex="0">
-                        <span class="navbar__item-select-label">Currency: US Dollar</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <nav class="navbar" th:replace="base :: navbar">
     </nav>
 
     <!-- Header -->

@@ -112,9 +112,9 @@ public class AccountServiceImpl implements AccountService {
             model.addAttribute("msg", (LoginResponse) output);
             switch (acc.getRole()) {
                 case "SELLER" :
-                    return "";
+                    return "manageFlower";
                 case "ADMIN" :
-                    return "";
+                    return "adminDashboard";
                 default:
                     HomepageConfig.config(model, buyerService);
                     return "home";
