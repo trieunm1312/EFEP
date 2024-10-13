@@ -56,12 +56,12 @@ public class SellerController {
         return sellerService.viewOrderListAPI(id);
     }
 
-    @PostMapping("/view/flower")
+    @GetMapping("/view/flower")
     public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
         return sellerService.viewFlowerListForSeller(request, session, model);
     }
 
-    @PostMapping("/view/flower/api")
+    @GetMapping("/view/flower/api")
     public ViewFlowerListForSellerResponse viewFlowerListForSeller(@RequestBody ViewFlowerListForSellerRequest request) {
         return sellerService.viewFlowerListForSellerAPI(request);
     }
