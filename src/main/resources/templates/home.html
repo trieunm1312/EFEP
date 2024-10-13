@@ -54,7 +54,7 @@
     </nav>
 
     <!-- Header -->
-    <header class="header" th:fragment="header">
+    <header class="header" th:replace="base :: header">
         <div class="grid">
             <div class="header__wrap">
                 <!-- Logo -->
@@ -748,7 +748,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer" th:fragment="footer">
+    <footer class="footer" th:replace="base :: footer">
         <div class="grid">
             <div class="footer__wrap">
                 <div class="footer__item">
