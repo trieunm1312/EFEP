@@ -6,9 +6,21 @@ inputFile.onchange = function(){
     profileAvatar.src = URL.createObjectURL(inputFile.files[0]);
 }
 
-let response = {
-    avatar: "/path/to/saved/avatar.png"  // This should be the path returned by the server
-};
+//Save URL to local storage
+document.querySelector("#input-file").addEventListener("change", function(){
+    const reader = new FileReader();
 
-// Update the avatar src after saving
-profileAvatar.src = response.avatar;
+    reader.addEventListener("load", () => {
+        localStorage.setItem("recent-image", reader.result);
+    });
+
+    reader.readAsDataURL(this.files[0]);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const recentImageDataUrl = localStorage.getItem("recent-image");
+
+    if(recentImageDataUrl){
+        document.querySelector("#profile-avatar").setAttribute("src", recentImageDataUrl);
+    }
+});
