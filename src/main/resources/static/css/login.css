@@ -1,57 +1,31 @@
 /* Container */
 .container{
-    margin-bottom: 52px;
-    margin: 0;
     padding: 0;
+    width: 100%;
+    height: 800px;
+    margin: 64px 0;
 }
 
 .container__wrap{
-    width: calc(100% + 190px);
-}
-
-.breadbrum{
-    width: 120%;
-    height: 283px;
-    padding: 100px 0;
-    margin-top: 32px;
-    text-align: center;
-    color: var(--white-color);
-     background: url('/img/breadcrumb_img-1920x300.png');
-    /*background: url(/src/main/resources/static/img/breadcrumb_img-1920x300.png);*/
-    background-size: cover !important;
-}
-
-.breadbrum__element-list{
-    list-style: none;
+    width: 100%;
+    height: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-.breadbrum__title{
-    font-size: 3.4rem;
-}
-
-.breadbrum__element-list-item-link{
-    text-decoration: none;
-    font-size: 1.6rem;
-    color: var(--white-color);
-    margin-right: 18px;
-}
-
-.fa-angles-right{
-    margin-right: 10px;
+    justify-content: center;
+    background: url('https://images.the500hiddensecrets.com/2019-04/paris-shop-flower.jpg?auto=format&fit=max&h=1080&ixlib=php-1.1.0&q=65&w=1920&s=a48474e79c322d6267f492d22e0c678a');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /* Authen modal */
 /* Register + Login Form */
 .auth-form{
-    margin: 52px auto;
-    margin-right:300px;
+    margin: 52px 0;
     width: 500px;
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0 3px 3px 3px rgb(0 0 0 / 18%);
+    background-color: var(--white-color);
+    z-index: 999999999;
 }
 
 .auth-form__container{
