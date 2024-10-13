@@ -39,10 +39,6 @@ public class UpdateProfileValidation {
             return MapConfig.buildMapKey(error, "Avatar cannot be empty");
         }
 
-        if(request.getBackground().isEmpty()) {
-            return MapConfig.buildMapKey(error, "Background cannot be empty");
-        }
-
         return error;
     }
 }

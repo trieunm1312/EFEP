@@ -19,9 +19,17 @@ import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -248,8 +256,9 @@ public class AccountServiceImpl implements AccountService {
             user.setName(request.getName());
             user.setPhone(request.getPhone());
             user.setAvatar(request.getAvatar());
-            user.setBackground(request.getBackground());
+
             user = userRepo.save(user);
+
             return UpdateProfileResponse.builder()
                     .status("200")
                     .message("Update profile successfully")
@@ -257,7 +266,6 @@ public class AccountServiceImpl implements AccountService {
                     .name(user.getName())
                     .phone(user.getPhone())
                     .avatar(user.getAvatar())
-                    .background(user.getBackground())
                     .build();
         }
         return errors;
