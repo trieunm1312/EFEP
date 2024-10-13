@@ -69,14 +69,21 @@
 }
 
 textarea {
-    width: 90%;  
-    resize: vertical;  
-    min-height: 40px;
-    box-sizing: border-box; 
+    width: 90%;
+    height: 25px;
+    box-sizing: border-box;
 }
 
 input{
     width: 80%;
+}
+
+.table__body-item-new input,
+.table__body-item-new textarea{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid var(--text-color);
+    background-color: transparent;
 }
 
 .toggle-btn {
@@ -99,11 +106,12 @@ input{
 }
 
 .save-btn{
-    background-color: var(--primary-color);
+    background-color: var(--primary-color) !important;
     color: var(--white-color);
-    border: none;
+    border: none !important;
     padding: 4px 8px;
     border-radius: 4px;
+    margin-left: 24px;
 }
 
 .enabled {

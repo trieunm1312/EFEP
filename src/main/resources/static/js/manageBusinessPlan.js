@@ -71,9 +71,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Create a new select element
             const selectElement = document.createElement('select');
-            const newIndex = servicesContainer.querySelectorAll('.business-plan__card-service').length; // Number of existing services
-            const selectName = `businessServiceList[${newIndex}].id`;
-            selectElement.name = selectName;
+            const newIndex = servicesContainer.children.length; // Update index
+            selectElement.name = `businessServiceList[${newIndex}].id`;
 
             // Add default "Select a service" option
             const defaultOption = document.createElement('option');
@@ -89,10 +88,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 selectElement.appendChild(option);
             });
 
-            // Append the select element to the new div
+            // Append select element to new div and the container
             newServiceDiv.appendChild(selectElement);
-
-            // Append the new div to the services container
             servicesContainer.appendChild(newServiceDiv);
         });
     }
