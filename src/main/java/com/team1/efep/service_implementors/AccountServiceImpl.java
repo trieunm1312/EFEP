@@ -118,9 +118,9 @@ public class AccountServiceImpl implements AccountService {
             Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).get();
             session.setAttribute("acc", acc);
             model.addAttribute("msg", (LoginResponse) output);
-            switch (acc.getRole()) {
+            switch (acc.getRole().toUpperCase()) {
                 case "SELLER" :
-                    return "manageFlower";
+                    return "redirect:/seller/view/flower";
                 case "ADMIN" :
                     return "adminDashboard";
                 default:
