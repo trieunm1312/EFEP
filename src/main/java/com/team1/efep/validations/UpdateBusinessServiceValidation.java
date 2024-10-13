@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateBusinessServiceValidation {
-
     private static final int MAX_NAME_LENGTH = 20; // Define maximum length for name
     private static final int MAX_DESCRIPTION_LENGTH = 500; // Define maximum length for description
 

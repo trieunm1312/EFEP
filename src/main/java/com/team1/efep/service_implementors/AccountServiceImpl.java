@@ -239,7 +239,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Object updateProfileLogic(UpdateProfileRequest request) {
-        Map<String, String> errors = UpdateProfileValidation.validate(request);
+        Map<String, String> errors = UpdateProfileValidation.validate(request, accountRepo);
         System.out.println(request.getId());
         if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);

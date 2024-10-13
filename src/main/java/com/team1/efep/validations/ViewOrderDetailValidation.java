@@ -8,7 +8,6 @@ import com.team1.efep.models.request_models.ViewOrderDetailRequest;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ViewOrderDetailValidation {
     public static Map<String, String> validate(ViewOrderDetailRequest request, Account account, Order order) {

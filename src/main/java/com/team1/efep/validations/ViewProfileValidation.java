@@ -3,7 +3,6 @@ package com.team1.efep.validations;
 import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.models.request_models.ViewProfileRequest;
 import com.team1.efep.repositories.AccountRepo;
-import com.team1.efep.repositories.UserRepo;
 
 import java.util.HashMap;
 import java.util.Map;
