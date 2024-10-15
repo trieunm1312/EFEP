@@ -18,12 +18,12 @@
 <body>
     <div class="wrap">
         <!-- Nav Bar -->
-        <nav class="navbar" th:replace="base :: navbar">
+        <nav class="navbar" th:replace="~{base :: navbar}">
 
         </nav>
 
         <!-- Header -->
-        <header class="header" th:replace="base :: header">
+        <header class="header" th:replace="~{base :: header}">
 
         </header>
 
@@ -164,50 +164,11 @@
                                     <span>Sold: 1000</span>
                                 </div>
                             </div>
-                            <!--                            <div class="flower__item">-->
-                            <!--                                <div href="" class="flower__img">-->
-                            <!--                                    <img src="/img/flower.jpg" alt="">-->
-                            <!--                                    <div class="overlay">-->
-                            <!--    -->
-                            <!--                                        <form th:action="@{/}" method="get"></form>-->
-                            <!--                                            <button class="add-to-wishlist">-->
-                            <!--                                                <i class="fa-solid fa-heart"></i>-->
-                            <!--                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-                            <!--                                            </button>-->
-
-                            <!--                                            <button class="view-detail">-->
-                            <!--                                                <i class="fa-solid fa-eye"></i>-->
-                            <!--                                                <span class="view-detail__msg">View detail</span>-->
-                            <!--                                            </button>-->
-                            <!--                                        </form>-->
-                            <!--                                        &lt;!&ndash; <a href="" class="add-to-wishlist">-->
-                            <!--                                            <i class="fa-solid fa-heart"></i>-->
-                            <!--                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>-->
-                            <!--                                        </a>-->
-                            <!--    -->
-                            <!--                                        <a href="" class="view-detail">-->
-                            <!--                                            <i class="fa-solid fa-eye"></i>-->
-                            <!--                                            <span class="view-detail__msg">View detail</span>-->
-                            <!--                                        </a> &ndash;&gt;-->
-                            <!--    -->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                                <a href="" class="flower__name">-->
-                            <!--                                    <h4>Creeper</h4>-->
-                            <!--                                </a>-->
-                            <!--                                <div class="flower__content">-->
-                            <!--                                    <span>$200.00</span>-->
-                            <!--                                    <span>Sold: 1000</span>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
-                        </div>
-                        <div >
-
                         </div>
                         
                         <!-- Flower List -->
-                        <div th:each="item : ${msg.flowerList}" class="flower-list ">
-                            <div class="flower-list__item">
+                        <div  class="flower-list ">
+                            <div th:each="item : ${msg.flowerList}" class="flower-list__item">
                                 <img th:src="${item.images[0].link}" alt="">
                                 <div class="flower-list__item-content">
                                     <form th:action="@{/buyer/flower/detail}" class="form" method="post">
@@ -254,7 +215,7 @@
 
 
         <!-- Footer -->
-        <footer class="footer" th:replace="base :: footer">
+        <footer class="footer" th:replace="~{base :: footer}">
 
         </footer>
     </div>

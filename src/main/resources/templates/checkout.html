@@ -5,199 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/forgotPassword.css">
-    <link rel="stylesheet" href="/css/checkout.css"> -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/checkout.css">
+    <!--<link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css"> -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/checkout.css">
+     <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/checkout.css">-->
 </head>
 
 <body>
-    <div class="wrap">
-        <!-- Nav Bar -->
-        <nav class="navbar" th:replace="base :: navbar">
-            <div class="grid">
-                <div class="navbar__wrap">
-                    <!-- Phone contact -->
-                    <div class="navbar__item">
-                        <a href="" class="navbar__item-contact-info">
-                            <i class="navbar__item-icon fa-solid fa-phone"></i>
-                            <span class="navbar__item-phone">+1 (123) 8425733</span>
-                        </a>
-                    </div>
+<div class="wrap">
+    <!-- Nav Bar -->
+    <nav class="navbar" th:replace="~{base :: navbar}">
 
-                    <!-- Currency -->
-                    <div class="navbar__item">
-                        <div class="navbar__item-select" tabindex="0">
-                            <span class="navbar__item-select-label">Currency: US Dollar</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+    </nav>
 
-        <!-- Header -->
-        <header class="header" th:replace="base :: header">
-            <div class="grid">
-                <div class="header__wrap">
-                    <!-- Logo -->
-                    <a href="home.html" class="header__item">
-                        <div class="header__item-logo">
-                            <img src="/img/flowrista-logo.png" alt="Logo" class="header__item-logo-img">
-                        </div>
-                    </a>
+    <!-- Header -->
+    <header class="header" th:replace="~{base :: header}">
 
-                    <!-- Mega menu -->
-                    <div class="header__item">
-                        <ul class="header__item-megamenu">
-                            <li class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title">Home</span>
-                            </li>
-
-                            <li class="header__item-megamenu-item">
-                                <span
-                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
-                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-                                <span class="header__item-megamenu-item-label-offer">Offer</span>
-                                <span class="header__item-megamenu-item-label-arrow-offer"></span>
-                            </li>
-
-                            <li class="header__item-megamenu-item">
-                                <span
-                                    class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
-                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-                                <span class="header__item-megamenu-item-label-hot">Hot</span>
-                                <span class="header__item-megamenu-item-label-arrow-hot"></span>
-                            </li>
-
-                            <a class="header__item-megamenu-item">
-                                <span class="header__item-megamenu-item-title">About Us</span>
-
-                            </a>
-
-                        </ul>
-                    </div>
-
-                    <!-- Icons -->
-                    <div class="header__item">
-                        <ul class="header__item-list-icon">
-                            <li class="header__item-icon header__item-icon-search" tabindex="0">
-                                <i class="header__item-icon-search fa-solid fa-magnifying-glass">
-                                    <form class="header__item-search-box" method="GET">
-                                        <input type="text" class="header__item-search-input" name="SearchValue"
-                                            placeholder="Search...">
-                                        <button class="header__item-search-icon">
-                                            <i class="fa-solid fa-magnifying-glass"></i>
-                                        </button>
-                                    </form>
-                                </i>
-                            </li>
-                            <li class="header__item-icon header__item-icon-user" tabindex="0">
-                                <i class="header__item-icon-user fa-solid fa-user">
-
-                                    <!-- Have not Login -->
-                                    <div class="header__item-account">
-                                        <a href="register.html" class="header__item-account-item">Register</a>
-                                        <a href="login.html" class="header__item-account-item">Login</a>
-                                    </div>
-
-                                    <!-- Login successfully -->
-                                    <!-- <div class="header__item-account">
-                                    <a href="" class="header__item-account-item">Update profile</a>
-                                    <a href="" class="header__item-account-item">Logout</a>
-                                </div> -->
-                                </i>
-                            </li>
-                            <li class="header__item-icon">
-                                <!-- Cart layout -->
-                                <div class="header__cart">
-                                    <div class="header__cart-wrap">
-                                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
-                                        <span class="header__cart-notice"> 10 </span>
-
-                                        <!-- No wishlist: header__cart-list--no-wishlist -->
-                                        <div class="header__cart-list">
-                                            <span class="header__cart-list-no-cart-msg">
-                                                Your shopping wishlist is empty!
-                                            </span>
-
-                                            <!-- Cart item -->
-                                            <ul class="header__cart-list-item">
-                                                <li class="header__cart-item">
-                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                        alt="" class="header__cart-img">
-                                                    <div class="header__cart-item-info">
-                                                        <div class="header__cart-item-head">
-                                                            <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="@{/}" method="get">
-                                                                <button class="header__cart-item-remove">
-                                                                    <i
-                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span
-                                                                        class="header__cart-item-remove-msg">Remove</span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="header__cart-item-body">
-                                                            <span class="header__cart-item-qnt">1</span>
-                                                            <span class="header__cart-item-multiply">x</span>
-                                                            <span class="header__cart-item-price">120.000 VND</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="header__cart-item">
-                                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                        alt="" class="header__cart-img">
-                                                    <div class="header__cart-item-info">
-                                                        <div class="header__cart-item-head">
-                                                            <h5 class="header__cart-item-name">Hiptage</h5>
-                                                            <form th:action="@{/}" method="get">
-                                                                <button class="header__cart-item-remove">
-                                                                    <i
-                                                                        class="fa-solid fa-circle-xmark header__cart-item-icon-remove"></i>
-                                                                    <span
-                                                                        class="header__cart-item-remove-msg">Remove</span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="header__cart-item-body">
-                                                            <span class="header__cart-item-qnt">1</span>
-                                                            <span class="header__cart-item-multiply">x</span>
-                                                            <span class="header__cart-item-price">120.000 VND</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <hr class="short-line">
-                                            <div class="header__cart-list-detail">
-                                                <span class="header__cart-list-detail-total">Total</span>
-                                                <span class="header__cart-list-detail-price">122.000 VND</span>
-                                            </div>
-                                            <div class="header__cart-list-btn">
-                                                <form th:action="@{/buyer/wishlist}" method="get">
-                                                    <input class="btn-view-cart" type="submit" value="View wishlist"
-                                                        name="Action">
-                                                    <!--  <input class="btn-view-wishlist" type="submit" value="Checkout"
-                                                        name="Action"> -->
-                                                </form>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </header>
+    </header>
 
         <!-- Container -->
         <div class="container">
@@ -406,148 +238,16 @@
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="footer" th:replace="base :: footer">
-            <div class="grid">
-                <div class="footer__wrap">
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <div class="footer__item-logo">
-                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
-                                    class="footer__item-logo-img">
-                            </div>
-                            <div class="footer__item-desc">
-                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
-                                Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
-                                Không bơ vơ
-                                Khi vây quanh anh là những đôi mắt nhìn theo hò reo
-                                Cũng vì chặng đường tương lai mà mình phải chia hai
-                                Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
-                                Và đến khi anh cất lời
-                                Là giấc mơ mang cả đời -->
-                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                Tình yêu này có thật đáng thương? (Oh no)
-                                Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                Mất đi người rất quan trọng
-                                Có lẽ vì quá tham vọng
-                                Không thấy vui trong lòng
-                                Anh nhớ góc tối ở trong căn phòng
-                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                Lâu hơn một chút
-                                Để anh ổn định cảm xúc
-                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                Ký ức lại triệu hồi nỗi đau</span>
-                            </div>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+    <!-- Footer -->
+    <footer class="footer" th:replace="~{base :: footer}">
 
-                    </div>
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Contact</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i
-                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
-                                        <span>National park,d1 588436,United States</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
-                                        <span>+91 123 456 789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
-                                        <span>0123-456-789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
-                                        <span>flower@fta.com</span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Information</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Terms & Conditions</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Delivery Information</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>About Us</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Privacy Policy</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-    <script src="/js/jquery.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <script src="/js/price-range.js"></script>
-    <script src="/js/jquery.prettyPhoto.js"></script>
-    <script src="/js/base.js"></script>
+    </footer>
+</div>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/js/price-range.js"></script>
+<script src="/js/jquery.prettyPhoto.js"></script>
+<script src="/js/base.js"></script>
 </body>
-
 </html>

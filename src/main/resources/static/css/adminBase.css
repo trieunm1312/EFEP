@@ -341,10 +341,12 @@ hr.horizontal.dark{
 
 .header__account{
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
     margin-left: 0;
     padding-left: 0;
+    cursor: pointer;
 }
 
 .header__account img{
@@ -357,6 +359,59 @@ hr.horizontal.dark{
 .header__account span{
     margin-right: 8px;
 }
+
+.header__item-account{
+    position: absolute;
+    width: 200px;
+    z-index: 1;
+    right: -5px;
+    top: calc(100% + 16px);
+    list-style: none;
+    background-color: var(--white-color);
+    border-top: 2px solid var(--primary-color);
+    box-shadow: 0 0 2px #e0e0e0;
+    padding-left: 0;
+    border-radius: 2px;
+    display: none;
+    animation: fadeInDown ease-in .2s;
+}
+
+.header__item-account::before{
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 32px;
+    top: -32px;
+    right: 0;
+    cursor: pointer;
+    /* background-color: var(--black-color); */
+}
+
+.header__item-account-item {
+    width: 100%;
+    height: 30px;
+    font-size: 0.7rem;
+    font-weight: 300;
+    display: block;
+    margin-bottom: 8px;
+    background-color: transparent;
+    border: none;
+    text-align: start;
+    padding-left: 16px;
+    font-family: sans-serif;
+    color: var(--text-color);
+}
+
+
+
+.header__item-account-item:first-child {
+    margin-top: 16px;
+}
+
+.header__account:focus ~ .header__item-account {
+    display: block;
+}
+
 
 
 
