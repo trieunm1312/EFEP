@@ -82,7 +82,6 @@
 
 .table__body-unique{
     display: grid;
-    grid-template-rows: (2, 1fr);
 }
 
 .table__body-name{
@@ -94,7 +93,7 @@
 
 .table__body-email{
     font-weight: 400;
-    font-style: .6rem;
+    font-size: 0.6rem;
     color: #8392ab;
     line-height: 1.25;
 }
@@ -145,4 +144,164 @@
     background-color: #99A9C9;
     border-radius: 8px;
     z-index: -1;
+}
+
+/* Create Seller Form */
+.second-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+
+.second-container.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.second-container__background {
+    background-color: var(--white-color);
+    height: fit-content;
+    width: 40vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 4% 2%;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+}
+
+
+.second-container.active .second-container__background {
+    transform: translateX(0);
+}
+
+
+.second-container.closing .second-container__background {
+    transform: translateX(100%);
+}
+
+.auth-form a:hover{
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+.auth-form__container{
+    padding: 0 32px;
+}
+
+.auth-form__header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 10px 12px;
+}
+
+.auth-form__header i{
+    position: absolute;
+    top: 12px;
+    right: -54px;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.auth-form__heading{
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--text-color);
+}
+
+.auth-form__group-name{
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-color);
+    margin: 24px 0 -6px;
+}
+
+.auth-form__switch-btn{
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.auth-form__group{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.auth-form__label{
+    font-size: 0.7rem;
+    margin-top: 16px;
+    margin-right: 8px;
+    width: 20%;
+}
+
+.auth-form__label:last-child{
+    padding-left: -4px;
+    margin-right: 32px;
+}
+
+.auth-form__input{
+    width: 100%;
+    height: 40px;
+    margin-top: 16px;
+    padding: 0 12px;
+    font-size: 0.7rem;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    outline: none;
+}
+
+.auth-form__input:focus{
+    border-color: #888;
+}
+
+.auth-form__controls .btn{
+    min-width: 124px;
+    min-height: 34px;
+    border-style: none;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    padding: 0 12px;
+    outline: none;
+    cursor: pointer;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0.8rem;
+}
+
+.auth-form__controls .btn.btn--primary{
+    color: var(--white-color);
+    background-color: var(--primary-color);
+}
+
+.auth-form__controls .btn--size-s{
+    height: 32px;
+    font-size: 0.6rem;
+    padding: 0 8px;
+}
+
+.auth-form__controls{
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }

@@ -324,13 +324,14 @@
 /* Flower List */
 .flower-list__item{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 32px;
 }
 
 .flower-list__item img{
-    width: 40%;
+    width: 270px;
+    height: 320px;
     margin-right: 32px;
 }
 
@@ -377,6 +378,11 @@
     margin-right: 16px;
     text-align: center;
     margin-top: 16px;
+}
+
+.flower-list__icon-wishlist,
+.flower-list__icon-detail{
+    display: inline-block;
 }
 
 .flower-list__icon:hover{
