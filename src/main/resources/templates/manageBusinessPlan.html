@@ -154,14 +154,16 @@
                                         <label style="display: none">
                                             <h3>Services:</h3>
                                         </label>
-                                        <div th:each="service : ${plan.businessServiceList}">
+                                        <div th:each="service, iterStat : ${plan.businessServiceList}">
                                             <div class="business-plan__card-service">
                                                 <span th:text="${service.name}" th:value="${service.id}"></span>
-                                                <select name="businessServiceList" style="display: none;">
+                                                <select th:name="|businessServiceList[${iterStat.index}].id|" style="display: none;">
+                                                    <option value="">Select a service</option>
                                                     <option th:each="item : ${msg.serviceList}"
-                                                            th:text="${item.name}"
                                                             th:value="${item.id}"
-                                                            th:selected="${item.id == service.id}"></option>
+                                                            th:text="${item.name}"
+                                                            th:selected="${item.id == service.id}">
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>

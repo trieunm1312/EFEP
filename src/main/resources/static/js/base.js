@@ -153,20 +153,6 @@ toasts.forEach(toast => {
     });
 });
 
-// View Order Summary
-var countdownElement = document.getElementById("countdown");
-var countdown = 5;
-
-var interval = setInterval(function() {
-    countdown--;
-    countdownElement.textContent = countdown;
-
-    if (countdown <= 0) {
-        clearInterval(interval);
-        window.location.href = "/";
-    }
-}, 1000); // Mỗi giây (1000ms) thực hiện một lần
-
 //Checkout
 function handleCheckout() {
     const paymentMethod = document.getElementById('paymentMethod').value;
@@ -179,3 +165,17 @@ function handleCheckout() {
     }
     return true;
 }
+
+// View Order Summary
+var countdownElement = document.getElementById("countdown");
+var countdown = 5;
+
+var interval = setInterval(function() {
+    countdown--;
+    countdownElement.textContent = countdown;
+
+    if (countdown <= 0) {
+        clearInterval(interval);
+        window.location.href = "/";
+    }
+}, 1000);

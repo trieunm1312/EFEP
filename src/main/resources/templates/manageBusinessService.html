@@ -178,14 +178,19 @@
                             <form th:action="@{/admin/service}" th:method="post" class="business-service__form">
                                 <tr class="table__body-item-new" style="display: none;">
                                     <td class="table__body-name">
+                                        <label>Name:</label>
                                         <input name="name" th:value="${NewService}" placeholder="Service Name">
                                     </td>
                                     <td class="table__body-desc">
+                                        <label>Description:</label>
                                         <textarea name="description" th:text="${Description}" placeholder="Description"></textarea>
                                     </td>
                                     <td class="table__body-price">
-                                        <span>$</span>
-                                        <input name="price" th:value="${100}" placeholder="Price">
+                                        <label>Price:</label>
+                                        <div>
+                                            <span>$</span>
+                                            <input name="price" th:value="${100}" placeholder="Price">
+                                        </div>
                                     </td>
                                     <td class="table__body-save">
                                         <input type="submit" class="save-btn" name="action" value="Create">

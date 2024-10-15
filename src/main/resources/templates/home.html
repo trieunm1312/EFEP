@@ -54,7 +54,7 @@
     </nav>
 
     <!-- Header -->
-    <header class="header" th:fragment="header">
+    <header class="header" th:replace="~{base :: header}">
         <div class="grid">
             <div class="header__wrap">
                 <!-- Logo -->
@@ -699,7 +699,7 @@
                                 </form>
                             </div>
                         </div>
-                        <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
+                        <form th:action="@{/buyer/flower/detail}" class="form" method="post">
                             <input type="submit" name="action" th:value="${item.name}" class="top-category__name">
                             </input>
                             <input type="hidden" name="id" th:value="${item.id}">
@@ -752,7 +752,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer" th:fragment="footer">
+    <footer class="footer" th:replace="~{base :: footer}">
         <div class="grid">
             <div class="footer__wrap">
                 <div class="footer__item">

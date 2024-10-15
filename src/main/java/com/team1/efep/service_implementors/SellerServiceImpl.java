@@ -290,7 +290,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
         model.addAttribute("msg", viewFlowerListForSellerLogic(request));
-        return "manageFlower";
+        return "redirect:/manageFlower";
     }
 
     @Override

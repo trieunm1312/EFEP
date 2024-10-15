@@ -33,7 +33,7 @@
                     <!-- Logo -->
                     <a href="home.html" class="header__item">
                         <div class="header__item-logo">
-                            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Logo"
+                            <img src="/img/flowrista-logo.png" alt="Logo"
                                 class="header__item-logo-img">
                         </div>
                     </a>
@@ -56,14 +56,14 @@
                                 <h3 class="business-plan__item-header-name" th:text="plan.name"></h3>
                                 <h3 class="business-plan__item-header-price">
                                     <span>$</span>
-                                    <span th:text="${plan.price}"</span>
+                                    <span th:text="${plan.price}"></span>
                                     <span>per month</span>
                                 </h3>
                             </div>
                             <ul class="business-plan__item-content">
                                 <li class="business-plan__item-desc">
                                     <label for="">Desctiption</label>
-                                    <span th:text="${plan.description}"</span>
+                                    <span th:text="${plan.description}"></span>
                                 </li>
                                 <li class="business-plan__item-service-list">
                                     <label for="">Services</label>
