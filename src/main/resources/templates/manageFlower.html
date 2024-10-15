@@ -149,81 +149,134 @@
                     </tr>
                     </thead>
                     <tbody class="table__body">
-                    <div th:if="${msg}">
-                        <div th:each="item : ${msg.flowerList}">
-                            <tr class="table__body-item">
-                                <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
-                                    <input type="hidden" name="_method" value="put">
-                                    <input type="hidden" name="id" th:value="${item.id}">
-                                    <td class="table__body-img">
-                                        <img class="img" src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg" alt="">
-                                        <input type="url" name="image" class="img-input"
-                                               style="display: none;">
-                                    </td>
-                                    <td class="table__body-name">
-                                        <span th:text="${item.name}" class="name-text">hiptage</span>
-                                        <input name="name" class="name-input" th:text="${item.name}"
-                                               style="display: none;">
-                                    </td>
-                                    <td class="table__body-desc">
-                                        <span th:text="${item.description}" class="desc-text">beautifull</span>
-                                        <textarea name="description" th:text="${item.description}" class="desc-input"
-                                                  style="display: none;"></textarea>
-                                    </td>
-                                    <td class="table__body-amount">
-                                        <span th:text="${item.flowerAmount}" class="amount-text">100</span>
-                                        <input name="amount" class="amount-input" th:value="${item.flowerAmount}"
-                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>
-                                    </td>
-                                    <td class="table__body-qnt">
-                                        <span th:text="${item.quantity}" class="qnt-text">20</span>
-                                        <input name="quantity" class="qnt-input" th:value="${item.quantity}"
-                                               style="display: none;"/>
-                                    </td>
-                                    <td class="table__body-price">
-                                        <span th:text="${'$' + item.price}" class="price-text">120</span>
-                                        <input name="price" class="price-input" th:value="${item.price}"
-                                               style="display: none;"/>
-                                    </td>
-                                    <td class="table__body-edit">
-                                        <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
-                                        <span class="edit-btn" onclick="editRow(this)">Edit</span>
-                                        <input type="submit" name="action" class="save-btn" value="Save"
-                                               style="display: none;">
-                                    </td>
-                                </form>
-                                <td class="table__body-toggle">
-                                    <form th:action="@{/seller/flower}" method="post">
-                                        <input type="hidden" name="_method" value="delete">
-                                        <input type="submit" name="action" value="Delete" class="toggle-btn">
-                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                        <div>
+                            <div>
+                                <tr class="table__body-item">
+                                    <form action="" method="post" class="manage-flower__form">
+                                        <input type="hidden" name="_method" value="put">
+                                        <input type="hidden" name="id">
+                                        <td class="table__body-img">
+                                            <img class="img" src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg" alt="">
+                                            <input type="url" name="image" class="img-input"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="table__body-name">
+                                            <span class="name-text">hiptage</span>
+                                            <input name="name" class="name-input"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="table__body-desc">
+                                            <span  class="desc-text">beautifull</span>
+                                            <textarea name="description" class="desc-input"
+                                                      style="display: none;"></textarea>
+                                        </td>
+                                        <td class="table__body-amount">
+                                            <span class="amount-text">100</span>
+                                            <input name="amount" class="amount-input"
+                                                   style="display: none;" pattern="\d*" title="Please enter a valid number"/>
+                                        </td>
+                                        <td class="table__body-qnt">
+                                            <span class="qnt-text">20</span>
+                                            <input name="quantity" class="qnt-input"
+                                                   style="display: none;"/>
+                                        </td>
+                                        <td class="table__body-price">
+                                            <span class="price-text">120</span>
+                                            <input name="price" class="price-input"
+                                                   style="display: none;"/>
+                                        </td>
+                                        <td class="table__body-edit">
+                                            <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
+                                            <span class="edit-btn" onclick="editRow(this)">Edit</span>
+                                            <input type="submit" name="action" class="save-btn" value="Save"
+                                                   style="display: none;">
+                                        </td>
                                     </form>
-                                </td>
-                            </tr>
+                                    <td class="table__body-toggle">
+                                        <form action="" method="post">
+                                            <input type="hidden" name="_method" value="delete">
+                                            <input type="submit" name="action" value="Delete" class="toggle-btn">
+                                            <input type="hidden" name="accountId" >
+                                        </form>
+                                    </td>
+                                </tr>
+                            </div>
                         </div>
-                    </div>
+<!--                    <div th:if="${msg}">-->
+<!--                        <div th:each="item : ${msg.flowerList}">-->
+<!--                            <tr class="table__body-item">-->
+<!--                                <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">-->
+<!--                                    <input type="hidden" name="_method" value="put">-->
+<!--                                    <input type="hidden" name="id" th:value="${item.id}">-->
+<!--                                    <td class="table__body-img">-->
+<!--                                        <img class="img" src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg" alt="">-->
+<!--                                        <input type="url" name="image" class="img-input"-->
+<!--                                               style="display: none;">-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-name">-->
+<!--                                        <span th:text="${item.name}" class="name-text">hiptage</span>-->
+<!--                                        <input name="name" class="name-input" th:text="${item.name}"-->
+<!--                                               style="display: none;">-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-desc">-->
+<!--                                        <span th:text="${item.description}" class="desc-text">beautifull</span>-->
+<!--                                        <textarea name="description" th:text="${item.description}" class="desc-input"-->
+<!--                                                  style="display: none;"></textarea>-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-amount">-->
+<!--                                        <span th:text="${item.flowerAmount}" class="amount-text">100</span>-->
+<!--                                        <input name="amount" class="amount-input" th:value="${item.flowerAmount}"-->
+<!--                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-qnt">-->
+<!--                                        <span th:text="${item.quantity}" class="qnt-text">20</span>-->
+<!--                                        <input name="quantity" class="qnt-input" th:value="${item.quantity}"-->
+<!--                                               style="display: none;"/>-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-price">-->
+<!--                                        <span th:text="${'$' + item.price}" class="price-text">120</span>-->
+<!--                                        <input name="price" class="price-input" th:value="${item.price}"-->
+<!--                                               style="display: none;"/>-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-edit">-->
+<!--                                        <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>-->
+<!--                                        <span class="edit-btn" onclick="editRow(this)">Edit</span>-->
+<!--                                        <input type="submit" name="action" class="save-btn" value="Save"-->
+<!--                                               style="display: none;">-->
+<!--                                    </td>-->
+<!--                                </form>-->
+<!--                                <td class="table__body-toggle">-->
+<!--                                    <form th:action="@{/seller/flower}" method="post">-->
+<!--                                        <input type="hidden" name="_method" value="delete">-->
+<!--                                        <input type="submit" name="action" value="Delete" class="toggle-btn">-->
+<!--                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
+<!--                                    </form>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <form th:action="@{/admin/service}" method="post" class="manage-flower__form">
+                    <form action="" method="post" class="manage-flower__form">
                         <tr class="table__body-item-new" style="display: none;">
                             <td class="table__body-img">
-                                <input type="url" name="img" th:value="${NewService}" placeholder="Image">
+                                <input type="url" name="img" placeholder="Image">
                             </td>
                             <td class="table__body-name">
-                                <input name="name" th:value="${NewService}" placeholder="Flower Name">
+                                <input name="name" placeholder="Flower Name">
                             </td>
                             <td class="table__body-desc">
-                                <textarea name="description" th:text="${Description}" placeholder="Description"></textarea>
+                                <textarea name="description" placeholder="Description"></textarea>
                             </td>
                             <td class="table__body-amount">
-                                <input name="flowerAmount" th:value="${100}" placeholder="Amount">
+                                <input name="flowerAmount" placeholder="Amount">
                             </td>
                             <td class="table__body-qnt">
                                 <span>$</span>
-                                <input name="quantity" th:value="${100}" placeholder="Quantity">
+                                <input name="quantity" placeholder="Quantity">
                             </td>
                             <td class="table__body-price">
                                 <span>$</span>
-                                <input name="price" th:value="${100}" placeholder="Price">
+                                <input name="price" placeholder="Price">
                             </td>
                             <td class="table__body-save">
                                 <input type="submit" class="save-btn" name="action" value="Create">
