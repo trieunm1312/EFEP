@@ -229,7 +229,7 @@ public class AdminServiceImpl implements AdminService {
                 businessServiceRepo.findAll().stream()
                         .filter(  //chuyen no sang Integer
                                 service -> request.getBusinessServiceList().stream()
-                                        .map(s -> Integer.valueOf(s.getId()))
+
                                         .toList()
                                         .contains(service.getId())
                         )

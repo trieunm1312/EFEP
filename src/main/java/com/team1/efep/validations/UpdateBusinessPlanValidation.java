@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UpdateBusinessPlanValidation {
-    private static final int MAX_NAME_LENGTH = 20; // Define maximum length for name
-    private static final int MAX_DESCRIPTION_LENGTH = 500; // Define maximum length for description
+
 
     public static Map<String, String> validate(UpdateBusinessPlanRequest request, BusinessPlanRepo businessPlanRepo, BusinessServiceRepo businessServiceRepo) {
         Map<String, String> error = new HashMap<>();
@@ -27,9 +26,7 @@ public class UpdateBusinessPlanValidation {
             return MapConfig.buildMapKey(error, "Name is required.");
         }
 
-        if (request.getName().length() > MAX_NAME_LENGTH) {
-            return MapConfig.buildMapKey(error, "Name cannot exceed " + MAX_NAME_LENGTH + " characters.");
-        }
+
 
         // Validate the price
         if (request.getPrice() <= 0) {
@@ -41,9 +38,7 @@ public class UpdateBusinessPlanValidation {
             return MapConfig.buildMapKey(error, "Description is required.");
         }
 
-        if (request.getDescription().length() > MAX_DESCRIPTION_LENGTH) {
-            return MapConfig.buildMapKey(error, "Description cannot exceed " + MAX_DESCRIPTION_LENGTH + " characters.");
-        }
+
 
         // Validate the duration
         if (request.getDuration() <= 0) {

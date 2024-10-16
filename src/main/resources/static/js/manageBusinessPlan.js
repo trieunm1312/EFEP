@@ -58,10 +58,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Add more service
 document.addEventListener("DOMContentLoaded", function() {
-    const addServiceButton = document.querySelector('.business-plan__card-more-service');
-    const servicesContainer = document.querySelector('.business-plan__card-services-box');
+    const addServiceButtons = document.querySelectorAll('.business-plan__card-more-service');
 
-    if (addServiceButton) {
+    addServiceButtons.forEach((addServiceButton) => {
+        const servicesContainer = addServiceButton.closest('.business-plan__card').querySelector('.business-plan__card-services-box');
+
         addServiceButton.addEventListener('click', function(event) {
             event.preventDefault();
 
@@ -71,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Create a new select element
             const selectElement = document.createElement('select');
-            const newIndex = servicesContainer.children.length; // Update index
-            selectElement.name = `businessServiceList[${newIndex}].id`;
+            const newIndex = servicesContainer.querySelectorAll('select').length; // Ensure a flat index
+            selectElement.name = `businessServiceList[${newIndex}]`; // Use a flat index for the list
 
             // Add default "Select a service" option
             const defaultOption = document.createElement('option');
@@ -92,8 +93,9 @@ document.addEventListener("DOMContentLoaded", function() {
             newServiceDiv.appendChild(selectElement);
             servicesContainer.appendChild(newServiceDiv);
         });
-    }
+    });
 });
+
 
 
 
