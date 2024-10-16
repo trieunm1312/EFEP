@@ -1,36 +1,119 @@
 .font-text {
-    font-size: 1.4rem;
+    font-size: 0.8rem;
+}
+
+.font-weight {
+    font-weight: 500;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.text-color {
+    color: var(--primary-color);
+}
+
+.line {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.header-width {
+    width: 20%;
 }
 
 .order-detail {
     width: 100%;
     text-align: left;
-    margin-top: 50px;
+}
+
+.cus-title {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.product-title {
+    font-weight: 600;
 }
 
 table {
+    width: 100%;
     text-align: center;
+    border: none;
 }
 
-.tb-product-header, td {
+tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.tb-product-header{
+    text-align: center;
     border-width: 1px;
-    color: var(--text-color);
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border-left: none;
+    border-right: none;
+    padding: 18px;
 }
 
 .tb-product-detail {
     padding: 10px;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .table-item-img {
     display: inline-block;
-    width: 90%;
+    width: 90px;
 }
 
 .table-item-img img {
-    max-width: 90%;
-    height: auto;
+    width: 100%;
+    height: 100px;
+}
+
+.end-component {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
 }
 
 .back {
-    margin-top: 10px;
+    background-color: rgb(255, 86, 141, 0.7);
+    padding: 6px 10px;
+}
+
+.back a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.back:hover {
+    background-color: rgb(255, 86, 141, 0.8);
+    cursor: pointer;
+}
+
+.total {
+    width: 27%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.tb-product-footer {
+    background-color: rgb(255, 86, 141, 0.6);
+    text-align: right;
+    padding-right: 10px;
+    font-weight: 700;
+}
+
+.tb-product-footer-total {
+   background-color: rgba(0, 0, 0, 0.05);
+   text-align: center;
+   padding-right: 6px;
+}
+
+.tb-product-footer-total:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
