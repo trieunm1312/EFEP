@@ -6,7 +6,6 @@ import com.team1.efep.models.request_models.UpdateBusinessPlanRequest;
 import com.team1.efep.repositories.BusinessPlanRepo;
 import com.team1.efep.repositories.BusinessServiceRepo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,14 +54,14 @@ public class UpdateBusinessPlanValidation {
             return MapConfig.buildMapKey(error, "At least one business service must be selected.");
         }
 
-        List<Integer> validServiceIdList = businessServiceRepo.findAll().stream()
-                .filter(service -> request.getBusinessServiceList().contains(service.getId()))
-                .map(BusinessService::getId)
-                .toList();
+//        List<BusinessService> validServiceIdList = businessServiceRepo.findAll().stream()
+//                .filter(service -> request.getBusinessServiceList().contains(service.getId()))
+//                .map(BusinessService::getId)
+//                .toList();
 
-        if (validServiceIdList.isEmpty()) {
-            return MapConfig.buildMapKey(error, "Business service does not exist.");
-        }
+//        if (validServiceIdList.isEmpty()) {
+//            return MapConfig.buildMapKey(error, "Business service does not exist.");
+//        }
 
         return error; // Return the final map of errors, empty means validation passed
     }
