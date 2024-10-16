@@ -5,7 +5,7 @@
 
 .step-progress {
     width: 100%;
-    margin: 40px 5.5%;
+    margin: 40px 0;
     margin-bottom: 10px;
 }
 
@@ -132,24 +132,33 @@
     color: green;
 }
 
+.font-weight {
+    font-weight: 500;
+}
+
 .order__detail-item {
-    width: 50%;
+    width: 80%;
+    margin-left: 10%;
 }
 
 table {
     border-collapse: collapse;
     border-spacing: 0;
-    width: 100%;
+    width: 70%;
     margin: 0 auto;
     border-color: #9f9d9d89;
     font-weight: 500;
-    margin-left: 51%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .table-order-detail {
     padding: 20px;
     text-align: left;
-   
+    background-color: #f9f9f9;
 }
 
 .text-flex {
@@ -167,12 +176,13 @@ table {
 }
 
 .order-btn {
-    border: 1px solid #9f9d9da4;
+    border: none;
     font-size: 1.6rem;
-    padding: 6px;
+    padding: 10px 16px;
     transition: background-color 0.3s ease;
     background-color: var(--primary-color);
     color: var(--white-color);
+    border-radius: 5px;
 }
 
 .order-btn:hover {
@@ -182,10 +192,11 @@ table {
 .order-btn-cancel {
     border: none;
     font-size: 1.6rem;
-    padding: 6px;
-    transition: background-color 0.2s ease;
-    background-color: #F6422D;
+    padding: 10px 16px;
+    transition: opacity 0.2s ease;
+    background-color: #f44336;
     color: var(--white-color);
+    border-radius: 5px;
 }
 
 .order-btn-cancel:hover {
@@ -199,13 +210,15 @@ table {
 }
 
 .table-order-img {
-    width: 80px;
-    height: 100px;
+    width: 90px;
+    height: 110px;
 }
 
 .table-order-img img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .table-order-info-price {
@@ -216,4 +229,34 @@ table {
 
 .table-order-info {
     width: 68rem;
+    margin-left: 10px;
+}
+
+.table-order-name {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.table-order-event {
+    color: #666;
+}
+
+.table-order-info-price {
+    margin-top: 10px;
+}
+
+.font-size {
+    font-size: 1.6rem;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.table-order-multiple {
+    color: #333;
+}
+
+.table-order-quantity {
+    font-weight: 500;
 }
