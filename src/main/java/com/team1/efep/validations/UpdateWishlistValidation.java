@@ -4,7 +4,6 @@ import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.models.entity_models.WishlistItem;
 import com.team1.efep.models.request_models.UpdateWishlistRequest;
 import com.team1.efep.repositories.WishlistItemRepo;
-import com.team1.efep.repositories.WishlistRepo;
 
 import java.util.HashMap;
 import java.util.Map;

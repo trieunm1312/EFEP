@@ -1,10 +1,9 @@
 package com.team1.efep.validations;
 
-import com.team1.efep.VNPay.VNPayConfig;
 import com.team1.efep.configurations.MapConfig;
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VNPayValidation {
     public static Map<String, String> validate(Map<String, String> params, HttpServletRequest request) {

@@ -55,4 +55,8 @@ public interface AdminService {
     String searchUserList(HttpSession session, SearchUserListRequest request, Model model);
 
     SearchUserListResponse searchUserListAPI(SearchUserListRequest request);
+
+    String createAccountForSeller(CreateAccountForSellerRequest request, Model model);
+
+    CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request);
 }
