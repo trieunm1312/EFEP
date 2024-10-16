@@ -11,7 +11,7 @@ public class CreateFlowerValidation {
 
     public static Map<String, String> validateInput(CreateFlowerRequest request, FlowerRepo flowerRepo) {
         Map<String, String> errors = new HashMap<>();
-        if (request.getName() == null || request.getName().trim().isEmpty()) {
+        if (request.getName().trim().isEmpty()) {
             return MapConfig.buildMapKey(errors, "Flower name is required");
         } else if (request.getName().length() < 3 || request.getName().length() > 30) {
             return MapConfig.buildMapKey(errors, "Flower name must be between 3 and 30 characters");

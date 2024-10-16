@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -429,7 +430,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object deleteBusinessServiceLogic(DeleteBusinessServiceRequest request) {
-        Map<String, String> errors = DeleteBusinessServiceValidation.validate(request,businessServiceRepo);
+        Map<String, String> errors = DeleteBusinessServiceValidation.validate(request, businessServiceRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -487,7 +488,6 @@ public class AdminServiceImpl implements AdminService {
 
 
     //-------------------------------------SEARCH USER LIST----------------------------//
-
     @Override
     public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
         model.addAttribute("msg", searchUserListLogic(request));
@@ -498,6 +498,7 @@ public class AdminServiceImpl implements AdminService {
     public SearchUserListResponse searchUserListAPI(SearchUserListRequest request) {
         return searchUserListLogic(request);
     }
+
 
     private SearchUserListResponse searchUserListLogic(SearchUserListRequest request) {
         return SearchUserListResponse.builder()
@@ -598,5 +599,57 @@ public class AdminServiceImpl implements AdminService {
         }
         return error;
     }
+
+    //-----------------------------------------CREATE ACCOUNT FOR SELLER------------------------------------//
+
+    @Override
+    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model) {
+        Object output = createAccountForSellerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
+            model.addAttribute("msg", (CreateAccountForSellerResponse) output);
+            return "redirect:/admin/user/list";
+        }
+        model.addAttribute("error", ((Map<String, String>) output));
+        return "home";
+    }
+
+    @Override
+    public CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request) {
+        Object output = createAccountForSellerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
+            return (CreateAccountForSellerResponse) output;
+        }
+        return CreateAccountForSellerResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {
+        Map<String, String> errors = CreateAccountForSellerValidation.validate();
+
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        // Lưu tài khoản vào cơ sở dữ liệu
+        userRepo.save(
+                User.builder()
+                        .account(accountRepo.save(Account.builder()
+                                .email(request.getEmail())
+                                .password(request.getPassword())
+                                .build()))
+                        .name(request.getUser().getName())
+                        .phone(request.getUser().getPhone())
+                        .avatar(request.getUser().getAvatar())
+                        .background(request.getUser().getBackground())
+                        .build());
+
+        return CreateAccountForSellerResponse.builder()
+                .status("200")
+                .message("Create account for seller successfully")
+                .email(request.getEmail())
+                .build();
+    }
+
 }
 

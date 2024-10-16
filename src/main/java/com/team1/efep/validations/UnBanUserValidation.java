@@ -1,7 +1,7 @@
 package com.team1.efep.validations;
+
 import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Status;
-import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.request_models.UnBanUserRequest;
 import com.team1.efep.repositories.UserRepo;
