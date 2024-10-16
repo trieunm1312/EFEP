@@ -54,14 +54,14 @@ public class UpdateBusinessPlanValidation {
             return MapConfig.buildMapKey(error, "At least one business service must be selected.");
         }
 
-//        List<BusinessService> validServiceIdList = businessServiceRepo.findAll().stream()
-//                .filter(service -> request.getBusinessServiceList().contains(service.getId()))
-//                .map(BusinessService::getId)
-//                .toList();
+        List<Integer> validServiceIdList = businessServiceRepo.findAll().stream()
+                .filter(service -> request.getBusinessServiceList().contains(service.getId()))
+                .map(BusinessService::getId)
+                .toList();
 
-//        if (validServiceIdList.isEmpty()) {
-//            return MapConfig.buildMapKey(error, "Business service does not exist.");
-//        }
+        if (validServiceIdList.isEmpty()) {
+            return MapConfig.buildMapKey(error, "Business service does not exist.");
+        }
 
         return error; // Return the final map of errors, empty means validation passed
     }

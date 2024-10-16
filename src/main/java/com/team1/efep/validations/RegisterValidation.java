@@ -29,25 +29,26 @@ public class RegisterValidation {
             return MapConfig.buildMapKey(error, "Phone cannot be empty");
         }
 
+        if (!request.getPhone().matches("\\d{10}")) {
+            return MapConfig.buildMapKey(error, "Phone number must be 10 digits");
+        }
+
         if (accountRepo.findByUser_Phone(request.getPhone()).isPresent()) {
             return MapConfig.buildMapKey(error, "Phone already exists");
         }
 
-        if (!request.getPhone().matches("\\d{10}")) {
-            return MapConfig.buildMapKey(error, "Phone number must be 10 digits");
-        }
 
         // email invalid format email
         if (request.getEmail().isEmpty()) {
             return MapConfig.buildMapKey(error, "Email cannot be empty");
         }
 
-        if (accountRepo.findByEmail(request.getEmail()).isPresent()) {
-            return MapConfig.buildMapKey(error, "Email already exists");
-        }
-
         if (!request.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
             return MapConfig.buildMapKey(error, "Email is in invalid format");
+        }
+
+        if (accountRepo.findByEmail(request.getEmail()).isPresent()) {
+            return MapConfig.buildMapKey(error, "Email already exists");
         }
 
         //password is equal confirmed password
