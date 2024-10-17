@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.response_models.ViewBusinessServiceResponse;
 import com.team1.efep.models.entity_models.*;
@@ -33,6 +34,7 @@ public class AdminServiceImpl implements AdminService {
     private final AccountRepo accountRepo;
 
     private final UserRepo userRepo;
+    private final SellerRepo sellerRepo;
 
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
@@ -627,28 +629,39 @@ public class AdminServiceImpl implements AdminService {
 
     private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {
         Map<String, String> errors = CreateAccountForSellerValidation.validate();
-
-        if (!errors.isEmpty()) {
+        if(!errors.isEmpty()){
             return errors;
         }
-        // Lưu tài khoản vào cơ sở dữ liệu
-        userRepo.save(
-                User.builder()
-                        .account(accountRepo.save(Account.builder()
-                                .email(request.getEmail())
-                                .password(request.getPassword())
-                                .build()))
-                        .name(request.getUser().getName())
-                        .phone(request.getUser().getPhone())
-                        .avatar(request.getUser().getAvatar())
-                        .background(request.getUser().getBackground())
-                        .build());
-
         return CreateAccountForSellerResponse.builder()
                 .status("200")
                 .message("Create account for seller successfully")
                 .email(request.getEmail())
                 .build();
+    }
+
+    private void createNewBuyer(CreateAccountForSellerRequest request) {
+
+        sellerRepo.save(Seller.builder()
+                .user(userRepo.save(User.builder()
+                        .account(createNewAccount(request))
+                        .name(request.getName())
+                        .phone(request.getPhone())
+                        .avatar(request.getAvatar())
+                        .background(request.getBackground())
+                        .build()))
+                .build()
+        );
+    }
+
+    private Account createNewAccount(CreateAccountForSellerRequest request) {
+        return accountRepo.save(
+                Account.builder()
+                        .status("200")
+                        .email(request.getEmail())
+                        .password(request.getPassword())
+                        .role(Role.BUYER)
+                        .build()
+        );
     }
 
 }
