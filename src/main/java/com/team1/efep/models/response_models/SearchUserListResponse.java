@@ -24,12 +24,31 @@ public class SearchUserListResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class User {
+    public static class User{
 
         private int id;
 
         private String name;
 
-        private LocalDate createdDate;
+        private String phone;
+
+        private String avatar;
+
+        private ViewUserListResponse.Account accountUser;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Account{
+
+        private int id;
+
+        private String email;
+
+        private String status;
+
+        private String role;
     }
 }

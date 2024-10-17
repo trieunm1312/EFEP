@@ -118,7 +118,7 @@ public class AdminController {
         return adminService.viewBusinessServiceAPI();
     }
 
-    @PostMapping("/search/admin/")
+    @PostMapping("/search/user/")
     public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
         return adminService.searchUserList(session, request, model);
     }
