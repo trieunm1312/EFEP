@@ -452,12 +452,6 @@
                                                    class="header__item-account-item"></input>
                                             <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                                         </form>
-                                        <div th:if="${session.acc.getRole() == 'buyer'}">
-                                            <form th:action="@{/account/logout}" class="form" method="get">
-                                                <input type="submit" name="action" value="Seller Channel"
-                                                       class="header__item-account-item"></input>
-                                            </form>
-                                        </div>
                                         <form th:action="@{/account/logout}" class="form" method="get">
                                             <input type="submit" name="action" value="Logout"
                                                    class="header__item-account-item"></input>

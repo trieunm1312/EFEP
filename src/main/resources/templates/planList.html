@@ -53,10 +53,12 @@
                     <div class="business-plan__table">
                         <div th:each="plan : ${msg.businessPlanList}" class="business-plan__item">
                             <div class="business-plan__item-header">
-                                <h3 class="business-plan__item-header-name" th:text="plan.name"></h3>
+                                <h3 class="business-plan__item-header-name" th:text="${plan.name}"></h3>
                                 <h3 class="business-plan__item-header-price">
-                                    <span>$</span>
-                                    <span th:text="${plan.price}"></span>
+                                    <span>
+                                        <span>$</span>
+                                        <span th:text="${plan.price}"></span>
+                                    </span>
                                     <span>per month</span>
                                 </h3>
                             </div>
