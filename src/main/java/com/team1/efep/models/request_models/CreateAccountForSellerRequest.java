@@ -14,31 +14,18 @@ import java.time.LocalDate;
 @Builder
 public class CreateAccountForSellerRequest {
 
-    private int id;
+    private String name;
 
     private String email;
 
+    private String phone;
+
+    private String avatar;
+
+    private String background;
+
     private String password;
 
-    private User user;
-
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class User {
-
-        private String name;
-
-        private String phone;
-
-        private String avatar;
-
-        private String background;
-
-        private LocalDate createdDate;
-    }
-
+    private String confirmPassword;
 
 }
