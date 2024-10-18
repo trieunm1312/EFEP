@@ -629,6 +629,7 @@ public class AdminServiceImpl implements AdminService {
 
     private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {
         Map<String, String> errors = CreateAccountForSellerValidation.validate(request, accountRepo);
+
         if(!errors.isEmpty()){
             return errors;
         }

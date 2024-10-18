@@ -1,5 +1,7 @@
 package com.team1.efep.utils;
 
+import com.team1.efep.services.AccountService;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -19,7 +21,7 @@ public class GoogleLoginUtil {
                 "&access_type=offline";
     }
 
-    public static void accessGoogleInfo(String accessToken) {
+    public static void accessGoogleInfo(String accessToken, AccountService accountService) {
         String apiUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken;
 
         try {
@@ -35,7 +37,7 @@ public class GoogleLoginUtil {
             }
             String response = responseBuilder.toString();
             System.out.println("Response: " + response);
-            
+
 
             reader.close();
             connection.disconnect();
