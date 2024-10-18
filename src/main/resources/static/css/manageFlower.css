@@ -70,7 +70,8 @@
 }
 
 .table__header-price,
-.table__header-qnt {
+.table__header-qnt,
+.table__header-sold-qnt{
     width: 150px;
 }
 
