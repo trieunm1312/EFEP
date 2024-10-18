@@ -632,6 +632,7 @@ public class AdminServiceImpl implements AdminService {
         if(!errors.isEmpty()){
             return errors;
         }
+        createNewSeller(request);
         return CreateAccountForSellerResponse.builder()
                 .status("200")
                 .message("Create account for seller successfully")
@@ -639,15 +640,13 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    private void createNewBuyer(CreateAccountForSellerRequest request) {
+    private void createNewSeller(CreateAccountForSellerRequest request) {
 
         sellerRepo.save(Seller.builder()
                 .user(userRepo.save(User.builder()
                         .account(createNewAccount(request))
                         .name(request.getName())
                         .phone(request.getPhone())
-                        .avatar(request.getAvatar())
-                        .background(request.getBackground())
                         .build()))
                 .build()
         );
@@ -659,7 +658,7 @@ public class AdminServiceImpl implements AdminService {
                         .status("200")
                         .email(request.getEmail())
                         .password(request.getPassword())
-                        .role(Role.BUYER)
+                        .role(Role.SELLER)
                         .build()
         );
     }

@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,9 +62,9 @@ public class GoogleLoginGeneratorUtil {
                 sb.append("&");
             }
             try {
-                sb.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+                sb.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
                 sb.append("=");
-                sb.append(URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
+                sb.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
             } catch (Exception e) {
                 e.printStackTrace();
             }
