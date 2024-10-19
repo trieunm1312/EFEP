@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DeleteWishlistResponse {
+
     private String status;
+
     private String message;
 }

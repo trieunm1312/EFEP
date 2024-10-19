@@ -18,7 +18,7 @@ public interface AccountService {
 
     void exchangeGoogleCode(String code);
 
-    String viewProfile(ViewProfileRequest request, Model model);
+    String viewProfile(ViewProfileRequest request, HttpSession session, Model model);
 
     ViewProfileResponse viewProfileAPI(ViewProfileRequest request);
 
