@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -239,7 +238,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Object updateProfileLogic(UpdateProfileRequest request) {
-        Map<String, String> errors = UpdateProfileValidation.validate(request);
+        Map<String, String> errors = UpdateProfileValidation.validate(request, accountRepo);
         System.out.println(request.getId());
         if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
@@ -248,8 +247,9 @@ public class AccountServiceImpl implements AccountService {
             user.setName(request.getName());
             user.setPhone(request.getPhone());
             user.setAvatar(request.getAvatar());
-            user.setBackground(request.getBackground());
+
             user = userRepo.save(user);
+
             return UpdateProfileResponse.builder()
                     .status("200")
                     .message("Update profile successfully")
@@ -257,7 +257,6 @@ public class AccountServiceImpl implements AccountService {
                     .name(user.getName())
                     .phone(user.getPhone())
                     .avatar(user.getAvatar())
-                    .background(user.getBackground())
                     .build();
         }
         return errors;

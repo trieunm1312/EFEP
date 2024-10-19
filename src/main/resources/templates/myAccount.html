@@ -20,12 +20,12 @@
 <body>
     <div class="wrap">
         <!-- Nav Bar -->
-        <nav class="navbar" th:replace="base :: navbar">
+        <nav class="navbar" th:replace="~{base :: navbar}">
 
         </nav>
 
         <!-- Header -->
-        <header class="header" th:replace="base :: header">
+        <header class="header" th:replace="~{base :: header}">
 
         </header>
 
@@ -140,7 +140,7 @@
 
 
     <!-- Footer -->
-    <footer class="footer" th:replace="base :: footer">
+    <footer class="footer" th:replace="~{base :: footer}">
 
     </footer>
     </div>

@@ -1,20 +1,16 @@
 package com.team1.efep.validations;
 
 import com.team1.efep.configurations.MapConfig;
-import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.models.request_models.CreateAccountForSellerRequest;
 import com.team1.efep.repositories.AccountRepo;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterValidation {
-
-    public static Map<String, String> validate(RegisterRequest request, AccountRepo accountRepo) {
-        Map<String, String> error = new HashMap<>();
+public class CreateAccountForSellerValidation {
+    public static Map<String, String> validate(CreateAccountForSellerRequest request, AccountRepo accountRepo) {
+        Map<String, String> error = new HashMap<String, String>();
         //code validate here
-
-        // name isn't duplicated
-        // --> name is duplicated
         if (request.getName().isEmpty()) {
             return MapConfig.buildMapKey(error, "Name cannot be empty");
         }
@@ -65,7 +61,6 @@ public class RegisterValidation {
             return MapConfig.buildMapKey(error, "Confirmed password doesn't match the password");
 
         }
-
-        return error;
+        return  error;
     }
 }

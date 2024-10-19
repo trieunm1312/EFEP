@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.fn.builders.requestbody.Builder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -46,6 +47,7 @@ public class SellerServiceImpl implements SellerService {
     private final BusinessPlanRepo businessPlanRepo;
 
     private final BusinessServiceRepo businessServiceRepo;
+    private final UserRepo userRepo;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -454,7 +456,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object viewBuyerListLogic(int sellerId) {
-        Map<String, String> errors = ViewBuyerListValidation.validate();
+        Map<String, String> errors = ViewBuyerListValidation.validate(sellerId, userRepo);
         if (!errors.isEmpty()) {
             return errors;
         }

@@ -123,6 +123,10 @@
                 <div class="user">
                     <div class="user__heading">
                         <h4 class="user__title">User Table</h4>
+                        <div class="user__create-btn" id="createNewBtn">
+                            <i class="fa-solid fa-plus header__create-btn-icon"></i>
+                            <span>Create New</span>
+                        </div>
                     </div>
                     <table class="user__table">
                         <thead class="table__header">
@@ -200,6 +204,67 @@
             </div>
         </div>
 
+        <!-- Create seller container -->
+        <div class="second-container" id="secondContainer">
+            <div class="second-container__background" >
+                <div class="auth-form">
+                    <form class="auth-form__container" method="POST" th:action="@{/account/register}">
+                        <div class="auth-form__header">
+                            <h3 class="auth-form__heading">Create Seller Account</h3>
+                            <i class="fa-solid fa-xmark" id="closeBtn"></i>
+                        </div>
+                        <div class="auth-form__form">
+                            <h3 class="auth-form__group-name">Seller Information</h3>
+                            <div class="auth-form__group">
+                                <label  class="auth-form__label">
+                                    <strong>Name</strong>
+                                </label>
+                                <input type="text" name="name" class="auth-form__input" placeholder="Name" required>
+                            </div>
+
+                            <div class="auth-form__group">
+                                <label  class="auth-form__label">
+                                    <strong>Phone</strong>
+                                </label>
+                                <input type="text" name="phone" class="auth-form__input" placeholder="Phone" required>
+                            </div>
+
+                            <div class="auth-form__group">
+                                <label  class="auth-form__label">
+                                    <strong>E-Mail</strong>
+                                </label>
+                                <input type="email" name="email" class="auth-form__input" placeholder="E-Mail" required>
+                            </div>
+
+                            <div class="auth-form__password">
+                                <h3 class="auth-form__group-name">Password</h3>
+                                <div class="auth-form__group">
+                                    <label  class="auth-form__label">
+                                        <strong>Password</strong>
+                                    </label>
+                                    <input type="password" name="password" class="auth-form__input"
+                                           placeholder="Password" required>
+                                </div>
+
+                                <div class="auth-form__group">
+                                    <label  class="auth-form__label">
+                                        <strong>Confirm Password</strong>
+                                    </label>
+                                    <input type="password" name="confirmPassword" class="auth-form__input"
+                                           placeholder="Confirm password" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="auth-form__controls">
+                            <input type="submit" name="btAction" value="CREATE" class="btn btn--primary"></input>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
         <!-- Footer -->
         <div class="footer">
 
@@ -207,6 +272,7 @@
     </div>
     <script src="/js/adminBase.js"></script>
     <script src="/js/manageBusinessService.js"></script>
+    <script src="/js/manageUser.js"></script>
 
 </body>
 

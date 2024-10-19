@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.response_models.ViewBusinessServiceResponse;
 import com.team1.efep.models.entity_models.*;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class AdminServiceImpl implements AdminService {
     private final AccountRepo accountRepo;
 
     private final UserRepo userRepo;
+    private final SellerRepo sellerRepo;
 
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
@@ -229,7 +232,7 @@ public class AdminServiceImpl implements AdminService {
                 businessServiceRepo.findAll().stream()
                         .filter(  //chuyen no sang Integer
                                 service -> request.getBusinessServiceList().stream()
-                                        .map(s -> Integer.valueOf(s.getId()))
+
                                         .toList()
                                         .contains(service.getId())
                         )
@@ -429,7 +432,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Object deleteBusinessServiceLogic(DeleteBusinessServiceRequest request) {
-        Map<String, String> errors = DeleteBusinessServiceValidation.validate(request,businessServiceRepo);
+        Map<String, String> errors = DeleteBusinessServiceValidation.validate(request, businessServiceRepo);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -487,7 +490,6 @@ public class AdminServiceImpl implements AdminService {
 
 
     //-------------------------------------SEARCH USER LIST----------------------------//
-
     @Override
     public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
         model.addAttribute("msg", searchUserListLogic(request));
@@ -498,6 +500,7 @@ public class AdminServiceImpl implements AdminService {
     public SearchUserListResponse searchUserListAPI(SearchUserListRequest request) {
         return searchUserListLogic(request);
     }
+
 
     private SearchUserListResponse searchUserListLogic(SearchUserListRequest request) {
         return SearchUserListResponse.builder()
@@ -598,5 +601,69 @@ public class AdminServiceImpl implements AdminService {
         }
         return error;
     }
+
+    //-----------------------------------------CREATE ACCOUNT FOR SELLER------------------------------------//
+
+    @Override
+    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model) {
+        Object output = createAccountForSellerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
+            model.addAttribute("msg", (CreateAccountForSellerResponse) output);
+            return "redirect:/admin/user/list";
+        }
+        model.addAttribute("error", ((Map<String, String>) output));
+        return "home";
+    }
+
+    @Override
+    public CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request) {
+        Object output = createAccountForSellerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
+            return (CreateAccountForSellerResponse) output;
+        }
+        return CreateAccountForSellerResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {
+        Map<String, String> errors = CreateAccountForSellerValidation.validate(request, accountRepo);
+
+        if(!errors.isEmpty()){
+            return errors;
+        }
+        return CreateAccountForSellerResponse.builder()
+                .status("200")
+                .message("Create account for seller successfully")
+                .email(request.getEmail())
+                .build();
+    }
+
+    private void createNewBuyer(CreateAccountForSellerRequest request) {
+
+        sellerRepo.save(Seller.builder()
+                .user(userRepo.save(User.builder()
+                        .account(createNewAccount(request))
+                        .name(request.getName())
+                        .phone(request.getPhone())
+                        .avatar(request.getAvatar())
+                        .background(request.getBackground())
+                        .build()))
+                .build()
+        );
+    }
+
+    private Account createNewAccount(CreateAccountForSellerRequest request) {
+        return accountRepo.save(
+                Account.builder()
+                        .status("200")
+                        .email(request.getEmail())
+                        .password(request.getPassword())
+                        .role(Role.BUYER)
+                        .build()
+        );
+    }
+
 }
 

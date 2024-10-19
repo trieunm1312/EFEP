@@ -1,22 +1,31 @@
 package com.team1.efep.models.request_models;
 
+import com.team1.efep.models.entity_models.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class UpdateProfileRequest {
-
-    private int id;
+public class CreateAccountForSellerRequest {
 
     private String name;
+
+    private String email;
 
     private String phone;
 
     private String avatar;
+
+    private String background;
+
+    private String password;
+
+    private String confirmPassword;
+
 }

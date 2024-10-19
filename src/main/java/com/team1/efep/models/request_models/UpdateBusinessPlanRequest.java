@@ -25,7 +25,7 @@ public class UpdateBusinessPlanRequest {
 
     private String status;
 
-    private List<BusinessService> businessServiceList;
+    private List<Integer> businessServiceList;
 
     @Data
     @AllArgsConstructor

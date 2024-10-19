@@ -741,7 +741,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     public Object viewFlowerDetailLogic(ViewFlowerDetailRequest request) {
-        Map<String, String> errors = ViewFlowerDetailValidation.validate();
+        Map<String, String> errors = ViewFlowerDetailValidation.validate(request, flowerRepo);
         if (errors.isEmpty()) {
             Flower flower = flowerRepo.findById(request.getId()).orElse(null);
             assert flower != null;

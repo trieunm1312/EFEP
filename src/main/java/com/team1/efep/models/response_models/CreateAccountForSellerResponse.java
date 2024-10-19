@@ -4,23 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class UpdateProfileResponse {
+public class CreateAccountForSellerResponse {
+
     private String status;
 
     private String message;
 
-    private int id;
+    private String role;
 
-    private String name;
-
-    private String phone;
-
-    private String avatar;
+    private String email;
 
 }
