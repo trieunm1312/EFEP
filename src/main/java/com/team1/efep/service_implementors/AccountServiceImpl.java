@@ -228,9 +228,19 @@ public class AccountServiceImpl implements AccountService {
     public String updateProfile(UpdateProfileRequest request, HttpSession session, Model model) {
         Object output = updateProfileLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
-            session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
+            Account account = accountRepo.findById(request.getId()).orElse(null);
+            session.setAttribute("acc", account);
             model.addAttribute("msg", (UpdateProfileResponse) output);
-            return "myAccount";
+            switch (account.getRole().toUpperCase()) {
+                case "SELLER":
+
+                    return "sellerProfile";
+
+                case "BUYER":
+
+                    return "myAccount";
+
+            }
         }
         model.addAttribute("error", (Map<String, String>) output);
         HomepageConfig.config(model, buyerService);

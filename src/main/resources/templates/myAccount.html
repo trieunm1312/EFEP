@@ -122,9 +122,10 @@
                                     <img th:src="${msg.avatar}" alt="User Avatar" id="profile-avatar">
                                 </div>
                                 <label for="input-file" class="choose-img-btn">Change Avatar</label>
-                                <input type="file" accept="image/jpeg, image/jpg, image/png" name="avatar" id="input-file" class="file-input">
+                                <input type="file" accept="image/*" value="" id="input-file" class="file-input">
+                                <input type="hidden" name="avatar" id="avatarUrl" value="">
                                 <div class="profile__avatar-note">
-                                    <span>Maximum file size is 1 MB</span>
+                                    <span>Maximum file size is 3 MB</span>
                                     <span>Format: .JPEG, .PNG</span>
                                 </div>
                             </div>
@@ -144,6 +145,67 @@
 
     </footer>
     </div>
+    <script type="module">
+        // Import Firebase and necessary functions from Firebase Storage
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
+        // Your Firebase configuration (replace with your own keys)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAYjgYhoSy319eFC4NxXzhEpPUUQdMobM8",
+            authDomain: "eventflowerexhangeplatform.firebaseapp.com",
+            projectId: "eventflowerexhangeplatform",
+            storageBucket: "eventflowerexhangeplatform.appspot.com",
+            messagingSenderId: "338080219481",
+            appId: "1:338080219481:web:c91006677d06e47bd6cc48",
+            measurementId: "G-8W6SH49XD9"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+
+        // Avatar upload logic
+        let profileAvatar = document.getElementById("profile-avatar");
+        let inputFile = document.getElementById("input-file");
+        let avatarUrlInput = document.getElementById("avatarUrl");  // Reference to hidden input
+
+        inputFile.onchange = async function () {
+            const file = inputFile.files[0];
+            if (file) {
+                // Use Firebase Storage ref to define the storage path
+                const storageRef = ref(storage, `images/avatars/${file.name}`);
+
+                try {
+                    // Upload the file
+                    const snapshot = await uploadBytes(storageRef, file);
+
+                    // Get the download URL
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+
+                    // Update the image source to display the uploaded image
+                    profileAvatar.src = downloadURL;
+
+                    // Store the download URL in the hidden input field
+                    avatarUrlInput.value = downloadURL;
+
+                    console.log("File available at: ", downloadURL);
+
+                } catch (error) {
+                    console.error("Error uploading file: ", error);
+                }
+            }
+        };
+    </script>
+
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/price-range.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/base.js"></script>
+
+
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.scrollUp.min.js"></script>
