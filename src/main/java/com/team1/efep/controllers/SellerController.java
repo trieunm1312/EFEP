@@ -189,4 +189,8 @@ public class SellerController {
         return sellerService.viewFlowerImageAPI(request);
     }
 
+//    @GetMapping("/detail/plan")
+//    public String viewBusinessPlanDetail() {
+//return
+//    }
 }
