@@ -158,10 +158,13 @@ function handleCheckout() {
     const paymentMethod = document.getElementById('paymentMethod').value;
     const checkoutForm = document.getElementById('checkout');
 
+    const codActionUrl = checkoutForm.getAttribute('data-cod-action');
+    const vnpayActionUrl = checkoutForm.getAttribute('data-vnpay-action');
+
     if (paymentMethod === 'COD') {
-        checkoutForm.action = '/order/payment/result';
+        checkoutForm.setAttribute('action', codActionUrl);
     } else if (paymentMethod === 'VNPay') {
-        checkoutForm.action = '/buyer/order/payment';
+        checkoutForm.setAttribute('action', vnpayActionUrl);
     }
     return true;
 }

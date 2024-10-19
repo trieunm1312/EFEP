@@ -47,12 +47,12 @@ public class SellerController {
 
     @GetMapping("/order/list")
     @Operation(hidden = true)
-    public String createFlower(HttpSession session, Model model) {
+    public String viewOrderList(HttpSession session, Model model) {
         return sellerService.viewOrderList(session, model);
     }
 
     @GetMapping("/order/list/api/{id}")
-    public ViewOrderListResponse createFlower(@PathVariable int id) {
+    public ViewOrderListResponse viewOrderListAPI(@PathVariable int id) {
         return sellerService.viewOrderListAPI(id);
     }
 
@@ -129,8 +129,14 @@ public class SellerController {
         return sellerService.filterOrderAPI(request);
     }
 
+    @PostMapping("/order/payment")
+    @Operation(hidden = true)
+    public String createVNPayPaymentLink(@RequestBody VNPayBusinessPlanRequest request,Model model, HttpServletRequest httpServletRequest) {
+        return sellerService.createVNPayPaymentLink(request, model, httpServletRequest);
+    }
+
     @PostMapping("/order/payment/api")
-    public VNPayResponse createVNPayPaymentLink(@RequestBody VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest) {
+    public VNPayResponse createVNPayPaymentLinkAPI(@RequestBody VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest) {
         return sellerService.createVNPayPaymentLinkAPI(request, httpServletRequest);
     }
 

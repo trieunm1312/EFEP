@@ -720,8 +720,9 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String createVNPayPaymentLink(VNPayBusinessPlanRequest request, Model model, HttpServletRequest httpServletRequest) {
-        model.addAttribute("msg", createVNPayPaymentLinkLogic(request, httpServletRequest));
-        return "home";
+        VNPayResponse vnPayResponse = createVNPayPaymentLinkLogic(request, httpServletRequest);
+        model.addAttribute("msg", vnPayResponse);
+        return "redirect:" + vnPayResponse.getPaymentURL();
     }
 
     @Override
@@ -833,7 +834,7 @@ public class SellerServiceImpl implements SellerService {
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
-            return "paymentSuccess";
+            return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "paymentFailed";
@@ -852,7 +853,6 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-
     private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
         Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
@@ -864,10 +864,16 @@ public class SellerServiceImpl implements SellerService {
             int busPlanId = Integer.parseInt(params.get("vnp_BusPlanId"));
             BusinessPlan businessPlan = businessPlanRepo.findById(busPlanId).orElse(null);
             savePurchasedPlan(params, user, businessPlan);
+            return VNPayResponse.builder()
+                    .status("200")
+                    .message("Your payment is successfully")
+                    .paymentURL("/viewOrderSummary")
+                    .build();
         }
         return VNPayResponse.builder()
-                .status("200")
-                .message("Your payment is successfully")
+                .status("400")
+                .message("Your payment is failed")
+                .paymentURL("/viewOrderSummary")
                 .build();
     }
 
