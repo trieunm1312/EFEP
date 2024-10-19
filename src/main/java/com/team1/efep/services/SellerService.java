@@ -77,4 +77,6 @@ public interface SellerService {
     String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model);
 
     AddFlowerImageResponse addFlowerImageAPI(AddFlowerImageRequest request);
+
+    String confirmOrder(HttpSession session, Model model, int busPlanId);
 }
