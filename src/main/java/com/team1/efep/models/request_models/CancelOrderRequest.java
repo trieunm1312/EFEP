@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CancelOrderRequest {
+
     private int accountId;
+
     private int orderId;
 }

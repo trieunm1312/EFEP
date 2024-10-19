@@ -35,3 +35,19 @@
 .business-plan__duration{
     font-weight: 600;
 }
+
+/*Dont have plan yet*/
+.guide{
+    width: 30%;
+    margin-top: 64px;
+}
+
+.guide input{
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    margin-top: 16px;
+}

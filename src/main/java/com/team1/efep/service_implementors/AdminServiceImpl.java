@@ -34,6 +34,7 @@ public class AdminServiceImpl implements AdminService {
     private final AccountRepo accountRepo;
 
     private final UserRepo userRepo;
+
     private final SellerRepo sellerRepo;
 
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
@@ -508,12 +509,23 @@ public class AdminServiceImpl implements AdminService {
                 .message("")
                 .userList(
                         userRepo.findAll().stream()
-                                .filter(user -> user.getName().equals(request.getKeyword()))
-                                .map(user -> SearchUserListResponse.User.builder()
-                                        .id(user.getId())
-                                        .name(user.getName())
-                                        .createdDate(user.getCreatedDate())
-                                        .build())
+                                .filter(user -> user.getName().toLowerCase().contains(request.getKeyword()))
+                                .map(
+                                        user -> SearchUserListResponse.User.builder()
+                                                .id(user.getId())
+                                                .name(user.getName())
+                                                .phone(user.getPhone())
+                                                .avatar(user.getAvatar())
+                                                .accountUser(
+                                                        ViewUserListResponse.Account.builder()
+                                                                .id(user.getAccount().getId())
+                                                                .status(user.getAccount().getStatus())
+                                                                .role(user.getAccount().getRole())
+                                                                .email(user.getAccount().getEmail())
+                                                                .build()
+                                                )
+                                                .build()
+                                )
                                 .toList()
                 )
                 .build();
@@ -633,6 +645,7 @@ public class AdminServiceImpl implements AdminService {
         if(!errors.isEmpty()){
             return errors;
         }
+        createNewSeller(request);
         return CreateAccountForSellerResponse.builder()
                 .status("200")
                 .message("Create account for seller successfully")
@@ -640,15 +653,13 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    private void createNewBuyer(CreateAccountForSellerRequest request) {
+    private void createNewSeller(CreateAccountForSellerRequest request) {
 
         sellerRepo.save(Seller.builder()
                 .user(userRepo.save(User.builder()
                         .account(createNewAccount(request))
                         .name(request.getName())
                         .phone(request.getPhone())
-                        .avatar(request.getAvatar())
-                        .background(request.getBackground())
                         .build()))
                 .build()
         );
@@ -660,7 +671,7 @@ public class AdminServiceImpl implements AdminService {
                         .status("200")
                         .email(request.getEmail())
                         .password(request.getPassword())
-                        .role(Role.BUYER)
+                        .role(Role.SELLER)
                         .build()
         );
     }

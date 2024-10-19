@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
             model.addAttribute("msg", (RegisterResponse) output);
             return "login";
         }
-        model.addAttribute("error", (Map<String, String>)output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "register";
     }
 
@@ -110,9 +110,9 @@ public class AccountServiceImpl implements AccountService {
             session.setAttribute("acc", acc);
             model.addAttribute("msg", (LoginResponse) output);
             switch (acc.getRole().toUpperCase()) {
-                case "SELLER" :
+                case "SELLER":
                     return "redirect:/seller/view/flower";
-                case "ADMIN" :
+                case "ADMIN":
                     return "adminDashboard";
                 default:
                     HomepageConfig.config(model, buyerService);
@@ -168,12 +168,24 @@ public class AccountServiceImpl implements AccountService {
     //------------------------------------------VIEW PROFILE-----------------------------------------------//
 
     @Override
-    public String viewProfile(ViewProfileRequest request, Model model) {
+    public String viewProfile(ViewProfileRequest request, HttpSession session, Model model) {
         Object output = viewProfileLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileResponse.class)) {
+            Account account = accountRepo.findById(request.getId()).orElse(null);
+            session.setAttribute("acc", account);
             model.addAttribute("msg", (ViewProfileResponse) output);
-            return "myAccount";
+            switch (account.getRole().toUpperCase()) {
+                case "SELLER":
+
+                    return "sellerProfile";
+
+                case "BUYER":
+
+                    return "myAccount";
+
+            }
         }
+
         model.addAttribute("error", (Map<String, String>) output);
         return "login";
     }
@@ -216,9 +228,19 @@ public class AccountServiceImpl implements AccountService {
     public String updateProfile(UpdateProfileRequest request, HttpSession session, Model model) {
         Object output = updateProfileLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
-            session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
+            Account account = accountRepo.findById(request.getId()).orElse(null);
+            session.setAttribute("acc", account);
             model.addAttribute("msg", (UpdateProfileResponse) output);
-            return "myAccount";
+            switch (account.getRole().toUpperCase()) {
+                case "SELLER":
+
+                    return "sellerProfile";
+
+                case "BUYER":
+
+                    return "myAccount";
+
+            }
         }
         model.addAttribute("error", (Map<String, String>) output);
         HomepageConfig.config(model, buyerService);

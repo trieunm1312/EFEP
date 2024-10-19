@@ -97,10 +97,10 @@
                                         <span class="table-item-total"
                                             th:text="'$ ' + ${item.quantity * item.price}">0</span>
                                     </td>
-                                </tr>                          
+                                </tr>
 
                             </tbody>
-                            
+
                         </table>
                     </div>
                     <div class="statis-order">
@@ -113,9 +113,8 @@
                         <hr class="line">
 
                         <div class="payment-method">
-                            <label for="paymentMethod">
-                                <h3 class="payment-header">Choose Payment Method</h3>
-                            </label>
+                            <h3 class="payment-header">Choose Payment Method</h3>
+                            <label for="paymentMethod"></label>
                             <select class="payment-list" name="paymentMethod" id="paymentMethod">
                                 <option value="COD">COD</option>
                                 <option value="VNPay" selected>VNPay</option>
@@ -123,8 +122,10 @@
                         </div>
                         <hr class="line">
                         <div class="btn-cart">
-                            <form id="checkout" th:action="@{/buyer/order/payment}" method="post"
-                                onsubmit="return handleCheckout()">
+                            <form id="checkout" action="/buyer/order/payment" method="post"
+                                  data-cod-action="/buyer/order/cod"
+                                  data-vnpay-action="/buyer/order/payment"
+                                  onsubmit="return handleCheckout()">
                                 <input type="hidden" name="amount" value="10000000">
                                 <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
                             </form>

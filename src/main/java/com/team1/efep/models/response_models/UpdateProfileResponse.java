@@ -23,4 +23,5 @@ public class UpdateProfileResponse {
 
     private String avatar;
 
+    private String background;
 }

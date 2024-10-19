@@ -1,9 +1,17 @@
 package com.team1.efep.utils;
 
+import com.team1.efep.models.entity_models.Account;
+import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.repositories.AccountRepo;
+import com.team1.efep.services.AccountService;
+import org.springframework.ui.Model;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GoogleLoginUtil {
     public static String generateGoogleLoginUrl() {
@@ -19,7 +27,12 @@ public class GoogleLoginUtil {
                 "&access_type=offline";
     }
 
-    public static void accessGoogleInfo(String accessToken) {
+    public static void accessGoogleInfo(
+            String accessToken
+//            AccountService accountService,
+//            Model model,
+//            AccountRepo accountRepo
+    ) {
         String apiUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken;
 
         try {
@@ -35,11 +48,32 @@ public class GoogleLoginUtil {
             }
             String response = responseBuilder.toString();
             System.out.println("Response: " + response);
+            /*Account account = accountRepo.findByEmail()
+            RegisterRequest request = RegisterRequest.builder()
+                    .name()
+                    .email()
+                    .phone()
+                    .avatar()
+                    .background()
+                    .password()
+                    .confirmPassword()
+                    .build();
+            accountService.register()*/
 
             reader.close();
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static String extractResponse(String response) {
+        Map<String, String> result = new HashMap<>();
+        response = response.replaceAll("[{}]", "");
+        return response;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(extractResponse("{  \"id\": \"115608599751869845312\",\"email\": \"quynhpvnse182895@fpt.edu.vn\",\"verified_email\": true,\"name\": \"Pham Van Nhu Quynh (K18 HCM)\",\"given_name\": \"Pham Van Nhu Quynh\",\"family_name\": \"(K18 HCM)\",\"picture\":\"https://lh3.googleusercontent.com/a/ACg8ocLwU0Ca_5fgeXpcBYvQ8Kk5AsD21jqruI3n2ugrqYjSq4hp203S=s96-c\",\"hd\": \"fpt.edu.vn\"}"));
     }
 }

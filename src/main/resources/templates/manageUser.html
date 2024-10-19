@@ -75,11 +75,11 @@
 
             <!-- Header search -->
             <div class="header__search">
-                <form action="" method="GET" class="header__search-form">
+                <form th:action="@{/admin/search/user/}" th:method="post" class="header__search-form">
                     <button class="header__search-btn">
                         <i class="fa-solid  fa-magnifying-glass"></i>
                     </button>
-                    <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
+                    <input type="text" class="header__search-input" name="keyword" placeholder="Search.......">
                 </form>
             </div>
             <div class="header__create-btn btn">
@@ -176,27 +176,6 @@
                                         </form>
                                     </div>
                                 </tr>
-                                <tr class="table__body-item">
-                                    <td class="table__body-user">
-                                        <img src="https://th.bing.com/th?q=P.+Diddy+Full+Body+Pic&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-WW&cc=VN&setlang=en&adlt=moderate&t=1&mw=247" alt="Avatar" class="table__body-avt">
-                                        <span class="table__body-unique">
-                                            <span class="table__body-name">ABC</span>
-                                            <span class="table__body-email">trumppro@gmail.com</span>
-                                        </span>
-                                    </td>
-                                    <td class="table__body-phone">
-                                        <span class="desc-text">0369322979</span>
-                                    </td>
-                                    <td class="table__body-role">
-                                        <span class="price-text">Buyer</span>
-                                    </td>
-                                    <td class="table__body-status ban ">
-                                        Banned
-                                    </td>
-                                    <td class="table__body-toggle">
-                                        <input type="submit" name="action" value="Unban" class="toggle-btn">
-                                    </td>
-                                </tr>
 
                         </tbody>
                     </table>
@@ -208,7 +187,7 @@
         <div class="second-container" id="secondContainer">
             <div class="second-container__background" >
                 <div class="auth-form">
-                    <form class="auth-form__container" method="POST" th:action="@{/account/register}">
+                    <form class="auth-form__container" th:method="post" th:action="@{/admin/account/seller}">
                         <div class="auth-form__header">
                             <h3 class="auth-form__heading">Create Seller Account</h3>
                             <i class="fa-solid fa-xmark" id="closeBtn"></i>
@@ -245,17 +224,8 @@
                                     <input type="password" name="password" class="auth-form__input"
                                            placeholder="Password" required>
                                 </div>
-
-                                <div class="auth-form__group">
-                                    <label  class="auth-form__label">
-                                        <strong>Confirm Password</strong>
-                                    </label>
-                                    <input type="password" name="confirmPassword" class="auth-form__input"
-                                           placeholder="Confirm password" required>
-                                </div>
                             </div>
                         </div>
-
                         <div class="auth-form__controls">
                             <input type="submit" name="btAction" value="CREATE" class="btn btn--primary"></input>
                         </div>
@@ -271,7 +241,6 @@
         </div>
     </div>
     <script src="/js/adminBase.js"></script>
-    <script src="/js/manageBusinessService.js"></script>
     <script src="/js/manageUser.js"></script>
 
 </body>

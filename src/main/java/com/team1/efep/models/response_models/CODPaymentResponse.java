@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DeleteFlowerResponse {
-
+public class CODPaymentResponse {
     private String status;
 
     private String message;
