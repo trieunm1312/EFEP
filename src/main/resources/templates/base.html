@@ -445,10 +445,10 @@
                             </i>
                             <!-- Login successfully -->
                             <div th:if="${session.acc != null}" class="header__item-icon-user">
-                                <div th:if="${session.acc.getUser().getAvatar()} == null">
+                                <div th:if="${session.acc.getUser().getAvatar()} == ''">
                                     <i th:if="${session.acc == null}" class="header__item-icon-user-icon fa-solid fa-user"></i>
                                 </div>
-                                <div th:if="${session.acc.getUser().getAvatar()} != null">
+                                <div th:if="${session.acc.getUser().getAvatar()} != ''">
                                     <img th:src="${session.acc.getUser().getAvatar()}" alt="Avatar"
                                          class="header__item-icon-user-icon header__item-user-img">
                                 </div>

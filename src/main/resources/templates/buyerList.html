@@ -32,7 +32,7 @@
             </li>
             <li>
                 <a th:href="@{/}" class="sidebar__link">
-                    <div class="sidebar__item active">
+                    <div class="sidebar__item ">
                         <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                         <span class="sidebar__item-title">Manage Flower</span>
                     </div>
@@ -63,12 +63,13 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/account/view/profile}"  class="sidebar__link">
+                <form th:action="@{/account/view/profile}"  class="sidebar__link">
                     <div class="sidebar__item">
                         <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                        <span class="sidebar__item-title">Personal Profile</span>
+                        <input type="submit" name="action" value="Personal Profile" class="sidebar__item-title"></input>
                     </div>
-                </a>
+                    <input type="hidden" name="id" th:value="${session.acc.id}">
+                </form>
             </li>
         </ul>
     </div>

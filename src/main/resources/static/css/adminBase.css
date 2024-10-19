@@ -147,6 +147,14 @@ hr.horizontal.dark{
     box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .1);
 }
 
+.sidebar__item-title{
+    border: none;
+    background-color: transparent;
+    margin-left: 0;
+    padding: 0;
+    text-align: start;
+}
+
 .sidebar__item:hover .sidebar__item-logo,
 .sidebar__item.active .sidebar__item-logo{
     color: var(--white-color);
@@ -347,6 +355,10 @@ hr.horizontal.dark{
     margin-left: 0;
     padding-left: 0;
     cursor: pointer;
+}
+
+.header__account-icon{
+    margin-right: 4px;
 }
 
 .header__account img{
