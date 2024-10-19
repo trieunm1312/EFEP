@@ -615,40 +615,40 @@ public class AdminServiceImpl implements AdminService {
 
     //-----------------------------------------CREATE ACCOUNT FOR SELLER------------------------------------//
 
-    @Override
-    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model) {
-        Object output = createAccountForSellerLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
-            model.addAttribute("msg", (CreateAccountForSellerResponse) output);
-            return "redirect:/admin/user/list";
-        }
-        model.addAttribute("error", ((Map<String, String>) output));
-        return "home";
-    }
+//    @Override
+//    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model) {
+//        Object output = createAccountForSellerLogic(request);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
+//            model.addAttribute("msg", (CreateAccountForSellerResponse) output);
+//            return "redirect:/admin/user/list";
+//        }
+//        model.addAttribute("error", ((Map<String, String>) output));
+//        return "home";
+//    }
 
-    @Override
-    public CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request) {
-        Object output = createAccountForSellerLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
-            return (CreateAccountForSellerResponse) output;
-        }
-        return CreateAccountForSellerResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
+//    @Override
+//    public CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request) {
+//        Object output = createAccountForSellerLogic(request);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
+//            return (CreateAccountForSellerResponse) output;
+//        }
+//        return CreateAccountForSellerResponse.builder()
+//                .status("400")
+//                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+//                .build();
+//    }
 
-    private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {
-        Map<String, String> errors = CreateAccountForSellerValidation.validate();
-        if(!errors.isEmpty()){
-            return errors;
-        }
-        return CreateAccountForSellerResponse.builder()
-                .status("200")
-                .message("Create account for seller successfully")
-                .email(request.getEmail())
-                .build();
-    }
+//    private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {
+//        Map<String, String> errors = CreateAccountForSellerValidation.validate();
+//        if(!errors.isEmpty()){
+//            return errors;
+//        }
+//        return CreateAccountForSellerResponse.builder()
+//                .status("200")
+//                .message("Create account for seller successfully")
+//                .email(request.getEmail())
+//                .build();
+//    }
 
     private void createNewBuyer(CreateAccountForSellerRequest request) {
 
@@ -657,8 +657,6 @@ public class AdminServiceImpl implements AdminService {
                         .account(createNewAccount(request))
                         .name(request.getName())
                         .phone(request.getPhone())
-                        .avatar(request.getAvatar())
-                        .background(request.getBackground())
                         .build()))
                 .build()
         );

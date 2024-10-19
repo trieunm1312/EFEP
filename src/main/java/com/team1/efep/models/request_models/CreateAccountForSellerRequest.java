@@ -20,10 +20,6 @@ public class CreateAccountForSellerRequest {
 
     private String phone;
 
-    private String avatar;
-
-    private String background;
-
     private String password;
 
     private String confirmPassword;

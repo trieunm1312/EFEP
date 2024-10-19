@@ -553,6 +553,7 @@ html {
     color: var(--primary-color);
     padding-top: 36px;
     position: relative;
+    margin-bottom: 0;
 }
 
 .header__item-icon:hover {
@@ -901,12 +902,14 @@ html {
 .header__item-icon-user {
     position: relative;
     display: flex;
-    justify-content: flex-start;
+    justify-content: start;
+    align-items: center;
 
 }
 
 .header__item-icon-user-name{
     margin-left: 16px;
+    margin-right: -12px;
 }
 
 

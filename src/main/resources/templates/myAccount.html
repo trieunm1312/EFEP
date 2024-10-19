@@ -124,7 +124,7 @@
                                 <label for="input-file" class="choose-img-btn">Change Avatar</label>
                                 <input type="file" accept="image/jpeg, image/jpg, image/png" name="avatar" id="input-file" class="file-input">
                                 <div class="profile__avatar-note">
-                                    <span>Maximum file size is 1 MB</span>
+                                    <span>Maximum file size is 3 MB</span>
                                     <span>Format: .JPEG, .PNG</span>
                                 </div>
                             </div>
@@ -144,6 +144,29 @@
 
     </footer>
     </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyAYjgYhoSy319eFC4NxXzhEpPUUQdMobM8",
+            authDomain: "eventflowerexhangeplatform.firebaseapp.com",
+            projectId: "eventflowerexhangeplatform",
+            storageBucket: "eventflowerexhangeplatform.appspot.com",
+            messagingSenderId: "338080219481",
+            appId: "1:338080219481:web:c91006677d06e47bd6cc48",
+            measurementId: "G-8W6SH49XD9"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.scrollUp.min.js"></script>

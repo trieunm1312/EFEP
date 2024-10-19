@@ -150,15 +150,15 @@ public class AdminController {
         return adminService.unBanUserAPI(request);
     }
 
-    @PostMapping("/account/seller")
-    @Operation(hidden = true)
-    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model) {
-        return adminService.createAccountForSeller(request, model);
-    }
-
-    @PostMapping("/account/seller/api")
-    public CreateAccountForSellerResponse createAccountForSeller(@RequestBody CreateAccountForSellerRequest request) {
-        return adminService.createAccountForSellerAPI(request);
-    }
+//    @PostMapping("/account/seller")
+//    @Operation(hidden = true)
+//    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model) {
+//        return adminService.createAccountForSeller(request, model);
+//    }
+//
+//    @PostMapping("/account/seller/api")
+//    public CreateAccountForSellerResponse createAccountForSeller(@RequestBody CreateAccountForSellerRequest request) {
+//        return adminService.createAccountForSellerAPI(request);
+//    }
 
 }
