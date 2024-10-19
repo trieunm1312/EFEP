@@ -55,8 +55,8 @@ public class AccountController {
 
     @GetMapping("/view/profile")
     @Operation(hidden = true)
-    public String viewProfile(@ModelAttribute ViewProfileRequest request, Model model) {
-        return accountService.viewProfile(request, model);
+    public String viewProfile(@ModelAttribute ViewProfileRequest request, HttpSession session, Model model) {
+        return accountService.viewProfile(request, session, model);
     }
 
     @GetMapping("/view/profile/api")

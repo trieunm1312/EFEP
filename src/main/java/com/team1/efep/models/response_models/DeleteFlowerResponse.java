@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class DeleteFlowerResponse {
+
     private String status;
 
     private String message;
