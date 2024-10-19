@@ -125,6 +125,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             model.addAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
