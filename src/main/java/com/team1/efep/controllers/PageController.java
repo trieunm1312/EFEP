@@ -69,6 +69,11 @@ public class PageController {
     public String choosePlanPage() {
         return "choosePlan";
     }
+
+    @GetMapping("/planList")
+    public String planListPage() {
+        return "planList";
+    }
 }
 
 
