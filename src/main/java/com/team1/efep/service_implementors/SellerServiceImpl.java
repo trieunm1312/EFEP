@@ -464,7 +464,7 @@ public class SellerServiceImpl implements SellerService {
         return ViewBuyerListResponse.builder()
                 .status("200")
                 .message("")
-                .buyers(getBuyerList(sellerId).stream()
+                .buyerList(getBuyerList(sellerId).stream()
                         .map(seller -> ViewBuyerListResponse.Buyer.builder()
                                 .id(seller.getId())
                                 .name(seller.getName())

@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 <!--    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
 <!--    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">-->
 <!--    <link rel="stylesheet" href="/src/main/resources/static/css/main.css">-->
 
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/main.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/choosePlan.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/choosePlan.css">
 
 </head>
 
@@ -44,7 +44,7 @@
         <!-- Container -->
         <div class="container">
             <div class="container__wrap">
-                <div class="introduction-block">
+                <form th:action="@{/seller/view/plan}" th:method="post" class="introduction-block">
                     <i class="fa-regular fa-circle-check introduction-block__icon"></i>
                     <div class="step">
                         <span>Step</span>
@@ -64,7 +64,7 @@
                         <span>No ads, free. Always.</span>
                     </div>
                     <input class="next-btn" type="submit" name="action" value="Continue">
-                </div>
+                </form>
             </div>
         </div>
 
@@ -211,12 +211,12 @@
             </div>
         </footer>
     </div>
-    <script src="/src/main/resources/static/js/jquery.js"></script>
-    <script src="/src/main/resources/static/js//bootstrap.min.js"></script>
-    <script src="/src/main/resources/static/js//jquery.scrollUp.min.js"></script>
-    <script src="/src/main/resources/static/js//price-range.js"></script>
-    <script src="/src/main/resources/static/js//jquery.prettyPhoto.js"></script>
-    <script src="/src/main/resources/static/js//base.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/price-range.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/base.js"></script>
 </body>
 
 </html>

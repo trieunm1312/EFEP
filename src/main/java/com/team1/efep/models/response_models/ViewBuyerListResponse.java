@@ -14,7 +14,7 @@ import java.util.List;
 public class ViewBuyerListResponse {
     private String status;
     private String message;
-    private List<Buyer> buyers;
+    private List<Buyer> buyerList;
 
     @Data
     @AllArgsConstructor

@@ -61,6 +61,15 @@
                     </div>
                 </a>
             </li>
+            <li>
+                <form th:action="@{/account/view/profile}"  class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <input type="submit" name="action" value="Personal Profile" class="sidebar__item-title"></input>
+                    </div>
+                    <input type="hidden" name="id" th:value="${session.acc.id}">
+                </form>
+            </li>
         </ul>
     </div>
 </aside>
