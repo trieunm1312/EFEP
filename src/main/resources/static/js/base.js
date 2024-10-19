@@ -159,9 +159,9 @@ function handleCheckout() {
     const checkoutForm = document.getElementById('checkout');
 
     if (paymentMethod === 'COD') {
-        checkoutForm.action = '/order/payment/result';
+        checkoutForm.setAttribute('action', checkoutForm.getAttribute('data-cod-action'));
     } else if (paymentMethod === 'VNPay') {
-        checkoutForm.action = '/buyer/order/payment';
+        checkoutForm.setAttribute('action', checkoutForm.getAttribute('data-vnpay-action'));
     }
     return true;
 }

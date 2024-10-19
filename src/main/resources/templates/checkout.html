@@ -286,7 +286,7 @@
                     </select>
                 </div>
                 <div class="btn-cart">
-                    <form id="checkout" th:action="@{/buyer/order/payment}" method="post"
+                    <form id="checkout" th:action="@{/}" method="post" data-cod-action="@{/buyer/order/result}" data-vnpay-action="@{/buyer/order/payment}"
                           onsubmit="return handleCheckout()">
                         <input type="hidden" name="amount" value="10000000">
                         <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">

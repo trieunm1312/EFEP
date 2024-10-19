@@ -1156,7 +1156,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
     }
 
-    //------------------------GET PAYMENT RESULT-------------------------------------//
+    //--------------------------------GET PAYMENT RESULT-------------------------------------//
 
     @Override
     public String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
@@ -1234,7 +1234,6 @@ public class BuyerServiceImpl implements BuyerService {
         // xoá wishlist item trong wishlist
         wishlistItemRepo.deleteAll(items);
     }
-
 
     //-------------------CHECK OUT---------------------------------//
 
