@@ -743,7 +743,7 @@ html {
     display: none;
     animation: fadeIn ease-in 0.2s;
     cursor: default;
-    z-index: 1;
+    z-index: 99;
 }
 
 .header__cart-list-item{
