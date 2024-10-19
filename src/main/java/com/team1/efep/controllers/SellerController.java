@@ -131,7 +131,7 @@ public class SellerController {
 
     @PostMapping("/order/payment")
     @Operation(hidden = true)
-    public String createVNPayPaymentLink(@RequestBody VNPayBusinessPlanRequest request,Model model, HttpServletRequest httpServletRequest) {
+    public String createVNPayPaymentLink(VNPayBusinessPlanRequest request, Model model, HttpServletRequest httpServletRequest) {
         return sellerService.createVNPayPaymentLink(request, model, httpServletRequest);
     }
 
@@ -150,6 +150,12 @@ public class SellerController {
 //    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params, @RequestParam int accountId, HttpServletRequest httpServletRequest) {
 //        return sellerService.getPaymentResultAPI(params, accountId, httpServletRequest);
 //    }
+
+    @GetMapping("/order/confirm")
+    @Operation(hidden = true)
+    public String confirmOrder(HttpSession session, Model model,@RequestParam int busPlanId) {
+        return sellerService.confirmOrder(session, model, busPlanId);
+    }
 
     @GetMapping("/order/sort")
     @Operation(hidden = true)

@@ -79,9 +79,9 @@
                                 <span>Months</span>
                             </li>
                         </ul>
-                        <form th:action="@{/}" th:method="post">
+                        <form th:action="@{/seller/order/confirm}" th:method="get">
+                            <input type="hidden" name="busPlanId" th:value="${plan.id}">
                             <input type="submit" class="checkout-btn" name="action" value="Order Now">
-                            <input type="hidden" th:value="${plan.id}" name="id">
                         </form>
                     </div>
 

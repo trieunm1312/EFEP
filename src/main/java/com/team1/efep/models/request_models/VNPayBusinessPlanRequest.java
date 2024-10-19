@@ -13,5 +13,5 @@ public class VNPayBusinessPlanRequest {
 
     private int businessPlanId;
 
-    private long Amount;
+    private float amount;
 }
