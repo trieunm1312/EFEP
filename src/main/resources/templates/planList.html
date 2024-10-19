@@ -5,237 +5,234 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/main.css">
-  <!--<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">-->
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">-->
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/main.css">-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/planList.css"> -->
+    <link rel="stylesheet" href="/css/planList.css">
 
 </head>
 
 <body>
-    <div class="wrap">
-        <!-- Header -->
-        <header class="header" th:fragment="header">
-            <div class="grid">
-                <div class="header__wrap">
-                    <a href="" class="header__item back-link" onclick="window.history.back(); return false;">
-                        <h1>
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Back
-                        </h1>
-                    </a>
+<div class="wrap">
+    <!-- Header -->
+    <header class="header" th:fragment="header">
+        <div class="grid">
+            <div class="header__wrap">
+                <a href="" class="header__item back-link" onclick="window.history.back(); return false;">
+                    <h1>
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back
+                    </h1>
+                </a>
 
-                    <!-- Logo -->
-                    <a href="home.html" class="header__item">
-                        <div class="header__item-logo">
-                            <img src="/img/flowrista-logo.png" alt="Logo"
-                                class="header__item-logo-img">
-                        </div>
-                    </a>
-                </div>
+                <!-- Logo -->
+                <a href="home.html" class="header__item">
+                    <div class="header__item-logo">
+                        <img src="/img/flowrista-logo.png" alt="Logo"
+                             class="header__item-logo-img">
+                    </div>
+                </a>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Container -->
-        <div class="container">
-            <div class="container__wrap">
-                <div class="business-plan__list">
-                    <div class="step">
-                        <span>Step</span>
-                        <span>2/3</span>
-                    </div>
-                    <h1 class="introduction-block__heading">Find the perfect service package tailored just for you!</h1>
-                    <div class="business-plan__table">
-                        <div th:each="plan : ${msg.businessPlanList}" class="business-plan__item">
-                            <div class="business-plan__item-header">
-                                <h3 class="business-plan__item-header-name" th:text="${plan.name}"></h3>
-                                <h3 class="business-plan__item-header-price">
-                                    <span>$</span>
-                                    <span th:text="${plan.price}"></span>
-                                    <span>per month</span>
-                                </h3>
-                            </div>
-                            <ul class="business-plan__item-content">
-                                <li class="business-plan__item-desc">
-                                    <label for="">Desctiption</label>
-                                    <span th:text="${plan.description}"></span>
-                                </li>
-                                <li class="business-plan__item-service-list">
-                                    <label for="">Services</label>
-                                    <span th:each="service : ${plan.businessServiceList}" th:text="${service.name}"  class="business-plan__item-service-item">
-                                    </span>
-                                </li>
-                                <li class="business-plan__item-duration">
-                                    <label for="">Duration</label>
-                                    <span th:text="${plan.duration}"></span>
-                                    <span>Months</span>
-                                </li>
-                            </ul>
-                            <form th:action="@{/}" th:method="post">
-                                <input type="submit" class="checkout-btn" name="action" value="Order Now">
-                                <input type="hidden" th:value="${plan.id}" name="id">
-                            </form>
+    <!-- Container -->
+    <div class="container">
+        <div class="container__wrap">
+            <div class="business-plan__list">
+                <div class="step">
+                    <span>Step</span>
+                    <span>2/3</span>
+                </div>
+                <h1 class="introduction-block__heading">Find the perfect service package tailored just for you!</h1>
+                <div class="business-plan__table">
+                    <div th:each="plan : ${msg.businessPlanList}" class="business-plan__item">
+                        <div class="business-plan__item-header">
+                            <h3 class="business-plan__item-header-name" th:text="${plan.name}"></h3>
+                            <h3 class="business-plan__item-header-price">
+                                <span>$</span>
+                                <span th:text="${plan.price}"></span>
+                                <span>per month</span>
+                            </h3>
                         </div>
-
+                        <ul class="business-plan__item-content">
+                            <li class="business-plan__item-desc">
+                                <label for="">Desctiption</label>
+                                <span th:text="${plan.description}"></span>
+                            </li>
+                            <li class="business-plan__item-service-list">
+                                <label for="">Services</label>
+                                <span th:each="service : ${plan.businessServiceList}" th:text="${service.name}"
+                                      class="business-plan__item-service-item">
+                                    </span>
+                            </li>
+                            <li class="business-plan__item-duration">
+                                <label for="">Duration</label>
+                                <span th:text="${plan.duration}"></span>
+                                <span>Months</span>
+                            </li>
+                        </ul>
+                        <form th:action="@{/}" th:method="post">
+                            <input type="submit" class="checkout-btn" name="action" value="Order Now">
+                            <input type="hidden" th:value="${plan.id}" name="id">
+                        </form>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
 
 
-
-        <!-- Footer -->
-        <footer class="footer" th:fragment="footer">
-            <div class="grid">
-                <div class="footer__wrap">
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <div class="footer__item-logo">
-                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
-                                    class="footer__item-logo-img">
-                            </div>
-                            <div class="footer__item-desc">
-                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
-                                    Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
-                                    Không bơ vơ
-                                    Khi vây quanh anh là những đôi mắt nhìn theo hò reo
-                                    Cũng vì chặng đường tương lai mà mình phải chia hai
-                                    Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
-                                    Và đến khi anh cất lời
-                                    Là giấc mơ mang cả đời -->
-                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                Tình yêu này có thật đáng thương? (Oh no)
-                                Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                Mất đi người rất quan trọng
-                                Có lẽ vì quá tham vọng
-                                Không thấy vui trong lòng
-                                Anh nhớ góc tối ở trong căn phòng
-                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                Lâu hơn một chút
-                                Để anh ổn định cảm xúc
-                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                Ký ức lại triệu hồi nỗi đau</span>
-                            </div>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
+    <!-- Footer -->
+    <footer class="footer" th:fragment="footer">
+        <div class="grid">
+            <div class="footer__wrap">
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <div class="footer__item-logo">
+                            <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
+                                 class="footer__item-logo-img">
                         </div>
-
+                        <div class="footer__item-desc">
+                            <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
+                                Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
+                                Không bơ vơ
+                                Khi vây quanh anh là những đôi mắt nhìn theo hò reo
+                                Cũng vì chặng đường tương lai mà mình phải chia hai
+                                Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
+                                Và đến khi anh cất lời
+                                Là giấc mơ mang cả đời -->
+                            Khi anh đã có tất cả rồi lại chẳng còn em nữa
+                            Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
+                            Tình yêu này có thật đáng thương? (Oh no)
+                            Ở phía dưới ngọn đèn, có gã khờ đang hát
+                            Cố gắng mỉm cười, nhưng trong lòng tan nát
+                            Mất đi người rất quan trọng
+                            Có lẽ vì quá tham vọng
+                            Không thấy vui trong lòng
+                            Anh nhớ góc tối ở trong căn phòng
+                            Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
+                            Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
+                            Lâu hơn một chút
+                            Để anh ổn định cảm xúc
+                            Có lẽ đến lúc chấm dứt, kết thúc thật rồi
+                            Ký ức lại triệu hồi nỗi đau</span>
+                        </div>
+                        <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
+                                </a>
+                            </li>
+                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Contact</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
+
+                </div>
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <h2 class="footer__item-title">Contact</h2>
+                        <ul class="footer__item-contact-list">
+                            <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i
-                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
+                                                class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
                                         <span>National park,d1 588436,United States</span>
                                     </span>
-                                </li>
+                            </li>
 
-                                <li class="footer__item-contact-list-item">
+                            <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
                                         <span>+91 123 456 789</span>
                                     </span>
-                                </li>
+                            </li>
 
-                                <li class="footer__item-contact-list-item">
+                            <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
                                         <span>0123-456-789</span>
                                     </span>
-                                </li>
+                            </li>
 
-                                <li class="footer__item-contact-list-item">
+                            <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
                                         <span>demo@Yourstore.com</span>
                                     </span>
-                                </li>
-                            </ul>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
-
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Information</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Terms & Conditions</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Delivery Information</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>About Us</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Privacy Policy</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-
-
-
                 </div>
+
+                <div class="footer__item">
+                    <div class="footer__item-contact">
+                        <h2 class="footer__item-title">Information</h2>
+                        <ul class="footer__item-contact-list">
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Terms & Conditions</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Delivery Information</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>About Us</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Privacy Policy</span>
+                                </a>
+                            </li>
+
+                            <li class="footer__item-contact-list-item">
+                                <a href="" class="footer__item-contact-list-item-link">
+                                    <span>Contact Us</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
             </div>
-        </footer>
-    </div>
-    <script src="/src/main/resources/static/js/jquery.js"></script>
-    <script src="/src/main/resources/static/js//bootstrap.min.js"></script>
-    <script src="/src/main/resources/static/js//jquery.scrollUp.min.js"></script>
-    <script src="/src/main/resources/static/js//price-range.js"></script>
-    <script src="/src/main/resources/static/js//jquery.prettyPhoto.js"></script>
+        </div>
+    </footer>
+</div>
+<script src="/src/main/resources/static/js/jquery.js"></script>
+<script src="/src/main/resources/static/js//bootstrap.min.js"></script>
+<script src="/src/main/resources/static/js//jquery.scrollUp.min.js"></script>
+<script src="/src/main/resources/static/js//price-range.js"></script>
+<script src="/src/main/resources/static/js//jquery.prettyPhoto.js"></script>
 </body>
 
 </html>

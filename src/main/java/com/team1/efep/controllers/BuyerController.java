@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -211,6 +212,11 @@ public class BuyerController {
 //    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params,@RequestParam int accountId, HttpServletRequest httpServletRequest){
 //        return buyerService.getPaymentResultAPI(params, accountId, httpServletRequest);
 //    }
+
+    @PostMapping("/order/cod")
+    public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
+        return buyerService.getCODPaymentResult(params, session, redirectAttributes);
+    }
 
     @GetMapping("/category")
     @Operation(hidden = true)

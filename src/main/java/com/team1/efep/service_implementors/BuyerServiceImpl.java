@@ -23,6 +23,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -124,6 +125,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             model.addAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
@@ -1156,7 +1158,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
     }
 
-    //------------------------GET PAYMENT RESULT-------------------------------------//
+    //--------------------------------GET PAYMENT RESULT-------------------------------------//
 
     @Override
     public String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
@@ -1170,6 +1172,7 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("error", (Map<String, String>) output);
         return "paymentFailed";
     }
+
 
     @Override
     public VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
@@ -1210,13 +1213,21 @@ public class BuyerServiceImpl implements BuyerService {
 
     private void saveOrder(Map<String, String> params, User user, List<WishlistItem> items) {
 
-        float vnpAmount = Float.parseFloat(params.get("vnp_Amount"));
+        float totalPrice = 0;
+
+        if (params != null && params.containsKey("vnp_Amount")) {
+            totalPrice = Float.parseFloat(params.get("vnp_Amount")) / 100;
+        } else {
+            for (WishlistItem item : items) {
+                totalPrice += item.getFlower().getPrice() * item.getQuantity();
+            }
+        }
 
         Order savedOrder = orderRepo.save(Order.builder()
                 .user(user)
                 .buyerName(user.getName())
                 .createdDate(LocalDateTime.now())
-                .totalPrice(vnpAmount / 100)
+                .totalPrice(totalPrice)
                 .status(Status.ORDER_STATUS_PROCESSING)
                 .build());
 
@@ -1231,12 +1242,31 @@ public class BuyerServiceImpl implements BuyerService {
             orderDetailRepo.save(orderDetail);
         }
 
-        // xoá wishlist item trong wishlist
         wishlistItemRepo.deleteAll(items);
     }
 
+    //-----------------------------------GET COD PAYMENT RESULT--------------------------------------//
 
-    //-------------------CHECK OUT---------------------------------//
+    @Override
+    public String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+
+        User user = account.getUser();
+        List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
+
+        saveOrder(params, user, items);
+
+        CODPaymentResponse response = CODPaymentResponse.builder()
+                .status("200")
+                .message("Your order has been preparing...")
+                .build();
+
+        redirectAttributes.addFlashAttribute("msg", response);
+        return "redirect:/viewOrderSummary";
+    }
+
+    //---------------------------------CHECK OUT---------------------------------//
 
     @Override
     public String confirmOrder(HttpSession session, Model model) {
