@@ -1,26 +1,29 @@
-//Change avatar
 let profileAvatar = document.getElementById("profile-avatar");
 let inputFile = document.getElementById("input-file");
 
-inputFile.onchange = function(){
-    profileAvatar.src = URL.createObjectURL(inputFile.files[0]);
-}
+inputFile.onchange = async function () {
+    const file = inputFile.files[0];
+    if (file) {
+        // Use Firebase Storage ref to define the storage path
+        const storageRef = ref(storage, `images/avatars/${file.name}`);
 
-//Save URL to local storage
-document.querySelector("#input-file").addEventListener("change", function(){
-    const reader = new FileReader();
+        try {
+            // Upload the file
+            const snapshot = await uploadBytes(storageRef, file);
 
-    reader.addEventListener("load", () => {
-        sessionStorage.setItem("recent-image", reader.result);
-    });
+            // Get the download URL
+            const downloadURL = await getDownloadURL(snapshot.ref);
 
-    reader.readAsDataURL(this.files[0]);
-});
+            // Update the image source to display the uploaded image
+            profileAvatar.src = downloadURL;
 
-document.addEventListener("DOMContentLoaded", () => {
-    const recentImageDataUrl = sessionStorage.getItem("recent-image");
+            // Store the download URL in a hidden input field to send to the server
+            document.querySelector("input[name='avatarUrl']").value = downloadURL;
 
-    if(recentImageDataUrl){
-        document.querySelector("#profile-avatar").setAttribute("src", recentImageDataUrl);
+            console.log("File available at: ", downloadURL);
+
+        } catch (error) {
+            console.error("Error uploading file: ", error);
+        }
     }
-});
+};
