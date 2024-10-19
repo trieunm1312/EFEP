@@ -9,14 +9,13 @@
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/forgotPassword.css">
     <link rel="stylesheet" href="/css/checkout.css">
-    <!--<link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-     <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/checkout.css">-->
+    <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/checkout.css"> -->
 </head>
 
 <body>
@@ -98,112 +97,10 @@
                                         <span class="table-item-total"
                                             th:text="'$ ' + ${item.quantity * item.price}">0</span>
                                     </td>
-                                </tr>
-                                <tr th:each="item : ${msg.wishlistItemList}">
-                                    <td class="table-item-detail">
-                                        <div class="table-item-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
-                                        </div>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-name" th:text="${item.name}">Hiptage</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-quantity" th:text="${item.quantity}">1</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-total"
-                                            th:text="'$ ' + ${item.quantity * item.price}">0</span>
-                                    </td>
-                                </tr>
-                                <tr th:each="item : ${msg.wishlistItemList}">
-                                    <td class="table-item-detail">
-                                        <div class="table-item-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
-                                        </div>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-name" th:text="${item.name}">Hiptage</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-quantity" th:text="${item.quantity}">1</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-total"
-                                            th:text="'$ ' + ${item.quantity * item.price}">0</span>
-                                    </td>
-                                </tr>
-                                <tr th:each="item : ${msg.wishlistItemList}">
-                                    <td class="table-item-detail">
-                                        <div class="table-item-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
-                                        </div>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-name" th:text="${item.name}">Hiptage</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-quantity" th:text="${item.quantity}">1</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-total"
-                                            th:text="'$ ' + ${item.quantity * item.price}">0</span>
-                                    </td>
-                                </tr>
-                                <tr th:each="item : ${msg.wishlistItemList}">
-                                    <td class="table-item-detail">
-                                        <div class="table-item-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
-                                        </div>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-name" th:text="${item.name}">Hiptage</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-quantity" th:text="${item.quantity}">1</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
-                                    </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-total"
-                                            th:text="'$ ' + ${item.quantity * item.price}">0</span>
-                                    </td>
-                                </tr>
+                                </tr>                          
 
                             </tbody>
-                            <!-- <tfoot>
-                                <tr>
-                                    <td colspan="5" class="table-item-footer">Total</td>
-                                    <td colspan="1" class="table-item-footer-price" th:text="${'$ ' + msg.totalPrice}">0
-                                    </td>
-                                </tr>
-                            </tfoot> -->
+                            
                         </table>
                     </div>
                     <div class="statis-order">

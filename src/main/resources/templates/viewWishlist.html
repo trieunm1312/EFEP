@@ -6,39 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
 
-    <link rel="stylesheet" href="/css/all.min.css">
+    <!-- <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/viewWishlist.css">
-    <link rel="stylesheet" href="/css/base.css">
-        <!-- <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-        <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/src/main/resources/static/css/viewWishlist.css">
-        <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
+    <link rel="stylesheet" href="/css/base.css"> -->
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewWishlist.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
 </head>
 
 <body>
-<div class="wrap">
-    <!-- Nav Bar -->
-    <nav class="navbar" th:fragment="navbar">
-        <div class="grid">
-            <div class="navbar__wrap">
-                <!-- Phone contact -->
-                <div class="navbar__item">
-                    <a href="" class="navbar__item-contact-info">
-                        <i class="navbar__item-icon fa-solid fa-phone"></i>
-                        <span class="navbar__item-phone">+1 (123) 8425733</span>
-                    </a>
-                </div>
+    <div class="wrap">
+        <!-- Nav Bar -->
+        <nav class="navbar" th:replace="~{base :: navbar}">
 
-                <!-- Currency -->
-                <div class="navbar__item">
-                    <div class="navbar__item-select" tabindex="0">
-                        <span class="navbar__item-select-label">Currency: US Dollar</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+        </nav>
 
         <!-- Header -->
         <header class="header" th:fragment="header">
@@ -47,8 +30,7 @@
                     <!-- Logo -->
                     <a th:href="@{/}" class="header__item">
                         <div class="header__item-logo">
-                            <img src="/img/flowrista-logo.png" alt="Logo"
-                                 class="header__item-logo-img">
+                            <img src="/img/flowrista-logo.png" alt="Logo" class="header__item-logo-img">
                         </div>
                     </a>
 
@@ -57,9 +39,10 @@
                         <ul class="header__item-list-icon">
                             <li class="header__item-icon header__item-icon-search" tabindex="0">
                                 <i class="header__item-icon-search fa-solid fa-magnifying-glass">
-                                    <form th:action="@{/buyer/flower/search}" class="header__item-search-box" method="post">
+                                    <form th:action="@{/buyer/flower/search}" class="header__item-search-box"
+                                        method="post">
                                         <input type="text" class="header__item-search-input" name="name"
-                                               placeholder="Search...">
+                                            placeholder="Search...">
                                         <button class="header__item-search-icon">
                                             <i class="fa-solid fa-magnifying-glass"></i>
                                         </button>
@@ -72,282 +55,288 @@
             </div>
         </header>
 
-    <div class="container">
-        <div class="wishlist-show" th:if="${msg != null}">
-            <div class="table-item-cart">
-                <div class="btn-delete-wishlist">
-                    <form th:action="@{/buyer/wishlist}" method="post">
-                        <input type="hidden" name="_method" value="delete">
-                        <input type="hidden" name="wishlistId" th:value="${session.acc.getUser().getWishlist().getId()}">
-                        <button class="btn-delete">Delete Wishlist</button>
-                    </form>
-                </div>
-                <table border="1" cellpadding="5" cellspacing="0" width="100%">
-                    <!-- <caption>Tiêu đề Bảng</caption> -->
-                    <thead>
-                    <tr>
-                        <th class="table-item-header">Image</th>
-                        <th class="table-item-header">Name</th>
-                        <th class="table-item-header">Model</th>
-                        <th class="table-item-header">Quantity</th>
-                        <th class="table-item-header">Price</th>
-                        <th class="table-item-header">Total</th>
-                        <th class="table-item-header">Remove</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${msg.wishlistItemList}">
-                        <td class="table-item-detail">
-                            <div class="table-item-img">
-                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                     alt="">
-                            </div>
-                        </td>
-                        <td class="table-item-detail">
-                            <span class="table-item-name" th:text="${item.name}">Hiptage</span>
-                        </td>
-                        <td class="table-item-detail">
-                            <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
-                        </td>
-                        <td class="table-item-detail">
-                            <div class="table-item-quantity">
-                                <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="post">
-                                    <input type="hidden" name="_method" value="put">
-                                    <input type="hidden" name="wishlistId" th:value="${item.id}">
-                                    <input type="hidden" name="wishlistItemId" th:value="${item.id}">
-                                    <input type="hidden" name="request" value="desc">
-                                    <button class="table-item-btn-decrease" type="submit" th:disabled="${item.quantity == 1}">-</button>
-                                </form>
-
-                                <span class="input-quantity" th:text="${item.quantity}">1</span>
-
-                                <form th:action="@{/buyer/wishlist}" th:method="post">
-                                    <input type="hidden" name="_method" value="put">
-                                    <input type="hidden" name="wishlistId" th:value="${item.id}">
-                                    <input type="hidden" name="wishlistItemId" th:value="${item.id}">
-                                    <input type="hidden" name="request" value="asc">
-                                    <button class="table-item-btn-increase" type="submit">+</button>
-                                </form>
-
-                                <!--                            <form th:action="@{/}" method="get">-->
-                                <!--                                <button class="table-item-removed">-->
-                                <!--                                    <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
-                                <!--                                    <span class="table-item-remove-msg">Remove</span>-->
-                                <!--                                </button>-->
-                                <!--                            </form>-->
-                            </div>
-                        </td>
-                        <td class="table-item-detail">
-                            <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
-                        </td>
-                        <td class="table-item-detail">
-                            <span class="table-item-total" th:text="'$ ' + ${item.quantity * item.price}">0</span>
-                        </td>
-                        <td class="table-item-detail padding-delete">
-                            <form class="form-delete" th:action="@{/buyer/wishlist-item}" method="post">
-                                <input type="hidden" name="_method" value="delete"> <!-- muốn sử dụng put delete thì t -->
-                                <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                <input type="hidden" name="wishlistItemId" th:value="${item.id}">
-                                <button class="table-item-removed">
-                                    <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
-                                </button>
-    <!--                            <input type="submit" name="action" class="table-item-removed">-->
-    <!--                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
-    <!--                            </input>-->
-
+        <div class="container">
+            <div class="container__wrap">
+                <div class="wishlist-show" th:if="${msg != null}">
+                    <div class="table-item-cart">
+                        <div class="btn-delete-wishlist">
+                            <form th:action="@{/buyer/wishlist}" method="post">
+                                <input type="hidden" name="_method" value="delete">
+                                <input type="hidden" name="wishlistId"
+                                    th:value="${session.acc.getUser().getWishlist().getId()}">
+                                <button class="btn-delete">Delete Wishlist</button>
                             </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <form th:action="@{/buyer/flower}" method="get">
-                    <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
-                </form>
-            </div>
-            <div class="total__wishlist">
-                <h2 class="total__wishlist-header">Total wishlist</h2>
-                <hr class="line">
-                <div class="total__wishlist-detail">
-                    <span class="total__wishlist-detail-title">Total</span>
-                    <span class="total__wishlist-detail-price" th:text="${'$ ' + msg.totalPrice}">0</span>
+                        </div>
+                        <table border="1" cellpadding="5" cellspacing="0" width="100%">
+                            <!-- <caption>Tiêu đề Bảng</caption> -->
+                            <thead>
+                                <tr>
+                                    <th class="table-item-header">Image</th>
+                                    <th class="table-item-header">Name</th>
+                                    <th class="table-item-header">Model</th>
+                                    <th class="table-item-header">Quantity</th>
+                                    <th class="table-item-header">Price</th>
+                                    <th class="table-item-header">Total</th>
+                                    <th class="table-item-header">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${msg.wishlistItemList}">
+                                    <td class="table-item-detail">
+                                        <div class="table-item-img">
+                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                alt="">
+                                        </div>
+                                    </td>
+                                    <td class="table-item-detail">
+                                        <span class="table-item-name" th:text="${item.name}">Hiptage</span>
+                                    </td>
+                                    <td class="table-item-detail">
+                                        <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
+                                    </td>
+                                    <td class="table-item-detail">
+                                        <div class="table-item-quantity">
+                                            <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="post">
+                                                <input type="hidden" name="_method" value="put">
+                                                <input type="hidden" name="wishlistId" th:value="${item.id}">
+                                                <input type="hidden" name="wishlistItemId" th:value="${item.id}">
+                                                <input type="hidden" name="request" value="desc">
+                                                <button class="table-item-btn-decrease" type="submit"
+                                                    th:disabled="${item.quantity == 1}">-</button>
+                                            </form>
+
+                                            <span class="input-quantity" th:text="${item.quantity}">1</span>
+
+                                            <form th:action="@{/buyer/wishlist}" th:method="post">
+                                                <input type="hidden" name="_method" value="put">
+                                                <input type="hidden" name="wishlistId" th:value="${item.id}">
+                                                <input type="hidden" name="wishlistItemId" th:value="${item.id}">
+                                                <input type="hidden" name="request" value="asc">
+                                                <button class="table-item-btn-increase" type="submit">+</button>
+                                            </form>
+
+                                            <!--                            <form th:action="@{/}" method="get">-->
+                                            <!--                                <button class="table-item-removed">-->
+                                            <!--                                    <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
+                                            <!--                                    <span class="table-item-remove-msg">Remove</span>-->
+                                            <!--                                </button>-->
+                                            <!--                            </form>-->
+                                        </div>
+                                    </td>
+                                    <td class="table-item-detail">
+                                        <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
+                                    </td>
+                                    <td class="table-item-detail">
+                                        <span class="table-item-total"
+                                            th:text="'$ ' + ${item.quantity * item.price}">0</span>
+                                    </td>
+                                    <td class="table-item-detail padding-delete">
+                                        <form class="form-delete" th:action="@{/buyer/wishlist-item}" method="post">
+                                            <input type="hidden" name="_method" value="delete">
+                                            <!-- muốn sử dụng put delete thì t -->
+                                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                            <input type="hidden" name="wishlistItemId" th:value="${item.id}">
+                                            <button class="table-item-removed">
+                                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
+                                            </button>
+                                            <!--                            <input type="submit" name="action" class="table-item-removed">-->
+                                            <!--                                <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
+                                            <!--                            </input>-->
+
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <form th:action="@{/buyer/flower}" method="get">
+                            <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                        </form>
+                    </div>
+                    <div class="total__wishlist">
+                        <h2 class="total__wishlist-header">Total wishlist</h2>
+                        <hr class="line">
+                        <div class="total__wishlist-detail">
+                            <span class="total__wishlist-detail-title">Total</span>
+                            <span class="total__wishlist-detail-price" th:text="${'$ ' + msg.totalPrice}">0</span>
+                        </div>
+                        <div class="btn-cart">
+                            <form th:action="@{/buyer/order/confirm}" method="get">
+                                <input class="btn-cart-checkout" type="submit" value="Confirm order" name="Action">
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="btn-cart">
-                    <form th:action="@{/buyer/order/confirm}" method="get">
-                        <input class="btn-cart-checkout" type="submit" value="Confirm order" name="Action">
+                <div class="shopping-wishlist-empty" th:if="${msg == null}">
+                    <span class="empty-msg">Your wishlist is empty. Buy flower now </span>
+                    <form class="btn-form-empty" th:action="@{/buyer/flower}" method="get">
+                        <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
                     </form>
                 </div>
             </div>
         </div>
-        <div class="shopping-wishlist-empty" th:if="${msg == null}">
-            <span class="empty-msg">Your wishlist is empty. Buy flower now <3</span>
-            <form class="btn-form-empty" th:action="@{/buyer/flower}" method="get">
-                <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
-            </form>
-        </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="footer" th:fragment="footer">
-        <div class="grid">
-            <div class="footer__wrap">
-                <div class="footer__item">
-                    <div class="footer__item-contact">
-                        <h2 class="footer__item-title">Contact</h2>
-                        <ul class="footer__item-contact-list">
-                            <li class="footer__item-contact-list-item">
+        <!-- Footer -->
+        <footer class="footer" th:fragment="footer">
+            <div class="grid">
+                <div class="footer__wrap">
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Contact</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i
-                                                class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
+                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
                                         <span>National park,d1 588436,United States</span>
                                     </span>
-                            </li>
+                                </li>
 
-                            <li class="footer__item-contact-list-item">
+                                <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
                                         <span>+91 123 456 789</span>
                                     </span>
-                            </li>
+                                </li>
 
-                            <li class="footer__item-contact-list-item">
+                                <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
                                         <span>0123-456-789</span>
                                     </span>
-                            </li>
+                                </li>
 
-                            <li class="footer__item-contact-list-item">
+                                <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
                                         <span>demo@Yourstore.com</span>
                                     </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="footer__item">
-                    <div class="footer__item-contact">
-                        <h2 class="footer__item-title">Information</h2>
-                        <ul class="footer__item-contact-list">
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>Terms & Conditions</span>
-                                </a>
-                            </li>
-
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>Delivery Information</span>
-                                </a>
-                            </li>
-
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>About Us</span>
-                                </a>
-                            </li>
-
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>Privacy Policy</span>
-                                </a>
-                            </li>
-
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>Contact Us</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="footer__item">
-                    <div class="footer__item-contact">
-                        <h2 class="footer__item-title">My Account</h2>
-                        <ul class="footer__item-contact-list">
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>My Account</span>
-                                </a>
-                            </li>
-
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>Order History</span>
-                                </a>
-                            </li>
-
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>Wish List</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="footer__item">
-                    <div class="footer__item-contact">
-                        <h2 class="footer__item-title">Find Us On</h2>
-                        <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                </a>
-                            </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                </a>
-                            </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                </a>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="footer__item-contact">
-                        <h2 class="footer__item-title">Payment</h2>
-                        <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-visa"></i>
-                                </a>
-                            </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Information</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Terms & Conditions</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Delivery Information</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>About Us</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Privacy Policy</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Contact Us</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">My Account</h2>
+                            <ul class="footer__item-contact-list">
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>My Account</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Order History</span>
+                                    </a>
+                                </li>
+
+                                <li class="footer__item-contact-list-item">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <span>Wish List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer__item">
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Find Us On</h2>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="footer__item-contact">
+                            <h2 class="footer__item-title">Payment</h2>
+                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-visa"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i
                                             class="footer__item-contact-list-item-link-icon fa-brands fa-cc-mastercard"></i>
-                                </a>
-                            </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-paypal"></i>
-                                </a>
-                            </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-paypal"></i>
+                                    </a>
+                                </li>
+                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
+                                    <a href="" class="footer__item-contact-list-item-link">
+                                        <i
                                             class="footer__item-contact-list-item-link-icon fa-brands fa-cc-discover"></i>
-                                </a>
-                            </li>
-                        </ul>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
-</div>
-<script src="/js/base.js"></script>
+        </footer>
+    </div>
+    <script src="/js/base.js"></script>
 </body>
 
 </html>
