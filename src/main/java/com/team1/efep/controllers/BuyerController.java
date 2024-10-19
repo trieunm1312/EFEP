@@ -212,7 +212,6 @@ public class BuyerController {
 //        return buyerService.getPaymentResultAPI(params, accountId, httpServletRequest);
 //    }
 
-
     @GetMapping("/category")
     @Operation(hidden = true)
     public String viewCategory(HttpSession session, Model model) {
