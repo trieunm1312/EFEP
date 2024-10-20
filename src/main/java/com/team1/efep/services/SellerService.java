@@ -22,9 +22,9 @@ public interface SellerService {
 
     ViewOrderListResponse viewOrderListAPI(int id);
 
-    String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model);
+    String viewFlowerListForSeller(HttpSession session, Model model);
 
-    ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(ViewFlowerListForSellerRequest request);
+    ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(int sellerId);
 
     String viewBusinessPlan(HttpSession session, Model model);
 

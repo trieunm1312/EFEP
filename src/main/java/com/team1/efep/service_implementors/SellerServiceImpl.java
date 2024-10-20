@@ -288,18 +288,18 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
 
     @Override
-    public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
-        model.addAttribute("msg", viewFlowerListForSellerLogic(request));
+    public String viewFlowerListForSeller(HttpSession session, Model model) {
+        model.addAttribute("msg", viewFlowerListForSellerLogic( ((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
         return "redirect:/manageFlower";
     }
 
     @Override
-    public ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(@RequestBody ViewFlowerListForSellerRequest request) {
-        return viewFlowerListForSellerLogic(request);
+    public ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(int sellerId) {
+        return viewFlowerListForSellerLogic(sellerId);
     }
 
-    public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(ViewFlowerListForSellerRequest request) {
-        List<Flower> flowers = flowerRepo.findBySeller_Id(request.getSellerId());
+    public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(int sellerId) {
+        List<Flower> flowers = flowerRepo.findBySeller_Id(sellerId);
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
                 .message("Number of flower" + flowers.size())
