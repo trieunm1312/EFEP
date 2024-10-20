@@ -46,10 +46,10 @@
 
 .business-plan__item{
     width: 24%;
+    height: fit-content;
     border: 1px solid rgba(128, 128, 128, 0.7);
     border-radius: 18px;
     box-sizing: border-box;
-    perspective: 1000px;
 }
 
 .business-plan__item:hover{
@@ -102,13 +102,14 @@
 
 .business-plan__item-header-name{
     display: block;
+    position: relative;
     width: 55%;
     text-align: center;
 }
 
 .business-plan__item-header-price{
     display: block;
-    width: 40%;
+    width: 50%;
     text-align: center;
 }
 
@@ -128,19 +129,20 @@
     flex-direction: column;
 }
 
+
+
 .business-plan__item-header-price span:last-child{
-    font-size: 2rem;
+    font-size: 2.2rem;
 }
 
 .business-plan__item-header::after{
     content: "";
     position: absolute;
-    top: 22px;
-    right: 46%;
+    top: 23%;
+    right: 50%;
     height: 64px;
     width: 2px;
     background-color: var(--white-color);
-    margin: 0 8px;
 }
 
 .business-plan__item-content{

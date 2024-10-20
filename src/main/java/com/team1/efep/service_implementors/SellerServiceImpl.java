@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.VNPay.BusinessPlanVNPayConfig;
 import com.team1.efep.VNPay.VNPayConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
@@ -463,7 +464,7 @@ public class SellerServiceImpl implements SellerService {
         return ViewBuyerListResponse.builder()
                 .status("200")
                 .message("")
-                .buyers(getBuyerList(sellerId).stream()
+                .buyerList(getBuyerList(sellerId).stream()
                         .map(seller -> ViewBuyerListResponse.Buyer.builder()
                                 .id(seller.getId())
                                 .name(seller.getName())
@@ -735,22 +736,22 @@ public class SellerServiceImpl implements SellerService {
 
         long amount = getAmount(request);
         int busPlanId = getBusPlanId(request);
-        String txnRef = VNPayConfig.getRandomNumber(8);
-        String ipAddress = VNPayConfig.getIpAddress(httpServletRequest);
+        String txnRef = BusinessPlanVNPayConfig.getRandomNumber(8);
+        String ipAddress = BusinessPlanVNPayConfig.getIpAddress(httpServletRequest);
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 
         paramList.put("vnp_Version", getVersion());
         paramList.put("vnp_Command", getCommand());
-        paramList.put("vnp_TmnCode", VNPayConfig.vnp_TmnCode);
-        paramList.put("vnp_BusPlanId", String.valueOf(busPlanId));
+        paramList.put("vnp_TmnCode", BusinessPlanVNPayConfig.vnp_TmnCode);
+//        paramList.put("vnp_BusPlanId", String.valueOf(busPlanId));
         paramList.put("vnp_Amount", String.valueOf(amount));
         paramList.put("vnp_CurrCode", "VND");
         paramList.put("vnp_TxnRef", txnRef);
-        paramList.put("vnp_OrderInfo", "Order payment No " + txnRef + ", Amount: " + amount);
+        paramList.put("vnp_OrderInfo", "Order payment No " + txnRef + ", Amount: " + amount + ", Business Plan ID: " + busPlanId);
         paramList.put("vnp_OrderType", getOrderType());
         paramList.put("vnp_Locale", "vn");
-        paramList.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
+        paramList.put("vnp_ReturnUrl", BusinessPlanVNPayConfig.vnp_ReturnUrl);
         paramList.put("vnp_IpAddr", ipAddress);
         paramList.put("vnp_CreateDate", getCreateDate(calendar, formatter));
         paramList.put("vnp_ExpireDate", getExpiredDate(15, calendar, formatter));
@@ -775,7 +776,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Long getAmount(VNPayBusinessPlanRequest request) {
-        return request.getAmount() * 100;
+        return (long) request.getAmount() * 100;
     }
 
     private Integer getBusPlanId(VNPayBusinessPlanRequest request) {
@@ -817,9 +818,9 @@ public class SellerServiceImpl implements SellerService {
                 }
             }
             String queryUrl = query.toString();
-            String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
+            String vnp_SecureHash = BusinessPlanVNPayConfig.hmacSHA512(BusinessPlanVNPayConfig.secretKey, hashData.toString());
             queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
-            return VNPayConfig.vnp_PayUrl + "?" + queryUrl;
+            return BusinessPlanVNPayConfig.vnp_PayUrl + "?" + queryUrl;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -861,7 +862,8 @@ public class SellerServiceImpl implements SellerService {
         }
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
-            int busPlanId = Integer.parseInt(params.get("vnp_BusPlanId"));
+            String orderInfo = params.get("vnp_OrderInfo");
+            int busPlanId = Integer.parseInt(extractBusPlanId(orderInfo));
             BusinessPlan businessPlan = businessPlanRepo.findById(busPlanId).orElse(null);
             savePurchasedPlan(params, user, businessPlan);
             return VNPayResponse.builder()
@@ -893,6 +895,13 @@ public class SellerServiceImpl implements SellerService {
                 .purchasedDate(LocalDateTime.now())
                 .price(vnpAmount / 100)
                 .build());
+    }
+
+    private String extractBusPlanId(String orderInfo) {
+        if (orderInfo != null && orderInfo.contains("Business Plan ID: ")) {
+            return orderInfo.split("Business Plan ID: ")[1];
+        }
+        return null;
     }
 
     //----------------------------------SORT ORDER BY CREATE DATE-------------------------------------//
@@ -989,7 +998,6 @@ public class SellerServiceImpl implements SellerService {
     }
 
 
-
     //----------------------------------------DELETE FLOWER--------------------------------------------//
 
     @Override
@@ -1028,7 +1036,6 @@ public class SellerServiceImpl implements SellerService {
                 .message(flower.getName() + " has been deleted" + "(" + flower.getStatus() + ")")
                 .build();
     }
-
 
 
     //----------------------------------------VIEW FLOWER IMAGE----------------------------------------------//
@@ -1106,6 +1113,7 @@ public class SellerServiceImpl implements SellerService {
         return null;
     }
 
+
     private Object addFlowerImageLogic(AddFlowerImageRequest request) {
 //        // Tìm Flower dựa trên flowerId từ request
 //        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
@@ -1129,6 +1137,13 @@ public class SellerServiceImpl implements SellerService {
         return null;
     }
 
+    //----------------------------------------CHECK OUT----------------------------------------------//
+
+    @Override
+    public String confirmOrder(HttpSession session, Model model, int busPlanId) {
+        model.addAttribute("msg", businessPlanRepo.findById(busPlanId).orElse(null));
+        return "checkoutBusinessPlan";
+    }
 }
 
 

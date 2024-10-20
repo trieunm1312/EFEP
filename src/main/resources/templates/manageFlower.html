@@ -61,6 +61,15 @@
                     </div>
                 </a>
             </li>
+            <li>
+                <form th:action="@{/account/view/profile}"  class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <input type="submit" name="action" value="Personal Profile" class="sidebar__item-title"></input>
+                    </div>
+                    <input type="hidden" name="id" th:value="${session.acc.id}">
+                </form>
+            </li>
         </ul>
     </div>
 </aside>
@@ -208,7 +217,7 @@
                         </div>
                     </div>
 
-                    <form action="" method="post" class="manage-flower__form">
+                    <form th:action="@{/seller/order/confirm}" method="get" class="manage-flower__form">
                         <tr class="table__body-item-new" style="display: none;">
                             <td class="table__body-img">
                                 <input type="url" name="img" placeholder="Image">
@@ -223,7 +232,6 @@
                                 <input name="flowerAmount" placeholder="Amount">
                             </td>
                             <td class="table__body-qnt">
-                                <span>$</span>
                                 <input name="quantity" placeholder="Quantity">
                             </td>
                             <td class="table__body-price">
