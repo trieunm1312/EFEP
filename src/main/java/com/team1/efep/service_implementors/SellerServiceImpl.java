@@ -291,7 +291,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public void viewFlowerListForSeller(HttpSession session, Model model) {
-        model.addAttribute("msg", viewFlowerListForSellerLogic( ((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
+        model.addAttribute("msg", viewFlowerListForSellerLogic(((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
 //        return "redirect:/manageFlower";
     }
 
@@ -321,6 +321,7 @@ public class SellerServiceImpl implements SellerService {
                         .flowerAmount(item.getFlowerAmount())
                         .quantity(item.getQuantity())
                         .soldQuantity(item.getSoldQuantity())
+                        .status(item.getStatus())
                         .build())
                 .toList();
     }
@@ -1145,6 +1146,44 @@ public class SellerServiceImpl implements SellerService {
     public String confirmOrder(HttpSession session, Model model, int busPlanId) {
         model.addAttribute("msg", businessPlanRepo.findById(busPlanId).orElse(null));
         return "checkoutBusinessPlan";
+    }
+
+//----------------------------------------VIEW BUSINESS PLAN DETAIL----------------------------------------------//
+
+    @Override
+    public String viewBusinessPlanDetail(HttpSession session, Model model) {
+        model.addAttribute("msg", viewBusinessPlanDetailLogic(
+                Role.getCurrentLoggedAccount(session).getUser().getSeller().getBusinessPlan().getId()
+        ));
+        return "sellerPlan";
+    }
+
+    @Override
+    public ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(ViewBusinessPlanDetailRequest request) {
+        return viewBusinessPlanDetailLogic(request.getId());
+    }
+
+    private ViewBusinessPlanDetailResponse viewBusinessPlanDetailLogic(int planId) {
+        BusinessPlan plan = businessPlanRepo.findById(planId).orElse(null);
+       return ViewBusinessPlanDetailResponse.builder()
+               .status("200")
+               .message("")
+               .id(plan.getId())
+               .name(plan.getName())
+               .price(plan.getPrice())
+               .description(plan.getDescription())
+               .duration(plan.getDuration())
+               .planStatus(plan.getStatus())
+               .businessServiceList(plan.getPlanServiceList().stream()
+                       .map(planService -> ViewBusinessPlanDetailResponse.BusinessService.builder()
+                               .id(planService.getBusinessService().getId())
+                               .name(planService.getBusinessService().getName())
+                               .price(planService.getBusinessService().getPrice())
+                               .description(planService.getBusinessService().getDescription())
+                               .build()
+                       )
+                       .toList())
+               .build();
     }
 }
 
