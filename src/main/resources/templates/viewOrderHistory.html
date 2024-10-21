@@ -5,12 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
+    <link rel="stylesheet" href="/css/viewOrderHistory.css"> -->
+
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css"> -->
-    <link rel="stylesheet" href="/css/viewOrderHistory.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderHistory.css">
 </head>
 
 <body>
@@ -54,187 +61,108 @@
                         </li>
                     </ul>
                 </div> -->
-
+                <div class="auth-form__header">
+                    <a th:href="@{/account/view/profile}" class="auth-form__switch-btn"
+                        onclick="window.history.back(); return false;">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back
+                    </a>
+                </div>
                 <!-- Order history -->
-            <div class="order__history">
-                <div th:each="order : ${orderList}" class="order__history-item">
-                    <div class="order__history-item-description">
-                        <div th:each="info : ${detailList}" class="order__history-item-info">
-                            <div class="order__history-item-header">
-                                <h4 th:text="${info.flowerName}" class="order__history-item-header-name font-bold"></h4>
-                                <p class="order__history-item-header-time">19/09/2024 24:00</p>
-                            </div>
-                            <p th:text="${info.sellerName}" class="order__history-item-detail-event">Wedding</p>
+                <div class="order__history">
+                    <div class="order__history-item">
+                        <div class="info-order">
+                            <p class="order__history-item-detail-seller">Seller1</p>
+                            <p class="order__history-item-detail-status">successful</p>
+                        </div>
+                        <hr class="line">
+                        <div class="order__history-item-flower">
+                            <div class="order__history-item-description">
+                                <div class="order__history-item-img">
+                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                        alt="">
+                                </div>
+                                <div class="order__history-item-info">
+                                    <div class="order__history-item-header">
+                                        <h4 class="order__history-item-header-name font-bold">Hiptage</h4>
+                                        <p class="order__history-item-header-time">19/09/2024 24:00</p>
+                                    </div>
+                                    <p class="order__history-item-detail-event">Wedding</p>
 
-                            <div class="order__history-item-detail">
-                                <span th:text="${info.price}"class="order__history-item-detail-price">$120</span>
-                                <div class="order__history-item-detail-quantity-order">
-                                    <span class="order__history-item-detail-multiple">x</span>
-                                    <span th:text="${info.quantity}"class="order__history-item-detail-qnt font-bold">1</span>
+                                    <div class="order__history-item-detail">
+                                        <span class="order__history-item-detail-price">$120</span>
+                                        <div class="order__history-item-detail-quantity-order">
+                                            <span class="order__history-item-detail-multiple">x</span>
+                                            <span class="order__history-item-detail-qnt font-bold">1</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="order__history-item-detail-total-order">
+                                            <span class="order__history-item-detail-total">$120</span>
+                                    </div> -->
                                 </div>
                             </div>
-                            <hr class="line">
-                            <div class="order__history-item-detail-total-order">
-                                <span class="order__history-item-detail-total">$120</span>
-                            </div>
+                            <hr class="line-item">
                         </div>
-                    </div>
-                    <div class="order__history-item-btn">
-                        <form  th:action="" method="get">
-                            <button class="btn-cart-continue" value="view detail" name="Action">View detail</button>
+                        <div class="order__history-item-flower">
+                            <div class="order__history-item-description">
+                                <div class="order__history-item-img">
+                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                        alt="">
+                                </div>
+                                <div th:each="info : ${detailList}" class="order__history-item-info">
+                                    <div class="order__history-item-header">
+                                        <h4 th:text="${info.flowerName}"
+                                            class="order__history-item-header-name font-bold">Hiptage</h4>
+                                        <p class="order__history-item-header-time">19/09/2024 24:00</p>
+                                    </div>
+                                    <p th:text="${info.sellerName}" class="order__history-item-detail-event">Wedding
+                                    </p>
 
-                        </form>
+                                    <div class="order__history-item-detail">
+                                        <span th:text="${info.price}"
+                                            class="order__history-item-detail-price">$120</span>
+                                        <div class="order__history-item-detail-quantity-order">
+                                            <span class="order__history-item-detail-multiple">x</span>
+                                            <span th:text="${info.quantity}"
+                                                class="order__history-item-detail-qnt font-bold">1</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="order__history-item-detail-total-order">
+                                <span class="order__history-item-detail-total">$120</span>
+                            </div> -->
+                                </div>
+
+                            </div>
+                            <hr class="line-item">
+                        </div>
+                        <div class="order__history-item-btn">
+                            <form th:action="" method="get">
+                                <button class="btn-cart-continue" value="view detail" name="Action">View
+                                    detail</button>
+
+                            </form>
+                        </div>
+
                     </div>
-                    <p th:text="${order.status}" class="order__history-item-detail-status"></p>
+
                 </div>
+            </div>
 
-            </div>
-            </div>
-            
         </div>
 
         <!-- Footer -->
-        <footer class="footer" th:fragment="footer">
-            <div class="grid">
-                <div class="footer__wrap">
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <div class="footer__item-logo">
-                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
-                                    class="footer__item-logo-img">
-                            </div>
-                            <div class="footer__item-desc">
-                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
-                                    Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
-                                    Không bơ vơ
-                                    Khi vây quanh anh là những đôi mắt nhìn theo hò reo
-                                    Cũng vì chặng đường tương lai mà mình phải chia hai
-                                    Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
-                                    Và đến khi anh cất lời
-                                    Là giấc mơ mang cả đời -->
-                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                Tình yêu này có thật đáng thương? (Oh no)
-                                Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                Mất đi người rất quan trọng
-                                Có lẽ vì quá tham vọng
-                                Không thấy vui trong lòng
-                                Anh nhớ góc tối ở trong căn phòng
-                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                Lâu hơn một chút
-                                Để anh ổn định cảm xúc
-                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                Ký ức lại triệu hồi nỗi đau</span>
-                            </div>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+        <footer class="footer" th:replace="~{base :: footer}">
 
-                    </div>
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Contact</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i
-                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
-                                        <span>National park,d1 588436,United States</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
-                                        <span>+91 123 456 789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
-                                        <span>0123-456-789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
-                                        <span>demo@Yourstore.com</span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Information</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Terms & Conditions</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Delivery Information</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>About Us</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Privacy Policy</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </footer>
     </div>
-    <script src="/src/main/resources/static/js/jquery.js"></script>
-    <script src="/src/main/resources/static/js/bootstrap.min.js"></script>
-    <script src="/src/main/resources/static/js/jquery.scrollUp.min.js"></script>
-    <script src="/src/main/resources/static/js/price-range.js"></script>
-    <script src="/src/main/resources/static/js/jquery.prettyPhoto.js"></script>
-    <script src="/src/main/resources/static/js/base.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/price-range.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/base.js"></script>
 </body>
 
 </html>
