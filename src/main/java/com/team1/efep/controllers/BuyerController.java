@@ -16,8 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
-@Controller
-//@RestController
+//@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/buyer")
 @Tag(name = "Buyer")
@@ -53,28 +53,6 @@ public class BuyerController {
         return buyerService.renewPassAPI(request);
     }
 
-    @GetMapping("/wishlist")
-    @Operation(hidden = true)
-    public String viewWishlist(HttpSession session, Model model) {
-        return buyerService.viewWishlist(session, model);
-    }
-
-    @GetMapping("/wishlist/api/{accountId}")
-    public ViewWishlistResponse viewWishlist(@PathVariable int accountId) {
-        return buyerService.viewWishlistAPI(accountId);
-    }
-
-    @PostMapping("/wishlist")
-    @Operation(hidden = true)
-    public String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model) {
-        return buyerService.addToWishlist(request, httpServletRequest, session, model);
-    }
-
-    @PostMapping("/wishlist/api")
-    public AddToWishlistResponse addToWishlist(@RequestBody AddToWishlistRequest request) {
-        return buyerService.addToWishlistAPI(request);
-    }
-
     @GetMapping("/flower")
     @Operation(hidden = true)
     public String viewFlowerList(HttpSession session, Model model) {
@@ -86,59 +64,21 @@ public class BuyerController {
         return buyerService.viewFlowerListAPI();
     }
 
-    @DeleteMapping("/wishlist-item")
-    @Operation(hidden = true)
-    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model) {
-        return buyerService.deleteWishlistItem(request, session, model);
-    }
-
-    @DeleteMapping("/wishlist-item/api")
-    public DeleteWishlistItemResponse deleteWishlistItem(@RequestBody DeleteWishlistItemRequest request) {
-        return buyerService.deleteWishlistItemAPI(request);
-    }
-
-    @GetMapping("/order-history")
+    //---------------ORDER----------------//
+    @GetMapping("/order/history")
     @Operation(hidden = true)
     public String viewOrderHistory(HttpSession session, Model model) {
         return buyerService.viewOrderHistory(session, model);
     }
 
-    @GetMapping("/order-history/api/{accountId}")
+    @GetMapping("/order/history/api/{accountId}")
     public ViewOrderHistoryResponse viewOrderHistory(@PathVariable int accountId) {
         return buyerService.viewOrderHistoryAPI(accountId);
     }
 
-    //mac dinh chay song song vs home page ==> ko can controller cho Thymeleaf
-    @PostMapping("/flower/top/list/api")
-    public ViewFlowerTopListResponse viewFlowerTopList(@RequestBody ViewFlowerTopListRequest request) {
-        return buyerService.viewFlowerTopListAPI(request.getTop());
-    }
-
-    @PostMapping("/flower/search")
-    @Operation(hidden = true)
-    public String searchFlower(SearchFlowerRequest request, Model model) {
-        return buyerService.searchFlower(request, model);
-    }
-
-    @PostMapping("/flower/search/api")
-    public SearchFlowerResponse searchFlower(@RequestBody SearchFlowerRequest request) {
-        return buyerService.searchFlowerAPI(request);
-    }
-
-    @PostMapping("/flower/detail")
-    @Operation(hidden = true)
-    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
-        return buyerService.viewFlowerDetail(request, model);
-    }
-
-    @PostMapping("/flower/detail/api")
-    public ViewFlowerDetailResponse searchFlower(@RequestBody ViewFlowerDetailRequest request) {
-        return buyerService.viewFlowerDetailAPI(request);
-    }
-
     @GetMapping("/order/detail")
     @Operation(hidden = true)
-    public String viewOrderHistory(ViewOrderDetailRequest request, HttpSession session, Model model) {
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
         return buyerService.viewOrderDetail(request, session, model);
     }
 
@@ -156,28 +96,6 @@ public class BuyerController {
     @PostMapping("/order/status/api")
     public ViewOrderStatusResponse viewOrderStatus(@RequestBody ViewOrderStatusRequest request) {
         return buyerService.viewOrderStatusAPI(request);
-    }
-
-    @PutMapping("/wishlist")
-    @Operation(hidden = true)
-    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
-        return buyerService.updateWishlist(request, session, model);
-    }
-
-    @PutMapping("/wishlist/api")
-    public UpdateWishlistResponse updateWishlist(@RequestBody UpdateWishlistRequest request) {
-        return buyerService.updateWishlistAPI(request);
-    }
-
-    @DeleteMapping("/wishlist")
-    @Operation(hidden = true)
-    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model) {
-        return buyerService.deleteWishlist(request, session, model);
-    }
-
-    @DeleteMapping("/wishlist/api")
-    public DeleteWishlistResponse deleteWishlist(@RequestBody DeleteWishlistRequest request) {
-        return buyerService.deleteWishlistAPI(request);
     }
 
     @PutMapping("/order")
@@ -216,6 +134,92 @@ public class BuyerController {
     @PostMapping("/order/cod")
     public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
         return buyerService.getCODPaymentResult(params, session, redirectAttributes);
+    }
+    //--------------------------------------------------------------------------//
+
+    //---------------WISHLIST----------------//
+    @PutMapping("/wishlist")
+    @Operation(hidden = true)
+    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
+        return buyerService.updateWishlist(request, session, model);
+    }
+
+    @PutMapping("/wishlist/api")
+    public UpdateWishlistResponse updateWishlist(@RequestBody UpdateWishlistRequest request) {
+        return buyerService.updateWishlistAPI(request);
+    }
+
+    @DeleteMapping("/wishlist")
+    @Operation(hidden = true)
+    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model) {
+        return buyerService.deleteWishlist(request, session, model);
+    }
+
+    @DeleteMapping("/wishlist/api")
+    public DeleteWishlistResponse deleteWishlist(@RequestBody DeleteWishlistRequest request) {
+        return buyerService.deleteWishlistAPI(request);
+    }
+
+    @DeleteMapping("/wishlist-item")
+    @Operation(hidden = true)
+    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model) {
+        return buyerService.deleteWishlistItem(request, session, model);
+    }
+
+    @DeleteMapping("/wishlist-item/api")
+    public DeleteWishlistItemResponse deleteWishlistItem(@RequestBody DeleteWishlistItemRequest request) {
+        return buyerService.deleteWishlistItemAPI(request);
+    }
+
+    @GetMapping("/wishlist")
+    @Operation(hidden = true)
+    public String viewWishlist(HttpSession session, Model model) {
+        return buyerService.viewWishlist(session, model);
+    }
+
+    @GetMapping("/wishlist/api/{accountId}")
+    public ViewWishlistResponse viewWishlist(@PathVariable int accountId) {
+        return buyerService.viewWishlistAPI(accountId);
+    }
+
+    @PostMapping("/wishlist")
+    @Operation(hidden = true)
+    public String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model) {
+        return buyerService.addToWishlist(request, httpServletRequest, session, model);
+    }
+
+    @PostMapping("/wishlist/api")
+    public AddToWishlistResponse addToWishlist(@RequestBody AddToWishlistRequest request) {
+        return buyerService.addToWishlistAPI(request);
+    }
+    //-------------------------------------------------------------------------------//
+
+    //mac dinh chay song song vs home page ==> ko can controller cho Thymeleaf
+    @PostMapping("/flower/top/list/api")
+    public ViewFlowerTopListResponse viewFlowerTopList(@RequestBody ViewFlowerTopListRequest request) {
+        return buyerService.viewFlowerTopListAPI(request.getTop());
+    }
+
+    @PostMapping("/flower/search")
+    @Operation(hidden = true)
+    public String searchFlower(SearchFlowerRequest request, Model model) {
+        return buyerService.searchFlower(request, model);
+    }
+
+    @PostMapping("/flower/search/api")
+    public SearchFlowerResponse searchFlower(@RequestBody SearchFlowerRequest request) {
+        return buyerService.searchFlowerAPI(request);
+    }
+
+    @PostMapping("/flower/detail")
+    @Operation(hidden = true)
+    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
+        return buyerService.viewFlowerDetail(request, model);
+    }
+
+    @PostMapping("/flower/detail/api")
+    public ViewFlowerDetailResponse searchFlower(@RequestBody ViewFlowerDetailRequest request) {
+        return buyerService.viewFlowerDetailAPI(request);
     }
 
     @GetMapping("/category")
