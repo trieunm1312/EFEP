@@ -111,6 +111,7 @@ public class PageController {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
+
                 model.addAttribute("msg", (UpdateProfileResponse)model.getAttribute("msg"));
             } else  {
                 model.addAttribute("msg", (ViewProfileResponse)model.getAttribute("msg"));

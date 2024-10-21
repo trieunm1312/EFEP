@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-// @RestController
-@Controller
+ @RestController
+//@Controller
 @RequiredArgsConstructor
 @RequestMapping("/seller")
 @Tag(name = "Seller")
@@ -199,5 +199,16 @@ public class SellerController {
     @PostMapping("/flower/image")
     public ViewFlowerImageResponse viewFlowerImage(@RequestBody ViewFlowerImageRequest request) {
         return sellerService.viewFlowerImageAPI(request);
+    }
+
+    @GetMapping("/plan/detail")
+    @Operation(hidden = true)
+    public String viewBusinessPlanDetail(HttpSession session, Model model) {
+        return sellerService.viewBusinessPlanDetail(session, model);
+    }
+
+    @GetMapping("/plan/detail/api")
+    public ViewBusinessPlanDetailResponse viewBusinessPlanDetail(ViewBusinessPlanDetailRequest request) {
+        return sellerService.viewBusinessPlanDetailAPI(request);
     }
 }

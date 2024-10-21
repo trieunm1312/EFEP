@@ -177,9 +177,8 @@ public class AccountServiceImpl implements AccountService {
         assert account != null;
 
         ViewProfileRequest profileRequest = ViewProfileRequest.builder().id(account.getUser().getId()).build();
-
         ViewProfileResponse response = viewProfileLogic(profileRequest);
-
+        session.setAttribute("acc", account);
         redirectAttributes.addFlashAttribute("msg", response);
         switch (account.getRole().toUpperCase()) {
 
@@ -232,7 +231,7 @@ public class AccountServiceImpl implements AccountService {
                     return "redirect:/seller/profile";
 
                 case "BUYER":
-
+                    System.out.println(account.getUser().getWishlist().getWishlistItemList().size());
                     return "redirect:/myAccount";
 
             }
@@ -256,7 +255,6 @@ public class AccountServiceImpl implements AccountService {
 
     private Object updateProfileLogic(UpdateProfileRequest request) {
         Map<String, String> errors = UpdateProfileValidation.validate(request, accountRepo);
-        System.out.println(request.getId());
         if (errors.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
@@ -264,7 +262,6 @@ public class AccountServiceImpl implements AccountService {
             user.setName(request.getName());
             user.setPhone(request.getPhone());
             user.setAvatar(request.getAvatar());
-
             user = userRepo.save(user);
 
             return UpdateProfileResponse.builder()
@@ -273,6 +270,7 @@ public class AccountServiceImpl implements AccountService {
                     .id(user.getId())
                     .name(user.getName())
                     .phone(user.getPhone())
+                    .email(user.getAccount().getEmail())
                     .avatar(user.getAvatar())
                     .build();
         }

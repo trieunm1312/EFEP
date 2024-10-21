@@ -80,4 +80,7 @@ public interface SellerService {
 
     String confirmOrder(HttpSession session, Model model, int busPlanId);
 
+    String viewBusinessPlanDetail(HttpSession session, Model model);
+
+    ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(ViewBusinessPlanDetailRequest request);
 }
