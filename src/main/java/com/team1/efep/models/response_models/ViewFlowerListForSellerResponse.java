@@ -33,6 +33,8 @@ public class ViewFlowerListForSellerResponse {
 
         private String description;
 
+        private String status;
+
         private int flowerAmount;
 
         private int quantity;

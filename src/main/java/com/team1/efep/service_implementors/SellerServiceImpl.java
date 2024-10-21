@@ -321,6 +321,7 @@ public class SellerServiceImpl implements SellerService {
                         .flowerAmount(item.getFlowerAmount())
                         .quantity(item.getQuantity())
                         .soldQuantity(item.getSoldQuantity())
+                        .status(item.getStatus())
                         .build())
                 .toList();
     }
