@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -642,7 +643,7 @@ public class AdminServiceImpl implements AdminService {
     private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {
         Map<String, String> errors = CreateAccountForSellerValidation.validate(request, accountRepo);
 
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             return errors;
         }
         createNewSeller(request);
@@ -660,6 +661,7 @@ public class AdminServiceImpl implements AdminService {
                         .account(createNewAccount(request))
                         .name(request.getName())
                         .phone(request.getPhone())
+                        .createdDate(LocalDate.now())
                         .build()))
                 .build()
         );
