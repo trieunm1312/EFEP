@@ -517,31 +517,36 @@ public class BuyerServiceImpl implements BuyerService {
 
     private Object viewOrderHistoryLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
-        List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
+
+        List<Order> orderList = getOrdersByUser(account.getUser().getId());
+
         Map<String, String> error = ViewOrderHistoryValidation.orderHistoryValidation(account, orderList);
         if (!error.isEmpty()) {
             return error;
         }
+
         if (!orderList.isEmpty()) {
             List<ViewOrderHistoryResponse.Order> orders = orderList.stream()
                     .map(this::viewOrderList)
                     .collect(Collectors.toList());
+
+            // Trả về kết quả
             return ViewOrderHistoryResponse.builder()
                     .status("200")
                     .message("Orders found")
                     .orderList(orders)
                     .build();
         }
-        return error;
+
+        // Trả về thông báo không có đơn hàng
+        return ViewOrderHistoryResponse.builder()
+                .status("404")
+                .message("No orders found for User")
+                .build();
     }
 
-    public List<Order> getOrdersBySeller(int sellerId) {
-        List<OrderDetail> orderDetails = orderDetailRepo.findAllByFlower_Seller_Id(sellerId);
-
-        return orderDetails.stream()
-                .map(OrderDetail::getOrder)
-                .distinct()
-                .collect(Collectors.toList());
+    public List<Order> getOrdersByUser(int userId) {
+        return orderRepo.findAllByUser_Id(userId);
     }
 
     private ViewOrderHistoryResponse.Order viewOrderList(Order order) {
