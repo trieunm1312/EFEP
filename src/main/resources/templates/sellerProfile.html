@@ -167,12 +167,9 @@
 
                         </div>
                         <div class="profile__avatar">
-                            <div th:if="${msg.avatar == null || msg.avatar == ''}">
-                                <img src="/img/default-avatar.jpg" alt="Default Avatar" id="profile-avatar">
-                            </div>
-                            <div th:if="${msg.avatar != null && msg.avatar != ''}">
-                                <img th:src="${msg.avatar}" alt="User Avatar" id="profile-avatar">
-                            </div>
+<!--                            <img th:src="${msg.avatar == null || msg.avatar == '' ? '/img/default-avatar.jpg' : msg.avatar}" alt="User Avatar" id="profile-avatar">-->
+
+                            <img th:src="${msg.avatar == null || msg.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.avatar}" alt="Default Avatar" id="profile-avatar">
                             <label for="input-file" class="choose-img-btn">Change Avatar</label>
                             <input type="file" accept="image/*" value="" id="input-file" style="display: none" class="file-input">
                             <input type="hidden" name="avatar" id="avatarUrl" value="">

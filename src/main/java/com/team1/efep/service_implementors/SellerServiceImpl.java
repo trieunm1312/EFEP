@@ -48,6 +48,7 @@ public class SellerServiceImpl implements SellerService {
     private final BusinessPlanRepo businessPlanRepo;
 
     private final BusinessServiceRepo businessServiceRepo;
+
     private final UserRepo userRepo;
 
 
@@ -289,9 +290,9 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
 
     @Override
-    public String viewFlowerListForSeller(HttpSession session, Model model) {
+    public void viewFlowerListForSeller(HttpSession session, Model model) {
         model.addAttribute("msg", viewFlowerListForSellerLogic( ((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
-        return "redirect:/manageFlower";
+//        return "redirect:/manageFlower";
     }
 
     @Override
@@ -315,10 +316,11 @@ public class SellerServiceImpl implements SellerService {
                         .id(item.getId())
                         .name(item.getName())
                         .price(item.getPrice())
+                        .description(item.getDescription())
                         .imageList(viewImageList(item.getFlowerImageList()))
-                        .flower_amount(item.getFlowerAmount())
+                        .flowerAmount(item.getFlowerAmount())
                         .quantity(item.getQuantity())
-                        .sold_quantity(item.getSoldQuantity())
+                        .soldQuantity(item.getSoldQuantity())
                         .build())
                 .toList();
     }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //@RestController
 @Controller
@@ -55,8 +56,8 @@ public class AccountController {
 
     @GetMapping("/view/profile")
     @Operation(hidden = true)
-    public String viewProfile(@ModelAttribute ViewProfileRequest request, HttpSession session, Model model) {
-        return accountService.viewProfile(request, session, model);
+    public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return accountService.viewProfile(session, model, redirectAttributes);
     }
 
     @GetMapping("/view/profile/api")
@@ -66,8 +67,8 @@ public class AccountController {
 
     @PutMapping("/update/profile")
     @Operation(hidden = true)
-    public String updateProfile(UpdateProfileRequest request, HttpSession session, Model model) {
-        return accountService.updateProfile(request, session, model);
+    public String updateProfile(UpdateProfileRequest request, HttpSession session, RedirectAttributes redirectAttributes) {
+        return accountService.updateProfile(request, session, redirectAttributes);
     }
 
     @PutMapping("/update/profile/api")

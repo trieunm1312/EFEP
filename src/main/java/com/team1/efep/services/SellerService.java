@@ -22,7 +22,7 @@ public interface SellerService {
 
     ViewOrderListResponse viewOrderListAPI(int id);
 
-    String viewFlowerListForSeller(HttpSession session, Model model);
+    void viewFlowerListForSeller(HttpSession session, Model model);
 
     ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(int sellerId);
 
@@ -79,4 +79,5 @@ public interface SellerService {
     AddFlowerImageResponse addFlowerImageAPI(AddFlowerImageRequest request);
 
     String confirmOrder(HttpSession session, Model model, int busPlanId);
+
 }
