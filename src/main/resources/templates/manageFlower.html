@@ -187,17 +187,17 @@
                                     <td class="table__body-qnt">
                                         <span th:text="${item.quantity}" class="qnt-text">20</span>
                                         <input name="quantity" class="qnt-input" th:value="${item.quantity}"
-                                               style="display: none;"/>
+                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>
                                     </td>
                                     <td class="table__body-price">
                                         <span th:text="${'$' + item.price}" class="price-text">120</span>
                                         <input name="price" class="price-input" th:value="${item.price}"
-                                               style="display: none;"/>
+                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>
                                     </td>
                                     <td class="table__body-sold_qnt">
                                         <span th:text="${item.sold_quantity}" class="sold-text">120</span>
                                         <input name="sold" class="sold-input" th:value="${item.sold_quantity}"
-                                               style="display: none;"/>
+                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>
                                     </td>
                                     <td class="table__body-edit">
                                         <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
@@ -209,6 +209,7 @@
                                 <td class="table__body-toggle">
                                     <form th:action="@{/seller/flower}" method="post">
                                         <input type="hidden" name="_method" value="delete">
+                                        <input type="hidden" name="flowerId" th:value="${item.flowerId}">
                                         <input type="submit" name="action" value="Delete" class="toggle-btn">
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                     </form>
@@ -217,7 +218,7 @@
                         </div>
                     </div>
 
-                    <form th:action="@{/seller/order/confirm}" method="get" class="manage-flower__form">
+                    <form th:action="@{/seller/flower}" method="get" class="manage-flower__form">
                         <tr class="table__body-item-new" style="display: none;">
                             <td class="table__body-img">
                                 <input type="url" name="img" placeholder="Image">
