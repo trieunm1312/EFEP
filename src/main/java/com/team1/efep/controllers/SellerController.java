@@ -56,14 +56,14 @@ public class SellerController {
         return sellerService.viewOrderListAPI(id);
     }
 
-    @GetMapping("/view/flower")
-    public String viewFlowerListForSeller(ViewFlowerListForSellerRequest request, HttpSession session, Model model) {
-        return sellerService.viewFlowerListForSeller(request, session, model);
-    }
+//    @GetMapping("/view/flower")
+//    public void viewFlowerListForSeller(HttpSession session, Model model) {
+//        return sellerService.viewFlowerListForSeller(session, model);
+//    }--> chay chung --> nen ko can ham thymeleaf
 
     @GetMapping("/view/flower/api")
-    public ViewFlowerListForSellerResponse viewFlowerListForSeller(@RequestBody ViewFlowerListForSellerRequest request) {
-        return sellerService.viewFlowerListForSellerAPI(request);
+    public ViewFlowerListForSellerResponse viewFlowerListForSeller(int sellerId) {
+        return sellerService.viewFlowerListForSellerAPI(sellerId);
     }
 
     @PutMapping("/plan")
@@ -200,5 +200,4 @@ public class SellerController {
     public ViewFlowerImageResponse viewFlowerImage(@RequestBody ViewFlowerImageRequest request) {
         return sellerService.viewFlowerImageAPI(request);
     }
-
 }
