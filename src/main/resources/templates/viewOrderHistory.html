@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/base.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css"> -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderHistory.css">
+    <link rel="stylesheet" href="/css/viewOrderHistory.css">
 </head>
 
 <body>
@@ -57,24 +57,20 @@
 
                 <!-- Order history -->
             <div class="order__history">
-                <div class="order__history-item">
+                <div th:each="order : ${orderList}" class="order__history-item">
                     <div class="order__history-item-description">
-                        <div class="order__history-item-img">
-                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                alt="">
-                        </div>
-                        <div class="order__history-item-info">
+                        <div th:each="info : ${detailList}" class="order__history-item-info">
                             <div class="order__history-item-header">
-                                <h4 class="order__history-item-header-name font-bold">Hiptage</h4>
+                                <h4 th:text="${info.flowerName}" class="order__history-item-header-name font-bold"></h4>
                                 <p class="order__history-item-header-time">19/09/2024 24:00</p>
                             </div>
-                            <p class="order__history-item-detail-event">Wedding</p>
-                            <p class="order__history-item-detail-status">completed</p>
+                            <p th:text="${info.sellerName}" class="order__history-item-detail-event">Wedding</p>
+
                             <div class="order__history-item-detail">
-                                <span class="order__history-item-detail-price">$120</span>
+                                <span th:text="${info.price}"class="order__history-item-detail-price">$120</span>
                                 <div class="order__history-item-detail-quantity-order">
                                     <span class="order__history-item-detail-multiple">x</span>
-                                    <span class="order__history-item-detail-qnt font-bold">1</span>
+                                    <span th:text="${info.quantity}"class="order__history-item-detail-qnt font-bold">1</span>
                                 </div>
                             </div>
                             <hr class="line">
@@ -86,46 +82,12 @@
                     <div class="order__history-item-btn">
                         <form  th:action="" method="get">
                             <button class="btn-cart-continue" value="view detail" name="Action">View detail</button>
+
                         </form>
                     </div>
+                    <p th:text="${order.status}" class="order__history-item-detail-status"></p>
                 </div>
-                <div class="order__history-item">
-                    <div class="order__history-item-description">
-                        <div class="order__history-item-img">
-                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                alt="">
-                        </div>
-                        <div class="order__history-item-info">
-                            <div class="order__history-item-header">
-                                <h4 class="order__history-item-header-name">Hiptage</h4>
-                                <p class="order__history-item-header-time">19/09/2024 24:00</p>
-                            </div>
-                            
-                                <p class="order__history-item-detail-event">Wedding</p>
-                           
-                            
-                                <p class="order__history-item-detail-status">completed</p>
-                            
-                            <div class="order__history-item-detail">
-                                <span class="order__history-item-detail-price">$120</span>
-                                <div class="order__history-item-detail-quantity-order">
-                                    <span class="order__history-item-detail-multiple">x</span>
-                                    <span class="order__history-item-detail-time">1</span>
-                                </div>
-                            </div>
-                            <hr class="line">
-                            <div class="order__history-item-detail-total-order">
-                                <span class="order__history-item-detail-total">$120</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="order__history-item-btn">
-                        <form  th:action="" method="get">
-                            <button class="btn-cart-continue" value="view detail" name="Action">View detail</button>
-                        </form>
-                    </div>
-                    
-                </div>
+
             </div>
             </div>
             

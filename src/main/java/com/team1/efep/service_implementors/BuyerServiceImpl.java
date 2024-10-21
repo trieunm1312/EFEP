@@ -491,7 +491,7 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("msg", (ViewOrderHistoryResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderHistory";
     }
 
     @Override
