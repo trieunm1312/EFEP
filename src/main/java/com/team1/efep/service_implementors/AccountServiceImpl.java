@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -111,16 +112,17 @@ public class AccountServiceImpl implements AccountService {
             model.addAttribute("msg", (LoginResponse) output);
             switch (acc.getRole().toUpperCase()) {
                 case "SELLER":
-                    return "redirect:/seller/view/flower";
+                    return "redirect:/manageFlower";
                 case "ADMIN":
-                    return "adminDashboard";
+                    return "redirect:/admin/dashboard";
                 default:
                     HomepageConfig.config(model, buyerService);
-                    return "home";
+                    System.out.println(acc.getUser().getWishlist().getWishlistItemList().size());
+                    return "redirect:/";
             }
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "login";
+        return "redirect:/login";
     }
 
     @Override
@@ -168,45 +170,39 @@ public class AccountServiceImpl implements AccountService {
     //------------------------------------------VIEW PROFILE-----------------------------------------------//
 
     @Override
-    public String viewProfile(ViewProfileRequest request, HttpSession session, Model model) {
-        Object output = viewProfileLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileResponse.class)) {
-            Account account = accountRepo.findById(request.getId()).orElse(null);
-            session.setAttribute("acc", account);
-            model.addAttribute("msg", (ViewProfileResponse) output);
-            switch (account.getRole().toUpperCase()) {
-                case "SELLER":
+    public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        //1. get Account
+        Account account = Role.getCurrentLoggedAccount(session);
 
-                    return "sellerProfile";
+        assert account != null;
 
-                case "BUYER":
+        ViewProfileRequest profileRequest = ViewProfileRequest.builder().id(account.getUser().getId()).build();
 
-                    return "myAccount";
+        ViewProfileResponse response = viewProfileLogic(profileRequest);
 
-            }
+        redirectAttributes.addFlashAttribute("msg", response);
+        switch (account.getRole().toUpperCase()) {
+
+            case "SELLER":
+                return "redirect:/seller/profile";
+
+            case "BUYER":
+                return "redirect:/myAccount";
+
         }
 
-        model.addAttribute("error", (Map<String, String>) output);
-        return "login";
+        return "redirect:/";
+
     }
 
     @Override
     public ViewProfileResponse viewProfileAPI(ViewProfileRequest request) {
-        Object output = viewProfileLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewProfileResponse.class)) {
-            return (ViewProfileResponse) output;
-        }
-        return ViewProfileResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
+            return viewProfileLogic(request);
     }
 
     // việc trả về hồ sơ người dùng nên trả về ViewProfileResponse
     // thay vì Object (nếu phải check kiểu dữ liệu của Object ở nhiều nơi khác nhau ==> lỗi runtime)
-    private Object viewProfileLogic(ViewProfileRequest request) {
-        Map<String, String> errors = ViewProfileValidation.validate(request, accountRepo);
-        if (errors.isEmpty()) {
+    private ViewProfileResponse viewProfileLogic(ViewProfileRequest request) {
             User user = userRepo.findById(request.getId()).orElse(null);
             assert user != null;
             return ViewProfileResponse.builder()
@@ -215,36 +211,35 @@ public class AccountServiceImpl implements AccountService {
                     .id(user.getId())
                     .name(user.getName())
                     .phone(user.getPhone())
+                    .email(user.getAccount().getEmail())
                     .avatar(user.getAvatar())
                     .background(user.getBackground())
                     .build();
-        }
-        return errors;
     }
 
 //------------------------------------------UPDATE PROFILE--------------------------------------------------//
 
     @Override
-    public String updateProfile(UpdateProfileRequest request, HttpSession session, Model model) {
+    public String updateProfile(UpdateProfileRequest request, HttpSession session, RedirectAttributes redirectAttributes) {
         Object output = updateProfileLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             session.setAttribute("acc", account);
-            model.addAttribute("msg", (UpdateProfileResponse) output);
+            redirectAttributes.addFlashAttribute("msg",(UpdateProfileResponse) output);
             switch (account.getRole().toUpperCase()) {
                 case "SELLER":
 
-                    return "sellerProfile";
+                    return "redirect:/seller/profile";
 
                 case "BUYER":
 
-                    return "myAccount";
+                    return "redirect:/myAccount";
 
             }
         }
-        model.addAttribute("error", (Map<String, String>) output);
-        HomepageConfig.config(model, buyerService);
-        return "home";
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        HomepageConfig.config(redirectAttributes, buyerService);
+        return "redirect:/";
     }
 
     @Override

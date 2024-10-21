@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="profile">
-                    <div th:if="${msg}">
+                    <div th:if="${msg} != null">
                         <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
                             <h3 class="profile__header">Your Profile</h3>
                             <input type="hidden" name="id" th:value="${msg.id}"></input>
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="email profile__information-part">
                                     <h3 class="form-label">E-Mail</h3>
-                                    <input type="email" id="email" class="input-form" name="email" th:value="${session.acc.getEmail()}" readonly >
+                                    <input type="email" id="email" class="input-form" name="email" th:value="${msg.email}" readonly >
                                 </div>
                                 <div class="phone profile__information-part">
                                     <h3 class="form-label">Phone</h3>
@@ -115,12 +115,7 @@
 
                             </div>
                             <div class="profile__avatar">
-                                <div th:if="${msg.avatar == null || msg.avatar == ''}">
-                                    <img src="/img/default-avatar.jpg" alt="Default Avatar" id="profile-avatar">
-                                </div>
-                                <div th:if="${msg.avatar != null && msg.avatar != ''}">
-                                    <img th:src="${msg.avatar}" alt="User Avatar" id="profile-avatar">
-                                </div>
+                                <img th:src="${msg.avatar == null || msg.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.avatar}" alt="Default Avatar" id="profile-avatar">
                                 <label for="input-file" class="choose-img-btn">Change Avatar</label>
                                 <input type="file" accept="image/*" value="" id="input-file" class="file-input">
                                 <input type="hidden" name="avatar" id="avatarUrl" value="">
@@ -132,7 +127,6 @@
                             <input type="submit" name="action" class="update-btn btn btn--primary" value="Save Changes">
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -198,12 +192,12 @@
         };
     </script>
 
-    <script src="/js/jquery.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <script src="/js/price-range.js"></script>
-    <script src="/js/jquery.prettyPhoto.js"></script>
-    <script src="/js/base.js"></script>
+<!--    <script src="/js/jquery.js"></script>-->
+<!--    <script src="/js/bootstrap.min.js"></script>-->
+<!--    <script src="/js/jquery.scrollUp.min.js"></script>-->
+<!--    <script src="/js/price-range.js"></script>-->
+<!--    <script src="/js/jquery.prettyPhoto.js"></script>-->
+<!--    <script src="/js/base.js"></script>-->
 
 
     <script src="/js/jquery.js"></script>
