@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
- @RestController
-//@Controller
+// @RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/seller")
 @Tag(name = "Seller")
