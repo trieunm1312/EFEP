@@ -36,9 +36,6 @@ public class ViewOrderHistoryValidation {
                 if (detail.getQuantity() <= 0) {
                     return MapConfig.buildMapKey(error,  "Order ID " + order.getId() + " has invalid quantity.");
                 }
-                if (detail.getPrice() <= 0) {
-                    return MapConfig.buildMapKey(error, "Order ID " + order.getId() + " has invalid price.");
-                }
             }
         }
         return error;

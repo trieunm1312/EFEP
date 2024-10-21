@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ViewProfileResponse {
+
     private String status;
 
     private String message;
@@ -17,6 +18,8 @@ public class ViewProfileResponse {
     private int id;
 
     private String name;
+
+    private String email;
 
     private String phone;
 

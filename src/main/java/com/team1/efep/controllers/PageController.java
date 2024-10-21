@@ -1,18 +1,26 @@
 package com.team1.efep.controllers;
 
 import com.team1.efep.configurations.HomepageConfig;
+import com.team1.efep.models.response_models.UpdateProfileResponse;
+import com.team1.efep.models.response_models.ViewProfileResponse;
 import com.team1.efep.services.BuyerService;
+import com.team1.efep.services.SellerService;
+import com.team1.efep.utils.OutputCheckerUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 public class PageController {
 
     private final BuyerService buyerService;
+
+    private final SellerService sellerService;
 
     @GetMapping("/")
     public String startPage(Model model) {
@@ -51,7 +59,8 @@ public class PageController {
     }
 
     @GetMapping("/manageFlower")
-    public String manageFlowerPage() {
+    public String manageFlowerPage(HttpSession session, Model model) {
+        sellerService.viewFlowerListForSeller(session, model);
         return "manageFlower";
     }
 
@@ -73,6 +82,46 @@ public class PageController {
     @GetMapping("/planList")
     public String planListPage() {
         return "planList";
+    }
+
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard(Model model) {
+        return "adminDashboard";
+    }
+
+    @GetMapping("/seller/profile")
+    public String sellerProfile(Model model) {
+
+        if(model.getAttribute("msg") != null) {
+            if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
+                model.addAttribute("msg", (UpdateProfileResponse)model.getAttribute("msg"));
+            } else  {
+                model.addAttribute("msg", (ViewProfileResponse)model.getAttribute("msg"));
+            }
+
+        } else  {
+            model.addAttribute("error",  (Map<String, String>) model.getAttribute("error"));
+        }
+
+        return "sellerProfile";
+    }
+
+    @GetMapping("/myAccount")
+    public String myAccount(Model model) {
+
+        if(model.getAttribute("msg") != null) {
+            if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
+                model.addAttribute("msg", (UpdateProfileResponse)model.getAttribute("msg"));
+            } else  {
+                model.addAttribute("msg", (ViewProfileResponse)model.getAttribute("msg"));
+            }
+
+        } else  {
+            model.addAttribute("error",  (Map<String, String>) model.getAttribute("error"));
+        }
+
+//        model.addAttribute("msg", (ViewProfileResponse) model.getAttribute("msg"));
+        return "myAccount";
     }
 }
 
