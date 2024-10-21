@@ -192,8 +192,8 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session) {
         Object output = sendEmailLogic(request);
-        if(!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)){
-            model.addAttribute("error", (Map<String, String>)output);
+        if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
+            model.addAttribute("error", (Map<String, String>) output);
             return "redirect:/login";
         }
         ForgotPasswordResponse response = (ForgotPasswordResponse) output;
@@ -425,6 +425,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = deleteWishlistItemLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             model.addAttribute("msg", (DeleteWishlistItemResponse) output);
             return "redirect:/buyer/wishlist";
         }
@@ -851,6 +852,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Object output = updateWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             model.addAttribute("msg", (UpdateWishlistResponse) output);
             return "redirect:/buyer/wishlist";
         }
@@ -919,11 +921,13 @@ public class BuyerServiceImpl implements BuyerService {
 
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             model.addAttribute("msg", (DeleteWishlistResponse) output);
             return "redirect:/buyer/wishlist";
         }
 
         model.addAttribute("response", (Map<String, String>) output);
+        session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
         return "viewWishlist";
     }
 
@@ -1173,7 +1177,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "paymentFailed";
     }
 
-
     @Override
     public VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
 
@@ -1203,11 +1206,11 @@ public class BuyerServiceImpl implements BuyerService {
                     .paymentURL("/viewOrderSummary")
                     .build();
         }
-            return VNPayResponse.builder()
-                    .status("400")
-                    .message("Your payment is failed")
-                    .paymentURL("/viewOrderSummary")
-                    .build();
+        return VNPayResponse.builder()
+                .status("400")
+                .message("Your payment is failed")
+                .paymentURL("/viewOrderSummary")
+                .build();
 
     }
 
@@ -1251,7 +1254,6 @@ public class BuyerServiceImpl implements BuyerService {
     public String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-
         User user = account.getUser();
         List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
 
