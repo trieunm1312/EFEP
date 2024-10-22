@@ -638,7 +638,7 @@ public class BuyerServiceImpl implements BuyerService {
     private Object viewOrderHistoryLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
 
-        List<Order> orderList = getOrdersByUser(account.getUser().getId());
+        List<Order> orderList = orderRepo.findAllByUser_Id(account.getUser().getId());
 
         Map<String, String> error = ViewOrderHistoryValidation.orderHistoryValidation(account, orderList);
         if (!error.isEmpty()) {
@@ -665,13 +665,15 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    public List<Order> getOrdersByUser(int userId) {
-        return orderRepo.findAllByUser_Id(userId);
-    }
-
     private ViewOrderHistoryResponse.Order viewOrderList(Order order) {
+        String sellerName = order.getOrderDetailList().stream()
+                .findFirst()
+                .map(detail -> detail.getFlower().getSeller().getUser().getName())
+                .orElse("Unknown Seller");
+
         return ViewOrderHistoryResponse.Order.builder()
                 .orderId(order.getId())
+                .sellerName(sellerName)
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
                 .detailList(viewOrderDetailList(order.getOrderDetailList()))
@@ -681,7 +683,6 @@ public class BuyerServiceImpl implements BuyerService {
     private List<ViewOrderHistoryResponse.Detail> viewOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderHistoryResponse.Detail.builder()
-                        .sellerName(detail.getFlower().getSeller().getUser().getName())
                         .flowerName(detail.getFlowerName())
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
