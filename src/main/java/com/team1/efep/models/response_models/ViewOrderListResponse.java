@@ -38,8 +38,6 @@ public class ViewOrderListResponse {
 
         private String status;
 
-        private String paymentType;
-
         private String paymentMethod;
 
         private List<Item> orderDetailList;

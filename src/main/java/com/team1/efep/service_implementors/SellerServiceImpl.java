@@ -219,8 +219,7 @@ public class SellerServiceImpl implements SellerService {
                 .createDate(order.getCreatedDate())
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
-                .paymentType(order.getPaymentType().getType())
-                .paymentMethod(order.getPaymentMethod().getMethod())
+                .paymentMethod(order.getPaymentMethod().getName())
                 .orderDetailList(viewOrderDetailList(order.getOrderDetailList()))
                 .build();
     }
@@ -709,8 +708,7 @@ public class SellerServiceImpl implements SellerService {
                 .createDate(order.getCreatedDate())
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
-                .paymentType(order.getPaymentType().getType())
-                .paymentMethod(order.getPaymentMethod().getMethod())
+                .paymentMethod(order.getPaymentMethod().getName())
                 .orderDetailList(viewFilterOrderDetailList(order.getOrderDetailList()))
                 .build();
     }

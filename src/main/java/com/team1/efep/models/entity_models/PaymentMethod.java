@@ -17,7 +17,7 @@ public class PaymentMethod {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String method;
+    private String name;
 
     @OneToMany(mappedBy = "paymentMethod")
     @ToString.Exclude

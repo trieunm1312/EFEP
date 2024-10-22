@@ -121,6 +121,11 @@ public class PageController {
 //        model.addAttribute("msg", (ViewProfileResponse) model.getAttribute("msg"));
         return "myAccount";
     }
+
+    @GetMapping("/wishlist")
+    public String viewWishlist(HttpSession session, Model model) {
+        return "viewWishlist";
+    }
 }
 
 

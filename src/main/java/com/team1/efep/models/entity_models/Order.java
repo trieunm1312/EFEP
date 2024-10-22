@@ -19,10 +19,6 @@ public class Order {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "`payment_type_id`")
-    private PaymentType paymentType;
-
-    @ManyToOne
     @JoinColumn(name = "`payment_method_id`")
     private PaymentMethod paymentMethod;
 
