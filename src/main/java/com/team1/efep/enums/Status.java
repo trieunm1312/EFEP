@@ -4,6 +4,10 @@ import com.team1.efep.models.entity_models.*;
 import com.team1.efep.repositories.*;
 import lombok.RequiredArgsConstructor;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 public class Status {
     public static String ACCOUNT_STATUS_ACTIVE = "active";
@@ -50,6 +54,23 @@ public class Status {
     public static void getRoleStatus(BusinessPlan businessPlan, String status, BusinessPlanRepo businessPlanRepo) {
         businessPlan.setStatus(status);
         businessPlanRepo.save(businessPlan);
+    }
+
+    public static List<String> getFlowerStatusList() {
+        List<String> flowerStatuses = new ArrayList<>();
+
+        Field[] fields = Status.class.getFields();
+
+        for(Field field : fields) {
+            if(field.getName().contains("FLOWER_STATUS")) {
+                try {
+                    flowerStatuses.add((String) field.get(null));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return flowerStatuses;
     }
 
 }

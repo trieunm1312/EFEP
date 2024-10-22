@@ -150,6 +150,13 @@ public class SellerServiceImpl implements SellerService {
         return flowerImageRepo.saveAll(flowerImages);
     }
 
+    //--------------------------------------GET ALL FLOWER STATUS------------------------------------------------//
+
+    @Override
+    public List<String> getAllFlowerStatus() {
+        return Status.getFlowerStatusList();
+    }
+
     //---------------------------------------------VIEW ORDER LIST--------------------------------------------------------//
 
     @Override
@@ -188,7 +195,6 @@ public class SellerServiceImpl implements SellerService {
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
     }
-
 
     private Object viewOrderListLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);

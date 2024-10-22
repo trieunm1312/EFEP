@@ -165,7 +165,7 @@ public class BuyerServiceImpl implements BuyerService {
         if (checkExistedItem(request, wishlist)) {
             WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
             assert wishlistItem != null;
-            wishlistItem.setQuantity(wishlistItem.getQuantity() + 1);
+            wishlistItem.setQuantity(wishlistItem.getQuantity() + request.getQuantity());
             wishlistItemRepo.save(wishlistItem);
         } else {
             wishlist.getWishlistItemList().add(
@@ -218,18 +218,6 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object sendEmailLogic(ForgotPasswordRequest request) {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom("quynhpvnse182895@fpt.edu.vn");
-//        message.setTo(request.getToEmail());
-//        String otp = OTPGeneratorUtil.generateOTP(6);
-//        message.setText(FileReaderUtil.readFile(otp));
-//        message.setSubject(request.getSubject());
-//        message.;
-//        mailSender.send(message);
-//        return ForgotResponse.builder()
-//                .status("200")
-//                .message("Send email successfully")
-//                .build();
         Map<String, String> errors = ForgotPasswordValidation.validate(request, accountRepo);
         if (!errors.isEmpty()) {
             return errors;
@@ -1175,6 +1163,7 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             model.addAttribute("msg", (VNPayResponse) output);
             return ((VNPayResponse) output).getPaymentURL();
         }
@@ -1221,35 +1210,38 @@ public class BuyerServiceImpl implements BuyerService {
 
     private void saveOrder(Map<String, String> params, User user, List<WishlistItem> items) {
 
-        float totalPrice = 0;
+        Map<Seller, List<WishlistItem>> itemsBySeller = items.stream()
+                .collect(Collectors.groupingBy(item -> item.getFlower().getSeller()));
 
-        if (params != null && params.containsKey("vnp_Amount")) {
-            totalPrice = Float.parseFloat(params.get("vnp_Amount")) / 100;
-        } else {
-            for (WishlistItem item : items) {
+        for (Map.Entry<Seller, List<WishlistItem>> entry : itemsBySeller.entrySet()) {
+            Seller seller = entry.getKey();
+            List<WishlistItem> sellerItems = entry.getValue();
+
+            float totalPrice = 0;
+
+            for (WishlistItem item : sellerItems) {
                 totalPrice += item.getFlower().getPrice() * item.getQuantity();
             }
+
+            Order savedOrder = orderRepo.save(Order.builder()
+                    .user(user)
+                    .buyerName(user.getName())
+                    .createdDate(LocalDateTime.now())
+                    .totalPrice(totalPrice)
+                    .status(Status.ORDER_STATUS_PROCESSING)
+                    .build());
+
+            for (WishlistItem item : items) {
+                OrderDetail orderDetail = OrderDetail.builder()
+                        .order(savedOrder)
+                        .flower(item.getFlower())
+                        .flowerName(item.getFlower().getName())
+                        .quantity(item.getQuantity())
+                        .price(item.getFlower().getPrice())
+                        .build();
+                orderDetailRepo.save(orderDetail);
+            }
         }
-
-        Order savedOrder = orderRepo.save(Order.builder()
-                .user(user)
-                .buyerName(user.getName())
-                .createdDate(LocalDateTime.now())
-                .totalPrice(totalPrice)
-                .status(Status.ORDER_STATUS_PROCESSING)
-                .build());
-
-        for (WishlistItem item : items) {
-            OrderDetail orderDetail = OrderDetail.builder()
-                    .order(savedOrder)
-                    .flower(item.getFlower())
-                    .flowerName(item.getFlower().getName())
-                    .quantity(item.getQuantity())
-                    .price(item.getFlower().getPrice())
-                    .build();
-            orderDetailRepo.save(orderDetail);
-        }
-
         wishlistItemRepo.deleteAll(items);
     }
 

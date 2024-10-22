@@ -108,7 +108,6 @@ public class PageController {
 
     @GetMapping("/myAccount")
     public String myAccount(Model model) {
-
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
 
@@ -116,11 +115,9 @@ public class PageController {
             } else  {
                 model.addAttribute("msg", (ViewProfileResponse)model.getAttribute("msg"));
             }
-
         } else  {
             model.addAttribute("error",  (Map<String, String>) model.getAttribute("error"));
         }
-
 //        model.addAttribute("msg", (ViewProfileResponse) model.getAttribute("msg"));
         return "myAccount";
     }
