@@ -465,6 +465,7 @@
                                     <!-- No wishlist: header__cart-list--no-wishlist -->
                                     <div class="header__cart-list">
                                         <span class="header__cart-list-no-wishlist-msg" th:if="${session.acc == null}">Your shopping wishlist is empty!</span>
+                                        <span class="header__cart-list-no-wishlist-msg" th:if="${session.acc.getUser().getWishlist().getWishlistItemList().isEmpty()}">Your shopping wishlist is empty!</span>
 
                                         <!-- Cart item -->
                                         <ul class="header__cart-list-item" th:if="${session.acc != null}">

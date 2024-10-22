@@ -200,4 +200,15 @@ public class SellerController {
     public ViewFlowerImageResponse viewFlowerImage(@RequestBody ViewFlowerImageRequest request) {
         return sellerService.viewFlowerImageAPI(request);
     }
+
+    @GetMapping("/plan/detail")
+    @Operation(hidden = true)
+    public String viewBusinessPlanDetail(HttpSession session, Model model) {
+        return sellerService.viewBusinessPlanDetail(session, model);
+    }
+
+    @GetMapping("/plan/detail/api")
+    public ViewBusinessPlanDetailResponse viewBusinessPlanDetail(ViewBusinessPlanDetailRequest request) {
+        return sellerService.viewBusinessPlanDetailAPI(request);
+    }
 }
