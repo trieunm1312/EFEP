@@ -956,7 +956,7 @@ public class SellerServiceImpl implements SellerService {
             return "login";
         }
         model.addAttribute("response", updateFlowerLogic(request));
-        return "seller";
+        return "redirect:/manageFlower";
     }
 
     @Override
@@ -1020,7 +1020,7 @@ public class SellerServiceImpl implements SellerService {
             return "login";
         }
         model.addAttribute("msg", deleteFlowerLogic(request));
-        return "redirect:/seller/view/flower";
+        return "redirect:/manageFlower";
     }
 
     @Override

@@ -69,14 +69,14 @@
                     </a>
                 </div>
                 <!-- Order history -->
-                <div class="order__history">
-                    <div class="order__history-item">
+                <div class="order__history" th:if="${msg}">
+                    <div class="order__history-item" th:each="order : ${msg.orderList}">
                         <div class="info-order">
-                            <p class="order__history-item-detail-seller">Seller1</p>
-                            <p class="order__history-item-detail-status">successful</p>
+                            <p class="order__history-item-detail-seller" th:text="${order.orderId}">Seller1</p>
+                            <p class="order__history-item-detail-status" th:text="${order.status}">successful</p>
                         </div>
                         <hr class="line">
-                        <div class="order__history-item-flower">
+                        <div class="order__history-item-flower" th:each="item : ${msg.detailList}">
                             <div class="order__history-item-description">
                                 <div class="order__history-item-img">
                                     <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
@@ -84,16 +84,16 @@
                                 </div>
                                 <div class="order__history-item-info">
                                     <div class="order__history-item-header">
-                                        <h4 class="order__history-item-header-name font-bold">Hiptage</h4>
-                                        <p class="order__history-item-header-time">19/09/2024 24:00</p>
+                                        <h4 class="order__history-item-header-name font-bold" th:text="${item.flowerName}">Hiptage</h4>
+                                        <p class="order__history-item-header-time" th:text="${item.sellerName}">19/09/2024 24:00</p>
                                     </div>
                                     <p class="order__history-item-detail-event">Wedding</p>
 
                                     <div class="order__history-item-detail">
-                                        <span class="order__history-item-detail-price">$120</span>
+                                        <span class="order__history-item-detail-price" th:text="${item.price}">$120</span>
                                         <div class="order__history-item-detail-quantity-order">
                                             <span class="order__history-item-detail-multiple">x</span>
-                                            <span class="order__history-item-detail-qnt font-bold">1</span>
+                                            <span class="order__history-item-detail-qnt font-bold" th:text="${item.quantity}">1</span>
                                         </div>
                                     </div>
 
@@ -110,21 +110,21 @@
                                     <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
                                         alt="">
                                 </div>
-                                <div th:each="info : ${detailList}" class="order__history-item-info">
+                                <div class="order__history-item-info">
                                     <div class="order__history-item-header">
-                                        <h4 th:text="${info.flowerName}"
+                                        <h4
                                             class="order__history-item-header-name font-bold">Hiptage</h4>
                                         <p class="order__history-item-header-time">19/09/2024 24:00</p>
                                     </div>
-                                    <p th:text="${info.sellerName}" class="order__history-item-detail-event">Wedding
+                                    <p class="order__history-item-detail-event">Wedding
                                     </p>
 
                                     <div class="order__history-item-detail">
-                                        <span th:text="${info.price}"
+                                        <span
                                             class="order__history-item-detail-price">$120</span>
                                         <div class="order__history-item-detail-quantity-order">
                                             <span class="order__history-item-detail-multiple">x</span>
-                                            <span th:text="${info.quantity}"
+                                            <span
                                                 class="order__history-item-detail-qnt font-bold">1</span>
                                         </div>
                                     </div>
@@ -138,7 +138,7 @@
                             <hr class="line-item">
                         </div>
                         <div class="order__history-item-btn">
-                            <form th:action="" method="get">
+                            <form th:action="@{/}" method="get">
                                 <button class="btn-cart-continue" value="view detail" name="Action">View
                                     detail</button>
 
