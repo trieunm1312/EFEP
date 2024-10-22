@@ -124,6 +124,11 @@ public class PageController {
 //        model.addAttribute("msg", (ViewProfileResponse) model.getAttribute("msg"));
         return "myAccount";
     }
+
+    @GetMapping("category")
+    public String categoryPage() {
+        return "category";
+    }
 }
 
 

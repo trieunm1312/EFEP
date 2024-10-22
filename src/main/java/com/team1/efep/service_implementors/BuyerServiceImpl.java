@@ -1035,9 +1035,8 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------VIEW CATEGORY------------------------------------------//
 
     @Override
-    public String viewCategory(HttpSession session, Model model) {
-        model.addAttribute("msg", viewCategoryLogic());
-        return "category";
+    public void viewCategory(HttpSession session, Model model) {
+        model.addAttribute("msg3", viewCategoryLogic());
     }
 
     @Override
@@ -1282,6 +1281,37 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("msg", viewWishlistLogic(account.getId()));
         return "checkout";
     }
+
+    //---------------------------------FIELTER CATEGORY---------------------------------//
+
+    @Override
+    public String filterCategory(FilterCategoryRequest request, Model model) {
+        model.addAttribute("msg", filterCategoryLogic(request));
+        return "category";
+    }
+
+    @Override
+    public FilterCategoryResponse filterCategoryAPI(FilterCategoryRequest request) {
+        return filterCategoryLogic(request);
+    }
+
+    public FilterCategoryResponse filterCategoryLogic(FilterCategoryRequest request) {
+
+        Category category = categoryRepo.findById(request.getCategoryId()).orElse(null);
+        assert category != null;
+
+        return FilterCategoryResponse.builder()
+                .status("200")
+                .message("")
+                .categoryId(request.getCategoryId())
+                .flowers(
+                        category.getFlowerCategoryList().stream()
+                                .map(cate -> FilterCategoryResponse.Flower.builder().name(cate.getFlower().getName()).build())
+                                .toList()
+                )
+                .build();
+    }
+
 
 }
 

@@ -84,11 +84,15 @@ public interface BuyerService {
 
     VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest);
 
-    String viewCategory(HttpSession session, Model model);
+    void viewCategory(HttpSession session, Model model);
 
     ViewCategoryListResponse viewCategoryAPI();
 
     String confirmOrder(HttpSession session, Model model);
 
     String handleOTP(String code, Model model, HttpSession session);
+
+    String filterCategory(FilterCategoryRequest request, Model model);
+
+    FilterCategoryResponse filterCategoryAPI(FilterCategoryRequest request);
 }

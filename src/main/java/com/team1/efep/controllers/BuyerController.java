@@ -1,6 +1,5 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.enums.Const;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.BuyerService;
@@ -9,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -135,9 +133,9 @@ public class BuyerController {
     public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
         return buyerService.getCODPaymentResult(params, session, redirectAttributes);
     }
-    //--------------------------------------------------------------------------//
 
-    //---------------WISHLIST----------------//
+
+    //------------------------------------WISHLIST---------------------------------//
     @PutMapping("/wishlist")
     @Operation(hidden = true)
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
@@ -222,11 +220,11 @@ public class BuyerController {
         return buyerService.viewFlowerDetailAPI(request);
     }
 
-    @GetMapping("/category")
-    @Operation(hidden = true)
-    public String viewCategory(HttpSession session, Model model) {
-        return buyerService.viewCategory(session, model);
-    }
+//    @GetMapping("/category")
+//    @Operation(hidden = true)
+//    public String viewCategory(HttpSession session, Model model) {
+//        return buyerService.viewCategory(session, model);
+//    }
 
     @GetMapping("/category/api")
     public ViewCategoryListResponse viewCategory() {
@@ -237,5 +235,18 @@ public class BuyerController {
     public String confirmOrder(HttpSession session, Model model) {
         return buyerService.confirmOrder(session, model);
     }
+
+
+    @PostMapping("/category/filter")
+    @Operation(hidden = true)
+    public String filterCategory(FilterCategoryRequest request, Model model) {
+        return buyerService.filterCategory(request, model);
+    }
+
+    @PostMapping("/category/filter/api")
+    public FilterCategoryResponse filterCategory(@RequestBody FilterCategoryRequest request) {
+        return buyerService.filterCategoryAPI(request);
+    }
+
 
 }

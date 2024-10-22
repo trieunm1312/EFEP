@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FlowerRepo extends JpaRepository<Flower, Integer> {
+
     Optional<Flower> findByName(String name);
 
     List<Flower> findBySeller_Id(int id);
+
 }
