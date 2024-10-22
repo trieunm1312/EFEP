@@ -168,7 +168,7 @@ public class SellerController {
         return sellerService.sortOrderAPI(filterOrderRequest, sortOrderRequest);
     }
 
-    @PutMapping("/flower/")
+    @PutMapping("/flower")
     @Operation(hidden = true)
     public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
         return sellerService.updateFlower(request, session, model);
