@@ -33,13 +33,13 @@ public class ViewFlowerListForSellerResponse {
 
         private String description;
 
+        private String status;
+
         private int flowerAmount;
 
         private int quantity;
 
         private int soldQuantity;
-
-        private String status;
 
         private List<Image> imageList;
     }

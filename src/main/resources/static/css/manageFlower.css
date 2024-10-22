@@ -65,7 +65,9 @@
     /* display: block; */
 }
 
-.table__header-amount {
+.table__header-amount,
+.table__header-status
+{
     width: 130px;
 }
 

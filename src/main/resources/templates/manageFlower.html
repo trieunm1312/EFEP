@@ -8,9 +8,14 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
     <link rel="stylesheet" href="/css/adminBase.css">
     <link rel="stylesheet" href="/css/manageFlower.css">
+
+    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css"> -->
 </head>
 
 <body>
@@ -127,8 +132,9 @@
             </div>
             <span class="header__separate">|</span>
             <div class="header__account">
-                <img src="https://th.bing.com/th/id/OIP.fZnBtIe-qAaSrj3pGtJiQQHaHa?w=179&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Avatar">
-                <span>Xuất Sắc Bảnh</span>
+                <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
+                <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
+                <span th:text="${session.acc.getUser().getName()}"></span>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
             </div>
         </div>
@@ -151,6 +157,7 @@
                         <th class="table__header-image">Image</th>
                         <th class="table__header-name">Name</th>
                         <th class="table__header-desc">Description</th>
+                        <th class="table__header-status">Status</th>
                         <th class="table__header-amount">Flower Amount</th>
                         <th class="table__header-qnt">Quanity</th>
                         <th class="table__header-price">Price</th>
@@ -158,26 +165,36 @@
                     </tr>
                     </thead>
                     <tbody class="table__body">
-                    <div th:if="${msg}">
-                        <div>
+                    <div >
+                        <div th:if="${msg}">
                             <tr class="table__body-item" th:each="item : ${msg.flowerList}">
-                                <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
-                                    <input type="hidden" name="_method" value="put">
+                                <form th:action="@{/seller/flower}" th:method="put" class="manage-flower__form">
+
                                     <input type="hidden" name="id" th:value="${item.id}">
+                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                     <td class="table__body-img">
                                         <img class="img" src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg" alt="">
                                         <input type="url" name="image" class="img-input"
                                                style="display: none;">
                                     </td>
                                     <td class="table__body-name">
-                                        <span th:text="${item.name}" class="name-text">hiptage</span>
-                                        <input name="name" class="name-input" th:text="${item.name}"
-                                               style="display: none;">
+                                        <span th:text="${item.name}" class="name-text"></span>
+                                        <input type="text" name="name" class="name-input" th:value="${item.name}"
+                                               style="display: none;"/>
                                     </td>
                                     <td class="table__body-desc">
-                                        <span th:text="${item.description}" class="desc-text">beautifull</span>
+                                        <span th:text="${item.description}" class="desc-text"></span>
                                         <textarea name="description" th:text="${item.description}" class="desc-input"
                                                   style="display: none;"></textarea>
+                                    </td>
+                                    <td class="table__body-status">
+                                        <span th:text="${item.status}" class="status-text"></span>
+<!--                                        <input name="status" class="amount-input" th:value="${item.status}"-->
+<!--                                               style="display: none;"/>-->
+                                        <select class="status-input" name="status" id="status" style="display: none;">
+                                            <option value="available" selected>available</option>
+                                            <option value="outOfStock">out of stock</option>
+                                        </select>
                                     </td>
                                     <td class="table__body-amount">
                                         <span th:text="${item.flowerAmount}" class="amount-text">100</span>
@@ -187,17 +204,17 @@
                                     <td class="table__body-qnt">
                                         <span th:text="${item.quantity}" class="qnt-text">20</span>
                                         <input name="quantity" class="qnt-input" th:value="${item.quantity}"
-                                               style="display: none;"/>
+                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>
                                     </td>
                                     <td class="table__body-price">
                                         <span th:text="${'$' + item.price}" class="price-text">120</span>
                                         <input name="price" class="price-input" th:value="${item.price}"
-                                               style="display: none;"/>
+                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>
                                     </td>
                                     <td class="table__body-sold_qnt">
                                         <span th:text="${item.soldQuantity}" class="sold-text">120</span>
                                         <input name="sold" class="sold-input" th:value="${item.soldQuantity}"
-                                               style="display: none;"/>
+                                               style="display: none;" pattern="\d*" title="Please enter a valid number"/>
                                     </td>
                                     <td class="table__body-edit">
                                         <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
@@ -209,15 +226,16 @@
                                 <td class="table__body-toggle">
                                     <form th:action="@{/seller/flower}" method="post">
                                         <input type="hidden" name="_method" value="delete">
-                                        <input type="submit" name="action" value="Delete" class="toggle-btn">
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                        <input type="hidden" name="flowerId" th:value="${item.id}">
+                                        <input type="submit" name="action" value="Delete" class="toggle-btn">
                                     </form>
                                 </td>
                             </tr>
                         </div>
                     </div>
 
-                    <form th:action="@{/seller/order/confirm}" method="get" class="manage-flower__form">
+                    <form th:action="@{/seller/flower}" method="get" class="manage-flower__form">
                         <tr class="table__body-item-new" style="display: none;">
                             <td class="table__body-img">
                                 <input type="url" name="img" placeholder="Image">

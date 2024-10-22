@@ -95,4 +95,5 @@ public interface BuyerService {
     String filterCategory(FilterCategoryRequest request, Model model);
 
     FilterCategoryResponse filterCategoryAPI(FilterCategoryRequest request);
+
 }
