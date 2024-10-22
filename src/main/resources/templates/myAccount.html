@@ -118,7 +118,7 @@
                                 <img th:src="${msg.avatar == null || msg.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.avatar}" alt="Default Avatar" id="profile-avatar">
                                 <label for="input-file" class="choose-img-btn">Change Avatar</label>
                                 <input type="file" accept="image/*" value="" id="input-file" class="file-input">
-                                <input type="hidden" name="avatar" id="avatarUrl" th:value="${msg.avatar}>
+                                <input type="hidden" name="avatar" id="avatarUrl" th:value="${msg.avatar}">
                                 <div class="profile__avatar-note">
                                     <span>Maximum file size is 3 MB</span>
                                     <span>Format: .JPEG, .PNG</span>

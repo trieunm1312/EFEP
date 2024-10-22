@@ -162,8 +162,8 @@
                     <div th:if="${msg}">
                         <div>
                             <tr class="table__body-item" th:each="item : ${msg.flowerList}">
-                                <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
-                                    <input type="hidden" name="_method" value="put">
+                                <form th:action="@{/seller/flower}" th:method="put" class="manage-flower__form">
+
                                     <input type="hidden" name="id" th:value="${item.id}">
                                     <td class="table__body-img">
                                         <img class="img" src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg" alt="">
