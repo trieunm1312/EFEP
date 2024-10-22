@@ -156,6 +156,13 @@ toasts.forEach(toast => {
 // View Order Summary
 var countdownElement = document.getElementById("countdown");
 var countdown = 5;
+var redirectUrl = "/";
+
+
+var role = document.getElementById("role").value;
+if (role === 'seller') {
+    redirectUrl = "/manageFlower";
+}
 
 var interval = setInterval(function() {
     countdown--;
@@ -163,6 +170,6 @@ var interval = setInterval(function() {
 
     if (countdown <= 0) {
         clearInterval(interval);
-        window.location.href = "/";
+        window.location.href = redirectUrl;
     }
 }, 1000);

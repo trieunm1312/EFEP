@@ -31,7 +31,7 @@ public class PurchasedPlan {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "`selller_id`")
+    @JoinColumn(name = "`seller_id`")
     private Seller seller;
 
     private String name;
