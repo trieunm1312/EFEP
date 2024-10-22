@@ -1046,6 +1046,7 @@ public class BuyerServiceImpl implements BuyerService {
         return categories.stream()
                 .map(cate ->
                         ViewCategoryListResponse.Category.builder()
+                                .id(cate.getId())
                                 .name(cate.getName())
                                 .build())
                 .toList();

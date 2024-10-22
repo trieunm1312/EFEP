@@ -132,8 +132,9 @@
             </div>
             <span class="header__separate">|</span>
             <div class="header__account">
-                <img src="https://th.bing.com/th/id/OIP.fZnBtIe-qAaSrj3pGtJiQQHaHa?w=179&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Avatar">
-                <span>Xuất Sắc Bảnh</span>
+                <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
+                <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
+                <span th:text="${session.acc.getUser().getName()}"></span>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
             </div>
         </div>
@@ -167,8 +168,8 @@
                     <div >
                         <div th:if="${msg}">
                             <tr class="table__body-item" th:each="item : ${msg.flowerList}">
-                                <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
-                                    <input type="hidden" name="_method" value="put">
+                                <form th:action="@{/seller/flower}" th:method="put" class="manage-flower__form">
+
                                     <input type="hidden" name="id" th:value="${item.id}">
                                     <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                     <td class="table__body-img">

@@ -21,6 +21,8 @@ public class ViewCategoryListResponse {
     @NoArgsConstructor
     @Builder
     public static class Category {
+        private int id;
+
         private String name;
     }
 
