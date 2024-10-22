@@ -99,118 +99,16 @@
                             <span class="header__item-megamenu-item-label-arrow-offer"></span>
                             <div class="category__block">
                                 <ul class="category__list">
-                                    <li class="category__item">
-                                        <a th:href="@{/}" class="category__heading">
-                                            <h4>Event</h4>
-                                        </a>
-                                        <ul class="category__sub-list">
-                                            <li class="category__sub-item">
-                                                <a th:href="@{/}" class="category__sub-item-link">
-                                                    <p>Wedding</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a th:href="@{/}" class="category__sub-item-link">
-                                                    <p>Birthday</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Anniversary</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Funeral</p>
-                                                </a>
-                                            </li>
+                                    <li th:each="category : ${msg3.categoryList}" class="category__item">
+                                        <form th:href="@{/buyer/category/filter}" class="category__heading">
+                                            <input type="hidden" name="id" th:value="${category.id}">
+                                            <button>
+                                                <h4 th:text="${category.name}"></h4>
+                                            </button>
+                                        </form>
 
-                                        </ul>
                                     </li>
-                                    <li class="category__item">
-                                        <a href="" class="category__heading">
-                                            <h4>Event</h4>
-                                        </a>
-                                        <ul class="category__sub-list">
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Wedding</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Birthday</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Anniversary</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Funeral</p>
-                                                </a>
-                                            </li>
 
-                                        </ul>
-                                    </li>
-                                    <li class="category__item">
-                                        <a href="" class="category__heading">
-                                            <h4>Event</h4>
-                                        </a>
-                                        <ul class="category__sub-list">
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Wedding</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Birthday</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Anniversary</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Funeral</p>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li class="category__item">
-                                        <a href="" class="category__heading">
-                                            <h4>Event</h4>
-                                        </a>
-                                        <ul class="category__sub-list">
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Wedding</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Birthday</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Anniversary</p>
-                                                </a>
-                                            </li>
-                                            <li class="category__sub-item">
-                                                <a href="" class="category__sub-item-link">
-                                                    <p>Funeral</p>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
                                 </ul>
 
                             </div>
