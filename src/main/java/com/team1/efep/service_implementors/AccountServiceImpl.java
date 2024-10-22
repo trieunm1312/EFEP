@@ -149,7 +149,7 @@ public class AccountServiceImpl implements AccountService {
         return errors;
     }
 
-    //__________________________________________________LOGIN WITH GMAIL_________________________________________________//
+    //----------------------------------------LOGIN WITH GMAIL------------------------------------------//
 
     @Override
     public LoginGoogleResponse getGoogleLoginUrl() {
@@ -171,7 +171,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        //1. get Account
+
         Account account = Role.getCurrentLoggedAccount(session);
 
         assert account != null;

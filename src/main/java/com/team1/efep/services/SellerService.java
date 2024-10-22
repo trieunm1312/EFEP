@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
+import java.util.List;
 import java.util.Map;
 
 public interface SellerService {
@@ -65,6 +66,8 @@ public interface SellerService {
     String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model);
 
     UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request);
+
+    List<String> getAllFlowerStatus();
 
     String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model);
 

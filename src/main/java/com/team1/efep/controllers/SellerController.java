@@ -12,9 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
-// @RestController
+//@RestController
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/seller")
@@ -168,6 +169,8 @@ public class SellerController {
         return sellerService.sortOrderAPI(filterOrderRequest, sortOrderRequest);
     }
 
+    //--------------------------------------------Flower------------------------------------------------//
+
     @PutMapping("/flower/")
     @Operation(hidden = true)
     public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
@@ -199,5 +202,10 @@ public class SellerController {
     @PostMapping("/flower/image")
     public ViewFlowerImageResponse viewFlowerImage(@RequestBody ViewFlowerImageRequest request) {
         return sellerService.viewFlowerImageAPI(request);
+    }
+
+    @GetMapping("/flower/status")
+    public List<String> getAllFlowerStatus() {
+        return sellerService.getAllFlowerStatus();
     }
 }

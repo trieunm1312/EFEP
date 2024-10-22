@@ -16,8 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
-//@Controller
-@RestController
+@Controller
+//@RestController
 @RequiredArgsConstructor
 @RequestMapping("/buyer")
 @Tag(name = "Buyer")

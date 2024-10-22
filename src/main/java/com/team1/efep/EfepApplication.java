@@ -89,6 +89,27 @@ public class EfepApplication {
                                 .build()
                 );
 
+                //init admin
+                User admin = userRepo.save(
+                        User.builder()
+                                .account(
+                                        accountRepo.save(Account.builder()
+                                                .email("admin@efep.com")
+                                                .status(Status.ACCOUNT_STATUS_ACTIVE)
+                                                .password("123")
+                                                .role(Role.ADMIN)
+                                                .build())
+                                )
+                                .name("admin")
+                                .phone("0909090909")
+                                .avatar("https://www.avatar.com")
+                                .background("https://www.background.com")
+                                .orderList(null)
+                                .wishlist(null)
+                                .seller(null)
+                                .build()
+                );
+
                 //init wishlist
                 Wishlist wishlist1 = wishlistRepo.save(
                         Wishlist.builder()
@@ -136,6 +157,118 @@ public class EfepApplication {
                                 .flowerAmount(10)
                                 .name("Lily")
                                 .price(100)
+                                .quantity(10)
+                                .seller(seller1)
+                                .soldQuantity(0)
+                                .status(Status.FLOWER_STATUS_AVAILABLE)
+                                .flowerCategoryList(null)
+                                .orderDetailList(null)
+                                .wishlistItemList(null)
+                                .build()
+                );
+
+                Flower flower4 = flowerRepo.save(
+                        Flower.builder()
+                                .description("Hibiscus")
+                                .flowerAmount(10)
+                                .name("Hibiscus")
+                                .price(100)
+                                .quantity(10)
+                                .seller(seller1)
+                                .soldQuantity(0)
+                                .status(Status.FLOWER_STATUS_AVAILABLE)
+                                .flowerCategoryList(null)
+                                .orderDetailList(null)
+                                .wishlistItemList(null)
+                                .build()
+                );
+
+                Flower flower5 = flowerRepo.save(
+                        Flower.builder()
+                                .description("Daisy")
+                                .flowerAmount(10)
+                                .name("Daisy")
+                                .price(100)
+                                .quantity(10)
+                                .seller(seller1)
+                                .soldQuantity(0)
+                                .status(Status.FLOWER_STATUS_AVAILABLE)
+                                .flowerCategoryList(null)
+                                .orderDetailList(null)
+                                .wishlistItemList(null)
+                                .build()
+                );
+
+                Flower flower6 = flowerRepo.save(
+                        Flower.builder()
+                                .description("Poppy")
+                                .flowerAmount(10)
+                                .name("Poppy")
+                                .price(100)
+                                .quantity(10)
+                                .seller(seller1)
+                                .soldQuantity(0)
+                                .status(Status.FLOWER_STATUS_AVAILABLE)
+                                .flowerCategoryList(null)
+                                .orderDetailList(null)
+                                .wishlistItemList(null)
+                                .build()
+                );
+
+                Flower flower7 = flowerRepo.save(
+                        Flower.builder()
+                                .description("Lotus")
+                                .flowerAmount(10)
+                                .name("Lotus")
+                                .price(100)
+                                .quantity(10)
+                                .seller(seller1)
+                                .soldQuantity(0)
+                                .status(Status.FLOWER_STATUS_AVAILABLE)
+                                .flowerCategoryList(null)
+                                .orderDetailList(null)
+                                .wishlistItemList(null)
+                                .build()
+                );
+
+                Flower flower8 = flowerRepo.save(
+                        Flower.builder()
+                                .description("Jasmine")
+                                .flowerAmount(10)
+                                .name("Jasmine")
+                                .price(100)
+                                .quantity(10)
+                                .seller(seller1)
+                                .soldQuantity(0)
+                                .status(Status.FLOWER_STATUS_AVAILABLE)
+                                .flowerCategoryList(null)
+                                .orderDetailList(null)
+                                .wishlistItemList(null)
+                                .build()
+                );
+
+                Flower flower9 = flowerRepo.save(
+                        Flower.builder()
+                                .description("Violet")
+                                .flowerAmount(10)
+                                .name("Violet")
+                                .price(100)
+                                .quantity(10)
+                                .seller(seller1)
+                                .soldQuantity(0)
+                                .status(Status.FLOWER_STATUS_AVAILABLE)
+                                .flowerCategoryList(null)
+                                .orderDetailList(null)
+                                .wishlistItemList(null)
+                                .build()
+                );
+
+                Flower flower10 = flowerRepo.save(
+                        Flower.builder()
+                                .description("Sunflower")
+                                .flowerAmount(10)
+                                .name("Sunflower")
+                                .price(20)
                                 .quantity(10)
                                 .seller(seller1)
                                 .soldQuantity(0)
@@ -195,6 +328,118 @@ public class EfepApplication {
                 );
 
                 flower3.setFlowerImageList(List.of(flowerImage5, flowerImage6));
+
+                FlowerImage flowerImage7 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://i.etsystatic.com/17286005/r/il/de821f/5737577164/il_570xN.5737577164_aj8b.jpg")
+                                .build()
+                );
+
+                FlowerImage flowerImage8 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://i.etsystatic.com/17286005/r/il/de821f/5737577164/il_570xN.5737577164_aj8b.jpg")
+                                .build()
+                );
+
+                flower4.setFlowerImageList(List.of(flowerImage7, flowerImage8));
+
+                FlowerImage flowerImage9 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://cdn.shopify.com/s/files/1/0108/9460/6436/files/White_Daisies_1024x1024.jpg?v=1553192523")
+                                .build()
+                );
+
+                FlowerImage flowerImage10 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://cdn.shopify.com/s/files/1/0108/9460/6436/files/White_Daisies_1024x1024.jpg?v=1553192523")
+                                .build()
+                );
+
+                flower5.setFlowerImageList(List.of(flowerImage9, flowerImage10));
+
+                FlowerImage flowerImage11 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://www.magicflowerseventrentals.com/wp-content/uploads/2023/05/IMG-6302.jpg")
+                                .build()
+                );
+
+                FlowerImage flowerImage12 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://www.magicflowerseventrentals.com/wp-content/uploads/2023/05/IMG-6302.jpg")
+                                .build()
+                );
+
+                flower6.setFlowerImageList(List.of(flowerImage11, flowerImage12));
+
+                FlowerImage flowerImage13 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://i.etsystatic.com/6282450/r/il/857e11/1548374167/il_570xN.1548374167_iz1c.jpg")
+                                .build()
+                );
+
+                FlowerImage flowerImage14 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://i.etsystatic.com/6282450/r/il/857e11/1548374167/il_570xN.1548374167_iz1c.jpg")
+                                .build()
+                );
+
+                flower7.setFlowerImageList(List.of(flowerImage13, flowerImage14));
+
+                FlowerImage flowerImage15 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://images.squarespace-cdn.com/content/v1/615186c62b534b697dcceacd/1632736845035-HKXNXSZ8GN2OPY06OX0C/homepage-1.jpg")
+                                .build()
+                );
+
+                FlowerImage flowerImage16 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://images.squarespace-cdn.com/content/v1/615186c62b534b697dcceacd/1632736845035-HKXNXSZ8GN2OPY06OX0C/homepage-1.jpg")
+                                .build()
+                );
+
+                flower8.setFlowerImageList(List.of(flowerImage15, flowerImage16));
+
+                FlowerImage flowerImage17 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://hillsflowers.net/cdn/shop/files/W36-4709_LOL_preset_mol-mx-tile-wide-sv-new_b7db6120-c324-47b5-afb5-e2e2caf803c2.jpg")
+                                .build()
+                );
+
+                FlowerImage flowerImage18 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://hillsflowers.net/cdn/shop/files/W36-4709_LOL_preset_mol-mx-tile-wide-sv-new_b7db6120-c324-47b5-afb5-e2e2caf803c2.jpg")
+                                .build()
+                );
+
+                flower9.setFlowerImageList(List.of(flowerImage17, flowerImage18));
+
+                FlowerImage flowerImage19 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://the-little-rustic-farm.com/cdn/shop/products/il_794xN.3887270497_2p0e_1024x1024@2x.jpg")
+                                .build()
+                );
+
+                FlowerImage flowerImage20 = flowerImageRepo.save(
+                        FlowerImage.builder()
+                                .flower(flower3)
+                                .link("https://the-little-rustic-farm.com/cdn/shop/products/il_794xN.3887270497_2p0e_1024x1024@2x.jpg")
+                                .build()
+                );
+
+                flower10.setFlowerImageList(List.of(flowerImage19, flowerImage20));
 
                 //init wishlist item
                 WishlistItem wishlistItem1 = wishlistItemRepo.save(

@@ -1,18 +1,17 @@
 package com.team1.efep.models.request_models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AddToWishlistRequest {
 
-    private Integer accountId;
+    Integer accountId;
 
-    private Integer flowerId;
+    Integer flowerId;
 
 }
