@@ -208,4 +208,15 @@ public class SellerController {
     public List<String> getAllFlowerStatus() {
         return sellerService.getAllFlowerStatus();
     }
+
+    @GetMapping("/plan/detail")
+    @Operation(hidden = true)
+    public String viewBusinessPlanDetail(HttpSession session, Model model) {
+        return sellerService.viewBusinessPlanDetail(session, model);
+    }
+
+    @GetMapping("/plan/detail/api")
+    public ViewBusinessPlanDetailResponse viewBusinessPlanDetail(ViewBusinessPlanDetailRequest request) {
+        return sellerService.viewBusinessPlanDetailAPI(request);
+    }
 }
