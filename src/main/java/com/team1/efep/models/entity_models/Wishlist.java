@@ -21,7 +21,7 @@ public class Wishlist {
     @JoinColumn(name = "`user_id`")
     private User user;
 
-    @OneToMany(mappedBy = "wishlist")
+    @OneToMany(mappedBy = "wishlist", fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<WishlistItem> wishlistItemList;
