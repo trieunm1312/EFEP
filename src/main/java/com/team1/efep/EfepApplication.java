@@ -31,6 +31,7 @@ public class EfepApplication {
     private final PlanServiceRepo planServiceRepo;
     private final CategoryRepo categoryRepo;
     private final FlowerCategoryRepo flowerCategoryRepo;
+    private final PaymentMethodRepo paymentMethodRepo;
 
 
     public static void main(String[] args) {
@@ -695,6 +696,23 @@ public class EfepApplication {
                                 .category(category7)
                                 .build()
                 );
+
+                //init payment method
+                PaymentMethod COD = PaymentMethod.builder()
+                        .name("COD")
+                        .build();
+
+                PaymentMethod VNPay = PaymentMethod.builder()
+                        .name("VNPay")
+                        .build();
+
+                paymentMethodRepo.save(COD);
+                paymentMethodRepo.save(VNPay);
+
+                order1.setPaymentMethod(COD);
+                order2.setPaymentMethod(VNPay);
+                order3.setPaymentMethod(COD);
+                orderRepo.saveAll(List.of(order1, order2, order3));
 
             };
 

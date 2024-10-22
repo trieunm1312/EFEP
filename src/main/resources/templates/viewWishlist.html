@@ -60,8 +60,7 @@
                 <div class="wishlist-show" th:if="${msg != null}">
                     <div class="table-item-cart">
                         <div class="btn-delete-wishlist">
-                            <form th:action="@{/buyer/wishlist}" method="post">
-                                <input type="hidden" name="_method" value="delete">
+                            <form th:action="@{/buyer/wishlist}" th:method="delete">
                                 <input type="hidden" name="wishlistId"
                                     th:value="${session.acc.getUser().getWishlist().getId()}">
                                 <button class="btn-delete">Delete Wishlist</button>
@@ -96,8 +95,7 @@
                                     </td>
                                     <td class="table-item-detail">
                                         <div class="table-item-quantity">
-                                            <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="post">
-                                                <input type="hidden" name="_method" value="put">
+                                            <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="put">
                                                 <input type="hidden" name="wishlistId" th:value="${item.id}">
                                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                                                 <input type="hidden" name="request" value="desc">
@@ -107,8 +105,7 @@
 
                                             <span class="input-quantity" th:text="${item.quantity}">1</span>
 
-                                            <form th:action="@{/buyer/wishlist}" th:method="post">
-                                                <input type="hidden" name="_method" value="put">
+                                            <form th:action="@{/buyer/wishlist}" th:method="put">
                                                 <input type="hidden" name="wishlistId" th:value="${item.id}">
                                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                                                 <input type="hidden" name="request" value="asc">
