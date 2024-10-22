@@ -87,7 +87,7 @@
                         </div>
 
                     </div>
-                    <form action="">
+<!--                    <form action="">-->
                         <div class="flower-information__content">
                             <h3 class="flower-information__name" th:text="${msg.flower.name}"></h3>
                             <hr>
@@ -136,6 +136,8 @@
                                 <div class="flower-information__button">
                                     <form th:action="@{/buyer/wishlist}" method="post">
                                         <input type="hidden" id="hiddenQuantity" name="hiddenQuantity" value="1">
+                                        <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
+                                        <span th:text="${msg.flower.id}"></span>
                                         <input type="submit" class="flower-information__wishlist-btn btn" name="action"
                                                value="Add to Wishlist">
                                     </form>
@@ -145,7 +147,7 @@
                                     </form>
                                 </div>
                         </div>
-                    </form>
+<!--                    </form>-->
                     <br>
                 </div>
                 <h3 class="flower-information__desc">Description</h3>
