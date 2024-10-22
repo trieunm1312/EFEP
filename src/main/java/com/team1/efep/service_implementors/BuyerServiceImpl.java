@@ -165,7 +165,7 @@ public class BuyerServiceImpl implements BuyerService {
         if (checkExistedItem(request, wishlist)) {
             WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
             assert wishlistItem != null;
-            wishlistItem.setQuantity(wishlistItem.getQuantity() + 1);
+            wishlistItem.setQuantity(wishlistItem.getQuantity() + request.getQuantity());
             wishlistItemRepo.save(wishlistItem);
         } else {
             wishlist.getWishlistItemList().add(
@@ -1163,6 +1163,7 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             model.addAttribute("msg", (VNPayResponse) output);
             return ((VNPayResponse) output).getPaymentURL();
         }
