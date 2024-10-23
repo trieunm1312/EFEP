@@ -24,6 +24,73 @@ public class SellerController {
 
     private final SellerService sellerService;
 
+    //--------------------------------------------Flower------------------------------------------------//
+
+    @PutMapping("/flower")
+    @Operation(hidden = true)
+    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
+        return sellerService.updateFlower(request, session, model);
+    }
+
+    @PutMapping("/flower/api")
+    public UpdateFlowerResponse updateFlower(@RequestBody UpdateFlowerRequest request) {
+        return sellerService.updateFlowerAPI(request);
+    }
+
+    @DeleteMapping("/flower")
+    @Operation(hidden = true)
+    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model) {
+        return sellerService.deleteFlower(request, session, model);
+    }
+
+    @DeleteMapping("/flower/api")
+    public DeleteFlowerResponse deleteFlower(@RequestBody DeleteFlowerRequest request) {
+        return sellerService.deleteFlowerAPI(request);
+    }
+
+    @GetMapping("/flower/image")
+    @Operation(hidden = true)
+    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model) {
+        return sellerService.viewFlowerImage(request, session, model);
+    }
+
+    @PostMapping("/flower/image/api")
+    public ViewFlowerImageResponse viewFlowerImageAPI(@RequestBody ViewFlowerImageRequest request) {
+        return sellerService.viewFlowerImageAPI(request);
+    }
+
+    @PostMapping("/flower/image")
+    @Operation(hidden = true)
+    public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model) {
+        return sellerService.addFlowerImage(request, session, model);
+    }
+
+    @PostMapping("/flower/image/api")
+    public AddFlowerImageResponse addFlowerImage(@RequestBody AddFlowerImageRequest request) {
+        return sellerService.addFlowerImageAPI(request);
+    }
+
+    @DeleteMapping("/flower/image")
+    @Operation(hidden = true)
+    public String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model) {
+        return sellerService.deleteFlowerImage(request, session, model);
+    }
+
+    @DeleteMapping("/flower/image/api")
+    public DeleteFlowerImageResponse deleteFlowerImage(@RequestBody DeleteFlowerImageRequest request) {
+        return sellerService.deleteFlowerImageAPI(request);
+    }
+
+    @GetMapping("/flower/status")
+    public List<String> getAllFlowerStatus() {
+        return sellerService.getAllFlowerStatus();
+    }
+
+    @GetMapping("/view/flower/api")
+    public ViewFlowerListForSellerResponse viewFlowerListForSeller(int sellerId) {
+        return sellerService.viewFlowerListForSellerAPI(sellerId);
+    }
+
     @PostMapping("/flower")
     @Operation(hidden = true)
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
@@ -34,6 +101,10 @@ public class SellerController {
     public CreateFlowerResponse createFlower(@RequestBody CreateFlowerRequest request, HttpSession session) {
         return sellerService.createFlowerAPI(request);
     }
+
+    //-------------------------------------------------------------------------------------------------//
+
+    //--------------------------------------------Order------------------------------------------------//
 
     @PutMapping("/order/status")
     @Operation(hidden = true)
@@ -62,51 +133,6 @@ public class SellerController {
 //        return sellerService.viewFlowerListForSeller(session, model);
 //    }--> chay chung --> nen ko can ham thymeleaf
 
-    @GetMapping("/view/flower/api")
-    public ViewFlowerListForSellerResponse viewFlowerListForSeller(int sellerId) {
-        return sellerService.viewFlowerListForSellerAPI(sellerId);
-    }
-
-    @PutMapping("/plan")
-    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
-        return sellerService.cancelBusinessPlan(request, model);
-    }
-
-    @PostMapping("/view/plan")
-    @Operation(hidden = true)
-    public String viewBusinessPlan(HttpSession session, Model model) {
-        return sellerService.viewBusinessPlan(session, model);
-    }
-
-    @PostMapping("/view/plan/api")
-    public ViewBusinessPlanResponse viewBusinessPlan() {
-        return sellerService.viewBusinessPlanAPI();
-    }
-
-    @PutMapping("/plan/api")
-    public CancelBusinessPlanResponse cancelBusinessPlan(@RequestBody CancelBusinessPlanRequest request) {
-        return sellerService.cancelBusinessPlanAPI(request);
-    }
-
-    @GetMapping("/buyer/list")
-    public String viewBuyerList(HttpSession session, Model model) {
-        return sellerService.viewBuyerList(session, model);
-    }
-
-    @PostMapping("/buyer/list/api")
-    public ViewBuyerListResponse viewBuyerList(@RequestBody ViewBuyerListRequest request) {
-        return sellerService.viewBuyerListAPI(request);
-    }
-
-    @PostMapping("/search/buyer/")
-    public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
-        return sellerService.searchBuyerList(session, request, model);
-    }
-
-    @PostMapping("/search/buyer/api")
-    public SearchBuyerListResponse searchBuyerList(@RequestBody SearchBuyerListRequest request, @RequestBody int id) {
-        return sellerService.searchBuyerListAPI(request, id);
-    }
 
     @PutMapping("/order/detail")
     @Operation(hidden = true)
@@ -169,44 +195,47 @@ public class SellerController {
         return sellerService.sortOrderAPI(filterOrderRequest, sortOrderRequest);
     }
 
-    //--------------------------------------------Flower------------------------------------------------//
+    //-------------------------------------------------------------------------------------------------//
 
-    @PutMapping("/flower")
+    @PutMapping("/plan")
+    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
+        return sellerService.cancelBusinessPlan(request, model);
+    }
+
+    @PostMapping("/view/plan")
     @Operation(hidden = true)
-    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
-        return sellerService.updateFlower(request, session, model);
+    public String viewBusinessPlan(HttpSession session, Model model) {
+        return sellerService.viewBusinessPlan(session, model);
     }
 
-    @PutMapping("/flower/api")
-    public UpdateFlowerResponse updateFlower(@RequestBody UpdateFlowerRequest request) {
-        return sellerService.updateFlowerAPI(request);
+    @PostMapping("/view/plan/api")
+    public ViewBusinessPlanResponse viewBusinessPlan() {
+        return sellerService.viewBusinessPlanAPI();
     }
 
-    @DeleteMapping("/flower")
-    @Operation(hidden = true)
-    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model) {
-        return sellerService.deleteFlower(request, session, model);
+    @PutMapping("/plan/api")
+    public CancelBusinessPlanResponse cancelBusinessPlan(@RequestBody CancelBusinessPlanRequest request) {
+        return sellerService.cancelBusinessPlanAPI(request);
     }
 
-    @DeleteMapping("/flower/api")
-    public DeleteFlowerResponse deleteFlower(@RequestBody DeleteFlowerRequest request) {
-        return sellerService.deleteFlowerAPI(request);
+    @GetMapping("/buyer/list")
+    public String viewBuyerList(HttpSession session, Model model) {
+        return sellerService.viewBuyerList(session, model);
     }
 
-    @GetMapping("/flower/image")
-    @Operation(hidden = true)
-    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model) {
-        return sellerService.viewFlowerImage(request, session, model);
+    @PostMapping("/buyer/list/api")
+    public ViewBuyerListResponse viewBuyerList(@RequestBody ViewBuyerListRequest request) {
+        return sellerService.viewBuyerListAPI(request);
     }
 
-    @PostMapping("/flower/image")
-    public ViewFlowerImageResponse viewFlowerImage(@RequestBody ViewFlowerImageRequest request) {
-        return sellerService.viewFlowerImageAPI(request);
+    @PostMapping("/search/buyer/")
+    public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
+        return sellerService.searchBuyerList(session, request, model);
     }
 
-    @GetMapping("/flower/status")
-    public List<String> getAllFlowerStatus() {
-        return sellerService.getAllFlowerStatus();
+    @PostMapping("/search/buyer/api")
+    public SearchBuyerListResponse searchBuyerList(@RequestBody SearchBuyerListRequest request, @RequestBody int id) {
+        return sellerService.searchBuyerListAPI(request, id);
     }
 
     @GetMapping("/plan/detail")

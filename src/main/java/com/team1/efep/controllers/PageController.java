@@ -129,6 +129,11 @@ public class PageController {
         return "myAccount";
     }
 
+
+    @GetMapping("/wishlist")
+    public String viewWishlist(HttpSession session, Model model) {
+        return "viewWishlist";
+    }
 }
 
 
