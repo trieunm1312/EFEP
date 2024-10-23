@@ -41,28 +41,45 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="sidebar__link">
+                    <a th:href="@{/manageFlower}" class="sidebar__link">
                         <div class="sidebar__item">
                             <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Business Plan</span>
+                            <span class="sidebar__item-title">Manage Flower</span>
                         </div>
                     </a>
                 </li>
                 <li>
-                    <a href="" class="sidebar__link ">
-                        <div class="sidebar__item">
+                    <a th:href="@{/orderList}" class="sidebar__link ">
+                        <div class="sidebar__item active">
                             <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Business Service</span>
+                            <span class="sidebar__item-title">Manage Order</span>
                         </div>
                     </a>
                 </li>
                 <li>
-                    <a href="" class="sidebar__link">
+                    <a th:href="@{/seller/plan}" class="sidebar__link">
                         <div class="sidebar__item">
                             <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage User</span>
+                            <span class="sidebar__item-title">My Plan</span>
                         </div>
                     </a>
+                </li>
+                <li>
+                    <a th:href="@{/seller/buyer/list}" class="sidebar__link">
+                        <div class="sidebar__item">
+                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                            <span class="sidebar__item-title">Buyer List</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <form th:action="@{/account/view/profile}"  class="sidebar__link">
+                        <div class="sidebar__item">
+                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                            <input type="submit" name="action" value="Personal Profile" class="sidebar__item-title"></input>
+                        </div>
+                        <input type="hidden" name="id" th:value="${session.acc.id}">
+                    </form>
                 </li>
             </ul>
         </div>

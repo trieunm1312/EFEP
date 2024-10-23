@@ -1264,7 +1264,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .status("200")
                 .message("Your order has been preparing...")
                 .build();
-
+        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
         redirectAttributes.addFlashAttribute("msg", response);
         return "redirect:/viewOrderSummary";
     }
