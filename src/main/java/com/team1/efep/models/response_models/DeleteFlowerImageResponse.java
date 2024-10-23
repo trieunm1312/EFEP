@@ -1,4 +1,4 @@
-package com.team1.efep.models.request_models;
+package com.team1.efep.models.response_models;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,10 +8,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddFlowerImageRequest {
-    int accountId;
+public class DeleteFlowerImageResponse {
 
-    int flowerId;
+    String status;
 
-    String link;
+    String message;
 }
