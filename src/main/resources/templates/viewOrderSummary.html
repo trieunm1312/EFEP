@@ -38,7 +38,7 @@
             <div class="notify-msg-fail font-size-text" th:if="${msg.status == '400'}">
                 <span id="paymentStatus1" th:text="${msg.message}">Payment failed! Please check your information or try again later.</span>
             </div>
-            <div class="notify-btn" th:if="${session.acc.getRole() == 'user'}">
+            <div class="notify-btn" th:if="${session.acc.getRole() == 'buyer'}">
                 <form th:action="@{/}" method="get">
                     <input class="btn-home" type="submit" value="Back home" name="Action">
                 </form>
