@@ -8,10 +8,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddFlowerImageRequest {
+public class DeleteFlowerImageRequest {
+
     int accountId;
 
-    int flowerId;
-
-    String link;
+    int imageId;
 }

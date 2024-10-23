@@ -81,6 +81,10 @@ public interface SellerService {
 
     AddFlowerImageResponse addFlowerImageAPI(AddFlowerImageRequest request);
 
+    String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model);
+
+    DeleteFlowerImageResponse deleteFlowerImageAPI(DeleteFlowerImageRequest request);
+
     String confirmOrder(HttpSession session, Model model, int busPlanId);
 
     String viewBusinessPlanDetail(HttpSession session, Model model);
