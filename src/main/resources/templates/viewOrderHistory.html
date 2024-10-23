@@ -69,7 +69,7 @@
                     </a>
                 </div>
                 <!-- Order history -->
-                <div class="order__history" th:if="${msg}">
+                <!-- <div class="order__history" th:if="${msg}">
                     <div class="order__history-item" th:each="order : ${msg.orderList}">
                         <div class="info-order">
                             <p class="order__history-item-detail-seller" th:text="${order.orderId}">Seller1</p>
@@ -97,43 +97,10 @@
                                         </div>
                                     </div>
 
-                                    <!-- <div class="order__history-item-detail-total-order">
+                                     <div class="order__history-item-detail-total-order">
                                             <span class="order__history-item-detail-total">$120</span>
-                                    </div> -->
-                                </div>
-                            </div>
-                            <hr class="line-item">
-                        </div>
-                        <div class="order__history-item-flower">
-                            <div class="order__history-item-description">
-                                <div class="order__history-item-img">
-                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                        alt="">
-                                </div>
-                                <div class="order__history-item-info">
-                                    <div class="order__history-item-header">
-                                        <h4
-                                            class="order__history-item-header-name font-bold">Hiptage</h4>
-                                        <p class="order__history-item-header-time">19/09/2024 24:00</p>
                                     </div>
-                                    <p class="order__history-item-detail-event">Wedding
-                                    </p>
-
-                                    <div class="order__history-item-detail">
-                                        <span
-                                            class="order__history-item-detail-price">$120</span>
-                                        <div class="order__history-item-detail-quantity-order">
-                                            <span class="order__history-item-detail-multiple">x</span>
-                                            <span
-                                                class="order__history-item-detail-qnt font-bold">1</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- <div class="order__history-item-detail-total-order">
-                                <span class="order__history-item-detail-total">$120</span>
-                            </div> -->
                                 </div>
-
                             </div>
                             <hr class="line-item">
                         </div>
@@ -145,6 +112,43 @@
                             </form>
                         </div>
 
+                    </div>
+
+                </div> -->
+
+                <div class="order-list" th:if="${msg}">
+                    <div class="order-item" th:each="order : ${msg.orderList}">
+                        <div class="order-header">
+                            <div class="header-info">
+                                <h4>Order ID: <span th:text="${order.orderId}">12345</span></h4>
+                                <span th:text="${order.status}">Delivered</span>
+                            </div>
+                            <p>Buyer: <span th:text="${order.sellerName}">John Doe</span></p>
+                            <p>Total Price: <span th:text="${order.totalPrice}">$150.00</span></p>
+                        </div>
+
+                        <div class="order-details">
+                            <table class="product-table">
+                                <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="product : ${order.detailList}">
+                                    <td th:text="${product.flowerName}"> hipatge</td>
+                                    <td th:text="${product.quantity}">1</td>
+                                    <td th:text="${product.price}">$20.00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <form action="" method="post">
+<!--                                    <input type="hidden" name="accountId" th:value="${/}">-->
+                                <button class="table-order-status-btn" value="Detail" name="detail">Detail</button>
+                        </form>
                     </div>
 
                 </div>
