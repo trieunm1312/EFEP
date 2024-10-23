@@ -59,13 +59,13 @@ public class SellerController {
         return sellerService.viewFlowerImageAPI(request);
     }
 
-    @PutMapping("/flower/image")
+    @PostMapping("/flower/image")
     @Operation(hidden = true)
     public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model) {
         return sellerService.addFlowerImage(request, session, model);
     }
 
-    @PutMapping("/flower/image/api")
+    @PostMapping("/flower/image/api")
     public AddFlowerImageResponse addFlowerImage(@RequestBody AddFlowerImageRequest request) {
         return sellerService.addFlowerImageAPI(request);
     }
