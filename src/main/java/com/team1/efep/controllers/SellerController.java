@@ -65,7 +65,7 @@ public class SellerController {
         return sellerService.addFlowerImage(request, session, model);
     }
 
-    @PostMapping("/flower/image")
+    @PostMapping("/flower/image/api")
     public AddFlowerImageResponse addFlowerImage(@RequestBody AddFlowerImageRequest request) {
         return sellerService.addFlowerImageAPI(request);
     }
@@ -76,7 +76,7 @@ public class SellerController {
         return sellerService.deleteFlowerImage(request, session, model);
     }
 
-    @PostMapping("/flower/image")
+    @DeleteMapping("/flower/image/api")
     public DeleteFlowerImageResponse deleteFlowerImage(@RequestBody DeleteFlowerImageRequest request) {
         return sellerService.deleteFlowerImageAPI(request);
     }
