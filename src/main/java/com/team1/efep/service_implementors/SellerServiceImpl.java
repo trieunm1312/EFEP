@@ -219,8 +219,7 @@ public class SellerServiceImpl implements SellerService {
                 .createDate(order.getCreatedDate())
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
-                .paymentType(order.getPaymentType().getType())
-                .paymentMethod(order.getPaymentMethod().getMethod())
+                .paymentMethod(order.getPaymentMethod().getName())
                 .orderDetailList(viewOrderDetailList(order.getOrderDetailList()))
                 .build();
     }
@@ -709,8 +708,7 @@ public class SellerServiceImpl implements SellerService {
                 .createDate(order.getCreatedDate())
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
-                .paymentType(order.getPaymentType().getType())
-                .paymentMethod(order.getPaymentMethod().getMethod())
+                .paymentMethod(order.getPaymentMethod().getName())
                 .orderDetailList(viewFilterOrderDetailList(order.getOrderDetailList()))
                 .build();
     }
@@ -993,7 +991,12 @@ public class SellerServiceImpl implements SellerService {
         flower.setQuantity(request.getQuantity());
         flower.setStatus(request.getStatus());
 
-        return flowerRepo.save(flower);
+        flowerRepo.save(flower);
+        return UpdateFlowerResponse.builder()
+                .status("400")
+                .message("Update flower successfully")
+                .build();
+
     }
 
     private List<FlowerImage> updateFlowerImages(UpdateFlowerRequest request, Flower flower) {
@@ -1104,47 +1107,93 @@ public class SellerServiceImpl implements SellerService {
             return "login";
         }
 
-        model.addAttribute("msg", addFlowerImageLogic(request));
+        model.addAttribute("msg", (Map<String, String>) addFlowerImageLogic(request));
         return "redirect:/seller/view/flower";
     }
 
     @Override
     public AddFlowerImageResponse addFlowerImageAPI(AddFlowerImageRequest request) {
-//        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-//        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-//            return AddFlowerImageResponse.builder()
-//                    .status("400")
-//                    .message("Please login a seller account to do this action")
-//                    .build();
-//        }
-//
-//        return addFlowerImageLogic(request);
-        return null;
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return AddFlowerImageResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        addFlowerImageLogic(request);
+        return AddFlowerImageResponse.builder()
+                .status("400")
+                .message("Please login a seller account to do this action")
+                .build();
     }
 
 
     private Object addFlowerImageLogic(AddFlowerImageRequest request) {
-//        // Tìm Flower dựa trên flowerId từ request
-//        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
-//
-//        // Lấy danh sách link hình ảnh từ request và tạo FlowerImage tương ứng
-//        List<String> imageLinks = Arrays.asList(request.getImageList().split(","));
-//        List<FlowerImage> flowerImages = imageLinks.stream()
-//                .map(link -> FlowerImage.builder()
-//                        .flower(flower)
-//                        .link(link)
-//                        .build())
-//                .toList();
-//
-//        // Lưu các FlowerImage vào cơ sở dữ liệu
-//        flowerRepo.saveAll(flowerImages);
-//
-//        return AddFlowerImageResponse.builder()
-//                .status("200")
-//                .message("Flower images added successfully")
-//                .build();
-        return null;
+        Map<String, String> error = AddFlowerImageValidation.validate(request);
+        if (!error.isEmpty()) {
+            return error;
+        }
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+
+        FlowerImage newImage = FlowerImage.builder()
+                .flower(flower)
+                .link(request.getLink())
+                .build();
+
+        flower.getFlowerImageList().add(newImage);
+        flowerRepo.save(flower);
+        flowerImageRepo.save(newImage);
+        return AddFlowerImageResponse.builder()
+                .status("200")
+                .message("Add image successfully")
+                .build();
     }
+
+    //----------------------------------------DELETE FLOWER IMAGE----------------------------------------------//
+
+    public String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", AddFlowerImageResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build());
+            return "login";
+        }
+        model.addAttribute("msg", (DeleteFlowerImageResponse) deleteFlowerImageLogic(request.getImageId()));
+        return "redirect:/seller/view/flower";
+    }
+
+    public DeleteFlowerImageResponse deleteFlowerImageAPI(DeleteFlowerImageRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+            return DeleteFlowerImageResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+        return deleteFlowerImageLogic(request.getImageId());
+    }
+
+    public DeleteFlowerImageResponse deleteFlowerImageLogic(int imageId) {
+        FlowerImage image = flowerImageRepo.findById(imageId).orElse(null);
+        if (image == null) {
+            return DeleteFlowerImageResponse.builder()
+                    .status("400")
+                    .message("Please login a seller account to do this action")
+                    .build();
+        }
+
+        flowerImageRepo.delete(image);
+        return DeleteFlowerImageResponse.builder()
+                .status("200")
+                .message("Delete image successfully")
+                .build();
+    }
+
+    //----------------------------------------VIEW FLOWER CATEGORY----------------------------------------------//
+
+
 
     //----------------------------------------CHECK OUT----------------------------------------------//
 
@@ -1171,25 +1220,25 @@ public class SellerServiceImpl implements SellerService {
 
     private ViewBusinessPlanDetailResponse viewBusinessPlanDetailLogic(int planId) {
         BusinessPlan plan = businessPlanRepo.findById(planId).orElse(null);
-       return ViewBusinessPlanDetailResponse.builder()
-               .status("200")
-               .message("")
-               .id(plan.getId())
-               .name(plan.getName())
-               .price(plan.getPrice())
-               .description(plan.getDescription())
-               .duration(plan.getDuration())
-               .planStatus(plan.getStatus())
-               .businessServiceList(plan.getPlanServiceList().stream()
-                       .map(planService -> ViewBusinessPlanDetailResponse.BusinessService.builder()
-                               .id(planService.getBusinessService().getId())
-                               .name(planService.getBusinessService().getName())
-                               .price(planService.getBusinessService().getPrice())
-                               .description(planService.getBusinessService().getDescription())
-                               .build()
-                       )
-                       .toList())
-               .build();
+        return ViewBusinessPlanDetailResponse.builder()
+                .status("200")
+                .message("")
+                .id(plan.getId())
+                .name(plan.getName())
+                .price(plan.getPrice())
+                .description(plan.getDescription())
+                .duration(plan.getDuration())
+                .planStatus(plan.getStatus())
+                .businessServiceList(plan.getPlanServiceList().stream()
+                        .map(planService -> ViewBusinessPlanDetailResponse.BusinessService.builder()
+                                .id(planService.getBusinessService().getId())
+                                .name(planService.getBusinessService().getName())
+                                .price(planService.getBusinessService().getPrice())
+                                .description(planService.getBusinessService().getDescription())
+                                .build()
+                        )
+                        .toList())
+                .build();
     }
 }
 
