@@ -239,26 +239,27 @@
                         </div>
                     </div>
 
-                    <form th:action="@{/seller/flower}" method="get" class="manage-flower__form">
+                    <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
+                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                         <tr class="table__body-item-new" style="display: none;">
-                            <td class="table__body-img">
-                                <input type="url" name="img" placeholder="Image">
-                            </td>
+<!--                            <td class="table__body-img">-->
+<!--                                <input type="url" name="img" placeholder="Image">-->
+<!--                            </td>-->
                             <td class="table__body-name">
-                                <input name="name" placeholder="Flower Name">
+                                <input name="name" th:value="${flowerName}" placeholder="Flower Name">
                             </td>
                             <td class="table__body-desc">
-                                <textarea name="description" placeholder="Description"></textarea>
+                                <textarea name="description" th:text="${description}" placeholder="Description"></textarea>
                             </td>
                             <td class="table__body-amount">
-                                <input name="flowerAmount" placeholder="Amount">
+                                <input name="flowerAmount" th:value="${flowerAmount}" placeholder="Amount">
                             </td>
                             <td class="table__body-qnt">
-                                <input name="quantity" placeholder="Quantity">
+                                <input name="quantity" th:value="${quantity}" placeholder="Quantity">
                             </td>
                             <td class="table__body-price">
                                 <span>$</span>
-                                <input name="price" placeholder="Price">
+                                <input name="price" th:value="${price}" placeholder="Price">
                             </td>
                             <td class="table__body-save">
                                 <input type="submit" class="save-btn" name="action" value="Create">
