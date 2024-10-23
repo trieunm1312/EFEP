@@ -1023,7 +1023,7 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------VIEW CATEGORY------------------------------------------//
 
     @Override
-    public void viewCategory(HttpSession session, Model model) {
+    public void viewCategory(Model model) {
         model.addAttribute("msg3", viewCategoryLogic());
     }
 
@@ -1299,7 +1299,18 @@ public class BuyerServiceImpl implements BuyerService {
                 .categoryId(request.getCategoryId())
                 .flowers(
                         category.getFlowerCategoryList().stream()
-                                .map(cate -> FilterCategoryResponse.Flower.builder().name(cate.getFlower().getName()).build())
+                                .map(flower -> FilterCategoryResponse.Flower.builder()
+                                        .id(flower.getId())
+                                        .name(flower.getFlower().getName())
+                                        .price(flower.getFlower().getPrice())
+                                        .images(
+                                                flower.getFlower().getFlowerImageList().stream()
+                                                        .map(img -> FilterCategoryResponse.Image.builder()
+                                                                .link(img.getLink())
+                                                                .build())
+                                                        .toList()
+                                        )
+                                        .build())
                                 .toList()
                 )
                 .build();

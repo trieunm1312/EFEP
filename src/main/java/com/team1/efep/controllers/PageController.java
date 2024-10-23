@@ -1,5 +1,6 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.configurations.AllPage;
 import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.models.response_models.UpdateProfileResponse;
 import com.team1.efep.models.response_models.ViewProfileResponse;
@@ -25,16 +26,19 @@ public class PageController {
     @GetMapping("/")
     public String startPage(Model model) {
         HomepageConfig.config(model,buyerService);
+        AllPage.allConfig(model, buyerService);
         return "home";
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "login";
     }
 
     @GetMapping("/register")
-    public String registerPage() {
+    public String registerPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "register";
     }
 
@@ -108,6 +112,7 @@ public class PageController {
 
     @GetMapping("/myAccount")
     public String myAccount(Model model) {
+
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
 
@@ -115,17 +120,15 @@ public class PageController {
             } else  {
                 model.addAttribute("msg", (ViewProfileResponse)model.getAttribute("msg"));
             }
+
         } else  {
             model.addAttribute("error",  (Map<String, String>) model.getAttribute("error"));
         }
+
 //        model.addAttribute("msg", (ViewProfileResponse) model.getAttribute("msg"));
         return "myAccount";
     }
 
-    @GetMapping("category")
-    public String categoryPage() {
-        return "category";
-    }
 }
 
 

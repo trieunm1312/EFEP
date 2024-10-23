@@ -22,7 +22,6 @@ public class ViewCategoryListResponse {
     @Builder
     public static class Category {
         private int id;
-
         private String name;
     }
 
