@@ -174,7 +174,7 @@ public class BuyerServiceImpl implements BuyerService {
                             WishlistItem.builder()
                                     .wishlist(wishlist)
                                     .flower(flower)
-                                    .quantity(1)
+                                    .quantity(request.getQuantity())
                                     .build()));
             accountRepo.save(account);
         }

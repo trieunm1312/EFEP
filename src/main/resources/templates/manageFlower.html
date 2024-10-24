@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/manageFlower}" class="sidebar__link">
+                <a th:href="@{/seller/view/flower}" class="sidebar__link">
                     <div class="sidebar__item active">
                         <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                         <span class="sidebar__item-title">Manage Flower</span>
@@ -182,7 +182,7 @@
                                         <input type="hidden" name="flowerId" th:value="${item.id}">
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                         <td class="table__body-img">
-                                            <img class="img" alt="">
+                                            <img class="img" src="/img/flower.jpg" alt="">
                                             <input type="url" name="image" class="img-input"
                                                    style="display: none;">
                                         </td>
@@ -252,7 +252,7 @@
                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                         <tr class="table__body-item-new" style="display: none;">
 <!--                            <td class="table__body-img">-->
-<!--                                <input type="url" name="img" placeholder="Image">-->
+<!--                                <input type="file" name="img" src="/img/flower.jpg" placeholder="Image">-->
 <!--                            </td>-->
                             <td class="table__body-name">
                                 <input name="name" th:value="${flowerName}" placeholder="Flower Name">
