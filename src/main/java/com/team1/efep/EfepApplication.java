@@ -32,6 +32,7 @@ public class EfepApplication {
     private final CategoryRepo categoryRepo;
     private final FlowerCategoryRepo flowerCategoryRepo;
     private final PaymentMethodRepo paymentMethodRepo;
+    private final PurchasedPlanRepo purchasedPlanRepo;
 
 
     public static void main(String[] args) {
@@ -468,7 +469,7 @@ public class EfepApplication {
                                 .user(user1)
                                 .buyerName(user1.getName())
                                 .createdDate(LocalDateTime.of(2024, 1, 1, 0, 0))
-                                .totalPrice(100)
+                                .totalPrice(200)
                                 .build()
                 );
 
@@ -539,6 +540,24 @@ public class EfepApplication {
 
                 order3.setOrderDetailList(List.of(orderDetail4));
 
+
+                //init payment method
+                PaymentMethod COD = PaymentMethod.builder()
+                        .name("COD")
+                        .build();
+
+                PaymentMethod VNPay = PaymentMethod.builder()
+                        .name("VNPay")
+                        .build();
+
+                paymentMethodRepo.save(COD);
+                paymentMethodRepo.save(VNPay);
+
+                order1.setPaymentMethod(COD);
+                order2.setPaymentMethod(VNPay);
+                order3.setPaymentMethod(COD);
+                orderRepo.saveAll(List.of(order1, order2, order3));
+
                 // init business service
                 BusinessService service1 = businessServiceRepo.save(
                         BusinessService.builder()
@@ -603,6 +622,18 @@ public class EfepApplication {
                 plan2.setPlanServiceList(List.of(planService3));
                 businessPlanRepo.saveAll(List.of(plan1, plan2));
 
+                //init purchase plan
+
+                PurchasedPlan purchasePlan1 = PurchasedPlan.builder()
+                        .seller(seller1)
+                        .name("Plan 1")
+                        .purchasedDate(LocalDateTime.of(2023, 1, 1, 0, 0))
+                        .price(500)
+                        .status(Status.PURCHASED_PLAN_STATUS_PURCHASED)
+                        .paymentMethod(VNPay)
+                        .build();
+
+                purchasedPlanRepo.save(purchasePlan1);
 
                 //init category
                 Category category1 = categoryRepo.save(
@@ -697,22 +728,6 @@ public class EfepApplication {
                                 .build()
                 );
 
-                //init payment method
-                PaymentMethod COD = PaymentMethod.builder()
-                        .name("COD")
-                        .build();
-
-                PaymentMethod VNPay = PaymentMethod.builder()
-                        .name("VNPay")
-                        .build();
-
-                paymentMethodRepo.save(COD);
-                paymentMethodRepo.save(VNPay);
-
-                order1.setPaymentMethod(COD);
-                order2.setPaymentMethod(VNPay);
-                order3.setPaymentMethod(COD);
-                orderRepo.saveAll(List.of(order1, order2, order3));
 
             };
 

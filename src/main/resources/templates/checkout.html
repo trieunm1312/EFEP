@@ -126,7 +126,7 @@
                                   data-cod-action="/buyer/order/cod"
                                   data-vnpay-action="/buyer/order/payment"
                                   onsubmit="return handleCheckout()">
-                                <input type="hidden" name="amount" value="10000000">
+                                <input type="hidden" name="amount" th:value="${msg.totalPrice}">
                                 <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
                             </form>
                         </div>

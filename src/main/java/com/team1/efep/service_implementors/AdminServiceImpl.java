@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.response_models.ViewBusinessServiceResponse;
@@ -9,10 +10,16 @@ import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.AdminService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
+import com.team1.efep.utils.FileReaderUtil;
+import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -37,6 +44,8 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepo userRepo;
 
     private final SellerRepo sellerRepo;
+
+    private final JavaMailSenderImpl mailSender;
 
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
@@ -246,6 +255,44 @@ public class AdminServiceImpl implements AdminService {
                         ).toList()
         );
     }
+
+    private Object sendEmailLogic(BusinessPlan businessPlan, User user) {
+        // Generate the OTP
+        String otp = Const.OTP_LINK + OTPGeneratorUtil.generateOTP(6);
+
+        // Create a MimeMessage
+        MimeMessage message = mailSender.createMimeMessage();
+
+        // Helper to set the attributes for the MimeMessage
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            // Set the email attributes
+            helper.setFrom("vannhuquynhp@gmail.com");
+//            helper.setTo(request.getToEmail());
+            helper.setSubject(Const.EMAIL_SUBJECT);
+
+            // Read HTML content from a file and replace placeholders (e.g., OTP)
+            String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
+
+            // Set the email content as HTML
+            helper.setText(emailContent, true);  // 'true' indicates that the text is HTML
+
+            // Send the email
+            mailSender.send(message);
+
+            // Return response
+            return ForgotPasswordResponse.builder()
+                    .status("200")
+                    .message("Send email successfully")
+                    .extraInfo(otp)
+                    .build();
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     //-------------------------------------DISABLE BUSINESS PLAN------------------------------------------//
 
     @Override

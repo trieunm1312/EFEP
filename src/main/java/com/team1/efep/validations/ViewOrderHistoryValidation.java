@@ -33,7 +33,7 @@ public class ViewOrderHistoryValidation {
                     return MapConfig.buildMapKey(error, "Order ID " + order.getId() + " has a missing flower.");
                 }
 
-                if (detail.getQuantity() <= 0) {
+                if (detail.getQuantity()     <= 0) {
                     return MapConfig.buildMapKey(error,  "Order ID " + order.getId() + " has invalid quantity.");
                 }
             }
