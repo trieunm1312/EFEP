@@ -1300,7 +1300,8 @@ public class BuyerServiceImpl implements BuyerService {
                 .status("200")
                 .message("")
                 .categoryId(request.getCategoryId())
-                .flowers(
+                .keyword(category.getName())
+                .flowerList(
                         category.getFlowerCategoryList().stream()
                                 .map(flower -> FilterCategoryResponse.Flower.builder()
                                         .id(flower.getId())

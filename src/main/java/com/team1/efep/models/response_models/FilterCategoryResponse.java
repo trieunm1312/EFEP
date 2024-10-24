@@ -19,7 +19,9 @@ public class FilterCategoryResponse {
 
     private int categoryId;
 
-    private List<Flower> flowers;
+    private String keyword;
+
+    private List<Flower> flowerList;
 
     @Data
     @AllArgsConstructor

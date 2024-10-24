@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class FilterCategoryRequest {
+
     private int categoryId;
+
 }

@@ -24,5 +24,4 @@ public class ViewCategoryListResponse {
         private int id;
         private String name;
     }
-
 }
