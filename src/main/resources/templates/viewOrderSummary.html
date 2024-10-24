@@ -10,24 +10,474 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/viewOrderSummary.css">
     <link rel="stylesheet" href="/css/base.css">
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderSummary.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">-->
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">-->
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderSummary.css">-->
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">-->
 
 </head>
 
 <body>
-    <div class="wrap">
-        <!-- Nav Bar -->
-        <nav class="navbar" th:replace="~{base :: navbar}">
+<div class="wrap">
+    <!-- Nav Bar -->
+    <nav class="navbar" th:replace="~{base :: navbar}">
 
-        </nav>
+    </nav>
 
-         Header
-        <header class="header" th:replace="~{base :: header}">
+    <!--         Header-->
+    <header class="header" th:fragment="header">
+        <div class="grid">
+            <div class="header__wrap">
+                <!-- Logo -->
+                <a th:href="@{/}" class="header__item">
+                    <div class="header__item-logo">
+                        <img src="/img/flowrista-logo.png" alt="Logo"
+                             class="header__item-logo-img">
+                    </div>
+                </a>
 
-        </header>
+                <!-- Mega menu -->
+                <div class="header__item">
+                    <ul class="header__item-megamenu">
+                        <li class="header__item-megamenu-item">
+                            <a th:href="@{/}">
+                                <span class="header__item-megamenu-item-title">Home</span>
+                            </a>
+                        </li>
+
+                        <li class="header__item-megamenu-item header__item-megamenu-item__category">
+                                <span
+                                        class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
+                            <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                            <span class="header__item-megamenu-item-label-offer">Offer</span>
+                            <span class="header__item-megamenu-item-label-arrow-offer"></span>
+                            <div class="category__block">
+                                <ul class="category__list">
+                                    <li class="category__item">
+                                        <a th:href="@{/}" class="category__heading">
+                                            <h4>Event</h4>
+                                        </a>
+                                        <ul class="category__sub-list">
+                                            <li class="category__sub-item">
+                                                <a th:href="@{/}" class="category__sub-item-link">
+                                                    <p>Wedding</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a th:href="@{/}" class="category__sub-item-link">
+                                                    <p>Birthday</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Anniversary</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Funeral</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="category__item">
+                                        <a href="" class="category__heading">
+                                            <h4>Event</h4>
+                                        </a>
+                                        <ul class="category__sub-list">
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Wedding</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Birthday</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Anniversary</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Funeral</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="category__item">
+                                        <a href="" class="category__heading">
+                                            <h4>Event</h4>
+                                        </a>
+                                        <ul class="category__sub-list">
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Wedding</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Birthday</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Anniversary</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Funeral</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="category__item">
+                                        <a href="" class="category__heading">
+                                            <h4>Event</h4>
+                                        </a>
+                                        <ul class="category__sub-list">
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Wedding</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Birthday</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Anniversary</p>
+                                                </a>
+                                            </li>
+                                            <li class="category__sub-item">
+                                                <a href="" class="category__sub-item-link">
+                                                    <p>Funeral</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </li>
+
+                        <li class="header__item-megamenu-item header__item-megamenu-item__product">
+                            <a th:href="@{/buyer/flower}">
+                                <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
+                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                                <span class="header__item-megamenu-item-label-hot">Hot</span>
+                                <span class="header__item-megamenu-item-label-arrow-hot"></span>
+                                <div class="product__block">
+                                    <ul class="product__list">
+                                        <li class="product__item">
+                                            <a href="" class="product__heading">
+                                                <h4>Popular Products</h4>
+                                            </a>
+                                            <ul class="product__sub-list">
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+
+                                            </ul>
+                                        </li>
+                                        <li class="product__item">
+                                            <a href="" class="product__heading">
+                                                <h4>Best Seller Products</h4>
+                                            </a>
+                                            <ul class="product__sub-list">
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+
+                                            </ul>
+                                        </li>
+                                        <li class="product__item">
+                                            <a href="" class="product__heading">
+                                                <h4>Latest Products</h4>
+                                            </a>
+                                            <ul class="product__sub-list">
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="product__sub-item">
+                                                    <a href="" class="product__sub-item-link">
+                                                        <img src="/img/product-item.jpg"
+                                                             alt="">
+                                                        <div class="product__sub-item-link-contnet">
+                                                            <p class="product__sub-item-link-name">Lavender</p>
+                                                            <div class="product__sub-item-link-rate">
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                                <i class="fa-regular fa-star"></i>
+                                                            </div>
+                                                            <p class="product__sub-item-link-price">$399.00</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="header__item-megamenu-item header__item-megamenu-item-about">
+                            <a href="">
+                                <span class="header__item-megamenu-item-title">About Us</span>
+                            </a>
+
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- Icons -->
+                <div class="header__item">
+                    <ul class="header__item-list-icon">
+                        <li class="header__item-icon header__item-icon-search" tabindex="0">
+                            <i class="header__item-icon-search fa-solid fa-magnifying-glass">
+                                <form th:action="@{/buyer/flower/search}" class="header__item-search-box" method="post">
+                                    <input type="text" class="header__item-search-input" name="keyword"
+                                           placeholder="Search...">
+                                    <button class="header__item-search-icon">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </form>
+                            </i>
+                        </li>
+                        <li class="header__item-icon header__item-icon-user" tabindex="0">
+                            <i class="header__item-icon-user-icon fa-solid fa-user">
+
+                                <!-- Have not Login -->
+                                <div th:if="${error == null}">
+                                    <div th:if="${session.acc == null}" class="header__item-account">
+                                        <a th:href="@{/register}" class="header__item-account-item">Register</a>
+                                        <a th:href="@{/login}" class="header__item-account-item">Login</a>
+                                    </div>
+
+                                    <!-- Login successfully -->
+                                    <div th:if="${session.acc != null}" class="header__item-account">
+                                        <form th:action="@{/account/view/profile}" class="form" method="get">
+                                            <input type="submit" name="action" value="My profile"
+                                                   class="header__item-account-item"></input>
+                                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                                        </form>
+                                        <div th:if="${session.acc.getRole() == 'buyer'}">
+                                            <form th:action="@{/account/logout}" class="form" method="get">
+                                                <input type="submit" name="action" value="Seller Channel"
+                                                       class="header__item-account-item"></input>
+                                            </form>
+                                        </div>
+                                        <form th:action="@{/account/logout}" class="form" method="get">
+                                            <input type="submit" name="action" value="Logout"
+                                                   class="header__item-account-item"></input>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </i>
+                            <div th:if="${session.acc != null}" class="header__item-icon-user-name">
+                                <span th:text="${session.acc.getUser().getName()}"></span>
+                            </div>
+                        </li>
+                        <li class="header__item-icon">
+                            <!-- Cart layout -->
+                            <div class="header__cart">
+                                <div class="header__cart-wrap">
+                                    <i class="header__cart-icon fa-solid fa-heart"></i>
+                                    <span class="header__cart-notice" th:if="${session.acc == null}"> 0 </span>
+                                    <span class="header__cart-notice" th:if="${session.acc != null}"
+                                          th:text="${session.acc.getUser().getWishlist().getWishlistItemList().size()}"> 0 </span>
+
+                                    <!-- No wishlist: header__cart-list--no-wishlist -->
+                                    <div class="header__cart-list">
+                                        <span class="header__cart-list-no-wishlist-msg" th:if="${session.acc == null}">Your shopping wishlist is empty!</span>
+                                        <span class="header__cart-list-no-wishlist-msg"
+                                              th:if="${session.acc.getUser().getWishlist().getWishlistItemList().isEmpty()}">Your shopping wishlist is empty!</span>
+
+                                        <!-- Cart item -->
+                                        <ul class="header__cart-list-item" th:if="${session.acc != null}">
+                                            <li class="header__cart-item"
+                                                th:each="item : ${session.acc.getUser().getWishlist().getWishlistItemList()}">
+                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                     alt="" class="header__cart-img">
+                                                <div class="header__cart-item-info">
+                                                    <div class="header__cart-item-head">
+                                                        <h5 class="header__cart-item-name"
+                                                            th:text="${item.flower.name}">Flower name</h5>
+                                                    </div>
+                                                    <div class="header__cart-item-body">
+                                                        <span class="header__cart-item-qnt"
+                                                              th:text="${item.quantity}">0</span>
+                                                        <span class="header__cart-item-multiply">x</span>
+                                                        <!-- <span class="header__cart-item-price" th:text="${'$ ' + item.flower.price * item.getQuantity()}">0</span>-->
+                                                        <span class="header__cart-item-price"
+                                                              th:text="${'$ ' + item.flower.price}">0</span>
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="header__cart-list-btn">
+                                            <form th:action="@{/buyer/wishlist}" method="get">
+                                                <input class="btn-view-cart" type="submit" value="View wishlist"
+                                                       name="Action">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
 
     <div class="container">
         <div class="notify-block" th:if="${msg}">
@@ -55,166 +505,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="footer" th:fragment="footer">
-    <div class="grid">
-        <div class="footer__wrap">
-            <div class="footer__item">
-                <div class="footer__item-contact">
-                    <h2 class="footer__item-title">Contact</h2>
-                    <ul class="footer__item-contact-list">
-                        <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i
-                                                class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
-                                        <span>National park,d1 588436,United States</span>
-                                    </span>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
-                                        <span>+91 123 456 789</span>
-                                    </span>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
-                                        <span>0123-456-789</span>
-                                    </span>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
-                                        <span>demo@Yourstore.com</span>
-                                    </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer__item">
-                <div class="footer__item-contact">
-                    <h2 class="footer__item-title">Information</h2>
-                    <ul class="footer__item-contact-list">
-                        <li class="footer__item-contact-list-item">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <span>Terms & Conditions</span>
-                            </a>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <span>Delivery Information</span>
-                            </a>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <span>About Us</span>
-                            </a>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <span>Privacy Policy</span>
-                            </a>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <span>Contact Us</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer__item">
-                <div class="footer__item-contact">
-                    <h2 class="footer__item-title">My Account</h2>
-                    <ul class="footer__item-contact-list">
-                        <li class="footer__item-contact-list-item">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <span>My Account</span>
-                            </a>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <span>Order History</span>
-                            </a>
-                        </li>
-
-                        <li class="footer__item-contact-list-item">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <span>Wish List</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer__item">
-                <div class="footer__item-contact">
-                    <h2 class="footer__item-title">Find Us On</h2>
-                    <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                        <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                            </a>
-                        </li>
-                        <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                            </a>
-                        </li>
-                        <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                            </a>
-                        </li>
-                        <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="footer__item-contact">
-                    <h2 class="footer__item-title">Payment</h2>
-                    <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                        <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-visa"></i>
-                            </a>
-                        </li>
-                        <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <i
-                                        class="footer__item-contact-list-item-link-icon fa-brands fa-cc-mastercard"></i>
-                            </a>
-                        </li>
-                        <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <i class="footer__item-contact-list-item-link-icon fa-brands fa-cc-paypal"></i>
-                            </a>
-                        </li>
-                        <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                            <a href="" class="footer__item-contact-list-item-link">
-                                <i
-                                        class="footer__item-contact-list-item-link-icon fa-brands fa-cc-discover"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-</div>
+<footer class="footer" th:replace="~{base :: footer}"></footer>
 <script src="/js/base.js"></script>
 </body>
 
