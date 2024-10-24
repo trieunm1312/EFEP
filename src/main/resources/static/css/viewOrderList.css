@@ -67,7 +67,7 @@
     margin: 0 auto;
     padding: 5px 10px 20px 0px;
     overflow-y: auto;
-    height: 490px;
+    height: fit-content;
     margin-top: 42px;
 }
 
