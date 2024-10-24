@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]--><!--[if !mso]><!-->
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet" type="text/css"><!--<![endif]-->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: inherit !important;
+        }
+
+        #MessageViewBody a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        p {
+            line-height: inherit
+        }
+
+        .desktop_hide,
+        .desktop_hide table {
+            mso-hide: all;
+            display: none;
+            max-height: 0px;
+            overflow: hidden;
+        }
+
+        .image_block img+div {
+            display: none;
+        }
+
+        sup,
+        sub {
+            line-height: 0;
+            font-size: 75%;
+        }
+
+        @media (max-width:705px) {
+            .desktop_hide table.icons-inner {
+                display: inline-block !important;
+            }
+
+            .icons-inner {
+                text-align: center;
+            }
+
+            .icons-inner td {
+                margin: 0 auto;
+            }
+
+            .image_block div.fullWidth {
+                max-width: 100% !important;
+            }
+
+            .mobile_hide {
+                display: none;
+            }
+
+            .row-content {
+                width: 100% !important;
+            }
+
+            .stack .column {
+                width: 100%;
+                display: block;
+            }
+
+            .mobile_hide {
+                min-height: 0;
+                max-height: 0;
+                max-width: 0;
+                overflow: hidden;
+                font-size: 0px;
+            }
+
+            .desktop_hide,
+            .desktop_hide table {
+                display: table !important;
+                max-height: none !important;
+            }
+
+            .reverse {
+                display: table;
+                width: 100%;
+            }
+
+            .reverse .column.last {
+                display: table-header-group !important;
+            }
+
+            .row-3 td.column.last .border {
+                padding: 5px 0;
+                border-top: 0;
+                border-right: 0px;
+                border-bottom: 0;
+                border-left: 0;
+            }
+        }
+    </style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]-->
+</head>
+
+<body class="body" style="background-color: #a05c7b; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #a05c7b;">
+    <tbody>
+    <tr>
+        <td>
+            <table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 685px; margin: 0 auto;" width="685">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad" style="padding-left:15px;padding-right:15px;padding-top:15px;width:100%;">
+                                                <div class="alignment" align="center" style="line-height:10px">
+                                                    <div style="max-width: 274px;"><img src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/2676/header_image.png" style="display: block; height: auto; border: 0; width: 100%;" width="274" alt="Main Image" title="Main Image" height="auto"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-position: top center;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 685px; margin: 0 auto;" width="685">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 25px; padding-left: 10px; padding-right: 10px; padding-top: 35px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#ffffff;font-family:Rubik, Trebuchet MS, Helvetica, sans-serif;font-size:23px;line-height:120%;text-align:center;mso-line-height-alt:27.599999999999998px;">
+                                                    <p style="margin: 0; word-break: break-word;"><!--(figmeta)eyJmaWxlS2V5IjoiWEV5MjRKNzVubDRqWVdQaUl5ckdsVCIsInBhc3RlSUQiOi0xLCJkYXRhVHlwZSI6InNjZW5lIn0K(/figmeta)--><!--(figma)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(/figma)--><span style="word-break: break-word; background-color: #9f9f9f;">&nbsp;Notification</span></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="text_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:10px;">
+                                                <div style="font-family: Arial, sans-serif">
+                                                    <div class style="font-size: 12px; font-family: 'Abril Fatface', Arial, 'Helvetica Neue', Helvetica, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #cf8694; line-height: 1.2;">
+                                                        <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span style="word-break: break-word; font-size: 42px;">Flowrista</span></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="button_block block-3" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div class="alignment" align="center"><!--[if mso]>
+                                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.example.com" style="height:38px;width:137px;v-text-anchor:middle;" arcsize="74%" stroke="false" fillcolor="#cf8694">
+                                                        <w:anchorlock/>
+                                                        <v:textbox inset="0px,0px,0px,0px">
+                                                            <center dir="false" style="color:#ffffff;font-family:sans-serif;font-size:14px">
+                                                    <![endif]--><a href="https://www.example.com" target="_blank" style="background-color:#cf8694;border-bottom:0px solid transparent;border-left:0px solid transparent;border-radius:28px;border-right:0px solid transparent;border-top:0px solid transparent;color:#ffffff;display:inline-block;font-family:Rubik, Trebuchet MS, Helvetica, sans-serif;font-size:14px;font-weight:undefined;mso-border-alt:none;padding-bottom:5px;padding-top:5px;text-align:center;text-decoration:none;width:auto;word-break:keep-all;"><span style="word-break: break-word; padding-left: 20px; padding-right: 20px; font-size: 14px; display: inline-block; letter-spacing: normal;"><span style="word-break: break-word;"><span style="word-break: break-word;" data-mce-style>Lovely <span id="c4047212-1fc4-4334-b433-910e3576d06c" style="word-break: break-word; line-height: 28px;" data-mce-style>@@###</span></span></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="spacer_block block-4" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+                                    <table class="paragraph_block block-5" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad" style="padding-left:10px;padding-right:10px;padding-top:10px;">
+                                                <div style="color:#000000;font-family:Rubik, Trebuchet MS, Helvetica, sans-serif;font-size:21px;line-height:150%;text-align:center;mso-line-height-alt:31.5px;">
+                                                    <p style="margin: 0; word-break: break-word;">We're about to change business plan: <strong><span id="f33ea69e-b3bf-46b6-b98b-2a8d40ffa143" style="word-break: break-word;">@@@##</span></strong>&nbsp; in <span id="8e2fbc3e-cb68-44d2-b06a-f5712e1d1ca5" style="word-break: break-word;"><span style="word-break: break-word; color: #ff0000;"><strong>@@##</strong></span> day(s)</span></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="paragraph_block block-6" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad" style="padding-left:10px;padding-right:10px;">
+                                                <div style="color:#808080;font-family:Rubik, Trebuchet MS, Helvetica, sans-serif;font-size:14px;line-height:150%;text-align:center;mso-line-height-alt:21px;">
+                                                    <p style="margin: 0; word-break: break-word;">&nbsp;</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="paragraph_block block-7" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:10px;">
+                                                <div style="color:#808080;font-family:Rubik, Trebuchet MS, Helvetica, sans-serif;font-size:12px;line-height:150%;text-align:center;mso-line-height-alt:18px;">
+                                                    <p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">- Love, Flowrista.</span></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #feeef1; color: #000000; width: 685px; margin: 0 auto;" width="685">
+                            <tbody>
+                            <tr class="reverse">
+                                <td class="column column-1 last" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <div class="border">
+                                        <table class="paragraph_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                            <tr>
+                                                <td class="pad" style="padding-bottom:10px;padding-left:15px;padding-right:15px;">
+                                                    <div style="color:#cf8694;font-family:'Abril Fatface',Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:42px;line-height:150%;text-align:center;mso-line-height-alt:63px;">
+                                                        <p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">Visit our shop</span></p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-4" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #feeef1; color: #000000; width: 685px; margin: 0 auto;" width="685">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+                                                <div class="alignment" align="center" style="line-height:10px">
+                                                    <div class="fullWidth" style="max-width: 616.5px;"><img src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/2676/store_photo.png" style="display: block; height: auto; border: 0; width: 100%;" width="616.5" alt="Shop Photo" title="Shop Photo" height="auto"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="button_block block-2" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div class="alignment" align="center"><!--[if mso]>
+                                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.example.com" style="height:38px;width:95px;v-text-anchor:middle;" arcsize="74%" stroke="false" fillcolor="#cf8694">
+                                                        <w:anchorlock/>
+                                                        <v:textbox inset="0px,0px,0px,0px">
+                                                            <center dir="false" style="color:#ffffff;font-family:sans-serif;font-size:14px">
+                                                    <![endif]--><a href="https://www.example.com" target="_blank" style="background-color:#cf8694;border-bottom:0px solid transparent;border-left:0px solid transparent;border-radius:28px;border-right:0px solid transparent;border-top:0px solid transparent;color:#ffffff;display:inline-block;font-family:Rubik, Trebuchet MS, Helvetica, sans-serif;font-size:14px;font-weight:undefined;mso-border-alt:none;padding-bottom:5px;padding-top:5px;text-align:center;text-decoration:none;width:auto;word-break:keep-all;"><span style="word-break: break-word; padding-left: 20px; padding-right: 20px; font-size: 14px; display: inline-block; letter-spacing: normal;"><span style="word-break: break-word;"><span style="word-break: break-word; line-height: 28px;" data-mce-style>VISIT US</span></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-5" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-image: url('https://d1oco4z2z1fhwp.cloudfront.net/templates/default/2676/background_bottom_3.png'); background-position: center top; background-repeat: no-repeat;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #feeef1; color: #000000; width: 685px; margin: 0 auto;" width="685">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="divider_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad" style="padding-bottom:15px;padding-left:25px;padding-right:25px;padding-top:25px;">
+                                                <div class="alignment" align="center">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                                        <tr>
+                                                            <td class="divider_inner" style="font-size: 1px; line-height: 1px; border-top: 1px solid #CF8694;"><span style="word-break: break-word;">&#8202;</span></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="text_block block-2" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="font-family: sans-serif">
+                                                    <div class style="font-size: 12px; font-family: Rubik, Trebuchet MS, Helvetica, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #808080; line-height: 1.2;">
+                                                        <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span style="word-break: break-word; font-size: 12px;">© 2024 Flowrista. All Rights Reserved.</span></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="image_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad" style="width:100%;">
+                                                <div class="alignment" align="center" style="line-height:10px">
+                                                    <div style="max-width: 600px;"><img src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/2676/bottom-img.png" style="display: block; height: auto; border: 0; width: 100%;" width="600" alt="Bottom Decorative Image" title="Bottom Decorative Image" height="auto"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-6" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 685px; margin: 0 auto;" width="685">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="icons_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: center; line-height: 0;">
+                                        <tr>
+                                            <td class="pad" style="vertical-align: middle; color: #1e0e4b; font-family: 'Inter', sans-serif; font-size: 15px; padding-bottom: 5px; padding-top: 5px; text-align: center;"><!--[if vml]><table align="center" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;padding-left:0px;padding-right:0px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;"><![endif]-->
+                                                <!--[if !vml]><!-->
+                                                <table class="icons-inner" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block; padding-left: 0px; padding-right: 0px;" cellpadding="0" cellspacing="0" role="presentation"><!--<![endif]-->
+                                                    <tr>
+                                                        <td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 6px;"><a href="http://designedwithbeefree.com/" target="_blank" style="text-decoration: none;"><img class="icon" alt="Beefree Logo" src="https://d1oco4z2z1fhwp.cloudfront.net/assets/Beefree-logo.png" height="auto" width="34" align="center" style="display: block; height: auto; margin: 0 auto; border: 0;"></a></td>
+                                                        <td style="font-family: 'Inter', sans-serif; font-size: 15px; font-weight: undefined; color: #1e0e4b; vertical-align: middle; letter-spacing: undefined; text-align: center; line-height: normal;"><a href="http://designedwithbeefree.com/" target="_blank" style="color: #1e0e4b; text-decoration: none;">Designed with Beefree</a></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table><!-- End -->
+</body>
+
+</html>

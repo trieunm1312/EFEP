@@ -468,7 +468,7 @@ public class EfepApplication {
                                 .user(user1)
                                 .buyerName(user1.getName())
                                 .createdDate(LocalDateTime.of(2024, 1, 1, 0, 0))
-                                .totalPrice(100)
+                                .totalPrice(200)
                                 .build()
                 );
 
