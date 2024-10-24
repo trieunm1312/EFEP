@@ -17,6 +17,7 @@ import com.team1.efep.utils.GoogleLoginGeneratorUtil;
 import com.team1.efep.utils.GoogleLoginUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -152,18 +153,24 @@ public class AccountServiceImpl implements AccountService {
     //----------------------------------------LOGIN WITH GMAIL------------------------------------------//
 
     @Override
-    public LoginGoogleResponse getGoogleLoginUrl() {
-        return LoginGoogleResponse.builder()
-                .status("200")
-                .message("")
-                .loginUrl(GoogleLoginUtil.generateGoogleLoginUrl())
-                .build();
+    public void getGoogleLoginUrl(HttpServletResponse response) {
+        try {
+            response.sendRedirect(GoogleLoginUtil.generateGoogleLoginUrl());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void exchangeGoogleCode(String code) {
-        GoogleLoginUtil.accessGoogleInfo(
-                googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token()
+    public String exchangeGoogleCode(String code,Model model, HttpSession session) {
+        return GoogleLoginUtil.accessGoogleInfo(
+                googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token(),
+                this,
+                model,
+                accountRepo,
+                session,
+                userRepo,
+                wishlistRepo
         );
     }
 
