@@ -1,16 +1,34 @@
 //Create new service item when click Create New
 document.addEventListener("DOMContentLoaded", function() {
+    // Function to get the URL parameter
+    function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    const newService = getUrlParameter('newService');
     const createBtn = document.querySelector('.business-service__create-btn');
     const newServiceRow = document.querySelector('.table__body-item-new');
 
-    createBtn.addEventListener('click', function() {
-        if (newServiceRow.style.display === 'none' || newServiceRow.style.display === '') {
-            newServiceRow.style.display = 'table-row';
-        } else {
-            newServiceRow.style.display = 'none';
-        }
-    });
+    // Automatically show the new service row if the URL contains newService=true
+    if (newService === 'true' && newServiceRow) {
+        newServiceRow.style.display = 'table-row'; // Show the row
+    }
+
+
+    if (createBtn && newServiceRow) {
+        createBtn.addEventListener('click', function() {
+            if (newServiceRow.style.display === 'none' || newServiceRow.style.display === '') {
+                newServiceRow.style.display = 'table-row';
+            } else {
+                newServiceRow.style.display = 'none';
+            }
+        });
+    } else {
+        console.error('Create button or new service row not found.');
+    }
 });
+
 
 // Click edit to edit the business service content
 function editRow(button) {
