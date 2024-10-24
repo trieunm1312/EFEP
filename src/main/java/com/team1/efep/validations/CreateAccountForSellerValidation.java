@@ -15,7 +15,7 @@ public class CreateAccountForSellerValidation {
             return MapConfig.buildMapKey(error, "Name cannot be empty");
         }
 
-        if (accountRepo.findByUser_Name(request.getName()).isPresent()) {
+        if (accountRepo.findByUserName(request.getName()).isPresent()) {
             return MapConfig.buildMapKey(error, "Name already exists");
         }
 
@@ -29,7 +29,7 @@ public class CreateAccountForSellerValidation {
             return MapConfig.buildMapKey(error, "Phone number must be 10 digits");
         }
 
-        if (accountRepo.findByUser_Phone(request.getPhone()).isPresent()) {
+        if (accountRepo.findByUserPhone(request.getPhone()).isPresent()) {
             return MapConfig.buildMapKey(error, "Phone already exists");
         }
 

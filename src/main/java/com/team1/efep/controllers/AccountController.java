@@ -5,6 +5,7 @@ import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -44,14 +45,14 @@ public class AccountController {
     }
 
     @GetMapping("/login/google")
-    public LoginGoogleResponse googleLogin() {
-        return accountService.getGoogleLoginUrl();
+    public void googleLogin(HttpServletResponse response) {
+        accountService.getGoogleLoginUrl(response);
     }
 
     @GetMapping("/login/google/info")
     @Operation(hidden = true)
-    public void getGoogleInfo(@RequestParam(name = "code") String code) {
-        accountService.exchangeGoogleCode(code);
+    public String getGoogleInfo(@RequestParam(name = "code") String code, Model model, HttpSession session) {
+        return accountService.exchangeGoogleCode(code, model, session);
     }
 
     @GetMapping("/view/profile")

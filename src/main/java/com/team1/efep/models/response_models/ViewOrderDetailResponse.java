@@ -19,9 +19,13 @@ public class ViewOrderDetailResponse {
 
     private int orderId;
 
+    private String sellerName;
+
     private float totalPrice;
 
     private String orderStatus;
+
+    private String paymentMethod;
 
     private List<Detail> detailList;
 
@@ -30,8 +34,6 @@ public class ViewOrderDetailResponse {
     @NoArgsConstructor
     @Builder
     public static class Detail {
-
-        private String sellerName;
 
         private String flowerName;
 
