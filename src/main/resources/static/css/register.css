@@ -8,7 +8,7 @@
 
 .container__wrap{
     width: 100%;
-    height: 100%;
+    height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,14 +40,17 @@
 .auth-form__header{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 10px 12px;
 }
 
 .auth-form__heading{
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     font-weight: 400;
-    color: var(--text-color);
+    text-align: center;
+    color: #fd6c9e;
+    font-family: 'Great Vibes', cursive;
+
 }
 
 .auth-form__group-name{
@@ -93,6 +96,16 @@
     border: 1px solid var(--border-color);
     border-radius: 2px;
     outline: none;
+}
+
+.constraint-block{
+    margin-top: 8px;
+    font-size: 1.3rem;
+}
+
+.constraint__item{
+    color: #d9534f;
+    font-style: italic;
 }
 
 .auth-form__input:focus{

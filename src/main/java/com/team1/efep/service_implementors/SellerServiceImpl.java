@@ -405,10 +405,10 @@ public class SellerServiceImpl implements SellerService {
         Object output = cancelBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelBusinessPlanResponse.class)) {
             model.addAttribute("msg", (CancelBusinessPlanResponse) output);
-            return "home";
+            return "redirect:/seller/plan/detail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "home";
+        return "404";
     }
 
     @Override

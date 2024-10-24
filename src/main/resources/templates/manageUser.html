@@ -225,6 +225,18 @@
                                            placeholder="Password" required>
                                 </div>
                             </div>
+
+                            <div class="constraint-block">
+                                <span class="constraint">Password must include:</span>
+                                <ul class="constraint__list">
+                                    <li class="constraint__item" id="uppercase">At least one uppercase letter</li>
+                                    <li class="constraint__item" id="lowercase">At least one lowercase letter</li>
+                                    <li class="constraint__item" id="special">At least one special character</li>
+                                    <li class="constraint__item" id="number">At least one number</li>
+                                </ul>
+                                <span>Password must be >= <strong id="length" class="constraint__item">8 characters</strong>.</span>
+                            </div>
+
                         </div>
                         <div class="auth-form__controls">
                             <input type="submit" name="btAction" value="CREATE" class="btn btn--primary"></input>
