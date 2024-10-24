@@ -34,7 +34,7 @@
                     <div class="auth-form">
                         <form class="auth-form__container" method="POST" th:action="@{/account/register}">
                             <div class="auth-form__header">
-                                <h3 class="auth-form__heading">Register</h3>
+                                <h3 class="auth-form__heading">Sign Up and Let Your Soul for Flowers</h3>
                             </div>
         
                             <div class="auth-form__form">
@@ -43,8 +43,11 @@
                                     <label for="name" class="auth-form__label">
                                         <strong>Name</strong>
                                     </label>
-                                    <input type="text" id="name" name="name" class="auth-form__input" placeholder="Your Name">
+                                    <input type="text" id="name" name="name" class="auth-form__input" placeholder="Name" required>
                                 </div>
+<!--                                <div class="constraint-block">-->
+<!--                                    <span><strong class="constraint__item">Name cannot be empty</strong>.</span>-->
+<!--                                </div>-->
 
                                 <div class="auth-form__group">
                                     <label for="phone" class="auth-form__label">
@@ -52,6 +55,9 @@
                                     </label>
                                     <input type="text" id="phone" name="phone" class="auth-form__input" placeholder="Phone" required>
                                 </div>
+<!--                                <div class="constraint-block">-->
+<!--                                    <span><strong class="constraint__item">Phone cannot be empty</strong>.</span>-->
+<!--                                </div>-->
 
                                 <div class="auth-form__group">
                                     <label for="email" class="auth-form__label">
@@ -59,7 +65,10 @@
                                     </label>
                                     <input type="email" id="email" name="email" class="auth-form__input" placeholder="E-Mail" required>
                                 </div>
-        
+<!--                                <div class="constraint-block">-->
+<!--                                    <span><strong class="constraint__item">Email cannot be empty</strong>.</span>-->
+<!--                                </div>-->
+
                                 <div class="auth-form__password">
                                     <h3 class="auth-form__group-name">Password</h3>
                                     <div class="auth-form__group">
@@ -68,7 +77,18 @@
                                         </label>
                                         <input type="password" id="password" name="password" class="auth-form__input" placeholder="Type your password" required>
                                     </div>
-            
+
+                                    <div class="constraint-block">
+                                        <span class="constraint">Password must include:</span>
+                                        <ul class="constraint__list">
+                                            <li class="constraint__item" id="uppercase">At least one uppercase letter</li>
+                                            <li class="constraint__item" id="lowercase">At least one lowercase letter</li>
+                                            <li class="constraint__item" id="special">At least one special character</li>
+                                            <li class="constraint__item" id="number">At least one number</li>
+                                        </ul>
+                                        <span>Password must be >= <strong id="length" class="constraint__item">8 characters</strong>.</span>
+                                    </div>
+
                                     <div class="auth-form__group">
                                         <label for="confirmPassword" class="auth-form__label">
                                             <strong>Confirm Password</strong>
@@ -76,6 +96,7 @@
                                         <input type="password" id="confirmPassword" name="confirmPassword" class="auth-form__input" placeholder="Type again your password" required>
                                     </div>
                                 </div>
+
                             </div>
         
                             <div class="auth-form_aside">
@@ -116,7 +137,7 @@
     <script src="/js//jquery.scrollUp.min.js"></script>
     <script src="/js//price-range.js"></script>
     <script src="/js//jquery.prettyPhoto.js"></script>
-    <script src="/js//base.js"></script>
+    <script src="/js/base.js"></script>
 </body>
 
 </html>

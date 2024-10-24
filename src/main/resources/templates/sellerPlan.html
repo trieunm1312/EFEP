@@ -46,7 +46,7 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/seller/plan}" class="sidebar__link">
+                <a th:href="@{/seller/plan/detail}" class="sidebar__link">
                     <div class="sidebar__item active">
                         <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
                         <span class="sidebar__item-title">My Plan</span>
@@ -146,31 +146,30 @@
         <!-- Container -->
         <div class="container">
             <div class="container-wrap">
-                <div class="business-plan hidden">
+                <div th:if="${msg}" class="business-plan">
                     <div class="business-plan__header">
                         <h3 class="business-plan__first-line">
                             <span>You are on the </span>
-                            <span class="business-plan__name">Ultimate </span>
+                            <span class="business-plan__name" th:text="${msg.name}"></span>
                             <span>Plan</span>
                         </h3>
                         <h3>Unlock your potential with the services of your plan!</h3>
                     </div>
                     <div class="business-plan__body">
                         <p>
-                            <span class="business-plan__service">Service 1. </span>
-                            <span class="business-plan__service">Service 2. </span>
-                            <span class="business-plan__service">Service 3. </span>
+                            <span class="business-plan__service" th:each="service : ${msg.businessServiceList}"
+                                  th:text="${service.name + '. '}"></span>
                             <span class="business-plan__price">$</span>
-                            <span class="business-plan__price">200</span>
+                            <span class="business-plan__price" th:text="${msg.price}"></span>
                             <span class="business-plan__duration">/duration for </span>
-                            <span class="business-plan__duration">6 </span>
+                            <span class="business-plan__duration" th:text="${msg.duration}"></span>
                             <span class="business-plan__duration">months.</span>
                         </p>
                     </div>
                 </div>
 
                 <!-- Before purchased Business Plan -->
-                <div class="guide">
+                <div th:if="${!msg}" class="guide">
                     <h3>Doesn't have a Business Plan?</h3>
                     <form th:action="@{/seller/plan/intro}">
                         <input class="" name="action" type="submit" value="Go Get It Now!">
