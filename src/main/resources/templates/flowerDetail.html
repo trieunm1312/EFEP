@@ -137,14 +137,17 @@
                                     <form th:action="@{/buyer/wishlist}" th:method="post">
                                         <input type="hidden" id="hiddenQuantity" name="quantity" value="1">
                                         <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
-                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                        <div th:if="${session.acc}">
+                                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                        </div>
+
                                         <input type="submit" class="flower-information__wishlist-btn btn" name="action"
                                                value="Add to Wishlist">
                                     </form>
                                     <form th:action="@{/}" method="get">
 <!--                                        <input type="hidden" id="hiddenQuantity" name="quantity" value="1">-->
-                                        <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
-                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+<!--                                        <input type="hidden" name="flowerId" th:value="${msg.flower.id}">-->
+<!--                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
                                         <input type="submit" class="flower-information__checkout-btn btn btn--primary"
                                                name="action" value="Buy Now">
                                     </form>
