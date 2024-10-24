@@ -741,15 +741,21 @@ public class BuyerServiceImpl implements BuyerService {
         if (!error.isEmpty()) {
             return error;
         }
-
         List<ViewOrderDetailResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
+
+        String sellerName = order.getOrderDetailList().stream()
+                .findFirst()
+                .map(detail -> detail.getFlower().getSeller().getUser().getName())
+                .orElse("Unknown Seller");
 
         return ViewOrderDetailResponse.builder()
                 .status("200")
                 .message("Order details retrieved successfully")
                 .orderId(order.getId())
+                .sellerName(sellerName)
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
+                .paymentMethod(order.getPaymentMethod().getName())
                 .detailList(detailList)
                 .build();
     }
@@ -757,7 +763,6 @@ public class BuyerServiceImpl implements BuyerService {
     private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderDetailResponse.Detail.builder()
-                        .sellerName(detail.getFlower().getSeller().getUser().getName())
                         .flowerName(detail.getFlowerName())
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
