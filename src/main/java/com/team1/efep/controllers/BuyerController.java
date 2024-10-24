@@ -1,6 +1,6 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.enums.Const;
+import com.team1.efep.configurations.AllPage;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.BuyerService;
@@ -28,6 +28,7 @@ public class BuyerController {
     @PostMapping("/pass/forgot")
     @Operation(hidden = true)
     public String forgot(ForgotPasswordRequest request, Model model, HttpSession session) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.sendEmail(request, model, session);
     }
 
@@ -45,6 +46,7 @@ public class BuyerController {
     @PostMapping("/pass/renew")
     @Operation(hidden = true)
     public String renewPass(RenewPasswordRequest request, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.renewPass(request, model);
     }
 
@@ -56,6 +58,7 @@ public class BuyerController {
     @GetMapping("/flower")
     @Operation(hidden = true)
     public String viewFlowerList(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.viewFlowerList(session, model);
     }
 
@@ -68,6 +71,7 @@ public class BuyerController {
     @GetMapping("/order/history")
     @Operation(hidden = true)
     public String viewOrderHistory(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.viewOrderHistory(session, model);
     }
 
@@ -79,6 +83,7 @@ public class BuyerController {
     @GetMapping("/order/detail")
     @Operation(hidden = true)
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.viewOrderDetail(request, session, model);
     }
 
@@ -90,6 +95,7 @@ public class BuyerController {
     @GetMapping("/order/status")
     @Operation(hidden = true)
     public String viewOrderStatus(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.viewOrderStatus(session, model);
     }
 
@@ -101,6 +107,7 @@ public class BuyerController {
     @PutMapping("/order")
     @Operation(hidden = true)
     public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.cancelOrder(request, session, model);
     }
 
@@ -112,6 +119,7 @@ public class BuyerController {
     @PostMapping("/order/payment")
     @Operation(hidden = true)
     public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.createVNPayPaymentLink(request, model, httpServletRequest);
     }
 
@@ -123,6 +131,7 @@ public class BuyerController {
     @GetMapping("/order/payment/result")
     @Operation(hidden = true)
     public String getPaymentResult(@RequestParam Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.getPaymentResult(params, httpServletRequest, model, session);
     }
 
@@ -135,12 +144,13 @@ public class BuyerController {
     public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
         return buyerService.getCODPaymentResult(params, session, redirectAttributes);
     }
-    //--------------------------------------------------------------------------//
 
-    //---------------WISHLIST----------------//
+
+    //------------------------------------WISHLIST---------------------------------//
     @PutMapping("/wishlist")
     @Operation(hidden = true)
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.updateWishlist(request, session, model);
     }
 
@@ -152,6 +162,7 @@ public class BuyerController {
     @DeleteMapping("/wishlist")
     @Operation(hidden = true)
     public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.deleteWishlist(request, session, model);
     }
 
@@ -163,6 +174,7 @@ public class BuyerController {
     @DeleteMapping("/wishlist-item")
     @Operation(hidden = true)
     public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.deleteWishlistItem(request, session, model);
     }
 
@@ -174,6 +186,7 @@ public class BuyerController {
     @GetMapping("/wishlist")
     @Operation(hidden = true)
     public String viewWishlist(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.viewWishlist(session, model);
     }
 
@@ -184,7 +197,8 @@ public class BuyerController {
 
     @PostMapping("/wishlist")
     @Operation(hidden = true)
-    public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model) {
+    public String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.addToWishlist(request, httpServletRequest, session, model);
     }
 
@@ -203,6 +217,7 @@ public class BuyerController {
     @PostMapping("/flower/search")
     @Operation(hidden = true)
     public String searchFlower(SearchFlowerRequest request, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.searchFlower(request, model);
     }
 
@@ -214,6 +229,7 @@ public class BuyerController {
     @GetMapping("/flower/detail")
     @Operation(hidden = true)
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.viewFlowerDetail(request, model);
     }
 
@@ -222,11 +238,11 @@ public class BuyerController {
         return buyerService.viewFlowerDetailAPI(request);
     }
 
-    @GetMapping("/category")
-    @Operation(hidden = true)
-    public String viewCategory(HttpSession session, Model model) {
-        return buyerService.viewCategory(session, model);
-    }
+//    @GetMapping("/category")
+//    @Operation(hidden = true)
+//    public String viewCategory(HttpSession session, Model model) {
+//        return buyerService.viewCategory(session, model);
+//    }
 
     @GetMapping("/category/api")
     public ViewCategoryListResponse viewCategory() {
@@ -235,7 +251,22 @@ public class BuyerController {
 
     @GetMapping("/order/confirm")
     public String confirmOrder(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return buyerService.confirmOrder(session, model);
     }
+
+
+    @PostMapping("/category/filter")
+    @Operation(hidden = true)
+    public String filterCategory(FilterCategoryRequest request, Model model) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.filterCategory(request, model);
+    }
+
+    @PostMapping("/category/filter/api")
+    public FilterCategoryResponse filterCategory(@RequestBody FilterCategoryRequest request) {
+        return buyerService.filterCategoryAPI(request);
+    }
+
 
 }
