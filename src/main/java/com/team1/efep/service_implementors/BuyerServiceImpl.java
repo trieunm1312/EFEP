@@ -44,6 +44,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final WishlistRepo wishlistRepo;
     private final OrderDetailRepo orderDetailRepo;
     private final CategoryRepo categoryRepo;
+    private final UserRepo userRepo;
 
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
@@ -610,6 +611,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = viewOrderHistoryLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
             model.addAttribute("msg", (ViewOrderHistoryResponse) output);
+            return "viewOrderHistory";
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "viewOrderHistory";
@@ -705,9 +707,10 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
             model.addAttribute("msg", (ViewOrderDetailResponse) output);
+            return "viewOrderDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderDetail";
     }
 
     @Override
@@ -1113,7 +1116,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Long getAmount(VNPayRequest request) {
-        return (long) request.getAmount() * 100;
+        return (long) request.getAmount() * 100 * 25000;
     }
 
     private String getCreateDate(Calendar calendar, SimpleDateFormat dateFormat) {
@@ -1167,8 +1170,8 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
-            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             model.addAttribute("msg", (VNPayResponse) output);
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -1247,6 +1250,8 @@ public class BuyerServiceImpl implements BuyerService {
             }
         }
         wishlistItemRepo.deleteAll(items);
+        user.getWishlist().setWishlistItemList(new ArrayList<>());
+        userRepo.save(user);
     }
 
     //-----------------------------------GET COD PAYMENT RESULT--------------------------------------//
@@ -1257,14 +1262,13 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         User user = account.getUser();
         List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-
         saveOrder(params, user, items);
-
+        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+        System.out.println("Updated wishlist size: " + ((Account) session.getAttribute("acc")).getUser().getWishlist().getWishlistItemList().size());
         CODPaymentResponse response = CODPaymentResponse.builder()
                 .status("200")
                 .message("Your order has been preparing...")
                 .build();
-        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
         redirectAttributes.addFlashAttribute("msg", response);
         return "redirect:/viewOrderSummary";
     }

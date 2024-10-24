@@ -19,5 +19,6 @@ public class Const {
 
     public final static String EMAIL_SUBJECT = "Flowerista: OTP Code To Verify Your Account";
     public final static String OTP_LINK = "http://localhost:8080/buyer/otp/verify?code=";
+    public final static String BUSINESS_PLAN_SUBJECT = "Flowerista: We about to change the price of business plan";
 
 }
