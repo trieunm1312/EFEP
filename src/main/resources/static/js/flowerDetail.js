@@ -43,3 +43,14 @@ function decreaseValue() {
   value--;
   document.getElementById('number').value = value;
 }
+
+//Quantity value ref
+
+  // Hàm để cập nhật giá trị của input hidden
+  function updateHiddenInput() {
+  var quantity = document.getElementById("quantity").value;
+  document.getElementById("hiddenQuantity").value = quantity;
+}
+
+  // Gọi hàm khi form submit để đảm bảo hidden input luôn được cập nhật
+  document.getElementById("hiddenQuantity").addEventListener('change', updateHiddenInput);
