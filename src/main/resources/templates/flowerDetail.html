@@ -117,7 +117,7 @@
                                         <div class="value-button" id="decrease" onclick="decreaseValue()"
                                              value="Decrease Value">-
                                         </div>
-                                        <input type="number" id="quantity" class="flower-information__quantity-buy"
+                                        <input type="number" id="number" class="flower-information__quantity-buy"
                                                name="quantity" value="1" onchange="updateHiddenInput()"/>
                                         <div class="value-button" id="increase" onclick="increaseValue()"
                                              value="Increase Value">+
@@ -410,7 +410,7 @@
         }
 
         // Gọi hàm khi form submit để đảm bảo hidden input luôn được cập nhật
-        document.getElementById("quantity").addEventListener('change', updateHiddenInput);
+        document.getElementById("number").addEventListener('change', updateHiddenInput);
     </script>
 </div>
 <script src="/js/jquery.js"></script>

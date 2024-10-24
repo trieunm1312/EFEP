@@ -211,7 +211,7 @@ public class BuyerController {
         return buyerService.searchFlowerAPI(request);
     }
 
-    @PostMapping("/flower/detail")
+    @GetMapping("/flower/detail")
     @Operation(hidden = true)
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
         return buyerService.viewFlowerDetail(request, model);
