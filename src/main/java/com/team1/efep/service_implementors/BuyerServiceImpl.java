@@ -741,15 +741,21 @@ public class BuyerServiceImpl implements BuyerService {
         if (!error.isEmpty()) {
             return error;
         }
-
         List<ViewOrderDetailResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
+
+        String sellerName = order.getOrderDetailList().stream()
+                .findFirst()
+                .map(detail -> detail.getFlower().getSeller().getUser().getName())
+                .orElse("Unknown Seller");
 
         return ViewOrderDetailResponse.builder()
                 .status("200")
                 .message("Order details retrieved successfully")
                 .orderId(order.getId())
+                .sellerName(sellerName)
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
+                .paymentMethod(order.getPaymentMethod().getName())
                 .detailList(detailList)
                 .build();
     }
@@ -757,7 +763,6 @@ public class BuyerServiceImpl implements BuyerService {
     private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderDetailResponse.Detail.builder()
-                        .sellerName(detail.getFlower().getSeller().getUser().getName())
                         .flowerName(detail.getFlowerName())
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
@@ -1029,9 +1034,8 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------VIEW CATEGORY------------------------------------------//
 
     @Override
-    public String viewCategory(HttpSession session, Model model) {
-        model.addAttribute("msg", viewCategoryLogic());
-        return "category";
+    public void viewCategory(Model model) {
+        model.addAttribute("msg3", viewCategoryLogic());
     }
 
     @Override
@@ -1282,6 +1286,49 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("msg", viewWishlistLogic(account.getId()));
         return "checkout";
     }
+
+    //---------------------------------FIELTER CATEGORY---------------------------------//
+
+    @Override
+    public String filterCategory(FilterCategoryRequest request, Model model) {
+        model.addAttribute("msg", filterCategoryLogic(request));
+        return "category";
+    }
+
+    @Override
+    public FilterCategoryResponse filterCategoryAPI(FilterCategoryRequest request) {
+        return filterCategoryLogic(request);
+    }
+
+    public FilterCategoryResponse filterCategoryLogic(FilterCategoryRequest request) {
+
+        Category category = categoryRepo.findById(request.getCategoryId()).orElse(null);
+        assert category != null;
+
+        return FilterCategoryResponse.builder()
+                .status("200")
+                .message("")
+                .categoryId(request.getCategoryId())
+                .keyword(category.getName())
+                .flowerList(
+                        category.getFlowerCategoryList().stream()
+                                .map(flower -> FilterCategoryResponse.Flower.builder()
+                                        .id(flower.getId())
+                                        .name(flower.getFlower().getName())
+                                        .price(flower.getFlower().getPrice())
+                                        .images(
+                                                flower.getFlower().getFlowerImageList().stream()
+                                                        .map(img -> FilterCategoryResponse.Image.builder()
+                                                                .link(img.getLink())
+                                                                .build())
+                                                        .toList()
+                                        )
+                                        .build())
+                                .toList()
+                )
+                .build();
+    }
+
 
 }
 

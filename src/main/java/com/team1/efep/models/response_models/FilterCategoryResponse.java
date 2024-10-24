@@ -8,20 +8,42 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class ViewCategoryListResponse {
+public class FilterCategoryResponse {
+
     private String status;
+
     private String message;
-    private List<Category> categoryList;
+
+    private int categoryId;
+
+    private String keyword;
+
+    private List<Flower> flowerList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Category {
+    public static class Flower {
+
         private int id;
+
         private String name;
+
+        private float price;
+
+        private List<Image> images;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Image {
+
+        private String link;
     }
 }
