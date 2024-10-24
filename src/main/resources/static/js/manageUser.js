@@ -1,21 +1,45 @@
-const createNewBtn = document.getElementById('createNewBtn');
-const secondContainer = document.getElementById('secondContainer');
-const closeBtn = document.getElementById('closeBtn');
+//Create Seller Account form
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to get the URL parameter
+    function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
 
-// Display slide in the form
-createNewBtn.addEventListener('click', () => {
-    secondContainer.classList.add('active');
+    const newSeller = getUrlParameter('newSeller');
+    const createNewBtn = document.getElementById('createNewBtn');
+    const secondContainer = document.getElementById('secondContainer');
+    const closeBtn = document.getElementById('closeBtn');
+
+
+    if (newSeller === 'true' && secondContainer) {
+        secondContainer.classList.add('active');
+    }
+
+
+    if (createNewBtn) {
+        createNewBtn.addEventListener('click', () => {
+            secondContainer.classList.add('active');  // Slide in the form
+        });
+    } else {
+        console.error('Create New button not found.');
+    }
+
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            secondContainer.classList.add('closing');
+
+
+            setTimeout(() => {
+                secondContainer.classList.remove('active', 'closing');
+            }, 400);
+        });
+    } else {
+        console.error('Close button not found.');
+    }
 });
 
-// Close the form
-closeBtn.addEventListener('click', () => {
-    secondContainer.classList.add('closing');  // Add 'closing' class to trigger slide out
-
-    // Wait for the transition to complete (0.4s for slide-out)
-    setTimeout(() => {
-        secondContainer.classList.remove('active', 'closing');  // Remove both classes after animation ends
-    }, 400);
-});
 
 //Password constraint
 document.addEventListener('DOMContentLoaded', function() {

@@ -89,15 +89,21 @@
                     <h4 class="header__create-title">Create New</h4>
                     <ul class="header__create-list">
                         <li class="header__create-item">
-                            <a href="#">
+                            <a th:href="@{/admin/view/service(newService=true)}">
                                 <i class="fa-regular fa-clipboard header__create-item-icon"></i>
                                 <span class="sidebar__item-title">Business Service</span>
                             </a>
                         </li>
                         <li class="header__create-item">
-                            <a href="#">
+                            <a th:href="@{/admin/view/plan(newPlan=true)}">
                                 <i class="fa-solid fa-briefcase header__create-item-icon"></i>
                                 <span class="sidebar__item-title">Business Plan</span>
+                            </a>
+                        </li>
+                        <li class="header__create-item">
+                            <a th:href="@{/admin/user/list(newSeller=true)}">
+                                <i class="fa-solid fa-user-pen header__create-item-icon"></i>
+                                <span class="sidebar__item-title">Manage User</span>
                             </a>
                         </li>
                     </ul>
@@ -221,7 +227,7 @@
                                     <label  class="auth-form__label">
                                         <strong>Password</strong>
                                     </label>
-                                    <input type="password" name="password" class="auth-form__input"
+                                    <input type="password" id="password" name="password" class="auth-form__input"
                                            placeholder="Password" required>
                                 </div>
                             </div>
