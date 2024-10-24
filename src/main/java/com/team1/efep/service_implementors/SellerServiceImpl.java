@@ -64,7 +64,8 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        model.addAttribute("response", createNewFlower(request));
+        model.addAttribute("msg1", createNewFlower(request));
+        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
         return "redirect:/manageFlower";
     }
 
@@ -171,10 +172,11 @@ public class SellerServiceImpl implements SellerService {
         }
         Object output = viewOrderListLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
-            model.addAttribute("response", (ViewOrderListResponse) output);
+            model.addAttribute("msg", (ViewOrderListResponse) output);
+            return "viewOrderList";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderList";
     }
 
     @Override
@@ -248,7 +250,7 @@ public class SellerServiceImpl implements SellerService {
         }
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
-            model.addAttribute("response", (ChangeOrderStatusResponse) output);
+            model.addAttribute("msg", (ChangeOrderStatusResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "seller";
@@ -295,9 +297,9 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
 
     @Override
-    public void viewFlowerListForSeller(HttpSession session, Model model) {
+    public String viewFlowerListForSeller(HttpSession session, Model model) {
         model.addAttribute("msg", viewFlowerListForSellerLogic(((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
-//        return "redirect:/manageFlower";
+        return "manageFlower";
     }
 
     @Override
@@ -405,10 +407,10 @@ public class SellerServiceImpl implements SellerService {
         Object output = cancelBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelBusinessPlanResponse.class)) {
             model.addAttribute("msg", (CancelBusinessPlanResponse) output);
-            return "home";
+            return "redirect:/seller/plan/detail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "home";
+        return "404";
     }
 
     @Override
@@ -553,7 +555,7 @@ public class SellerServiceImpl implements SellerService {
         }
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            model.addAttribute("response", (ViewOrderDetailResponse) output);
+            model.addAttribute("msg", (ViewOrderDetailResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "seller";
@@ -625,10 +627,11 @@ public class SellerServiceImpl implements SellerService {
         }
         Object output = filterOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
-            model.addAttribute("response", (FilterOrderResponse) output);
+            model.addAttribute("msg", (FilterOrderResponse) output);
+            return "viewOrderList";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderList";
     }
 
     @Override
@@ -916,7 +919,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model) {
         model.addAttribute("msg", sortOrderLogic(filterOrderRequest, sortOrderRequest));
-        return "sellerOrder";
+        return "viewOrderList";
     }
 
     @Override

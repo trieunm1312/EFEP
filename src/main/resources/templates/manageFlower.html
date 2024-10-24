@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/manageFlower}" class="sidebar__link">
+                <a th:href="@{/seller/view/flower}" class="sidebar__link">
                     <div class="sidebar__item active">
                         <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                         <span class="sidebar__item-title">Manage Flower</span>
@@ -43,7 +43,7 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/orderList}" class="sidebar__link ">
+                <a th:href="@{/seller/order/list}" class="sidebar__link ">
                     <div class="sidebar__item">
                         <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
                         <span class="sidebar__item-title">Manage Order</span>
@@ -51,7 +51,7 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/seller/plan}" class="sidebar__link">
+                <a th:href="@{/seller/plan/detail}" class="sidebar__link">
                     <div class="sidebar__item">
                         <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
                         <span class="sidebar__item-title">My Plan</span>
@@ -131,11 +131,20 @@
                 <i class="fa-solid fa-bell"></i>
             </div>
             <span class="header__separate">|</span>
-            <div class="header__account">
+            <div class="header__account" id="headerAccount">
                 <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
                 <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
                 <span th:text="${session.acc.getUser().getName()}"></span>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
+                <div  class="header__item-account" id="accountDropdown">
+                    <form th:action="@{/account/view/profile}"  class="form" method="get">
+                        <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
+                        <input type="hidden" name="id" value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/account/logout}" class="form" method="get">
+                        <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
+                    </form>
+                </div>
             </div>
         </div>
     </header>
@@ -173,7 +182,7 @@
                                         <input type="hidden" name="flowerId" th:value="${item.id}">
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                         <td class="table__body-img">
-                                            <img class="img" alt="">
+                                            <img class="img" src="/img/flower.jpg" alt="">
                                             <input type="url" name="image" class="img-input"
                                                    style="display: none;">
                                         </td>
@@ -243,7 +252,7 @@
                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                         <tr class="table__body-item-new" style="display: none;">
 <!--                            <td class="table__body-img">-->
-<!--                                <input type="url" name="img" placeholder="Image">-->
+<!--                                <input type="file" name="img" src="/img/flower.jpg" placeholder="Image">-->
 <!--                            </td>-->
                             <td class="table__body-name">
                                 <input name="name" th:value="${flowerName}" placeholder="Flower Name">

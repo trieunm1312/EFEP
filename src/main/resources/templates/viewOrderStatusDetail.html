@@ -5,81 +5,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css"> -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderStatusDetail.css">
+    <!--    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderStatusDetail.css"> -->
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/viewOrderStatusDetail.css">
 
 </head>
 
 <body>
-    <div class="wrap">
-        <!-- Nav Bar -->
-        <nav class="navbar" th:replace="~{base :: navbar}">
+<div class="wrap">
+    <!-- Nav Bar -->
+    <nav class="navbar" th:replace="~{base :: navbar}">
 
-        </nav>
+    </nav>
 
-        <!-- Header -->
-        <header class="header" th:replace="~{base :: header}">
+    <!-- Header -->
+    <header class="header" th:replace="~{base :: header}">
 
-        </header>
+    </header>
 
-        <!-- Container -->
-        <div class="container">
-            <!-- <div class="grid"> -->
-            <div class="container__wrap">
-                <!-- Breadbrum -->
-                <!-- <div class="breadbrum">
-                    <h1 class="breadbrum__title">View Order List</h1><br>
-                    <ul class="breadbrum__element-list">
-                        <li class="breadbrum__element-list-item">
-                            <a href="home.html" class="breadbrum__element-list-item-link">
-                                <i class="fa-solid fa-house"></i>
-                            </a>
-                        </li>
+    <!-- Container -->
+    <div class="container">
+        <!-- <div class="grid"> -->
+        <div class="container__wrap">
+            <!-- Breadbrum -->
+            <!-- <div class="breadbrum">
+                <h1 class="breadbrum__title">View Order List</h1><br>
+                <ul class="breadbrum__element-list">
+                    <li class="breadbrum__element-list-item">
+                        <a href="home.html" class="breadbrum__element-list-item-link">
+                            <i class="fa-solid fa-house"></i>
+                        </a>
+                    </li>
 
-                        <li class="breadbrum__element-list-item">
-                            <a href="" class="breadbrum__element-list-item-link">
-                                <i class="fa-solid fa-angles-right"></i>
-                                <span>Account</span>
-                            </a>
-                        </li>
+                    <li class="breadbrum__element-list-item">
+                        <a href="" class="breadbrum__element-list-item-link">
+                            <i class="fa-solid fa-angles-right"></i>
+                            <span>Account</span>
+                        </a>
+                    </li>
 
-                        <li class="breadbrum__element-list-item">
-                            <a href="register.html" class="breadbrum__element-list-item-link">
-                                <i class="fa-solid fa-angles-right"></i>
-                                <span>Forgot Password</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div> -->
+                    <li class="breadbrum__element-list-item">
+                        <a href="register.html" class="breadbrum__element-list-item-link">
+                            <i class="fa-solid fa-angles-right"></i>
+                            <span>Forgot Password</span>
+                        </a>
+                    </li>
+                </ul>
+            </div> -->
 
-                <!-- Order list -->
+            <!-- Order list -->
+            <div th:if="${msg}">
                 <div class="step-progress">
                     <div class="navigation-order">
-                        <form th:action="@{/}">
-                            <button class="nav-order-btn">
-                                <i class="fa-solid fa-chevron-left"></i>
-                                <span>Back</span>
-                            </button>
-                        </form>
-                        <span class="navigation-order-code text-orange">ORDER CODE: ABC12345</span>
+                        <a th:href="@{/buyer/order/hítory}" class="auth-form__switch-btn"
+                           onclick="window.history.back(); return false;">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Back
+                        </a>
+                        <p class="text-orange">ORDER CODE: <span class="navigation-order-code text-orange" th:text="${msg.orderId}">ABC12345</span></p>
                     </div>
                     <section class="step-wizard">
                         <ul class="step-wizard-list">
-                            <li class="step-wizard-item current-item">
+                            <li class="step-wizard-item" th:classappend="${msg.orderStatus == 'processing'} ? 'current-item'" >
                                 <span class="progress-count">1</span>
                                 <span class="progress-label">Process</span>
                             </li>
-                            <li class="step-wizard-item ">
+                            <li class="step-wizard-item " th:classappend="${msg.orderStatus == 'packed'} ? 'current-item'">
                                 <span class="progress-count">2</span>
                                 <span class="progress-label">Packed</span>
                             </li>
-                            <li class="step-wizard-item ">
-                                <span class="progress-count">3</span>
-                                <span class="progress-label">completed</span>
+                            <li class="step-wizard-item " th:classappend="${msg.orderStatus == 'completed'} ? 'current-item'">
+                                <span class="progress-count" >3</span>
+                                <span class="progress-label">Completed</span>
                             </li>
                         </ul>
                     </section>
@@ -88,215 +94,87 @@
                     <table border="1" cellpadding="20" cellspacing="0">
                         <tbody>
 
-                            <tr>
-                                <td class="table-order-detail" colspan="2">
-                                    <div class="order-nav">
-                                        <form th:action="@{/}">
-                                            <button class="order-btn">View more flower</button>
-                                        </form>
-                                        <form th:action="@{/}">
-                                            <button class="order-btn-cancel">Cancel order</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="table-order-detail" colspan="2">
+                                <div class="order-nav">
+                                    <form th:action="@{/}">
+                                        <button class="order-btn">View more flower</button>
+                                    </form>
+                                    <form th:action="@{/buyer/order}" th:method="put">
+                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                        <input type="hidden" name="orderId" th:value="${msg.orderId}">
+                                        <button class="order-btn-cancel">Cancel order</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
 
-                            <tr>
-                                <td class="table-order-detail" colspan="2">
-                                    <div class="text-flex">
-                                        <div class="table-order-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
-                                        </div>
-                                        <div class="table-order-info">
-                                            <h4 class="table-order-name">Hiptage</h4>
-                                            <!-- <span class="table-order-id">F123</span> -->
-                                            <span class="table-order-event font-size font-weight">Wedding</span>
-                                            <div class="table-order-info-price font-size">
-                                                <div class="table-order-info-qnt">
-                                                    <span class="table-order-multiple font-bold">x</span>
-                                                    <span class="table-order-quantity font-bold">1</span>
-                                                </div>
-                                                <span class="table-order-price text-orange font-bold">$122.00</span>
+                        <tr>
+                            <td class="table-order-detail" colspan="2">
+                                <div class="">
+<!--                                    <div class="table-order-img">-->
+<!--                                        <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"-->
+<!--                                             alt="">-->
+<!--                                    </div>-->
+                                    <div class="table-order-info" th:each="product : ${msg.detailList}">
+                                        <h4 class="table-order-name" th:text="${product.flowerName}">Hiptage</h4>
+                                        <!-- <span class="table-order-id">F123</span> -->
+                                        <span class="table-order-event font-size font-weight" th:text="${product.sellerName}">Wedding</span>
+                                        <div class="table-order-info-price font-size">
+                                            <div class="table-order-info-qnt">
+                                                <span class="table-order-multiple font-bold">x</span>
+                                                <span class="table-order-quantity font-bold" th:text="${product.quantity}">1</span>
                                             </div>
-
+                                            <span class="table-order-price text-orange font-bold" th:text="${product.price}">$122.00</span>
                                         </div>
+
                                     </div>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td class="table-order-detail text-left" colspan="1">
-                                    <span class="table-order-total font-weight">Total</span>
-                                </td>
-                                <td class="table-order-detail text-left" colspan="1">
-                                    <span class="table-order-total-price text-orange font-bold font-size">$122.00</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table-order-detail text-left" colspan="1">
-                                    <span class="table-order-date font-weight">Order Date</span>
-                                </td>
-                                <td class="table-order-detail text-left" colspan="1">
-                                    <span class="table-order-date_detail font-size">12/12/12</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table-order-detail text-left" colspan="1">
-                                    <span class="table-order-payment font-weight">Payment Method</span>
-                                </td>
-                                <td class="table-order-detail text-left" colspan="1">
-                                    <span class="table-order-payment-type font-weight">VNPay</span>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="table-order-detail text-left" colspan="1">
+                                <span class="table-order-total font-weight">Total</span>
+                            </td>
+                            <td class="table-order-detail text-left" colspan="1">
+                                <span class="table-order-total-price text-orange font-bold font-size" th:text="${msg.totalPrice}">$122.00</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-order-detail text-left" colspan="1">
+                                <span class="table-order-date font-weight">Order Date</span>
+                            </td>
+                            <td class="table-order-detail text-left" colspan="1">
+                                <span class="table-order-date_detail font-size">12/12/12</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-order-detail text-left" colspan="1">
+                                <span class="table-order-payment font-weight">Payment Method</span>
+                            </td>
+                            <td class="table-order-detail text-left" colspan="1">
+                                <span class="table-order-payment-type font-weight">VNPay</span>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
-        <!-- Footer -->
-        <footer class="footer" th:fragment="footer">
-            <div class="grid">
-                <div class="footer__wrap">
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <div class="footer__item-logo">
-                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
-                                    class="footer__item-logo-img">
-                            </div>
-                            <div class="footer__item-desc">
-                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
-                                    Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
-                                    Không bơ vơ
-                                    Khi vây quanh anh là những đôi mắt nhìn theo hò reo
-                                    Cũng vì chặng đường tương lai mà mình phải chia hai
-                                    Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
-                                    Và đến khi anh cất lời
-                                    Là giấc mơ mang cả đời -->
-                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                Tình yêu này có thật đáng thương? (Oh no)
-                                Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                Mất đi người rất quan trọng
-                                Có lẽ vì quá tham vọng
-                                Không thấy vui trong lòng
-                                Anh nhớ góc tối ở trong căn phòng
-                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                Lâu hơn một chút
-                                Để anh ổn định cảm xúc
-                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                Ký ức lại triệu hồi nỗi đau</span>
-                            </div>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Contact</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i
-                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
-                                        <span>National park,d1 588436,United States</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
-                                        <span>+91 123 456 789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
-                                        <span>0123-456-789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
-                                        <span>demo@Yourstore.com</span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Information</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Terms & Conditions</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Delivery Information</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>About Us</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Privacy Policy</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
-    <script src="/src/main/resources/static/js/jquery.js"></script>
-    <script src="/src/main/resources/static/js/bootstrap.min.js"></script>
-    <script src="/src/main/resources/static/js/jquery.scrollUp.min.js"></script>
-    <script src="/src/main/resources/static/js/price-range.js"></script>
-    <script src="/src/main/resources/static/js/jquery.prettyPhoto.js"></script>
-    <script src="/src/main/resources/static/js/base.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer" th:replace="~{base :: footer}">
+
+    </footer>
+</div>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/js/price-range.js"></script>
+<script src="/js/jquery.prettyPhoto.js"></script>
+<script src="/js/base.js"></script>
 </body>
 
 </html>

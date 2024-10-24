@@ -174,7 +174,7 @@ public class BuyerServiceImpl implements BuyerService {
                             WishlistItem.builder()
                                     .wishlist(wishlist)
                                     .flower(flower)
-                                    .quantity(1)
+                                    .quantity(request.getQuantity())
                                     .build()));
             accountRepo.save(account);
         }
@@ -707,10 +707,10 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
             model.addAttribute("msg", (ViewOrderDetailResponse) output);
-            return "viewOrderDetail";
+            return "viewOrderStatusDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "viewOrderDetail";
+        return "viewOrderStatusDetail";
     }
 
     @Override
