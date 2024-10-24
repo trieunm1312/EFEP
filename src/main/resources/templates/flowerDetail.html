@@ -117,7 +117,7 @@
                                         <div class="value-button" id="decrease" onclick="decreaseValue()"
                                              value="Decrease Value">-
                                         </div>
-                                        <input type="number" id="quantity" class="flower-information__quantity-buy"
+                                        <input type="number" id="number" class="flower-information__quantity-buy"
                                                name="quantity" value="1" onchange="updateHiddenInput()"/>
                                         <div class="value-button" id="increase" onclick="increaseValue()"
                                              value="Increase Value">+
@@ -134,8 +134,9 @@
 <!--                                        </span>-->
                                 </div>
                                 <div class="flower-information__button">
-                                    <form th:action="@{/buyer/wishlist}" th:method="post">
-                                        <input type="hidden" id="hiddenQuantity" name="quantity" value="1">
+                                    <form th:action="@{/buyer/wishlist}" th:method="post" class="form-button">
+                                        <input type="hidden" id="quantity" name="quantity" value="1">
+<!--                                        <span id="quantity">0</span>-->
                                         <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
                                         <div th:if="${session.acc}">
                                             <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
@@ -144,7 +145,7 @@
                                         <input type="submit" class="flower-information__wishlist-btn btn" name="action"
                                                value="Add to Wishlist">
                                     </form>
-                                    <form th:action="@{/}" method="get">
+                                    <form th:action="@{/}" method="get" class="form-button">
 <!--                                        <input type="hidden" id="hiddenQuantity" name="quantity" value="1">-->
 <!--                                        <input type="hidden" name="flowerId" th:value="${msg.flower.id}">-->
 <!--                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
