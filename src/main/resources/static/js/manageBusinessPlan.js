@@ -1,20 +1,45 @@
 // Create New Business Plan
 document.addEventListener("DOMContentLoaded", function() {
+    // Function to get the URL parameter
+    function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    const newPlan = getUrlParameter('newPlan');
+    console.log("newPlan parameter value: ", newPlan);
+
     const createNewButton = document.querySelector('.business-plan__create-btn');
     const newPlanCard = document.querySelector('.business-plan__card-new');
 
-    if (createNewButton && newPlanCard) {
-        createNewButton.addEventListener('click', function() {
-            if (newPlanCard.style.display === "none" || newPlanCard.style.display === "") {
-                newPlanCard.style.display = "block";
-            } else {
-                newPlanCard.style.display = "none";
-            }
-        });
+    //Create new plan auto
+    if (newPlan === 'true') {
+        console.log("newPlan is true, showing the card");
+
+        if (newPlanCard) {
+
+            newPlanCard.style.display = "block";
+        } else {
+            console.error('New plan card not found.');
+        }
+
+
+        if (createNewButton) {
+            createNewButton.addEventListener('click', function() {
+                if (newPlanCard.style.display === "none" || newPlanCard.style.display === "") {
+                    newPlanCard.style.display = "block";
+                } else {
+                    newPlanCard.style.display = "none";
+                }
+            });
+        } else {
+            console.error('Create button not found.');
+        }
     } else {
-        console.error('Create button or new plan card not found.');
+        console.log('newPlan parameter is not true or missing.');
     }
 });
+
 
 // Add more service
 document.addEventListener("DOMContentLoaded", function() {

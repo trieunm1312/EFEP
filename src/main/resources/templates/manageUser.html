@@ -89,15 +89,21 @@
                     <h4 class="header__create-title">Create New</h4>
                     <ul class="header__create-list">
                         <li class="header__create-item">
-                            <a href="#">
+                            <a th:href="@{/admin/view/service(newService=true)}">
                                 <i class="fa-regular fa-clipboard header__create-item-icon"></i>
                                 <span class="sidebar__item-title">Business Service</span>
                             </a>
                         </li>
                         <li class="header__create-item">
-                            <a href="#">
+                            <a th:href="@{/admin/view/plan(newPlan=true)}">
                                 <i class="fa-solid fa-briefcase header__create-item-icon"></i>
                                 <span class="sidebar__item-title">Business Plan</span>
+                            </a>
+                        </li>
+                        <li class="header__create-item">
+                            <a th:href="@{/admin/user/list(newSeller=true)}">
+                                <i class="fa-solid fa-user-pen header__create-item-icon"></i>
+                                <span class="sidebar__item-title">Manage User</span>
                             </a>
                         </li>
                     </ul>
@@ -221,10 +227,22 @@
                                     <label  class="auth-form__label">
                                         <strong>Password</strong>
                                     </label>
-                                    <input type="password" name="password" class="auth-form__input"
+                                    <input type="password" id="password" name="password" class="auth-form__input"
                                            placeholder="Password" required>
                                 </div>
                             </div>
+
+                            <div class="constraint-block">
+                                <span class="constraint">Password must include:</span>
+                                <ul class="constraint__list">
+                                    <li class="constraint__item" id="uppercase">At least one uppercase letter</li>
+                                    <li class="constraint__item" id="lowercase">At least one lowercase letter</li>
+                                    <li class="constraint__item" id="special">At least one special character</li>
+                                    <li class="constraint__item" id="number">At least one number</li>
+                                </ul>
+                                <span>Password must be >= <strong id="length" class="constraint__item">8 characters</strong>.</span>
+                            </div>
+
                         </div>
                         <div class="auth-form__controls">
                             <input type="submit" name="btAction" value="CREATE" class="btn btn--primary"></input>
