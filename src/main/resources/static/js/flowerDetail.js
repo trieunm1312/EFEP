@@ -34,6 +34,7 @@ function increaseValue() {
   value = isNaN(value) ? 0 : value;
   value++;
   document.getElementById('number').value = value;
+  updateHiddenInput();
 }
 
 function decreaseValue() {
@@ -42,4 +43,22 @@ function decreaseValue() {
   value < 2 ? value = 2 : '';
   value--;
   document.getElementById('number').value = value;
+  updateHiddenInput();
+}
+
+//Quantity value ref
+
+  // Hàm để cập nhật giá trị của input hidden
+//   function updateHiddenInput() {
+//   var quantity = document.getElementById("number").value;
+//   document.getElementById("quantity").value = quantity;
+// }
+//
+//   // Gọi hàm khi form submit để đảm bảo hidden input luôn được cập nhật
+//   document.getElementById("quantity").addEventListener('change', updateHiddenInput);
+
+// Hàm cập nhật giá trị hidden input
+function updateHiddenInput() {
+  var numberInputValue = document.getElementById('number').value;
+  document.getElementById('quantity').value = numberInputValue;  // Cập nhật giá trị vào hidden input
 }
