@@ -886,7 +886,9 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("200")
                     .message("")
                     .flower(
-                            ViewFlowerDetailResponse.Flower.builder().id(flower.getId())
+
+                            ViewFlowerDetailResponse.Flower.builder()
+                                    .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
                                     .flower_amount(flower.getFlowerAmount())

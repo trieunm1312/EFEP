@@ -1140,6 +1140,7 @@ public class SellerServiceImpl implements SellerService {
                 .link(request.getLink())
                 .build();
 
+        assert flower != null;
         flower.getFlowerImageList().add(newImage);
         flowerRepo.save(flower);
         flowerImageRepo.save(newImage);
@@ -1220,6 +1221,7 @@ public class SellerServiceImpl implements SellerService {
 
     private ViewBusinessPlanDetailResponse viewBusinessPlanDetailLogic(int planId) {
         BusinessPlan plan = businessPlanRepo.findById(planId).orElse(null);
+        assert plan != null;
         return ViewBusinessPlanDetailResponse.builder()
                 .status("200")
                 .message("")
