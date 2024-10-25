@@ -57,10 +57,7 @@ public class CreateAccountForSellerValidation {
             return MapConfig.buildMapKey(error, "Password is invalid format");
         }
 
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            return MapConfig.buildMapKey(error, "Confirmed password doesn't match the password");
 
-        }
         return  error;
     }
 }
