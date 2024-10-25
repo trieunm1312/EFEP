@@ -64,8 +64,13 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        model.addAttribute("msg1", createNewFlower(request));
-        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+        Object output = createFlowerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
+            model.addAttribute("msg1", (CreateFlowerResponse) output);
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+            return "redirect:/manageFlower";
+        }
+        model.addAttribute("msg1", (Map<String, String>) output);
         return "redirect:/manageFlower";
     }
 
@@ -112,6 +117,7 @@ public class SellerServiceImpl implements SellerService {
                                                             .link(image.getLink())
                                                             .build())
                                                     .toList()
+
                                     )
                                     .build()
                     )
@@ -142,6 +148,11 @@ public class SellerServiceImpl implements SellerService {
 
 
     private List<FlowerImage> addFlowerImages(CreateFlowerRequest request, Flower flower) {
+        if (request.getImgList() == null) {
+            List<String> imgList = new ArrayList<>();
+            imgList.add("/img/noImg.png");
+            request.setImgList(imgList);
+        }
         List<FlowerImage> flowerImages = request.getImgList().stream()
                 .map(link -> FlowerImage.builder()
                         .flower(flower)

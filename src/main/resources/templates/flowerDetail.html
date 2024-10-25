@@ -87,74 +87,73 @@
                         </div>
 
                     </div>
-<!--                    <form action="">-->
-                        <div class="flower-information__content">
-                            <h3 class="flower-information__name" th:text="${msg.flower.name}"></h3>
-                            <hr>
-                            <div class="flower-information__short-desc">
+                    <!--                    <form action="">-->
+                    <div class="flower-information__content">
+                        <h3 class="flower-information__name" th:text="${msg.flower.name}"></h3>
+                        <hr>
+                        <div class="flower-information__short-desc">
                                     <span class="flower-information__id">ID:
                                         <p th:text="${msg.flower.id}"></p>
                                     </span>
-                                <span class="flower-information__num-of-flower">
+                            <span class="flower-information__num-of-flower">
                                         Batch:
-                                        <p th:text="${msg.flower.flower_amount}"></p>
+                                        <p th:text="${msg.flower.flowerAmount}"></p>
                                         <p> flowers</p>
                                     </span>
-                                <span class="flower-information__status">
+                            <span class="flower-information__status">
                                         Status:
                                         <p>Available</p>
                                     </span>
+                        </div>
+                        <hr>
+                        <h3 class="flower-information__price">
+                            $
+                            <span th:text="${msg.flower.price}"></span>
+                        </h3>
+                        <hr>
+                        <div class="flower-information__quantity">
+                            <h4>Quantity: </h4>
+                            <div class="flower-information__quantity-buy">
+                                <div class="value-button" id="decrease" onclick="decreaseValue()"
+                                     value="Decrease Value">-
+                                </div>
+                                <input type="number" id="number" class="flower-information__quantity-buy"
+                                       name="quantity" value="1" onchange="updateHiddenInput()"/>
+                                <div class="value-button" id="increase" onclick="increaseValue()"
+                                     value="Increase Value">+
+                                </div>
                             </div>
-                            <hr>
-                            <h3 class="flower-information__price">
-                                $
-                                <span th:text="${msg.flower.price}"></span>
-                            </h3>
-                            <hr>
-                                <div class="flower-information__quantity">
-                                    <h4>Quantity: </h4>
-                                    <div class="flower-information__quantity-buy">
-                                        <div class="value-button" id="decrease" onclick="decreaseValue()"
-                                             value="Decrease Value">-
-                                        </div>
-                                        <input type="number" id="number" class="flower-information__quantity-buy"
-                                               name="quantity" value="1" onchange="updateHiddenInput()"/>
-                                        <div class="value-button" id="increase" onclick="increaseValue()"
-                                             value="Increase Value">+
-                                        </div>
-                                    </div>
-                                    <span class="flower-information__quantity-available">
+                            <span class="flower-information__quantity-available">
                                             <span th:text="${msg.flower.quantity}"></span>
                                             <span> available</span>
                                         </span>
-                                    <span class="flower-information__quantity-separate">|</span>
-<!--                                    <span class="flower-information__quantity-sold">-->
-<!--                                            <span>Sold:</span>-->
-<!--                                            <span th:text="${msg.flower.sold_quantity}"></span>-->
-<!--                                        </span>-->
-                                </div>
-                                <div class="flower-information__button">
-                                    <form th:action="@{/buyer/wishlist}" th:method="post" class="form-button">
-                                        <input type="hidden" id="quantity" name="quantity" value="1">
-<!--                                        <span id="quantity">0</span>-->
-                                        <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
-                                        <div th:if="${session.acc}">
-                                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                        </div>
-
-                                        <input type="submit" class="flower-information__wishlist-btn btn" name="action"
-                                               value="Add to Wishlist">
-                                    </form>
-                                    <form th:action="@{/}" method="get" class="form-button">
-<!--                                        <input type="hidden" id="hiddenQuantity" name="quantity" value="1">-->
-<!--                                        <input type="hidden" name="flowerId" th:value="${msg.flower.id}">-->
-<!--                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
-                                        <input type="submit" class="flower-information__checkout-btn btn btn--primary"
-                                               name="action" value="Buy Now">
-                                    </form>
-                                </div>
+                            <span class="flower-information__quantity-separate">|</span>
+                            <span class="flower-information__quantity-sold">
+                                        <span th:text="${msg.flower.soldQuantity}"></span>
+                                        <span> sold</span>
+                            </span>
                         </div>
-<!--                    </form>-->
+                        <div class="flower-information__button">
+                            <form th:action="@{/buyer/wishlist}" th:method="post" class="form-button">
+                                <input type="hidden" id="quantity" name="quantity" value="1">
+                                <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
+                                <div th:if="${session.acc}">
+                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                </div>
+
+                                <input type="submit" class="flower-information__wishlist-btn btn" name="action"
+                                       value="Add to Wishlist">
+                            </form>
+                            <form th:action="@{/}" method="get" class="form-button">
+                                <!--                                        <input type="hidden" id="hiddenQuantity" name="quantity" value="1">-->
+                                <!--                                        <input type="hidden" name="flowerId" th:value="${msg.flower.id}">-->
+                                <!--                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
+                                <input type="submit" class="flower-information__checkout-btn btn btn--primary"
+                                       name="action" value="Buy Now">
+                            </form>
+                        </div>
+                    </div>
+                    <!--                    </form>-->
                     <br>
                 </div>
                 <h3 class="flower-information__desc">Description</h3>
