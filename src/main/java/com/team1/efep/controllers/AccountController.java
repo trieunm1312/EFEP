@@ -1,5 +1,6 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.configurations.AllPage;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.AccountService;
@@ -58,6 +59,7 @@ public class AccountController {
     @GetMapping("/view/profile")
     @Operation(hidden = true)
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+
         return accountService.viewProfile(session, model, redirectAttributes);
     }
 

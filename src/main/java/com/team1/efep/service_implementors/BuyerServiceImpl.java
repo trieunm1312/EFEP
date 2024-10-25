@@ -897,7 +897,9 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("200")
                     .message("")
                     .flower(
-                            ViewFlowerDetailResponse.Flower.builder().id(flower.getId())
+
+                            ViewFlowerDetailResponse.Flower.builder()
+                                    .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
                                     .quantity(flower.getQuantity())
@@ -1303,7 +1305,13 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String filterCategory(FilterCategoryRequest request, Model model) {
-        model.addAttribute("msg", filterCategoryLogic(request));
+
+        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
+        if (request.getCategoryId() < 0) {
+            // Trả về trang thông báo lỗi hoặc thông báo
+            model.addAttribute("nullCategory", "Invalid category ID");
+        }
+        model.addAttribute("msg3", filterCategoryLogic(request));
         return "category";
     }
 

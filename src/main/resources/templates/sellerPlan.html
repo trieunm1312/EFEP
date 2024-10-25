@@ -146,7 +146,7 @@
         <!-- Container -->
         <div class="container">
             <div class="container-wrap">
-                <div th:if="${msg.name != null}" class="business-plan">
+                <div th:if="${msg}" class="business-plan">
                     <div class="business-plan__header">
                         <h3 class="business-plan__first-line">
                             <span>You are on the </span>
@@ -169,7 +169,7 @@
                 </div>
 
                 <!-- Before purchased Business Plan -->
-                <div th:if="${msg.name == null}" class="guide">
+                <div th:if="${nullPlan}" class="guide">
                     <h3>Doesn't have a Business Plan?</h3>
                     <form th:action="@{/seller/plan/intro}">
                         <input class="" name="action" type="submit" value="Go Get It Now!">
