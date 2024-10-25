@@ -76,7 +76,7 @@ public class GoogleLoginUtil {
                 User user = userRepo.save(
                         User.builder()
                                 .account(acc)
-                                .name(googleResponse.getName())
+                                .name(googleResponse.getFamilyName())
                                 .phone("")
                                 .avatar(googleResponse.getPicture())
                                 .background("")
