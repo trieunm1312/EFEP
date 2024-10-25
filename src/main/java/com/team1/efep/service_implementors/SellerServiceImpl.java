@@ -1007,7 +1007,7 @@ public class SellerServiceImpl implements SellerService {
 
         flowerRepo.save(flower);
         return UpdateFlowerResponse.builder()
-                .status("400")
+                .status("200")
                 .message("Update flower successfully")
                 .build();
 
