@@ -1211,9 +1211,17 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String viewBusinessPlanDetail(HttpSession session, Model model) {
-        model.addAttribute("msg", viewBusinessPlanDetailLogic(
-                Role.getCurrentLoggedAccount(session).getUser().getSeller().getBusinessPlan().getId()
-        ));
+        Seller seller = Objects.requireNonNull(Role.getCurrentLoggedAccount(session)).getUser().getSeller();
+        if (seller.getBusinessPlan() == null) {
+            model.addAttribute("nullPlan", "No business plan found for the seller.");
+            return "sellerPlan";
+        }
+        int planId = seller.getBusinessPlan().getId();
+        model.addAttribute("msg", viewBusinessPlanDetailLogic(planId));
+//        model.addAttribute("msg", viewBusinessPlanDetailLogic(
+//                Role.getCurrentLoggedAccount(session).getUser().getSeller().getBusinessPlan().getId()
+//        ));
+
         return "sellerPlan";
     }
 
