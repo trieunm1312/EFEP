@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="profile">
-                    <div th:if="${msg} != null">
+
                         <form th:action="@{/account/update/profile}" th:method="put" class="profile__form">
                             <h3 class="profile__header">Your Profile</h3>
                             <input type="hidden" name="id" th:value="${msg.id}"></input>
@@ -126,7 +126,7 @@
                             </div>
                             <input type="submit" name="action" class="update-btn btn btn--primary" value="Save Changes">
                         </form>
-                    </div>
+
                 </div>
             </div>
         </div>
