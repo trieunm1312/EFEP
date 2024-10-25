@@ -174,7 +174,7 @@ public class BuyerServiceImpl implements BuyerService {
                             WishlistItem.builder()
                                     .wishlist(wishlist)
                                     .flower(flower)
-                                    .quantity(1)
+                                    .quantity(request.getQuantity())
                                     .build()));
             accountRepo.save(account);
         }
@@ -707,10 +707,10 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
             model.addAttribute("msg", (ViewOrderDetailResponse) output);
-            return "viewOrderDetail";
+            return "viewOrderStatusDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "viewOrderDetail";
+        return "viewOrderStatusDetail";
     }
 
     @Override
@@ -886,7 +886,9 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("200")
                     .message("")
                     .flower(
-                            ViewFlowerDetailResponse.Flower.builder().id(flower.getId())
+
+                            ViewFlowerDetailResponse.Flower.builder()
+                                    .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
                                     .flower_amount(flower.getFlowerAmount())
@@ -1291,7 +1293,13 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String filterCategory(FilterCategoryRequest request, Model model) {
-        model.addAttribute("msg", filterCategoryLogic(request));
+
+        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
+        if (request.getCategoryId() < 0) {
+            // Trả về trang thông báo lỗi hoặc thông báo
+            model.addAttribute("nullCategory", "Invalid category ID");
+        }
+        model.addAttribute("msg3", filterCategoryLogic(request));
         return "category";
     }
 

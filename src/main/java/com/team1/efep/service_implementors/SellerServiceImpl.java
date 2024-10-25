@@ -64,7 +64,8 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        model.addAttribute("response", createNewFlower(request));
+        model.addAttribute("msg1", createNewFlower(request));
+        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
         return "redirect:/manageFlower";
     }
 
@@ -171,10 +172,11 @@ public class SellerServiceImpl implements SellerService {
         }
         Object output = viewOrderListLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
-            model.addAttribute("response", (ViewOrderListResponse) output);
+            model.addAttribute("msg", (ViewOrderListResponse) output);
+            return "viewOrderList";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderList";
     }
 
     @Override
@@ -248,7 +250,7 @@ public class SellerServiceImpl implements SellerService {
         }
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
-            model.addAttribute("response", (ChangeOrderStatusResponse) output);
+            model.addAttribute("msg", (ChangeOrderStatusResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "seller";
@@ -295,9 +297,9 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
 
     @Override
-    public void viewFlowerListForSeller(HttpSession session, Model model) {
+    public String viewFlowerListForSeller(HttpSession session, Model model) {
         model.addAttribute("msg", viewFlowerListForSellerLogic(((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
-//        return "redirect:/manageFlower";
+        return "manageFlower";
     }
 
     @Override
@@ -553,7 +555,7 @@ public class SellerServiceImpl implements SellerService {
         }
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            model.addAttribute("response", (ViewOrderDetailResponse) output);
+            model.addAttribute("msg", (ViewOrderDetailResponse) output);
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "seller";
@@ -625,10 +627,11 @@ public class SellerServiceImpl implements SellerService {
         }
         Object output = filterOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
-            model.addAttribute("response", (FilterOrderResponse) output);
+            model.addAttribute("msg", (FilterOrderResponse) output);
+            return "viewOrderList";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderList";
     }
 
     @Override
@@ -916,7 +919,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model) {
         model.addAttribute("msg", sortOrderLogic(filterOrderRequest, sortOrderRequest));
-        return "sellerOrder";
+        return "viewOrderList";
     }
 
     @Override
@@ -1140,6 +1143,7 @@ public class SellerServiceImpl implements SellerService {
                 .link(request.getLink())
                 .build();
 
+        assert flower != null;
         flower.getFlowerImageList().add(newImage);
         flowerRepo.save(flower);
         flowerImageRepo.save(newImage);
@@ -1207,9 +1211,17 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String viewBusinessPlanDetail(HttpSession session, Model model) {
-        model.addAttribute("msg", viewBusinessPlanDetailLogic(
-                Role.getCurrentLoggedAccount(session).getUser().getSeller().getBusinessPlan().getId()
-        ));
+        Seller seller = Objects.requireNonNull(Role.getCurrentLoggedAccount(session)).getUser().getSeller();
+        if (seller.getBusinessPlan() == null) {
+            model.addAttribute("nullPlan", "No business plan found for the seller.");
+            return "sellerPlan";
+        }
+        int planId = seller.getBusinessPlan().getId();
+        model.addAttribute("msg", viewBusinessPlanDetailLogic(planId));
+//        model.addAttribute("msg", viewBusinessPlanDetailLogic(
+//                Role.getCurrentLoggedAccount(session).getUser().getSeller().getBusinessPlan().getId()
+//        ));
+
         return "sellerPlan";
     }
 
@@ -1220,6 +1232,7 @@ public class SellerServiceImpl implements SellerService {
 
     private ViewBusinessPlanDetailResponse viewBusinessPlanDetailLogic(int planId) {
         BusinessPlan plan = businessPlanRepo.findById(planId).orElse(null);
+        assert plan != null;
         return ViewBusinessPlanDetailResponse.builder()
                 .status("200")
                 .message("")
