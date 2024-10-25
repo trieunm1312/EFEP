@@ -144,10 +144,10 @@
                                 <input type="submit" class="flower-information__wishlist-btn btn" name="action"
                                        value="Add to Wishlist">
                             </form>
-                            <form th:action="@{/}" method="get" class="form-button">
-                                <!--                                        <input type="hidden" id="hiddenQuantity" name="quantity" value="1">-->
-                                <!--                                        <input type="hidden" name="flowerId" th:value="${msg.flower.id}">-->
-                                <!--                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
+                            <form th:action="@{/buyer/confirm}" method="get" class="form-button">
+                                <input type="hidden" id="flowerQuantity" name="quantity" value="1">
+                                <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
+                                <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                 <input type="submit" class="flower-information__checkout-btn btn btn--primary"
                                        name="action" value="Buy Now">
                             </form>

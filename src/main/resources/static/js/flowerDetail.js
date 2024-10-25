@@ -61,4 +61,5 @@ function decreaseValue() {
 function updateHiddenInput() {
   var numberInputValue = document.getElementById('number').value;
   document.getElementById('quantity').value = numberInputValue;  // Cập nhật giá trị vào hidden input
+  document.getElementById('flowerQuantity').value = numberInputValue;
 }

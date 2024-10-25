@@ -430,45 +430,7 @@
                                 <div class="header__cart-wrap">
                                     <i class="header__cart-icon fa-solid fa-heart"></i>
                                     <span class="header__cart-notice" th:if="${session.acc == null}"> 0 </span>
-                                    <span class="header__cart-notice" th:if="${session.acc != null}"
-                                          th:text="${session.acc.getUser().getWishlist().getWishlistItemList().size()}"> 0 </span>
-
-                                    <!-- No wishlist: header__cart-list--no-wishlist -->
-                                    <div class="header__cart-list">
-                                        <span class="header__cart-list-no-wishlist-msg" th:if="${session.acc == null}">Your shopping wishlist is empty!</span>
-                                        <span class="header__cart-list-no-wishlist-msg"
-                                              th:if="${session.acc.getUser().getWishlist().getWishlistItemList().isEmpty()}">Your shopping wishlist is empty!</span>
-
-                                        <!-- Cart item -->
-                                        <ul class="header__cart-list-item" th:if="${session.acc != null}">
-                                            <li class="header__cart-item"
-                                                th:each="item : ${session.acc.getUser().getWishlist().getWishlistItemList()}">
-                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                     alt="" class="header__cart-img">
-                                                <div class="header__cart-item-info">
-                                                    <div class="header__cart-item-head">
-                                                        <h5 class="header__cart-item-name"
-                                                            th:text="${item.flower.name}">Flower name</h5>
-                                                    </div>
-                                                    <div class="header__cart-item-body">
-                                                        <span class="header__cart-item-qnt"
-                                                              th:text="${item.quantity}">0</span>
-                                                        <span class="header__cart-item-multiply">x</span>
-                                                        <!-- <span class="header__cart-item-price" th:text="${'$ ' + item.flower.price * item.getQuantity()}">0</span>-->
-                                                        <span class="header__cart-item-price"
-                                                              th:text="${'$ ' + item.flower.price}">0</span>
-
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="header__cart-list-btn">
-                                            <form th:action="@{/buyer/wishlist}" method="get">
-                                                <input class="btn-view-cart" type="submit" value="View wishlist"
-                                                       name="Action">
-                                            </form>
-                                        </div>
-                                    </div>
+                                    <span class="header__cart-notice" th:if="${session.acc != null}"> 0 </span>
                                 </div>
                             </div>
                         </li>
