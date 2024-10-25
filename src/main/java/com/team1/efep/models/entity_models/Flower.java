@@ -37,7 +37,7 @@ public class Flower {
     @Column(name = "`sold_quantity`")
     private int soldQuantity;
 
-    @OneToMany(mappedBy = "flower")
+    @OneToMany(mappedBy = "flower", fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<FlowerImage> flowerImageList;

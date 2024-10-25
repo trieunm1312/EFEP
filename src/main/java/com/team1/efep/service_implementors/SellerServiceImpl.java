@@ -50,6 +50,7 @@ public class SellerServiceImpl implements SellerService {
     private final BusinessServiceRepo businessServiceRepo;
 
     private final UserRepo userRepo;
+    private final PaymentMethodRepo paymentMethodRepo;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -904,15 +905,17 @@ public class SellerServiceImpl implements SellerService {
 
         float vnpAmount = Float.parseFloat(params.get("vnp_Amount"));
 
-        sellerRepo.save(Seller.builder()
-                .businessPlan(businessPlan)
-                .planPurchaseDate(LocalDateTime.now())
-                .build());
+        Seller seller = user.getSeller();
+        seller.setBusinessPlan(businessPlan);
+        seller.setPlanPurchaseDate(LocalDateTime.now());
+        sellerRepo.save(seller);
 
         purchasedPlanRepo.save(PurchasedPlan.builder()
                 .seller(user.getSeller())
                 .status(Status.ORDER_STATUS_PROCESSING)
                 .name(businessPlan.getName())
+                .status(Status.PURCHASED_PLAN_STATUS_PURCHASED)
+                .paymentMethod(paymentMethodRepo.findById(1).orElse(null))
                 .purchasedDate(LocalDateTime.now())
                 .price(vnpAmount / 100)
                 .build());
