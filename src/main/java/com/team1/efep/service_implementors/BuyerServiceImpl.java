@@ -1304,15 +1304,12 @@ public class BuyerServiceImpl implements BuyerService {
     //---------------------------------FIELTER CATEGORY---------------------------------//
 
     @Override
-    public String filterCategory(FilterCategoryRequest request, Model model) {
+    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes) {
 
-        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
-        if (request.getCategoryId() < 0) {
-            // Trả về trang thông báo lỗi hoặc thông báo
-            model.addAttribute("nullCategory", "Invalid category ID");
-        }
-        model.addAttribute("msg3", filterCategoryLogic(request));
-        return "category";
+//        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
+//        model.addAttribute("msg", filterCategoryLogic(request));
+        redirectAttributes.addFlashAttribute("msg", filterCategoryLogic(request));
+        return "redirect:/category";
     }
 
     @Override
@@ -1333,7 +1330,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .flowerList(
                         category.getFlowerCategoryList().stream()
                                 .map(flower -> FilterCategoryResponse.Flower.builder()
-                                        .id(flower.getId())
+                                        .id(flower.getFlower().getId())
                                         .name(flower.getFlower().getName())
                                         .price(flower.getFlower().getPrice())
                                         .images(
