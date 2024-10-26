@@ -98,12 +98,12 @@
 
 /* Flower table */
 .flower-table{
-    width: 1024px;
+    width: 1100px;
     margin-top: 20px;
 }
 
 .flower-table__sort-bar{
-    width: 100%;
+    width: inherit;
     height: 50px;
     color: var(--white-color);
     background-color: var(--primary-color);
@@ -175,7 +175,7 @@
 .flower__grid.active-view {
     display: grid; /* Use grid layout for grid view */
     grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
+    gap: 16px;
 }
 
 /* Show list view when active */
@@ -194,7 +194,7 @@
 .flower__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 32px 20px;
+    gap: 32px 10px;
     width: 100%;
 }
 
@@ -204,8 +204,8 @@
 }
 
 .flower__img img{
-    width: 270px;
-    height: 320px;
+    width: 263px;
+    height: 313px;
     border-radius: 12px;
 }
 
@@ -226,7 +226,7 @@
 .add-to-wishlist{
     position: absolute;
     bottom: 16px;
-    left: 85px;
+    left: 75px;
     font-size: 1.8rem;
     color: var(--white-color);
     background-color: var(--primary-color);
@@ -244,7 +244,7 @@
 .view-detail{
     position: absolute;
     bottom: 16px;
-    right: 92px;
+    right: 82px;
     font-size: 1.8rem;
     color: var(--white-color);
     background-color: var(--primary-color);

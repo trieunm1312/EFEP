@@ -111,7 +111,18 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = accountRepo.findById(accountId).orElse(null);
         assert account != null;
         return account.getUser().getWishlist().getWishlistItemList().stream()
-                .map(item -> new ViewWishlistResponse.WishlistItems(item.getId(), item.getFlower().getName(), item.getQuantity(), item.getFlower().getPrice()))
+                .map(item -> ViewWishlistResponse.WishlistItems.builder()
+                        .id(item.getId())
+                        .imgList(
+                                viewImageList(
+                                        item.getFlower().getFlowerImageList().stream()
+                                                .map(FlowerImage::getLink).toList()
+                                )
+                        )
+                        .name(item.getFlower().getName())
+                        .quantity(item.getQuantity())
+                        .price(item.getFlower().getPrice())
+                        .build())
                 .toList();
     }
 
@@ -554,15 +565,15 @@ public class BuyerServiceImpl implements BuyerService {
                         .id(item.getId())
                         .name(item.getName())
                         .price(item.getPrice())
-                        .images(viewImageList(item.getFlowerImageList()))
+                        .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
                         .build()
                 ).toList();
     }
 
-    private List<ViewFlowerListResponse.Image> viewImageList(List<FlowerImage> imageList) {
+    private List<ViewFlowerListResponse.Image> viewImageList(List<String> imageList) {
         return imageList.stream()
                 .map(img -> ViewFlowerListResponse.Image.builder()
-                        .link(img.getLink())
+                        .link(img)
                         .build())
                 .toList();
     }
@@ -886,11 +897,14 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("200")
                     .message("")
                     .flower(
-                            ViewFlowerDetailResponse.Flower.builder().id(flower.getId())
+
+                            ViewFlowerDetailResponse.Flower.builder()
+                                    .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
-                                    .flower_amount(flower.getFlowerAmount())
-                                    .sold_quantity(flower.getSoldQuantity())
+                                    .quantity(flower.getQuantity())
+                                    .flowerAmount(flower.getFlowerAmount())
+                                    .soldQuantity(flower.getSoldQuantity())
                                     .imageList(flower.getFlowerImageList().stream()
                                             .map(
                                                     flowers -> ViewFlowerDetailResponse.Image.builder()
@@ -1291,7 +1305,13 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String filterCategory(FilterCategoryRequest request, Model model) {
-        model.addAttribute("msg", filterCategoryLogic(request));
+
+        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
+        if (request.getCategoryId() < 0) {
+            // Trả về trang thông báo lỗi hoặc thông báo
+            model.addAttribute("nullCategory", "Invalid category ID");
+        }
+        model.addAttribute("msg3", filterCategoryLogic(request));
         return "category";
     }
 

@@ -33,6 +33,7 @@ public class ViewWishlistResponse {
     @Builder
     public static class WishlistItems {
         private int id;
+        private List<ViewFlowerListResponse.Image> imgList;
         private String name;
         private int quantity;
         private float price;

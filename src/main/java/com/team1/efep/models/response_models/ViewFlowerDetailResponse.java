@@ -31,11 +31,11 @@ public class ViewFlowerDetailResponse {
 
         private float price;
 
-        private int flower_amount;
+        private int flowerAmount;
 
         private int quantity;
 
-        private int sold_quantity;
+        private int soldQuantity;
 
         private List<Image> imageList;
     }

@@ -83,7 +83,7 @@
                                 <tr th:each="item : ${msg.wishlistItemList}">
                                     <td class="table-item-detail">
                                         <div class="table-item-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                            <img th:src="${item.imgList[0].link}"
                                                 alt="">
                                         </div>
                                     </td>

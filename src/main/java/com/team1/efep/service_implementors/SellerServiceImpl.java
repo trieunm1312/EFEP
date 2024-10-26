@@ -50,6 +50,7 @@ public class SellerServiceImpl implements SellerService {
     private final BusinessServiceRepo businessServiceRepo;
 
     private final UserRepo userRepo;
+    private final PaymentMethodRepo paymentMethodRepo;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -64,8 +65,13 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        model.addAttribute("msg1", createNewFlower(request));
-        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+        Object output = createFlowerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
+            model.addAttribute("msg1", (CreateFlowerResponse) output);
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+            return "redirect:/manageFlower";
+        }
+        model.addAttribute("msg1", (Map<String, String>) output);
         return "redirect:/manageFlower";
     }
 
@@ -112,6 +118,7 @@ public class SellerServiceImpl implements SellerService {
                                                             .link(image.getLink())
                                                             .build())
                                                     .toList()
+
                                     )
                                     .build()
                     )
@@ -142,6 +149,11 @@ public class SellerServiceImpl implements SellerService {
 
 
     private List<FlowerImage> addFlowerImages(CreateFlowerRequest request, Flower flower) {
+        if (request.getImgList() == null) {
+            List<String> imgList = new ArrayList<>();
+            imgList.add("/img/noImg.png");
+            request.setImgList(imgList);
+        }
         List<FlowerImage> flowerImages = request.getImgList().stream()
                 .map(link -> FlowerImage.builder()
                         .flower(flower)
@@ -893,15 +905,17 @@ public class SellerServiceImpl implements SellerService {
 
         float vnpAmount = Float.parseFloat(params.get("vnp_Amount"));
 
-        sellerRepo.save(Seller.builder()
-                .businessPlan(businessPlan)
-                .planPurchaseDate(LocalDateTime.now())
-                .build());
+        Seller seller = user.getSeller();
+        seller.setBusinessPlan(businessPlan);
+        seller.setPlanPurchaseDate(LocalDateTime.now());
+        sellerRepo.save(seller);
 
         purchasedPlanRepo.save(PurchasedPlan.builder()
                 .seller(user.getSeller())
                 .status(Status.ORDER_STATUS_PROCESSING)
                 .name(businessPlan.getName())
+                .status(Status.PURCHASED_PLAN_STATUS_PURCHASED)
+                .paymentMethod(paymentMethodRepo.findById(1).orElse(null))
                 .purchasedDate(LocalDateTime.now())
                 .price(vnpAmount / 100)
                 .build());
@@ -1143,6 +1157,7 @@ public class SellerServiceImpl implements SellerService {
                 .link(request.getLink())
                 .build();
 
+        assert flower != null;
         flower.getFlowerImageList().add(newImage);
         flowerRepo.save(flower);
         flowerImageRepo.save(newImage);
@@ -1210,9 +1225,17 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String viewBusinessPlanDetail(HttpSession session, Model model) {
-        model.addAttribute("msg", viewBusinessPlanDetailLogic(
-                Role.getCurrentLoggedAccount(session).getUser().getSeller().getBusinessPlan().getId()
-        ));
+        Seller seller = Objects.requireNonNull(Role.getCurrentLoggedAccount(session)).getUser().getSeller();
+        if (seller.getBusinessPlan() == null) {
+            model.addAttribute("nullPlan", "No business plan found for the seller.");
+            return "sellerPlan";
+        }
+        int planId = seller.getBusinessPlan().getId();
+        model.addAttribute("msg", viewBusinessPlanDetailLogic(planId));
+//        model.addAttribute("msg", viewBusinessPlanDetailLogic(
+//                Role.getCurrentLoggedAccount(session).getUser().getSeller().getBusinessPlan().getId()
+//        ));
+
         return "sellerPlan";
     }
 
@@ -1223,6 +1246,7 @@ public class SellerServiceImpl implements SellerService {
 
     private ViewBusinessPlanDetailResponse viewBusinessPlanDetailLogic(int planId) {
         BusinessPlan plan = businessPlanRepo.findById(planId).orElse(null);
+        assert plan != null;
         return ViewBusinessPlanDetailResponse.builder()
                 .status("200")
                 .message("")
