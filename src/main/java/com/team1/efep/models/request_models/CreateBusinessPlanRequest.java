@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class CreateBusinessPlanRequest {
 
-    private int id;
+//    private int id;
 
     private String name;
 
