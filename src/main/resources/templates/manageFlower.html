@@ -193,7 +193,7 @@
                                         </td>
                                         <td class="table__body-desc">
                                             <span th:text="${item.description}" class="desc-text"></span>
-                                            <textarea name="description" th:text="${item.description}"
+                                            <textarea name="description" th:text="${item.description}" th:value="${item.description}"
                                                       class="desc-input"
                                                       style="display: none;"></textarea>
                                         </td>
