@@ -7,14 +7,14 @@
     <title>Seller Page</title>
 
     <!-- Link CSS -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
-    <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
+    <link rel="stylesheet" href="/css/adminBase.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
         integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
-    <link rel="stylesheet" href="/src/main/resources/static/css/sellerDashboard.css">
+    <link rel="stylesheet" href="/css/sellerDashboard.css">
 
     <!-- Link Chart Script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -33,7 +33,7 @@
         <div class="sidebar__components">
             <ul class="sidebar__List">
                 <li>
-                    <a href="" class="sidebar__link">
+                    <a href="#" class="sidebar__link">
                         <div class="sidebar__item active">
                             <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Dashboard</span>
@@ -50,7 +50,7 @@
                 </li>
                 <li>
                     <a th:href="@{/seller/order/list}" class="sidebar__link ">
-                        <div class="sidebar__item active">
+                        <div class="sidebar__item">
                             <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Order</span>
                         </div>
@@ -208,12 +208,6 @@
                     </div>
                     <h4 class="analytic__header">Analytics</h4>
                     <div class="analytic">
-                        <div class="daily-user-chart">
-                            <canvas id="dailyNewUserChart"></canvas>
-                        </div>
-                        <div class="order-type-chart">
-                            <canvas id="compareUserTypeChart"></canvas>
-                        </div>
                         <div class="side-chart">
                             <div class="daily-order-chart">
                                 <canvas id="dailyOrderChart"></canvas>
@@ -233,8 +227,8 @@
 
         </div>
     </div>
-    <script src="/src/main/resources/static/js/adminBase.js"></script>
-    <script src="/src/main/resources/static/js/sellerDashboard.js"></script>
+    <script src="/js/adminBase.js"></script>
+    <script src="/js/sellerDashboard.js"></script>
 
     
 </body>

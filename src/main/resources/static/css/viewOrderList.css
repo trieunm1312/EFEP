@@ -1,5 +1,6 @@
 .container {
     /* margin: auto; */
+    padding-right: 0px;
 }
 
 .manage-order {
@@ -16,7 +17,15 @@
     border: 1px solid;
 }
 
+.detail-btn {
+    display: flex;
+    justify-content: right;
+    font-size: 1.1rem;
+}
+
 .table-order-status-btn {
+    width: 100%;
+    height: min-content;
     border: 1px solid var(--primary-color);
     color: var(--primary-color);
     background-color: var(--white-color);
@@ -65,7 +74,7 @@
 .order-list {
     /* max-width: 800px; */
     margin: 0 auto;
-    padding: 5px 10px 20px 0px;
+    padding: 5px 0px 20px 0px;
     overflow-y: auto;
     height: fit-content;
     margin-top: 42px;
@@ -114,6 +123,7 @@
 }
 
 .order-header p {
+    padding-top: 10px;
     margin: 5px 0;
     color: #666;
 }
@@ -149,4 +159,13 @@
 
 .product-table tr:last-child td {
     border-bottom: none;
+}
+
+.product-table .pro-quantity {
+    padding-left: 32px;
+}
+
+.summary {
+    font-size: 0.7rem;
+    font-weight: bold;
 }
