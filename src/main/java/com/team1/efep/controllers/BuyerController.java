@@ -135,10 +135,10 @@ public class BuyerController {
         return buyerService.getPaymentResult(params, httpServletRequest, model, session);
     }
 
-//    @GetMapping("/order/payment/result")
-//    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params,@RequestParam int accountId, HttpServletRequest httpServletRequest){
-//        return buyerService.getPaymentResultAPI(params, accountId, httpServletRequest);
-//    }
+    @GetMapping("/order/payment/result/api")
+    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params,@RequestParam int accountId, HttpServletRequest httpServletRequest){
+        return buyerService.getPaymentResultAPI(params, accountId, httpServletRequest);
+    }
 
     @PostMapping("/order/cod")
     public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -150,7 +150,6 @@ public class BuyerController {
     @PutMapping("/wishlist")
     @Operation(hidden = true)
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
-        AllPage.allConfig(model, buyerService);
         return buyerService.updateWishlist(request, session, model);
     }
 

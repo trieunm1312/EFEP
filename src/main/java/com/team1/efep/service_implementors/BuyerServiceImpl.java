@@ -1,6 +1,7 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.VNPayConfig;
+import com.team1.efep.configurations.AllPage;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
@@ -200,7 +201,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .anyMatch(item -> Objects.equals(item.getFlower().getId(), request.getFlowerId()));
     }
 
-    //------------------------------UPDATE WISHLIST--------------------------------------//
+    //----------------------------------------------UPDATE WISHLIST----------------------------------------------//
 
     @Override
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
@@ -209,14 +210,17 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
+        request.setAccountId(account.getId());
         Object output = updateWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             model.addAttribute("msg", (UpdateWishlistResponse) output);
-            return "redirect:/buyer/wishlist";
+            AllPage.allConfig(model, this);
+            return viewWishlist(session, model);
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "redirect:/buyer/wishlist";
+        AllPage.allConfig(model, this);
+        return viewWishlist(session, model);
     }
 
     @Override
@@ -248,7 +252,7 @@ public class BuyerServiceImpl implements BuyerService {
         Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
         assert wishlist != null;
 
-        WishlistItem wishlistItem = wishlistItemRepo.findById(Integer.parseInt(request.getWishlistItemId())).orElse(null);
+        WishlistItem wishlistItem = wishlistItemRepo.findById(request.getWishlistItemId()).orElse(null);
         assert wishlistItem != null;
 
         if ("asc".equals(request.getRequest())) {
@@ -262,6 +266,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
 
         wishlistItemRepo.save(wishlistItem);
+        wishlistRepo.save(wishlist);
         return UpdateWishlistResponse.builder()
                 .status("200")
                 .message("Wishlist updated successfully")
@@ -1257,6 +1262,10 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
 
             for (WishlistItem item : items) {
+                Flower flower = item.getFlower();
+                flower.setSoldQuantity(flower.getSoldQuantity() + item.getQuantity());
+                flower.setQuantity(flower.getQuantity() - item.getQuantity());
+
                 OrderDetail orderDetail = OrderDetail.builder()
                         .order(savedOrder)
                         .flower(item.getFlower())
@@ -1265,6 +1274,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .price(item.getFlower().getPrice())
                         .build();
                 orderDetailRepo.save(orderDetail);
+                flowerRepo.save(flower);
             }
         }
         wishlistItemRepo.deleteAll(items);
