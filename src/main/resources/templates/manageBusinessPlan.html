@@ -136,7 +136,7 @@
                 </div>
                 <div class="business-plan__collection">
                     <div th:each="plan : ${msg.businessPlanList}" class="business-plan__card">
-                        <div class="business-plan__card-info">
+                        <div th:if="${plan.status != 'disabled'}" class="business-plan__card-info">
                             <form th:action="@{/admin/plan}" th:method="put" class="business-plan__card-form">
                                 <input type="hidden" name="id" th:value="${plan.id}">
                                 <div class="business-plan__card-name">
@@ -151,7 +151,7 @@
                                 <div class="business-plan__card-desc">
                                     <span th:text="${plan.description}"></span>
                                     <label style="display: none">
-                                        <h3>Name:</h3>
+                                        <h3>Description:</h3>
                                     </label>
                                     <textarea name="description" id="" th:text="${plan.description}"
                                               placeholder="Description" style="display: none;"></textarea>
@@ -202,10 +202,11 @@
                         <div class="business-plan__card-modify">
                             <form th:action="@{/admin/plan}" th:method="delete">
                                 <button class="business-plan__card-delete">
+                                    <input type="hidden" name="id" th:value="${plan.id}">
                                     <i class="fa-regular fa-trash-can modify-icon"></i>
                                     <span>Delete</span>
                                 </button>
-                                <input type="hidden" name="id" th:value="${plan.id}">
+<!--                                <input type="hidden" name="id" th:value="${plan.id}">-->
                             </form>
                             <div class="business-plan__card-edit">
                                 <i class="fa-solid fa-pencil modify-icon"></i>

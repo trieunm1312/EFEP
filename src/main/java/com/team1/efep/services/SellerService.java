@@ -89,5 +89,5 @@ public interface SellerService {
 
     String viewBusinessPlanDetail(HttpSession session, Model model);
 
-    ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(ViewBusinessPlanDetailRequest request);
+    ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(int planIId);
 }

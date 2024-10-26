@@ -115,7 +115,7 @@ public class AccountServiceImpl implements AccountService {
                 case "SELLER":
                     return "redirect:/seller/view/flower";
                 case "ADMIN":
-                    return "dashboard";
+                    return "adminDashboard";
                 default:
                     HomepageConfig.config(model, buyerService);
                     System.out.println(acc.getUser().getWishlist().getWishlistItemList().size());
