@@ -27,9 +27,14 @@ public class UpdateFlowerValidation {
             return MapConfig.buildMapKey(errors, "Flower amount cannot be less than 0");
         }
 
+
         if (request.getQuantity() < 0) {
             return MapConfig.buildMapKey(errors, "Quantity must be greater than or equal to 0");
         }
+
+//        if (request.getQuantity() > ) {
+//            return MapConfig.buildMapKey(errors, "Quantity must be greater than or equal to 0");
+//        }
 
         if (request.getStatus() == null) {
             return MapConfig.buildMapKey(errors, "Invalid flower status");
