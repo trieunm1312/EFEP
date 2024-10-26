@@ -43,12 +43,14 @@ public class PageController {
     }
 
     @GetMapping("/change/password")
-    public String changePasswordPage() {
+    public String changePasswordPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "changePassword";
     }
 
     @GetMapping("/forgot/password")
-    public String forgotPasswordPage() {
+    public String forgotPasswordPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "forgotPassword";
     }
 
@@ -138,5 +140,6 @@ public class PageController {
         return "viewWishlist";
     }
 }
+
 
 
