@@ -15,7 +15,7 @@ public class UpdateWishlistValidation {
             return MapConfig.buildMapKey(error, "Invalid wishlist ID.");
         }
 
-        if (request.getWishlistItemId() == null || request.getWishlistItemId().isEmpty()) {
+        if (request.getWishlistItemId() < 0) {
             return MapConfig.buildMapKey(error, "Invalid wishlist item ID.");
         }
 
@@ -24,7 +24,7 @@ public class UpdateWishlistValidation {
         }
 
         if ("desc".equals(request.getRequest())) {
-            WishlistItem wishlistItem = wishlistItemRepo.findById(Integer.parseInt(request.getWishlistItemId())).orElse(null);
+            WishlistItem wishlistItem = wishlistItemRepo.findById(request.getWishlistItemId()).orElse(null);
             if (wishlistItem != null && wishlistItem.getQuantity() <= 1) {
                 return MapConfig.buildMapKey(error, "Quantity cannot be less than 1.");
             }

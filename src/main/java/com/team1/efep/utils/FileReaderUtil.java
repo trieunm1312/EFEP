@@ -27,7 +27,7 @@ public class FileReaderUtil {
     public static String readFile(User user, BusinessPlan businessPlan) {
         String result = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/team1/efep/email_file/email.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/team1/efep/email_file/business.txt"));
             String line;
             while ((line = br.readLine()) != null) {
                 result += line;

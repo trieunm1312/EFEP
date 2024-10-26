@@ -32,7 +32,7 @@ public class User {
 
     private LocalDate createdDate;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Order> orderList;
@@ -42,7 +42,7 @@ public class User {
     @EqualsAndHashCode.Exclude
     private Seller seller;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Wishlist wishlist;

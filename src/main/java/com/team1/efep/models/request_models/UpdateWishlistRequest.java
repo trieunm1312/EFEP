@@ -15,7 +15,7 @@ public class UpdateWishlistRequest {
 
     private int wishlistId;
 
-    private String wishlistItemId;
+    private int wishlistItemId;
 
     private String request;
 }

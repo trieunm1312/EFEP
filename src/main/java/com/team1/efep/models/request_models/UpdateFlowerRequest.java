@@ -29,8 +29,4 @@ public class UpdateFlowerRequest {
     private int flowerAmount;
 
     private int quantity;
-
-    private List<FlowerImage> flowerImageList;
-
-    private List<FlowerCategory> flowerCategoryList;
 }

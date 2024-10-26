@@ -213,6 +213,9 @@ public class AdminServiceImpl implements AdminService {
             BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
             assert businessPlan != null;
             businessPlan.setName(request.getName());
+                for (Seller seller : businessPlan.getSellerList()) {
+                    sendEmail(businessPlan, seller.getUser());
+                }
             businessPlan.setPrice(request.getPrice());
             businessPlan.setDescription(request.getDescription());
             businessPlan.setDuration(request.getDuration());
@@ -256,9 +259,7 @@ public class AdminServiceImpl implements AdminService {
         );
     }
 
-    private Object sendEmailLogic(BusinessPlan businessPlan, User user) {
-        // Generate the OTP
-        String otp = Const.OTP_LINK + OTPGeneratorUtil.generateOTP(6);
+    private void sendEmail(BusinessPlan businessPlan, User user) {
 
         // Create a MimeMessage
         MimeMessage message = mailSender.createMimeMessage();
@@ -270,11 +271,13 @@ public class AdminServiceImpl implements AdminService {
 
             // Set the email attributes
             helper.setFrom("vannhuquynhp@gmail.com");
+
+            helper.setTo(user.getAccount().getEmail());
 //            helper.setTo(request.getToEmail());
             helper.setSubject(Const.EMAIL_SUBJECT);
 
             // Read HTML content from a file and replace placeholders (e.g., OTP)
-            String emailContent = FileReaderUtil.readFile(otp); // Assuming readFile returns HTML content as a String
+            String emailContent = FileReaderUtil.readFile(user, businessPlan);   // Assuming readFile returns HTML content as a String
 
             // Set the email content as HTML
             helper.setText(emailContent, true);  // 'true' indicates that the text is HTML
@@ -282,12 +285,6 @@ public class AdminServiceImpl implements AdminService {
             // Send the email
             mailSender.send(message);
 
-            // Return response
-            return ForgotPasswordResponse.builder()
-                    .status("200")
-                    .message("Send email successfully")
-                    .extraInfo(otp)
-                    .build();
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

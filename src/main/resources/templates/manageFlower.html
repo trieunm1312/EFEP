@@ -133,11 +133,12 @@
             <span class="header__separate">|</span>
             <div class="header__account" id="headerAccount">
                 <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
-                <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
+                <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}"
+                     alt="Avatar">
                 <span th:text="${session.acc.getUser().getName()}"></span>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
-                <div  class="header__item-account" id="accountDropdown">
-                    <form th:action="@{/account/view/profile}"  class="form" method="get">
+                <div class="header__item-account" id="accountDropdown">
+                    <form th:action="@{/account/view/profile}" class="form" method="get">
                         <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
                         <input type="hidden" name="id" value="${session.acc.id}"></input>
                     </form>
@@ -193,7 +194,7 @@
                                         </td>
                                         <td class="table__body-desc">
                                             <span th:text="${item.description}" class="desc-text"></span>
-                                            <textarea name="description" th:text="${item.description}"
+                                            <textarea name="description" th:text="${item.description}" th:value="${item.description}"
                                                       class="desc-input"
                                                       style="display: none;"></textarea>
                                         </td>
@@ -209,7 +210,8 @@
                                         </td>
                                         <td class="table__body-amount">
                                             <span th:text="${item.flowerAmount}" class="amount-text">100</span>
-                                            <input name="amount" class="amount-input" th:value="${item.flowerAmount}"
+                                            <input name="flowerAmount" class="amount-input"
+                                                   th:value="${item.flowerAmount}"
                                                    style="display: none;" pattern="\d*"
                                                    title="Please enter a valid number"/>
                                         </td>
@@ -222,7 +224,7 @@
                                         <td class="table__body-price">
                                             <span th:text="${'$' + item.price}" class="price-text">120</span>
                                             <input name="price" class="price-input" th:value="${item.price}"
-                                                   style="display: none;" pattern="\d*"
+                                                   style="display: none;"
                                                    title="Please enter a valid number"/>
                                         </td>
                                         <td class="table__body-sold_qnt">
@@ -251,14 +253,15 @@
                     <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                         <tr class="table__body-item-new" style="display: none;">
-<!--                            <td class="table__body-img">-->
-<!--                                <input type="file" name="img" src="/img/flower.jpg" placeholder="Image">-->
-<!--                            </td>-->
+                            <!--                            <td class="table__body-img">-->
+                            <!--                                <input type="file" name="img" src="/img/flower.jpg" placeholder="Image">-->
+                            <!--                            </td>-->
                             <td class="table__body-name">
                                 <input name="name" th:value="${flowerName}" placeholder="Flower Name">
                             </td>
                             <td class="table__body-desc">
-                                <textarea name="description" th:text="${description}" placeholder="Description"></textarea>
+                                <textarea name="description" th:text="${description}"
+                                          placeholder="Description"></textarea>
                             </td>
                             <td class="table__body-amount">
                                 <input name="flowerAmount" th:value="${flowerAmount}" placeholder="Amount">
