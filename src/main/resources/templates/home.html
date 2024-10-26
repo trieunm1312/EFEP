@@ -471,7 +471,7 @@
                                         <ul class="header__cart-list-item" th:if="${session.acc != null}">
                                             <li class="header__cart-item"
                                                 th:each="item : ${session.acc.getUser().getWishlist().getWishlistItemList()}">
-                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                <img th:src="${item.flower.flowerImageList[0].link}"
                                                      alt="" class="header__cart-img">
                                                 <div class="header__cart-item-info">
                                                     <div class="header__cart-item-head">
@@ -607,6 +607,7 @@
                             <div class="overlay">
                                 <form th:action="@{/buyer/wishlist}" method="post">
                                     <div th:if="${session.acc != null}">
+                                        <input type="hidden" name="quantity" value="1">
                                         <input type="hidden" name="flowerId" th:value="${item.id}">
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                     </div>
@@ -616,7 +617,7 @@
                                     </button>
                                 </form>
 
-                                <form th:action="@{/buyer/flower/detail}" method="post">
+                                <form th:action="@{/buyer/flower/detail}" method="get">
                                     <button class="view-detail">
                                         <i class="fa-solid fa-eye"></i>
                                         <span class="view-detail__msg">View detail</span>

@@ -378,7 +378,7 @@
                                         <ul class="header__cart-list-item" th:if="${session.acc != null}">
                                             <li class="header__cart-item"
                                                 th:each="item : ${session.acc.getUser().getWishlist().getWishlistItemList()}">
-                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                <img th:src="${item.flower.flowerImageList[0].link}"
                                                      alt="" class="header__cart-img">
                                                 <div class="header__cart-item-info">
                                                     <div class="header__cart-item-head">

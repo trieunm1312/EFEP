@@ -92,7 +92,7 @@ public interface BuyerService {
 
     String handleOTP(String code, Model model, HttpSession session);
 
-    String filterCategory(FilterCategoryRequest request, Model model);
+    String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes);
 
     FilterCategoryResponse filterCategoryAPI(FilterCategoryRequest request);
 

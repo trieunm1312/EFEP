@@ -1,6 +1,7 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.VNPayConfig;
+import com.team1.efep.configurations.AllPage;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
@@ -111,7 +112,18 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = accountRepo.findById(accountId).orElse(null);
         assert account != null;
         return account.getUser().getWishlist().getWishlistItemList().stream()
-                .map(item -> new ViewWishlistResponse.WishlistItems(item.getId(), item.getFlower().getName(), item.getQuantity(), item.getFlower().getPrice()))
+                .map(item -> ViewWishlistResponse.WishlistItems.builder()
+                        .id(item.getId())
+                        .imgList(
+                                viewImageList(
+                                        item.getFlower().getFlowerImageList().stream()
+                                                .map(FlowerImage::getLink).toList()
+                                )
+                        )
+                        .name(item.getFlower().getName())
+                        .quantity(item.getQuantity())
+                        .price(item.getFlower().getPrice())
+                        .build())
                 .toList();
     }
 
@@ -189,7 +201,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .anyMatch(item -> Objects.equals(item.getFlower().getId(), request.getFlowerId()));
     }
 
-    //------------------------------UPDATE WISHLIST--------------------------------------//
+    //----------------------------------------------UPDATE WISHLIST----------------------------------------------//
 
     @Override
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
@@ -198,14 +210,17 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
+        request.setAccountId(account.getId());
         Object output = updateWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             model.addAttribute("msg", (UpdateWishlistResponse) output);
-            return "redirect:/buyer/wishlist";
+            AllPage.allConfig(model, this);
+            return viewWishlist(session, model);
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "redirect:/buyer/wishlist";
+        AllPage.allConfig(model, this);
+        return viewWishlist(session, model);
     }
 
     @Override
@@ -237,7 +252,7 @@ public class BuyerServiceImpl implements BuyerService {
         Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
         assert wishlist != null;
 
-        WishlistItem wishlistItem = wishlistItemRepo.findById(Integer.parseInt(request.getWishlistItemId())).orElse(null);
+        WishlistItem wishlistItem = wishlistItemRepo.findById(request.getWishlistItemId()).orElse(null);
         assert wishlistItem != null;
 
         if ("asc".equals(request.getRequest())) {
@@ -251,6 +266,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
 
         wishlistItemRepo.save(wishlistItem);
+        wishlistRepo.save(wishlist);
         return UpdateWishlistResponse.builder()
                 .status("200")
                 .message("Wishlist updated successfully")
@@ -554,15 +570,15 @@ public class BuyerServiceImpl implements BuyerService {
                         .id(item.getId())
                         .name(item.getName())
                         .price(item.getPrice())
-                        .images(viewImageList(item.getFlowerImageList()))
+                        .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
                         .build()
                 ).toList();
     }
 
-    private List<ViewFlowerListResponse.Image> viewImageList(List<FlowerImage> imageList) {
+    private List<ViewFlowerListResponse.Image> viewImageList(List<String> imageList) {
         return imageList.stream()
                 .map(img -> ViewFlowerListResponse.Image.builder()
-                        .link(img.getLink())
+                        .link(img)
                         .build())
                 .toList();
     }
@@ -891,8 +907,9 @@ public class BuyerServiceImpl implements BuyerService {
                                     .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
-                                    .flower_amount(flower.getFlowerAmount())
-                                    .sold_quantity(flower.getSoldQuantity())
+                                    .quantity(flower.getQuantity())
+                                    .flowerAmount(flower.getFlowerAmount())
+                                    .soldQuantity(flower.getSoldQuantity())
                                     .imageList(flower.getFlowerImageList().stream()
                                             .map(
                                                     flowers -> ViewFlowerDetailResponse.Image.builder()
@@ -1245,6 +1262,10 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
 
             for (WishlistItem item : items) {
+                Flower flower = item.getFlower();
+                flower.setSoldQuantity(flower.getSoldQuantity() + item.getQuantity());
+                flower.setQuantity(flower.getQuantity() - item.getQuantity());
+
                 OrderDetail orderDetail = OrderDetail.builder()
                         .order(savedOrder)
                         .flower(item.getFlower())
@@ -1253,6 +1274,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .price(item.getFlower().getPrice())
                         .build();
                 orderDetailRepo.save(orderDetail);
+                flowerRepo.save(flower);
             }
         }
         wishlistItemRepo.deleteAll(items);
@@ -1292,15 +1314,12 @@ public class BuyerServiceImpl implements BuyerService {
     //---------------------------------FIELTER CATEGORY---------------------------------//
 
     @Override
-    public String filterCategory(FilterCategoryRequest request, Model model) {
+    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes) {
 
-        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
-        if (request.getCategoryId() < 0) {
-            // Trả về trang thông báo lỗi hoặc thông báo
-            model.addAttribute("nullCategory", "Invalid category ID");
-        }
-        model.addAttribute("msg3", filterCategoryLogic(request));
-        return "category";
+//        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
+//        model.addAttribute("msg", filterCategoryLogic(request));
+        redirectAttributes.addFlashAttribute("msg", filterCategoryLogic(request));
+        return "redirect:/category";
     }
 
     @Override
@@ -1321,7 +1340,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .flowerList(
                         category.getFlowerCategoryList().stream()
                                 .map(flower -> FilterCategoryResponse.Flower.builder()
-                                        .id(flower.getId())
+                                        .id(flower.getFlower().getId())
                                         .name(flower.getFlower().getName())
                                         .price(flower.getFlower().getPrice())
                                         .images(

@@ -113,9 +113,10 @@ public class AccountServiceImpl implements AccountService {
             model.addAttribute("msg", (LoginResponse) output);
             switch (acc.getRole().toUpperCase()) {
                 case "SELLER":
-                    return "redirect:/seller/view/flower";
+//                    return "redirect:/seller/view/flower";
+                    return "sellerDashboard";
                 case "ADMIN":
-                    return "dashboard";
+                    return "adminDashboard";
                 default:
                     HomepageConfig.config(model, buyerService);
                     System.out.println(acc.getUser().getWishlist().getWishlistItemList().size());
@@ -292,10 +293,10 @@ public class AccountServiceImpl implements AccountService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
             model.addAttribute("msg", (ChangePasswordResponse) output);
-            return "login";
+            return "redirect:/login";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "changePassword";
+        return "redirect:/change/password";
     }
 
     @Override

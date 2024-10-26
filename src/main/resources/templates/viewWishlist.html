@@ -83,7 +83,7 @@
                                 <tr th:each="item : ${msg.wishlistItemList}">
                                     <td class="table-item-detail">
                                         <div class="table-item-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                            <img th:src="${item.imgList[0].link}"
                                                 alt="">
                                         </div>
                                     </td>
@@ -96,7 +96,7 @@
                                     <td class="table-item-detail">
                                         <div class="table-item-quantity">
                                             <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="put">
-                                                <input type="hidden" name="wishlistId" th:value="${item.id}">
+                                                <input type="hidden" name="wishlistId" th:value="${msg.id}">
                                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                                                 <input type="hidden" name="request" value="desc">
                                                 <button class="table-item-btn-decrease" type="submit"
@@ -105,19 +105,12 @@
 
                                             <span class="input-quantity" th:text="${item.quantity}">1</span>
 
-                                            <form th:action="@{/buyer/wishlist}" th:method="put">
-                                                <input type="hidden" name="wishlistId" th:value="${item.id}">
+                                            <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="put">
+                                                <input type="hidden" name="wishlistId" th:value="${msg.id}">
                                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                                                 <input type="hidden" name="request" value="asc">
                                                 <button class="table-item-btn-increase" type="submit">+</button>
                                             </form>
-
-                                            <!--                            <form th:action="@{/}" method="get">-->
-                                            <!--                                <button class="table-item-removed">-->
-                                            <!--                                    <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>-->
-                                            <!--                                    <span class="table-item-remove-msg">Remove</span>-->
-                                            <!--                                </button>-->
-                                            <!--                            </form>-->
                                         </div>
                                     </td>
                                     <td class="table-item-detail">

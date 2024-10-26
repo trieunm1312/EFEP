@@ -2,6 +2,7 @@ package com.team1.efep.controllers;
 
 import com.team1.efep.configurations.AllPage;
 import com.team1.efep.configurations.HomepageConfig;
+import com.team1.efep.models.response_models.FilterCategoryResponse;
 import com.team1.efep.models.response_models.UpdateProfileResponse;
 import com.team1.efep.models.response_models.ViewProfileResponse;
 import com.team1.efep.services.BuyerService;
@@ -55,48 +56,61 @@ public class PageController {
     }
 
     @GetMapping("/orderList")
-    public String orderListPage() {
+    public String orderListPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "viewOrderList";
     }
 
     @GetMapping("/checkout")
-    public String checkoutPage() {
+    public String checkoutPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "checkout";
     }
 
     @GetMapping("/manageFlower")
     public String manageFlowerPage(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         sellerService.viewFlowerListForSeller(session, model);
         return "manageFlower";
     }
 
     @GetMapping("/viewOrderSummary")
     public String viewOrderSummaryPage(Model model, HttpSession session) {
+        AllPage.allConfig(model, buyerService);
         return "viewOrderSummary";
     }
 
     @GetMapping("/seller/plan")
-    public String myPlanPage() {
+    public String myPlanPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "sellerPlan";
     }
 
     @GetMapping("/seller/plan/intro")
-    public String choosePlanPage() {
+    public String choosePlanPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "choosePlan";
     }
 
     @GetMapping("/planList")
-    public String planListPage() {
+    public String planListPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "planList";
     }
 
     @GetMapping("/admin/dashboard")
-    public String adminDashboard(Model model) {
+    public String adminDashboardPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "adminDashboard";
     }
 
+    @GetMapping("/seller/dashboard")
+    public String sellerDashboard(Model model) {
+        return "sellerDashboard";
+    }
+
     @GetMapping("/seller/profile")
-    public String sellerProfile(Model model) {
+    public String sellerProfilePage(Model model) {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
@@ -113,7 +127,7 @@ public class PageController {
     }
 
     @GetMapping("/myAccount")
-    public String myAccount(Model model) {
+    public String myAccountPage(Model model) {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
@@ -136,9 +150,18 @@ public class PageController {
 
 
     @GetMapping("/wishlist")
-    public String viewWishlist(HttpSession session, Model model) {
+    public String viewWishlistPage(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
         return "viewWishlist";
     }
+
+    @GetMapping("/category")
+    public String categoryPage(Model model) {
+        model.addAttribute("msg", (FilterCategoryResponse)model.getAttribute("msg"));
+        AllPage.allConfig(model, buyerService);
+        return "category";
+    }
+
 }
 
 

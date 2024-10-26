@@ -11,7 +11,7 @@ public class DisableBusinessPlanValidation {
     public static Map<String, String> validate(DisableBusinessPlanRequest request, BusinessPlanRepo businessPlanRepo) {
         Map<String, String> error = new HashMap<>();
         //code validation here
-         if(businessPlanRepo.existsById(request.getId())) {
+         if(!businessPlanRepo.existsById(request.getId())) {
              return MapConfig.buildMapKey(error,"Plan does not exist");
          }
         return error;

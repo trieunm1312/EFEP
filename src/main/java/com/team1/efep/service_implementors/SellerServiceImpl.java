@@ -50,6 +50,7 @@ public class SellerServiceImpl implements SellerService {
     private final BusinessServiceRepo businessServiceRepo;
 
     private final UserRepo userRepo;
+    private final PaymentMethodRepo paymentMethodRepo;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -64,8 +65,13 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        model.addAttribute("msg1", createNewFlower(request));
-        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+        Object output = createFlowerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
+            model.addAttribute("msg1", (CreateFlowerResponse) output);
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+            return "redirect:/manageFlower";
+        }
+        model.addAttribute("msg1", (Map<String, String>) output);
         return "redirect:/manageFlower";
     }
 
@@ -112,6 +118,7 @@ public class SellerServiceImpl implements SellerService {
                                                             .link(image.getLink())
                                                             .build())
                                                     .toList()
+
                                     )
                                     .build()
                     )
@@ -142,6 +149,11 @@ public class SellerServiceImpl implements SellerService {
 
 
     private List<FlowerImage> addFlowerImages(CreateFlowerRequest request, Flower flower) {
+        if (request.getImgList() == null) {
+            List<String> imgList = new ArrayList<>();
+            imgList.add("/img/noImg.png");
+            request.setImgList(imgList);
+        }
         List<FlowerImage> flowerImages = request.getImgList().stream()
                 .map(link -> FlowerImage.builder()
                         .flower(flower)
@@ -844,6 +856,7 @@ public class SellerServiceImpl implements SellerService {
         assert account != null;
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             model.addAttribute("msg", (VNPayResponse) output);
             return ((VNPayResponse) output).getPaymentURL();
         }
@@ -893,15 +906,17 @@ public class SellerServiceImpl implements SellerService {
 
         float vnpAmount = Float.parseFloat(params.get("vnp_Amount"));
 
-        sellerRepo.save(Seller.builder()
-                .businessPlan(businessPlan)
-                .planPurchaseDate(LocalDateTime.now())
-                .build());
+        Seller seller = user.getSeller();
+        seller.setBusinessPlan(businessPlan);
+        seller.setPlanPurchaseDate(LocalDateTime.now());
+        sellerRepo.save(seller);
 
         purchasedPlanRepo.save(PurchasedPlan.builder()
                 .seller(user.getSeller())
                 .status(Status.ORDER_STATUS_PROCESSING)
                 .name(businessPlan.getName())
+                .status(Status.PURCHASED_PLAN_STATUS_PURCHASED)
+                .paymentMethod(paymentMethodRepo.findById(1).orElse(null))
                 .purchasedDate(LocalDateTime.now())
                 .price(vnpAmount / 100)
                 .build());
@@ -996,21 +1011,21 @@ public class SellerServiceImpl implements SellerService {
 
         flowerRepo.save(flower);
         return UpdateFlowerResponse.builder()
-                .status("400")
+                .status("200")
                 .message("Update flower successfully")
                 .build();
 
     }
 
-    private List<FlowerImage> updateFlowerImages(UpdateFlowerRequest request, Flower flower) {
-        List<FlowerImage> flowerImages = request.getFlowerImageList().stream()
-                .map(link -> FlowerImage.builder()
-                        .flower(flower)
-                        .link(link.getLink())
-                        .build())
-                .collect(Collectors.toList());
-        return flowerImageRepo.saveAll(flowerImages);
-    }
+//    private List<FlowerImage> updateFlowerImages(UpdateFlowerRequest request, Flower flower) {
+//        List<FlowerImage> flowerImages = request.getFlowerImageList().stream()
+//                .map(link -> FlowerImage.builder()
+//                        .flower(flower)
+//                        .link(link.getLink())
+//                        .build())
+//                .collect(Collectors.toList());
+//        return flowerImageRepo.saveAll(flowerImages);
+//    }
 
 
     //----------------------------------------DELETE FLOWER--------------------------------------------//
@@ -1226,8 +1241,8 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(ViewBusinessPlanDetailRequest request) {
-        return viewBusinessPlanDetailLogic(request.getId());
+    public ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(int planId) {
+        return viewBusinessPlanDetailLogic(planId);
     }
 
     private ViewBusinessPlanDetailResponse viewBusinessPlanDetailLogic(int planId) {

@@ -52,13 +52,13 @@ public class EfepApplication {
                                 .businessPlan(null)
                                 .user(
                                         userRepo.save(User.builder()
-                                                .avatar("https://www.avatar.com")
+                                                .avatar("https://ov10-engine.flamingtext.com/netfu/tmp28001/coollogo_com-158411293.png")
                                                 .background("https://www.background.com")
-                                                .name("Seller1")
+                                                .name("Annais")
                                                 .phone("0808080808")
                                                 .account(
                                                         accountRepo.save(Account.builder()
-                                                                .email("seller1@efep.com")
+                                                                .email("trieunmse150503@fpt.edu.vn")
                                                                 .status(Status.ACCOUNT_STATUS_ACTIVE)
                                                                 .password("123")
                                                                 .role(Role.SELLER)
@@ -75,15 +75,15 @@ public class EfepApplication {
                         User.builder()
                                 .account(
                                         accountRepo.save(Account.builder()
-                                                .email("buyer1@efep.com")
+                                                .email("kienquocvd@efep.com")
                                                 .status(Status.ACCOUNT_STATUS_ACTIVE)
                                                 .password("123")
                                                 .role(Role.BUYER)
                                                 .build())
                                 )
-                                .name("buyer1")
-                                .phone("0909090909")
-                                .avatar("https://www.avatar.com")
+                                .name("Quoc")
+                                .phone("0989575268")
+                                .avatar("https://i.pinimg.com/originals/9e/44/eb/9e44eba8ea78e82e5122422434bd2c7d.jpg")
                                 .background("https://www.background.com")
                                 .orderList(null)
                                 .wishlist(null)
@@ -734,6 +734,5 @@ public class EfepApplication {
 
         };
     }
-
 
 }
