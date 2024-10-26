@@ -112,7 +112,7 @@ public class AdminServiceImpl implements AdminService {
             return "redirect:/admin/view/plan";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "home";
+        return "/";
     }
 
     @Override

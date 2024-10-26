@@ -245,7 +245,7 @@ public class SellerController {
     }
 
     @GetMapping("/plan/detail/api")
-    public ViewBusinessPlanDetailResponse viewBusinessPlanDetail(ViewBusinessPlanDetailRequest request) {
-        return sellerService.viewBusinessPlanDetailAPI(request);
+    public ViewBusinessPlanDetailResponse viewBusinessPlanDetail(int planId) {
+        return sellerService.viewBusinessPlanDetailAPI(planId);
     }
 }
