@@ -1017,15 +1017,15 @@ public class SellerServiceImpl implements SellerService {
 
     }
 
-    private List<FlowerImage> updateFlowerImages(UpdateFlowerRequest request, Flower flower) {
-        List<FlowerImage> flowerImages = request.getFlowerImageList().stream()
-                .map(link -> FlowerImage.builder()
-                        .flower(flower)
-                        .link(link.getLink())
-                        .build())
-                .collect(Collectors.toList());
-        return flowerImageRepo.saveAll(flowerImages);
-    }
+//    private List<FlowerImage> updateFlowerImages(UpdateFlowerRequest request, Flower flower) {
+//        List<FlowerImage> flowerImages = request.getFlowerImageList().stream()
+//                .map(link -> FlowerImage.builder()
+//                        .flower(flower)
+//                        .link(link.getLink())
+//                        .build())
+//                .collect(Collectors.toList());
+//        return flowerImageRepo.saveAll(flowerImages);
+//    }
 
 
     //----------------------------------------DELETE FLOWER--------------------------------------------//
