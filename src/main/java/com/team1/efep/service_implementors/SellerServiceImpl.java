@@ -856,6 +856,7 @@ public class SellerServiceImpl implements SellerService {
         assert account != null;
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             model.addAttribute("msg", (VNPayResponse) output);
             return ((VNPayResponse) output).getPaymentURL();
         }
@@ -1240,8 +1241,8 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(ViewBusinessPlanDetailRequest request) {
-        return viewBusinessPlanDetailLogic(request.getId());
+    public ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(int planId) {
+        return viewBusinessPlanDetailLogic(planId);
     }
 
     private ViewBusinessPlanDetailResponse viewBusinessPlanDetailLogic(int planId) {

@@ -257,9 +257,8 @@ public class BuyerController {
 
     @PostMapping("/category/filter")
     @Operation(hidden = true)
-    public String filterCategory(FilterCategoryRequest request, Model model) {
-        AllPage.allConfig(model, buyerService);
-        return buyerService.filterCategory(request, model);
+    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes) {
+        return buyerService.filterCategory(request, redirectAttributes);
     }
 
     @PostMapping("/category/filter/api")
