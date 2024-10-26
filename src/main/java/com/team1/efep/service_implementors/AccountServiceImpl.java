@@ -113,9 +113,10 @@ public class AccountServiceImpl implements AccountService {
             model.addAttribute("msg", (LoginResponse) output);
             switch (acc.getRole().toUpperCase()) {
                 case "SELLER":
-                    return "redirect:/seller/view/flower";
+//                    return "redirect:/seller/view/flower";
+                    return "sellerDashboard";
                 case "ADMIN":
-                    return "dashboard";
+                    return "adminDashboard";
                 default:
                     HomepageConfig.config(model, buyerService);
                     System.out.println(acc.getUser().getWishlist().getWishlistItemList().size());

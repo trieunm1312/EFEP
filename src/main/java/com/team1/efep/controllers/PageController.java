@@ -93,6 +93,11 @@ public class PageController {
         return "adminDashboard";
     }
 
+    @GetMapping("/seller/dashboard")
+    public String sellerDashboard(Model model) {
+        return "sellerDashboard";
+    }
+
     @GetMapping("/seller/profile")
     public String sellerProfile(Model model) {
 
