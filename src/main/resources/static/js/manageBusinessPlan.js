@@ -1,5 +1,5 @@
 // Create New Business Plan
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Function to get the URL parameter
     function getUrlParameter(name) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -11,6 +11,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const createNewButton = document.querySelector('.business-plan__create-btn');
     const newPlanCard = document.querySelector('.business-plan__card-new');
+
+    if (createNewButton) {
+        createNewButton.addEventListener('click', function () {
+            if (newPlanCard.style.display === "none" || newPlanCard.style.display === "") {
+                newPlanCard.style.display = "block";
+            } else {
+                newPlanCard.style.display = "none";
+            }
+        });
+    } else {
+        console.error('Create button not found.');
+    }
 
     //Create new plan auto
     if (newPlan === 'true') {
@@ -24,17 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
 
-        if (createNewButton) {
-            createNewButton.addEventListener('click', function() {
-                if (newPlanCard.style.display === "none" || newPlanCard.style.display === "") {
-                    newPlanCard.style.display = "block";
-                } else {
-                    newPlanCard.style.display = "none";
-                }
-            });
-        } else {
-            console.error('Create button not found.');
-        }
+
     } else {
         console.log('newPlan parameter is not true or missing.');
     }
@@ -42,12 +44,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // Add more service
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const addServiceButton = document.querySelector('.business-plan__card-add-service');
     const servicesContainer = document.querySelector('.business-plan__card-services-container');
 
     if (addServiceButton) {
-        addServiceButton.addEventListener('click', function(event) {
+        addServiceButton.addEventListener('click', function (event) {
             event.preventDefault();
 
             // Create new div for the service
@@ -82,13 +84,13 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Add more service
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const addServiceButtons = document.querySelectorAll('.business-plan__card-more-service');
 
     addServiceButtons.forEach((addServiceButton) => {
         const servicesContainer = addServiceButton.closest('.business-plan__card').querySelector('.business-plan__card-services-box');
 
-        addServiceButton.addEventListener('click', function(event) {
+        addServiceButton.addEventListener('click', function (event) {
             event.preventDefault();
 
             // Create new div for the service
@@ -120,8 +122,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
-
-
 
 
 //Click edit to edit content
