@@ -1,5 +1,6 @@
 package com.team1.efep.models.response_models;
 
+import com.team1.efep.models.entity_models.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +35,12 @@ public class ViewOrderDetailResponse {
     @NoArgsConstructor
     @Builder
     public static class Detail {
+
+        private String image;
+
+        private String description;
+
+        private List<Category> categories;
 
         private String flowerName;
 
