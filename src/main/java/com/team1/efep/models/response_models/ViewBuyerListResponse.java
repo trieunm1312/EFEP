@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -21,7 +22,16 @@ public class ViewBuyerListResponse {
     @NoArgsConstructor
     @Builder
     public static class Buyer {
+
         private int id;
+
         private String name;
+
+        private String phone;
+
+        private String avatar;
+
+        private String background;
+
     }
 }

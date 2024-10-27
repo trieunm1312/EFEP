@@ -490,6 +490,9 @@ public class SellerServiceImpl implements SellerService {
                         .map(seller -> ViewBuyerListResponse.Buyer.builder()
                                 .id(seller.getId())
                                 .name(seller.getName())
+                                .phone(seller.getPhone())
+                                .avatar(seller.getAvatar())
+                                .background(seller.getBackground())
                                 .build())
                         .toList())
                 .build();

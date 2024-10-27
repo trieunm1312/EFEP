@@ -21,6 +21,7 @@ public class Seller {
     @JoinColumn(name = "`user_id`")
     private User user;
 
+
     @ManyToOne
     @JoinColumn(name = "`plan_id`")
     private BusinessPlan businessPlan;
@@ -28,12 +29,12 @@ public class Seller {
     @Column(name = "`plan_purchase_date`")
     private LocalDateTime planPurchaseDate;
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Flower> flowerList;
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<PurchasedPlan> purchasedPlanList;
