@@ -1,10 +1,12 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.configurations.AdminPageConfig;
 import com.team1.efep.configurations.AllPage;
 import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.models.response_models.FilterCategoryResponse;
 import com.team1.efep.models.response_models.UpdateProfileResponse;
 import com.team1.efep.models.response_models.ViewProfileResponse;
+import com.team1.efep.services.AdminService;
 import com.team1.efep.services.BuyerService;
 import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.OutputCheckerUtil;
@@ -23,6 +25,8 @@ public class PageController {
     private final BuyerService buyerService;
 
     private final SellerService sellerService;
+
+    private final AdminService adminService;
 
     @GetMapping("/")
     public String startPage(Model model) {
@@ -101,6 +105,7 @@ public class PageController {
     @GetMapping("/admin/dashboard")
     public String adminDashboardPage(Model model) {
         AllPage.allConfig(model, buyerService);
+        AdminPageConfig.config(model, adminService);
         return "adminDashboard";
     }
 

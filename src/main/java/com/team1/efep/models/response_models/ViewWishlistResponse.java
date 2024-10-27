@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -11,32 +12,35 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class ViewWishlistResponse {
 
-    private String status;
+    String status;
 
-    private String message;
+    String message;
 
-    private int id;
+    int id;
 
-    private int userId;
+    int userId;
 
-    private String userName;
+    String userName;
 
-    private List<WishlistItems> wishlistItemList;
+    List<WishlistItems> wishlistItemList;
 
-    private float totalPrice;
+    float totalPrice;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
     public static class WishlistItems {
-        private int id;
-        private List<ViewFlowerListResponse.Image> imgList;
-        private String name;
-        private int quantity;
-        private float price;
+        int id;
+        List<ViewFlowerListResponse.Image> imgList;
+        String name;
+        int quantity;
+        float price;
+        int stockQuantity;
     }
 
 }
