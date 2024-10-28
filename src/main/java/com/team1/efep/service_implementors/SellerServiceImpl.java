@@ -47,7 +47,12 @@ public class SellerServiceImpl implements SellerService {
     private final BusinessServiceRepo businessServiceRepo;
 
     private final UserRepo userRepo;
+
     private final PaymentMethodRepo paymentMethodRepo;
+
+    private final FlowerCategoryRepo flowerCategoryRepo;
+
+    private final CategoryRepo categoryRepo;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -1212,7 +1217,156 @@ public class SellerServiceImpl implements SellerService {
 
     //----------------------------------------VIEW FLOWER CATEGORY----------------------------------------------//
 
+    @Override
+    public String viewFlowerCategory(HttpSession session, Model model, int flowerId) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You must log in");
+            return "redirect:/login";
+        }
+        Object output = viewFlowerCategoryLogic(flowerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerCategoryResponse.class)) {
+            model.addAttribute("msg", (ViewFlowerCategoryResponse) output);
+            return "viewFlowerCategory";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "viewFlowerCategory";
+    }
 
+    @Override
+    public ViewFlowerCategoryResponse viewFlowerCategoryAPI(int flowerId) {
+        Object output = viewFlowerCategoryLogic(flowerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerCategoryResponse.class)) {
+            return (ViewFlowerCategoryResponse) output;
+        }
+        return ViewFlowerCategoryResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewFlowerCategoryLogic(int flowerId) {
+        Flower flower = flowerRepo.findById(flowerId).orElse(null);
+        if (flower == null) {
+            return Map.of("error", "Flower not found");
+        }
+
+        List<String> categories = flower.getFlowerCategoryList().stream()
+                .map(flowerCategory -> flowerCategory.getCategory().getName())
+                .collect(Collectors.toList());
+
+        return ViewFlowerCategoryResponse.builder()
+                .status("200")
+                .message("Flower categories retrieved successfully")
+                .categories(categories)
+                .build();
+    }
+
+    //----------------------------------------UPDATE FLOWER CATEGORY----------------------------------------------//
+
+    @Override
+    public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You must log in");
+            return "redirect:/login";
+        }
+        Object output = updateFlowerCategoryLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateFlowerCategoryResponse.class)) {
+            model.addAttribute("msg", (UpdateFlowerCategoryResponse) output);
+            return "updateFlowerCategory";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "updateFlowerCategory";
+    }
+
+    @Override
+    public UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request) {
+        Object output = updateFlowerCategoryLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateFlowerCategoryResponse.class)) {
+            return (UpdateFlowerCategoryResponse) output;
+        }
+        return UpdateFlowerCategoryResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object updateFlowerCategoryLogic(UpdateFlowerCategoryRequest request) {
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+        if (flower == null) {
+            return Map.of("error", "Flower not found");
+        }
+
+        flowerCategoryRepo.deleteAll(flower.getFlowerCategoryList());
+
+        List<FlowerCategory> newFlowerCategories = request.getCategoryId().stream()
+                .map(categoryId -> {
+                    Category category = categoryRepo.findById(categoryId).orElse(null);
+                    return category != null ? FlowerCategory.builder()
+                            .flower(flower)
+                            .category(category)
+                            .build() : null;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        flowerCategoryRepo.saveAll(newFlowerCategories);
+
+        return UpdateFlowerCategoryResponse.builder()
+                .status("200")
+                .message("Flower categories updated successfully")
+                .build();
+    }
+
+    //----------------------------------------REMOVE FLOWER CATEGORY----------------------------------------------//
+
+    @Override
+    public String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You must log in");
+            return "redirect:/login";
+        }
+        Object output = removeFlowerCategoryLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RemoveFlowerCategoryResponse.class)) {
+            model.addAttribute("msg", (RemoveFlowerCategoryResponse) output);
+            return "removeFlowerCategory";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "removeFlowerCategory";
+    }
+
+    @Override
+    public RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request) {
+        Object output = removeFlowerCategoryLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RemoveFlowerCategoryResponse.class)) {
+            return (RemoveFlowerCategoryResponse) output;
+        }
+        return RemoveFlowerCategoryResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object removeFlowerCategoryLogic(RemoveFlowerCategoryRequest request) {
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+        if (flower == null) {
+            return Map.of("error", "Flower not found");
+        }
+
+        FlowerCategory flowerCategory = flowerCategoryRepo.findByFlower_IdAndCategory_Id(request.getFlowerId(), request.getCategoryId());
+        if (flowerCategory == null) {
+            return Map.of("error", "Category not found for this flower");
+        }
+
+        flowerCategoryRepo.delete(flowerCategory);
+
+        return RemoveFlowerCategoryResponse.builder()
+                .status("200")
+                .message("Category removed from flower successfully")
+                .build();
+    }
 
     //----------------------------------------CHECK OUT----------------------------------------------//
 
