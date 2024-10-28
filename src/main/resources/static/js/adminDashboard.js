@@ -53,55 +53,6 @@ new Chart("dailyOrderChart", {
     }
 });
 
-
-
-new Chart("dailyNewUserChart", {
-    type: "line",
-    data: {
-        labels: xValues,
-        datasets: [{
-            fill: false,
-            lineTension: 0,
-            backgroundColor: "pink",
-            borderColor: "red",
-            data: yValues
-        }]
-    },
-    options: {
-        legend: { display: false },
-        scales: {
-            yAxes: [{ ticks: { min: 6, max: 16 } }],
-        },
-        title: {
-            display: true,
-            text: "Daily New User Chart"
-        }
-    }
-});
-
-// 
-const categoryName = ["Wedding", "Birthday", "Anniversary", "Mother's Day", "Valentine"];
-const categorySold = [290, 220, 300, 190, 255];
-const barColors = ["red", "green","blue","orange","brown"];
-
-new Chart("compareFlowerCategoryChart", {
-  type: "bar",
-  data: {
-    labels: categoryName,
-    datasets: [{
-      backgroundColor: barColors,
-      data: categorySold
-    }]
-  },
-  options: {
-    legend: {display: false},
-    title: {
-      display: true,
-      text: "Compare Flower Category Sold Quantity"
-    }
-  }
-});
-
 const userTypes = ["Buyer", "Seller"];
 const number = [1000, 200];
 const userColors = [
