@@ -40,7 +40,7 @@ public class ViewOrderDetailResponse {
 
         private String description;
 
-        private List<Category> categories;
+        private List<String> categories;
 
         private String flowerName;
 
