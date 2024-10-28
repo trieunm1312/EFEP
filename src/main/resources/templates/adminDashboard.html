@@ -17,56 +17,56 @@
     <link rel="stylesheet" href="/css/adminDashboard.css">
 
     <!-- Link Chart Script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>-->
     <!-- <script src="https://www.gstatic.com/charts/loader.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script> -->
+     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
 
 </head>
 
 <body>
-    <aside class="sidebar">
-        <a href="" class="sidebar__logo">
-            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Web Logo">
-        </a>
-        <hr class="horizontal dark ">
-        <div class="sidebar__components">
-            <ul class="sidebar__List">
-                <li>
-                    <a href="" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Dashboard</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/view/plan}" class="sidebar__link">
-                        <div class="sidebar__item active">
-                            <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Business Plan</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/view/service}" class="sidebar__link ">
-                        <div class="sidebar__item">
-                            <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Business Service</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/user/list}" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage User</span>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </aside>
+    <aside th:replace="~{adminBase :: sidebar}" class="sidebar">
+    <a href="" class="sidebar__logo">
+        <img src="/img/flowrista-logo.png" alt="Web Logo">
+    </a>
+    <hr class="horizontal dark ">
+    <div class="sidebar__components">
+        <ul class="sidebar__List">
+            <li>
+                <a th:href="@{/admin/dashboard}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Dashboard</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/view/plan}" class="sidebar__link">
+                    <div class="sidebar__item active">
+                        <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Business Plan</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/view/service}" class="sidebar__link ">
+                    <div class="sidebar__item">
+                        <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Business Service</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/user/list}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage User</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
     <div class="wrap">
         <!-- header -->
         <header class="header">
@@ -85,44 +85,48 @@
             </div>
 
             <!-- Header search -->
-            <div class="header__search">
-                <form action="" method="GET" class="header__search-form">
+            <div th:replace="~{adminBase :: header__search}" class="header__search">
+                <form th:action="@{/admin/search/user/}" th:method="post" class="header__search-form">
                     <button class="header__search-btn">
                         <i class="fa-solid  fa-magnifying-glass"></i>
                     </button>
-                    <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
+                    <input type="text" class="header__search-input" name="keyword" placeholder="Search.......">
                 </form>
             </div>
-            <div class="header__create-btn btn">
+            <div th:replace="~{adminBase :: header__create-btn}" class="header__create-btn btn">
                 <i class="fa-solid fa-plus header__create-btn-icon"></i>
                 <span>Create</span>
                 <div class="header__create-block">
                     <h4 class="header__create-title">Create New</h4>
                     <ul class="header__create-list">
                         <li class="header__create-item">
-                            <a href="#">
+                            <a th:href="@{/admin/view/service(newService=true)}">
                                 <i class="fa-regular fa-clipboard header__create-item-icon"></i>
                                 <span class="sidebar__item-title">Business Service</span>
                             </a>
                         </li>
                         <li class="header__create-item">
-                            <a href="#">
+                            <a th:href="@{/admin/view/plan(newPlan=true)}">
                                 <i class="fa-solid fa-briefcase header__create-item-icon"></i>
                                 <span class="sidebar__item-title">Business Plan</span>
+                            </a>
+                        </li>
+                        <li class="header__create-item">
+                            <a th:href="@{/admin/user/list(newSeller=true)}">
+                                <i class="fa-solid fa-user-pen header__create-item-icon"></i>
+                                <span class="sidebar__item-title">Manage User</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="header__others">
+            <div th:replace="~{adminBase :: header__others}" class="header__others">
                 <div class="header__noti">
                     <i class="fa-solid fa-bell"></i>
                 </div>
                 <span class="header__separate">|</span>
                 <div class="header__account">
-                    <img src="https://th.bing.com/th/id/OIP.fZnBtIe-qAaSrj3pGtJiQQHaHa?w=179&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                        alt="Avatar">
-                    <span>Xuất Sắc Bảnh</span>
+                    <span th:text="${session.acc.getUser().getName()}"></span>
                     <i class="fa-solid fa-ellipsis-vertical"></i>
                 </div>
             </div>

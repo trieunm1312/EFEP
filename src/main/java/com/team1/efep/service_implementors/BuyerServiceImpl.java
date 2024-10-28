@@ -123,6 +123,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .name(item.getFlower().getName())
                         .quantity(item.getQuantity())
                         .price(item.getFlower().getPrice())
+//                        .stockQuantity()
                         .build())
                 .toList();
     }
