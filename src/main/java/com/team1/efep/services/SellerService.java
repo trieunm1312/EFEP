@@ -90,4 +90,28 @@ public interface SellerService {
     String viewBusinessPlanDetail(HttpSession session, Model model);
 
     ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(int planIId);
+
+    String getTotalNumberFlower(Model model);
+
+    GetTotalNumberFlowerResponse getTotalNumberFlowerAPI();
+
+    String getSoldQuantityCategory(Model model);
+
+    GetSoldQuantityCategoryResponse getSoldQuantityCategoryAPI();
+
+    String getTotalNumberOfCanceledOrder(Model model);
+
+    GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderAPI();
+
+    GetTotalNumberOfOrderResponse getTotalNumberOfOrderAPI();
+
+    String getTotalNumberOfOrder(Model model);
+
+    String getRevenue(Model model);
+
+    GetRevenueResponse getRevenue();
+
+    String getOrderInDaily(Model model);
+
+    GetOrderInDailyResponse getOrderInDailyAPI();
 }

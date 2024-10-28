@@ -28,9 +28,6 @@ public class Status {
     public static String PAYMENT_METHOD_COD = "cod";
     public static String PAYMENT_METHOD_VN_PAY = "vn-pay";
 
-
-
-
     public static void changeAccountStatus(Account account, String status, AccountRepo accountRepo) {
         account.setStatus(status);
         accountRepo.save(account);

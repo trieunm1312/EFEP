@@ -1,7 +1,6 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.BusinessPlanVNPayConfig;
-import com.team1.efep.VNPay.VNPayConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -12,11 +11,9 @@ import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.fn.builders.requestbody.Builder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -1270,6 +1267,130 @@ public class SellerServiceImpl implements SellerService {
                         )
                         .toList())
                 .build();
+    }
+
+    //--------------------------------------------GET TOTAL NUMBER OF FLOWER---------------------------------------------//
+
+    @Override
+    public String getTotalNumberFlower(Model model) {
+        model.addAttribute("msg", model);
+        return "sellerDashboard";
+    }
+
+    @Override
+    public GetTotalNumberFlowerResponse getTotalNumberFlowerAPI() {
+        return getTotalNumberFlowerLogic();
+    }
+
+    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic() {
+
+        return GetTotalNumberFlowerResponse.builder()
+                .message("200")
+                .message("")
+                .totalNumberFlowers(flowerRepo.findAll().stream()
+                        .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_DELETED))
+                        .count()
+                )
+                .build();
+    }
+
+    //--------------------------------------------GET SOLD QUANTITY CATEGORY(mai hỏi)---------------------------------------------//
+    @Override
+    public String getSoldQuantityCategory(Model model) {
+        model.addAttribute("msg", model);
+        return "sellerDashboard";
+    }
+
+    @Override
+    public GetSoldQuantityCategoryResponse getSoldQuantityCategoryAPI() {
+        return getSoldQuantityCategoryLogic();
+    }
+
+    private GetSoldQuantityCategoryResponse getSoldQuantityCategoryLogic() {
+        return GetSoldQuantityCategoryResponse.builder()
+                .status("200")
+                .message("")
+                .getSoldQuantityCategorys(flowerRepo.findAll()
+                        .stream()
+                        .filter(c -> !c.getStatus().equals(Status.FLOWER_STATUS_DELETED))
+                        .count())
+                .build();
+    }
+
+    //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
+    @Override
+    public String getTotalNumberOfCanceledOrder(Model model) {
+        model.addAttribute("msg", model);
+        return "sellerDashboard";
+    }
+
+    @Override
+    public GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderAPI() {
+        return getTotalNumberOfCanceledOrderLogic();
+    }
+
+    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
+        return GetTotalNumberOfCanceledOrderResponse.builder()
+                .status("200")
+                .message("")
+                .getTotalNumberOfCanceledOrder(orderRepo.findAll()
+                        .stream()
+                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED))
+                        .count())
+                .build();
+    }
+
+    //--------------------------------------------GET TOTAL NUMBER OF ORDER---------------------------------------------//
+    @Override
+    public String getTotalNumberOfOrder(Model model) {
+        model.addAttribute("msg", model);
+        return "sellerDashboard";
+    }
+
+    @Override
+    public GetTotalNumberOfOrderResponse getTotalNumberOfOrderAPI() {
+        return getTotalNumberOfOrderLogic();
+    }
+
+    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic(){
+        return GetTotalNumberOfOrderResponse.builder()
+                .status("200")
+                .message("")
+                .totalTotalNumberOfOder(orderRepo.findAll().stream()
+                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
+                        .count())
+                .build();
+    }
+
+    //--------------------------------------------GET REVENUE---------------------------------------------//
+
+    @Override
+    public String getRevenue(Model model) {
+        return "";
+    }
+
+    @Override
+    public GetRevenueResponse getRevenue() {
+        return getRevenueLogic();
+    }
+
+    private GetRevenueResponse getRevenueLogic() {
+        return null;
+    }
+
+    //----------------------------------------GET ORDER IN DAILY---------------------------------------//
+    @Override
+    public String getOrderInDaily(Model model) {
+        return "";
+    }
+
+    @Override
+    public GetOrderInDailyResponse getOrderInDailyAPI() {
+        return null;
+    }
+
+    private GetOrderInDailyResponse getOrderInDailyLogic() {
+        return null;
     }
 }
 
