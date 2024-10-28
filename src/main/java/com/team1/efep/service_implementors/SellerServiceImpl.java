@@ -22,8 +22,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -55,8 +53,6 @@ public class SellerServiceImpl implements SellerService {
     private final CategoryRepo categoryRepo;
 
     private final FlowerCategoryRepo flowerCategoryRepo;
-
-    private final CategoryRepo categoryRepo;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -1435,6 +1431,7 @@ public class SellerServiceImpl implements SellerService {
     public void getTotalNumberFlower(Model model) {
         model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic());
     }
+
     private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic() {
 
         return GetTotalNumberFlowerResponse.builder()
@@ -1470,7 +1467,7 @@ public class SellerServiceImpl implements SellerService {
         List<Flower> flowers = categoryRepo.findAll().stream()
                 .filter(cate -> cate.equals(category))
                 .map(Category::getFlowerCategoryList)
-                .flatMap(List :: stream)
+                .flatMap(List::stream)
                 .map(FlowerCategory::getFlower)
                 .distinct()
                 .toList();
@@ -1505,7 +1502,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
 
-    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic(){
+    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic() {
         return GetTotalNumberOfOrderResponse.builder()
                 .status("200")
                 .message("")
@@ -1533,7 +1530,24 @@ public class SellerServiceImpl implements SellerService {
 
 
     private GetOrderInDailyResponse getOrderInDailyLogic() {
-        return null;
+        List<LocalDateTime> listTenDates = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            listTenDates.add(LocalDateTime.now().minusDays(i));
+        }
+        return GetOrderInDailyResponse.builder()
+                .status("200")
+                .message("")
+                .orderDaily(
+                        listTenDates.stream()
+                                .collect(Collectors.toMap( date -> date.getDayOfMonth() + "/" +  date.getMonth() + "/" + date.getYear(), this::getQuantityOrder))
+                        )
+                .build();
+    }
+
+    private long getQuantityOrder(LocalDateTime date) {
+        return orderRepo.findAll().stream()
+                .filter(order -> order.getCreatedDate().equals(date))
+                .count();
     }
 }
 

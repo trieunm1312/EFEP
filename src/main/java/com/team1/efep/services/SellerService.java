@@ -10,6 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 public interface SellerService {
+    String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model);
+
+    UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request);
+
+    String viewFlowerCategory(HttpSession session, Model model, int flowerId);
+
+    ViewFlowerCategoryResponse viewFlowerCategoryAPI(int flowerId);
+
+    String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model);
+
+    RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request);
 
     String createFlower(CreateFlowerRequest request, HttpSession session, Model model);
 
