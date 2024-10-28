@@ -73,7 +73,14 @@
         <div class="grid">
             <div class="header__wrap">
                 <!-- Logo -->
-                <a th:href="@{/}" class="header__item">
+                <a th:if="${session.acc == null || session.acc.getRole() != 'seller'} " th:href="@{/}" class="header__item">
+                    <div class="header__item-logo">
+                        <img src="/img/flowrista-logo.png" alt="Logo"
+                             class="header__item-logo-img">
+                    </div>
+                </a>
+
+                <a th:if="${session.acc != null && session.acc.getRole() == 'seller'} " th:href="@{/seller/dashboard}" class="header__item">
                     <div class="header__item-logo">
                         <img src="/img/flowrista-logo.png" alt="Logo"
                              class="header__item-logo-img">
@@ -81,7 +88,7 @@
                 </a>
 
                 <!-- Mega menu -->
-                <div class="header__item">
+                <div th:if="${session.acc == null || session.acc.getRole() != 'seller'} " class="header__item">
                     <ul class="header__item-megamenu">
                         <li class="header__item-megamenu-item">
                             <a th:href="@{/}">
@@ -323,7 +330,7 @@
                 </div>
 
                 <!-- Icons -->
-                <div class="header__item">
+                <div th:if="${session.acc == null || session.acc.getRole() != 'seller'} " class="header__item">
                     <ul class="header__item-list-icon">
                         <li class="header__item-icon header__item-icon-search" tabindex="0">
                             <i class="header__item-icon-search fa-solid fa-magnifying-glass">

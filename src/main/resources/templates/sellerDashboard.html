@@ -27,7 +27,7 @@
 <body>
     <aside class="sidebar">
         <a href="" class="sidebar__logo">
-            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Web Logo">
+            <img src="/img/flowrista-logo.png" alt="Web Logo">
         </a>
         <hr class="horizontal dark ">
         <div class="sidebar__components">
@@ -144,7 +144,11 @@
                     <div  class="header__item-account" id="accountDropdown">
                         <form th:action="@{/account/view/profile}"  class="form" method="get">
                             <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
-                            <input type="hidden" name="id" value="${session.acc.id}"></input>
+                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                        </form>
+                        <form th:action="@{/change/password}" class="form">
+                            <input type="submit" name="action" class="header__item-account-item" value="Change Password"></input>
+                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                         </form>
                         <form th:action="@{/account/logout}" class="form" method="get">
                             <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
