@@ -1,8 +1,6 @@
 package com.team1.efep.models.entity_models;
-
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class User {
     @EqualsAndHashCode.Exclude
     private List<Order> orderList;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Seller seller;

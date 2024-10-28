@@ -520,6 +520,7 @@ public class AdminServiceImpl implements AdminService {
                                                 .phone(user.getPhone())
                                                 .avatar(user.getAvatar())
                                                 .background(user.getBackground())
+                                                .createdDate(user.getCreatedDate())
                                                 .accountUser(
                                                         ViewUserListResponse.Account.builder()
                                                                 .id(user.getAccount().getId())
@@ -629,7 +630,7 @@ public class AdminServiceImpl implements AdminService {
             return "redirect:/admin/user/list";
         }
         model.addAttribute("error", ((Map<String, String>) output));
-        return "home";
+        return "/";
     }
 
     @Override
@@ -671,7 +672,7 @@ public class AdminServiceImpl implements AdminService {
             return "redirect:/admin/user/list";
         }
         model.addAttribute("error", ((Map<String, String>) output));
-        return "home";
+        return "/";
     }
 
     @Override
@@ -720,6 +721,7 @@ public class AdminServiceImpl implements AdminService {
                         .email(request.getEmail())
                         .password(request.getPassword())
                         .role(Role.SELLER)
+                        .status(Status.ACCOUNT_STATUS_ACTIVE)
                         .build()
         );
     }

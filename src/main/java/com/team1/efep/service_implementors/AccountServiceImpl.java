@@ -46,10 +46,10 @@ public class AccountServiceImpl implements AccountService {
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
             model.addAttribute("msg", (RegisterResponse) output);
-            return "login";
+            return "redirect:/login";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "register";
+        return "redirect:register";
     }
 
     @Override

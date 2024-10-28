@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -32,6 +33,8 @@ public class ViewUserListResponse {
         private String background;
 
         private Account accountUser;
+
+        private LocalDate createdDate;
     }
 
     @Data

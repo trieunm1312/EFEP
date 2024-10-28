@@ -37,7 +37,7 @@ public class Order {
     @Column(name = "`total_price`")
     private float totalPrice;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<OrderDetail> orderDetailList;
