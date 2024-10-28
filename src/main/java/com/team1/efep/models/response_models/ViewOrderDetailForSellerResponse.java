@@ -32,6 +32,8 @@ public class ViewOrderDetailForSellerResponse {
     @Builder
     public static class Detail {
 
+        private String image;
+
         private String sellerName;
 
         private String flowerName;

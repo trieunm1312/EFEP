@@ -14,7 +14,7 @@ public class FilterOrderValidation {
             return MapConfig.buildMapKey(errors,  "Invalid account ID");
         }
 
-        if (request.getStatus() != null && !request.getStatus().isEmpty()) {
+        if (request.getStatus() == null || request.getStatus().isEmpty()) {
             return MapConfig.buildMapKey(errors,  "Invalid order status");
         }
 

@@ -14,5 +14,4 @@ import java.time.LocalDateTime;
 public class FilterOrderRequest {
     private int accountId;
     private String status;
-    private LocalDateTime createdDate;
 }
