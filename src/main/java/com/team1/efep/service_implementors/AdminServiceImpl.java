@@ -522,7 +522,6 @@ public class AdminServiceImpl implements AdminService {
                                                 .name(user.getName())
                                                 .phone(user.getPhone())
                                                 .avatar(user.getAvatar())
-                                                .background(user.getBackground())
                                                 .createdDate(user.getCreatedDate())
                                                 .accountUser(
                                                         ViewUserListResponse.Account.builder()

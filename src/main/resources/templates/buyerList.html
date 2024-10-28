@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
+<!--     <link rel="stylesheet" href="/css/base.css">-->
     <link rel="stylesheet" href="/css/adminBase.css">
     <link rel="stylesheet" href="/css/manageUser.css">
 
@@ -157,8 +157,6 @@
                                 <tr>
                                     <th class="table__header-user">Name</th>
                                     <th class="table__header-phone">Phone</th>
-                                    <th class="table__header-role">No. Orders</th>
-                                    <th class="table__header-status">Last Order</th>
                                 </tr>
                             </thead>
                             <tbody class="table__body">
@@ -168,19 +166,12 @@
                                             <img th:src="${buyer.avatar == null || buyer.avatar == ''} ? '/img/default-avatar.jpg' : ${buyer.avatar}" alt="Avatar" class="table__body-avt">
                                             <span class="table__body-unique">
                                                 <span class="table__body-name" th:text="${buyer.name}"></span>
-                                                <span class="table__body-email">trumppro@gmail.com</span>
+                                                <span class="table__body-email" th:text="${buyer.email}"></span>
                                             </span>
                                         </td>
                                         <td class="table__body-phone">
-                                            <span class="desc-text">0369322979</span>
+                                            <span class="desc-text" th:text="${buyer.phone}" ></span>
                                         </td>
-                                        <td class="table__body-role">
-                                            <span class="price-text">49</span>
-                                        </td>
-                                        <td class="table__body-status">
-                                            09-10-2024
-                                        </td>
-                                        
                                     </tr>
 
                                 </form>

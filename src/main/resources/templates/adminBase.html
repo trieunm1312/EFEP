@@ -109,13 +109,14 @@
                 </div>
             </div>
             <div th:fragment="header__others" class="header__others">
-                <div class="header__account">
+                <div class="header__account" id="headerAccount">
+                    <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
+                    <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
                     <span th:text="${session.acc.getUser().getName()}"></span>
                     <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <div class="header__account-block">
+                    <div  class="header__item-account" id="accountDropdown">
                         <form th:action="@{/account/logout}" class="form" method="get">
-                            <input type="submit" name="action" value="Logout"
-                                   class="header__account-block-item"></input>
+                            <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
                         </form>
                     </div>
                 </div>
