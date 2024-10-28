@@ -59,4 +59,20 @@ public interface AdminService {
     String createAccountForSeller(CreateAccountForSellerRequest request, Model model);
 
     CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request);
+
+    void getTotalUser(Model model);
+
+    void getTotalSeller(Model model);
+
+    void getTotalBuyer(Model model);
+
+    void getTotalFlower(Model model);
+
+    void getTotalSale(Model model);
+
+    void getTotalRevenue(Model model);
+
+    void getOrdersInMonth(Model model);
+
+    void getTop3SellerInMonth(Model model);
 }

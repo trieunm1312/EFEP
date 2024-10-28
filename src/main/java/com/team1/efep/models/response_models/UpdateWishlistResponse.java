@@ -13,4 +13,6 @@ public class UpdateWishlistResponse {
     private String status;
 
     private String message;
+
+    private int stockQuantity;
 }
