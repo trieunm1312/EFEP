@@ -9,6 +9,5 @@ public class HomepageConfig {
 
     public static void config(Model model, BuyerService buyerService){
         buyerService.viewSlideBar(model);
-        buyerService.viewFlowerTopList(5, model);
     }
 }

@@ -30,8 +30,8 @@ public class PageController {
 
     @GetMapping("/")
     public String startPage(Model model) {
-        HomepageConfig.config(model,buyerService);
         AllPage.allConfig(model, buyerService);
+        HomepageConfig.config(model,buyerService);
         return "home";
     }
 
