@@ -10,6 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 public interface SellerService {
+    String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model);
+
+    UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request);
+
+    String viewFlowerCategory(HttpSession session, Model model, int flowerId);
+
+    ViewFlowerCategoryResponse viewFlowerCategoryAPI(int flowerId);
+
+    String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model);
+
+    RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request);
 
     String createFlower(CreateFlowerRequest request, HttpSession session, Model model);
 
@@ -91,39 +102,16 @@ public interface SellerService {
 
     ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(int planIId);
 
-    String getTotalNumberFlower(Model model);
+    void getTotalNumberFlower(Model model);
 
-    GetTotalNumberFlowerResponse getTotalNumberFlowerAPI();
+    void getSoldQuantityCategory(Model model);
 
-    String getSoldQuantityCategory(Model model);
+    void getTotalNumberOfCanceledOrder(Model model);
 
-    GetSoldQuantityCategoryResponse getSoldQuantityCategoryAPI();
+    void getTotalNumberOfOrder(Model model);
 
-    String getTotalNumberOfCanceledOrder(Model model);
+    void getRevenue(Model model);
 
-    GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderAPI();
+    void getOrderInDaily(Model model);
 
-    GetTotalNumberOfOrderResponse getTotalNumberOfOrderAPI();
-
-    String getTotalNumberOfOrder(Model model);
-
-    String getRevenue(Model model);
-
-    GetRevenueResponse getRevenue();
-
-    String getOrderInDaily(Model model);
-
-    GetOrderInDailyResponse getOrderInDailyAPI();
-
-    String viewFlowerCategory(HttpSession session, Model model, int flowerId);
-
-    ViewFlowerCategoryResponse viewFlowerCategoryAPI(int flowerId);
-
-    String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model);
-
-    UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request);
-
-    String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model);
-
-    RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request);
 }
