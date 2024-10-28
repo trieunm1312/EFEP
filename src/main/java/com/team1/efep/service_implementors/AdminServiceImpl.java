@@ -775,7 +775,7 @@ public class AdminServiceImpl implements AdminService {
     private OrdersInMonthResponse getOrdersInMonthLogic() {
         List<Order> orders = orderRepo.findAll();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-yyyy");
 
         Map<String, Long> orderMap = orders.stream()
                 .collect(Collectors.groupingBy(
