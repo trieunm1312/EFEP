@@ -3,7 +3,6 @@ package com.team1.efep.service_implementors;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
-import com.team1.efep.models.response_models.ViewBusinessServiceResponse;
 import com.team1.efep.models.entity_models.*;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
@@ -11,7 +10,6 @@ import com.team1.efep.repositories.*;
 import com.team1.efep.services.AdminService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
-import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
 import jakarta.mail.MessagingException;
@@ -23,11 +21,13 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +46,8 @@ public class AdminServiceImpl implements AdminService {
     private final SellerRepo sellerRepo;
 
     private final JavaMailSenderImpl mailSender;
+
+    private final OrderRepo orderRepo;
 
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
@@ -722,6 +724,103 @@ public class AdminServiceImpl implements AdminService {
                         .status(Status.ACCOUNT_STATUS_ACTIVE)
                         .build()
         );
+    }
+
+    //---------------------------------------------DASHBOARD------------------------------------------------//
+
+    @Override
+    public void getTotalUser(Model model) {
+        model.addAttribute("totalUser", userRepo.count());
+    }
+
+    @Override
+    public void getTotalSeller(Model model) {
+        model.addAttribute("totalSeller", sellerRepo.count());
+    }
+
+    @Override
+    public void getTotalBuyer(Model model) {
+        model.addAttribute("totalBuyer", userRepo.count() - sellerRepo.count());
+    }
+
+    @Override
+    public void getTotalFlower(Model model) {
+        model.addAttribute("totalFlower", businessServiceRepo.count());
+    }
+
+    @Override
+    public void getTotalSale(Model model) {
+        model.addAttribute("totalSale", 0);
+    }
+
+    @Override
+    public void getTotalRevenue(Model model) {
+        float totalRevenue = orderRepo.findAll().stream()
+                .map(Order::getTotalPrice)
+                .reduce(0f, Float::sum);
+        model.addAttribute("totalRevenue", totalRevenue);
+    }
+
+    @Override
+    public void getOrdersInMonth(Model model) {
+        model.addAttribute("OrderMonthly", getOrdersInMonthLogic());
+    }
+
+    private OrdersInMonthResponse getOrdersInMonthLogic() {
+        List<Order> orders = orderRepo.findAll();
+
+        Map<String, Long> orderMap = orders.stream()
+                .collect(Collectors.groupingBy(
+                        order -> new SimpleDateFormat("dd-MM-yyyy").format(order.getCreatedDate()),
+                        Collectors.counting()
+                ));
+
+        List<OrdersInMonthResponse.OrderCount> orderCounts = orderMap.entrySet().stream()
+                .map(entry -> OrdersInMonthResponse.OrderCount.builder()
+                        .date(entry.getKey())
+                        .count(entry.getValue().intValue())
+                        .build())
+                .toList();
+
+        return OrdersInMonthResponse.builder()
+                .status("200")
+                .message("Get orders in month successfully")
+                .orderCounts(orderCounts)
+                .build();
+    }
+
+    @Override
+    public void getTop3SellerInMonth(Model model) {
+        model.addAttribute("topSellers", getTop3SellerInMonthLogic());
+    }
+
+    private TopSellersResponse getTop3SellerInMonthLogic() {
+        List<Order> orders = orderRepo.findAll().stream()
+                .filter(order -> order.getCreatedDate().getMonth() == LocalDateTime.now().getMonth())
+                .toList();
+
+        Map<Seller, Double> revenueMap = orders.stream()
+                .collect(Collectors.groupingBy(
+                        order -> order.getUser().getSeller(),
+                        Collectors.summingDouble(Order::getTotalPrice)
+                ));
+
+        List<TopSellersResponse.SellerRevenue> topSellers = revenueMap.entrySet().stream()
+                .filter(entry -> entry.getKey() != null)
+                .sorted(Map.Entry.<Seller, Double>comparingByValue().reversed())
+                .limit(3)
+                .map(entry -> TopSellersResponse.SellerRevenue.builder()
+                        .image(entry.getKey().getUser().getAvatar())
+                        .sellerName(entry.getKey().getUser().getName())
+                        .revenue(entry.getValue().floatValue())
+                        .build())
+                .collect(Collectors.toList());
+
+        return TopSellersResponse.builder()
+                .status("200")
+                .message("Top 3 sellers retrieved successfully")
+                .sellers(topSellers)
+                .build();
     }
 
 }
