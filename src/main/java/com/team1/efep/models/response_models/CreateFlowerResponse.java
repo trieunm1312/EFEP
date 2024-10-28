@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -39,6 +40,8 @@ public class CreateFlowerResponse {
         private int quantity;
 
         private int soldQuantity;
+
+        private LocalDateTime createDate;
 
         private List<Images> imageList;
 
