@@ -114,4 +114,16 @@ public interface SellerService {
     String getOrderInDaily(Model model);
 
     GetOrderInDailyResponse getOrderInDailyAPI();
+
+    String viewFlowerCategory(HttpSession session, Model model, int flowerId);
+
+    ViewFlowerCategoryResponse viewFlowerCategoryAPI(int flowerId);
+
+    String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model);
+
+    UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request);
+
+    String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model);
+
+    RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request);
 }

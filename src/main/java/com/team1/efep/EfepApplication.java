@@ -465,20 +465,20 @@ public class EfepApplication {
                 //init order
                 Order order1 = orderRepo.save(
                         Order.builder()
-                                .status(Status.ORDER_STATUS_PROCESSING)
+                                .status(Status.ORDER_STATUS_COMPLETED)
                                 .user(user1)
                                 .buyerName(user1.getName())
-                                .createdDate(LocalDateTime.of(2024, 1, 1, 0, 0))
+                                .createdDate(LocalDateTime.of(2024, 10, 1, 0, 0))
                                 .totalPrice(200)
                                 .build()
                 );
 
                 Order order2 = orderRepo.save(
                         Order.builder()
-                                .status(Status.ORDER_STATUS_PROCESSING)
+                                .status(Status.ORDER_STATUS_COMPLETED)
                                 .user(user1)
                                 .buyerName(user1.getName())
-                                .createdDate(LocalDateTime.of(2023, 1, 1, 0, 0))
+                                .createdDate(LocalDateTime.of(2024, 10, 15, 0, 0))
                                 .totalPrice(100)
                                 .build()
                 );
@@ -488,7 +488,7 @@ public class EfepApplication {
                                 .status(Status.ORDER_STATUS_PROCESSING)
                                 .user(user1)
                                 .buyerName(user1.getName())
-                                .createdDate(LocalDateTime.of(2022, 1, 1, 0, 0))
+                                .createdDate(LocalDateTime.of(2024, 10, 11, 0, 0))
                                 .totalPrice(100)
                                 .build()
                 );

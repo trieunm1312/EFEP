@@ -50,6 +50,8 @@ public class AdminServiceImpl implements AdminService {
 
     private final OrderRepo orderRepo;
 
+    private final FlowerRepo flowerRepo;
+
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
     public String viewBusinessPlan(HttpSession session, Model model) {
@@ -746,17 +748,18 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void getTotalFlower(Model model) {
-        model.addAttribute("totalFlower", businessServiceRepo.count());
+        model.addAttribute("totalFlower", flowerRepo.count());
     }
 
     @Override
     public void getTotalSale(Model model) {
-        model.addAttribute("totalSale", 0);
+        model.addAttribute("totalSale", orderRepo.countByStatus(Status.ORDER_STATUS_COMPLETED));
     }
 
     @Override
     public void getTotalRevenue(Model model) {
         float totalRevenue = orderRepo.findAll().stream()
+                .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
                 .map(Order::getTotalPrice)
                 .reduce(0f, Float::sum);
         model.addAttribute("totalRevenue", totalRevenue);
@@ -799,13 +802,14 @@ public class AdminServiceImpl implements AdminService {
 
     private TopSellersResponse getTop3SellerInMonthLogic() {
         List<Order> orders = orderRepo.findAll().stream()
-                .filter(order -> order.getCreatedDate().getMonth() == LocalDateTime.now().getMonth())
+                .filter(order -> order.getCreatedDate().getMonth() == LocalDateTime.now().getMonth() && order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
                 .toList();
 
         Map<Seller, Double> revenueMap = orders.stream()
+                .flatMap(order -> order.getOrderDetailList().stream())
                 .collect(Collectors.groupingBy(
-                        order -> order.getUser().getSeller(),
-                        Collectors.summingDouble(Order::getTotalPrice)
+                        orderDetail -> orderDetail.getFlower().getSeller(),
+                        Collectors.summingDouble(orderDetail -> orderDetail.getPrice() * orderDetail.getQuantity())
                 ));
 
         List<TopSellersResponse.SellerRevenue> topSellers = revenueMap.entrySet().stream()
