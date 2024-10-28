@@ -73,7 +73,14 @@
         <div class="grid">
             <div class="header__wrap">
                 <!-- Logo -->
-                <a th:href="@{/}" class="header__item">
+                <a th:if="${session.acc == null || session.acc.getRole() != 'seller'} " th:href="@{/}" class="header__item">
+                    <div class="header__item-logo">
+                        <img src="/img/flowrista-logo.png" alt="Logo"
+                             class="header__item-logo-img">
+                    </div>
+                </a>
+
+                <a th:if="${session.acc != null && session.acc.getRole() == 'seller'} " th:href="@{/seller/dashboard}" class="header__item">
                     <div class="header__item-logo">
                         <img src="/img/flowrista-logo.png" alt="Logo"
                              class="header__item-logo-img">
@@ -81,7 +88,7 @@
                 </a>
 
                 <!-- Mega menu -->
-                <div class="header__item">
+                <div th:if="${session.acc == null || session.acc.getRole() != 'seller'} " class="header__item">
                     <ul class="header__item-megamenu">
                         <li class="header__item-megamenu-item">
                             <a th:href="@{/}">
@@ -308,17 +315,22 @@
                         </li>
 
                         <li class="header__item-megamenu-item header__item-megamenu-item-about">
-                            <a href="">
+                            <a th:href="@{/about/us}">
                                 <span class="header__item-megamenu-item-title">About Us</span>
                             </a>
+                        </li>
 
+                        <li class="header__item-megamenu-item header__item-megamenu-item-about">
+                            <a href="#contact">
+                                <span class="header__item-megamenu-item-title">Contact Us</span>
+                            </a>
                         </li>
 
                     </ul>
                 </div>
 
                 <!-- Icons -->
-                <div class="header__item">
+                <div th:if="${session.acc == null || session.acc.getRole() != 'seller'} " class="header__item">
                     <ul class="header__item-list-icon">
                         <li class="header__item-icon header__item-icon-search" tabindex="0">
                             <i class="header__item-icon-search fa-solid fa-magnifying-glass">
@@ -499,29 +511,12 @@
                                  class="footer__item-logo-img">
                         </div>
                         <div class="footer__item-desc">
-                            <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
-                                Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
-                                Không bơ vơ
-                                Khi vây quanh anh là những đôi mắt nhìn theo hò reo
-                                Cũng vì chặng đường tương lai mà mình phải chia hai
-                                Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
-                                Và đến khi anh cất lời
-                                Là giấc mơ mang cả đời -->
-                            Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                            Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                            Tình yêu này có thật đáng thương? (Oh no)
-                            Ở phía dưới ngọn đèn, có gã khờ đang hát
-                            Cố gắng mỉm cười, nhưng trong lòng tan nát
-                            Mất đi người rất quan trọng
-                            Có lẽ vì quá tham vọng
-                            Không thấy vui trong lòng
-                            Anh nhớ góc tối ở trong căn phòng
-                            Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                            Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                            Lâu hơn một chút
-                            Để anh ổn định cảm xúc
-                            Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                            Ký ức lại triệu hồi nỗi đau</span>
+                            <span>
+                                In a world that blooms and fades, may we find beauty not only in the lasting but in the fleeting, cherishing every petal before it falls.
+                                Life is a collection of moments, delicate as petals—may we gather them with gratitude, knowing their beauty lies in their impermanence.
+                                In the dance between growth and decay, love is the fragrance that lingers, making every moment worth embracing.
+                                Life blooms best when shared—may we grow together, finding beauty not in perfection, but in the joy of each new beginning.
+                            </span>
                         </div>
                         <ul class="footer__item-contact-list footer__item-contact-list-icons">
                             <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
@@ -534,21 +529,12 @@
                                     <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
                                 </a>
                             </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                </a>
-                            </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                </a>
-                            </li>
+
                         </ul>
                     </div>
 
                 </div>
-                <div class="footer__item">
+                <div id="contact" class="footer__item">
                     <div class="footer__item-contact">
                         <h2 class="footer__item-title">Contact</h2>
                         <ul class="footer__item-contact-list">
@@ -556,28 +542,23 @@
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i
                                                 class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
-                                        <span>National park,d1 588436,United States</span>
+                                        <span>Vinhome Grandpark,Thu Duc City,Ho Chi Minh City, Viet Nam</span>
                                     </span>
                             </li>
 
                             <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
-                                        <span>+91 123 456 789</span>
+                                        <span>+070.334.6041</span>
                                     </span>
                             </li>
 
-                            <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
-                                        <span>0123-456-789</span>
-                                    </span>
-                            </li>
+
 
                             <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
-                                        <span>demo@Yourstore.com</span>
+                                        <span>vannhuquynhp@gmail.com</span>
                                     </span>
                             </li>
                         </ul>
@@ -589,34 +570,24 @@
                         <h2 class="footer__item-title">Information</h2>
                         <ul class="footer__item-contact-list">
                             <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
+                                <a th:href="@{/terms/conditions}" class="footer__item-contact-list-item-link">
                                     <span>Terms & Conditions</span>
                                 </a>
                             </li>
 
                             <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>Delivery Information</span>
-                                </a>
-                            </li>
-
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
+                                <a th:href="@{/about/us}" class="footer__item-contact-list-item-link">
                                     <span>About Us</span>
                                 </a>
                             </li>
 
                             <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
+                                <a th:href="@{/privacy/policy}" class="footer__item-contact-list-item-link">
                                     <span>Privacy Policy</span>
                                 </a>
                             </li>
 
-                            <li class="footer__item-contact-list-item">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <span>Contact Us</span>
-                                </a>
-                            </li>
+
                         </ul>
                     </div>
                 </div>

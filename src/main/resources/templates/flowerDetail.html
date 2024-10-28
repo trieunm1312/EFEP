@@ -161,245 +161,53 @@
                         elit. Et dolores aliquid, praesentium labore iste ab ratione illum temporibus sed reprehenderit
                         in necessitatibus voluptas qui rem nesciunt? Non dolores maiores alias.</span>
 
-                <!-- Related Product -->
-                <div class="related-product">
-                    <h2 class="related-product__title">Related Products<br>
+                <!-- Top sale Product -->
+                <div class="top-category">
+                    <h2 class="top-category__title">Top Sale Flowers<br>
                         <img src="/img/title-flower.png" alt="">
                     </h2>
-                    <div class="swiper swiper__related-product">
-                        <div class="related-product__list swiper-wrapper">
-                            <div class="related-product__item swiper-slide">
-                                <div class="related-product__img">
-                                    <img src="/img/related-product.jpg" alt="">
-                                    <div class="overlay">
-
-                                        <form th:action="@{/}" method="get">
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
+                    <div class="top-category__list">
+                        <div th:each="item : ${msg2.flowerList}" class="top-category__item">
+                            <div class="top-category__img">
+                                <img th:src="@{${item.images[0].link}}" alt="Flower Image">
+                                <div class="overlay">
+                                    <form th:action="@{/buyer/wishlist}" method="post">
+                                        <div th:if="${session.acc != null}">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <input type="hidden" name="flowerId" th:value="${item.id}">
+                                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                        </div>
+                                        <button class="add-to-wishlist">
                                             <i class="fa-solid fa-heart"></i>
                                             <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
+                                        </button>
+                                    </form>
 
-                                        <a href="" class="view-detail">
+                                    <form th:action="@{/buyer/flower/detail}" method="get">
+                                        <button class="view-detail">
                                             <i class="fa-solid fa-eye"></i>
                                             <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-
-                                    </div>
-                                </div>
-                                <a href="" class="related-product__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="related-product__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
+                                            <input type="hidden" name="id" th:value="${item.id}">
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="related-product__item swiper-slide">
-                                <div class="related-product__img">
-                                    <img src="/img/related-product.jpg" alt="">
-                                    <div class="overlay">
-
-                                        <form th:action="@{/}" method="get">
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-
-                                    </div>
-                                </div>
-                                <a href="" class="related-product__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="related-product__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
+                            <form th:action="@{/buyer/flower/detail}" class="form" method="post">
+                                <input type="submit" name="action" th:value="${item.name}" class="top-category__name">
+                                </input>
+                                <input type="hidden" name="id" th:value="${item.id}">
+                            </form>
+                            <div class="top-category__content">
+                            <span>
+                                $
+                                <span th:text="${item.price}"></span>
+                            </span>
+                                <span>Sold: 1000</span>
                             </div>
-                            <div class="related-product__item swiper-slide">
-                                <div class="related-product__img">
-                                    <img src="/img/related-product.jpg" alt="">
-                                    <div class="overlay">
-
-                                        <form th:action="@{/}" method="get">
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-
-                                    </div>
-                                </div>
-                                <a href="" class="related-product__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="related-product__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
-                            <div class="related-product__item swiper-slide">
-                                <div class="related-product__img">
-                                    <img src="/img/related-product.jpg" alt="">
-                                    <div class="overlay">
-
-                                        <form th:action="@{/}" method="get">
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-
-                                    </div>
-                                </div>
-                                <a href="" class="related-product__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="related-product__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
-                            <div class="related-product__item swiper-slide">
-                                <div class="related-product__img">
-                                    <img src="/img/related-product.jpg" alt="">
-                                    <div class="overlay">
-
-                                        <form th:action="@{/}" method="get">
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-
-                                    </div>
-                                </div>
-                                <a href="" class="related-product__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="related-product__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
-                            <div class="related-product__item swiper-slide">
-                                <div class="related-product__img">
-                                    <img src="/img/related-product.jpg" alt="">
-                                    <div class="overlay">
-
-                                        <form th:action="@{/}" method="get">
-                                            <button class="add-to-wishlist">
-                                                <i class="fa-solid fa-heart"></i>
-                                                <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                            </button>
-
-                                            <button class="view-detail">
-                                                <i class="fa-solid fa-eye"></i>
-                                                <span class="view-detail__msg">View detail</span>
-                                            </button>
-                                        </form>
-                                        <!-- <a href="" class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </a>
-
-                                        <a href="" class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                        </a> -->
-
-                                    </div>
-                                </div>
-                                <a href="" class="related-product__name">
-                                    <h4>Creeper</h4>
-                                </a>
-                                <div class="related-product__content">
-                                    <span>$200.00</span>
-                                    <span>Sold: 1000</span>
-                                </div>
-                            </div>
-                            <!-- <a href="#slider-carousel" class="left control-carousel related-carousel hidden-xs"
-                                data-slide="prev">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a href="#slider-carousel" class="right control-carousel related-carousel hidden-xs"
-                                data-slide="next">
-                                <i class="fa fa-angle-right"></i>
-                            </a> -->
-
                         </div>
-                        <div class="swiper-button-prev swiper-button-product left"></div>
-                        <div class="swiper-button-next swiper-button-product right"></div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 

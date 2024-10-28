@@ -30,8 +30,6 @@ public class ViewUserListResponse {
 
         private String avatar;
 
-        private String background;
-
         private Account accountUser;
 
         private LocalDate createdDate;

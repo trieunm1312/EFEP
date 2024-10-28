@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <!--<link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+  <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+  <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+  <link rel="stylesheet" href="/src/main/resources/static/css/home.css">-->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/animate.css">
+  <link rel="stylesheet" href="/css/all.min.css">
+</head>
+
+<body>
+
+<div class="wrap">
+  <!-- Nav Bar -->
+  <nav class="navbar" th:replace="~{base :: navbar}">
+  </nav>
+
+  <!-- Header -->
+  <header class="header" th:replace="~{base :: header}">
+
+  </header>
+
+  <!-- Container -->
+  <div class="container">
+    <div class="container__wrap">
+      <div class="breadbrum">
+        <div class="grid">
+          <h2 class="breadbrum__title">Terms & Conditions<br>
+            <img src="/img/title-flower-light.png" alt="">
+          </h2><br>
+          <p class="breadbrum__desc">
+            Welcome to Event Flower Exchange!
+            By accessing and using our platform, you agree to these Terms and Conditions, which govern your use of our marketplace and related services.
+            Please read them carefully to understand your rights and obligations.
+          </p>
+
+          <p class="breadbrum__desc">
+            To create an account, you must be at least 18 years old and provide accurate, up-to-date information.
+            You are responsible for keeping your account details secure and for any activities conducted under your account.
+            By using our platform, you agree to act lawfully, refraining from activities like posting misleading information, infringing on intellectual property rights, or engaging in abusive behavior.
+          </p>
+
+          <p class="breadbrum__desc">
+            The Event Flower Exchange Platform is designed to facilitate the buying and selling of surplus event flowers.
+            Sellers are expected to provide honest and complete descriptions of the flowers listed, including condition, availability, and price.
+            Buyers are responsible for reviewing listing details before purchasing, and all transactions take place directly between buyers and sellers.
+            We act solely as an intermediary, not as a buyer or seller, and assume no liability for disputes between users.</p>
+
+          <p class="breadbrum__desc">
+            We may charge fees for certain transactions or features; any applicable fees will be clearly communicated before you proceed.
+            Payments are processed through third-party providers, and by making a transaction, you agree to comply with their terms as well.</p>
+
+          <p class="breadbrum__desc">
+            All platform content, including text, graphics, and software, is owned by Event Flower Exchange or our licensors.
+            You may not use our content without permission, except as necessary to use the platform as intended.
+            We reserve the right to suspend or terminate accounts that violate these Terms or pose a risk to our platform or community.</p>
+
+          <p class="breadbrum__desc">
+            Event Flower Exchange is not liable for damages resulting from the use of our platform, including any issues arising from user interactions or product quality.
+            By using the platform, you agree to indemnify and hold us harmless from any claims resulting from your breach of these Terms.</p>
+
+          <p class="breadbrum__desc">
+            We may update these Terms and Conditions periodically to reflect changes in our platform or applicable law.
+            Any changes will be posted on this page with the effective date updated accordingly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" th:replace="~{base :: footer}">
+
+  </footer>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/base.js"></script>
+</body>
+
+</html>

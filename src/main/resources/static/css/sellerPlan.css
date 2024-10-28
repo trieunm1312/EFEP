@@ -36,6 +36,11 @@
     font-weight: 600;
 }
 
+.cancel-btn{
+    margin-top: 8px;
+    border-radius: 6px;
+}
+
 /*Dont have plan yet*/
 .guide{
     width: 30%;
