@@ -667,6 +667,7 @@ public class BuyerServiceImpl implements BuyerService {
         if (!orderList.isEmpty()) {
             List<ViewOrderHistoryResponse.Order> orders = orderList.stream()
                     .map(this::viewOrderList)
+                    .sorted(Comparator.comparing(ViewOrderHistoryResponse.Order::getCreateDate).reversed())
                     .collect(Collectors.toList());
 
             // Trả về kết quả
@@ -695,6 +696,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .sellerName(sellerName)
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
+                .createDate(order.getCreatedDate())
                 .detailList(viewOrderDetailList(order.getOrderDetailList()))
                 .build();
     }

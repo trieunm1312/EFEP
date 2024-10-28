@@ -114,6 +114,7 @@ public class SellerServiceImpl implements SellerService {
                                     .flowerAmount(flower.getFlowerAmount())
                                     .quantity(flower.getQuantity())
                                     .soldQuantity(flower.getSoldQuantity())
+                                    .createDate(LocalDateTime.now())
                                     .imageList(
                                             addFlowerImages(request, flower).stream()
                                                     .map(image -> CreateFlowerResponse.FlowerInfo.Images.builder()
@@ -161,7 +162,7 @@ public class SellerServiceImpl implements SellerService {
                         .flower(flower)
                         .link(link)
                         .build())
-                .collect(Collectors.toList());
+                .toList();
         return flowerImageRepo.saveAll(flowerImages);
     }
 
@@ -344,6 +345,7 @@ public class SellerServiceImpl implements SellerService {
                         .soldQuantity(item.getSoldQuantity())
                         .status(item.getStatus())
                         .build())
+                .sorted()
                 .toList();
     }
 
