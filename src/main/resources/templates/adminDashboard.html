@@ -183,21 +183,16 @@
                     </div>
                     <h4 class="analytic__header">Analytics</h4>
                     <div class="analytic">
-                        <div class="daily-user-chart">
-                            <canvas id="dailyNewUserChart"></canvas>
-                        </div>
-                        <div class="user-type-chart">
-                            <canvas id="compareUserTypeChart"></canvas>
-                        </div>
                         <div class="side-chart">
-                            <div class="daily-order-chart">
-                                <canvas id="dailyOrderChart"></canvas>
+
+                            <div class="monthly-order-chart">
+                                <canvas id="monthlyOrderChart"></canvas>
                             </div>
-                            <div class="flower-category-chart">
-                                <canvas id="compareFlowerCategoryChart"></canvas>
+                            <div th:data-total-buyer="${totalBuyer}" th:data-total-seller="${totalSeller}" id="userData"></div>
+                            <div class="user-type-chart">
+                                <canvas id="compareUserTypeChart"></canvas>
                             </div>
                         </div>
-                        
                         <div class="top-seller">
                             <div class="top-seller__header">
                                 <div class="top-seller__icon">
@@ -227,6 +222,10 @@
 
         </div>
     </div>
+    <script th:inline="javascript">
+        // Thymeleaf will output `orderCounts` directly as a JSON array
+        const orderCounts = /*[[${OrderMonthly.orderCounts}]]*/ [];
+    </script>
     <script src="/js/adminBase.js"></script>
     <script src="/js/adminDashboard.js"></script>
 
