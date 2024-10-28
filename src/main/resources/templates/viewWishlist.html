@@ -109,7 +109,8 @@
                                                 <input type="hidden" name="wishlistId" th:value="${msg.id}">
                                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                                                 <input type="hidden" name="request" value="asc">
-                                                <button class="table-item-btn-increase" type="submit">+</button>
+                                                <button class="table-item-btn-increase" type="submit"
+                                                        th:disabled="${item.quantity == item.stockQuantity}">+</button>
                                             </form>
                                         </div>
                                     </td>
@@ -151,7 +152,7 @@
                         </div>
                         <div class="btn-cart">
                             <form th:action="@{/buyer/order/confirm}" method="get">
-                                <input class="btn-cart-checkout" type="submit" value="Confirm order" name="Action">
+                                <input class="btn-cart-checkout" type="submit">
                             </form>
                         </div>
                     </div>

@@ -5,6 +5,7 @@ import com.team1.efep.models.entity_models.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class FileReaderUtil {
@@ -32,9 +33,14 @@ public class FileReaderUtil {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
+
+            LocalDate purchaseDate = user.getSeller().getPlanPurchaseDate().toLocalDate();
+            LocalDate expiryDate = purchaseDate.plusDays(businessPlan.getDuration());
+            long remainingDays = ChronoUnit.DAYS.between(LocalDate.now(), expiryDate);
+
             result = result.replaceAll("@@###", user.getName());
             result = result.replaceAll("@@@##", businessPlan.getName());
-            result = result.replaceAll("@@##", String.valueOf(businessPlan.getDuration()));
+            result = result.replaceAll("@@##", String.valueOf(remainingDays));
             br.close();
         } catch (Exception e) {
             e.printStackTrace();

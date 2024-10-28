@@ -25,17 +25,17 @@
 //   }
 // });
 
-const xValues = ["09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024",
-    "09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024"];
-const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
 
-new Chart("dailyOrderChart", {
-    type: "line",
+// Generate xValues (months) and yValues (order counts) from orderCounts data
+const xValues = orderCounts.map(order => order.month);
+const yValues = orderCounts.map(order => order.count);
+
+// Create the chart as a bar chart
+new Chart("monthlyOrderChart", {
+    type: "bar",
     data: {
         labels: xValues,
         datasets: [{
-            fill: false,
-            lineTension: 0,
             backgroundColor: "pink",
             borderColor: "red",
             data: yValues
@@ -44,66 +44,22 @@ new Chart("dailyOrderChart", {
     options: {
         legend: { display: false },
         scales: {
-            yAxes: [{ ticks: { min: 6, max: 16 } }],
+            yAxes: [{ ticks: { beginAtZero: true } }],
+            xAxes: [{ barPercentage: 0.5 }] // Optional: controls the width of the bars
         },
         title: {
             display: true,
-            text: "Daily Order Chart"
+            text: "Monthly Order Chart"
         }
     }
 });
 
-
-
-new Chart("dailyNewUserChart", {
-    type: "line",
-    data: {
-        labels: xValues,
-        datasets: [{
-            fill: false,
-            lineTension: 0,
-            backgroundColor: "pink",
-            borderColor: "red",
-            data: yValues
-        }]
-    },
-    options: {
-        legend: { display: false },
-        scales: {
-            yAxes: [{ ticks: { min: 6, max: 16 } }],
-        },
-        title: {
-            display: true,
-            text: "Daily New User Chart"
-        }
-    }
-});
-
-// 
-const categoryName = ["Wedding", "Birthday", "Anniversary", "Mother's Day", "Valentine"];
-const categorySold = [290, 220, 300, 190, 255];
-const barColors = ["red", "green","blue","orange","brown"];
-
-new Chart("compareFlowerCategoryChart", {
-  type: "bar",
-  data: {
-    labels: categoryName,
-    datasets: [{
-      backgroundColor: barColors,
-      data: categorySold
-    }]
-  },
-  options: {
-    legend: {display: false},
-    title: {
-      display: true,
-      text: "Compare Flower Category Sold Quantity"
-    }
-  }
-});
+const userData = document.getElementById("userData");
+const totalBuyer = parseInt(userData.getAttribute("data-total-buyer"));
+const totalSeller = parseInt(userData.getAttribute("data-total-seller"));
 
 const userTypes = ["Buyer", "Seller"];
-const number = [1000, 200];
+const number = [totalBuyer, totalSeller];
 const userColors = [
   "#b91d47",
   "#00aba9"

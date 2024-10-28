@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,8 @@ public class AdminServiceImpl implements AdminService {
     private final JavaMailSenderImpl mailSender;
 
     private final OrderRepo orderRepo;
+
+    private final FlowerRepo flowerRepo;
 
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
@@ -275,7 +278,9 @@ public class AdminServiceImpl implements AdminService {
             helper.setFrom("vannhuquynhp@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
-//            helper.setTo(request.getToEmail());
+
+            helper.setReplyTo(user.getAccount().getEmail());
+
             helper.setSubject(Const.EMAIL_SUBJECT);
 
             // Read HTML content from a file and replace placeholders (e.g., OTP)
@@ -520,6 +525,7 @@ public class AdminServiceImpl implements AdminService {
                                                 .phone(user.getPhone())
                                                 .avatar(user.getAvatar())
                                                 .background(user.getBackground())
+                                                .createdDate(user.getCreatedDate())
                                                 .accountUser(
                                                         ViewUserListResponse.Account.builder()
                                                                 .id(user.getAccount().getId())
@@ -629,7 +635,7 @@ public class AdminServiceImpl implements AdminService {
             return "redirect:/admin/user/list";
         }
         model.addAttribute("error", ((Map<String, String>) output));
-        return "home";
+        return "/";
     }
 
     @Override
@@ -671,7 +677,7 @@ public class AdminServiceImpl implements AdminService {
             return "redirect:/admin/user/list";
         }
         model.addAttribute("error", ((Map<String, String>) output));
-        return "home";
+        return "/";
     }
 
     @Override
@@ -720,6 +726,7 @@ public class AdminServiceImpl implements AdminService {
                         .email(request.getEmail())
                         .password(request.getPassword())
                         .role(Role.SELLER)
+                        .status(Status.ACCOUNT_STATUS_ACTIVE)
                         .build()
         );
     }
@@ -743,17 +750,18 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void getTotalFlower(Model model) {
-        model.addAttribute("totalFlower", businessServiceRepo.count());
+        model.addAttribute("totalFlower", flowerRepo.count());
     }
 
     @Override
     public void getTotalSale(Model model) {
-        model.addAttribute("totalSale", 0);
+        model.addAttribute("totalSale", orderRepo.countByStatus(Status.ORDER_STATUS_COMPLETED));
     }
 
     @Override
     public void getTotalRevenue(Model model) {
         float totalRevenue = orderRepo.findAll().stream()
+                .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
                 .map(Order::getTotalPrice)
                 .reduce(0f, Float::sum);
         model.addAttribute("totalRevenue", totalRevenue);
@@ -767,15 +775,18 @@ public class AdminServiceImpl implements AdminService {
     private OrdersInMonthResponse getOrdersInMonthLogic() {
         List<Order> orders = orderRepo.findAll();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-yyyy");
+
         Map<String, Long> orderMap = orders.stream()
+                .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
                 .collect(Collectors.groupingBy(
-                        order -> new SimpleDateFormat("dd-MM-yyyy").format(order.getCreatedDate()),
+                        order -> order.getCreatedDate().format(formatter),
                         Collectors.counting()
                 ));
 
         List<OrdersInMonthResponse.OrderCount> orderCounts = orderMap.entrySet().stream()
                 .map(entry -> OrdersInMonthResponse.OrderCount.builder()
-                        .date(entry.getKey())
+                        .month(entry.getKey())
                         .count(entry.getValue().intValue())
                         .build())
                 .toList();
@@ -794,13 +805,14 @@ public class AdminServiceImpl implements AdminService {
 
     private TopSellersResponse getTop3SellerInMonthLogic() {
         List<Order> orders = orderRepo.findAll().stream()
-                .filter(order -> order.getCreatedDate().getMonth() == LocalDateTime.now().getMonth())
+                .filter(order -> order.getCreatedDate().getMonth() == LocalDateTime.now().getMonth() && order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
                 .toList();
 
         Map<Seller, Double> revenueMap = orders.stream()
+                .flatMap(order -> order.getOrderDetailList().stream())
                 .collect(Collectors.groupingBy(
-                        order -> order.getUser().getSeller(),
-                        Collectors.summingDouble(Order::getTotalPrice)
+                        orderDetail -> orderDetail.getFlower().getSeller(),
+                        Collectors.summingDouble(orderDetail -> orderDetail.getPrice() * orderDetail.getQuantity())
                 ));
 
         List<TopSellersResponse.SellerRevenue> topSellers = revenueMap.entrySet().stream()

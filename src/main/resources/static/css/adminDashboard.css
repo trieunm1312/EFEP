@@ -62,33 +62,29 @@
 }
 
 /* Analytics */
+.analytic{
+    display: flex;
+    justify-content: space-around;
+}
 
+.side-chart,
+.top-seller{
+    width: 45%;
+}
 
-.daily-order-chart,
-.daily-user-chart,
-.flower-category-chart,
+.monthly-order-chart,
 .user-type-chart
 {
     display: inline-block;
-    width: 50%;
+    width: 100%;
     height: 300px;
     margin: 0;
-}
-
-.user-type-chart,
-.flower-category-chart{
-    width: 45%;
-    vertical-align: top;
-}
-
-.daily-order-chart + .daily-user-chart{
-    margin-left: 5%;
 }
 
 .top-seller{
     display: inline-block;
     vertical-align: top;
-    width: 35%;
+    height: fit-content;
     margin-left: 8%;
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.15);
 }

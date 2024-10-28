@@ -123,7 +123,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .name(item.getFlower().getName())
                         .quantity(item.getQuantity())
                         .price(item.getFlower().getPrice())
-//                        .stockQuantity()
+                        .stockQuantity(item.getFlower().getQuantity())
                         .build())
                 .toList();
     }
@@ -667,6 +667,7 @@ public class BuyerServiceImpl implements BuyerService {
         if (!orderList.isEmpty()) {
             List<ViewOrderHistoryResponse.Order> orders = orderList.stream()
                     .map(this::viewOrderList)
+                    .sorted(Comparator.comparing(ViewOrderHistoryResponse.Order::getCreateDate).reversed())
                     .collect(Collectors.toList());
 
             // Trả về kết quả
@@ -695,6 +696,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .sellerName(sellerName)
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
+                .createDate(order.getCreatedDate())
                 .detailList(viewOrderDetailList(order.getOrderDetailList()))
                 .build();
     }
@@ -777,14 +779,41 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+//    private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
+//        return orderDetails.stream()
+//                .map(detail -> ViewOrderDetailResponse.Detail.builder()
+//                        .image(detail.getFlower().getFlowerImageList().stream()
+//                                .findFirst()
+//                                .map(FlowerImage::getLink)
+//                                .orElse("Unknown Image"))
+//                        .description(detail.getFlower().getDescription())
+//                        .flowerName(detail.getFlowerName())
+//                        .quantity(detail.getQuantity())
+//                        .price(detail.getPrice())
+//                        .build())
+//                .collect(Collectors.toList());
+//    }
+
     private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
-                .map(detail -> ViewOrderDetailResponse.Detail.builder()
-                        .flowerName(detail.getFlowerName())
-                        .quantity(detail.getQuantity())
-                        .price(detail.getPrice())
-                        .build())
-                .collect(Collectors.toList());
+                .map(detail -> {
+                    List<String> categories = detail.getFlower().getFlowerCategoryList().stream()
+                            .map(flowerCategory -> flowerCategory.getCategory().getName())
+                            .collect(Collectors.toList());
+
+                    return ViewOrderDetailResponse.Detail.builder()
+                            .image(detail.getFlower().getFlowerImageList().stream()
+                                    .findFirst()
+                                    .map(FlowerImage::getLink)
+                                    .orElse("Unknown Image"))
+                            .description(detail.getFlower().getDescription())
+                            .categories(categories)
+                            .flowerName(detail.getFlowerName())
+                            .quantity(detail.getQuantity())
+                            .price(detail.getPrice())
+                            .build();
+                })
+                .toList();
     }
 
     //--------------------------------------VIEW FLOWER TOP LIST------------------------------------------//

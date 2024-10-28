@@ -1,7 +1,6 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.BusinessPlanVNPayConfig;
-import com.team1.efep.VNPay.VNPayConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -12,11 +11,9 @@ import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.fn.builders.requestbody.Builder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -50,7 +47,12 @@ public class SellerServiceImpl implements SellerService {
     private final BusinessServiceRepo businessServiceRepo;
 
     private final UserRepo userRepo;
+
     private final PaymentMethodRepo paymentMethodRepo;
+
+    private final FlowerCategoryRepo flowerCategoryRepo;
+
+    private final CategoryRepo categoryRepo;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -112,6 +114,7 @@ public class SellerServiceImpl implements SellerService {
                                     .flowerAmount(flower.getFlowerAmount())
                                     .quantity(flower.getQuantity())
                                     .soldQuantity(flower.getSoldQuantity())
+                                    .createDate(LocalDateTime.now())
                                     .imageList(
                                             addFlowerImages(request, flower).stream()
                                                     .map(image -> CreateFlowerResponse.FlowerInfo.Images.builder()
@@ -159,7 +162,7 @@ public class SellerServiceImpl implements SellerService {
                         .flower(flower)
                         .link(link)
                         .build())
-                .collect(Collectors.toList());
+                .toList();
         return flowerImageRepo.saveAll(flowerImages);
     }
 
@@ -342,6 +345,7 @@ public class SellerServiceImpl implements SellerService {
                         .soldQuantity(item.getSoldQuantity())
                         .status(item.getStatus())
                         .build())
+                .sorted()
                 .toList();
     }
 
@@ -490,6 +494,9 @@ public class SellerServiceImpl implements SellerService {
                         .map(seller -> ViewBuyerListResponse.Buyer.builder()
                                 .id(seller.getId())
                                 .name(seller.getName())
+                                .phone(seller.getPhone())
+                                .avatar(seller.getAvatar())
+                                .background(seller.getBackground())
                                 .build())
                         .toList())
                 .build();
@@ -1212,7 +1219,156 @@ public class SellerServiceImpl implements SellerService {
 
     //----------------------------------------VIEW FLOWER CATEGORY----------------------------------------------//
 
+    @Override
+    public String viewFlowerCategory(HttpSession session, Model model, int flowerId) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You must log in");
+            return "redirect:/login";
+        }
+        Object output = viewFlowerCategoryLogic(flowerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerCategoryResponse.class)) {
+            model.addAttribute("msg", (ViewFlowerCategoryResponse) output);
+            return "viewFlowerCategory";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "viewFlowerCategory";
+    }
 
+    @Override
+    public ViewFlowerCategoryResponse viewFlowerCategoryAPI(int flowerId) {
+        Object output = viewFlowerCategoryLogic(flowerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerCategoryResponse.class)) {
+            return (ViewFlowerCategoryResponse) output;
+        }
+        return ViewFlowerCategoryResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewFlowerCategoryLogic(int flowerId) {
+        Flower flower = flowerRepo.findById(flowerId).orElse(null);
+        if (flower == null) {
+            return Map.of("error", "Flower not found");
+        }
+
+        List<String> categories = flower.getFlowerCategoryList().stream()
+                .map(flowerCategory -> flowerCategory.getCategory().getName())
+                .collect(Collectors.toList());
+
+        return ViewFlowerCategoryResponse.builder()
+                .status("200")
+                .message("Flower categories retrieved successfully")
+                .categories(categories)
+                .build();
+    }
+
+    //----------------------------------------UPDATE FLOWER CATEGORY----------------------------------------------//
+
+    @Override
+    public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You must log in");
+            return "redirect:/login";
+        }
+        Object output = updateFlowerCategoryLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateFlowerCategoryResponse.class)) {
+            model.addAttribute("msg", (UpdateFlowerCategoryResponse) output);
+            return "updateFlowerCategory";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "updateFlowerCategory";
+    }
+
+    @Override
+    public UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request) {
+        Object output = updateFlowerCategoryLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateFlowerCategoryResponse.class)) {
+            return (UpdateFlowerCategoryResponse) output;
+        }
+        return UpdateFlowerCategoryResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object updateFlowerCategoryLogic(UpdateFlowerCategoryRequest request) {
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+        if (flower == null) {
+            return Map.of("error", "Flower not found");
+        }
+
+        flowerCategoryRepo.deleteAll(flower.getFlowerCategoryList());
+
+        List<FlowerCategory> newFlowerCategories = request.getCategoryId().stream()
+                .map(categoryId -> {
+                    Category category = categoryRepo.findById(categoryId).orElse(null);
+                    return category != null ? FlowerCategory.builder()
+                            .flower(flower)
+                            .category(category)
+                            .build() : null;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        flowerCategoryRepo.saveAll(newFlowerCategories);
+
+        return UpdateFlowerCategoryResponse.builder()
+                .status("200")
+                .message("Flower categories updated successfully")
+                .build();
+    }
+
+    //----------------------------------------REMOVE FLOWER CATEGORY----------------------------------------------//
+
+    @Override
+    public String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You must log in");
+            return "redirect:/login";
+        }
+        Object output = removeFlowerCategoryLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RemoveFlowerCategoryResponse.class)) {
+            model.addAttribute("msg", (RemoveFlowerCategoryResponse) output);
+            return "removeFlowerCategory";
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "removeFlowerCategory";
+    }
+
+    @Override
+    public RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request) {
+        Object output = removeFlowerCategoryLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RemoveFlowerCategoryResponse.class)) {
+            return (RemoveFlowerCategoryResponse) output;
+        }
+        return RemoveFlowerCategoryResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object removeFlowerCategoryLogic(RemoveFlowerCategoryRequest request) {
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+        if (flower == null) {
+            return Map.of("error", "Flower not found");
+        }
+
+        FlowerCategory flowerCategory = flowerCategoryRepo.findByFlower_IdAndCategory_Id(request.getFlowerId(), request.getCategoryId());
+        if (flowerCategory == null) {
+            return Map.of("error", "Category not found for this flower");
+        }
+
+        flowerCategoryRepo.delete(flowerCategory);
+
+        return RemoveFlowerCategoryResponse.builder()
+                .status("200")
+                .message("Category removed from flower successfully")
+                .build();
+    }
 
     //----------------------------------------CHECK OUT----------------------------------------------//
 
@@ -1267,6 +1423,130 @@ public class SellerServiceImpl implements SellerService {
                         )
                         .toList())
                 .build();
+    }
+
+    //--------------------------------------------GET TOTAL NUMBER OF FLOWER---------------------------------------------//
+
+    @Override
+    public String getTotalNumberFlower(Model model) {
+        model.addAttribute("msg", model);
+        return "sellerDashboard";
+    }
+
+    @Override
+    public GetTotalNumberFlowerResponse getTotalNumberFlowerAPI() {
+        return getTotalNumberFlowerLogic();
+    }
+
+    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic() {
+
+        return GetTotalNumberFlowerResponse.builder()
+                .message("200")
+                .message("")
+                .totalNumberFlowers(flowerRepo.findAll().stream()
+                        .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_DELETED))
+                        .count()
+                )
+                .build();
+    }
+
+    //--------------------------------------------GET SOLD QUANTITY CATEGORY(mai hỏi)---------------------------------------------//
+    @Override
+    public String getSoldQuantityCategory(Model model) {
+        model.addAttribute("msg", model);
+        return "sellerDashboard";
+    }
+
+    @Override
+    public GetSoldQuantityCategoryResponse getSoldQuantityCategoryAPI() {
+        return getSoldQuantityCategoryLogic();
+    }
+
+    private GetSoldQuantityCategoryResponse getSoldQuantityCategoryLogic() {
+        return GetSoldQuantityCategoryResponse.builder()
+                .status("200")
+                .message("")
+                .getSoldQuantityCategorys(flowerRepo.findAll()
+                        .stream()
+                        .filter(c -> !c.getStatus().equals(Status.FLOWER_STATUS_DELETED))
+                        .count())
+                .build();
+    }
+
+    //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
+    @Override
+    public String getTotalNumberOfCanceledOrder(Model model) {
+        model.addAttribute("msg", model);
+        return "sellerDashboard";
+    }
+
+    @Override
+    public GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderAPI() {
+        return getTotalNumberOfCanceledOrderLogic();
+    }
+
+    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
+        return GetTotalNumberOfCanceledOrderResponse.builder()
+                .status("200")
+                .message("")
+                .getTotalNumberOfCanceledOrder(orderRepo.findAll()
+                        .stream()
+                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED))
+                        .count())
+                .build();
+    }
+
+    //--------------------------------------------GET TOTAL NUMBER OF ORDER---------------------------------------------//
+    @Override
+    public String getTotalNumberOfOrder(Model model) {
+        model.addAttribute("msg", model);
+        return "sellerDashboard";
+    }
+
+    @Override
+    public GetTotalNumberOfOrderResponse getTotalNumberOfOrderAPI() {
+        return getTotalNumberOfOrderLogic();
+    }
+
+    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic(){
+        return GetTotalNumberOfOrderResponse.builder()
+                .status("200")
+                .message("")
+                .totalTotalNumberOfOder(orderRepo.findAll().stream()
+                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
+                        .count())
+                .build();
+    }
+
+    //--------------------------------------------GET REVENUE---------------------------------------------//
+
+    @Override
+    public String getRevenue(Model model) {
+        return "";
+    }
+
+    @Override
+    public GetRevenueResponse getRevenue() {
+        return getRevenueLogic();
+    }
+
+    private GetRevenueResponse getRevenueLogic() {
+        return null;
+    }
+
+    //----------------------------------------GET ORDER IN DAILY---------------------------------------//
+    @Override
+    public String getOrderInDaily(Model model) {
+        return "";
+    }
+
+    @Override
+    public GetOrderInDailyResponse getOrderInDailyAPI() {
+        return null;
+    }
+
+    private GetOrderInDailyResponse getOrderInDailyLogic() {
+        return null;
     }
 }
 
