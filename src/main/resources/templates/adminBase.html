@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
+<!--     <link rel="stylesheet" href="/css/base.css">-->
     <link rel="stylesheet" href="/css/adminBase.css">
 </head>
 
@@ -109,13 +109,15 @@
                 </div>
             </div>
             <div th:fragment="header__others" class="header__others">
-                <div class="header__noti">
-                    <i class="fa-solid fa-bell"></i>
-                </div>
-                <span class="header__separate">|</span>
                 <div class="header__account">
                     <span th:text="${session.acc.getUser().getName()}"></span>
                     <i class="fa-solid fa-ellipsis-vertical"></i>
+                    <div class="header__account-block">
+                        <form th:action="@{/account/logout}" class="form" method="get">
+                            <input type="submit" name="action" value="Logout"
+                                   class="header__account-block-item"></input>
+                        </form>
+                    </div>
                 </div>
             </div>
         </header>
@@ -132,7 +134,7 @@
 
         </div>
     </div>
-    <script src="/src/main/resources/static/js/adminBase.js"></script>
+    <script src="/js/adminBase.js"></script>
 </body>
 
 </html>

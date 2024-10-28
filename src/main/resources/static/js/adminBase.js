@@ -30,3 +30,22 @@ document.addEventListener("click", function(event) {
         dropdown.style.display = "none";
     }
 });
+
+//Open account box to logout
+document.addEventListener("DOMContentLoaded", function () {
+    const headerAccount = document.querySelector(".header__account");
+    const accountBlock = document.querySelector(".header__account-block");
+
+    // Toggle display when clicking on headerAccount
+    headerAccount.addEventListener("click", function (event) {
+        event.stopPropagation(); // Prevent click event from propagating to document
+        accountBlock.style.display = accountBlock.style.display === "block" ? "none" : "block";
+    });
+
+    // Close the accountBlock when clicking outside
+    document.addEventListener("click", function (event) {
+        if (!headerAccount.contains(event.target)) {
+            accountBlock.style.display = "none";
+        }
+    });
+});
