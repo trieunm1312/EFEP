@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,10 +50,9 @@ public class SellerServiceImpl implements SellerService {
     private final UserRepo userRepo;
 
     private final PaymentMethodRepo paymentMethodRepo;
+    private final CategoryRepo categoryRepo;
 
     private final FlowerCategoryRepo flowerCategoryRepo;
-
-    private final CategoryRepo categoryRepo;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -496,9 +496,9 @@ public class SellerServiceImpl implements SellerService {
                         .map(seller -> ViewBuyerListResponse.Buyer.builder()
                                 .id(seller.getId())
                                 .name(seller.getName())
+                                .email(seller.getAccount().getEmail())
                                 .phone(seller.getPhone())
                                 .avatar(seller.getAvatar())
-                                .background(seller.getBackground())
                                 .build())
                         .toList())
                 .build();
@@ -1432,14 +1432,8 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET TOTAL NUMBER OF FLOWER---------------------------------------------//
 
     @Override
-    public String getTotalNumberFlower(Model model) {
-        model.addAttribute("msg", model);
-        return "sellerDashboard";
-    }
-
-    @Override
-    public GetTotalNumberFlowerResponse getTotalNumberFlowerAPI() {
-        return getTotalNumberFlowerLogic();
+    public void getTotalNumberFlower(Model model) {
+        model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic());
     }
 
     private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic() {
@@ -1454,39 +1448,44 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    //--------------------------------------------GET SOLD QUANTITY CATEGORY(mai hỏi)---------------------------------------------//
+    //--------------------------------------------GET SOLD QUANTITY CATEGORY---------------------------------------------//
     @Override
-    public String getSoldQuantityCategory(Model model) {
-        model.addAttribute("msg", model);
-        return "sellerDashboard";
-    }
-
-    @Override
-    public GetSoldQuantityCategoryResponse getSoldQuantityCategoryAPI() {
-        return getSoldQuantityCategoryLogic();
+    public void getSoldQuantityCategory(Model model) {
+        model.addAttribute("soldQuantityCategory", getSoldQuantityCategoryLogic());
     }
 
     private GetSoldQuantityCategoryResponse getSoldQuantityCategoryLogic() {
+        Map<String, Long> soldQuantityByCategory = categoryRepo.findAll().stream()
+                .collect(Collectors.toMap(Category::getName, this::calculateSoldQuantityInCategory));
+
+
         return GetSoldQuantityCategoryResponse.builder()
                 .status("200")
                 .message("")
-                .getSoldQuantityCategorys(flowerRepo.findAll()
-                        .stream()
-                        .filter(c -> !c.getStatus().equals(Status.FLOWER_STATUS_DELETED))
-                        .count())
+                .soldQuantityByCategory(soldQuantityByCategory)
                 .build();
+    }
+
+    private Long calculateSoldQuantityInCategory(Category category) {
+        long total = 0;
+        List<Flower> flowers = categoryRepo.findAll().stream()
+                .filter(cate -> cate.equals(category))
+                .map(Category::getFlowerCategoryList)
+                .flatMap(List::stream)
+                .map(FlowerCategory::getFlower)
+                .distinct()
+                .toList();
+
+        for (Flower flower : flowers) {
+            total += flower.getSoldQuantity();
+        }
+        return total;
     }
 
     //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
     @Override
-    public String getTotalNumberOfCanceledOrder(Model model) {
-        model.addAttribute("msg", model);
-        return "sellerDashboard";
-    }
-
-    @Override
-    public GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderAPI() {
-        return getTotalNumberOfCanceledOrderLogic();
+    public void getTotalNumberOfCanceledOrder(Model model) {
+        model.addAttribute("totalNumberOfCanceledOrder", getTotalNumberOfCanceledOrderLogic());
     }
 
     private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
@@ -1502,17 +1501,12 @@ public class SellerServiceImpl implements SellerService {
 
     //--------------------------------------------GET TOTAL NUMBER OF ORDER---------------------------------------------//
     @Override
-    public String getTotalNumberOfOrder(Model model) {
-        model.addAttribute("msg", model);
-        return "sellerDashboard";
+    public void getTotalNumberOfOrder(Model model) {
+        model.addAttribute("totalNumberOfOrder", getTotalNumberOfOrderLogic());
     }
 
-    @Override
-    public GetTotalNumberOfOrderResponse getTotalNumberOfOrderAPI() {
-        return getTotalNumberOfOrderLogic();
-    }
 
-    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic(){
+    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic() {
         return GetTotalNumberOfOrderResponse.builder()
                 .status("200")
                 .message("")
@@ -1525,32 +1519,39 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET REVENUE---------------------------------------------//
 
     @Override
-    public String getRevenue(Model model) {
-        return "";
-    }
-
-    @Override
-    public GetRevenueResponse getRevenue() {
-        return getRevenueLogic();
-    }
-
-    private GetRevenueResponse getRevenueLogic() {
-        return null;
+    public void getRevenue(Model model) {
+        float totalRevenue = orderRepo.findAll().stream()
+                .map(Order::getTotalPrice)
+                .reduce(0f, Float::sum);
+        model.addAttribute("revenue", totalRevenue);
     }
 
     //----------------------------------------GET ORDER IN DAILY---------------------------------------//
     @Override
-    public String getOrderInDaily(Model model) {
-        return "";
+    public void getOrderInDaily(Model model) {
+        model.addAttribute("orderInDaily", getOrderInDailyLogic());
     }
 
-    @Override
-    public GetOrderInDailyResponse getOrderInDailyAPI() {
-        return null;
-    }
 
     private GetOrderInDailyResponse getOrderInDailyLogic() {
-        return null;
+        List<LocalDateTime> listTenDates = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            listTenDates.add(LocalDateTime.now().minusDays(i));
+        }
+        return GetOrderInDailyResponse.builder()
+                .status("200")
+                .message("")
+                .orderDaily(
+                        listTenDates.stream()
+                                .collect(Collectors.toMap( date -> date.getDayOfMonth() + "/" +  date.getMonth() + "/" + date.getYear(), this::getQuantityOrder))
+                        )
+                .build();
+    }
+
+    private long getQuantityOrder(LocalDateTime date) {
+        return orderRepo.findAll().stream()
+                .filter(order -> order.getCreatedDate().equals(date))
+                .count();
     }
 }
 

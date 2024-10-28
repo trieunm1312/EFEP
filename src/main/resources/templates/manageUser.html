@@ -138,47 +138,56 @@
                                 <th class="table__header-user">User</th>
                                 <th class="table__header-phone">Phone</th>
                                 <th class="table__header-role">Role</th>
+                                <th class="table__header-role">Created Date</th>
                                 <th class="table__header-status">Status</th>
                             </tr>
                         </thead>
                         <tbody class="table__body">
 
                                 <tr th:each="user : ${msg.userList}" class="table__body-item">
-                                    <td class="table__body-user">
-                                        <img th:src="${user.avatar == null || user.avatar == ''} ? '/img/default-avatar.jpg' : ${user.avatar}" alt="Avatar" class="table__body-avt">
-                                        <span class="table__body-unique">
+                                    <div th:if="${user.accountUser.role} != 'admin'">
+                                        <td class="table__body-user">
+                                            <img th:src="${user.avatar == null || user.avatar == ''} ? '/img/default-avatar.jpg' : ${user.avatar}" alt="Avatar" class="table__body-avt">
+                                            <span class="table__body-unique">
                                             <span class="table__body-name" th:text="${user.name}"></span>
                                             <span class="table__body-email" th:text="${user.accountUser.email}"></span>
                                         </span>
-                                    </td>
-                                    <td class="table__body-phone">
-                                        <span class="desc-text" th:text="${user.phone}"></span>
-                                    </td>
-                                    <td class="table__body-role">
-                                        <span class="price-text" th:text="${user.accountUser.role}"></span>
-                                    </td>
-                                    <div th:if="${user.accountUser.status == 'active'}">
-                                        <td class="table__body-status unban ">
-                                            Available
                                         </td>
-                                        <form th:action="@{/admin/ban/user}" th:method="put" class="user__form">
-                                            <td class="table__body-toggle">
-                                                <input type="submit" name="action" value="Ban" class="toggle-btn">
-                                                <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>
-                                            </td>
-                                        </form>
-                                    </div>
-                                    <div th:if="${user.accountUser.status != 'active'}">
-                                        <td class="table__body-status ban ">
-                                            Banned
+                                        <td class="table__body-phone">
+                                            <span class="desc-text" th:text="${user.phone}"></span>
                                         </td>
-                                        <form th:action="@{/admin/unban/user}" th:method="put" class="user__form">
-                                            <td class="table__body-toggle">
-                                                <input type="submit" name="action" value="Unban" class="toggle-btn">
-                                                <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>
+                                        <td class="table__body-role">
+                                            <span class="price-text" th:text="${user.accountUser.role}"></span>
+                                        </td>
+
+                                        <td class="table__body-created-date">
+                                            <span class="price-text" th:text="${user.createdDate}"></span>
+                                        </td>
+
+                                        <div th:if="${user.accountUser.status == 'active'}">
+                                            <td class="table__body-status unban ">
+                                                Available
                                             </td>
-                                        </form>
+                                            <form th:action="@{/admin/ban/user}" th:method="put" class="user__form">
+                                                <td class="table__body-toggle">
+                                                    <input type="submit" name="action" value="Ban" class="toggle-btn">
+                                                    <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>
+                                                </td>
+                                            </form>
+                                        </div>
+                                        <div th:if="${user.accountUser.status != 'active'}">
+                                            <td class="table__body-status ban ">
+                                                Banned
+                                            </td>
+                                            <form th:action="@{/admin/unban/user}" th:method="put" class="user__form">
+                                                <td class="table__body-toggle">
+                                                    <input type="submit" name="action" value="Unban" class="toggle-btn">
+                                                    <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>
+                                                </td>
+                                            </form>
+                                        </div>
                                     </div>
+
                                 </tr>
 
                         </tbody>

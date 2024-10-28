@@ -133,7 +133,11 @@
                     <div  class="header__item-account" id="accountDropdown">
                         <form th:action="@{/account/view/profile}"  class="form" method="get">
                             <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
-                            <input type="hidden" name="id" value="${session.acc.id}"></input>
+                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                        </form>
+                        <form th:action="@{/change/password}" class="form">
+                            <input type="submit" name="action" class="header__item-account-item" value="Change Password"></input>
+                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                         </form>
                         <form th:action="@{/account/logout}" class="form" method="get">
                             <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
@@ -146,27 +150,35 @@
         <!-- Container -->
         <div class="container">
             <div class="container-wrap">
-                <div th:if="${msg}" class="business-plan">
-                    <div class="business-plan__header">
-                        <h3 class="business-plan__first-line">
-                            <span>You are on the </span>
-                            <span class="business-plan__name" th:text="${msg.name}"></span>
-                            <span>Plan</span>
-                        </h3>
-                        <h3>Unlock your potential with the services of your plan!</h3>
-                    </div>
-                    <div class="business-plan__body">
-                        <p>
+                <div th:if="${msg}">
+                    <div class="business-plan">
+                        <div class="business-plan__header">
+                            <h3 class="business-plan__first-line">
+                                <span>You are on the </span>
+                                <span class="business-plan__name" th:text="${msg.name}"></span>
+                                <span>Plan</span>
+                            </h3>
+                            <h3>Unlock your potential with the services of your plan!</h3>
+                        </div>
+                        <div class="business-plan__body">
+                            <p>
                             <span class="business-plan__service" th:each="service : ${msg.businessServiceList}"
                                   th:text="${service.name + '. '}"></span>
-                            <span class="business-plan__price">$</span>
-                            <span class="business-plan__price" th:text="${msg.price}"></span>
-                            <span class="business-plan__duration">/duration for </span>
-                            <span class="business-plan__duration" th:text="${msg.duration}"></span>
-                            <span class="business-plan__duration">months.</span>
-                        </p>
+                                <span class="business-plan__price">$</span>
+                                <span class="business-plan__price" th:text="${msg.price}"></span>
+                                <span class="business-plan__duration">/duration for </span>
+                                <span class="business-plan__duration" th:text="${msg.duration}"></span>
+                                <span class="business-plan__duration">months.</span>
+                            </p>
+                        </div>
+
                     </div>
+                    <form th:action="@{/seller/plan}" th:method="put">
+                        <input type="submit" name="action" value="Cancel This Plan" class="cancel-btn btn btn--primary">
+                        <input type="hidden" name="id" th:value="${msg.id}"></input>
+                    </form>
                 </div>
+
 
                 <!-- Before purchased Business Plan -->
                 <div th:if="${nullPlan}" class="guide">

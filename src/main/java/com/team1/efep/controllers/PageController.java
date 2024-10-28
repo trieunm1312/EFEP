@@ -30,8 +30,8 @@ public class PageController {
 
     @GetMapping("/")
     public String startPage(Model model) {
-        HomepageConfig.config(model,buyerService);
         AllPage.allConfig(model, buyerService);
+        HomepageConfig.config(model,buyerService);
         return "home";
     }
 
@@ -166,6 +166,23 @@ public class PageController {
         return "category";
     }
 
+    @GetMapping("/about/us")
+    public String aboutUsPage(Model model) {
+        AllPage.allConfig(model, buyerService);
+        return "aboutUs";
+    }
+
+    @GetMapping("/privacy/policy")
+    public String privacyPolicyPage(Model model) {
+        AllPage.allConfig(model, buyerService);
+        return "privacyPolicy";
+    }
+
+    @GetMapping("/terms/conditions")
+    public String termConditionPage(Model model) {
+        AllPage.allConfig(model, buyerService);
+        return "termCondition";
+    }
 }
 
 
