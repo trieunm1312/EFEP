@@ -778,6 +778,7 @@ public class AdminServiceImpl implements AdminService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-yyyy");
 
         Map<String, Long> orderMap = orders.stream()
+                .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
                 .collect(Collectors.groupingBy(
                         order -> order.getCreatedDate().format(formatter),
                         Collectors.counting()
