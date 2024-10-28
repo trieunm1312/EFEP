@@ -91,27 +91,16 @@ public interface SellerService {
 
     ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(int planIId);
 
-    String getTotalNumberFlower(Model model);
+    void getTotalNumberFlower(Model model);
 
-    GetTotalNumberFlowerResponse getTotalNumberFlowerAPI();
+    void getSoldQuantityCategory(Model model);
 
-    String getSoldQuantityCategory(Model model);
+    void getTotalNumberOfCanceledOrder(Model model);
 
-    GetSoldQuantityCategoryResponse getSoldQuantityCategoryAPI();
+    void getTotalNumberOfOrder(Model model);
 
-    String getTotalNumberOfCanceledOrder(Model model);
+    void getRevenue(Model model);
 
-    GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderAPI();
+    void getOrderInDaily(Model model);
 
-    GetTotalNumberOfOrderResponse getTotalNumberOfOrderAPI();
-
-    String getTotalNumberOfOrder(Model model);
-
-    String getRevenue(Model model);
-
-    GetRevenueResponse getRevenue();
-
-    String getOrderInDaily(Model model);
-
-    GetOrderInDailyResponse getOrderInDailyAPI();
 }
