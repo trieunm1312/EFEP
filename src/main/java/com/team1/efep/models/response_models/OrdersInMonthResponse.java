@@ -25,7 +25,7 @@ public class OrdersInMonthResponse {
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class OrderCount {
 
-        String date;
+        String month;
 
         int count;
     }

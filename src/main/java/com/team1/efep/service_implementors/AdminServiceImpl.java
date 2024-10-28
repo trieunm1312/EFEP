@@ -785,7 +785,7 @@ public class AdminServiceImpl implements AdminService {
 
         List<OrdersInMonthResponse.OrderCount> orderCounts = orderMap.entrySet().stream()
                 .map(entry -> OrdersInMonthResponse.OrderCount.builder()
-                        .date(entry.getKey())
+                        .month(entry.getKey())
                         .count(entry.getValue().intValue())
                         .build())
                 .toList();
