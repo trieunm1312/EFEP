@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -769,9 +770,11 @@ public class AdminServiceImpl implements AdminService {
     private OrdersInMonthResponse getOrdersInMonthLogic() {
         List<Order> orders = orderRepo.findAll();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
         Map<String, Long> orderMap = orders.stream()
                 .collect(Collectors.groupingBy(
-                        order -> new SimpleDateFormat("dd-MM-yyyy").format(order.getCreatedDate()),
+                        order -> order.getCreatedDate().format(formatter),
                         Collectors.counting()
                 ));
 

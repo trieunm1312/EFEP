@@ -147,6 +147,17 @@ public class BuyerController {
 
 
     //------------------------------------WISHLIST---------------------------------//
+    @GetMapping("/wishlist")
+    @Operation(hidden = true)
+    public String viewWishlist(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.viewWishlist(session, model);
+    }
+
+    @GetMapping("/wishlist/api/{accountId}")
+    public ViewWishlistResponse viewWishlist(@PathVariable int accountId) {
+        return buyerService.viewWishlistAPI(accountId);
+    }
     @PutMapping("/wishlist")
     @Operation(hidden = true)
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
@@ -182,17 +193,6 @@ public class BuyerController {
         return buyerService.deleteWishlistItemAPI(request);
     }
 
-    @GetMapping("/wishlist")
-    @Operation(hidden = true)
-    public String viewWishlist(HttpSession session, Model model) {
-        AllPage.allConfig(model, buyerService);
-        return buyerService.viewWishlist(session, model);
-    }
-
-    @GetMapping("/wishlist/api/{accountId}")
-    public ViewWishlistResponse viewWishlist(@PathVariable int accountId) {
-        return buyerService.viewWishlistAPI(accountId);
-    }
 
     @PostMapping("/wishlist")
     @Operation(hidden = true)
