@@ -165,7 +165,7 @@
                                 <form action="" method="" class="user__form">
                                     <tr th:each="buyer : ${msg.buyerList}" class="table__body-item">
                                         <td class="table__body-user">
-                                            <img src="https://th.bing.com/th/id/OIP.8oJ6P_IAPbeUWEMKIebEzwHaG1?w=196&h=181&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Avatar" class="table__body-avt">
+                                            <img th:src="${buyer.avatar == null || buyer.avatar == ''} ? '/img/default-avatar.jpg' : ${buyer.avatar}" alt="Avatar" class="table__body-avt">
                                             <span class="table__body-unique">
                                                 <span class="table__body-name" th:text="${buyer.name}"></span>
                                                 <span class="table__body-email">trumppro@gmail.com</span>

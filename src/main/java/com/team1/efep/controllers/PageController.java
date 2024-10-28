@@ -104,7 +104,6 @@ public class PageController {
 
     @GetMapping("/admin/dashboard")
     public String adminDashboardPage(Model model) {
-        AllPage.allConfig(model, buyerService);
         AdminPageConfig.config(model, adminService);
         return "adminDashboard";
     }
