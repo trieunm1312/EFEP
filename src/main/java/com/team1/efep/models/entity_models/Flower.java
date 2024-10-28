@@ -1,6 +1,8 @@
 package com.team1.efep.models.entity_models;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -34,6 +36,9 @@ public class Flower {
 
     @Column(name = "`sold_quantity`")
     private int soldQuantity;
+
+    @Column(name = "`create_date`")
+    private LocalDateTime createDate;
 
     @OneToMany(mappedBy = "flower", fetch = FetchType.EAGER)
     @ToString.Exclude

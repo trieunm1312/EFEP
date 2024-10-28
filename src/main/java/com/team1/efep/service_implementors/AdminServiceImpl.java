@@ -278,7 +278,9 @@ public class AdminServiceImpl implements AdminService {
             helper.setFrom("vannhuquynhp@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
-//            helper.setTo(request.getToEmail());
+
+            helper.setReplyTo(user.getAccount().getEmail());
+
             helper.setSubject(Const.EMAIL_SUBJECT);
 
             // Read HTML content from a file and replace placeholders (e.g., OTP)
@@ -773,7 +775,7 @@ public class AdminServiceImpl implements AdminService {
     private OrdersInMonthResponse getOrdersInMonthLogic() {
         List<Order> orders = orderRepo.findAll();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-yyyy");
 
         Map<String, Long> orderMap = orders.stream()
                 .collect(Collectors.groupingBy(
