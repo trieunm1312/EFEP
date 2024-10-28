@@ -278,7 +278,9 @@ public class AdminServiceImpl implements AdminService {
             helper.setFrom("vannhuquynhp@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
-//            helper.setTo(request.getToEmail());
+
+            helper.setReplyTo(user.getAccount().getEmail());
+
             helper.setSubject(Const.EMAIL_SUBJECT);
 
             // Read HTML content from a file and replace placeholders (e.g., OTP)
