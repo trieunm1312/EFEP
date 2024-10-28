@@ -232,6 +232,9 @@ public class SellerServiceImpl implements SellerService {
     private ViewOrderListResponse.OrderBill viewOrderList(Order order) {
         return ViewOrderListResponse.OrderBill.builder()
                 .orderId(order.getId())
+                .image(order.getOrderDetailList().stream()
+                        .map(detail -> detail.getFlower().getFlowerImageList().get(0).getLink())
+                        .toList())
                 .buyerName(order.getBuyerName())
                 .createDate(order.getCreatedDate())
                 .totalPrice(order.getTotalPrice())
@@ -345,7 +348,6 @@ public class SellerServiceImpl implements SellerService {
                         .soldQuantity(item.getSoldQuantity())
                         .status(item.getStatus())
                         .build())
-                .sorted()
                 .toList();
     }
 
@@ -581,19 +583,19 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request) {
+    public ViewOrderDetailForSellerResponse viewOrderDetailAPI(ViewOrderDetailRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            return ViewOrderDetailResponse.builder()
+            return ViewOrderDetailForSellerResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build();
         }
         Object output = viewOrderDetailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            return (ViewOrderDetailResponse) output;
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailForSellerResponse.class)) {
+            return (ViewOrderDetailForSellerResponse) output;
         }
-        return ViewOrderDetailResponse.builder()
+        return ViewOrderDetailForSellerResponse.builder()
                 .status("400")
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
                 .build();
@@ -972,7 +974,7 @@ public class SellerServiceImpl implements SellerService {
     public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", CreateFlowerResponse.builder()
+            model.addAttribute("error", UpdateFlowerResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
@@ -1014,7 +1016,9 @@ public class SellerServiceImpl implements SellerService {
         flower.setDescription(request.getDescription());
         flower.setFlowerAmount(request.getFlowerAmount());
         flower.setQuantity(request.getQuantity());
-        flower.setStatus(request.getStatus());
+        if (request.getQuantity() == 0){
+            flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
+        }
 
         flowerRepo.save(flower);
         return UpdateFlowerResponse.builder()

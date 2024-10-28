@@ -24,8 +24,6 @@ public class UpdateFlowerRequest {
 
     private String description;
 
-    private String status;
-
     private int flowerAmount;
 
     private int quantity;

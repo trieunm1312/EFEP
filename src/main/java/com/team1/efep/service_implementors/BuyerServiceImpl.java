@@ -46,6 +46,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final OrderDetailRepo orderDetailRepo;
     private final CategoryRepo categoryRepo;
     private final UserRepo userRepo;
+    private final PaymentMethodRepo paymentMethodRepo;
 
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
@@ -706,7 +707,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .map(detail -> ViewOrderHistoryResponse.Detail.builder()
                         .flowerName(detail.getFlowerName())
                         .quantity(detail.getQuantity())
-                        .price(detail.getPrice())
+                        .price(detail.getPrice() * detail.getQuantity())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -1253,7 +1254,7 @@ public class BuyerServiceImpl implements BuyerService {
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
             List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-            saveOrder(params, user, items);
+            saveOrder(params, user, items, paymentMethodRepo.findById(2).orElse(null));
             return VNPayResponse.builder()
                     .status("200")
                     .message("Your payment is successfully")
@@ -1268,7 +1269,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     }
 
-    private void saveOrder(Map<String, String> params, User user, List<WishlistItem> items) {
+    private void saveOrder(Map<String, String> params, User user, List<WishlistItem> items, PaymentMethod paymentMethod) {
 
         Map<Seller, List<WishlistItem>> itemsBySeller = items.stream()
                 .collect(Collectors.groupingBy(item -> item.getFlower().getSeller()));
@@ -1289,9 +1290,10 @@ public class BuyerServiceImpl implements BuyerService {
                     .createdDate(LocalDateTime.now())
                     .totalPrice(totalPrice)
                     .status(Status.ORDER_STATUS_PROCESSING)
+                    .paymentMethod(paymentMethod)
                     .build());
 
-            for (WishlistItem item : items) {
+            for (WishlistItem item : entry.getValue()) {
                 Flower flower = item.getFlower();
                 flower.setSoldQuantity(flower.getSoldQuantity() + item.getQuantity());
                 flower.setQuantity(flower.getQuantity() - item.getQuantity());
@@ -1320,9 +1322,8 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         User user = account.getUser();
         List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-        saveOrder(params, user, items);
+        saveOrder(params, user, items, paymentMethodRepo.findById(1).orElse(null));
         session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
-        System.out.println("Updated wishlist size: " + ((Account) session.getAttribute("acc")).getUser().getWishlist().getWishlistItemList().size());
         CODPaymentResponse response = CODPaymentResponse.builder()
                 .status("200")
                 .message("Your order has been preparing...")
