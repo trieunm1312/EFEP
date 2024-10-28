@@ -161,37 +161,75 @@
                     <!-- Order list -->
                     <div class="manage-order">
                         <div class="filter-sort">
+<!--                            <div class="filter-order">-->
+<!--                                <form th:action="@{/seller/order/filter}" onchange="this.form.submit()">-->
+<!--                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
+<!--                                    <select class="filter-by-status" name="status" id="status">-->
+<!--                                        <option value="f-status" disabled hidden selected>Status</option>-->
+<!--                                        <option th:value="processing">processing</option>-->
+<!--                                        <option value="packed">packed</option>-->
+<!--                                        <option value="completed">completed</option>-->
+<!--                                        <option value="cancelled">cancelled</option>-->
+<!--                                    </select>-->
+<!--                                    <select class="filter-by-Month" name="month" id="month">-->
+<!--                                        <option value="f-month" disabled hidden selected>Month</option>-->
+<!--                                        <option value="1">1</option>-->
+<!--                                        <option value="2">2</option>-->
+<!--                                        <option value="3">3</option>-->
+<!--                                        <option value="4">4</option>-->
+<!--                                        <option value="5">5</option>-->
+<!--                                        <option value="6">6</option>-->
+<!--                                        <option value="7">7</option>-->
+<!--                                        <option value="8">8</option>-->
+<!--                                        <option value="9">9</option>-->
+<!--                                        <option value="10">10</option>-->
+<!--                                        <option value="11">11</option>-->
+<!--                                        <option value="12">12</option>-->
+<!--                                    </select>-->
+<!--                                </form>-->
+<!--                            </div>-->
                             <div class="filter-order">
-                                <form th:action="@{/order/filter}" onchange="this.form.submit()">
-                                    <select class="filter-by-status" name="" id="status">
-                                        <option value="f-status" disabled hidden selected>Status</option>
-                                        <option th:value="processing">processing</option>
-                                        <option value="packed">packed</option>
-                                        <option value="completed">completed</option>
-                                        <option value="cancelled">cancelled</option>
+                                <form th:action="@{/seller/order/filter}" method="post" onchange="this.form.submit()">
+                                    <!-- Account ID, gửi thông tin người dùng hiện tại -->
+                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}" />
+
+                                    <!-- Dropdown chọn Status -->
+                                    <select class="filter-by-status" name="status" id="status">
+                                        <option value="" disabled hidden th:selected="${not #strings.contains(status, 'processing')
+                                                        and not #strings.contains(status, 'packed')
+                                                        and not #strings.contains(status, 'completed')
+                                                        and not #strings.contains(status, 'cancelled')}">
+                                            Status
+                                        </option>
+                                        <option value="processing" th:selected="${status == 'processing'}">Processing</option>
+                                        <option value="packed" th:selected="${status == 'packed'}">Packed</option>
+                                        <option value="completed" th:selected="${status == 'completed'}">Completed</option>
+                                        <option value="cancelled" th:selected="${status == 'cancelled'}">Cancelled</option>
                                     </select>
-                                    <select class="filter-by-Month" name="" id="month">
-                                        <option value="f-month" disabled hidden selected>Month</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
+
+                                    <!-- Dropdown chọn Month -->
+                                    <select class="filter-by-month" name="month" id="month">
+                                        <option value="" disabled hidden th:selected="${month == null}">Month</option>
+                                        <option value="1" th:selected="${month == 1}">January</option>
+                                        <option value="2" th:selected="${month == 2}">February</option>
+                                        <option value="3" th:selected="${month == 3}">March</option>
+                                        <option value="4" th:selected="${month == 4}">April</option>
+                                        <option value="5" th:selected="${month == 5}">May</option>
+                                        <option value="6" th:selected="${month == 6}">June</option>
+                                        <option value="7" th:selected="${month == 7}">July</option>
+                                        <option value="8" th:selected="${month == 8}">August</option>
+                                        <option value="9" th:selected="${month == 9}">September</option>
+                                        <option value="10" th:selected="${month == 10}">October</option>
+                                        <option value="11" th:selected="${month == 11}">November</option>
+                                        <option value="12" th:selected="${month == 12}">December</option>
                                     </select>
                                 </form>
                             </div>
-                            <form th:action="@{/order/sort}" onchange="this.form.submit()">
+                            <form th:action="@{/seller/order/sort}" method="post" onchange="this.form.submit()">
                                 <select class="sort-order" name="" id="sorting">
                                     <option value="sort" disabled hidden selected>Sort</option>
-                                    <option value="ASC">Ascending</option>
-                                    <option value="DESC">Descending</option>
+                                    <option th:value="asc">Ascending</option>
+                                    <option th:value="desc">Descending</option>
                                 </select>
                             </form>
                         </div>
@@ -260,20 +298,24 @@
                                             </tr>
                                             <tr class="summary">
                                                 <td colspan="1">
-                                                    
-                                                </td>
-                                                <td colspan="1">
                                                     <span>Total Price:</span>
                                                     <span class="summary-price text-orange" th:text="${order.totalPrice}">$150.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="summary">
+                                                <td colspan="1">
+                                                    <span>Payment Method:</span>
+                                                    <span class="summary-price" th:text="${order.paymentMethod}">COD</span>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="detail-btn">
-                                    <form action="" method="post">
-                                        <!--                                    <input type="hidden" name="accountId" th:value="${/}">-->
-                                        <input type="submit" class="table-order-status-btn" value="Detail"
+                                    <form action="${/seller/order/detail}" th:method="put">
+                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                        <input type="hidden" name="orderId" th:value="${order.orderId}">
+                                        <input type="submit" class="table-order-status-btn" value="View Detail"
                                             name="detail" />
                                     </form>
                                 </div>
