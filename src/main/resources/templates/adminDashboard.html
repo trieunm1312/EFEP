@@ -17,15 +17,15 @@
     <link rel="stylesheet" href="/css/adminDashboard.css">
 
     <!-- Link Chart Script -->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <!-- <script src="https://www.gstatic.com/charts/loader.js"></script> -->
-     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<!--     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>-->
 
 
 </head>
 
 <body>
-    <aside th:replace="~{adminBase :: sidebar}" class="sidebar">
+    <aside  class="sidebar">
     <a href="" class="sidebar__logo">
         <img src="/img/flowrista-logo.png" alt="Web Logo">
     </a>
@@ -34,7 +34,7 @@
         <ul class="sidebar__List">
             <li>
                 <a th:href="@{/admin/dashboard}" class="sidebar__link">
-                    <div class="sidebar__item">
+                    <div class="sidebar__item active">
                         <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
                         <span class="sidebar__item-title">Dashboard</span>
                     </div>
@@ -42,7 +42,7 @@
             </li>
             <li>
                 <a th:href="@{/admin/view/plan}" class="sidebar__link">
-                    <div class="sidebar__item active">
+                    <div class="sidebar__item ">
                         <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                         <span class="sidebar__item-title">Manage Business Plan</span>
                     </div>
@@ -243,8 +243,8 @@
 
         </div>
     </div>
-    <script src="/src/main/resources/static/js/adminBase.js"></script>
-    <script src="/src/main/resources/static/js/adminDashboard.js"></script>
+    <script src="/js/adminBase.js"></script>
+    <script src="/js/adminDashboard.js"></script>
 
     
 </body>
