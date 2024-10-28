@@ -18,6 +18,8 @@ public class ViewOrderDetailForSellerResponse {
 
     private int orderId;
 
+    private String sellerName;
+
     private String buyerName;
 
     private float totalPrice;
@@ -34,7 +36,9 @@ public class ViewOrderDetailForSellerResponse {
 
         private String image;
 
-        private String sellerName;
+        private String description;
+
+        private List<String> categories;
 
         private String flowerName;
 

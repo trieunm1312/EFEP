@@ -612,10 +612,16 @@ public class SellerServiceImpl implements SellerService {
 
         List<ViewOrderDetailForSellerResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
 
+        String sellerName = order.getOrderDetailList().stream()
+                .findFirst()
+                .map(detail -> detail.getFlower().getSeller().getUser().getName())
+                .orElse("Unknown Seller");
+
         return ViewOrderDetailForSellerResponse.builder()
                 .status("200")
                 .message("Order details retrieved successfully")
                 .orderId(order.getId())
+                .sellerName(sellerName)
                 .buyerName(order.getUser().getName())
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
@@ -625,13 +631,24 @@ public class SellerServiceImpl implements SellerService {
 
     private List<ViewOrderDetailForSellerResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
-                .map(detail -> ViewOrderDetailForSellerResponse.Detail.builder()
-                        .sellerName(detail.getFlower().getSeller().getUser().getName())
-                        .flowerName(detail.getFlowerName())
-                        .quantity(detail.getQuantity())
-                        .price(detail.getPrice())
-                        .build())
-                .collect(Collectors.toList());
+                .map(detail -> {
+                    List<String> categories = detail.getFlower().getFlowerCategoryList().stream()
+                            .map(flowerCategory -> flowerCategory.getCategory().getName())
+                            .collect(Collectors.toList());
+
+                    return ViewOrderDetailForSellerResponse.Detail.builder()
+                            .image(detail.getFlower().getFlowerImageList().stream()
+                                    .findFirst()
+                                    .map(FlowerImage::getLink)
+                                    .orElse("Unknown Image"))
+                            .description(detail.getFlower().getDescription())
+                            .categories(categories)
+                            .flowerName(detail.getFlowerName())
+                            .quantity(detail.getQuantity())
+                            .price(detail.getPrice())
+                            .build();
+                })
+                .toList();
     }
 
     //-----------------------------------------FILTER ORDER--------------------------------------//
