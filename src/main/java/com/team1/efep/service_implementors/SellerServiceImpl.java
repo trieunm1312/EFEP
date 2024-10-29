@@ -20,7 +20,9 @@ import org.springframework.ui.Model;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -1547,12 +1549,12 @@ public class SellerServiceImpl implements SellerService {
 
 
     private GetOrderInDailyResponse getOrderInDailyLogic() {
-        List<LocalDateTime> listTenDates = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            listTenDates.add(LocalDateTime.now().minusDays(i));
+        List<LocalDate> listTenDates = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        for (int i = 0; i < 20; i++) {
+            listTenDates.add(LocalDate.now().minusDays(i));
         }
 
-        System.out.println(listTenDates);
         return GetOrderInDailyResponse.builder()
                 .status("200")
                 .message("")
@@ -1560,16 +1562,16 @@ public class SellerServiceImpl implements SellerService {
                         listTenDates.stream()
                                 .map(date -> GetOrderInDailyResponse.OrderCount.builder()
                                         .count(getQuantityOrder(date))
-                                        .date(date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear())
+                                        .date(date.format(formatter))
                                         .build())
                                 .toList()
                 )
                 .build();
     }
 
-    private long getQuantityOrder(LocalDateTime date) {
+    private long getQuantityOrder(LocalDate date) {
         return orderRepo.findAll().stream()
-                .filter(order -> order.getCreatedDate().equals(date))
+                .filter(order -> order.getCreatedDate().toLocalDate().equals(date))
                 .count();
     }
 }
