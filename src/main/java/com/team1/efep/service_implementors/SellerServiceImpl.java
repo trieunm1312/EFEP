@@ -1442,6 +1442,8 @@ public class SellerServiceImpl implements SellerService {
                         .count()
                 )
                 .build();
+
+
     }
 
     //--------------------------------------------GET SOLD QUANTITY CATEGORY---------------------------------------------//
