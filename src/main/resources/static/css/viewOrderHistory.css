@@ -331,6 +331,21 @@
     padding-left: 8px;
 }
 
+.date {
+    font-weight: bold;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+}
+
+.date td {
+    padding-right: 20px;
+}
+
+.date-text {
+    font-size: 1.8rem;
+    padding-left: 34px;
+}
+
 .contain-btn {
     display: flex;
     justify-content: right;
@@ -352,7 +367,6 @@
     color: #fff;
 }
 
-/*  */
 /*  */
 .table-order-detail {
     text-align: left;

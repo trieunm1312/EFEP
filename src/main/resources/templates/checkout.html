@@ -65,7 +65,7 @@
                                 <tr>
                                     <th class="table-item-header">Image</th>
                                     <th class="table-item-header">Name</th>
-                                    <th class="table-item-header">Model</th>
+                                    <th class="table-item-header">Description</th>
                                     <th class="table-item-header">Quantity</th>
                                     <th class="table-item-header">Unit Price</th>
                                     <th class="table-item-header">Total</th>
@@ -75,15 +75,15 @@
                                 <tr th:each="item : ${msg.wishlistItemList}">
                                     <td class="table-item-detail">
                                         <div class="table-item-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
+                                            <img th:src="${item.imgList[0].link}"
+                                            alt="">
                                         </div>
                                     </td>
                                     <td class="table-item-detail">
                                         <span class="table-item-name" th:text="${item.name}">Hiptage</span>
                                     </td>
                                     <td class="table-item-detail">
-                                        <span class="table-item-id" th:text="'Product ' + ${item.id}">Product 1</span>
+                                        <span class="table-item-id" th:text="${item.description}">DEP</span>
                                     </td>
                                     <td class="table-item-detail">
                                         <strong class="table-item-quantity" th:text="${item.quantity}">1</strong>
