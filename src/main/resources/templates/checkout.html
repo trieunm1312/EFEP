@@ -5,38 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/checkout.css">
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/checkout.css"> -->
+
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/checkout.css"> -->
+    <link rel="stylesheet" href="/src/main/resources/static/css/checkout.css">
 </head>
 
 <body>
-<div class="wrap">
-    <!-- Nav Bar -->
-    <nav class="navbar" th:replace="~{base :: navbar}">
+    <div class="wrap">
+        <!-- Nav Bar -->
+        <nav class="navbar" th:replace="~{base :: navbar}">
 
-    </nav>
+        </nav>
 
-    <!-- Header -->
-    <header class="header" th:replace="~{base :: header}">
+        <!-- Header -->
+        <header class="header" th:replace="~{base :: header}">
 
-    </header>
+        </header>
 
         <!-- Container -->
         <div class="container">
-            <!-- <div class="grid"> -->
-            <div class="container__wrap">
-                <!-- Breadbrum -->
-                <!-- <div class="breadbrum">
-                <h1 class="breadbrum__title">View Order List</h1><br>
+            <!-- Breadbrum -->
+            <div class="breadbrum">
+                <h1 class="breadbrum__title">Checkout Page</h1><br>
                 <ul class="breadbrum__element-list">
                     <li class="breadbrum__element-list-item">
                         <a href="home.html" class="breadbrum__element-list-item-link">
@@ -47,7 +45,7 @@
                     <li class="breadbrum__element-list-item">
                         <a href="" class="breadbrum__element-list-item-link">
                             <i class="fa-solid fa-angles-right"></i>
-                            <span>Account</span>
+                            <span>View wishlist</span>
                         </a>
                     </li>
 
@@ -58,11 +56,11 @@
                         </a>
                     </li>
                 </ul>
-            </div> -->
+            </div>
+            <div class="container__wrap">
                 <div class="checkout">
                     <div class="table-item-wishlist">
                         <table border="1" cellpadding="5" cellspacing="0" width="100%">
-                            <!-- <caption>Tiêu đề Bảng</caption> -->
                             <thead>
                                 <tr>
                                     <th class="table-item-header">Image</th>
@@ -123,9 +121,8 @@
                         <hr class="line">
                         <div class="btn-cart">
                             <form id="checkout" action="/buyer/order/payment" method="post"
-                                  data-cod-action="/buyer/order/cod"
-                                  data-vnpay-action="/buyer/order/payment"
-                                  onsubmit="return handleCheckout()">
+                                data-cod-action="/buyer/order/cod" data-vnpay-action="/buyer/order/payment"
+                                onsubmit="return handleCheckout()">
                                 <input type="hidden" name="amount" th:value="${msg.totalPrice}">
                                 <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
                             </form>
@@ -136,17 +133,18 @@
             </div>
         </div>
 
-    <!-- Footer -->
-    <footer class="footer" th:replace="~{base :: footer}">
+        <!-- Footer -->
+        <footer class="footer" th:replace="~{base :: footer}">
 
-    </footer>
-</div>
-<script src="/js/jquery.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/jquery.scrollUp.min.js"></script>
-<script src="/js/price-range.js"></script>
-<script src="/js/jquery.prettyPhoto.js"></script>
-<script src="/js/base.js"></script>
-<script src="/js/checkout.js"></script>
+        </footer>
+    </div>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/price-range.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/base.js"></script>
+    <script src="/js/checkout.js"></script>
 </body>
+
 </html>

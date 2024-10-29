@@ -1,3 +1,55 @@
+.container {
+    width: 100%;
+    padding: 0px;
+}
+.container__wrap {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 40px;
+}
+
+/* Breadrum */
+.breadbrum{
+    width: 100%;
+    padding-left: 0;
+    height: 283px;
+    padding: 100px 0;
+    margin-top: 32px;
+    text-align: center;
+    color: var(--white-color);
+    /* background: url('/img/breadcrumb_img-1920x300.png'); */
+    background: url('/src/main/resources/static/img/breadcrumb_img-1920x300.png');
+    background-size: cover !important;
+}
+
+.breadbrum__element-list{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.breadbrum__title{
+    font-size: 3.4rem;
+}
+
+.breadbrum__element-list-item-link{
+    text-decoration: none;
+    font-size: 1.6rem;
+    color: var(--white-color);
+    margin-right: 18px;
+}
+
+.breadbrum__element-list-item-link:hover{
+    text-decoration: none;
+    color: var(--white-color);
+}
+
+.fa-angles-right{
+    margin-right: 10px;
+}
+
+/*  */
 .statis-order {
     border-left: 2px solid rgba(0, 0, 0, 0.4);
     padding-left: 10%;

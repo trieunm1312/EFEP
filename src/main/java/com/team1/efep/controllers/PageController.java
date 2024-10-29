@@ -3,6 +3,7 @@ package com.team1.efep.controllers;
 import com.team1.efep.configurations.AdminPageConfig;
 import com.team1.efep.configurations.AllPage;
 import com.team1.efep.configurations.HomepageConfig;
+import com.team1.efep.configurations.SellerPageConfig;
 import com.team1.efep.models.response_models.FilterCategoryResponse;
 import com.team1.efep.models.response_models.UpdateProfileResponse;
 import com.team1.efep.models.response_models.ViewProfileResponse;
@@ -110,6 +111,7 @@ public class PageController {
 
     @GetMapping("/seller/dashboard")
     public String sellerDashboard(Model model) {
+        SellerPageConfig.config(model, sellerService);
         return "sellerDashboard";
     }
 
