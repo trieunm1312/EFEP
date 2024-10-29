@@ -86,31 +86,15 @@
                         <div class="sidebar__category">
                             <h3 class="sidebar__heading">Categories</h3>
                             <ul class="sidebar__list">
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Wedding</span>
-                                    </a>
+                                <li th:each="category : ${msg3.categoryList}" class="sidebar__item">
+                                    <form th:action="@{/buyer/category/filter}" method="post">
+                                        <input type="hidden" name="categoryId" th:value="${category.id}">
+                                        <button>
+                                            <h4 th:text="${category.name}"></h4>
+                                        </button>
+                                    </form>
                                 </li>
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Birthday</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Anniversary</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Mother's Day</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar__item">
-                                    <a href="#" class="sidebar__item-link">
-                                        <span>Graduation</span>
-                                    </a>
-                                </li>
+
                             </ul>
                         </div>
                     </div>

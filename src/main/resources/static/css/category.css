@@ -82,17 +82,19 @@
     padding: 16px 0;
 }
 
+.sidebar__item button{
+    padding: 0;
+    border: none;
+    background-color: transparent;
+}
+
 .sidebar__item a{
     text-decoration: none;
 }
 
-.sidebar__item span{
-    font-size: 1.4rem;
-    line-height: 1.4rem;
-    color: var(--text-color);
-}
 
-.sidebar__item span:hover{
+
+.sidebar__item h4:hover{
     color: var(--secondary-color);
 }
 
