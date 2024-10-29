@@ -173,6 +173,8 @@
     margin-top: 16px;
 }
 
+
+
 .flower-information__short-desc p{
     margin-left: 8px;
     color: #666;
@@ -181,6 +183,20 @@
 
 .flower-information__short-desc span:first-child{
     margin-top: 0;
+}
+
+.flower-information__category button{
+    border: none;
+    background-color: transparent;
+    vertical-align: top;
+}
+
+
+.flower-information__category button p{
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 16px;
 }
 
 /* Buy Quantity */
@@ -207,7 +223,7 @@
     cursor: pointer;
 }
 
-form #decrease {
+#decrease {
     margin-bottom: 3px;
     padding-right: 1px;
     margin-right: -4px;
@@ -216,7 +232,7 @@ form #decrease {
     color: var(--white-color);
 }
 
-form #increase {
+#increase {
     margin-bottom: 3px;
     margin-left: -4px;
     padding-left: 1px;
@@ -242,7 +258,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .flower-information__quantity {
-    width: 120%;
+    width: 80%;
     margin: 8px 0 32px;
     display: flex;
     justify-content: space-between;
@@ -263,6 +279,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .flower-information__button{
+    width: 70%;
     display: flex;
     justify-content: space-evenly;
 }
@@ -287,24 +304,59 @@ input[type=number]::-webkit-outer-spin-button {
     color: var(--primary-color);
 }
 
-.flower-information__desc{
-    display: block;
-    background-color: var(--primary-color);
-    color: var(--white-color);
-    width: 96%;
-    padding: 24px 0;
-    text-align: center;
-    margin-left: 100px;
-    margin-top: 54px;
+
+
+.seller {
+    margin: 32px 0 32px 100px;
 }
 
-.flower-information__desc-detail{
+.seller__item{
+    width: 30%;
+    height: fit-content;
+    margin-bottom: 48px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.seller__img{
+    width: 45%;
+}
+
+.seller__info{
+    width: 60%;
+}
+
+.seller__img img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.seller__info{
+    line-height: 1.8;
+    word-wrap: break-word;
+}
+
+.seller__name{
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--text-color);
     display: block;
-    width: 96%;
-    color: #666;
-    opacity: 0.9;
-    margin-left: 100px;
-    margin-top: 32px;
+    width: 100%;
+}
+
+.seller__email{
+    font-size: 1.4rem;
+    color: #8392ab;
+    font-weight: 500;
+    display: block;
+    width: 100%;
+}
+
+.seller__phone{
+    font-size: 1.6rem;
+    font-weight: 500;
 }
 
 
@@ -321,7 +373,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .top-category__list{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 32px;
     width: 100%;
 }

@@ -11,10 +11,4 @@ public interface OrderRepo extends JpaRepository<Order, Integer> {
 
     int countByStatus(String status);
 
-    List<Order> findAllByUser_Account_IdAndStatusOrderByCreatedDateAsc(int accountId, String status);
-
-    List<Order> findAllByUser_Account_IdAndStatusOrderByCreatedDateDesc(int accountId, String status);
-
-//    List<Order> findAllByUser_Account_IdAndStatusOrderByCreatedDateDesc(int accountId, String status);
-
 }

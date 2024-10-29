@@ -37,6 +37,8 @@ public class ViewFlowerDetailResponse {
 
         private int soldQuantity;
 
+        private String description;
+
         private List<Image> imageList;
 
         private Seller seller;
@@ -66,6 +68,9 @@ public class ViewFlowerDetailResponse {
         private String email;
 
         private String phone;
+
+        private String avatar;
+
     }
 
     @Data
@@ -77,6 +82,6 @@ public class ViewFlowerDetailResponse {
         private int id;
 
         private String name;
-
     }
+    
 }
