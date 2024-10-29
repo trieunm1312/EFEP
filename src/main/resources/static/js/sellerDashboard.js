@@ -25,7 +25,7 @@
 //   }
 // });
 
-const xValues = orderInDaily.map(order => orderInDaily.data);
+const xValues = orderCounts.map(order => orderCounts.date);
 const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
 
 new Chart("dailyOrderChart", {

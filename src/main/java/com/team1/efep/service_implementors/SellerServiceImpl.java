@@ -420,8 +420,9 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------CANCEL BUSINESS PLAN ---------------------------------------//
 
     @Override
-    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
+    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model, HttpSession session) {
         Object output = cancelBusinessPlanLogic(request);
+        session.setAttribute("acc", sellerRepo.findById(request.getId()).get().getUser().getAccount());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelBusinessPlanResponse.class)) {
             model.addAttribute("msg", (CancelBusinessPlanResponse) output);
             return "redirect:/seller/plan/detail";
@@ -450,7 +451,7 @@ public class SellerServiceImpl implements SellerService {
             seller.setPlanPurchaseDate(null);
             seller.setBusinessPlan(null);
             sellerRepo.save(seller);
-            return DisableBusinessPlanResponse.builder()
+            return CancelBusinessPlanResponse.builder()
                     .status("200")
                     .message("Disabled successfully")
                     .build();
