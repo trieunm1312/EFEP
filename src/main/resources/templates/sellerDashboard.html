@@ -233,14 +233,12 @@
         </div>
     </div>
 </div>
-<script th:inline="javascript">
-    // // Thymeleaf will output `orderCounts` directly as a JSON array
-    // const orderInDaily = /*[[${orderInDaily.orderDaily}]]*/ {};
-    const orderInDaily = /*[[${orderInDaily.orderDaily}]]*/ {};
-    console.log(orderInDaily); // In ra dữ liệu để kiểm tra
-</script>
-<script src="/js/adminBase.js"></script>
-<script src="/js/sellerDashboard.js"></script>
+    <script th:inline="javascript">
+        // Thymeleaf will output `orderCounts` directly as a JSON array
+        const orderCounts = [[${orderInDaily.orderCounts}]];
+    </script>
+    <script src="/js/adminBase.js"></script>
+    <script src="/js/sellerDashboard.js"></script>
 
 
 </body>

@@ -1,10 +1,8 @@
 package com.team1.efep.models.response_models;
 
 import com.team1.efep.models.entity_models.FlowerCategory;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 import java.util.Map;
@@ -19,5 +17,20 @@ public class GetSoldQuantityCategoryResponse {
 
     private String message;
 
-    private Map<String, Long> soldQuantityByCategory;
+    List<soldQuantityCategory> soldQuantityCategories;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class soldQuantityCategory {
+
+        long soldFlowerQuantity;
+
+        String category;
+
+
+
+    }
 }

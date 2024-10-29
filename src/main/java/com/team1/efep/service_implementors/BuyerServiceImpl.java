@@ -948,6 +948,21 @@ public class BuyerServiceImpl implements BuyerService {
                                                             .build()
                                             )
                                             .toList())
+                                    .seller(ViewFlowerDetailResponse.Seller.builder()
+                                            .id(flower.getSeller().getId())
+                                            .name(flower.getSeller().getUser().getName())
+                                            .email(flower.getSeller().getUser().getAccount().getEmail())
+                                            .phone(flower.getSeller().getUser().getPhone())
+                                            .build())
+                                    .categoryList(flower.getFlowerCategoryList().stream().map(
+                                                            category -> ViewFlowerDetailResponse.Category.builder()
+                                                                    .id(category.getCategory().getId())
+                                                                    .name(category.getCategory().getName())
+                                                                    .build()
+                                                    )
+
+                                                    .toList()
+                                    )
                                     .build()
                     ).build();
 

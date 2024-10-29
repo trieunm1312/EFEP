@@ -25,11 +25,8 @@
 //   }
 // });
 
-// Lấy ngày từ khóa của orderInDaily (ví dụ: "dd/MM/yyyy")
-const xValues = Object.keys(orderInDaily);
-
-// Lấy số lượng đơn hàng từ giá trị của orderInDaily
-const yValues = Object.values(orderInDaily);
+const xValues = orderCounts.map(order => orderCounts.date);
+const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
 
 new Chart("dailyOrderChart", {
     type: "line",

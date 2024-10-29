@@ -198,8 +198,8 @@ public class SellerController {
     //-------------------------------------------------------------------------------------------------//
 
     @PutMapping("/plan")
-    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
-        return sellerService.cancelBusinessPlan(request, model);
+    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model, HttpSession session) {
+        return sellerService.cancelBusinessPlan(request, model, session);
     }
 
     @PostMapping("/view/plan")
