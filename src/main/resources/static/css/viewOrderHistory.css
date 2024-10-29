@@ -17,8 +17,8 @@
     margin-top: 32px;
     text-align: center;
     color: var(--white-color);
-    /* background: url('/img/breadcrumb_img-1920x300.png'); */
-    background: url('/src/main/resources/static/img/breadcrumb_img-1920x300.png');
+    background: url('/img/breadcrumb_img-1920x300.png');
+    /*background: url('/src/main/resources/static/img/breadcrumb_img-1920x300.png');*/
     background-size: cover !important;
 }
 
@@ -248,7 +248,7 @@
     color: chocolate;
 }
 
-.order-status-succesfull {
+.order-status-successful {
     color: green;
 }
 

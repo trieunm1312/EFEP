@@ -25,8 +25,7 @@
 //   }
 // });
 
-const xValues = ["09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024",
-    "09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024", "09-10-2024"];
+const xValues = orderInDaily.map(order => orderInDaily.data);
 const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
 
 new Chart("dailyOrderChart", {
@@ -55,30 +54,6 @@ new Chart("dailyOrderChart", {
 
 
 
-new Chart("dailyNewUserChart", {
-    type: "line",
-    data: {
-        labels: xValues,
-        datasets: [{
-            fill: false,
-            lineTension: 0,
-            backgroundColor: "pink",
-            borderColor: "red",
-            data: yValues
-        }]
-    },
-    options: {
-        legend: { display: false },
-        scales: {
-            yAxes: [{ ticks: { min: 6, max: 16 } }],
-        },
-        title: {
-            display: true,
-            text: "Daily New User Chart"
-        }
-    }
-});
-
 // 
 const categoryName = ["Wedding", "Birthday", "Anniversary", "Mother's Day", "Valentine"];
 const categorySold = [290, 220, 300, 190, 255];
@@ -98,30 +73,6 @@ new Chart("compareFlowerCategoryChart", {
     title: {
       display: true,
       text: "Compare Flower Category Sold Quantity"
-    }
-  }
-});
-
-const orderTypes = ["Complete", "Cancel"];
-const number = [1000, 200];
-const orderColors = [
-  "#b91d47",
-  "#00aba9"
-];
-
-new Chart("compareUserTypeChart", {
-  type: "pie",
-  data: {
-    labels: orderTypes,
-    datasets: [{
-      backgroundColor: orderColors,
-      data: number
-    }]
-  },
-  options: {
-    title: {
-      display: true,
-      text: "World Wide Wine Production 2018"
     }
   }
 });
