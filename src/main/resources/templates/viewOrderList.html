@@ -264,12 +264,19 @@
                                 <div class="order-header">
                                     <div class="header-info">
                                         <h4>Order ID: <span class="header-order" th:text="${order.orderId}">12345</span></h4>
-                                        <span class="header-status" th:text="${order.status}"
-                                        th:classappend="${order.status == 'processing'} ? 'order-status-processing'"
-                                        th:classappend="${order.status == 'packed'} ? 'order-status-packed'"
-                                        th:classappend="${order.status == 'successful'} ? 'order-status-succesfull'"
-                                        th:classappend="${order.status == 'cancelled'} ? 'order-status-cancel'"
-                                        >Delivered</span>
+<!--                                        <span class="header-status" th:text="${order.status}"-->
+<!--                                        th:classappend="${order.status == 'processing'} ? 'order-status-processing'"-->
+<!--                                        th:classappend="${order.status == 'packed'} ? 'order-status-packed'"-->
+<!--                                        th:classappend="${order.status == 'successful'} ? 'order-status-succesfull'"-->
+<!--                                        th:classappend="${order.status == 'cancelled'} ? 'order-status-cancel'"-->
+<!--                                        >Delivered</span>-->
+                                        <span th:text="${order.status}" class="header-status"
+                                              th:classappend="
+                                                  ${order.status == 'processing'} ? 'order-status-processing' :
+                                                  (${order.status == 'packed'} ? 'order-status-packed' :
+                                                  (${order.status == 'completed'} ? 'order-status-successful' :
+                                                  (${order.status == 'cancelled'} ? 'order-status-cancel' : '')))">
+                                        Delivered</span>
                                         <span class="header-date" th:text="${order.createDate}">2024-10-22</span>
                                     </div>
                                     <p class="header-buyer">Buyer: <span th:text="${order.buyerName}">John Doe</span></p>
@@ -281,7 +288,7 @@
                                             <tr>
                                                 <td class="table-order-detail" colspan="2">
                                                     <div class="order-item text-flex"
-                                                        th:each="product : ${msg.detailList}">
+                                                        th:each="product : ${order.detailList}">
                                                         <div class="table-order-img">
                                                             <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
                                                                 alt="">
