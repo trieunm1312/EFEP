@@ -45,6 +45,10 @@ public class ViewOrderHistoryResponse {
     @Builder
     public static class Detail {
 
+        private String image;
+
+        private String description;
+
         private String flowerName;
 
         private int quantity;

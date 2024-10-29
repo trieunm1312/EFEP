@@ -17,6 +17,8 @@ public class CreateFlowerValidation {
             return MapConfig.buildMapKey(errors, "Flower name must be between 3 and 30 characters");
         } else if (flowerRepo.findByName(request.getName()).isPresent()) {
             return MapConfig.buildMapKey(errors, "Flower name already exists");
+        } else if (!request.getName().matches("^[a-zA-Z0-9 ]*$")) {
+            return MapConfig.buildMapKey(errors, "Flower name must not contain special characters");
         }
 
         if (request.getPrice() == null) {

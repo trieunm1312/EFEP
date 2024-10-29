@@ -38,6 +38,7 @@ public class ViewWishlistResponse {
         int id;
         List<ViewFlowerListResponse.Image> imgList;
         String name;
+        String description;
         int quantity;
         float price;
         int stockQuantity;
