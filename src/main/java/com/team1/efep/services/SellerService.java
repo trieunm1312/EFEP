@@ -70,9 +70,9 @@ public interface SellerService {
 
     VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest);
 
-    String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model);
+    String sortOrder(FilterOrderRequest filterOrderRequest, HttpSession session, Model model);
 
-    SortOrderResponse sortOrderAPI(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest);
+    SortOrderResponse sortOrderAPI(FilterOrderRequest filterOrderRequest);
 
     String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model);
 

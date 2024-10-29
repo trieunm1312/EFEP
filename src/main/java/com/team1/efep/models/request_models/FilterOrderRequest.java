@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class FilterOrderRequest {
-    private int accountId;
+    private int sellerId;
     private String status;
-    private LocalDateTime createdDate;
+    private String sortDirection;
 }

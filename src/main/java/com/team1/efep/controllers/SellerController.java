@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-//@RestController
-@Controller
+@RestController
+//@Controller
 @RequiredArgsConstructor
 @RequestMapping("/seller")
 @Tag(name = "Seller")
@@ -186,13 +186,13 @@ public class SellerController {
 
     @GetMapping("/order/sort")
     @Operation(hidden = true)
-    public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model) {
-        return sellerService.sortOrder(filterOrderRequest, sortOrderRequest, session, model);
+    public String sortOrder(FilterOrderRequest filterOrderRequest, HttpSession session, Model model) {
+        return sellerService.sortOrder(filterOrderRequest, session, model);
     }
 
     @PostMapping("/order/sort/api")
-    public SortOrderResponse sortOrder(@RequestBody FilterOrderRequest filterOrderRequest, @RequestBody SortOrderRequest sortOrderRequest) {
-        return sellerService.sortOrderAPI(filterOrderRequest, sortOrderRequest);
+    public SortOrderResponse sortOrder(@RequestBody FilterOrderRequest filterOrderRequest) {
+        return sellerService.sortOrderAPI(filterOrderRequest);
     }
 
     //-------------------------------------------------------------------------------------------------//
