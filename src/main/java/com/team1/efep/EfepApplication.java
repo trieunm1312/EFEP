@@ -70,6 +70,29 @@ public class EfepApplication {
                                 .build()
                 );
 
+                Seller seller2 = sellerRepo.save(
+                        Seller.builder()
+                                .businessPlan(null)
+                                .user(
+                                        userRepo.save(User.builder()
+                                                .avatar("https://t3.ftcdn.net/jpg/01/91/01/78/360_F_191017886_YIfoLtRxVw8PIeAMtR0i4ZDwAyKutVI2.jpg")
+                                                .background("https://www.background.com")
+                                                .name("Flamel")
+                                                .phone("0917270639")
+                                                .account(
+                                                        accountRepo.save(Account.builder()
+                                                                .email("huytqse160928@fpt.edu.vn")
+                                                                .status(Status.ACCOUNT_STATUS_ACTIVE)
+                                                                .password("123")
+                                                                .role(Role.SELLER)
+                                                                .build())
+                                                )
+                                                .build())
+                                )
+                                .planPurchaseDate(null)
+                                .build()
+                );
+
                 //init buyer
                 User user1 = userRepo.save(
                         User.builder()
@@ -242,12 +265,12 @@ public class EfepApplication {
 
                 Flower flower8 = flowerRepo.save(
                         Flower.builder()
-                                .description("Jasmine")
+                                .description("Rose")
                                 .flowerAmount(10)
-                                .name("Jasmine")
-                                .price(100)
+                                .name("Rose")
+                                .price(50)
                                 .quantity(10)
-                                .seller(seller1)
+                                .seller(seller2)
                                 .soldQuantity(0)
                                 .createDate(LocalDateTime.of(2024, 8, 1, 0, 0))
                                 .status(Status.FLOWER_STATUS_AVAILABLE)
@@ -264,7 +287,7 @@ public class EfepApplication {
                                 .name("Violet")
                                 .price(100)
                                 .quantity(10)
-                                .seller(seller1)
+                                .seller(seller2)
                                 .soldQuantity(0)
                                 .createDate(LocalDateTime.of(2024, 9, 1, 0, 0))
                                 .status(Status.FLOWER_STATUS_AVAILABLE)
@@ -281,7 +304,7 @@ public class EfepApplication {
                                 .name("Sunflower")
                                 .price(20)
                                 .quantity(10)
-                                .seller(seller1)
+                                .seller(seller2)
                                 .soldQuantity(0)
                                 .createDate(LocalDateTime.of(2024, 10, 1, 0, 0))
                                 .status(Status.FLOWER_STATUS_AVAILABLE)

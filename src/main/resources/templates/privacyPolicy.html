@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <!--<link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/home.css">-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+</head>
+
+<body>
+
+<div class="wrap">
+    <!-- Nav Bar -->
+    <nav class="navbar" th:replace="~{base :: navbar}">
+    </nav>
+
+    <!-- Header -->
+    <header class="header" th:replace="~{base :: header}">
+
+    </header>
+
+    <!-- Container -->
+    <div class="container">
+        <div class="container__wrap">
+            <div class="breadbrum">
+                <div class="grid">
+                    <h2 class="breadbrum__title">Privacy Policy<br>
+                        <img src="/img/title-flower-light.png" alt="">
+                    </h2><br>
+                    <p class="breadbrum__desc">
+                        At Event Flower Exchange, we respect your privacy and are committed to protecting your personal information.
+                        This Privacy Policy outlines the types of data we collect, such as account details, transaction information, and usage data, and explains how we use it to provide and improve our services, communicate with you, and ensure the security of our platform.
+                        We only share your information with trusted service providers or in cases where the law requires it.
+                        You have control over your data, with rights to access, correct, or delete your information.
+                        We use cookies to enhance your experience and ensure our platform meets your needs.
+                        Your trust matters to us, and we are here to answer any questions you have about our data practices.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" th:replace="~{base :: footer}">
+
+    </footer>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/base.js"></script>
+</body>
+
+</html>

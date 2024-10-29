@@ -31,7 +31,7 @@ public class ViewBuyerListResponse {
 
         private String avatar;
 
-        private String background;
+        private String email;
 
     }
 }

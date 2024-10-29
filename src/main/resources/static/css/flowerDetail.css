@@ -308,58 +308,52 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
-/* Related Product */
-.related-product{
-   margin: 100px 10px 54px 150px;
-   display: block;
-   text-align: center;
+/* Top Category */
+.top-category{
+    margin: 64px 32px ;
+    margin-left: 120px;
+    display: block;
+    text-align: center;
+    width: 100%;
 }
 
-.related-product__title{
-    margin: 0 auto 32px;
+
+
+.top-category__list{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+    width: 100%;
 }
 
-.related-product__list{
-    position: relative;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    /* width: 100%; */
-}
-
-.related-product__item{
-    margin: 0 3px;
-    /* width: 100% !important; */
-}
-
-.related-product__img{
+.top-category__img{
     position: relative;
 }
 
-.related-product__img img{
+.top-category__img img{
     border-radius: 12px;
-    width: 200px;
+    width: 270px;
+    height: 320px;
 }
 
 .overlay{
     position: absolute;
     top: 0;
-    right: 28px;
-    width: 200px;
-    height: 240px;
+    right: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(255, 86, 141, 0.2);
     border: 1px solid var();
     display: block;
     border-radius: 12px;
     text-align: center;
     display: none;
-
 }
 
 .add-to-wishlist{
     position: absolute;
     bottom: 16px;
-    left: 50px;
+    left: 90px;
     font-size: 2rem;
     color: var(--white-color);
     background-color: var(--primary-color);
@@ -370,15 +364,14 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .overlay button:hover{
-    color: var(--white-color);
-    background-color: var(--black-color);
-    
+    color: var(--white-color) !important;
+    background-color: var(--black-color) !important;
 }
 
 .view-detail{
     position: absolute;
     bottom: 16px;
-    right: 50px;
+    right: 90px;
     font-size: 2rem;
     color: var(--white-color);
     background-color: var(--primary-color);
@@ -397,8 +390,8 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 4px;
     background-color: var(--black-color);
     border-radius: 4px;
-    bottom: 40px;
-    left: -20px;
+    bottom: 44px;
+    left: -22px;
     display: none;
 }
 
@@ -420,100 +413,39 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 4px;
     background-color: var(--black-color);
     border-radius: 4px;
-    bottom: 40px;
+    bottom: 44px;
     right: -10px;
     display: none;
 }
 
-.related-product__item:hover .overlay{
+.top-category__item:hover .overlay{
     display: block;
-    border: 1px solid var(--primary-color);
-} 
+}
 
-.related-product__name{
+.top-category__name{
     color: var(--text-color);
+    display: block;
     text-align: start;
     font-weight: 600;
-    margin-left: 16px;
+    font-size: 1.8rem;
+    background-color: transparent;
+    border: none;
 }
 
 
-.related-product__name:hover{
+.top-category__name:hover{
     text-decoration: none;
     color: var(--primary-color);
 }
 
-.related-product__content{
+.top-category__content{
     display: flex;
     justify-content: space-between;
-    margin-left: 16px;
-
+    margin: 0 2.5%;
 }
 
-.related-product__content span:first-child{
+.top-category__content span:first-child{
     font-weight: 600;
-}
-
-/* .related-carousel {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 40%;
-    font-size: 3rem;
-    color: var(--white-color);
-    background-color: var(--primary-color);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-
-.related-carousel:hover {
-    background-color: var(--black-color);
-    color: var(--white-color);
-}
-
-.related-carousel:focus{
-    color: var(--white-color);
-
-}
-
-.related-carousel.left{
-    left: -24px;
-}
-
-.related-carousel.right {
-    right: -24px;
-} */
-
-.swiper__related-product{
-    width: 90%;
-    /* overflow-x: hidden; */
-}
-
-.swiper-button-product::after{
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: -40%;
-    font-size: 4rem;
-    font-weight: 500;
-    color: var(--white-color);
-    background-color: var(--primary-color);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    padding-right: 0;
-}
-
-.swiper-button-product.left::after{
-    left: 32px;
-}
-
-.swiper-button-product.right::after{
-    right: -10px;
 }
 
 

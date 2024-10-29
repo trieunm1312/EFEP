@@ -34,8 +34,6 @@
     cursor: pointer;
 }
 
-
-
 .table__header th {
     font-weight: 700;
     font-size: .6rem;
@@ -56,6 +54,10 @@
 
 .table__header-role {
     width: 100px;
+}
+
+.table__body-created-date {
+    width: 200px;
 }
 
 .table__body-item td {

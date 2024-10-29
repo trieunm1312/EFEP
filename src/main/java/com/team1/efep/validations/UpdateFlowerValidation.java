@@ -17,14 +17,16 @@ public class UpdateFlowerValidation {
             return MapConfig.buildMapKey(errors, "Flower name is required");
         } else if (request.getName().length() < 3 || request.getName().length() > 30) {
             return MapConfig.buildMapKey(errors, "Flower name must be between 3 and 30 characters");
+        } else if (!request.getName().matches("^[a-zA-Z0-9 ]*$")) {
+            return MapConfig.buildMapKey(errors, "Flower name must not contain special characters");
         }
 
         if (request.getPrice() <= 0) {
             return MapConfig.buildMapKey(errors, "Price must be greater than 0");
         }
 
-        if (request.getFlowerAmount() < 0) {
-            return MapConfig.buildMapKey(errors, "Flower amount cannot be less than 0");
+        if (request.getFlowerAmount() <= 0) {
+            return MapConfig.buildMapKey(errors, "Flower amount cannot be less than 1");
         }
 
 
@@ -36,9 +38,6 @@ public class UpdateFlowerValidation {
 //            return MapConfig.buildMapKey(errors, "Quantity must be greater than or equal to 0");
 //        }
 
-        if (request.getStatus() == null) {
-            return MapConfig.buildMapKey(errors, "Invalid flower status");
-        }
         return errors;
     }
 }

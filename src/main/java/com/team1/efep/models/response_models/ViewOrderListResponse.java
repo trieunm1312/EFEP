@@ -30,6 +30,8 @@ public class ViewOrderListResponse {
 
         private int orderId;
 
+        private List<String> image;
+
         private String buyerName;
 
         private LocalDateTime createDate;
