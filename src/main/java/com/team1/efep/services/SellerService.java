@@ -42,7 +42,7 @@ public interface SellerService {
 
     ViewBusinessPlanResponse viewBusinessPlanAPI();
 
-    String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model);
+    String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model, HttpSession session);
 
     CancelBusinessPlanResponse cancelBusinessPlanAPI(CancelBusinessPlanRequest request);
 

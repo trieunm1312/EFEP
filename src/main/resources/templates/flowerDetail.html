@@ -71,39 +71,33 @@
                                 <img th:each="image : ${msg.flower.imageList}"
                                      class="flower-information__img-item swiper-slide"
                                      th:src="@{${image.link}}" alt="">
-
-                                <!-- <a href="#slider-carousel" class="left control-carousel img-carousel hidden-xs"
-                                        data-slide="prev">
-                                        <i class="fa fa-angle-left"></i>
-                                    </a>
-                                    <a href="#slider-carousel" class="right control-carousel img-carousel hidden-xs"
-                                        data-slide="next">
-                                        <i class="fa fa-angle-right"></i>
-                                    </a> -->
                             </div>
-                            <!-- <div class="swiper-pagination"></div> -->
-                            <div class="swiper-button-prev swiper-button-img left"></div>
-                            <div class="swiper-button-next swiper-button-img right"></div>
                         </div>
 
                     </div>
-                    <!--                    <form action="">-->
                     <div class="flower-information__content">
                         <h3 class="flower-information__name" th:text="${msg.flower.name}"></h3>
                         <hr>
                         <div class="flower-information__short-desc">
-                                    <span class="flower-information__id">ID:
-                                        <p th:text="${msg.flower.id}"></p>
-                                    </span>
+                            <span class="flower-information__category">Category:
+                                <div >
+                                    <form th:action="@{/buyer/category/filter}" th:method="post">
+                                        <button th:each="cate : ${msg.flower.categoryList}">
+                                            <p th:text="${cate.name}"></p>
+                                            <input type="hidden" name="categoryId" th:value="${cate.id}" >
+                                        </button>
+                                    </form>
+                                </div>
+                            </span>
                             <span class="flower-information__num-of-flower">
                                         Batch:
                                         <p th:text="${msg.flower.flowerAmount}"></p>
                                         <p> flowers</p>
                                     </span>
-                            <span class="flower-information__status">
-                                        Status:
-                                        <p>Available</p>
-                                    </span>
+                            <span class="flower-information__desc-detail">
+                                Description:
+                                <p th:text="${msg.flower.description}"></p>
+                            </span>
                         </div>
                         <hr>
                         <h3 class="flower-information__price">
@@ -153,14 +147,21 @@
                             </form>
                         </div>
                     </div>
-                    <!--                    </form>-->
                     <br>
                 </div>
-                <h3 class="flower-information__desc">Description</h3>
-                <span class="flower-information__desc-detail">Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Et dolores aliquid, praesentium labore iste ab ratione illum temporibus sed reprehenderit
-                        in necessitatibus voluptas qui rem nesciunt? Non dolores maiores alias.</span>
 
+                <!-- Seller Information -->
+                <div class="seller">
+                    <div class="seller__item">
+                        <div class="seller__img">
+                            <img th:src="${msg.flower.seller.avatar == null || msg.flower.seller.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.flower.seller.avatar}" alt="Avatar">                        </div>
+                        <div class="seller__info">
+                            <span class="seller__name" th:text="${msg.flower.seller.name}" ></span>
+                            <span class="seller__email" th:text="${msg.flower.seller.email}" ></span>
+                            <span class="seller__phone" th:text="${msg.flower.seller.phone}" ></span>
+                        </div>
+                    </div>
+                </div>
                 <!-- Top sale Product -->
                 <div class="top-category">
                     <h2 class="top-category__title">Top Sale Flowers<br>

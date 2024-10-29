@@ -573,6 +573,8 @@ public class BuyerServiceImpl implements BuyerService {
                         .id(item.getId())
                         .name(item.getName())
                         .price(item.getPrice())
+                        .description(item.getDescription())
+                        .soldQuantity(item.getSoldQuantity())
                         .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
                         .build()
                 ).toList();
@@ -887,6 +889,8 @@ public class BuyerServiceImpl implements BuyerService {
                                                 .id(flower.getId())
                                                 .name(flower.getName())
                                                 .price(flower.getPrice())
+                                                .description(flower.getDescription())
+                                                .soldQuantity(flower.getSoldQuantity())
                                                 .images(
                                                         flower.getFlowerImageList().stream()
                                                                 .map(img -> SearchFlowerResponse.Image.builder()
@@ -943,6 +947,24 @@ public class BuyerServiceImpl implements BuyerService {
                                     .quantity(flower.getQuantity())
                                     .flowerAmount(flower.getFlowerAmount())
                                     .soldQuantity(flower.getSoldQuantity())
+                                    .description(flower.getDescription())
+
+                                    .seller(ViewFlowerDetailResponse.Seller.builder()
+                                            .id(flower.getSeller().getId())
+                                            .name(flower.getSeller().getUser().getName())
+                                            .email(flower.getSeller().getUser().getAccount().getEmail())
+                                            .phone(flower.getSeller().getUser().getPhone())
+                                            .avatar(flower.getSeller().getUser().getAvatar())
+                                            .build())
+                                    .categoryList(flower.getFlowerCategoryList().stream().map(
+                                                            category -> ViewFlowerDetailResponse.Category.builder()
+                                                                    .id(category.getCategory().getId())
+                                                                    .name(category.getCategory().getName())
+                                                                    .build()
+                                                    )
+
+                                                    .toList()
+                                    )
                                     .imageList(flower.getFlowerImageList().stream()
                                             .map(
                                                     flowers -> ViewFlowerDetailResponse.Image.builder()
@@ -1376,7 +1398,9 @@ public class BuyerServiceImpl implements BuyerService {
                                 .map(flower -> FilterCategoryResponse.Flower.builder()
                                         .id(flower.getFlower().getId())
                                         .name(flower.getFlower().getName())
+                                        .description(flower.getFlower().getDescription())
                                         .price(flower.getFlower().getPrice())
+                                        .soldQuantity(flower.getFlower().getSoldQuantity())
                                         .images(
                                                 flower.getFlower().getFlowerImageList().stream()
                                                         .map(img -> FilterCategoryResponse.Image.builder()

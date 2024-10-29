@@ -421,8 +421,9 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------CANCEL BUSINESS PLAN ---------------------------------------//
 
     @Override
-    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model) {
+    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model, HttpSession session) {
         Object output = cancelBusinessPlanLogic(request);
+        session.setAttribute("acc", sellerRepo.findById(request.getId()).get().getUser().getAccount());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelBusinessPlanResponse.class)) {
             model.addAttribute("msg", (CancelBusinessPlanResponse) output);
             return "redirect:/seller/plan/detail";
@@ -451,7 +452,7 @@ public class SellerServiceImpl implements SellerService {
             seller.setPlanPurchaseDate(null);
             seller.setBusinessPlan(null);
             sellerRepo.save(seller);
-            return DisableBusinessPlanResponse.builder()
+            return CancelBusinessPlanResponse.builder()
                     .status("200")
                     .message("Disabled successfully")
                     .build();
@@ -1025,7 +1026,7 @@ public class SellerServiceImpl implements SellerService {
         flower.setDescription(request.getDescription());
         flower.setFlowerAmount(request.getFlowerAmount());
         flower.setQuantity(request.getQuantity());
-        if (request.getQuantity() == 0){
+        if (request.getQuantity() == 0) {
             flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
         }
 
@@ -1466,14 +1467,15 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private GetSoldQuantityCategoryResponse getSoldQuantityCategoryLogic() {
-        Map<String, Long> soldQuantityByCategory = categoryRepo.findAll().stream()
-                .collect(Collectors.toMap(Category::getName, this::calculateSoldQuantityInCategory));
-
-
         return GetSoldQuantityCategoryResponse.builder()
                 .status("200")
                 .message("")
-                .soldQuantityByCategory(soldQuantityByCategory)
+                .soldQuantityCategories(categoryRepo.findAll().stream()
+                        .map(cate -> GetSoldQuantityCategoryResponse.soldQuantityCategory.builder()
+                                .soldFlowerQuantity(calculateSoldQuantityInCategory(cate))
+                                .category(cate.getName())
+                                .build())
+                        .toList())
                 .build();
     }
 
@@ -1549,13 +1551,19 @@ public class SellerServiceImpl implements SellerService {
         for (int i = 0; i < 10; i++) {
             listTenDates.add(LocalDateTime.now().minusDays(i));
         }
+
+        System.out.println(listTenDates);
         return GetOrderInDailyResponse.builder()
                 .status("200")
                 .message("")
-                .orderDaily(
+                .orderCounts(
                         listTenDates.stream()
-                                .collect(Collectors.toMap( date -> date.getDayOfMonth() + "/" +  date.getMonth() + "/" + date.getYear(), this::getQuantityOrder))
-                        )
+                                .map(date -> GetOrderInDailyResponse.OrderCount.builder()
+                                        .count(getQuantityOrder(date))
+                                        .date(date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear())
+                                        .build())
+                                .toList()
+                )
                 .build();
     }
 

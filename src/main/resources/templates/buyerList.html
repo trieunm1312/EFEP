@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/animate.css">
 <!--     <link rel="stylesheet" href="/css/base.css">-->
     <link rel="stylesheet" href="/css/adminBase.css">
-    <link rel="stylesheet" href="/css/manageUser.css">
+    <link rel="stylesheet" href="/css/buyerList.css">
 
 </head>
 
@@ -152,35 +152,22 @@
         <div class="container">
             <div class="container-wrap">
                 <div class="grid">
-                    <div class="user">
-                        <div class="user__heading">
-                            <h4 class="user__title">Buyer Table</h4>
+                    <div class="buyer">
+                        <div class="buyer__heading">
+                            <h4 class="buyer__title">Buyer Table</h4>
                         </div>
-                        <table class="user__table">
-                            <thead class="table__header">
-                                <tr>
-                                    <th class="table__header-user">Name</th>
-                                    <th class="table__header-phone">Phone</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table__body">
-                                <form action="" method="" class="user__form">
-                                    <tr th:each="buyer : ${msg.buyerList}" class="table__body-item">
-                                        <td class="table__body-user">
-                                            <img th:src="${buyer.avatar == null || buyer.avatar == ''} ? '/img/default-avatar.jpg' : ${buyer.avatar}" alt="Avatar" class="table__body-avt">
-                                            <span class="table__body-unique">
-                                                <span class="table__body-name" th:text="${buyer.name}"></span>
-                                                <span class="table__body-email" th:text="${buyer.email}"></span>
-                                            </span>
-                                        </td>
-                                        <td class="table__body-phone">
-                                            <span class="desc-text" th:text="${buyer.phone}" ></span>
-                                        </td>
-                                    </tr>
+                        <div class="buyer__list">
+                            <div th:each="buyer : ${msg.buyerList}" class="buyer__item">
+                                <div class="buyer__img">
+                                    <img th:src="${buyer.avatar == null || buyer.avatar == ''} ? '/img/default-avatar.jpg' : ${buyer.avatar}" alt="Avatar" >                                </div>
+                                <div class="buyer__info">
+                                    <span class="buyer__name" th:text="${buyer.name}" ></span>
+                                    <span class="buyer__email" th:text="${buyer.email}" ></span>
+                                    <span class="buyer__phone" th:text="${buyer.phone}" ></span>
+                                </div>
+                            </div>
 
-                                </form>
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
                 </div>
             </div>
