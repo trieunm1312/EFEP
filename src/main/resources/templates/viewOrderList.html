@@ -200,41 +200,41 @@
 <!--                                </form>-->
 <!--                            </div>-->
                             <div class="filter-order">
-                                <form th:action="@{/seller/order/filter}" method="post" onchange="this.form.submit()">
-                                    <!-- Account ID, gửi thông tin người dùng hiện tại -->
-                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}" />
+<!--                                <form th:action="@{/seller/order/filter}" method="post" onchange="this.form.submit()">-->
+<!--                                    &lt;!&ndash; Account ID, gửi thông tin người dùng hiện tại &ndash;&gt;-->
+<!--                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}" />-->
 
-                                    <!-- Dropdown chọn Status -->
-                                    <select class="filter-by-status" name="status" id="status">
-                                        <option value="" disabled hidden th:selected="${not #strings.contains(status, 'processing')
-                                                        and not #strings.contains(status, 'packed')
-                                                        and not #strings.contains(status, 'completed')
-                                                        and not #strings.contains(status, 'cancelled')}">
-                                            Status
-                                        </option>
-                                        <option value="processing" th:selected="${status == 'processing'}">Processing</option>
-                                        <option value="packed" th:selected="${status == 'packed'}">Packed</option>
-                                        <option value="completed" th:selected="${status == 'completed'}">Completed</option>
-                                        <option value="cancelled" th:selected="${status == 'cancelled'}">Cancelled</option>
-                                    </select>
+<!--                                    &lt;!&ndash; Dropdown chọn Status &ndash;&gt;-->
+<!--                                    <select class="filter-by-status" name="status" id="status">-->
+<!--                                        <option value="" disabled hidden th:selected="${not #strings.contains(status, 'processing')-->
+<!--                                                        and not #strings.contains(status, 'packed')-->
+<!--                                                        and not #strings.contains(status, 'completed')-->
+<!--                                                        and not #strings.contains(status, 'cancelled')}">-->
+<!--                                            Status-->
+<!--                                        </option>-->
+<!--                                        <option value="processing" th:selected="${status == 'processing'}">Processing</option>-->
+<!--                                        <option value="packed" th:selected="${status == 'packed'}">Packed</option>-->
+<!--                                        <option value="completed" th:selected="${status == 'completed'}">Completed</option>-->
+<!--                                        <option value="cancelled" th:selected="${status == 'cancelled'}">Cancelled</option>-->
+<!--                                    </select>-->
 
-                                    <!-- Dropdown chọn Month -->
-                                    <select class="filter-by-month" name="month" id="month">
-                                        <option value="" disabled hidden th:selected="${month == null}">Month</option>
-                                        <option value="1" th:selected="${month == 1}">January</option>
-                                        <option value="2" th:selected="${month == 2}">February</option>
-                                        <option value="3" th:selected="${month == 3}">March</option>
-                                        <option value="4" th:selected="${month == 4}">April</option>
-                                        <option value="5" th:selected="${month == 5}">May</option>
-                                        <option value="6" th:selected="${month == 6}">June</option>
-                                        <option value="7" th:selected="${month == 7}">July</option>
-                                        <option value="8" th:selected="${month == 8}">August</option>
-                                        <option value="9" th:selected="${month == 9}">September</option>
-                                        <option value="10" th:selected="${month == 10}">October</option>
-                                        <option value="11" th:selected="${month == 11}">November</option>
-                                        <option value="12" th:selected="${month == 12}">December</option>
-                                    </select>
-                                </form>
+<!--                                    &lt;!&ndash; Dropdown chọn Month &ndash;&gt;-->
+<!--                                    <select class="filter-by-month" name="month" id="month">-->
+<!--                                        <option value="" disabled hidden th:selected="${month == null}">Month</option>-->
+<!--                                        <option value="1" th:selected="${month == 1}">January</option>-->
+<!--                                        <option value="2" th:selected="${month == 2}">February</option>-->
+<!--                                        <option value="3" th:selected="${month == 3}">March</option>-->
+<!--                                        <option value="4" th:selected="${month == 4}">April</option>-->
+<!--                                        <option value="5" th:selected="${month == 5}">May</option>-->
+<!--                                        <option value="6" th:selected="${month == 6}">June</option>-->
+<!--                                        <option value="7" th:selected="${month == 7}">July</option>-->
+<!--                                        <option value="8" th:selected="${month == 8}">August</option>-->
+<!--                                        <option value="9" th:selected="${month == 9}">September</option>-->
+<!--                                        <option value="10" th:selected="${month == 10}">October</option>-->
+<!--                                        <option value="11" th:selected="${month == 11}">November</option>-->
+<!--                                        <option value="12" th:selected="${month == 12}">December</option>-->
+<!--                                    </select>-->
+<!--                                </form>-->
                             </div>
                             <form th:action="@{/seller/order/sort}" method="post" onchange="this.form.submit()">
                                 <select class="sort-order" name="" id="sorting">
@@ -264,12 +264,6 @@
                                 <div class="order-header">
                                     <div class="header-info">
                                         <h4>Order ID: <span class="header-order" th:text="${order.orderId}">12345</span></h4>
-<!--                                        <span class="header-status" th:text="${order.status}"-->
-<!--                                        th:classappend="${order.status == 'processing'} ? 'order-status-processing'"-->
-<!--                                        th:classappend="${order.status == 'packed'} ? 'order-status-packed'"-->
-<!--                                        th:classappend="${order.status == 'successful'} ? 'order-status-succesfull'"-->
-<!--                                        th:classappend="${order.status == 'cancelled'} ? 'order-status-cancel'"-->
-<!--                                        >Delivered</span>-->
                                         <span th:text="${order.status}" class="header-status"
                                               th:classappend="
                                                   ${order.status == 'processing'} ? 'order-status-processing' :
@@ -288,7 +282,7 @@
                                             <tr>
                                                 <td class="table-order-detail" colspan="2">
                                                     <div class="order-item text-flex"
-                                                        th:each="product : ${order.detailList}">
+                                                        th:each="product : ${order.orderDetailList}">
                                                         <div class="table-order-img">
                                                             <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
                                                                 alt="">
@@ -309,7 +303,6 @@
                                                                 <span class="table-order-price text-orange font-bold"
                                                                     th:text="${product.price}">$122.00</span>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </td>

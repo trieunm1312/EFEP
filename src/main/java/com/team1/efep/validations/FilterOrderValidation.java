@@ -13,10 +13,6 @@ public class FilterOrderValidation {
         if (request.getSellerId() <= 0) {
             return MapConfig.buildMapKey(errors,  "Invalid account ID");
         }
-
-        if (request.getStatus() == null || request.getStatus().isEmpty()) {
-            return MapConfig.buildMapKey(errors,  "Invalid order status");
-        }
         return errors;
     }
 }

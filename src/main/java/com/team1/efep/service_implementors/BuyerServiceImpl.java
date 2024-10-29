@@ -125,6 +125,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .quantity(item.getQuantity())
                         .price(item.getFlower().getPrice())
                         .stockQuantity(item.getFlower().getQuantity())
+                        .description(item.getFlower().getDescription())
                         .build())
                 .toList();
     }
@@ -705,6 +706,7 @@ public class BuyerServiceImpl implements BuyerService {
     private List<ViewOrderHistoryResponse.Detail> viewOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderHistoryResponse.Detail.builder()
+                        .description(detail.getFlower().getDescription())
                         .flowerName(detail.getFlowerName())
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice() * detail.getQuantity())
@@ -1041,9 +1043,10 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = cancelOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
             model.addAttribute("msg", (ChangeOrderStatusResponse) output);
+            return "redirect:/buyer/order/detail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "buyer";
+        return "redirect:/buyer/order/detail";
     }
 
     @Override

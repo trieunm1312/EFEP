@@ -1013,7 +1013,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object updateFlowerLogic(UpdateFlowerRequest request) {
-        Map<String, String> error = UpdateFlowerValidation.validate(request);
+        Map<String, String> error = UpdateFlowerValidation.validate(request, flowerRepo);
         if (!error.isEmpty()) {
             return error;
         }

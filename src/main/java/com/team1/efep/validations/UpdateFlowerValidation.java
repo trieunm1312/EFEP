@@ -2,12 +2,14 @@ package com.team1.efep.validations;
 
 import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.models.request_models.UpdateFlowerRequest;
+import com.team1.efep.repositories.FlowerRepo;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateFlowerValidation {
-    public static Map<String, String> validate(UpdateFlowerRequest request) {
+
+    public static Map<String, String> validate(UpdateFlowerRequest request, FlowerRepo flowerRepo) {
         Map<String, String> errors = new HashMap<>();
         if (request.getFlowerId() <= 0) {
             return MapConfig.buildMapKey(errors, "Invalid flower ID");
@@ -19,6 +21,8 @@ public class UpdateFlowerValidation {
             return MapConfig.buildMapKey(errors, "Flower name must be between 3 and 30 characters");
         } else if (!request.getName().matches("^[a-zA-Z0-9 ]*$")) {
             return MapConfig.buildMapKey(errors, "Flower name must not contain special characters");
+        } else if (flowerRepo.findByName(request.getName()).isPresent()) {
+            return MapConfig.buildMapKey(errors, "Flower name already exists");
         }
 
         if (request.getPrice() <= 0) {
