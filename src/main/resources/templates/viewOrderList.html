@@ -182,21 +182,7 @@
 <!--                                        <option value="completed">completed</option>-->
 <!--                                        <option value="cancelled">cancelled</option>-->
 <!--                                    </select>-->
-<!--                                    <select class="filter-by-Month" name="month" id="month">-->
-<!--                                        <option value="f-month" disabled hidden selected>Month</option>-->
-<!--                                        <option value="1">1</option>-->
-<!--                                        <option value="2">2</option>-->
-<!--                                        <option value="3">3</option>-->
-<!--                                        <option value="4">4</option>-->
-<!--                                        <option value="5">5</option>-->
-<!--                                        <option value="6">6</option>-->
-<!--                                        <option value="7">7</option>-->
-<!--                                        <option value="8">8</option>-->
-<!--                                        <option value="9">9</option>-->
-<!--                                        <option value="10">10</option>-->
-<!--                                        <option value="11">11</option>-->
-<!--                                        <option value="12">12</option>-->
-<!--                                    </select>-->
+<!--                                    -->
 <!--                                </form>-->
 <!--                            </div>-->
                             <div class="filter-order">
@@ -284,15 +270,14 @@
                                                     <div class="order-item text-flex"
                                                         th:each="product : ${order.orderDetailList}">
                                                         <div class="table-order-img">
-                                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                                alt="">
+                                                            <img src="${product.image}" alt="">
                                                         </div>
                                                         <div class="table-order-info">
                                                             <h4 class="table-order-name"
-                                                                th:text="${product.flowerName}">Hiptage
+                                                                th:text="${product.name}">Hiptage
                                                             </h4>
-                                                            <!-- <span class="table-order-event font-size font-weight"
-                                                                th:text="${msg.sellerName}">Wedding</span> -->
+                                                            <span class="table-order-event font-size font-weight"
+                                                                th:text="${product.description}">DEP</span>
                                                             <div class="table-order-info-price font-size">
                                                                 <div class="table-order-info-qnt">
                                                                     <span
