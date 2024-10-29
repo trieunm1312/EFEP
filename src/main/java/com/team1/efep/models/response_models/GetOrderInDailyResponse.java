@@ -1,9 +1,7 @@
 package com.team1.efep.models.response_models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +17,18 @@ public class GetOrderInDailyResponse {
 
     private String message;
 
-    private Map<String, Long> orderDaily;
+    List<OrderCount> orderCounts;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class OrderCount {
+
+        String date;
+
+        long count;
+    }
 
 }

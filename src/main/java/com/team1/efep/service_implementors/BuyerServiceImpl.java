@@ -941,6 +941,12 @@ public class BuyerServiceImpl implements BuyerService {
                                     .quantity(flower.getQuantity())
                                     .flowerAmount(flower.getFlowerAmount())
                                     .soldQuantity(flower.getSoldQuantity())
+                                    .seller(ViewFlowerDetailResponse.Seller.builder()
+                                            .id(flower.getSeller().getId())
+                                            .name(flower.getSeller().getUser().getName())
+                                            .email(flower.getSeller().getUser().getAccount().getEmail())
+                                            .phone(flower.getSeller().getUser().getPhone())
+                                            .build())
                                     .imageList(flower.getFlowerImageList().stream()
                                             .map(
                                                     flowers -> ViewFlowerDetailResponse.Image.builder()
