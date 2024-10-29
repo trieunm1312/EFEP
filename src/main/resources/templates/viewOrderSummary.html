@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
 
-    <!-- <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/viewOrderSummary.css">
-    <link rel="stylesheet" href="/css/base.css"> -->
+    <link rel="stylesheet" href="/css/base.css">
 
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderSummary.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderSummary.css"> -->
 
 </head>
 
@@ -467,17 +467,21 @@
                             <i class="fa-solid fa-circle-xmark size-icon notify-msg-fail-icon"></i>
                             <i class="fa-regular fa-circle-xmark size-icon notify-msg-fail-icon"></i>
                     </div>
-                    <div class="notify-btn" th:if="${session.acc.getRole() == 'buyer'}">
-                        <form th:action="@{/}" method="get">
-                            <input class="btn-home" type="submit" value="Back home" name="Action">
-                        </form>
+                    <div class="seller" th:if="${session.acc.getRole() == 'buyer'}">
+                        <div class="notify-btn">
+                            <form th:action="@{/}" method="get">
+                                <input class="btn-home" type="submit" value="Back home" name="Action">
+                            </form>
+                        </div>
                     </div>
-                    <div class="notify-btn" th:if="${session.acc.getRole() == 'seller'}">
-                        <form th:action="@{/manageFlower}" method="get">
-                            <input class="btn-home" type="submit" value="Back home" name="Action">
-                        </form>
+                    <div class="seller" th:if="${session.acc.getRole() == 'seller'}">
+                        <div class="notify-btn">
+                            <form th:action="@{/seller/view/plan}" method="get">
+                                <input class="btn-home" type="submit" value="Your Business Plan" name="Action">
+                            </form>
+                        </div>
                     </div>
-                    <input id="role" type="hidden" th:value="${session.acc.getRole()}">
+
                     You will be redirected to the homepage in <span id="countdown">5</span> seconds</span>
                 </div>
             </div>

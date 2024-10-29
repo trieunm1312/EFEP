@@ -25,8 +25,11 @@
 //   }
 // });
 
-const xValues = orderInDaily.map(order => orderInDaily.data);
-const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+// Lấy ngày từ khóa của orderInDaily (ví dụ: "dd/MM/yyyy")
+const xValues = Object.keys(orderInDaily);
+
+// Lấy số lượng đơn hàng từ giá trị của orderInDaily
+const yValues = Object.values(orderInDaily);
 
 new Chart("dailyOrderChart", {
     type: "line",
@@ -43,7 +46,7 @@ new Chart("dailyOrderChart", {
     options: {
         legend: { display: false },
         scales: {
-            yAxes: [{ ticks: { min: 6, max: 16 } }],
+            yAxes: [{ ticks: { min: 0, max: 20 } }],
         },
         title: {
             display: true,
