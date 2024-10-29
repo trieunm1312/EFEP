@@ -40,6 +40,8 @@ public class ViewFlowerDetailResponse {
         private List<Image> imageList;
 
         private Seller seller;
+
+        private List<Category> categoryList;
     }
 
     @Data
@@ -64,5 +66,17 @@ public class ViewFlowerDetailResponse {
         private String email;
 
         private String phone;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Category {
+
+        private int id;
+
+        private String name;
+
     }
 }
