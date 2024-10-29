@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -1033,7 +1032,7 @@ public class SellerServiceImpl implements SellerService {
         flower.setDescription(request.getDescription());
         flower.setFlowerAmount(request.getFlowerAmount());
         flower.setQuantity(request.getQuantity());
-        if (request.getQuantity() == 0){
+        if (request.getQuantity() == 0) {
             flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
         }
 
@@ -1450,20 +1449,22 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public void getTotalNumberFlower(Model model) {
-        model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic());
+        model.addAttribute("totalNumberFlower", flowerRepo.count());
     }
 
-    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic() {
+//    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic() {
+//
+//        return GetTotalNumberFlowerResponse.builder()
+//                .message("200")
+//                .message("")
+//                .totalNumberFlowers(flowerRepo.findAll().stream()
+//                        .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_DELETED))
+//                        .count()
+//                )
+//                .build();
 
-        return GetTotalNumberFlowerResponse.builder()
-                .message("200")
-                .message("")
-                .totalNumberFlowers(flowerRepo.findAll().stream()
-                        .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_DELETED))
-                        .count()
-                )
-                .build();
-    }
+
+//    }
 
     //--------------------------------------------GET SOLD QUANTITY CATEGORY---------------------------------------------//
     @Override
@@ -1502,36 +1503,36 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
     @Override
     public void getTotalNumberOfCanceledOrder(Model model) {
-        model.addAttribute("totalNumberOfCanceledOrder", getTotalNumberOfCanceledOrderLogic());
+        model.addAttribute("totalNumberOfCanceledOrder", orderRepo.countByStatus(Status.ORDER_STATUS_CANCELLED));
     }
 
-    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
-        return GetTotalNumberOfCanceledOrderResponse.builder()
-                .status("200")
-                .message("")
-                .getTotalNumberOfCanceledOrder(orderRepo.findAll()
-                        .stream()
-                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED))
-                        .count())
-                .build();
-    }
+//    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
+//        return GetTotalNumberOfCanceledOrderResponse.builder()
+//                .status("200")
+//                .message("")
+//                .getTotalNumberOfCanceledOrder(orderRepo.findAll()
+//                        .stream()
+//                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED))
+//                        .count())
+//                .build();
+//    }
 
     //--------------------------------------------GET TOTAL NUMBER OF ORDER---------------------------------------------//
     @Override
     public void getTotalNumberOfOrder(Model model) {
-        model.addAttribute("totalNumberOfOrder", getTotalNumberOfOrderLogic());
+        model.addAttribute("totalNumberOfOrder",orderRepo.countByStatus(Status.ORDER_STATUS_COMPLETED));
     }
 
 
-    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic() {
-        return GetTotalNumberOfOrderResponse.builder()
-                .status("200")
-                .message("")
-                .totalTotalNumberOfOder(orderRepo.findAll().stream()
-                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
-                        .count())
-                .build();
-    }
+//    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic() {
+//        return GetTotalNumberOfOrderResponse.builder()
+//                .status("200")
+//                .message("")
+//                .totalTotalNumberOfOder(orderRepo.findAll().stream()
+//                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
+//                        .count())
+//                .build();
+//    }
 
     //--------------------------------------------GET REVENUE---------------------------------------------//
 
