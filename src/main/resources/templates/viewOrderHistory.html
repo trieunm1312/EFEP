@@ -9,171 +9,164 @@
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css">-->
     <link rel="stylesheet" href="/css/viewOrderHistory.css">
 
-<!--   <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">-->
-<!--   <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">-->
-<!--   <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
-<!--   <link rel="stylesheet" href="/src/main/resources/static/css/base.css">-->
-<!--   <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderHistory.css">-->
+    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderHistory.css"> -->
+    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css"> -->
+
 </head>
 
 <body>
-    <div class="wrap">
-        <!-- Nav Bar -->
-        <nav class="navbar" th:replace="~{base :: navbar}">
+<div class="wrap">
+    <!-- Nav Bar -->
+    <nav class="navbar" th:replace="~{base :: navbar}">
 
-        </nav>
+    </nav>
 
-        <!-- Header -->
-        <header class="header" th:replace="~{base :: header}">
+    <!-- Header -->
+    <header class="header" th:replace="~{base :: header}">
 
-        </header>
+    </header>
 
-        <!-- Container -->
-        <div class="container">
-            <!-- <div class="grid"> -->
-            <div class="container__wrap">
-                <!-- Breadbrum -->
-                <!-- <div class="breadbrum">
-                    <h1 class="breadbrum__title">View Order List</h1><br>
-                    <ul class="breadbrum__element-list">
-                        <li class="breadbrum__element-list-item">
-                            <a href="home.html" class="breadbrum__element-list-item-link">
-                                <i class="fa-solid fa-house"></i>
-                            </a>
-                        </li>
+    <!-- Container -->
+    <div class="container">
+        <!-- <div class="grid"> -->
 
-                        <li class="breadbrum__element-list-item">
-                            <a href="" class="breadbrum__element-list-item-link">
-                                <i class="fa-solid fa-angles-right"></i>
-                                <span>Account</span>
-                            </a>
-                        </li>
-
-                        <li class="breadbrum__element-list-item">
-                            <a href="register.html" class="breadbrum__element-list-item-link">
-                                <i class="fa-solid fa-angles-right"></i>
-                                <span>Forgot Password</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div> -->
-                <div class="auth-form__header">
-                    <a th:href="@{/account/view/profile}" class="auth-form__switch-btn"
-                        onclick="window.history.back(); return false;">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        Back
+        <!-- Breadbrum -->
+        <div class="breadbrum">
+            <h1 class="breadbrum__title">View Order History</h1><br>
+            <ul class="breadbrum__element-list">
+                <li class="breadbrum__element-list-item">
+                    <a href="home.html" class="breadbrum__element-list-item-link">
+                        <i class="fa-solid fa-house"></i>
                     </a>
-                </div>
-                <!-- Order history -->
-                <!-- <div class="order__history" th:if="${msg}">
-                    <div class="order__history-item" th:each="order : ${msg.orderList}">
-                        <div class="info-order">
-                            <p class="order__history-item-detail-seller" th:text="${order.orderId}">Seller1</p>
-                            <p class="order__history-item-detail-status" th:text="${order.status}">successful</p>
-                        </div>
-                        <hr class="line">
-                        <div class="order__history-item-flower" th:each="item : ${msg.detailList}">
-                            <div class="order__history-item-description">
-                                <div class="order__history-item-img">
-                                    <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                        alt="">
-                                </div>
-                                <div class="order__history-item-info">
-                                    <div class="order__history-item-header">
-                                        <h4 class="order__history-item-header-name font-bold" th:text="${item.flowerName}">Hiptage</h4>
-                                        <p class="order__history-item-header-time" th:text="${item.sellerName}">19/09/2024 24:00</p>
-                                    </div>
-                                    <p class="order__history-item-detail-event">Wedding</p>
+                </li>
 
-                                    <div class="order__history-item-detail">
-                                        <span class="order__history-item-detail-price" th:text="${item.price}">$120</span>
-                                        <div class="order__history-item-detail-quantity-order">
-                                            <span class="order__history-item-detail-multiple">x</span>
-                                            <span class="order__history-item-detail-qnt font-bold" th:text="${item.quantity}">1</span>
+                <li class="breadbrum__element-list-item">
+                    <a href="" class="breadbrum__element-list-item-link">
+                        <i class="fa-solid fa-angles-right"></i>
+                        <span>Account</span>
+                    </a>
+                </li>
+
+                <li class="breadbrum__element-list-item">
+                    <a href="register.html" class="breadbrum__element-list-item-link">
+                        <i class="fa-solid fa-angles-right"></i>
+                        <span>Order history</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="container__wrap">
+            <div class="auth-form__header">
+                <a th:href="@{/account/view/profile}" class="auth-form__switch-btn"
+                   onclick="window.history.back(); return false;">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back
+                </a>
+            </div>
+            <!-- Order history -->
+
+            <div class="order-list" th:if="${msg}">
+                <div class="order-item" th:each="order : ${msg.orderList}">
+                    <div class="order-header">
+                        <div class="header-info">
+                            <p class="header-seller">
+                                <i class="fa-solid fa-store icon-store"></i>
+                                <span class="seller-order" th:text="${order.sellerName}">John Doe</span>
+                            </p>
+                            <span th:text="${order.status}" class="order-status"
+                                  th:classappend="
+                                      ${order.status == 'processing'} ? 'order-status-processing' :
+                                      (${order.status == 'packed'} ? 'order-status-packed' :
+                                      (${order.status == 'completed'} ? 'order-status-successful' :
+                                      (${order.status == 'cancelled'} ? 'order-status-cancel' : '')))">
+                            Delivered</span>
+                        </div>
+                        <p class="order-id">Order ID: <span th:text="${order.orderId}">12345</span></p>
+                        <p class="order-id">Create date: <span th:text="${order.createDate}">12/01</span></p>
+                    </div>
+
+                    <div class="order-details">
+                        <table class="product-table">
+                            <!--                                <thead>-->
+                            <!--                                    <tr>-->
+                            <!--                                        <th class="product-table-name">Product Name</th>-->
+                            <!--                                        <th class="product-table-qnt">Quantity</th>-->
+                            <!--                                        <th class="product-table-price">Price</th>-->
+                            <!--                                    </tr>-->
+                            <!--                                </thead>-->
+                            <tbody>
+                            <!-- <tr class="product-list" th:each="product : ${order.detailList}">
+                                <td th:text="${product.flowerName}"> hipatge</td>
+                                <td class="pro-quantity" th:text="${product.quantity}">1</td>
+                                <td th:text="${product.price}">$20.00</td>
+                            </tr> -->
+                            <tr>
+                                <td class="table-order-detail" colspan="2">
+                                    <div class="order-item text-flex"
+                                         th:each="product : ${order.detailList}">
+                                        <div class="table-order-img">
+                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                                 alt="">
+                                        </div>
+                                        <div class="table-order-info">
+                                            <h4 class="table-order-name"
+                                                th:text="${product.flowerName}">Hiptage
+                                            </h4>
+                                            <!-- <span class="table-order-event font-size font-weight"
+                                                th:text="${msg.sellerName}">Wedding</span> -->
+                                            <div class="table-order-info-price font-size">
+                                                <div class="table-order-info-qnt">
+                                                            <span
+                                                                    class="table-order-multiple">x</span>
+                                                    <span class="table-order-quantity font-bold"
+                                                          th:text="${product.quantity}">1</span>
+                                                </div>
+                                                <span class="table-order-price text-orange font-bold"
+                                                      th:text="${product.price}">$122.00</span>
+                                            </div>
+
                                         </div>
                                     </div>
-
-                                     <div class="order__history-item-detail-total-order">
-                                            <span class="order__history-item-detail-total">$120</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="line-item">
-                        </div>
-                        <div class="order__history-item-btn">
-                            <form th:action="@{/}" method="get">
-                                <button class="btn-cart-continue" value="view detail" name="Action">View
-                                    detail</button>
-
-                            </form>
-                        </div>
-
+                                </td>
+                            </tr>
+                            <tr class="total">
+                                <td colspan="1">
+                                    <span>Total Price:</span>
+                                    <span th:text="${order.totalPrice}" class="total-text">$150.00</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                </div> -->
-
-                <div class="order-list" th:if="${msg}">
-                    <div class="order-item" th:each="order : ${msg.orderList}">
-                        <div class="order-header">
-                            <div class="header-info">
-                                <p><span class="seller-order" th:text="${order.sellerName}">John Doe</span></p>
-                                <span th:text="${order.status}" class="order-status">Delivered</span>
-                            </div>
-                            <p class="order-id">Order ID: <span th:text="${order.orderId}">12345</span></p>
-                        </div>
-
-                        <div class="order-details">
-                            <table class="product-table">
-                                <thead>
-                                <tr>
-                                    <th>Product Name</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="product-list" th:each="product : ${order.detailList}">
-                                    <td th:text="${product.flowerName}"> hipatge</td>
-                                    <td class="pro-quantity" th:text="${product.quantity}">1</td>
-                                    <td th:text="${product.price}">$20.00</td>
-                                </tr>
-                                <tr class="total">
-                                    <td colspan="2" class="total-text">
-                                        <span>Total Price</span>
-                                    </td>
-                                    <td colspan="1">
-                                        <span th:text="${order.totalPrice}">$150.00</span>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <form th:action="@{/buyer/order/detail}" th:method="get">
-                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                    <input type="hidden" name="orderId" th:value="${order.orderId}">
-                                <button class="table-order-status-btn" value="Detail" name="detail">Detail</button>
-                        </form>
-                    </div>
-
+                    <form th:action="@{/buyer/order/detail}" th:method="get" class="contain-btn">
+                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                        <input type="hidden" name="orderId" th:value="${order.orderId}">
+                        <button class="table-order-status-btn" value="Detail" name="detail">View Detail</button>
+                    </form>
                 </div>
-            </div>
 
+            </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="footer" th:replace="~{base :: footer}">
-
-        </footer>
     </div>
-    <script src="/js/jquery.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <script src="/js/price-range.js"></script>
-    <script src="/js/jquery.prettyPhoto.js"></script>
-    <script src="/js/base.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer" th:replace="~{base :: footer}">
+
+    </footer>
+</div>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/js/price-range.js"></script>
+<script src="/js/jquery.prettyPhoto.js"></script>
+<script src="/js/base.js"></script>
 </body>
 
 </html>

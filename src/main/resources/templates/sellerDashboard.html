@@ -13,7 +13,7 @@
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
     <link rel="stylesheet" href="/css/adminBase.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-        integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+          integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/sellerDashboard.css">
 
     <!-- Link Chart Script -->
@@ -25,189 +25,190 @@
 </head>
 
 <body>
-    <aside class="sidebar">
-        <a href="" class="sidebar__logo">
-            <img src="/img/flowrista-logo.png" alt="Web Logo">
-        </a>
-        <hr class="horizontal dark ">
-        <div class="sidebar__components">
-            <ul class="sidebar__List">
-                <li>
-                    <a href="#" class="sidebar__link">
-                        <div class="sidebar__item active">
-                            <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Dashboard</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/seller/view/flower}" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Flower</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/seller/order/list}" class="sidebar__link ">
-                        <div class="sidebar__item">
-                            <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Order</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/seller/plan/detail}" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">My Plan</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/seller/buyer/list}" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Buyer List</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <form th:action="@{/account/view/profile}"  class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <input type="submit" name="action" value="Personal Profile" class="sidebar__item-title"></input>
-                        </div>
-                        <input type="hidden" name="id" th:value="${session.acc.id}">
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </aside>
-    <div class="wrap">
-        <!-- header -->
-        <header class="header">
-            <!-- Header direction -->
-            <div class="header__direction">
-                <div class="header__path">
-                    <a href="">
-                        <span>Seller Page</span>
-                    </a>
-                    <span>/</span>
-                    <span>Dashboard</span><br>
-                </div>
-                <div class="header__title">
-                    <h3>Dashboard</h3>
-                </div>
-            </div>
-
-            <!-- Header search -->
-            <div class="header__search">
-                <form action="" method="GET" class="header__search-form">
-                    <button class="header__search-btn">
-                        <i class="fa-solid  fa-magnifying-glass"></i>
-                    </button>
-                    <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
-                </form>
-            </div>
-            <div class="header__create-btn btn">
-                <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                <span>Create</span>
-                <div class="header__create-block">
-                    <h4 class="header__create-title">Create New</h4>
-                    <ul class="header__create-list">
-                        <li class="header__create-item">
-                            <a href="#">
-                                <i class="fa-regular fa-clipboard header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Business Service</span>
-                            </a>
-                        </li>
-                        <li class="header__create-item">
-                            <a href="#">
-                                <i class="fa-solid fa-briefcase header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Business Plan</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="header__others">
-                <div class="header__noti">
-                    <i class="fa-solid fa-bell"></i>
-                </div>
-                <span class="header__separate">|</span>
-                <div class="header__account" id="headerAccount">
-                    <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
-                    <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
-                    <span th:text="${session.acc.getUser().getName()}"></span>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <div  class="header__item-account" id="accountDropdown">
-                        <form th:action="@{/account/view/profile}"  class="form" method="get">
-                            <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
-                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                        </form>
-                        <form th:action="@{/change/password}" class="form">
-                            <input type="submit" name="action" class="header__item-account-item" value="Change Password"></input>
-                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                        </form>
-                        <form th:action="@{/account/logout}" class="form" method="get">
-                            <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
-                        </form>
+<aside class="sidebar">
+    <a href="" class="sidebar__logo">
+        <img src="/img/flowrista-logo.png" alt="Web Logo">
+    </a>
+    <hr class="horizontal dark ">
+    <div class="sidebar__components">
+        <ul class="sidebar__List">
+            <li>
+                <a th:href="@{/seller/dashboard}" class="sidebar__link">
+                    <div class="sidebar__item active">
+                        <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Dashboard</span>
                     </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/view/flower}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Flower</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/order/list}" class="sidebar__link ">
+                    <div class="sidebar__item">
+                        <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Order</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/plan/detail}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">My Plan</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/buyer/list}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Buyer List</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <form th:action="@{/account/view/profile}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <input type="submit" name="action" value="Personal Profile" class="sidebar__item-title"></input>
+                    </div>
+                    <input type="hidden" name="id" th:value="${session.acc.id}">
+                </form>
+            </li>
+        </ul>
+    </div>
+</aside>
+<div class="wrap">
+    <!-- header -->
+    <header class="header">
+        <!-- Header direction -->
+        <div class="header__direction">
+            <div class="header__path">
+                <a href="">
+                    <span>Seller Page</span>
+                </a>
+                <span>/</span>
+                <span>Dashboard</span><br>
+            </div>
+            <div class="header__title">
+                <h3>Dashboard</h3>
+            </div>
+        </div>
+
+        <!-- Header search -->
+        <div class="header__search">
+            <form action="" method="GET" class="header__search-form">
+                <button class="header__search-btn">
+                    <i class="fa-solid  fa-magnifying-glass"></i>
+                </button>
+                <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
+            </form>
+        </div>
+        <div class="header__create-btn btn">
+            <i class="fa-solid fa-plus header__create-btn-icon"></i>
+            <span>Create</span>
+            <div class="header__create-block">
+                <h4 class="header__create-title">Create New</h4>
+                <ul class="header__create-list">
+                    <li class="header__create-item">
+                        <a href="#">
+                            <i class="fa-regular fa-clipboard header__create-item-icon"></i>
+                            <span class="sidebar__item-title">Business Service</span>
+                        </a>
+                    </li>
+                    <li class="header__create-item">
+                        <a href="#">
+                            <i class="fa-solid fa-briefcase header__create-item-icon"></i>
+                            <span class="sidebar__item-title">Business Plan</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="header__others">
+            <div class="header__noti">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <span class="header__separate">|</span>
+            <div class="header__account" id="headerAccount">
+                <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
+                <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}"
+                     alt="Avatar">
+                <span th:text="${session.acc.getUser().getName()}"></span>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <div class="header__item-account" id="accountDropdown">
+                    <form th:action="@{/account/view/profile}" class="form" method="get">
+                        <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
+                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/change/password}" class="form">
+                        <input type="submit" name="action" class="header__item-account-item"
+                               value="Change Password"></input>
+                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/account/logout}" class="form" method="get">
+                        <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
+                    </form>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Container -->
-        <div class="container">
-            <div class="container-wrap">
-                <div class="grid">
-                    <div class="key-metric">
-                        <h4 class="key-metric__header">Key Metrics & KPIs</h4>
-                        <div class="key-metric__list">
-                            <div class="key-metric__item key-metric__item-user">
-                                <div class="key-metric__item-content">
-                                    <h4 class="key-metric__item-name">Total Orders</h4>
-                                    <span class="key-metric__item-quantity">200</span>
-                                    <span class="key-metric__item-growth">+3</span>
-                                    <span>Last 24 hours</span>
-                                </div>
-                                <div class="key-metric__item-icon">
-                                    <i class="fa-solid fa-clipboard order"></i>
-                                </div>
+    <!-- Container -->
+    <div class="container">
+        <div class="container-wrap">
+            <div class="grid">
+                <div class="key-metric">
+                    <h4 class="key-metric__header">Key Metrics & KPIs</h4>
+                    <div class="key-metric__list">
+                        <div class="key-metric__item key-metric__item-user">
+                            <div class="key-metric__item-content">
+                                <h4 class="key-metric__item-name">Total Orders</h4>
+                                <span class="key-metric__item-quantity"
+                                      th:text="${totalNumberOfOrder.totalTotalNumberOfOder}">200</span>
+
                             </div>
-                            <div class="key-metric__item key-metric__item-user">
-                                <div class="key-metric__item-content">
-                                    <h4 class="key-metric__item-name">Number of Flowers</h4>
-                                    <span class="key-metric__item-quantity">9000</span>
-                                    <span class="key-metric__item-growth">+ 1000</span>
-                                    <span>Last 24 hours</span>
-                                </div>
-                                <div class="key-metric__item-icon">
-                                    <i class="bi bi-flower1 flower"></i>
-                                </div>
+                            <div class="key-metric__item-icon">
+                                <i class="fa-solid fa-clipboard order"></i>
                             </div>
-                            <div class="key-metric__item key-metric__item-user">
-                                <div class="key-metric__item-content">
-                                    <h4 class="key-metric__item-name">Revenue</h4>
-                                    <span class="key-metric__item-quantity">$100000</span>
-                                    <span class="key-metric__item-growth">+10000</span>
-                                    <span>Last 24 hours</span>
-                                </div>
-                                <div class="key-metric__item-icon">
-                                    <i class="fa-solid fa-money-bill-trend-up money"></i>
-                                </div>
+                        </div>
+                        <div class="key-metric__item key-metric__item-user">
+                            <div class="key-metric__item-content">
+                                <h4 class="key-metric__item-name">Number of Flowers</h4>
+                                <span class="key-metric__item-quantity"
+                                      th:text="${totalNumberFlower.totalNumberFlowers}">9000</span>
+
                             </div>
-                            <div class="key-metric__item key-metric__item-user">
-                                <div class="key-metric__item-content">
-                                    <h4 class="key-metric__item-name">Canceled Orders</h4>
-                                    <span class="key-metric__item-quantity">2000</span>
-                                    <span class="key-metric__item-growth">+ 190</span>
-                                    <span>Last 24 hours</span>
-                                </div>
-                                <div class="key-metric__item-icon">
-                                    <i class="bi bi-x-circle-fill cancel"></i>
-                                </div>
+                            <div class="key-metric__item-icon">
+                                <i class="bi bi-flower1 flower"></i>
+                            </div>
+                        </div>
+                        <div class="key-metric__item key-metric__item-user">
+                            <div class="key-metric__item-content">
+                                <h4 class="key-metric__item-name">Revenue</h4>
+                                <span class="key-metric__item-quantity" th:text="${'$' + revenue}">$100000</span>
+
+                            </div>
+                            <div class="key-metric__item-icon">
+                                <i class="fa-solid fa-money-bill-trend-up money"></i>
+                            </div>
+                        </div>
+                        <div class="key-metric__item key-metric__item-user">
+                            <div class="key-metric__item-content">
+                                <h4 class="key-metric__item-name">Canceled Orders</h4>
+                                <span class="key-metric__item-quantity"
+                                      th:text="${totalNumberOfCanceledOrder.getTotalNumberOfCanceledOrder}">2000</span>
+
+                            </div>
+                            <div class="key-metric__item-icon">
+                                <i class="bi bi-x-circle-fill cancel"></i>
+                            </div>
                         </div>
                     </div>
                     <h4 class="analytic__header">Analytics</h4>
@@ -220,7 +221,7 @@
                                 <canvas id="compareFlowerCategoryChart"></canvas>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -231,10 +232,14 @@
 
         </div>
     </div>
+    <script th:inline="javascript">
+        // Thymeleaf will output `orderCounts` directly as a JSON array
+        const orderInDaily = /*[[${orderInDaily.orderDaily}]]*/ {};
+    </script>
     <script src="/js/adminBase.js"></script>
     <script src="/js/sellerDashboard.js"></script>
 
-    
+
 </body>
 
 </html>

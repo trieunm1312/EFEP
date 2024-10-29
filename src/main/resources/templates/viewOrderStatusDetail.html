@@ -5,18 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">-->
-<!--    &lt;!&ndash; <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css"> &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderStatusDetail.css">-->
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderStatusDetail.css">
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/viewOrderStatusDetail.css">
+    <link rel="stylesheet" href="/css/viewOrderStatusDetail.css"> -->
 
 </head>
 
@@ -34,36 +33,35 @@
 
         <!-- Container -->
         <div class="container">
-            <!-- <div class="grid"> -->
-            <div class="container__wrap">
-                <!-- Breadbrum -->
-                <!-- <div class="breadbrum">
-                <h1 class="breadbrum__title">View Order List</h1><br>
+            <!-- Breadbrum -->
+            <div class="breadbrum">
+                <h1 class="breadbrum__title">View Order Detail</h1><br>
                 <ul class="breadbrum__element-list">
                     <li class="breadbrum__element-list-item">
                         <a href="home.html" class="breadbrum__element-list-item-link">
-                            <i class="fa-solid fa-house"></i>
+                            <!-- <i class="fa-solid fa-house"></i> -->
+                            <span>Account</span>
                         </a>
                     </li>
 
                     <li class="breadbrum__element-list-item">
                         <a href="" class="breadbrum__element-list-item-link">
                             <i class="fa-solid fa-angles-right"></i>
-                            <span>Account</span>
+                            <span>Order History</span>
                         </a>
                     </li>
 
                     <li class="breadbrum__element-list-item">
                         <a href="register.html" class="breadbrum__element-list-item-link">
                             <i class="fa-solid fa-angles-right"></i>
-                            <span>Forgot Password</span>
+                            <span>Order Detail</span>
                         </a>
                     </li>
                 </ul>
-            </div> -->
-
+            </div>
+            <div class="container__wrap">
                 <!-- Order list -->
-                <div th:if="${msg}">
+                <div th:if="${msg}" class="detail-content">
                     <div class="step-progress">
                         <div class="navigation-order">
                             <a th:href="@{/buyer/order/history}" class="auth-form__switch-btn"
@@ -71,7 +69,7 @@
                                 <i class="fa-solid fa-arrow-left"></i>
                                 Back
                             </a>
-                            <p class="text-orange">ORDER CODE: <span class="navigation-order-code text-orange"
+                            <p class="text-orange navigation-order-code">ORDER CODE: <span
                                     th:text="${msg.orderId}">ABC12345</span></p>
                         </div>
                         <section class="step-wizard">
@@ -92,40 +90,38 @@
                                     <span class="progress-label">Completed</span>
                                 </li>
                             </ul>
+                            <div class="step-wizard-cancel" th:if="${msg.orderStatus == 'cancelled'}"
+                            th:classappend="${msg.orderStatus == 'cancelled'} ? 'order-cancel'">
+                                <span class="step-wizard-item-cancel">Order Cancelled</span>
+                                <i class="fa-solid fa-circle-xmark step-wizard-item-icon"></i>
+                            </div>
                         </section>
                     </div>
                     <div class="order__detail-item">
                         <table border="1" cellpadding="20" cellspacing="0">
                             <tbody>
-
                                 <tr>
                                     <td class="table-order-detail" colspan="2">
                                         <div class="order-nav">
-                                            <form th:action="@{/}">
-                                                <button class="order-btn">View more flower</button>
-                                            </form>
-                                            <form th:action="@{/buyer/order}" th:method="put">
-                                                <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                                <input type="hidden" name="orderId" th:value="${msg.orderId}">
-                                                <button class="order-btn-cancel">Cancel order</button>
-                                            </form>
+                                            <i class="fa-solid fa-store icon-store"></i>
+                                            <span class="order-nav-seller" th:text="msg.sellerName">Seller</span>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td class="table-order-detail" colspan="2">
-                                        <div class="order-item text-flex">
+                                        <div class="order-item text-flex" th:each="product : ${msg.detailList}">
                                             <div class="table-order-img">
-                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                alt="">
+                                                <img th:src="${product.image}"
+                                                    alt="Flower">
                                             </div>
-                                            <div class="table-order-info" th:each="product : ${msg.detailList}">
-                                                <h4 class="table-order-name" th:text="${product.flowerName}">Hiptage
-                                                </h4>
-                                                <!-- <span class="table-order-id">F123</span> -->
-                                                <span class="table-order-event font-size font-weight"
-                                                    th:text="${product.sellerName}">Wedding</span>
+                                            <div class="table-order-info">
+                                                <h4 class="table-order-name" th:text="${product.flowerName}">Hiptage</h4>
+                                                <p class="table-order-description" th:text="${product.description}">DEP</p>
+                                                <div class="table-order-cate" th:each="cate : ${product.categories}">
+                                                    <span class="cate-item" th:text="${cate}">Wedding</span>
+                                                </div>
                                                 <div class="table-order-info-price font-size">
                                                     <div class="table-order-info-qnt">
                                                         <span class="table-order-multiple font-bold">x</span>
@@ -150,20 +146,30 @@
                                             th:text="${msg.totalPrice}">$122.00</span>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="table-order-detail text-size text-left" colspan="1">
-                                        <span class="table-order-date font-weight">Order Date</span>
-                                    </td>
-                                    <td class="table-order-detail text-left" colspan="1">
-                                        <span class="table-order-date_detail font-size">12/12/12</span>
-                                    </td>
-                                </tr>
+                                <!--                                <tr>-->
+                                <!--                                    <td class="table-order-detail text-size text-left" colspan="1">-->
+                                <!--                                        <span class="table-order-date font-weight">Order Date</span>-->
+                                <!--                                    </td>-->
+                                <!--                                    <td class="table-order-detail text-left" colspan="1">-->
+                                <!--                                        <span class="table-order-date_detail font-size">12/12/12</span>-->
+                                <!--                                    </td>-->
+                                <!--                                </tr>-->
                                 <tr>
                                     <td class="table-order-detail text-size text-left" colspan="1">
                                         <span class="table-order-payment font-weight">Payment Method</span>
                                     </td>
                                     <td class="table-order-detail text-left" colspan="1">
-                                        <span class="table-order-payment-type font-weight font-size">VNPay</span>
+                                        <span class="table-order-payment-type font-weight font-size"
+                                            th:text="${msg.paymentMethod}">VNPay</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-order-detail contain-btn" colspan="2">
+                                        <form th:action="@{/buyer/order}" th:method="put">
+                                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                            <input type="hidden" name="orderId" th:value="${msg.orderId}">
+                                            <button class="order-btn-cancel">Cancel order</button>
+                                        </form>
                                     </td>
                                 </tr>
                             </tbody>
