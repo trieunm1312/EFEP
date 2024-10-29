@@ -335,11 +335,14 @@
     margin-right: 32px;
 }
 
-.flower-list__name h4{
+.flower-list__name{
     font-weight: 600;
+    font-size: 2.2rem;
     line-height: 2rem;
+    padding: 0;
     padding-bottom: 16px;
-    text-decoration: none;
+    border: none;
+    background-color: transparent;
     color: var(--text-color);
 }
 
@@ -348,11 +351,12 @@
 }
 
 .flower-list__name:hover{
-    text-decoration: none;
+    color: var(--primary-color);
 }
 
 .flower-list__content span{
     display: inline-block;
+    font-size: 2rem;
     line-height: 1.4rem;
     margin-right: 32px;
     padding: 16px 0;
@@ -363,8 +367,13 @@
 }
 
 .flower-list__desc{
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     padding: 16px 0;
+}
+
+.flower-list__actions{
+    display: flex;
+    justify-content: start;
 }
 
 .flower-list__icon{

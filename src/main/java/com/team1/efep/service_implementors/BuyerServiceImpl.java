@@ -572,6 +572,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .id(item.getId())
                         .name(item.getName())
                         .price(item.getPrice())
+                        .description(item.getDescription())
                         .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
                         .build()
                 ).toList();

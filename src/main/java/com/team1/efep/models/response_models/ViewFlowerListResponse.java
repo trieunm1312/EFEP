@@ -33,6 +33,7 @@ public class ViewFlowerListResponse {
 
         private float price;
 
+        private String description;
 
         private List<Image> images;
     }
