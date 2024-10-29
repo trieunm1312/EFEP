@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFlowerExchange</title>
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderStatusDetail.css"> -->
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderStatusDetail.css">
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/viewOrderStatusDetail.css">
+    <link rel="stylesheet" href="/css/viewOrderStatusDetail.css"> -->
 
 </head>
 
@@ -89,7 +89,7 @@
                                     <span class="progress-count">3</span>
                                     <span class="progress-label">Completed</span>
                                 </li>
-                            </ul> -->
+                            </ul>
                             <div class="step-wizard-cancel" th:if="${msg.orderStatus == 'cancelled'}"
                             th:classappend="${msg.orderStatus == 'cancelled'} ? 'order-cancel'">
                                 <span class="step-wizard-item-cancel">Order Cancelled</span>
@@ -117,11 +117,10 @@
                                                     alt="Flower">
                                             </div>
                                             <div class="table-order-info">
-                                                <h4 class="table-order-name" th:text="${product.flowerName}">Hiptage
-                                                </h4>
-                                                 <span class="table-order-description" th:text="${product.description}">DEP</span>
-                                                <div class="table-order-event font-size font-weight" th:each="cate : ${product.categories}">
-                                                    <span class="" th:text="${cate}">Wedding</span>
+                                                <h4 class="table-order-name" th:text="${product.flowerName}">Hiptage</h4>
+                                                <p class="table-order-description" th:text="${product.description}">DEP</p>
+                                                <div class="table-order-cate" th:each="cate : ${product.categories}">
+                                                    <span class="cate-item" th:text="${cate}">Wedding</span>
                                                 </div>
                                                 <div class="table-order-info-price font-size">
                                                     <div class="table-order-info-qnt">

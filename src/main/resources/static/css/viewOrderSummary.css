@@ -75,8 +75,34 @@
     color: green;
 }
 
+.notify-msg-success span {
+    display: block;
+}
+
+.notify-msg-success-icon {
+    border: solid;
+    border-width: 8px;
+    border-radius: 50%;
+    border-color: rgba(0, 128, 0, 0.233);
+}
+
 .notify-msg-fail {
     color: red;
+}
+
+.notify-msg-fail span {
+    display: block;
+}
+
+.notify-msg-fail-icon {
+    border: solid;
+    border-width: 8px;
+    border-radius: 50%;
+    border-color: rgba(255, 0, 0, 0.233);
+}
+
+.size-icon {
+    font-size: 4rem;
 }
 
 .notify-btn {
