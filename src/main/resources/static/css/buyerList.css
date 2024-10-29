@@ -1,0 +1,92 @@
+/* Container */
+.container {
+    width: 90%;
+    margin-top: 40px;
+    background-color: var(--white-color);
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
+    padding-left: 0;
+    margin-right: 22%;
+    border-radius: 8px;
+}
+
+.buyer {
+    margin: 32px 16px;
+}
+
+.buyer__heading {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.buyer__title {
+    font-weight: 600;
+}
+
+.buyer__list{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.buyer__item{
+    width: 45%;
+    height: fit-content;
+    margin-bottom: 48px;
+    display: flex;
+    justify-content: start;
+    gap: 16px;
+    vertical-align: top;
+    flex-wrap: wrap;
+}
+
+.buyer__img{
+    width: 45%;
+}
+
+.buyer__info{
+    width: 49%;
+}
+
+.buyer__img img{
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+}
+
+.buyer__info{
+    line-height: 1.8;
+    word-wrap: break-word;
+}
+
+.buyer__name{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    display: block;
+    width: 100%;
+}
+
+.buyer__email{
+    font-size: 0.7rem;
+    color: #8392ab;
+    font-weight: 500;
+    display: block;
+    width: 100%;
+}
+
+.buyer__phone{
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+
+
+
+
+
+
+

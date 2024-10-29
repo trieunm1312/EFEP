@@ -33,6 +33,10 @@ public class SearchFlowerResponse {
 
         private float price;
 
+        private String description;
+
+        private int soldQuantity;
+
         private List<Image> images;
     }
 

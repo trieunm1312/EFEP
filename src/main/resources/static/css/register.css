@@ -27,7 +27,7 @@
     border-radius: 5px;
     overflow: hidden;
     background-color: var(--white-color);
-    z-index: 999999999;
+    z-index: 99;
 }
 
 .auth-form a:hover{
