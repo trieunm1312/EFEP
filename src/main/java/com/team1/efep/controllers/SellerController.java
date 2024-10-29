@@ -134,14 +134,14 @@ public class SellerController {
     }
 
 
-    @PutMapping("/order/detail")
+    @GetMapping("/order/detail")
     @Operation(hidden = true)
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
         return sellerService.viewOrderDetail(request, session, model);
     }
 
-    @PutMapping("/order/detail/api")
-    public ViewOrderDetailResponse viewOrderDetail(@RequestBody ViewOrderDetailRequest request) {
+    @GetMapping("/order/detail/api")
+    public ViewOrderDetailForSellerResponse viewOrderDetail(@RequestBody ViewOrderDetailRequest request) {
         return sellerService.viewOrderDetailAPI(request);
     }
 

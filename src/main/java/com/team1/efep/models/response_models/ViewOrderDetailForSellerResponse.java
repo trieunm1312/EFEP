@@ -18,6 +18,8 @@ public class ViewOrderDetailForSellerResponse {
 
     private int orderId;
 
+    private String sellerName;
+
     private String buyerName;
 
     private float totalPrice;
@@ -32,7 +34,11 @@ public class ViewOrderDetailForSellerResponse {
     @Builder
     public static class Detail {
 
-        private String sellerName;
+        private String image;
+
+        private String description;
+
+        private List<String> categories;
 
         private String flowerName;
 

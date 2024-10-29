@@ -56,7 +56,7 @@ public interface SellerService {
 
     String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
 
-    ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request);
+    ViewOrderDetailForSellerResponse viewOrderDetailAPI(ViewOrderDetailRequest request);
 
     String filterOrder(FilterOrderRequest request, HttpSession session, Model model);
 

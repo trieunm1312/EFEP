@@ -289,3 +289,142 @@ thead {
 tbody tr:nth-child(odd) {
     background-color: rgba(184, 181, 181, 0.103);
 }
+
+/* Top Category */
+.top-category{
+    margin: 64px 32px ;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+
+
+.top-category__list{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+    width: 100%;
+}
+
+.top-category__img{
+    position: relative;
+}
+
+.top-category__img img{
+    border-radius: 12px;
+    width: 270px;
+    height: 320px;
+}
+
+.overlay{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 86, 141, 0.2);
+    border: 1px solid var();
+    display: block;
+    border-radius: 12px;
+    text-align: center;
+    display: none;
+}
+
+.add-to-wishlist{
+    position: absolute;
+    bottom: 16px;
+    left: 90px;
+    font-size: 2rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: none;
+    animation: fadeInUp ease .3s;
+}
+
+.overlay button:hover{
+    color: var(--white-color) !important;
+    background-color: var(--black-color) !important;
+}
+
+.view-detail{
+    position: absolute;
+    bottom: 16px;
+    right: 90px;
+    font-size: 2rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: none;
+    animation: fadeInUp ease .3s;
+}
+
+.add-to-wishlist__msg{
+    position: absolute;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 80px;
+    color: var(--white-color);
+    padding: 4px;
+    background-color: var(--black-color);
+    border-radius: 4px;
+    bottom: 44px;
+    left: -22px;
+    display: none;
+}
+
+.add-to-wishlist:hover .add-to-wishlist__msg{
+    display: block;
+}
+
+.view-detail:hover .view-detail__msg{
+    display: block;
+}
+
+
+.view-detail__msg{
+    position: absolute;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--white-color);
+    width: 60px;
+    padding: 4px;
+    background-color: var(--black-color);
+    border-radius: 4px;
+    bottom: 44px;
+    right: -10px;
+    display: none;
+}
+
+.top-category__item:hover .overlay{
+    display: block;
+}
+
+.top-category__name{
+    color: var(--text-color);
+    display: block;
+    text-align: start;
+    font-weight: 600;
+    font-size: 1.8rem;
+    background-color: transparent;
+    border: none;
+}
+
+
+.top-category__name:hover{
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.top-category__content{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 2.5%;
+}
+
+.top-category__content span:first-child{
+    font-weight: 600;
+}

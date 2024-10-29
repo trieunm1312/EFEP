@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
             return "redirect:/login";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "redirect:register";
+        return "redirect:/register";
     }
 
     @Override
@@ -118,7 +118,6 @@ public class AccountServiceImpl implements AccountService {
                     return "redirect:/admin/dashboard";
                 default:
                     HomepageConfig.config(model, buyerService);
-                    System.out.println(acc.getUser().getWishlist().getWishlistItemList().size());
                     return "redirect:/";
             }
         }
