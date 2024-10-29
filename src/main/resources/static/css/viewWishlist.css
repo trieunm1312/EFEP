@@ -98,12 +98,14 @@
 
 .table-item-img {
     display: inline-block;
-    
+    width: 76px;
+    height: 86px;
+
 }
 
 .table-item-img img {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    border-radius: 6px;
 }
 
 .table-item-quantity {
@@ -302,7 +304,7 @@ tbody tr:nth-child(odd) {
 
 .top-category__list{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 32px;
     width: 100%;
 }

@@ -20,7 +20,9 @@ import org.springframework.ui.Model;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -348,6 +350,7 @@ public class SellerServiceImpl implements SellerService {
                         .status(item.getStatus())
                         .build())
                 .toList();
+
     }
 
     private List<ViewFlowerListForSellerResponse.Image> viewImageList(List<FlowerImage> imageList) {
@@ -674,7 +677,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public FilterOrderResponse filterOrderAPI(FilterOrderRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        Account account = Role.getCurrentLoggedAccount(request.getSellerId(), accountRepo);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
             return FilterOrderResponse.builder()
                     .status("400")
@@ -693,26 +696,18 @@ public class SellerServiceImpl implements SellerService {
 
 
     private Object filterOrderLogic(FilterOrderRequest request) {
-        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
-        assert account != null;
+        Seller seller = sellerRepo.findById(request.getSellerId()).orElse(null);
         Map<String, String> error = FilterOrderValidation.validate(request);
         if (!error.isEmpty()) {
             return error;
         }
-
-        List<Order> orders = getOrdersBySeller(account.getUser().getSeller().getId());
-        assert !orders.isEmpty();
+        assert seller != null;
+        List<Order> orders = getOrdersBySeller(seller.getId());
 
         if (request.getStatus() != null && !request.getStatus().isEmpty()) {
             orders = orders.stream()
                     .filter(order -> order.getStatus().equalsIgnoreCase(request.getStatus()))
-                    .collect(Collectors.toList());
-        }
-
-        if (request.getCreatedDate() != null) {
-            orders = orders.stream()
-                    .filter(order -> order.getCreatedDate().getMonth().equals(request.getCreatedDate().getMonth()))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         List<FilterOrderResponse.OrderBill> orderBills = orders.stream()
@@ -764,6 +759,34 @@ public class SellerServiceImpl implements SellerService {
                 .collect(Collectors.toList());
     }
 
+    //----------------------------------SORT ORDER BY CREATE DATE-------------------------------------//
+
+    @Override
+    public String sortOrder(FilterOrderRequest filterOrderRequest, HttpSession session, Model model) {
+        model.addAttribute("msg", sortOrderLogic(filterOrderRequest));
+        return "viewOrderList";
+    }
+
+    @Override
+    public SortOrderResponse sortOrderAPI(FilterOrderRequest filterOrderRequest) {
+        return sortOrderLogic(filterOrderRequest);
+    }
+
+    private SortOrderResponse sortOrderLogic(FilterOrderRequest filterRequest) {
+        FilterOrderResponse response = (FilterOrderResponse) filterOrderLogic(filterRequest);
+        List<FilterOrderResponse.OrderBill> orders = new ArrayList<>(response.getOrderList());
+        if ("asc".equalsIgnoreCase(filterRequest.getSortDirection())) {
+            orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate));
+        } else if ("desc".equalsIgnoreCase(filterRequest.getSortDirection())) {
+            orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate).reversed());
+        }
+
+        return SortOrderResponse.builder()
+                .status("200")
+                .message("Sort order successfully")
+                .orderList(orders)
+                .build();
+    }
 
     //-------------------------------------------------VN PAY----------------------------------------//
 
@@ -955,35 +978,7 @@ public class SellerServiceImpl implements SellerService {
         return null;
     }
 
-    //----------------------------------SORT ORDER BY CREATE DATE-------------------------------------//
 
-    @Override
-    public String sortOrder(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest, HttpSession session, Model model) {
-        model.addAttribute("msg", sortOrderLogic(filterOrderRequest, sortOrderRequest));
-        return "viewOrderList";
-    }
-
-    @Override
-    public SortOrderResponse sortOrderAPI(FilterOrderRequest filterOrderRequest, SortOrderRequest sortOrderRequest) {
-        return sortOrderLogic(filterOrderRequest, sortOrderRequest);
-    }
-
-    private SortOrderResponse sortOrderLogic(FilterOrderRequest filterRequest, SortOrderRequest sortRequest) {
-        FilterOrderResponse response = (FilterOrderResponse) filterOrderLogic(filterRequest);
-        List<FilterOrderResponse.OrderBill> orders = response.getOrderList();
-
-        if ("asc".equalsIgnoreCase(sortRequest.getSortDirection())) {
-            orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate));
-        } else if ("desc".equalsIgnoreCase(sortRequest.getSortDirection())) {
-            orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate).reversed());
-        }
-
-        return SortOrderResponse.builder()
-                .status("200")
-                .message("Sort order successfully")
-                .orderList(orders)
-                .build();
-    }
 
     //------------------------------UPDATE FLOWER------------------------------------------//
 
@@ -1021,7 +1016,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object updateFlowerLogic(UpdateFlowerRequest request) {
-        Map<String, String> error = UpdateFlowerValidation.validate(request);
+        Map<String, String> error = UpdateFlowerValidation.validate(request, flowerRepo);
         if (!error.isEmpty()) {
             return error;
         }
@@ -1554,12 +1549,12 @@ public class SellerServiceImpl implements SellerService {
 
 
     private GetOrderInDailyResponse getOrderInDailyLogic() {
-        List<LocalDateTime> listTenDates = new ArrayList<>();
-        for (int i = 0; i < 25; i++) {
-            listTenDates.add(LocalDateTime.now().minusDays(i));
+        List<LocalDate> listTenDates = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        for (int i = 0; i < 20; i++) {
+            listTenDates.add(LocalDate.now().minusDays(i));
         }
 
-        System.out.println(listTenDates);
         return GetOrderInDailyResponse.builder()
                 .status("200")
                 .message("")
@@ -1567,16 +1562,16 @@ public class SellerServiceImpl implements SellerService {
                         listTenDates.stream()
                                 .map(date -> GetOrderInDailyResponse.OrderCount.builder()
                                         .count(getQuantityOrder(date))
-                                        .date(date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear())
+                                        .date(date.format(formatter))
                                         .build())
                                 .toList()
                 )
                 .build();
     }
 
-    private long getQuantityOrder(LocalDateTime date) {
+    private long getQuantityOrder(LocalDate date) {
         return orderRepo.findAll().stream()
-                .filter(order -> order.getCreatedDate().equals(date))
+                .filter(order -> order.getCreatedDate().toLocalDate().equals(date))
                 .count();
     }
 }

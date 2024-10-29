@@ -37,8 +37,6 @@ public class SortOrderResponse {
 
         private String status;
 
-        private String paymentType;
-
         private String paymentMethod;
 
         private List<FilterOrderResponse.Item> orderDetailList;

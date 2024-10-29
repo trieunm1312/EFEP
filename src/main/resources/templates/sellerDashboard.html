@@ -235,7 +235,7 @@
 </div>
     <script th:inline="javascript">
         // Thymeleaf will output `orderCounts` directly as a JSON array
-        const orderCounts = [[${orderInDaily.orderCounts}]];
+        const orderCounts = /*[[${orderInDaily.orderCounts}]]*/ [];
     </script>
     <script src="/js/adminBase.js"></script>
     <script src="/js/sellerDashboard.js"></script>

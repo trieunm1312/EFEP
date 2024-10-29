@@ -364,7 +364,7 @@ html {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.11);
      display: none;
     animation: fadeInDown ease .2s;
-    z-index: 2;
+    z-index: 999;
 }
 
 .category__block h4{
@@ -760,7 +760,6 @@ html {
     height: 86px;
     margin: 12px;
     border-radius: 6px;
-    cursor: pointer;
 }
 
 .header__cart-item-info {
@@ -782,7 +781,6 @@ html {
     font-weight: 550;
     color: var(--text-color);
     margin-bottom: 4px;
-    cursor: pointer;
 }
 
 .header__cart-item-name:hover {
