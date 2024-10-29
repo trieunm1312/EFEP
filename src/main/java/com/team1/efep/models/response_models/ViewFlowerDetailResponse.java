@@ -83,4 +83,16 @@ public class ViewFlowerDetailResponse {
 
         private String name;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Category {
+
+        private int id;
+
+        private String name;
+
+    }
 }
