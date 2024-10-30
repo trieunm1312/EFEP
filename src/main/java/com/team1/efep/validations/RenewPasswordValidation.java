@@ -12,16 +12,6 @@ public class RenewPasswordValidation {
     public static Map<String, String> validate(RenewPasswordRequest request, AccountRepo accountRepo) {
         Map<String, String> error = new HashMap<>();
 
-        // 1. Email validation (not empty)
-        if (request.getEmail().isEmpty()) {
-            return MapConfig.buildMapKey(error, "Email cannot be empty");
-        }
-
-        // 2. Improved email format validation
-        if (!request.getEmail().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
-            return MapConfig.buildMapKey(error, "Email is in invalid format");
-        }
-
         // 3. Check if account exists for the email
         Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
         if (acc == null) {
