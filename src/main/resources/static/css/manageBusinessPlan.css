@@ -106,8 +106,13 @@ label h3{
     margin-right: 6px;
 }
 
-.business-plan__card-new{
+.business-plan__card-new {
     display: none;
+}
+
+.business-plan__card-new.show {
+    display: block;
+    animation: flipInY ease-out 0.3s;
 }
 
 .business-plan__card-desc textarea{

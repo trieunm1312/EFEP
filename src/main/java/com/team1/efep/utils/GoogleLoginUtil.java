@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -45,7 +46,9 @@ public class GoogleLoginUtil {
             AccountRepo accountRepo,
             HttpSession session,
             UserRepo userRepo,
-            WishlistRepo wishlistRepo
+            WishlistRepo wishlistRepo,
+            RedirectAttributes redirectAttributes
+
     ) {
         String apiUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken;
 
@@ -99,7 +102,7 @@ public class GoogleLoginUtil {
             }
             reader.close();
             connection.disconnect();
-            return accountService.login(LoginRequest.builder().email(googleResponse.getEmail()).password(googleResponse.getId()).build(), model, session);
+            return accountService.login(LoginRequest.builder().email(googleResponse.getEmail()).password(googleResponse.getId()).build(), model, session, redirectAttributes);
 
         } catch (Exception e) {
             e.printStackTrace();

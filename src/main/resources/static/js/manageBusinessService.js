@@ -12,7 +12,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Automatically show the new service row if the URL contains newService=true
     if (newService === 'true' && newServiceRow) {
-        newServiceRow.style.display = 'table-row'; // Show the row
+        newServiceRow.style.display = 'table-row';
+        newServiceRow.style.animation = 'fadeInRight ease-out 0.3s';
+
     }
 
 
@@ -20,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
         createBtn.addEventListener('click', function() {
             if (newServiceRow.style.display === 'none' || newServiceRow.style.display === '') {
                 newServiceRow.style.display = 'table-row';
+                newServiceRow.style.animation = 'fadeInRight ease-out 0.3s';
             } else {
                 newServiceRow.style.display = 'none';
             }
