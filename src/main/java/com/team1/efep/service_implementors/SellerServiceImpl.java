@@ -98,9 +98,10 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-
     private Object createFlowerLogic(CreateFlowerRequest request) {
-        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo);
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo, account.getUser().getSeller());
+
         if (error.isEmpty()) {
             //success
             Flower flower = createNewFlower(request);
