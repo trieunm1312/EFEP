@@ -20,7 +20,7 @@
 .detail-btn {
     display: flex;
     justify-content: right;
-    font-size: 1.1rem;
+    font-size: 1rem;
     padding-right: 18px;
 }
 
@@ -52,11 +52,11 @@
 }
 
 .filter-order {
-    width: 30%;
+    display: flex;
 }
 
 .filter-by-status,
-.filter-by-Month,
+.all-order-btn,
 .sort-order 
 {
     font-size: 0.7rem;
@@ -70,8 +70,19 @@
     color: var(--primary-color);
 }
 
-.filter-by-Month {
-    margin-left: 8px;
+.all-order {
+    margin-right: 10px;
+}
+
+.all-order-btn {
+    background-color: #fff;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease, color 0.25s ease;
+}
+
+.all-order-btn:hover {
+    background-color: var(--primary-color);
+    color: #fff;
 }
 
 .order-list {
@@ -110,15 +121,12 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 18px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-    padding: 4px 15px 15px;
-}
-
-.order-header {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
+} 
 
 .header-info {
     display: flex;
@@ -130,6 +138,10 @@
 
 .header-status, .header-date {
     font-size: 0.85rem;
+}
+
+.header-date {
+    margin-right: 10px;
 }
 
 .order-status-processing {
@@ -149,17 +161,12 @@
 }
 
 .header-buyer {
-    font-size: 0.8rem;
-}
-
-.header-buyer span {
     color: var(--primary-color);
 }
 
 .order-header h4 {
     margin: 0px;
-    font-size: 1.4em;
-    color: #666;
+    font-size: 0.9rem;
 }
 
 .header-order {
@@ -206,13 +213,6 @@
     text-align: left;
     background-color: #f9f9f9a9;
 } 
-
-.order-item {
-    padding: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    margin-bottom: 8px;
-}
 
 .text-flex {
     display: flex;
@@ -265,7 +265,7 @@
 }
 
 .summary {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: bold;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
