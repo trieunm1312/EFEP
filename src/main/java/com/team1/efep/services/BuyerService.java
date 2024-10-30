@@ -84,9 +84,21 @@ public interface BuyerService {
 
     VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest);
 
+    String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest);
+
+    VNPayResponse createVNPayPaymentLinkForBuyNowAPI(VNPayRequest request, HttpServletRequest httpServletRequest);
+
+    String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session);
+
+//    VNPayResponse getPaymentResultForBuyNowAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest);
+
+    String getCODPaymentResultForBuyNow(VNPayRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
+
     void viewCategory(Model model);
 
     ViewCategoryListResponse viewCategoryAPI();
+
+    String buyNow(ConfirmOrderRequest request, HttpSession session, Model model);
 
     String confirmOrder(HttpSession session, Model model);
 

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ViewOrderHistoryResponse {
 
         private String status;
 
-        private LocalDateTime createDate;
+        private LocalDate createDate;
 
         private List<Detail> detailList;
     }

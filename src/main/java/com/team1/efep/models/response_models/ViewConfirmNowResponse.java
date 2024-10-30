@@ -13,13 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class ViewWishlistResponse {
+public class ViewConfirmNowResponse {
 
     String status;
 
     String message;
-
-    int id;
 
     int userId;
 
@@ -27,14 +25,14 @@ public class ViewWishlistResponse {
 
     float totalPrice;
 
-    List<WishlistItems> wishlistItemList;
+    FlowerInfo flower;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
     @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-    public static class WishlistItems {
+    public static class FlowerInfo {
         int id;
         List<ViewFlowerListResponse.Image> imgList;
         String name;

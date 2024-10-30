@@ -594,16 +594,16 @@ public class EfepApplication {
                 // init business service
                 BusinessService service1 = businessServiceRepo.save(
                         BusinessService.builder()
-                                .name("Service 1")
-                                .description("Description of Service 1")
+                                .name("+ 10 flowers")
+                                .description("You can add 20 flowers to your bouquet")
                                 .price(100.0f)
                                 .build()
                 );
 
                 BusinessService service2 = businessServiceRepo.save(
                         BusinessService.builder()
-                                .name("Service 2")
-                                .description("Description of Service 2")
+                                .name("+ 20 flowers")
+                                .description("You can add 30 flowers to your bouquet")
                                 .price(150.0f)
                                 .build()
                 );
@@ -651,8 +651,8 @@ public class EfepApplication {
                                 .build()
                 );
 
-                plan1.setPlanServiceList(List.of(planService1, planService2));
-                plan2.setPlanServiceList(List.of(planService3));
+                plan1.setPlanServiceList(List.of(planService1));
+                plan2.setPlanServiceList(List.of(planService2));
                 businessPlanRepo.saveAll(List.of(plan1, plan2));
 
                 //init purchase plan

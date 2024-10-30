@@ -98,9 +98,10 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-
     private Object createFlowerLogic(CreateFlowerRequest request) {
-        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo);
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo, account.getUser().getSeller());
+
         if (error.isEmpty()) {
             //success
             Flower flower = createNewFlower(request);
@@ -238,7 +239,7 @@ public class SellerServiceImpl implements SellerService {
                         .map(detail -> detail.getFlower().getFlowerImageList().get(0).getLink())
                         .toList())
                 .buyerName(order.getBuyerName())
-                .createDate(order.getCreatedDate())
+                .createDate(order.getCreatedDate().toLocalDate())
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
@@ -249,6 +250,7 @@ public class SellerServiceImpl implements SellerService {
     private List<ViewOrderListResponse.Item> viewOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderListResponse.Item.builder()
+                        .image(detail.getFlower().getFlowerImageList().get(0).getLink())
                         .name(detail.getFlower().getName())
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
@@ -328,7 +330,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(int sellerId) {
-        List<Flower> flowers = flowerRepo.findBySeller_Id(sellerId);
+        List<Flower> flowers = flowerRepo.findAllBySeller_Id(sellerId);
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
                 .message("Number of flower" + flowers.size())
@@ -806,7 +808,7 @@ public class SellerServiceImpl implements SellerService {
     private VNPayResponse createVNPayPaymentLinkLogic(VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest) {
         Map<String, String> paramList = new HashMap<>();
 
-        long amount = getAmount(request);
+        long amount = getAmount(request) * 25000;
         int busPlanId = getBusPlanId(request);
         String txnRef = BusinessPlanVNPayConfig.getRandomNumber(8);
         String ipAddress = BusinessPlanVNPayConfig.getIpAddress(httpServletRequest);
@@ -1017,13 +1019,12 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object updateFlowerLogic(UpdateFlowerRequest request) {
-        Map<String, String> error = UpdateFlowerValidation.validate(request, flowerRepo);
+        Map<String, String> error = UpdateFlowerValidation.validate(request, flowerRepo, accountRepo);
         if (!error.isEmpty()) {
             return error;
         }
-        Flower flower = flowerRepo.findById(request.getFlowerId())
-                .orElseThrow(() -> new RuntimeException("Flower not found with id: " + request.getFlowerId()));
-
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+        assert flower != null;
         flower.setName(request.getName());
         flower.setPrice(request.getPrice());
         flower.setDescription(request.getDescription());
