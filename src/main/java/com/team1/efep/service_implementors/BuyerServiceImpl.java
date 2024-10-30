@@ -710,7 +710,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .sellerName(sellerName)
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
-                .createDate(order.getCreatedDate())
+                .createDate(order.getCreatedDate().toLocalDate())
                 .detailList(viewOrderDetailList(order.getOrderDetailList()))
                 .build();
     }
@@ -718,6 +718,10 @@ public class BuyerServiceImpl implements BuyerService {
     private List<ViewOrderHistoryResponse.Detail> viewOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderHistoryResponse.Detail.builder()
+                        .image(detail.getFlower().getFlowerImageList().stream()
+                                .findFirst()
+                                .map(FlowerImage::getLink)
+                                .orElse("Unknown Image"))
                         .description(detail.getFlower().getDescription())
                         .flowerName(detail.getFlowerName())
                         .quantity(detail.getQuantity())
