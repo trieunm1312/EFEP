@@ -4,16 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class VNPayRequest {
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+public class ConfirmOrderRequest {
 
-    private float amount;
+    int flowerId;
 
-    private int flowerId;
+    int quantity;
 
-    private int quantity;
+    boolean isDirect;
+
 }

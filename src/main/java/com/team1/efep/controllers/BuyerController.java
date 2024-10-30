@@ -128,11 +128,30 @@ public class BuyerController {
         return buyerService.createVNPayPaymentLinkAPI(request, httpServletRequest);
     }
 
+    @PostMapping("/order/now/payment")
+    @Operation(hidden = true)
+    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.createVNPayPaymentLinkForBuyNow(request, model, httpServletRequest);
+    }
+
+    @PostMapping("/order/now/payment/api")
+    public VNPayResponse createVNPayPaymentLinkForBuyNow(@RequestBody VNPayRequest request, HttpServletRequest httpServletRequest) {
+        return buyerService.createVNPayPaymentLinkForBuyNowAPI(request, httpServletRequest);
+    }
+
     @GetMapping("/order/payment/result")
     @Operation(hidden = true)
     public String getPaymentResult(@RequestParam Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         AllPage.allConfig(model, buyerService);
         return buyerService.getPaymentResult(params, httpServletRequest, model, session);
+    }
+
+    @GetMapping("/order/now/payment/result")
+    @Operation(hidden = true)
+    public String getPaymentResulForBuyNow(@RequestParam Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.getPaymentResultForBuyNow(params, request, httpServletRequest, model, session);
     }
 
     @GetMapping("/order/payment/result/api")
@@ -144,6 +163,24 @@ public class BuyerController {
     public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
         return buyerService.getCODPaymentResult(params, session, redirectAttributes);
     }
+
+    @PostMapping("/order/now/cod")
+    public String getCODPaymentResultForBuyNow(VNPayRequest request,  HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return buyerService.getCODPaymentResultForBuyNow(request, session, model, redirectAttributes);
+    }
+
+    @GetMapping("/order/confirm")
+    public String confirmOrder(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.confirmOrder(session, model);
+    }
+
+    @GetMapping("/order/buyNow")
+    public String buyNow(ConfirmOrderRequest request, HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.buyNow(request, session, model);
+    }
+
 
 
     //------------------------------------WISHLIST---------------------------------//
@@ -247,13 +284,6 @@ public class BuyerController {
     public ViewCategoryListResponse viewCategory() {
         return buyerService.viewCategoryAPI();
     }
-
-    @GetMapping("/order/confirm")
-    public String confirmOrder(HttpSession session, Model model) {
-        AllPage.allConfig(model, buyerService);
-        return buyerService.confirmOrder(session, model);
-    }
-
 
     @PostMapping("/category/filter")
     @Operation(hidden = true)

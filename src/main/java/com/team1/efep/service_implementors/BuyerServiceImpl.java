@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.VNPay.BuyNowVNPAYConfig;
 import com.team1.efep.VNPay.VNPayConfig;
 import com.team1.efep.configurations.AllPage;
 import com.team1.efep.enums.Const;
@@ -1352,8 +1353,236 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("msg", viewWishlistLogic(account.getId()));
         return "checkout";
     }
+    //----------------------CREATE PAYMENT LINK FOR BUY NOW------------------------//
 
-    //---------------------------------FIELTER CATEGORY---------------------------------//
+
+    @Override
+    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+        VNPayResponse vnPayResponse = createVNPayPaymentLinkForBuyNowLogic(request, httpServletRequest);
+        model.addAttribute("flowerId", request.getFlowerId());
+        model.addAttribute("quantity", request.getQuantity());
+        model.addAttribute("msg", vnPayResponse);
+        return "redirect:" + vnPayResponse.getPaymentURL();
+    }
+
+    @Override
+    public VNPayResponse createVNPayPaymentLinkForBuyNowAPI(VNPayRequest request, HttpServletRequest httpServletRequest) {
+        return createVNPayPaymentLinkForBuyNowLogic(request, httpServletRequest);
+    }
+
+    private VNPayResponse createVNPayPaymentLinkForBuyNowLogic(VNPayRequest request, HttpServletRequest httpServletRequest) {
+        Map<String, String> paramList = new HashMap<>();
+
+        long amount = getAmount(request);
+        String txnRef = VNPayConfig.getRandomNumber(8);
+        String ipAddress = VNPayConfig.getIpAddress(httpServletRequest);
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        paramList.put("vnp_Version", getVersion());
+        paramList.put("vnp_Command", getCommand());
+        paramList.put("vnp_TmnCode", VNPayConfig.vnp_TmnCode);
+        paramList.put("vnp_Amount", String.valueOf(amount));
+        paramList.put("vnp_CurrCode", "VND");
+        paramList.put("vnp_TxnRef", txnRef);
+        paramList.put("vnp_OrderInfo", "Order payment No " + txnRef + ", Amount: " + amount);
+        paramList.put("vnp_OrderType", getOrderType());
+        paramList.put("vnp_Locale", "vn");
+        paramList.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
+        paramList.put("vnp_IpAddr", ipAddress);
+        paramList.put("vnp_CreateDate", getCreateDate(calendar, formatter));
+        paramList.put("vnp_ExpireDate", getExpiredDate(15, calendar, formatter));
+
+        return VNPayResponse.builder()
+                .status("200")
+                .message("Create payment link successfully")
+                .paymentURL(buildVNPayLinkForBuyNow(paramList))
+                .build();
+    }
+
+    private String buildVNPayLinkForBuyNow(Map<String, String> paramList) {
+        try {
+            List<String> fieldNames = new ArrayList<>(paramList.keySet());
+            Collections.sort(fieldNames);
+            StringBuilder hashData = new StringBuilder();
+            StringBuilder query = new StringBuilder();
+            Iterator<String> itr = fieldNames.iterator();
+            while (itr.hasNext()) {
+                String fieldName = (String) itr.next();
+                String fieldValue = (String) paramList.get(fieldName);
+                if ((fieldValue != null) && (!fieldValue.isEmpty())) {
+                    //Build hash data
+                    hashData.append(fieldName);
+                    hashData.append('=');
+                    hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+                    //Build query
+                    query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
+                    query.append('=');
+                    query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+                    if (itr.hasNext()) {
+                        query.append('&');
+                        hashData.append('&');
+                    }
+                }
+            }
+            String queryUrl = query.toString();
+            String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
+            queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
+            return BuyNowVNPAYConfig.vnp_PayUrl + "?" + queryUrl;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //--------------------------------GET PAYMENT RESULT FOR BUY NOW-------------------------------------//
+
+    @Override
+    public String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        Object output = getPaymentResultForBuyNowLogic(params, request.getFlowerId(), request.getQuantity(), account.getId(), httpServletRequest);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+            model.addAttribute("msg", (VNPayResponse) output);
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+            session.removeAttribute("flowerId");
+            session.removeAttribute("quantity");
+            return ((VNPayResponse) output).getPaymentURL();
+        }
+        model.addAttribute("error", (Map<String, String>) output);
+        return "paymentFailed";
+    }
+
+//    @Override
+//    public VNPayResponse getPaymentResultForBuyNowAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
+//
+//        Object output = getPaymentResultForBuyNowLogic(params, accountId, httpServletRequest);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+//            return (VNPayResponse) output;
+//        }
+//        return VNPayResponse.builder()
+//                .status("400")
+//                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+//                .build();
+//    }
+
+    private Object getPaymentResultForBuyNowLogic(Map<String, String> params, int flowerId, int quantity, int accountId, HttpServletRequest httpServletRequest) {
+        User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
+        Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
+        if (!error.isEmpty()) {
+            return error;
+        }
+        String transactionStatus = params.get("vnp_TransactionStatus");
+        if ("00".equals(transactionStatus)) {
+            saveOrderNow(flowerId, quantity, user, paymentMethodRepo.findById(2).orElse(null));
+            return VNPayResponse.builder()
+                    .status("200")
+                    .message("Your payment is successfully")
+                    .paymentURL("/viewOrderSummary")
+                    .build();
+        }
+        return VNPayResponse.builder()
+                .status("400")
+                .message("Your payment is failed")
+                .paymentURL("/viewOrderSummary")
+                .build();
+
+    }
+
+    private void saveOrderNow(int flowerId, int quantity, User user, PaymentMethod paymentMethod) {
+        Flower flower = flowerRepo.findById(flowerId).orElse(null);
+        assert flower != null;
+
+        float totalPrice = flower.getPrice() * quantity;
+        Order savedOrder = orderRepo.save(Order.builder()
+                .user(user)
+                .buyerName(user.getName())
+                .createdDate(LocalDateTime.now())
+                .totalPrice(totalPrice)
+                .status(Status.ORDER_STATUS_PROCESSING)
+                .paymentMethod(paymentMethod)
+                .build());
+
+        flower.setSoldQuantity(flower.getSoldQuantity() + quantity);
+        flower.setQuantity(flower.getQuantity() - quantity);
+
+        OrderDetail orderDetail = OrderDetail.builder()
+                .order(savedOrder)
+                .flower(flower)
+                .flowerName(flower.getName())
+                .quantity(quantity)
+                .price(flower.getPrice())
+                .build();
+
+        orderDetailRepo.save(orderDetail);
+        flowerRepo.save(flower);
+    }
+
+    //-----------------------------------GET COD PAYMENT RESULT--------------------------------------//
+
+    @Override
+    public String getCODPaymentResultForBuyNow(VNPayRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        User user = account.getUser();
+        saveOrderNow(request.getFlowerId(), request.getQuantity(), user, paymentMethodRepo.findById(1).orElse(null));
+        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+        CODPaymentResponse response = CODPaymentResponse.builder()
+                .status("200")
+                .message("Your order has been preparing...")
+                .build();
+        redirectAttributes.addFlashAttribute("msg", response);
+        return "redirect:/viewOrderSummary";
+    }
+
+    //---------------------------------BUY NOW---------------------------------//
+
+    @Override
+    public String buyNow(ConfirmOrderRequest request, HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute("error", "You must log in");
+            return "redirect:/login";
+        }
+        ViewConfirmNowResponse response = viewConfirmOrderNow(account.getId(), request.getFlowerId(), request.getQuantity());
+        model.addAttribute("msg1", response);
+        return "checkout";
+    }
+
+    private ViewConfirmNowResponse viewConfirmOrderNow(int accountId, int flowerId, int quantity) {
+
+        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
+
+        Flower flower = flowerRepo.findById(flowerId).orElse(null);
+        assert flower != null;
+
+        float totalPrice = flower.getPrice() * quantity;
+
+        return ViewConfirmNowResponse.builder()
+                .status("200")
+                .message("View Confirm Order Now successful")
+                .userId(account.getUser().getId())
+                .userName(account.getUser().getName())
+                .totalPrice(totalPrice)
+                .flower(
+                        ViewConfirmNowResponse.FlowerInfo.builder()
+                                .id(flower.getId())
+                                .imgList(flower.getFlowerImageList().stream()
+                                        .map(img -> ViewFlowerListResponse.Image.builder()
+                                                .link(img.getLink())
+                                                .build())
+                                        .toList()
+                                )
+                                .name(flower.getName())
+                                .price(flower.getPrice())
+                                .quantity(quantity)
+                                .description(flower.getDescription())
+                                .stockQuantity(flower.getQuantity())
+                                .build()
+                )
+                .build();
+    }
+
+    //---------------------------------FILTER CATEGORY---------------------------------//
 
     @Override
     public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes) {

@@ -31,7 +31,7 @@
         </header>
 
         <!-- Container -->
-        <div class="container">
+        <div class="container" th:if="${msg} and !${msg1}">
             <!-- Breadbrum -->
             <div class="breadbrum">
                 <h1 class="breadbrum__title">Checkout Page</h1><br>
@@ -102,7 +102,7 @@
                         </table>
                     </div>
                     <div class="statis-order">
-                        <h2 class="total__checkout-header">Total wishlist</h2>
+                        <h2 class="total__checkout-header">Total order</h2>
                         <hr class="line">
                         <div class="total__checkout-detail">
                             <span class="total__checkout-detail-title">Total</span>
@@ -124,6 +124,109 @@
                                 data-cod-action="/buyer/order/cod" data-vnpay-action="/buyer/order/payment"
                                 onsubmit="return handleCheckout()">
                                 <input type="hidden" name="amount" th:value="${msg.totalPrice}">
+                                <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" th:if="${msg1}">
+            <!-- Breadbrum -->
+            <div class="breadbrum">
+                <h1 class="breadbrum__title">Checkout Page</h1><br>
+                <ul class="breadbrum__element-list">
+                    <li class="breadbrum__element-list-item">
+                        <a href="home.html" class="breadbrum__element-list-item-link">
+                            <i class="fa-solid fa-house"></i>
+                        </a>
+                    </li>
+
+                    <li class="breadbrum__element-list-item">
+                        <a href="" class="breadbrum__element-list-item-link">
+                            <i class="fa-solid fa-angles-right"></i>
+                            <span>View wishlist</span>
+                        </a>
+                    </li>
+
+                    <li class="breadbrum__element-list-item">
+                        <a href="register.html" class="breadbrum__element-list-item-link">
+                            <i class="fa-solid fa-angles-right"></i>
+                            <span>Checkout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container__wrap">
+                <div class="checkout">
+                    <div class="table-item-wishlist">
+                        <table border="1" cellpadding="5" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th class="table-item-header">Image</th>
+                                <th class="table-item-header">Name</th>
+                                <th class="table-item-header">Model</th>
+                                <th class="table-item-header">Quantity</th>
+                                <th class="table-item-header">Unit Price</th>
+                                <th class="table-item-header">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="table-item-detail">
+                                    <div class="table-item-img">
+                                        <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                             alt="">
+                                    </div>
+                                </td>
+                                <td class="table-item-detail">
+                                    <span class="table-item-name" th:text="${msg1.flower.name}">Hiptage</span>
+                                </td>
+                                <td class="table-item-detail">
+                                    <span class="table-item-id" th:text="'Product ' + ${msg1.flower.id}">Product 1</span>
+                                </td>
+                                <td class="table-item-detail">
+                                    <strong class="table-item-quantity" th:text="${msg1.flower.quantity}">1</strong>
+                                </td>
+                                <td class="table-item-detail">
+                                    <span class="table-item-price" th:text="'$ ' + ${msg1.flower.price}">0</span>
+                                </td>
+                                <td class="table-item-detail">
+                                        <span class="table-item-total"
+                                              th:text="'$ ' + ${msg1.flower.quantity * msg1.flower.price}">0</span>
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="statis-order">
+                        <h2 class="total__checkout-header">Total order</h2>
+                        <hr class="line">
+                        <div class="total__checkout-detail">
+                            <span class="total__checkout-detail-title">Total</span>
+                            <span class="total__checkout-detail-price" th:text="${'$ ' + msg1.totalPrice}">0</span>
+                        </div>
+                        <hr class="line">
+
+                        <div class="payment-method">
+                            <h3 class="payment-header">Choose Payment Method</h3>
+                            <label for="paymentMethod"></label>
+                            <select class="payment-list" name="paymentMethod" id="paymentMethod">
+                                <option value="COD" selected>COD</option>
+                                <option value="VNPay">VNPay</option>
+                            </select>
+                        </div>
+                        <hr class="line">
+                        <div class="btn-cart">
+                            <form id="checkout" action="/buyer/order/now/payment" method="post"
+                                  data-cod-action="/buyer/order/now/cod" data-vnpay-action="/buyer/order/now/payment"
+                                  onsubmit="return handleCheckout()">
+                                <input type="hidden" name="amount" th:value="${msg1.totalPrice}">
+                                <input type="hidden" name="flowerId" th:value="${msg1.flower.id}">
+                                <input type="hidden" name="quantity" th:value="${msg1.flower.quantity}">
                                 <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
                             </form>
                         </div>
