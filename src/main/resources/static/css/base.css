@@ -416,7 +416,7 @@ html {
     width: 1000px;
     height: fit-content;
     border-top: 2px solid var(--primary-color);
-    top: 54px;
+    top: calc(100% + 16px);
     right: -440px;
     background-color: var(--white-color);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.11);
