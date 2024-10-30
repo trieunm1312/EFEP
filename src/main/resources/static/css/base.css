@@ -753,7 +753,6 @@ html {
     height: 86px;
     margin: 12px;
     border-radius: 6px;
-    cursor: pointer;
 }
 
 .header__cart-item-info {
@@ -775,7 +774,6 @@ html {
     font-weight: 550;
     color: var(--text-color);
     margin-bottom: 4px;
-    cursor: pointer;
 }
 
 .header__cart-item-name:hover {

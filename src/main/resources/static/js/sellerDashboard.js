@@ -25,8 +25,8 @@
 //   }
 // });
 
-const xValues = orderCounts.map(order => orderCounts.date);
-const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+const xValues = orderCounts.map(order => order.date);
+const yValues = orderCounts.map(order => order.count);
 
 new Chart("dailyOrderChart", {
     type: "line",
@@ -43,7 +43,7 @@ new Chart("dailyOrderChart", {
     options: {
         legend: { display: false },
         scales: {
-            yAxes: [{ ticks: { min: 6, max: 16 } }],
+            yAxes: [{ ticks: { min: 0, max: 20} }],
         },
         title: {
             display: true,

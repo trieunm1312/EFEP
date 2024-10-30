@@ -38,8 +38,6 @@ public class FilterOrderResponse {
 
         private String status;
 
-        private String paymentType;
-
         private String paymentMethod;
 
         private List<Item> orderDetailList;

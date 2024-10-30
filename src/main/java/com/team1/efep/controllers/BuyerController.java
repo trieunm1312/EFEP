@@ -106,9 +106,9 @@ public class BuyerController {
 
     @PutMapping("/order")
     @Operation(hidden = true)
-    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model) {
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.cancelOrder(request, session, model);
+        return buyerService.cancelOrder(request, session, model, httpServletRequest);
     }
 
     @PutMapping("/order/api")
