@@ -15,9 +15,9 @@
 </head>
 
 <body>
-<div th:fragment="toast" id="toast" th:if="${msg != null}">
+<div id="toast" th:if="${msg != null}" th:fragment="toast">
     <div th:if="${msg.status == '200'}">
-        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1.5s forwards;">
+        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s .5s forwards;">
             <div class="toast__icon">
                 <i class="fas fa-check-circle"></i>
             </div>
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div th:if="${msg.status != '200'}">
-        <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s 1.5s forwards;">
+        <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s .5s forwards;">
             <div class="toast__icon">
                 <i class="fas fa-exclamation-triangle"></i>
             </div>

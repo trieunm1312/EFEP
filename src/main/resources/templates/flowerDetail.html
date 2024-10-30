@@ -64,15 +64,11 @@
                         <div class="flower-information__img-main-screen">
                             <img th:src="@{${msg.flower.imageList[0].link}}" alt="">
                         </div>
-
-                        <div class="swiper">
-                            <div class="flower-information__img-list swiper-wrapper">
+                            <div class="flower-information__img-list">
                                 <img th:each="image : ${msg.flower.imageList}"
-                                     class="flower-information__img-item swiper-slide"
+                                     class="flower-information__img-item"
                                      th:src="@{${image.link}}" alt="Flower Sub Image">
                             </div>
-                        </div>
-
                     </div>
                     <div class="flower-information__content">
                         <h3 class="flower-information__name" th:text="${msg.flower.name}"></h3>

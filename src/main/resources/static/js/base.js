@@ -1,3 +1,10 @@
+const toasts = document.querySelectorAll('.toast');
+toasts.forEach(toast => {
+    toast.addEventListener('animationend', () => {
+        toast.style.display = 'block';
+    });
+});
+
 //Password constraint
 document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
@@ -128,12 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-const toasts = document.querySelectorAll('.toast');
-toasts.forEach(toast => {
-    toast.addEventListener('animationend', () => {
-        toast.style.display = 'none';
-    });
-});
+
 
 // View Order Summary
 var countdownElement = document.getElementById("countdown");
