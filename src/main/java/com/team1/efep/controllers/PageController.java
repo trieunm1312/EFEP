@@ -185,6 +185,12 @@ public class PageController {
         AllPage.allConfig(model, buyerService);
         return "termCondition";
     }
+
+    @GetMapping("/password/renew")
+    public String renewPasswordPage(Model model) {
+        AllPage.allConfig(model, buyerService);
+        return "renewPassword";
+    }
 }
 
 

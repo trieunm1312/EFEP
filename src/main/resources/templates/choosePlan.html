@@ -33,7 +33,7 @@
                     <!-- Logo -->
                     <a href="home.html" class="header__item">
                         <div class="header__item-logo">
-                            <img src="/src/main/resources/static/img/flowrista-logo.png" alt="Logo"
+                            <img src="/img/flowrista-logo.png" alt="Logo"
                                 class="header__item-logo-img">
                         </div>
                     </a>
@@ -71,152 +71,11 @@
 
 
         <!-- Footer -->
-        <footer class="footer" th:fragment="footer">
-            <div class="grid">
-                <div class="footer__wrap">
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <div class="footer__item-logo">
-                                <img src="https://flowerista.themability.com/image/catalog/logo.png" alt="Logo"
-                                    class="footer__item-logo-img">
-                            </div>
-                            <div class="footer__item-desc">
-                                <!-- <span>Anh đã hát lên từng bài nhạc ngày xưa
-                                    Và bài ca cuốn lấy trái tim của những người con gái mộng mơ
-                                    Không bơ vơ
-                                    Khi vây quanh anh là những đôi mắt nhìn theo hò reo
-                                    Cũng vì chặng đường tương lai mà mình phải chia hai
-                                    Nốc thêm khoảng một hai chai, tâm sự cùng cây mic
-                                    Và đến khi anh cất lời
-                                    Là giấc mơ mang cả đời -->
-                                Khi anh đã có tất cả rồi lại chẳng còn em nữa
-                                Khi ta đã đủ sự trưởng thành lại chẳng dành nó cho đối phương
-                                Tình yêu này có thật đáng thương? (Oh no)
-                                Ở phía dưới ngọn đèn, có gã khờ đang hát
-                                Cố gắng mỉm cười, nhưng trong lòng tan nát
-                                Mất đi người rất quan trọng
-                                Có lẽ vì quá tham vọng
-                                Không thấy vui trong lòng
-                                Anh nhớ góc tối ở trong căn phòng
-                                Anh nhớ phút đón hoàng hôn cùng người con gái vàng son
-                                Chỉ tại anh chẳng thể nắm tay em, giữ tay em, níu tay em
-                                Lâu hơn một chút
-                                Để anh ổn định cảm xúc
-                                Có lẽ đến lúc chấm dứt, kết thúc thật rồi
-                                Ký ức lại triệu hồi nỗi đau</span>
-                            </div>
-                            <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-brands fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+        <footer class="footer" th:replace="~{base :: footer}">
 
-                    </div>
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Contact</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i
-                                            class="footer__item-contact-list-item-link-icon fa-solid fa-location-dot"></i>
-                                        <span>National park,d1 588436,United States</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
-                                        <span>+91 123 456 789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-fax"></i>
-                                        <span>0123-456-789</span>
-                                    </span>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <span href="" class="footer__item-contact-list-item-link">
-                                        <i class="footer__item-contact-list-item-link-icon fa-solid fa-envelope"></i>
-                                        <span>demo@Yourstore.com</span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="footer__item">
-                        <div class="footer__item-contact">
-                            <h2 class="footer__item-title">Information</h2>
-                            <ul class="footer__item-contact-list">
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Terms & Conditions</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Delivery Information</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>About Us</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Privacy Policy</span>
-                                    </a>
-                                </li>
-
-                                <li class="footer__item-contact-list-item">
-                                    <a href="" class="footer__item-contact-list-item-link">
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
-            </div>
         </footer>
     </div>
-    <script src="/js/jquery.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <script src="/js/price-range.js"></script>
-    <script src="/js/jquery.prettyPhoto.js"></script>
-    <script src="/js/base.js"></script>
+
 </body>
 
 </html>

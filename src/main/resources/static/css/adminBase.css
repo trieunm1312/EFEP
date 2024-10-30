@@ -389,6 +389,10 @@ hr.horizontal.dark{
     animation: fadeInDown ease-in .2s;
 }
 
+.header__item-account input:hover{
+    color: var(--secondary-color);
+}
+
 .header__item-account::before{
     content: "";
     position: absolute;

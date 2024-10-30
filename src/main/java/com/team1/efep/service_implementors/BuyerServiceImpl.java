@@ -413,7 +413,7 @@ public class BuyerServiceImpl implements BuyerService {
         session.setAttribute("mail", request.getToEmail());
         session.setAttribute("otp" + request.getToEmail(), response.getExtraInfo());
         model.addAttribute("email", request.getToEmail());
-        return "forgotPassword";
+        return "redirect:/login";
     }
 
     @Override
@@ -482,20 +482,29 @@ public class BuyerServiceImpl implements BuyerService {
         System.out.println(code);
         System.out.println(session.getAttribute("mail"));
         System.out.println(session.getAttribute("otp" + session.getAttribute("mail")));
-        return code.equals(session.getAttribute("otp" + session.getAttribute("mail"))) ? "renewPassword" : "login";
+
+        String sessionLink = session.getAttribute("otp" + session.getAttribute("mail")).toString();
+        String sessionCode = sessionLink.substring(sessionLink.indexOf("=") + 1);
+
+        session.removeAttribute("otp" + session.getAttribute("mail"));
+
+
+        return code.trim().equals(sessionCode.trim()) ? "redirect:/password/renew" : "redirect:/login";
     }
 
     //-----------------------------------------------RENEW PASSWORD------------------------------------------------------------//
 
     @Override
-    public String renewPass(RenewPasswordRequest request, Model model) {
+    public String renewPass(RenewPasswordRequest request, Model model, HttpSession session) {
+        request.setEmail(session.getAttribute("mail").toString());
         Object output = renewPassLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
+            session.removeAttribute("mail");
             model.addAttribute("msg", (RenewPasswordResponse) output);
-            return "login";
+            return "redirect:/login";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "renewPassword";
+        return "redirect:/password/renew";
     }
 
     @Override
