@@ -52,8 +52,9 @@
     text-align: center
 }
 
-.table__header-image {
+.table__header-image img {
     width: 150px;
+    height: auto;
 }
 
 .table__header-name {

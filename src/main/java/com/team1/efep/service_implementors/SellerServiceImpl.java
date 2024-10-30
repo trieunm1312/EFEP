@@ -1542,8 +1542,6 @@ public class SellerServiceImpl implements SellerService {
         for (Flower flower : flowers) {
             total += flower.getSoldQuantity();
         }
-        System.out.println(total
-        );
         return total;
     }
 

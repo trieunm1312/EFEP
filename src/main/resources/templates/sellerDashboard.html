@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seller Page</title>
+    <title>Seller Dashboard</title>
 
     <!-- Link CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -236,6 +236,8 @@
     <script th:inline="javascript">
         // Thymeleaf will output `orderCounts` directly as a JSON array
         const orderCounts = /*[[${orderInDaily.orderCounts}]]*/ [];
+        const soldQuantityCategory = /*[[${soldQuantityCategory.soldQuantityCategories}]]*/ [];
+        console.log(soldQuantityCategory)
     </script>
     <script src="/js/adminBase.js"></script>
     <script src="/js/sellerDashboard.js"></script>

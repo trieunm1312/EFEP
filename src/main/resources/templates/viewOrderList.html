@@ -5,19 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Page</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
     <link rel="stylesheet" href="/css/manageFlower.css">
-    <link rel="stylesheet" href="/css/viewOrderList.css">
+    <link rel="stylesheet" href="/css/viewOrderList.css"> -->
 
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css">-->
-<!--    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderList.css">-->
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderList.css">
 
 </head>
 
@@ -113,21 +113,6 @@
                 <span>Create</span>
                 <div class="header__create-block">
                     <h4 class="header__create-title">Create New</h4>
-                    <ul class="header__create-list">
-                        <li class="header__create-item">
-                            <a href="#">
-                                <i class="fa-solid fa-flower header__create-item-icon"></i>
-                                <!-- <i class="fa-solid fa-spa"></i> -->
-                                <span class="sidebar__item-title">Flower</span>
-                            </a>
-                        </li>
-                        <li class="header__create-item">
-                            <a href="#">
-                                <i class="fa-solid fa-briefcase header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Business Plan</span>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </div>
             <div class="header__others">
@@ -136,17 +121,21 @@
                 </div>
                 <span class="header__separate">|</span>
                 <div class="header__account" id="headerAccount">
-                    <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
-                    <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
+                    <i th:if="${session.acc.getUser().getAvatar()} == ''"
+                        class="header__account-icon fa-solid fa-user"></i>
+                    <img th:if="${session.acc.getUser().getAvatar()} != ''"
+                        th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
                     <span th:text="${session.acc.getUser().getName()}"></span>
                     <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <div  class="header__item-account" id="accountDropdown">
-                        <form th:action="@{/account/view/profile}"  class="form" method="get">
-                            <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
+                    <div class="header__item-account" id="accountDropdown">
+                        <form th:action="@{/account/view/profile}" class="form" method="get">
+                            <input type="submit" name="action" value="My profile"
+                                class="header__item-account-item"></input>
                             <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                         </form>
                         <form th:action="@{/change/password}" class="form">
-                            <input type="submit" name="action" class="header__item-account-item" value="Change Password"></input>
+                            <input type="submit" name="action" class="header__item-account-item"
+                                value="Change Password"></input>
                             <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                         </form>
                         <form th:action="@{/account/logout}" class="form" method="get">
@@ -172,70 +161,44 @@
                     <!-- Order list -->
                     <div class="manage-order">
                         <div class="filter-sort">
-<!--                            <div class="filter-order">-->
-<!--                                <form th:action="@{/seller/order/filter}" onchange="this.form.submit()">-->
-<!--                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
-<!--                                    <select class="filter-by-status" name="status" id="status">-->
-<!--                                        <option value="f-status" disabled hidden selected>Status</option>-->
-<!--                                        <option th:value="processing">processing</option>-->
-<!--                                        <option value="packed">packed</option>-->
-<!--                                        <option value="completed">completed</option>-->
-<!--                                        <option value="cancelled">cancelled</option>-->
-<!--                                    </select>-->
-<!--                                    <select class="filter-by-Month" name="month" id="month">-->
-<!--                                        <option value="f-month" disabled hidden selected>Month</option>-->
-<!--                                        <option value="1">1</option>-->
-<!--                                        <option value="2">2</option>-->
-<!--                                        <option value="3">3</option>-->
-<!--                                        <option value="4">4</option>-->
-<!--                                        <option value="5">5</option>-->
-<!--                                        <option value="6">6</option>-->
-<!--                                        <option value="7">7</option>-->
-<!--                                        <option value="8">8</option>-->
-<!--                                        <option value="9">9</option>-->
-<!--                                        <option value="10">10</option>-->
-<!--                                        <option value="11">11</option>-->
-<!--                                        <option value="12">12</option>-->
-<!--                                    </select>-->
-<!--                                </form>-->
-<!--                            </div>-->
                             <div class="filter-order">
-<!--                                <form th:action="@{/seller/order/filter}" method="post" onchange="this.form.submit()">-->
-<!--                                    &lt;!&ndash; Account ID, gửi thông tin người dùng hiện tại &ndash;&gt;-->
-<!--                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}" />-->
-
-<!--                                    &lt;!&ndash; Dropdown chọn Status &ndash;&gt;-->
-<!--                                    <select class="filter-by-status" name="status" id="status">-->
-<!--                                        <option value="" disabled hidden th:selected="${not #strings.contains(status, 'processing')-->
-<!--                                                        and not #strings.contains(status, 'packed')-->
-<!--                                                        and not #strings.contains(status, 'completed')-->
-<!--                                                        and not #strings.contains(status, 'cancelled')}">-->
-<!--                                            Status-->
-<!--                                        </option>-->
-<!--                                        <option value="processing" th:selected="${status == 'processing'}">Processing</option>-->
-<!--                                        <option value="packed" th:selected="${status == 'packed'}">Packed</option>-->
-<!--                                        <option value="completed" th:selected="${status == 'completed'}">Completed</option>-->
-<!--                                        <option value="cancelled" th:selected="${status == 'cancelled'}">Cancelled</option>-->
-<!--                                    </select>-->
-
-<!--                                    &lt;!&ndash; Dropdown chọn Month &ndash;&gt;-->
-<!--                                    <select class="filter-by-month" name="month" id="month">-->
-<!--                                        <option value="" disabled hidden th:selected="${month == null}">Month</option>-->
-<!--                                        <option value="1" th:selected="${month == 1}">January</option>-->
-<!--                                        <option value="2" th:selected="${month == 2}">February</option>-->
-<!--                                        <option value="3" th:selected="${month == 3}">March</option>-->
-<!--                                        <option value="4" th:selected="${month == 4}">April</option>-->
-<!--                                        <option value="5" th:selected="${month == 5}">May</option>-->
-<!--                                        <option value="6" th:selected="${month == 6}">June</option>-->
-<!--                                        <option value="7" th:selected="${month == 7}">July</option>-->
-<!--                                        <option value="8" th:selected="${month == 8}">August</option>-->
-<!--                                        <option value="9" th:selected="${month == 9}">September</option>-->
-<!--                                        <option value="10" th:selected="${month == 10}">October</option>-->
-<!--                                        <option value="11" th:selected="${month == 11}">November</option>-->
-<!--                                        <option value="12" th:selected="${month == 12}">December</option>-->
-<!--                                    </select>-->
-<!--                                </form>-->
+                                <form th:action="@{/}" th:method="get" class="all-order">
+                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                    <button class="all-order-btn" value="">Show all</button>
+                                </form>
+                                <form th:action="@{/seller/order/filter}" onchange="this.form.submit()">
+                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                    <select class="filter-by-status" name="status" id="status">
+                                        <option value="f-status" disabled hidden selected>Status</option>
+                                        <option th:value="processing">processing</option>
+                                        <option value="packed">packed</option>
+                                        <option value="completed">completed</option>
+                                        <option value="cancelled">cancelled</option>
+                                    </select>
+                                </form>
                             </div>
+                            <!-- <div class="filter-order">
+                                <form th:action="@{/seller/order/filter}" method="post" onchange="this.form.submit()">
+                                    &lt;!&ndash; Account ID, gửi thông tin người dùng hiện tại &ndash;&gt;
+                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}" />
+
+                                    &lt;!&ndash; Dropdown chọn Status &ndash;&gt;
+                                    <select class="filter-by-status" name="status" id="status">
+                                        <option value="" disabled hidden th:selected="${not #strings.contains(status, 'processing')
+                                                        and not #strings.contains(status, 'packed')
+                                                        and not #strings.contains(status, 'completed')
+                                                        and not #strings.contains(status, 'cancelled')}">
+                                            Status
+                                        </option>
+                                        <option value="processing" th:selected="${status == 'processing'}">Processing</option>
+                                        <option value="packed" th:selected="${status == 'packed'}">Packed</option>
+                                        <option value="completed" th:selected="${status == 'completed'}">Completed</option>
+                                        <option value="cancelled" th:selected="${status == 'cancelled'}">Cancelled</option>
+                                    </select>
+
+                                    
+                                </form>
+                            </div> -->
                             <form th:action="@{/seller/order/sort}" method="post" onchange="this.form.submit()">
                                 <select class="sort-order" name="" id="sorting">
                                     <option value="sort" disabled hidden selected>Sort</option>
@@ -263,17 +226,20 @@
                             <div class="order-item" th:each="order : ${msg.orderList}">
                                 <div class="order-header">
                                     <div class="header-info">
-                                        <h4>Order ID: <span class="header-order" th:text="${order.orderId}">12345</span></h4>
-                                        <span th:text="${order.status}" class="header-status"
-                                              th:classappend="
-                                                  ${order.status == 'processing'} ? 'order-status-processing' :
-                                                  (${order.status == 'packed'} ? 'order-status-packed' :
-                                                  (${order.status == 'completed'} ? 'order-status-successful' :
-                                                  (${order.status == 'cancelled'} ? 'order-status-cancel' : '')))">
-                                        Delivered</span>
-                                        <span class="header-date" th:text="${order.createDate}">2024-10-22</span>
-                                    </div>
-                                    <p class="header-buyer">Buyer: <span th:text="${order.buyerName}">John Doe</span></p>
+                                        <h4 class="header-buyer">
+                                            <i class="fa-solid fa-user"></i>
+                                            <span class="header-buyer" th:text="${order.orderId}">John Doe</span>
+                                        </h4>
+                                        <div>
+                                            <span class="header-date" th:text="${order.createDate}">2024-10-22</span>
+                                            <span th:text="${order.status}" class="header-status" th:classappend="
+                                                    ${order.status == 'processing'} ? 'order-status-processing' :
+                                                    (${order.status == 'packed'} ? 'order-status-packed' :
+                                                    (${order.status == 'completed'} ? 'order-status-successful' :
+                                                    (${order.status == 'cancelled'} ? 'order-status-cancel' : '')))">
+                                                Delivered</span>
+                                        </div>
+                                        </div>
                                 </div>
 
                                 <div class="order-details">
@@ -284,19 +250,17 @@
                                                     <div class="order-item text-flex"
                                                         th:each="product : ${order.orderDetailList}">
                                                         <div class="table-order-img">
-                                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                                alt="">
+                                                            <img src="${product.image}" alt="">
                                                         </div>
                                                         <div class="table-order-info">
-                                                            <h4 class="table-order-name"
-                                                                th:text="${product.flowerName}">Hiptage
+                                                            <h4 class="table-order-name" th:text="${product.name}">
+                                                                Hiptage
                                                             </h4>
-                                                            <!-- <span class="table-order-event font-size font-weight"
-                                                                th:text="${msg.sellerName}">Wedding</span> -->
+                                                            <span class="table-order-event font-size font-weight"
+                                                                th:text="${product.description}">DEP</span>
                                                             <div class="table-order-info-price font-size">
                                                                 <div class="table-order-info-qnt">
-                                                                    <span
-                                                                        class="table-order-multiple">x</span>
+                                                                    <span class="table-order-multiple">x</span>
                                                                     <span class="table-order-quantity font-bold"
                                                                         th:text="${product.quantity}">1</span>
                                                                 </div>
@@ -310,13 +274,15 @@
                                             <tr class="summary">
                                                 <td colspan="1">
                                                     <span>Total Price:</span>
-                                                    <span class="summary-price text-orange" th:text="${order.totalPrice}">$150.00</span>
+                                                    <span class="summary-price text-orange"
+                                                        th:text="${order.totalPrice}">$150.00</span>
                                                 </td>
                                             </tr>
                                             <tr class="summary">
                                                 <td colspan="1">
                                                     <span>Payment Method:</span>
-                                                    <span class="summary-price" th:text="${order.paymentMethod}">COD</span>
+                                                    <span class="summary-price"
+                                                        th:text="${order.paymentMethod}">COD</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -331,6 +297,7 @@
                                     </form>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

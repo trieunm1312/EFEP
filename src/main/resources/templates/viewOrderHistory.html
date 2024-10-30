@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EventFlowerExchange</title>
+    <title>Order History</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
@@ -87,43 +87,27 @@
                                       (${order.status == 'cancelled'} ? 'order-status-cancel' : '')))">
                             Delivered</span>
                         </div>
-                        <p class="order-id">Order ID: <span th:text="${order.orderId}">12345</span></p>
-                        <p class="order-id">Create date: <span th:text="${order.createDate}">12/01</span></p>
                     </div>
 
                     <div class="order-details">
                         <table class="product-table">
-                            <!--                                <thead>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <th class="product-table-name">Product Name</th>-->
-                            <!--                                        <th class="product-table-qnt">Quantity</th>-->
-                            <!--                                        <th class="product-table-price">Price</th>-->
-                            <!--                                    </tr>-->
-                            <!--                                </thead>-->
                             <tbody>
-                            <!-- <tr class="product-list" th:each="product : ${order.detailList}">
-                                <td th:text="${product.flowerName}"> hipatge</td>
-                                <td class="pro-quantity" th:text="${product.quantity}">1</td>
-                                <td th:text="${product.price}">$20.00</td>
-                            </tr> -->
                             <tr>
                                 <td class="table-order-detail" colspan="2">
                                     <div class="order-item text-flex"
                                          th:each="product : ${order.detailList}">
                                         <div class="table-order-img">
-                                            <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                 alt="">
+                                            <img th:src="${product.image}" alt="">
                                         </div>
                                         <div class="table-order-info">
                                             <h4 class="table-order-name"
                                                 th:text="${product.flowerName}">Hiptage
                                             </h4>
-                                            <!-- <span class="table-order-event font-size font-weight"
-                                                th:text="${msg.sellerName}">Wedding</span> -->
+                                            <span class="table-order-event font-size font-weight"
+                                                th:text="${product.description}">DEP</span>
                                             <div class="table-order-info-price font-size">
                                                 <div class="table-order-info-qnt">
-                                                            <span
-                                                                    class="table-order-multiple">x</span>
+                                                    <span class="table-order-multiple">x</span>
                                                     <span class="table-order-quantity font-bold"
                                                           th:text="${product.quantity}">1</span>
                                                 </div>
@@ -139,6 +123,12 @@
                                 <td colspan="1">
                                     <span>Total Price:</span>
                                     <span th:text="${order.totalPrice}" class="total-text">$150.00</span>
+                                </td>
+                            </tr>
+                            <tr class="date">
+                                <td colspan="1">
+                                    <span>Create date:</span>
+                                    <span th:text="${order.createDate}" class="date-text">12/01</span>
                                 </td>
                             </tr>
                             </tbody>
