@@ -1,5 +1,5 @@
 .business-plan {
-    width: 60%;
+    width: 80%;
     margin-top: 40px;
     background-color: var(--white-color);
     box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05);
@@ -29,6 +29,20 @@
 .business-plan__body{
     margin: 8px;
     font-size: 0.8rem;
+    text-align: center;
+}
+
+.business-plan__service{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 8px 0;
+}
+
+.business-plan__service i{
+    color: var(--primary-color);
 }
 
 .business-plan__price,
@@ -42,9 +56,15 @@
 }
 
 /*Dont have plan yet*/
-.guide{
-    width: 30%;
+.free-plan{
+    width: 100%;
     margin-top: 64px;
+}
+
+.guide{
+    width: 80%;
+    margin-top: 32px;
+    text-align: center;
 }
 
 .guide input{
@@ -54,5 +74,5 @@
     padding: 8px;
     border-radius: 4px;
     font-size: 0.7rem;
-    margin-top: 16px;
+    margin-top: 8px;
 }

@@ -44,12 +44,38 @@
     justify-content: space-evenly;
 }
 
+
+
+/*System plan*/
 .business-plan__item{
     width: 24%;
     height: fit-content;
     border: 1px solid rgba(128, 128, 128, 0.7);
     border-radius: 18px;
     box-sizing: border-box;
+}
+
+/*Free Business plan*/
+.business-plan__item-free{
+    position: relative;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 20px 0px;
+
+}
+
+.business-plan__item-label{
+    width: 101%;
+    position: absolute;
+    top: -7%;
+    right: -0.4%;
+    padding: 4px;
+    font-size: 1.4rem;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
 }
 
 .business-plan__item:hover{
