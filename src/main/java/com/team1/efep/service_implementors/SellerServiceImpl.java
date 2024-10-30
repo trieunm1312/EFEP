@@ -1462,6 +1462,53 @@ public class SellerServiceImpl implements SellerService {
 
     }
 
+
+
+    //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
+    @Override
+    public void getTotalNumberOfCanceledOrder(Model model) {
+        model.addAttribute("totalNumberOfCanceledOrder", getTotalNumberOfCanceledOrderLogic());
+    }
+
+    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
+        return GetTotalNumberOfCanceledOrderResponse.builder()
+                .status("200")
+                .message("")
+                .getTotalNumberOfCanceledOrder(orderRepo.findAll()
+                        .stream()
+                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED))
+                        .count())
+                .build();
+    }
+
+    //--------------------------------------------GET REVENUE---------------------------------------------//
+
+    @Override
+    public void getRevenue(Model model) {
+        float totalRevenue = orderRepo.findAll().stream()
+                .map(Order::getTotalPrice)
+                .reduce(0f, Float::sum);
+        model.addAttribute("revenue", totalRevenue);
+    }
+
+
+    //--------------------------------------------GET TOTAL NUMBER OF ORDER---------------------------------------------//
+    @Override
+    public void getTotalNumberOfOrder(Model model) {
+        model.addAttribute("totalNumberOfOrder", getTotalNumberOfOrderLogic());
+    }
+
+
+    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic() {
+        return GetTotalNumberOfOrderResponse.builder()
+                .status("200")
+                .message("")
+                .totalTotalNumberOfOder(orderRepo.findAll().stream()
+                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
+                        .count())
+                .build();
+    }
+
     //--------------------------------------------GET SOLD QUANTITY CATEGORY---------------------------------------------//
     @Override
     public void getSoldQuantityCategory(Model model) {
@@ -1495,50 +1542,6 @@ public class SellerServiceImpl implements SellerService {
             total += flower.getSoldQuantity();
         }
         return total;
-    }
-
-    //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
-    @Override
-    public void getTotalNumberOfCanceledOrder(Model model) {
-        model.addAttribute("totalNumberOfCanceledOrder", getTotalNumberOfCanceledOrderLogic());
-    }
-
-    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
-        return GetTotalNumberOfCanceledOrderResponse.builder()
-                .status("200")
-                .message("")
-                .getTotalNumberOfCanceledOrder(orderRepo.findAll()
-                        .stream()
-                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED))
-                        .count())
-                .build();
-    }
-
-    //--------------------------------------------GET TOTAL NUMBER OF ORDER---------------------------------------------//
-    @Override
-    public void getTotalNumberOfOrder(Model model) {
-        model.addAttribute("totalNumberOfOrder", getTotalNumberOfOrderLogic());
-    }
-
-
-    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic() {
-        return GetTotalNumberOfOrderResponse.builder()
-                .status("200")
-                .message("")
-                .totalTotalNumberOfOder(orderRepo.findAll().stream()
-                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
-                        .count())
-                .build();
-    }
-
-    //--------------------------------------------GET REVENUE---------------------------------------------//
-
-    @Override
-    public void getRevenue(Model model) {
-        float totalRevenue = orderRepo.findAll().stream()
-                .map(Order::getTotalPrice)
-                .reduce(0f, Float::sum);
-        model.addAttribute("revenue", totalRevenue);
     }
 
     //----------------------------------------GET ORDER IN DAILY---------------------------------------//
