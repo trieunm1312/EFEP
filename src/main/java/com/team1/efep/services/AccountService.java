@@ -18,7 +18,7 @@ public interface AccountService {
 
     void getGoogleLoginUrl(HttpServletResponse response);
 
-    String exchangeGoogleCode(String code, Model model,HttpSession session);
+    String exchangeGoogleCode(String code, Model model,HttpSession session, RedirectAttributes redirectAttributes);
 
     String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes);
 

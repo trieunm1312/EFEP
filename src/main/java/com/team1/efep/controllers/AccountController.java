@@ -52,8 +52,8 @@ public class AccountController {
 
     @GetMapping("/login/google/info")
     @Operation(hidden = true)
-    public String getGoogleInfo(@RequestParam(name = "code") String code, Model model, HttpSession session) {
-        return accountService.exchangeGoogleCode(code, model, session);
+    public String getGoogleInfo(@RequestParam(name = "code") String code, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        return accountService.exchangeGoogleCode(code, model, session, redirectAttributes);
     }
 
     @GetMapping("/view/profile")

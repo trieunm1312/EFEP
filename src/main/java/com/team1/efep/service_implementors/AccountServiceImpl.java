@@ -161,7 +161,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String exchangeGoogleCode(String code,Model model, HttpSession session) {
+    public String exchangeGoogleCode(String code,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         return GoogleLoginUtil.accessGoogleInfo(
                 googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token(),
                 this,
@@ -169,7 +169,8 @@ public class AccountServiceImpl implements AccountService {
                 accountRepo,
                 session,
                 userRepo,
-                wishlistRepo
+                wishlistRepo,
+                redirectAttributes
         );
     }
 
