@@ -784,21 +784,6 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-//    private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
-//        return orderDetails.stream()
-//                .map(detail -> ViewOrderDetailResponse.Detail.builder()
-//                        .image(detail.getFlower().getFlowerImageList().stream()
-//                                .findFirst()
-//                                .map(FlowerImage::getLink)
-//                                .orElse("Unknown Image"))
-//                        .description(detail.getFlower().getDescription())
-//                        .flowerName(detail.getFlowerName())
-//                        .quantity(detail.getQuantity())
-//                        .price(detail.getPrice())
-//                        .build())
-//                .collect(Collectors.toList());
-//    }
-
     private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> {
@@ -1053,19 +1038,20 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------CANCEL ORDER------------------------------------------//
 
     @Override
-    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model) {
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", ChangeOrderStatusResponse.builder()
+            model.addAttribute("error", CancelOrderResponse.builder()
                     .status("400")
                     .message("Please login a buyer account to do this action")
                     .build());
             return "login";
         }
+        String referer = httpServletRequest.getHeader("Referer");
         Object output = cancelOrderLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
-            model.addAttribute("msg", (ChangeOrderStatusResponse) output);
-            return "redirect:/buyer/order/detail";
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
+            model.addAttribute("msg", (CancelOrderResponse) output);
+            return "redirect:" + referer;
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "redirect:/buyer/order/detail";
