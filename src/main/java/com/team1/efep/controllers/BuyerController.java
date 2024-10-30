@@ -45,9 +45,9 @@ public class BuyerController {
 
     @PostMapping("/pass/renew")
     @Operation(hidden = true)
-    public String renewPass(RenewPasswordRequest request, Model model) {
+    public String renewPass(RenewPasswordRequest request, Model model, HttpSession session) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.renewPass(request, model);
+        return buyerService.renewPass(request, model, session);
     }
 
     @PostMapping("/pass/renew/api")
