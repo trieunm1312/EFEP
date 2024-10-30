@@ -145,7 +145,7 @@ var redirectUrl = "/";
 
 var role = document.getElementById("role").value;
 if (role === 'seller') {
-    redirectUrl = "/manageFlower";
+    redirectUrl = "/seller/view/plan";
 }
 
 var interval = setInterval(function() {

@@ -131,12 +131,14 @@ tr:nth-child(even) {
 
 .table-item-img {
     display: inline-block;
-    
+    width: 100px;
+    height: 104px;
 }
 
 .table-item-img img {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
 }
 
 /* button table cart */
@@ -178,22 +180,22 @@ tr:nth-child(even) {
 
 .total__checkout-header {
     margin: 8px 0;
+    font-weight: 600;
 }
 
 .total__checkout-detail {
     background-color: #fdf8f6;
     padding: 12px 1.5px;
     margin: -20px 0;
+    font-size: 2.2rem;
 }
 
 .total__checkout-detail-title {
-    font-size: 2rem;
     font-weight: 500;
 }
 
 .total__checkout-detail-price {
     float: right;
-    font-size: 1.8rem;
     font-weight: bold;
     line-height: 3rem;
 }

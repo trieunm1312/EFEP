@@ -55,9 +55,9 @@ new Chart("dailyOrderChart", {
 
 
 // 
-const categoryName = ["Wedding", "Birthday", "Anniversary", "Mother's Day", "Valentine"];
-const categorySold = [290, 220, 300, 190, 255];
-const barColors = ["red", "green","blue","orange","brown"];
+const categoryName = soldQuantityCategory.map(quantity => quantity.category);
+const categorySold = soldQuantityCategory.map(quantity => quantity.soldFlowerQuantity);
+const barColors = ["red", "green","blue","orange","brown","pink","purple"];
 
 new Chart("compareFlowerCategoryChart", {
   type: "bar",
@@ -70,6 +70,10 @@ new Chart("compareFlowerCategoryChart", {
   },
   options: {
     legend: {display: false},
+      scales: {
+          yAxes: [{ ticks: { beginAtZero: true, stepSize: 1 } }],
+          xAxes: [{ barPercentage: 0.5 }] // Optional: controls the width of the bars
+      },
     title: {
       display: true,
       text: "Compare Flower Category Sold Quantity"

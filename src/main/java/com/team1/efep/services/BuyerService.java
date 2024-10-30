@@ -14,7 +14,7 @@ public interface BuyerService {
 
     ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request);
 
-    String renewPass(RenewPasswordRequest request, Model model);
+    String renewPass(RenewPasswordRequest request, Model model, HttpSession session);
 
     RenewPasswordResponse renewPassAPI(RenewPasswordRequest request);
 
