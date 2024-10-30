@@ -407,3 +407,9 @@ tbody tr {
 .table-order-payment-type {
     padding-right: 8px;
 }
+
+button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
