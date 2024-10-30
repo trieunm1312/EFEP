@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //@RestController
 @Controller
@@ -21,8 +22,8 @@ public class AdminController {
 
     @PostMapping("/plan")
     @Operation(hidden = true)
-    public String createBusinessPlan(CreateBusinessPlanRequest request, Model model) {
-        return adminService.createBusinessPlan(request, model);
+    public String createBusinessPlan(CreateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.createBusinessPlan(request, model, redirectAttributes);
     }
 
     @PostMapping("/plan/api")
@@ -32,8 +33,8 @@ public class AdminController {
 
     @PutMapping("/plan")
     @Operation(hidden = true)
-    public String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model) {
-        return adminService.updateBusinessPlan(request, model);
+    public String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.updateBusinessPlan(request, model, redirectAttributes);
     }
 
     @PutMapping("/plan/api")
@@ -43,8 +44,8 @@ public class AdminController {
 
     @DeleteMapping("/plan")
     @Operation(hidden = true)
-    public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model) {
-        return adminService.disableBusinessPlan(request, model);
+    public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.disableBusinessPlan(request, model, redirectAttributes);
     }
 
     @DeleteMapping("/plan/api")
@@ -54,8 +55,8 @@ public class AdminController {
 
     @PostMapping("/service")
     @Operation(hidden = true)
-    public String createBusinessService(CreateBusinessServiceRequest request, Model model) {
-        return adminService.createBusinessService(request, model);
+    public String createBusinessService(CreateBusinessServiceRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.createBusinessService(request, model, redirectAttributes);
     }
 
     @PostMapping("/service/api")
@@ -65,8 +66,8 @@ public class AdminController {
 
     @PutMapping("/service")
     @Operation(hidden = true)
-    public String updateBusinessService(UpdateBusinessServiceRequest request, Model model) {
-        return adminService.updateBusinessService(request, model);
+    public String updateBusinessService(UpdateBusinessServiceRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.updateBusinessService(request, model, redirectAttributes);
     }
 
     @PutMapping("/service/api")
@@ -76,8 +77,8 @@ public class AdminController {
 
     @DeleteMapping("/service")
     @Operation(hidden = true)
-    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model) {
-        return adminService.deleteBusinessService(request, model);
+    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model,  RedirectAttributes redirectAttributes) {
+        return adminService.deleteBusinessService(request, model, redirectAttributes);
     }
 
     @DeleteMapping("/service/api")
@@ -98,8 +99,8 @@ public class AdminController {
 
     @GetMapping("/view/plan")
     @Operation(hidden = true)
-    public String viewBusinessPlan(HttpSession session, Model model) {
-        return adminService.viewBusinessPlan(session, model);
+    public String viewBusinessPlan(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.viewBusinessPlan(session, model, redirectAttributes);
     }
 
     @GetMapping("/view/plan/api")
@@ -130,8 +131,8 @@ public class AdminController {
 
     @PutMapping("/ban/user")
     @Operation(hidden = true)
-    public String banUser(BanUserRequest request, Model model) {
-        return adminService.banUser(request, model);
+    public String banUser(BanUserRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.banUser(request, model, redirectAttributes);
     }
 
     @PutMapping("/ban/user/api")
@@ -141,8 +142,8 @@ public class AdminController {
 
     @PutMapping("/unban/user")
     @Operation(hidden = true)
-    public String unBanUser(UnBanUserRequest request, Model model) {
-        return adminService.unBanUser(request, model);
+    public String unBanUser(UnBanUserRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.unBanUser(request, model, redirectAttributes);
     }
 
     @PutMapping("/unban/user/api")
@@ -152,8 +153,8 @@ public class AdminController {
 
     @PostMapping("/account/seller")
     @Operation(hidden = true)
-    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model) {
-        return adminService.createAccountForSeller(request, model);
+    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model,  RedirectAttributes redirectAttributes) {
+        return adminService.createAccountForSeller(request, model, redirectAttributes);
     }
 
     @PostMapping("/account/seller/api")

@@ -42,13 +42,13 @@ public class AccountServiceImpl implements AccountService {
 
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
-    public String register(RegisterRequest request, Model model) {
+    public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
-            model.addAttribute("msg", (RegisterResponse) output);
+            redirectAttributes.addFlashAttribute("msg",(RegisterResponse) output);
             return "redirect:/login";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error",(Map<String, String>) output);
         return "redirect:/register";
     }
 
@@ -105,12 +105,12 @@ public class AccountServiceImpl implements AccountService {
 
     //-------------------------------------------LOGIN------------------------------------------------------//
     @Override
-    public String login(LoginRequest request, Model model, HttpSession session) {
+    public String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Object output = loginLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class)) {
             Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).get();
             session.setAttribute("acc", acc);
-            model.addAttribute("msg", (LoginResponse) output);
+            redirectAttributes.addFlashAttribute("msg",(LoginResponse) output);
             switch (acc.getRole().toUpperCase()) {
                 case "SELLER":
                     return "redirect:/seller/dashboard";
@@ -121,7 +121,7 @@ public class AccountServiceImpl implements AccountService {
                     return "redirect:/";
             }
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "redirect:/login";
     }
 
@@ -286,14 +286,14 @@ public class AccountServiceImpl implements AccountService {
     //---------------------------------------CHANGE PASSWORD-------------------------------------//
 
     @Override
-    public String changePassword(ChangePasswordRequest request, HttpSession session, Model model) {
+    public String changePassword(ChangePasswordRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Object output = changePasswordLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
-            model.addAttribute("msg", (ChangePasswordResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (ChangePasswordResponse) output);
             return "redirect:/login";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "redirect:/change/password";
     }
 

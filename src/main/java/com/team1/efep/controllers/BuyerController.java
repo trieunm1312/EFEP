@@ -27,9 +27,9 @@ public class BuyerController {
 
     @PostMapping("/pass/forgot")
     @Operation(hidden = true)
-    public String forgot(ForgotPasswordRequest request, Model model, HttpSession session) {
+    public String forgot(ForgotPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.sendEmail(request, model, session);
+        return buyerService.sendEmail(request, model, session, redirectAttributes);
     }
 
     @PostMapping("/pass/forgot/api")
@@ -45,9 +45,9 @@ public class BuyerController {
 
     @PostMapping("/pass/renew")
     @Operation(hidden = true)
-    public String renewPass(RenewPasswordRequest request, Model model, HttpSession session) {
+    public String renewPass(RenewPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.renewPass(request, model, session);
+        return buyerService.renewPass(request, model, session, redirectAttributes);
     }
 
     @PostMapping("/pass/renew/api")
@@ -94,9 +94,9 @@ public class BuyerController {
 
     @GetMapping("/order/status")
     @Operation(hidden = true)
-    public String viewOrderStatus(HttpSession session, Model model) {
+    public String viewOrderStatus(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.viewOrderStatus(session, model);
+        return buyerService.viewOrderStatus(session, model, redirectAttributes);
     }
 
     @PostMapping("/order/status/api")
@@ -106,9 +106,9 @@ public class BuyerController {
 
     @PutMapping("/order")
     @Operation(hidden = true)
-    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest) {
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.cancelOrder(request, session, model, httpServletRequest);
+        return buyerService.cancelOrder(request, session, model, httpServletRequest, redirectAttributes);
     }
 
     @PutMapping("/order/api")
@@ -149,9 +149,9 @@ public class BuyerController {
     //------------------------------------WISHLIST---------------------------------//
     @GetMapping("/wishlist")
     @Operation(hidden = true)
-    public String viewWishlist(HttpSession session, Model model) {
+    public String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.viewWishlist(session, model);
+        return buyerService.viewWishlist(session, model, redirectAttributes);
     }
 
     @GetMapping("/wishlist/api/{accountId}")
@@ -160,8 +160,8 @@ public class BuyerController {
     }
     @PutMapping("/wishlist")
     @Operation(hidden = true)
-    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
-        return buyerService.updateWishlist(request, session, model);
+    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+        return buyerService.updateWishlist(request, session, model, redirectAttributes);
     }
 
     @PutMapping("/wishlist/api")
@@ -171,9 +171,9 @@ public class BuyerController {
 
     @DeleteMapping("/wishlist")
     @Operation(hidden = true)
-    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model) {
+    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.deleteWishlist(request, session, model);
+        return buyerService.deleteWishlist(request, session, model, redirectAttributes);
     }
 
     @DeleteMapping("/wishlist/api")
@@ -183,9 +183,9 @@ public class BuyerController {
 
     @DeleteMapping("/wishlist-item")
     @Operation(hidden = true)
-    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model) {
+    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.deleteWishlistItem(request, session, model);
+        return buyerService.deleteWishlistItem(request, session, model, redirectAttributes);
     }
 
     @DeleteMapping("/wishlist-item/api")
@@ -196,9 +196,9 @@ public class BuyerController {
 
     @PostMapping("/wishlist")
     @Operation(hidden = true)
-    public String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model) {
+    public String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.addToWishlist(request, httpServletRequest, session, model);
+        return buyerService.addToWishlist(request, httpServletRequest, session, model, redirectAttributes);
     }
 
     @PostMapping("/wishlist/api")

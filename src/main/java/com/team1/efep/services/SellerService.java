@@ -5,20 +5,21 @@ import com.team1.efep.models.response_models.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
 
 public interface SellerService {
-    String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model);
+    String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request);
 
-    String viewFlowerCategory(HttpSession session, Model model, int flowerId);
+    String viewFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes);
 
     ViewFlowerCategoryResponse viewFlowerCategoryAPI(int flowerId);
 
-    String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model);
+    String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request);
 
@@ -74,25 +75,25 @@ public interface SellerService {
 
     SortOrderResponse sortOrderAPI(FilterOrderRequest filterOrderRequest);
 
-    String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model);
+    String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request);
 
     List<String> getAllFlowerStatus();
 
-    String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model);
+    String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     DeleteFlowerResponse deleteFlowerAPI(DeleteFlowerRequest request);
 
-    String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model);
+    String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     ViewFlowerImageResponse viewFlowerImageAPI(ViewFlowerImageRequest request);
 
-    String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model);
+    String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     AddFlowerImageResponse addFlowerImageAPI(AddFlowerImageRequest request);
 
-    String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model);
+    String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     DeleteFlowerImageResponse deleteFlowerImageAPI(DeleteFlowerImageRequest request);
 

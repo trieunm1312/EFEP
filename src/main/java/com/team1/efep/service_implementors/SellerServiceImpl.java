@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -983,16 +984,16 @@ public class SellerServiceImpl implements SellerService {
     //------------------------------UPDATE FLOWER------------------------------------------//
 
     @Override
-    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
+    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", UpdateFlowerResponse.builder()
+            redirectAttributes.addFlashAttribute("error", UpdateFlowerResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
-        model.addAttribute("response", updateFlowerLogic(request));
+        redirectAttributes.addFlashAttribute("response", updateFlowerLogic(request));
         return "redirect:/manageFlower";
     }
 
@@ -1054,16 +1055,16 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------DELETE FLOWER--------------------------------------------//
 
     @Override
-    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model) {
+    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", DeleteFlowerResponse.builder()
+            redirectAttributes.addFlashAttribute("error", DeleteFlowerResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
-        model.addAttribute("msg", deleteFlowerLogic(request));
+        redirectAttributes.addFlashAttribute("msg", deleteFlowerLogic(request));
         return "redirect:/manageFlower";
     }
 
@@ -1094,14 +1095,14 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------VIEW FLOWER IMAGE----------------------------------------------//
 
     @Override
-    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model) {
+    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ViewFlowerImageResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
         model.addAttribute("msg", viewFlowerImageLogic(request));
         return "redirect:/seller/view/flower";
@@ -1138,17 +1139,17 @@ public class SellerServiceImpl implements SellerService {
     //------------------------------ADD FLOWER IMAGE---------------------------------//
 
     @Override
-    public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model) {
+    public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", AddFlowerImageResponse.builder()
+            redirectAttributes.addFlashAttribute("error", AddFlowerImageResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
 
-        model.addAttribute("msg", (Map<String, String>) addFlowerImageLogic(request));
+        redirectAttributes.addFlashAttribute("msg", (Map<String, String>) addFlowerImageLogic(request));
         return "redirect:/seller/view/flower";
     }
 
@@ -1193,16 +1194,16 @@ public class SellerServiceImpl implements SellerService {
 
     //----------------------------------------DELETE FLOWER IMAGE----------------------------------------------//
 
-    public String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model) {
+    public String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", AddFlowerImageResponse.builder()
+            redirectAttributes.addFlashAttribute("error", AddFlowerImageResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
-        model.addAttribute("msg", (DeleteFlowerImageResponse) deleteFlowerImageLogic(request.getImageId()));
+        redirectAttributes.addFlashAttribute("msg", (DeleteFlowerImageResponse) deleteFlowerImageLogic(request.getImageId()));
         return "redirect:/seller/view/flower";
     }
 
@@ -1236,10 +1237,10 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------VIEW FLOWER CATEGORY----------------------------------------------//
 
     @Override
-    public String viewFlowerCategory(HttpSession session, Model model, int flowerId) {
+    public String viewFlowerCategory(HttpSession session, Model model, int flowerId, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You must log in");
+            redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
         Object output = viewFlowerCategoryLogic(flowerId);
@@ -1283,10 +1284,10 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------UPDATE FLOWER CATEGORY----------------------------------------------//
 
     @Override
-    public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model) {
+    public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You must log in");
+            redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
         Object output = updateFlowerCategoryLogic(request);
@@ -1340,10 +1341,10 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------REMOVE FLOWER CATEGORY----------------------------------------------//
 
     @Override
-    public String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model) {
+    public String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You must log in");
+            redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
         Object output = removeFlowerCategoryLogic(request);

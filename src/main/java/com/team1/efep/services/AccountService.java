@@ -8,11 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public interface AccountService {
-    String register(RegisterRequest request, Model model);
+    String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes);
 
     RegisterResponse registerAPI(RegisterRequest request);
 
-    String login(LoginRequest request, Model model, HttpSession session);
+    String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes);
 
     LoginResponse loginAPI(LoginRequest request);
 
@@ -28,7 +28,7 @@ public interface AccountService {
 
     UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request);
 
-    String changePassword(ChangePasswordRequest request, HttpSession session, Model model);
+    String changePassword(ChangePasswordRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request);
 

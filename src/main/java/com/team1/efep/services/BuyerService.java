@@ -10,19 +10,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Map;
 
 public interface BuyerService {
-    String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session);
+    String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes);
 
     ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request);
 
-    String renewPass(RenewPasswordRequest request, Model model, HttpSession session);
+    String renewPass(RenewPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes);
 
     RenewPasswordResponse renewPassAPI(RenewPasswordRequest request);
 
-    String viewWishlist(HttpSession session, Model model);
+    String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     ViewWishlistResponse viewWishlistAPI(int accountId);
 
-    String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model);
+    String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     AddToWishlistResponse addToWishlistAPI(AddToWishlistRequest request);
 
@@ -34,7 +34,7 @@ public interface BuyerService {
 
     ViewSlideBarResponse viewSlideBarAPI();
 
-    String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model);
+    String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     DeleteWishlistItemResponse deleteWishlistItemAPI(DeleteWishlistItemRequest request);
 
@@ -58,19 +58,19 @@ public interface BuyerService {
 
     ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request);
 
-    String viewOrderStatus(HttpSession session, Model model);
+    String viewOrderStatus(HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     ViewOrderStatusResponse viewOrderStatusAPI(ViewOrderStatusRequest request);
 
-    String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model);
+    String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     UpdateWishlistResponse updateWishlistAPI(UpdateWishlistRequest request);
 
-    String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model);
+    String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     DeleteWishlistResponse deleteWishlistAPI(DeleteWishlistRequest request);
 
-    String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest);
+    String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes);
 
     CancelOrderResponse cancelOrderAPI(CancelOrderRequest request);
 

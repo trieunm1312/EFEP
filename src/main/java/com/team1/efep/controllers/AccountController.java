@@ -25,8 +25,8 @@ public class AccountController {
 
     @PostMapping("/register")
     @Operation(hidden = true)
-    public String register(RegisterRequest request, Model model) {
-        return accountService.register(request, model);
+    public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return accountService.register(request, model, redirectAttributes);
     }
 
     @PostMapping("/register/api")
@@ -36,8 +36,8 @@ public class AccountController {
 
     @PostMapping("/login")
     @Operation(hidden = true)
-    public String login(LoginRequest request, Model model, HttpSession session) {
-        return accountService.login(request, model, session);
+    public String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        return accountService.login(request, model, session, redirectAttributes);
     }
 
     @PostMapping("/login/api")
@@ -81,8 +81,8 @@ public class AccountController {
 
     @PostMapping("/change/password")
     @Operation(hidden = true)
-    public String changePassword(ChangePasswordRequest request, HttpSession session, Model model) {
-        return accountService.changePassword(request, session, model);
+    public String changePassword(ChangePasswordRequest request, HttpSession session, Model model,RedirectAttributes redirectAttributes) {
+        return accountService.changePassword(request, session, model, redirectAttributes);
     }
 
     @PostMapping("/change/password/api")
