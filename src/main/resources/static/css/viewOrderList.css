@@ -140,6 +140,10 @@
     font-size: 0.85rem;
 }
 
+.header-date {
+    margin-right: 10px;
+}
+
 .order-status-processing {
     color: var(--primary-color);
 }
