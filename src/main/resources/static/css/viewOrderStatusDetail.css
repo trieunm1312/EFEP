@@ -77,12 +77,12 @@
 }
 
 .navigation-order {
-    width: 74%;
+    width: 60%;
     text-align: center;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 0 0 1%;
+    margin: 0 0 0 8%;
     font-weight: 500;
 }
 
@@ -113,8 +113,9 @@
     height: 20vh;
     width: 100%;
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
     align-items: center;
+    margin-left: -12%;
 }
 
 .step-wizard-list{
@@ -207,7 +208,7 @@
     opacity: 0.5;
 }
 .current-item .progress-count:after{
-    background: #fff;
+    background: #FFF;
     border: 2px solid green;
 }
 .current-item .progress-count{
@@ -291,30 +292,47 @@ tbody tr {
 }
 
 .contain-btn {
-    text-align: right;
+    text-align: center;
 }
 
 .order-btn-cancel {
-    border: none;
+    border: 1px solid #f44336;
     font-size: 2rem;
-    padding: 8px 10px;
-    transition: opacity 0.2s ease;
-    background-color: #f44336;
-    color: var(--white-color);
-    border-radius: 5px;
+    padding: 6px 10px;
+    transition: background-color 0.25s ease;
+    background-color: #fff;
+    color: #f44336;
+    border-radius: 8px;
 }
 
 .order-btn-cancel:hover {
-    opacity: 0.9;
+    background-color: #f44336;
+    color: var(--white-color);
+}
+
+.order-btn-confirm {
+    border: 1px solid var(--primary-color);
+    font-size: 2rem;
+    padding: 6px 10px;
+    transition: background-color 0.25s ease;
+    background-color: #fff;
+    color: var(--primary-color);
+    border-radius: 8px;
+}
+
+.order-btn-confirm:hover {
+    background-color: var(--primary-color);
+    color: var(--white-color);
 }
 
 .table-order-img {
-    width: 90px;
+    width: 120px;
+    height: 130px;
 }
 
 .table-order-img img {
     width: 100%;
-    height: 100px;
+    height: 100%;
     object-fit: cover;
     border-radius: 8px;
 }
@@ -323,10 +341,11 @@ tbody tr {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 10px;
 }
 
 .table-order-info {
-    width: 68rem;
+    width: 100%;
     margin-left: 10px;
 }
 
@@ -335,12 +354,24 @@ tbody tr {
     margin-bottom: 10px;
 }
 
-.table-order-event {
-    color: #666;
+.table-order-description {
+    color: var(--text-color);
+    font-weight: 500;
 }
 
-.table-order-info-price {
-    margin-top: 10px;
+.table-order-cate {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cate-item {
+    color: #5C4033;
+    font-weight: 600;
+    font-size: 1.5rem;
+    background-color: antiquewhite;
+    padding: 6px;
+    border-radius: 20px;
 }
 
 .font-size {
@@ -375,3 +406,9 @@ tbody tr {
 .table-order-payment-type {
     padding-right: 8px;
 }
+
+button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }

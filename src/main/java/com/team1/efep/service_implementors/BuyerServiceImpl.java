@@ -51,10 +51,10 @@ public class BuyerServiceImpl implements BuyerService {
 
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
-    public String viewWishlist(HttpSession session, Model model) {
+    public String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You must log in");
+            redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
         Object output = viewWishlistLogic(account.getId());
@@ -134,16 +134,16 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------------ADD TO WISHLIST-----------------------------------------------------//
 
     @Override
-    public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model) {
+    public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You are not logged in");
+            redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
         Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-            model.addAttribute("msg", (AddToWishlistResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -208,23 +208,23 @@ public class BuyerServiceImpl implements BuyerService {
     //----------------------------------------------UPDATE WISHLIST----------------------------------------------//
 
     @Override
-    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model) {
+    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You are not logged in");
+            redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
         request.setAccountId(account.getId());
         Object output = updateWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-            model.addAttribute("msg", (UpdateWishlistResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (UpdateWishlistResponse) output);
             AllPage.allConfig(model, this);
-            return viewWishlist(session, model);
+            return viewWishlist(session, model, redirectAttributes);
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         AllPage.allConfig(model, this);
-        return viewWishlist(session, model);
+        return viewWishlist(session, model, redirectAttributes);
     }
 
     @Override
@@ -280,17 +280,17 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------DELETE WISHLIST-----------------------------------//
 
     @Override
-    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model) {
+    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You are not logged in");
+            redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
 
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-            model.addAttribute("msg", (DeleteWishlistResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (DeleteWishlistResponse) output);
             return "redirect:/buyer/wishlist";
         }
 
@@ -343,16 +343,16 @@ public class BuyerServiceImpl implements BuyerService {
     //----------------------------------------------DELETE WISHLIST ITEM----------------------------------------------//
 
     @Override
-    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model) {
+    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You are not logged in");
+            redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
         Object output = deleteWishlistItemLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-            model.addAttribute("msg", (DeleteWishlistItemResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (DeleteWishlistItemResponse) output);
             return "redirect:/buyer/wishlist";
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -404,17 +404,17 @@ public class BuyerServiceImpl implements BuyerService {
 
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
-    public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session) {
+    public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes) {
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
-            model.addAttribute("error", (Map<String, String>) output);
+            redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
             return "redirect:/login";
         }
         ForgotPasswordResponse response = (ForgotPasswordResponse) output;
         session.setAttribute("mail", request.getToEmail());
         session.setAttribute("otp" + request.getToEmail(), response.getExtraInfo());
-        model.addAttribute("email", request.getToEmail());
-        return "forgotPassword";
+        redirectAttributes.addFlashAttribute("email", request.getToEmail());
+        return "redirect:/login";
     }
 
     @Override
@@ -483,20 +483,29 @@ public class BuyerServiceImpl implements BuyerService {
         System.out.println(code);
         System.out.println(session.getAttribute("mail"));
         System.out.println(session.getAttribute("otp" + session.getAttribute("mail")));
-        return code.equals(session.getAttribute("otp" + session.getAttribute("mail"))) ? "renewPassword" : "login";
+
+        String sessionLink = session.getAttribute("otp" + session.getAttribute("mail")).toString();
+        String sessionCode = sessionLink.substring(sessionLink.indexOf("=") + 1);
+
+        session.removeAttribute("otp" + session.getAttribute("mail"));
+
+
+        return code.trim().equals(sessionCode.trim()) ? "redirect:/password/renew" : "redirect:/login";
     }
 
     //-----------------------------------------------RENEW PASSWORD------------------------------------------------------------//
 
     @Override
-    public String renewPass(RenewPasswordRequest request, Model model) {
+    public String renewPass(RenewPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes) {
+        request.setEmail(session.getAttribute("mail").toString());
         Object output = renewPassLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
-            model.addAttribute("msg", (RenewPasswordResponse) output);
-            return "login";
+            session.removeAttribute("mail");
+            redirectAttributes.addFlashAttribute("msg", (RenewPasswordResponse) output);
+            return "redirect:/login";
         }
-        model.addAttribute("error", (Map<String, String>) output);
-        return "renewPassword";
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        return "redirect:/password/renew";
     }
 
     @Override
@@ -989,10 +998,10 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------VIEW ORDER STATUS-------------------------------------------//
 
     @Override
-    public String viewOrderStatus(HttpSession session, Model model) {
+    public String viewOrderStatus(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You are not logged in");
+            redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
 
@@ -1039,7 +1048,7 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------CANCEL ORDER------------------------------------------//
 
     @Override
-    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest) {
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             model.addAttribute("error", CancelOrderResponse.builder()
@@ -1054,7 +1063,7 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("msg", (CancelOrderResponse) output);
             return "redirect:" + referer;
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "redirect:/buyer/order/detail";
     }
 

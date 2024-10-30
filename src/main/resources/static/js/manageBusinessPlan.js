@@ -7,38 +7,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const newPlan = getUrlParameter('newPlan');
-    console.log("newPlan parameter value: ", newPlan);
-
     const createNewButton = document.querySelector('.business-plan__create-btn');
     const newPlanCard = document.querySelector('.business-plan__card-new');
 
     if (createNewButton) {
         createNewButton.addEventListener('click', function () {
-            if (newPlanCard.style.display === "none" || newPlanCard.style.display === "") {
-                newPlanCard.style.display = "block";
+            if (newPlanCard.classList.contains("show")) {
+                newPlanCard.classList.remove("show");
             } else {
-                newPlanCard.style.display = "none";
+                newPlanCard.classList.add("show");
             }
         });
     } else {
         console.error('Create button not found.');
     }
 
-    //Create new plan auto
+    // Automatically show new plan card if newPlan is 'true'
     if (newPlan === 'true') {
-        console.log("newPlan is true, showing the card");
-
         if (newPlanCard) {
-
-            newPlanCard.style.display = "block";
+            newPlanCard.classList.add("show");
         } else {
             console.error('New plan card not found.');
         }
-
-
-
-    } else {
-        console.log('newPlan parameter is not true or missing.');
     }
 });
 

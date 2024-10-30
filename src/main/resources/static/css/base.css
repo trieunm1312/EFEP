@@ -413,11 +413,11 @@ html {
 
 .product__block{
     position: absolute;
-    width: 900px;
-    height: 365px;
+    width: 1000px;
+    height: fit-content;
     border-top: 2px solid var(--primary-color);
     top: calc(100% + 16px);
-    right: -375px;
+    right: -440px;
     background-color: var(--white-color);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.11);
     display: none;
@@ -425,26 +425,9 @@ html {
     z-index: 999;
 }
 
-.product__list{
-    list-style: none;
-    padding-left: 0;
-    display: flex;
-    justify-content: space-around;
-    align-self: center;
-    margin-top: 32px;
-}
-
-.product__sub-list{
-    list-style: none;
-    padding-left: 0;
-}
-
-.product__sub-item + .product__sub-item{
-    margin-top: 16px;
-}
-
 .product__heading{
-    font-size: 2rem;
+    text-align: center;
+    font-size: 2.4rem;
     font-weight: 600;
 }
 
@@ -452,43 +435,47 @@ html {
     color: var(--primary-color);
 }
 
-.product__sub-item{
-    font-size: 1.4rem;
-    font-weight: 600;
-    line-height: 1.4rem;
+.product__list{
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    margin: 16px;
 }
 
-.product__sub-item p{
+
+.product__item{
+    margin-top: 16px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.product__item:first-child{
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+}
+
+.product__item p{
     margin-top: 4px;
 }
 
-.product__sub-item p:first-child:hover{
+.product__item p:first-child:hover{
     color: var(--primary-color);
 }
 
-.product__sub-item-link-rate{
-    margin: 12px 0;
-    color: #fec60f;
-}
-
-.product__sub-item-link{
+.product__item-link{
     display: flex;
     justify-content: space-between;
     align-self: center;
 }
 
-.product__sub-item-link img{
+.product__item-link img{
     margin-right: 10px;
-    width: 39%;
-    z-index: 999999;
+    width: 80px;
+    height: 80px;
 }
-
-/* .product__sub-list{
-    list-style: none;
-    padding-left: 0;
-} */
-
-
 
 .header__item-megamenu-item-label-hot {
     position: absolute;
@@ -649,6 +636,12 @@ html {
     border-radius: 2px;
     display: none;
     animation: fadeInDown ease-in .2s;
+}
+
+.header__item-account input:hover,
+.header__item-account a:hover{
+    color: var(--secondary-color);
+    text-decoration: none;
 }
 
 .header__item-account::before{
@@ -1073,7 +1066,6 @@ html {
     right: 32px;
     z-index: 999999;
 }
-
 .toast{
     display: flex;
     align-items: center;
@@ -1086,7 +1078,6 @@ html {
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
     transition: all linear 0.3s;
 }
-
 @keyframes slideInLeft {
     from{
         opacity: 0;
@@ -1097,44 +1088,33 @@ html {
         transform: translateX(0);
     }
 }
-
 @keyframes fadeOut{
     to{
         opacity: 0;
         pointer-events: none;
     }
 }
-
 .toast--success{
     border-color: #47d864;
 }
-
 .toast--success .toast__icon{
     color: #47d864
 }
-
-
 .toast--error{
     border-color: #ff623d;
-
 }
-
 .toast--error .toast__icon{
     color: #ff623d
 }
-
 .toast + .toast{
     margin-top: 24px;
 }
-
 .toast__icon{
     font-size: 24px;
 }
-
 .toast__icon,
 .toast__close{
     padding: 0 16px;
-
 }
 .toast__body{
     flex-grow: 1;

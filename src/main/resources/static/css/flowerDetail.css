@@ -81,24 +81,18 @@
 
 .flower-information__img-list {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     margin-top: 16px;
 }
 
 .flower-information__img-item {
     margin-right: 12px;
+    cursor: pointer;
 }
 
-
-.swiper {
-    width: 100%; 
-    margin-top: 20px; 
-}
-
-.swiper-slide img {
-    width: 100%;
-    object-fit: cover; /* Adjust the size of the images in Swiper */
+.pink-border {
+    border: 4px solid var(--primary-color);
 }
 
 /* Adjust the image size in the Swiper */
@@ -108,42 +102,7 @@
 }
 
 
-.swiper-button-next::after, .swiper-button-prev::after {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 60%;
-    font-size: 2rem;
-    font-weight: 500;
-    color: var(--white-color);
-    background-color: var(--primary-color);
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    padding-left: 0px;
-}
-
-
-.swiper-button-next::after:hover, .swiper-button-prev::after:hover {
-    background-color: var(--black-color);
-    color: var(--white-color);
-}
-
-.img-carousel:focus{
-    color: var(--white-color);
-
-}
-
- .swiper-button-prev::after{
-    left: 0;
-}
-
-.swiper-button-next::after {
-    right: -10px;
-    z-index: 2;
-} 
-
+/*Flower information*/
 .flower-information__content {
     display: flex;
     flex-direction: column; 
@@ -362,18 +321,15 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Top Category */
 .top-category{
-    margin: 64px 32px ;
-    margin-left: 120px;
+    margin: 64px 50px ;
     display: block;
     text-align: center;
     width: 100%;
 }
 
-
-
 .top-category__list{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 32px;
     width: 100%;
 }
@@ -384,8 +340,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 .top-category__img img{
     border-radius: 12px;
-    width: 270px;
-    height: 320px;
+    width: 250px;
+    height: 300px;
 }
 
 .overlay{
@@ -405,7 +361,7 @@ input[type=number]::-webkit-outer-spin-button {
 .add-to-wishlist{
     position: absolute;
     bottom: 16px;
-    left: 90px;
+    left: 80px;
     font-size: 2rem;
     color: var(--white-color);
     background-color: var(--primary-color);
@@ -423,7 +379,7 @@ input[type=number]::-webkit-outer-spin-button {
 .view-detail{
     position: absolute;
     bottom: 16px;
-    right: 90px;
+    right: 80px;
     font-size: 2rem;
     color: var(--white-color);
     background-color: var(--primary-color);

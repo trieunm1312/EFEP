@@ -20,6 +20,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -54,8 +55,8 @@ public class AdminServiceImpl implements AdminService {
 
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
-    public String viewBusinessPlan(HttpSession session, Model model) {
-        model.addAttribute("msg", viewBusinessPlanLogic());
+    public String viewBusinessPlan(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("msg", viewBusinessPlanLogic());
         return "manageBusinessPlan";
     }
 
@@ -110,13 +111,13 @@ public class AdminServiceImpl implements AdminService {
 
     //-------------------------------------CREATE BUSINESS PLAN------------------------------------------//
     @Override
-    public String createBusinessPlan(CreateBusinessPlanRequest request, Model model) {
+    public String createBusinessPlan(CreateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = createBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
-            model.addAttribute("msg", (CreateBusinessPlanResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (CreateBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "/";
     }
 
@@ -189,13 +190,13 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------UPDATE BUSINESS PLAN------------------------------------------//
 
     @Override
-    public String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model) {
+    public String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = updateBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
-            model.addAttribute("msg", (UpdateBusinessPlanResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (UpdateBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "home";
 
     }
@@ -298,13 +299,13 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------DISABLE BUSINESS PLAN------------------------------------------//
 
     @Override
-    public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model) {
+    public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = disableBusinessPlanLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DisableBusinessPlanResponse.class)) {
-            model.addAttribute("msg", (DisableBusinessPlanResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (DisableBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "home";
     }
 
@@ -372,13 +373,13 @@ public class AdminServiceImpl implements AdminService {
 
     //-------------------------------------CREATE BUSINESS SERVICE----------------------------//
     @Override
-    public String createBusinessService(CreateBusinessServiceRequest request, Model model) {
+    public String createBusinessService(CreateBusinessServiceRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = createBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessServiceResponse.class)) {
-            model.addAttribute("msg", (CreateBusinessServiceResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (CreateBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "home";
     }
 
@@ -416,13 +417,13 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------UPDATE BUSINESS SERVICE----------------------------//
 
     @Override
-    public String updateBusinessService(UpdateBusinessServiceRequest request, Model model) {
+    public String updateBusinessService(UpdateBusinessServiceRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = updateBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessServiceResponse.class)) {
-            model.addAttribute("msg", (UpdateBusinessServiceResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (UpdateBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "home";
     }
 
@@ -460,13 +461,13 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------DELETE BUSINESS SERVICE----------------------------//
 
     @Override
-    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model) {
+    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = deleteBusinessServiceLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteBusinessServiceResponse.class)) {
-            model.addAttribute("msg", (DeleteBusinessServiceResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (DeleteBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "home";
     }
 
@@ -584,13 +585,13 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------BAN USER----------------------------//
 
     @Override
-    public String banUser(BanUserRequest request, Model model) {
+    public String banUser(BanUserRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = banUserLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, BanUserResponse.class)) {
-            model.addAttribute("msg", (BanUserResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (BanUserResponse) output);
             return "redirect:/admin/user/list";
         }
-        model.addAttribute("error", ((Map<String, String>) output));
+        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
         return "home";
     }
 
@@ -625,13 +626,13 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------UNBAN USER----------------------------//
 
     @Override
-    public String unBanUser(UnBanUserRequest request, Model model) {
+    public String unBanUser(UnBanUserRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = unBanUserLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UnBanUserResponse.class)) {
-            model.addAttribute("msg", (UnBanUserResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (UnBanUserResponse) output);
             return "redirect:/admin/user/list";
         }
-        model.addAttribute("error", ((Map<String, String>) output));
+        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
         return "/";
     }
 
@@ -667,13 +668,13 @@ public class AdminServiceImpl implements AdminService {
     //-----------------------------------------CREATE ACCOUNT FOR SELLER------------------------------------//
 
     @Override
-    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model) {
+    public String createAccountForSeller(CreateAccountForSellerRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = createAccountForSellerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
-            model.addAttribute("msg", (CreateAccountForSellerResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (CreateAccountForSellerResponse) output);
             return "redirect:/admin/user/list";
         }
-        model.addAttribute("error", ((Map<String, String>) output));
+        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
         return "/";
     }
 

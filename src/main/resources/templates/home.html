@@ -18,41 +18,13 @@
 </head>
 
 <body>
-<div id="toast" th:if="${msg != null}">
-    <div th:if="${msg.status == '200'}">
-        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1.5s forwards;">
-            <div class="toast__icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <div class="toast__body">
-                <h3 class="toast__title">Successfully!</h3>
-                <p class="toast__msg" th:text="${msg.message}"></p>
-            </div>
-            <div class="toast__close">
-                <i class="fas fa-times"></i>
-            </div>
-        </div>
-    </div>
-    <div th:if="${msg.status != '200'}">
-        <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s 1.5s forwards;">
-            <div class="toast__icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <div class="toast__body">
-                <h3 class="toast__title">Error!</h3>
-                <p class="toast__msg" th:text="${msg.message}"></p>
-            </div>
-            <div class="toast__close">
-                <i class="fas fa-times"></i>
-            </div>
-        </div>
-    </div>
+<div  th:replace="~{base :: toast}">
+
 </div>
 <div class="wrap">
     <!-- Nav Bar -->
     <nav class="navbar" th:replace="~{base :: navbar}">
     </nav>
-
     <!-- Header -->
     <header class="header" th:replace="~{base :: header}">
         <div class="grid">

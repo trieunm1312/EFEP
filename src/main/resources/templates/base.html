@@ -15,9 +15,9 @@
 </head>
 
 <body>
-<div th:fragment="toast" id="toast" th:if="${msg != null}">
+<div id="toast" th:if="${msg != null}" th:fragment="toast">
     <div th:if="${msg.status == '200'}">
-        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1.5s forwards;">
+        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s .5s forwards;">
             <div class="toast__icon">
                 <i class="fas fa-check-circle"></i>
             </div>
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div th:if="${msg.status != '200'}">
-        <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s 1.5s forwards;">
+        <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s .5s forwards;">
             <div class="toast__icon">
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
@@ -97,25 +97,25 @@
                         </li>
 
                         <li class="header__item-megamenu-item header__item-megamenu-item__category">
-                                <span
-                                        class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
-                            <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-                            <span class="header__item-megamenu-item-label-offer">Offer</span>
-                            <span class="header__item-megamenu-item-label-arrow-offer"></span>
-                            <div class="category__block">
-                                <ul class="category__list">
-                                    <li th:each="category : ${msg3.categoryList}" class="category__item">
-                                        <form th:action="@{/buyer/category/filter}" method="post" class="category__heading">
-                                            <input type="hidden" name="categoryId" th:value="${category.id}">
-                                            <button>
-                                                <h4 th:text="${category.name}"></h4>
-                                            </button>
-                                        </form>
-                                    </li>
+                            <a th:href="@{/buyer/flower}">
+                                <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
+                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
+                                <span class="header__item-megamenu-item-label-offer">Offer</span>
+                                <span class="header__item-megamenu-item-label-arrow-offer"></span>
+                                <div class="category__block">
+                                    <ul class="category__list">
+                                        <li th:each="category : ${msg3.categoryList}" class="category__item">
+                                            <form th:action="@{/buyer/category/filter}" method="post" class="category__heading">
+                                                <input type="hidden" name="categoryId" th:value="${category.id}">
+                                                <button>
+                                                    <h4 th:text="${category.name}"></h4>
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </a>
 
-                                </ul>
-
-                            </div>
                         </li>
 
                         <li class="header__item-megamenu-item header__item-megamenu-item__product">
@@ -125,190 +125,20 @@
                                 <span class="header__item-megamenu-item-label-hot">Hot</span>
                                 <span class="header__item-megamenu-item-label-arrow-hot"></span>
                                 <div class="product__block">
-                                    <ul class="product__list">
-                                        <li class="product__item">
-                                            <a href="" class="product__heading">
-                                                <h4>Popular Products</h4>
-                                            </a>
-                                            <ul class="product__sub-list">
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-
-                                            </ul>
-                                        </li>
-                                        <li class="product__item">
-                                            <a href="" class="product__heading">
-                                                <h4>Best Seller Products</h4>
-                                            </a>
-                                            <ul class="product__sub-list">
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-
-                                            </ul>
-                                        </li>
-                                        <li class="product__item">
-                                            <a href="" class="product__heading">
-                                                <h4>Latest Products</h4>
-                                            </a>
-                                            <ul class="product__sub-list">
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="product__sub-item">
-                                                    <a href="" class="product__sub-item-link">
-                                                        <img src="/img/product-item.jpg"
-                                                             alt="">
-                                                        <div class="product__sub-item-link-contnet">
-                                                            <p class="product__sub-item-link-name">Lavender</p>
-                                                            <div class="product__sub-item-link-rate">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <p class="product__sub-item-link-price">$399.00</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-
-                                            </ul>
-                                        </li>
-
-                                    </ul>
-
+                                    <div class="product__top">
+                                        <h4 class="product__heading">Popular Products</h4>
+                                        <ul class="product__list">
+                                            <li th:each="item : ${msg2.flowerList}" class="product__item">
+                                                <a th:href="@{/buyer/flower/detail(id=${item.id})}" class="product__item-link">
+                                                    <img th:src="@{${item.images[0].link}}" alt="Flower image">
+                                                    <div class="product__item-link-content">
+                                                        <p class="product__item-link-name" th:text="${item.name}"></p>
+                                                        <p class="product__item-link-price" th:text="${'$' + item.price}"></p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </a>
                         </li>
