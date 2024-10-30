@@ -120,8 +120,9 @@
                                             <div class="table-order-info">
                                                 <h4 class="table-order-name" th:text="${product.flowerName}">Hiptage</h4>
                                                 <p class="table-order-description" th:text="${product.description}">DEP</p>
-                                                <div class="table-order-cate" th:each="cate : ${product.categories}">
-                                                    <span class="cate-item" th:text="${cate}">Wedding</span>
+                                                <div class="table-order-cate" >
+                                                    <span th:each="cate : ${product.categories}"
+                                                          class="cate-item" th:text="${cate}">Wedding</span>
                                                 </div>
                                                 <div class="table-order-info-price font-size">
                                                     <div class="table-order-info-qnt">

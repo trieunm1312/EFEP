@@ -208,7 +208,7 @@
     opacity: 0.5;
 }
 .current-item .progress-count:after{
-    background: #fff;
+    background: #FFF;
     border: 2px solid green;
 }
 .current-item .progress-count{
@@ -360,14 +360,19 @@ tbody tr {
     font-weight: 500;
 }
 
+.table-order-cate {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .cate-item {
     color: #5C4033;
     font-weight: 600;
     font-size: 1.5rem;
     background-color: antiquewhite;
     padding: 6px;
-    border-radius: 10px;
-    margin-right: 6px;
+    border-radius: 20px;
 }
 
 .font-size {

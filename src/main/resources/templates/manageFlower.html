@@ -187,7 +187,7 @@
                                         <input type="hidden" name="flowerId" th:value="${item.id}">
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                         <td class="table__body-img">
-                                            <img class="img" src="/img/flower.jpg" alt="">
+                                            <img class="img" th:src="${item.imgList[0].link}" alt="">
                                             <input type="url" name="image" class="img-input"
                                                    style="display: none;">
                                         </td>
