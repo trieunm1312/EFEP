@@ -70,7 +70,7 @@ public interface BuyerService {
 
     DeleteWishlistResponse deleteWishlistAPI(DeleteWishlistRequest request);
 
-    String cancelOrder(CancelOrderRequest request, HttpSession session, Model model);
+    String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest);
 
     CancelOrderResponse cancelOrderAPI(CancelOrderRequest request);
 

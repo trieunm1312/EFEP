@@ -27,6 +27,7 @@ public class CancelOrderValidation {
         if (!order.getStatus().equals(Status.ORDER_STATUS_PROCESSING)) {
             return MapConfig.buildMapKey(errors, "Order cannot be cancelled");
         }
+        System.out.println("CancelOrderValidation: " + errors);
         return errors;
     }
 }
