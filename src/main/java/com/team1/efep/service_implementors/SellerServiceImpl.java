@@ -331,10 +331,8 @@ public class SellerServiceImpl implements SellerService {
         List<Flower> flowers = flowerRepo.findAllBySeller_Id(sellerId);
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
-                .message("Number of flower" + flowers.size())
                 .flowerList(viewFlowerList(flowers))
                 .build();
-        // if find -> print size of flower
     }
 
     private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
