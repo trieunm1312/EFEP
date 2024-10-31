@@ -103,6 +103,10 @@ textarea {
     box-sizing: border-box;
 }
 
+.desc-text {
+    text-align: justify;
+}
+
 input{
     width: 70%;
 }
@@ -141,3 +145,4 @@ input{
 .disabled {
     color: #99A9C9;
 }
+

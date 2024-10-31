@@ -127,15 +127,37 @@ table {
 
 .end-component {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-top: 14px;
-    padding: 0 10px;
+    padding: 0px 10px;
+}
+
+.contain-btn {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+.contain-btn::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #ccc; /* Màu của đường kẻ */
+}
+
+/* Ẩn đường kẻ cho thẻ div cuối cùng */
+.contain-btn:last-child::after {
+    display: none;
 }
 
 .back {
     background-color: rgb(255, 86, 141, 0.7);
     padding: 6px 10px;
+    width: fit-content;
 }
 
 .back a {
@@ -146,6 +168,15 @@ table {
 .back:hover {
     background-color: rgb(255, 86, 141, 0.8);
     cursor: pointer;
+}
+
+.total-product {
+    display: flex;
+    justify-content: right;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .total {
@@ -169,4 +200,44 @@ table {
 
 .tb-product-footer-total:hover {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.contain-btn {
+    text-align: center;
+}
+
+.order-btn-cancel {
+    border: 1px solid #f44336;
+    font-size: 1rem;
+    padding: 6px 10px;
+    transition: background-color 0.25s ease;
+    background-color: #fff;
+    color: #f44336;
+    border-radius: 8px;
+}
+
+.order-btn-cancel:hover {
+    background-color: #f44336;
+    color: var(--white-color);
+}
+
+.order-btn-confirm {
+    border: 1px solid chocolate;
+    font-size: 1rem;
+    padding: 6px 10px;
+    transition: background-color 0.25s ease;
+    background-color: #fff;
+    color: chocolate;
+    border-radius: 8px;
+}
+
+.order-btn-confirm:hover {
+    background-color: chocolate;
+    color: var(--white-color);
+}
+
+button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
