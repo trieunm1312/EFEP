@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Flower Page</title>
 
-     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
@@ -113,67 +113,65 @@
                 </div>
             </div>
 
-            <!-- Header search -->
-            <div class="header__search">
-                <form action="" method="get" class="header__search-form">
-                    <button class="header__search-btn">
-                        <i class="fa-solid  fa-magnifying-glass"></i>
-                    </button>
-                    <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
-                </form>
+        <!-- Header search -->
+        <div class="header__search">
+            <form action="" method="get" class="header__search-form">
+                <button class="header__search-btn">
+                    <i class="fa-solid  fa-magnifying-glass"></i>
+                </button>
+                <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
+            </form>
+        </div>
+        <div class="header__create-btn btn">
+            <i class="fa-solid fa-plus header__create-btn-icon"></i>
+            <span>Create</span>
+            <div class="header__create-block">
+                <!--                <h4 class="header__create-title">Create New</h4>-->
+                <!--                <ul class="header__create-list">-->
+                <!--                    <li class="header__create-item">-->
+                <!--                        <a href="#">-->
+                <!--                            <i class="fa-solid fa-flower header__create-item-icon"></i>-->
+                <!--                            &lt;!&ndash; <i class="fa-solid fa-spa"></i> &ndash;&gt;-->
+                <!--                            <span class="sidebar__item-title">Flower</span>-->
+                <!--                        </a>-->
+                <!--                    </li>-->
+                <!--                    <li class="header__create-item">-->
+                <!--                        <a href="#">-->
+                <!--                            <i class="fa-solid fa-briefcase header__create-item-icon"></i>-->
+                <!--                            <span class="sidebar__item-title">Business Plan</span>-->
+                <!--                        </a>-->
+                <!--                    </li>-->
+                <!--                </ul>-->
             </div>
-            <div class="header__create-btn btn">
-                <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                <span>Create</span>
-                <div class="header__create-block">
-                    <!--                <h4 class="header__create-title">Create New</h4>-->
-                    <!--                <ul class="header__create-list">-->
-                    <!--                    <li class="header__create-item">-->
-                    <!--                        <a href="#">-->
-                    <!--                            <i class="fa-solid fa-flower header__create-item-icon"></i>-->
-                    <!--                            &lt;!&ndash; <i class="fa-solid fa-spa"></i> &ndash;&gt;-->
-                    <!--                            <span class="sidebar__item-title">Flower</span>-->
-                    <!--                        </a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="header__create-item">-->
-                    <!--                        <a href="#">-->
-                    <!--                            <i class="fa-solid fa-briefcase header__create-item-icon"></i>-->
-                    <!--                            <span class="sidebar__item-title">Business Plan</span>-->
-                    <!--                        </a>-->
-                    <!--                    </li>-->
-                    <!--                </ul>-->
+        </div>
+        <div class="header__others">
+            <div class="header__noti">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <span class="header__separate">|</span>
+            <div class="header__account" id="headerAccount">
+                <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
+                <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}"
+                     alt="Avatar">
+                <span th:text="${session.acc.getUser().getName()}"></span>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <div class="header__item-account" id="accountDropdown">
+                    <form th:action="@{/account/view/profile}" class="form" method="get">
+                        <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
+                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/change/password}" class="form">
+                        <input type="submit" name="action" class="header__item-account-item"
+                               value="Change Password"></input>
+                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/account/logout}" class="form" method="get">
+                        <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
+                    </form>
                 </div>
             </div>
-            <div class="header__others">
-                <div class="header__noti">
-                    <i class="fa-solid fa-bell"></i>
-                </div>
-                <span class="header__separate">|</span>
-                <div class="header__account" id="headerAccount">
-                    <i th:if="${session.acc.getUser().getAvatar()} == ''"
-                        class="header__account-icon fa-solid fa-user"></i>
-                    <img th:if="${session.acc.getUser().getAvatar()} != ''"
-                        th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
-                    <span th:text="${session.acc.getUser().getName()}"></span>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <div class="header__item-account" id="accountDropdown">
-                        <form th:action="@{/account/view/profile}" class="form" method="get">
-                            <input type="submit" name="action" value="My profile"
-                                class="header__item-account-item"></input>
-                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                        </form>
-                        <form th:action="@{/change/password}" class="form">
-                            <input type="submit" name="action" class="header__item-account-item"
-                                value="Change Password"></input>
-                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                        </form>
-                        <form th:action="@{/account/logout}" class="form" method="get">
-                            <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </header>
+        </div>
+    </header>
 
         <!-- Container -->
         <div class="container">

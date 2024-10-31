@@ -209,7 +209,6 @@ public class BuyerServiceImpl implements BuyerService {
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
         request.setAccountId(account.getId());
@@ -294,7 +293,7 @@ public class BuyerServiceImpl implements BuyerService {
 
         model.addAttribute("response", (Map<String, String>) output);
         session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-        return "viewWishlist";
+        return "redirect:/buyer/wishlist";
     }
 
     @Override
@@ -502,7 +501,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute("msg", (RenewPasswordResponse) output);
             return "redirect:/login";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error",  output);
         return "redirect:/password/renew";
     }
 

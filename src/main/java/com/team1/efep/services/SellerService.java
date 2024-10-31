@@ -23,7 +23,7 @@ public interface SellerService {
 
     RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request);
 
-    String createFlower(CreateFlowerRequest request, HttpSession session, Model model);
+    String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request);
 
