@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -28,8 +29,8 @@ public class SellerController {
 
     @PutMapping("/flower")
     @Operation(hidden = true)
-    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
-        return sellerService.updateFlower(request, session, model);
+    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.updateFlower(request, session, model, redirectAttributes);
     }
 
     @PutMapping("/flower/api")
@@ -39,8 +40,8 @@ public class SellerController {
 
     @DeleteMapping("/flower")
     @Operation(hidden = true)
-    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model) {
-        return sellerService.deleteFlower(request, session, model);
+    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.deleteFlower(request, session, model,  redirectAttributes);
     }
 
     @DeleteMapping("/flower/api")
@@ -50,8 +51,8 @@ public class SellerController {
 
     @GetMapping("/flower/image")
     @Operation(hidden = true)
-    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model) {
-        return sellerService.viewFlowerImage(request, session, model);
+    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.viewFlowerImage(request, session, model, redirectAttributes);
     }
 
     @PostMapping("/flower/image/api")
@@ -61,8 +62,8 @@ public class SellerController {
 
     @PostMapping("/flower/image/add")
     @Operation(hidden = true)
-    public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model) {
-        return sellerService.addFlowerImage(request, session, model);
+    public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.addFlowerImage(request, session, model, redirectAttributes);
     }
 
     @PostMapping("/flower/image/add/api")
@@ -72,8 +73,8 @@ public class SellerController {
 
     @DeleteMapping("/flower/image")
     @Operation(hidden = true)
-    public String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model) {
-        return sellerService.deleteFlowerImage(request, session, model);
+    public String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+        return sellerService.deleteFlowerImage(request, session, model,  redirectAttributes);
     }
 
     @DeleteMapping("/flower/image/api")
@@ -108,8 +109,8 @@ public class SellerController {
 
     @PutMapping("/order/status")
     @Operation(hidden = true)
-    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
-        return sellerService.changeOrderStatus(request, session, model);
+    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
+        return sellerService.changeOrderStatus(request, session, model, httpServletRequest,  redirectAttributes);
     }
 
     @PutMapping("/order/status/api")

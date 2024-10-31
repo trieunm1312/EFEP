@@ -5,30 +5,31 @@ import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public interface AdminService {
 
-    String createBusinessPlan(CreateBusinessPlanRequest request, Model model);
+    String createBusinessPlan(CreateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes);
 
     CreateBusinessPlanResponse createBusinessPlanAPI(CreateBusinessPlanRequest request);
 
-    String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model);
+    String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes);
 
     UpdateBusinessPlanResponse updateBusinessPlanAPI(UpdateBusinessPlanRequest request);
 
-    String disableBusinessPlan(DisableBusinessPlanRequest request, Model model);
+    String disableBusinessPlan(DisableBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes);
 
     DisableBusinessPlanResponse disableBusinessPlanAPI(DisableBusinessPlanRequest request);
 
-    String createBusinessService(CreateBusinessServiceRequest request, Model model);
+    String createBusinessService(CreateBusinessServiceRequest request, Model model,  RedirectAttributes redirectAttributes);
 
     CreateBusinessServiceResponse createBusinessServiceAPI(CreateBusinessServiceRequest request);
 
-    String updateBusinessService(UpdateBusinessServiceRequest request, Model model);
+    String updateBusinessService(UpdateBusinessServiceRequest request, Model model,  RedirectAttributes redirectAttributes);
 
     UpdateBusinessServiceResponse updateBusinessServiceAPI(UpdateBusinessServiceRequest request);
 
-    String deleteBusinessService(DeleteBusinessServiceRequest request, Model model);
+    String deleteBusinessService(DeleteBusinessServiceRequest request, Model model, RedirectAttributes redirectAttributes);
 
     DeleteBusinessServiceResponse deleteBusinessServiceAPI(DeleteBusinessServiceRequest request);
 
@@ -36,7 +37,7 @@ public interface AdminService {
 
     ViewUserListResponse viewUserListAPI();
 
-    String viewBusinessPlan(HttpSession session, Model model);
+    String viewBusinessPlan(HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     ViewBusinessPlanResponse viewBusinessPlanAPI();
 
@@ -44,11 +45,11 @@ public interface AdminService {
 
     ViewBusinessServiceResponse viewBusinessServiceAPI();
 
-    String banUser(BanUserRequest request, Model model);
+    String banUser(BanUserRequest request, Model model, RedirectAttributes redirectAttributes);
 
     BanUserResponse banUserAPI(BanUserRequest request);
 
-    String unBanUser(UnBanUserRequest request, Model model);
+    String unBanUser(UnBanUserRequest request, Model model,  RedirectAttributes redirectAttributes);
 
     UnBanUserResponse unBanUserAPI(UnBanUserRequest request);
 
@@ -56,7 +57,7 @@ public interface AdminService {
 
     SearchUserListResponse searchUserListAPI(SearchUserListRequest request);
 
-    String createAccountForSeller(CreateAccountForSellerRequest request, Model model);
+    String createAccountForSeller(CreateAccountForSellerRequest request, Model model,  RedirectAttributes redirectAttributes);
 
     CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request);
 

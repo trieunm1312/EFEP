@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -97,9 +98,10 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-
     private Object createFlowerLogic(CreateFlowerRequest request) {
-        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo);
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo, account.getUser().getSeller());
+
         if (error.isEmpty()) {
             //success
             Flower flower = createNewFlower(request);
@@ -237,7 +239,7 @@ public class SellerServiceImpl implements SellerService {
                         .map(detail -> detail.getFlower().getFlowerImageList().get(0).getLink())
                         .toList())
                 .buyerName(order.getBuyerName())
-                .createDate(order.getCreatedDate())
+                .createDate(order.getCreatedDate().toLocalDate())
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
@@ -248,6 +250,7 @@ public class SellerServiceImpl implements SellerService {
     private List<ViewOrderListResponse.Item> viewOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> ViewOrderListResponse.Item.builder()
+                        .image(detail.getFlower().getFlowerImageList().get(0).getLink())
                         .name(detail.getFlower().getName())
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
@@ -258,21 +261,23 @@ public class SellerServiceImpl implements SellerService {
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
 
     @Override
-    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
+    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ChangeOrderStatusResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
+        String referer = httpServletRequest.getHeader("Referer");
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
             model.addAttribute("msg", (ChangeOrderStatusResponse) output);
+            return "redirect:" + referer;
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "redirect:/seller/order/detail";
     }
 
     @Override
@@ -305,10 +310,6 @@ public class SellerServiceImpl implements SellerService {
         return ChangeOrderStatusResponse.builder()
                 .status("200")
                 .message("Change order status successful")
-                .order(ChangeOrderStatusResponse.ChangedStatus.builder()
-                        .id(order.getId())
-                        .status(order.getStatus())
-                        .build())
                 .build();
     }
 
@@ -327,7 +328,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(int sellerId) {
-        List<Flower> flowers = flowerRepo.findBySeller_Id(sellerId);
+        List<Flower> flowers = flowerRepo.findAllBySeller_Id(sellerId);
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
                 .message("Number of flower" + flowers.size())
@@ -578,11 +579,12 @@ public class SellerServiceImpl implements SellerService {
             return "login";
         }
         Object output = viewOrderDetailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            model.addAttribute("msg", (ViewOrderDetailResponse) output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailForSellerResponse.class)) {
+            model.addAttribute("msg", (ViewOrderDetailForSellerResponse) output);
+            return "viewOrderDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderDetail";
     }
 
     @Override
@@ -628,6 +630,8 @@ public class SellerServiceImpl implements SellerService {
                 .buyerName(order.getUser().getName())
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
+                .paymentMethod(order.getPaymentMethod().getName())
+                .createdDate(order.getCreatedDate().toLocalDate())
                 .detailList(detailList)
                 .build();
     }
@@ -752,6 +756,8 @@ public class SellerServiceImpl implements SellerService {
     private List<FilterOrderResponse.Item> viewFilterOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> FilterOrderResponse.Item.builder()
+                        .image(detail.getFlower().getFlowerImageList().get(0).getLink())
+                        .description(detail.getFlower().getDescription())
                         .name(detail.getFlower().getName())
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
@@ -805,7 +811,7 @@ public class SellerServiceImpl implements SellerService {
     private VNPayResponse createVNPayPaymentLinkLogic(VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest) {
         Map<String, String> paramList = new HashMap<>();
 
-        long amount = getAmount(request);
+        long amount = getAmount(request) * 25000;
         int busPlanId = getBusPlanId(request);
         String txnRef = BusinessPlanVNPayConfig.getRandomNumber(8);
         String ipAddress = BusinessPlanVNPayConfig.getIpAddress(httpServletRequest);
@@ -983,16 +989,16 @@ public class SellerServiceImpl implements SellerService {
     //------------------------------UPDATE FLOWER------------------------------------------//
 
     @Override
-    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model) {
+    public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", UpdateFlowerResponse.builder()
+            redirectAttributes.addFlashAttribute("error", UpdateFlowerResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
-        model.addAttribute("response", updateFlowerLogic(request));
+        redirectAttributes.addFlashAttribute("response", updateFlowerLogic(request));
         return "redirect:/manageFlower";
     }
 
@@ -1016,13 +1022,12 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object updateFlowerLogic(UpdateFlowerRequest request) {
-        Map<String, String> error = UpdateFlowerValidation.validate(request, flowerRepo);
+        Map<String, String> error = UpdateFlowerValidation.validate(request, flowerRepo, accountRepo);
         if (!error.isEmpty()) {
             return error;
         }
-        Flower flower = flowerRepo.findById(request.getFlowerId())
-                .orElseThrow(() -> new RuntimeException("Flower not found with id: " + request.getFlowerId()));
-
+        Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
+        assert flower != null;
         flower.setName(request.getName());
         flower.setPrice(request.getPrice());
         flower.setDescription(request.getDescription());
@@ -1054,16 +1059,16 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------DELETE FLOWER--------------------------------------------//
 
     @Override
-    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model) {
+    public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", DeleteFlowerResponse.builder()
+            redirectAttributes.addFlashAttribute("error", DeleteFlowerResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
-        model.addAttribute("msg", deleteFlowerLogic(request));
+        redirectAttributes.addFlashAttribute("msg", deleteFlowerLogic(request));
         return "redirect:/manageFlower";
     }
 
@@ -1094,14 +1099,14 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------VIEW FLOWER IMAGE----------------------------------------------//
 
     @Override
-    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model) {
+    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ViewFlowerImageResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
         model.addAttribute("msg", viewFlowerImageLogic(request));
         return "redirect:/seller/view/flower";
@@ -1138,17 +1143,17 @@ public class SellerServiceImpl implements SellerService {
     //------------------------------ADD FLOWER IMAGE---------------------------------//
 
     @Override
-    public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model) {
+    public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", AddFlowerImageResponse.builder()
+            redirectAttributes.addFlashAttribute("error", AddFlowerImageResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
 
-        model.addAttribute("msg", (Map<String, String>) addFlowerImageLogic(request));
+        redirectAttributes.addFlashAttribute("msg", (Map<String, String>) addFlowerImageLogic(request));
         return "redirect:/seller/view/flower";
     }
 
@@ -1193,16 +1198,16 @@ public class SellerServiceImpl implements SellerService {
 
     //----------------------------------------DELETE FLOWER IMAGE----------------------------------------------//
 
-    public String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model) {
+    public String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", AddFlowerImageResponse.builder()
+            redirectAttributes.addFlashAttribute("error", AddFlowerImageResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
-        model.addAttribute("msg", (DeleteFlowerImageResponse) deleteFlowerImageLogic(request.getImageId()));
+        redirectAttributes.addFlashAttribute("msg", (DeleteFlowerImageResponse) deleteFlowerImageLogic(request.getImageId()));
         return "redirect:/seller/view/flower";
     }
 
@@ -1236,10 +1241,10 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------VIEW FLOWER CATEGORY----------------------------------------------//
 
     @Override
-    public String viewFlowerCategory(HttpSession session, Model model, int flowerId) {
+    public String viewFlowerCategory(HttpSession session, Model model, int flowerId, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You must log in");
+            redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
         Object output = viewFlowerCategoryLogic(flowerId);
@@ -1283,10 +1288,10 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------UPDATE FLOWER CATEGORY----------------------------------------------//
 
     @Override
-    public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model) {
+    public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You must log in");
+            redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
         Object output = updateFlowerCategoryLogic(request);
@@ -1340,10 +1345,10 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------REMOVE FLOWER CATEGORY----------------------------------------------//
 
     @Override
-    public String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model) {
+    public String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            model.addAttribute("error", "You must log in");
+            redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
         Object output = removeFlowerCategoryLogic(request);

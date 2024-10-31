@@ -187,7 +187,7 @@
                                         <input type="hidden" name="flowerId" th:value="${item.id}">
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                         <td class="table__body-img">
-                                            <img class="img" th:src="${item.imgList[0].link}" alt="">
+                                            <img class="img" th:src="${item.imageList[0].link}" alt="">
                                             <input type="url" name="image" class="img-input"
                                                    style="display: none;">
                                         </td>
@@ -198,9 +198,10 @@
                                         </td>
                                         <td class="table__body-desc">
                                             <span th:text="${item.description}" class="desc-text"></span>
-                                            <textarea name="description" th:text="${item.description}" th:value="${item.description}"
+                                            <textarea name="description" th:text="${item.description}"
                                                       class="desc-input"
-                                                      style="display: none;"></textarea>
+                                                      style="display: none;">
+                                            </textarea>
                                         </td>
                                         <td class="table__body-status">
                                             <span th:text="${item.status}" class="status-text"></span>
