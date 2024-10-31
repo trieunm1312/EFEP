@@ -1066,6 +1066,14 @@ html {
     right: 32px;
     z-index: 999999;
 }
+
+.toast-error{
+    position: fixed;
+    top: 32px;
+    right: 32px;
+    z-index: 999999;
+}
+
 .toast{
     display: flex;
     align-items: center;
@@ -1092,6 +1100,8 @@ html {
     to{
         opacity: 0;
         pointer-events: none;
+        display: none;
+        z-index: -2;
     }
 }
 .toast--success{

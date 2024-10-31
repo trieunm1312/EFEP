@@ -144,8 +144,8 @@
                         </tr>
                         </thead>
                         <tbody class="table__body">
-                            <div th:if="${msg}">
-                                <div th:each="item : ${msg.servicesList}">
+                            <div th:if="${msg1}">
+                                <div th:each="item : ${msg1.servicesList}">
                                     <tr class="table__body-item">
                                         <form th:action="@{/admin/service}" th:method="put" class="business-service__form">
                                             <input type="hidden" name="id" th:value="${item.id}">

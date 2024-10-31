@@ -135,7 +135,8 @@
                             <span>Create New</span>
                         </div>
                     </div>
-                    <table class="user__table">
+                    <h4 th:if="${msg1.userList.size() == 0}" th:text="${'There is no Username contains: ' + msg1.keyword}"></h4>
+                    <table th:if="${msg1.userList.size() != 0}" class="user__table">
                         <thead class="table__header">
                             <tr>
                                 <th class="table__header-user">User</th>
@@ -146,8 +147,7 @@
                             </tr>
                         </thead>
                         <tbody class="table__body">
-
-                                <tr th:each="user : ${msg.userList}" class="table__body-item">
+                                <tr th:each="user : ${msg1.userList}" class="table__body-item">
                                     <div th:if="${user.accountUser.role} != 'admin'">
                                         <td class="table__body-user">
                                             <img th:src="${user.avatar == null || user.avatar == ''} ? '/img/default-avatar.jpg' : ${user.avatar}" alt="Avatar" class="table__body-avt">
