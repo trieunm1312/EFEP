@@ -502,7 +502,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute("msg", (RenewPasswordResponse) output);
             return "redirect:/login";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error",  output);
         return "redirect:/password/renew";
     }
 
