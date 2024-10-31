@@ -268,14 +268,15 @@ public class SellerServiceImpl implements SellerService {
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
             model.addAttribute("msg", (ChangeOrderStatusResponse) output);
+            return "viewOrderStatusDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderStatusDetail";
     }
 
     @Override
@@ -308,10 +309,6 @@ public class SellerServiceImpl implements SellerService {
         return ChangeOrderStatusResponse.builder()
                 .status("200")
                 .message("Change order status successful")
-                .order(ChangeOrderStatusResponse.ChangedStatus.builder()
-                        .id(order.getId())
-                        .status(order.getStatus())
-                        .build())
                 .build();
     }
 
@@ -581,11 +578,12 @@ public class SellerServiceImpl implements SellerService {
             return "login";
         }
         Object output = viewOrderDetailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            model.addAttribute("msg", (ViewOrderDetailResponse) output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailForSellerResponse.class)) {
+            model.addAttribute("msg", (ViewOrderDetailForSellerResponse) output);
+            return "viewOrderStatusDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderStatusDetail";
     }
 
     @Override
@@ -631,6 +629,7 @@ public class SellerServiceImpl implements SellerService {
                 .buyerName(order.getUser().getName())
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
+                .paymentMethod(order.getPaymentMethod().getName())
                 .detailList(detailList)
                 .build();
     }

@@ -1059,7 +1059,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("400")
                     .message("Please login a buyer account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
         String referer = httpServletRequest.getHeader("Referer");
         Object output = cancelOrderLogic(request);
@@ -1075,7 +1075,7 @@ public class BuyerServiceImpl implements BuyerService {
     public CancelOrderResponse cancelOrderAPI(CancelOrderRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            ChangeOrderStatusResponse.builder()
+            CancelOrderResponse.builder()
                     .status("400")
                     .message("Please login a buyer account to do this action")
                     .build();
@@ -1103,6 +1103,63 @@ public class BuyerServiceImpl implements BuyerService {
         return CancelOrderResponse.builder()
                 .status("200")
                 .message("Cancel order successfully")
+                .build();
+    }
+
+    //--------------------------------CONFIRM ORDER------------------------------------------//
+
+    @Override
+    public String confirmOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", CancelOrderResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build());
+            return "redirect:/login";
+        }
+        String referer = httpServletRequest.getHeader("Referer");
+        Object output = confirmOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
+            model.addAttribute("msg", (CancelOrderResponse) output);
+            return "redirect:" + referer;
+        }
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        return "redirect:/buyer/order/detail";
+    }
+
+    @Override
+    public CancelOrderResponse confirmOrderAPI(CancelOrderRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            CancelOrderResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build();
+        }
+        Object output = confirmOrderLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
+            return (CancelOrderResponse) output;
+        }
+        return CancelOrderResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+
+    private Object confirmOrderLogic(CancelOrderRequest request) {
+        Map<String, String> error = CancelOrderValidation.validate(request, orderRepo, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
+        }
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
+        Status.changeOrderStatus(order, Status.ORDER_STATUS_COMPLETED, orderRepo);
+
+        return CancelOrderResponse.builder()
+                .status("200")
+                .message("Confirm order successfully")
                 .build();
     }
 
@@ -1360,7 +1417,7 @@ public class BuyerServiceImpl implements BuyerService {
     //---------------------------------CHECK OUT---------------------------------//
 
     @Override
-    public String confirmOrder(HttpSession session, Model model) {
+    public String confirmCheckoutOrder(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
         model.addAttribute("msg", viewWishlistLogic(account.getId()));

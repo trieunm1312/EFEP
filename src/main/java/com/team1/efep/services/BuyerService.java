@@ -74,6 +74,10 @@ public interface BuyerService {
 
     CancelOrderResponse cancelOrderAPI(CancelOrderRequest request);
 
+    String confirmOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes);
+
+    CancelOrderResponse confirmOrderAPI(CancelOrderRequest request);
+
     String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest);
 
     VNPayResponse createVNPayPaymentLinkAPI(VNPayRequest request, HttpServletRequest httpServletRequest);
@@ -100,7 +104,7 @@ public interface BuyerService {
 
     String buyNow(ConfirmOrderRequest request, HttpSession session, Model model);
 
-    String confirmOrder(HttpSession session, Model model);
+    String confirmCheckoutOrder(HttpSession session, Model model);
 
     String handleOTP(String code, Model model, HttpSession session);
 

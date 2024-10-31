@@ -26,6 +26,8 @@ public class ViewOrderDetailForSellerResponse {
 
     private String orderStatus;
 
+    private String paymentMethod;
+
     private List<Detail> detailList;
 
     @Data
