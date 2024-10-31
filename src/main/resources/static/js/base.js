@@ -136,7 +136,7 @@ var countdown = 5;
 var redirectUrl = "/";
 
 
-var role = document.getElementById("role").value;
+var role = /*[[${session.acc.getRole()}]]*/ 'buyer';
 if (role === 'seller') {
     redirectUrl = "/seller/view/plan";
 }

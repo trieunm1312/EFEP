@@ -459,15 +459,13 @@
                         <span id="paymentStatus" th:text="${msg.message}">Payment successful! Thank you for your
                             purchase</span>
                             <i class="fa-solid fa-circle-check size-icon notify-msg-success-icon"></i>
-                            <i class="fa-regular fa-circle-check size-icon notify-msg-success-icon"></i>
                     </div>
                     <div class="notify-msg-fail font-size-text" th:if="${msg.status == '400'}">
                         <span id="paymentStatus1" th:text="${msg.message}">Payment failed! Please check your information
                             or try again later</span>
                             <i class="fa-solid fa-circle-xmark size-icon notify-msg-fail-icon"></i>
-                            <i class="fa-regular fa-circle-xmark size-icon notify-msg-fail-icon"></i>
                     </div>
-                    <div class="seller" th:if="${session.acc.getRole() == 'buyer'}">
+                    <div class="buyer" th:if="${session.acc.getRole() == 'buyer'}">
                         <div class="notify-btn">
                             <form th:action="@{/}" method="get">
                                 <input class="btn-home" type="submit" value="Back home" name="Action">
