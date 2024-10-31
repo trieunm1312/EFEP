@@ -302,7 +302,7 @@ public class AccountServiceImpl implements AccountService {
             redirectAttributes.addFlashAttribute("msg", (ChangePasswordResponse) output);
             return "redirect:/login";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:/change/password";
     }
 

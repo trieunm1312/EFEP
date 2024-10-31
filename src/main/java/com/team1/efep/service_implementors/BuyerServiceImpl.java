@@ -146,7 +146,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        model.addAttribute("error",  output);
         return "redirect:" + httpServletRequest.getHeader("Referer");
     }
 
@@ -504,7 +504,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute("msg", (RenewPasswordResponse) output);
             return "redirect:/login";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error",  output);
         return "redirect:/password/renew";
     }
 
