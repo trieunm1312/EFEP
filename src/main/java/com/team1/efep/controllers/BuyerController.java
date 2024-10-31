@@ -104,15 +104,27 @@ public class BuyerController {
         return buyerService.viewOrderStatusAPI(request);
     }
 
-    @PutMapping("/order")
+    @PutMapping("/order/confirm")
+    @Operation(hidden = true)
+    public String confirmOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.confirmOrder(request, session, model, httpServletRequest, redirectAttributes);
+    }
+
+    @PutMapping("/order/confirm/api")
+    public CancelOrderResponse confirmOrderAPI(@RequestBody CancelOrderRequest request) {
+        return buyerService.confirmOrderAPI(request);
+    }
+
+    @PutMapping("/order/cancel")
     @Operation(hidden = true)
     public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
         return buyerService.cancelOrder(request, session, model, httpServletRequest, redirectAttributes);
     }
 
-    @PutMapping("/order/api")
-    public CancelOrderResponse updateWishlist(@RequestBody CancelOrderRequest request) {
+    @PutMapping("/order/cancel/api")
+    public CancelOrderResponse cancelOrderAPI(@RequestBody CancelOrderRequest request) {
         return buyerService.cancelOrderAPI(request);
     }
 
@@ -170,9 +182,9 @@ public class BuyerController {
     }
 
     @GetMapping("/order/confirm")
-    public String confirmOrder(HttpSession session, Model model) {
+    public String confirmCheckoutOrder(HttpSession session, Model model) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.confirmOrder(session, model);
+        return buyerService.confirmCheckoutOrder(session, model);
     }
 
     @GetMapping("/order/buyNow")

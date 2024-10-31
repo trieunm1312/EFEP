@@ -27,7 +27,7 @@ public interface SellerService {
 
     CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request);
 
-    String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model);
+    String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes);
 
     ChangeOrderStatusResponse changeOrderStatusAPI(ChangeOrderStatusRequest request);
 

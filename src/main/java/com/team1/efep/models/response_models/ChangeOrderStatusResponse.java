@@ -12,14 +12,4 @@ import lombok.NoArgsConstructor;
 public class ChangeOrderStatusResponse {
     private String status;
     private String message;
-    private ChangedStatus order;
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class ChangedStatus {
-        private int id;
-        private String status;
-    }
 }

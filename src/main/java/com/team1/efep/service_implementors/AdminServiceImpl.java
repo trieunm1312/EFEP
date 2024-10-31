@@ -56,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
     public String viewBusinessPlan(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("msg", viewBusinessPlanLogic());
+        model.addAttribute("msg1", viewBusinessPlanLogic());
         return "manageBusinessPlan";
     }
 
@@ -117,8 +117,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (CreateBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "/";
+        redirectAttributes.addFlashAttribute("error", output);
+        return "redirect:/admin/view/plan";
     }
 
     @Override
@@ -196,8 +196,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (UpdateBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error", output);
+        return "redirect:/admin/view/plan";
 
     }
 
@@ -305,8 +305,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (DisableBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error",  output);
+        return "redirect:/admin/view/plan";
     }
 
     @Override
@@ -340,7 +340,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String viewBusinessService(HttpSession session, Model model) {
-        model.addAttribute("msg", viewBusinessServiceLogic());
+        model.addAttribute("msg1", viewBusinessServiceLogic());
         return "manageBusinessService";
     }
 
@@ -379,8 +379,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (CreateBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error", output);
+        return "redirect:/admin/view/service";
     }
 
     @Override
@@ -423,8 +423,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (UpdateBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error", output);
+        return "redirect:/admin/view/service";
     }
 
     @Override
@@ -467,8 +467,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (DeleteBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error",  output);
+        return "redirect:/admin/view/service";
     }
 
     @Override
@@ -502,7 +502,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String viewUserList(HttpSession session, Model model) {
-        model.addAttribute("msg", viewUserListLogic());
+        model.addAttribute("msg1", viewUserListLogic());
         return "manageUser";
     }
 
@@ -544,7 +544,7 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------SEARCH USER LIST----------------------------//
     @Override
     public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
-        model.addAttribute("msg", searchUserListLogic(request));
+        model.addAttribute("msg1", searchUserListLogic(request));
         return "manageUser";
     }
 
@@ -558,6 +558,7 @@ public class AdminServiceImpl implements AdminService {
         return SearchUserListResponse.builder()
                 .status("200")
                 .message("")
+                .keyword(request.getKeyword())
                 .userList(
                         userRepo.findAll().stream()
                                 .filter(user -> user.getName().toLowerCase().contains(request.getKeyword()))
@@ -566,6 +567,7 @@ public class AdminServiceImpl implements AdminService {
                                                 .id(user.getId())
                                                 .name(user.getName())
                                                 .phone(user.getPhone())
+                                                .createdDate(user.getCreatedDate())
                                                 .avatar(user.getAvatar())
                                                 .accountUser(
                                                         ViewUserListResponse.Account.builder()
@@ -591,8 +593,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (BanUserResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
-        return "home";
+        redirectAttributes.addFlashAttribute("error", ( output));
+        return "redirect:/admin/user/list";
     }
 
     @Override
@@ -632,8 +634,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (UnBanUserResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
-        return "/";
+        redirectAttributes.addFlashAttribute("error", ( output));
+        return "redirect:/admin/user/list";
     }
 
     @Override
@@ -674,8 +676,9 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (CreateAccountForSellerResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
-        return "/";
+        redirectAttributes.addFlashAttribute("error", ( output));
+        redirectAttributes.addFlashAttribute("userInput", request);
+        return "redirect:/admin/user/list";
     }
 
     @Override

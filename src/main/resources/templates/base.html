@@ -17,7 +17,7 @@
 <body>
 <div id="toast" th:if="${msg != null}" th:fragment="toast">
     <div th:if="${msg.status == '200'}">
-        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s .5s forwards;">
+        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s .3s forwards;">
             <div class="toast__icon">
                 <i class="fas fa-check-circle"></i>
             </div>
@@ -30,18 +30,36 @@
             </div>
         </div>
     </div>
-    <div th:if="${msg.status != '200'}">
-        <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s .5s forwards;">
+</div>
+
+<div id="toast-error" th:if="${error != null}" th:fragment="error">
+    <div th:each="errorMessage : ${error.values()}">
+        <div class="toast toast--error" style="animation: slightInLeft ease .3s, fadeOut linear 1s .5s forwards;">
             <div class="toast__icon">
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fas fa-exclamation-circle"></i>
             </div>
             <div class="toast__body">
-                <h3 class="toast__title">Error!</h3>
-                <p class="toast__msg" th:text="${msg.message}"></p>
+                <h3 class="toast__title">Error</h3>
+                <p class="toast__msg" th:text="${errorMessage}"></p>
             </div>
             <div class="toast__close">
                 <i class="fas fa-times"></i>
             </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${msg.status != '200'}">
+    <div class="toast toast--error" style="animation: slightInLeft ease .15s, fadeOut linear 1s .5s forwards;">
+        <div class="toast__icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="toast__body">
+            <h3 class="toast__title">Error!</h3>
+            <p class="toast__msg" th:text="${msg.message}"></p>
+        </div>
+        <div class="toast__close">
+            <i class="fas fa-times"></i>
         </div>
     </div>
 </div>

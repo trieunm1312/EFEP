@@ -49,6 +49,10 @@ public class FilterOrderResponse {
     @Builder
     public static class Item {
 
+        private String image;
+
+        private String description;
+
         private String name;
 
         private int quantity;

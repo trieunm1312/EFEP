@@ -14,6 +14,14 @@
 </head>
 
 <body>
+<div  th:replace="~{base :: toast}">
+
+</div>
+
+<div  th:replace="~{base :: error}">
+
+</div>
+
 <aside  class="sidebar">
     <a href="" class="sidebar__logo">
         <img src="/img/flowrista-logo.png" alt="Web Logo">
@@ -133,8 +141,8 @@
                     </div>
                 </div>
                 <div class="business-plan__collection">
-                    <div th:each="plan : ${msg.businessPlanList}" class="business-plan__card">
-                        <div th:if="${plan.status != 'disabled'}" class="business-plan__card-info">
+                    <div th:each="plan : ${msg1.businessPlanList}" th:if="${plan.status != 'disabled'}" class="business-plan__card">
+                        <div  class="business-plan__card-info">
                             <form th:action="@{/admin/plan}" th:method="put" class="business-plan__card-form">
                                 <input type="hidden" name="id" th:value="${plan.id}">
                                 <div class="business-plan__card-name">
@@ -163,7 +171,7 @@
                                             <span th:text="${service.name}" th:value="${service.id}"></span>
                                             <select name="businessServiceList" style="display: none;">
                                                 <option value="">Select a service</option>
-                                                <option th:each="item : ${msg.serviceList}"
+                                                <option th:each="item : ${msg1.serviceList}"
                                                         th:value="${item.id}"
                                                         th:text="${item.name}"
                                                         th:selected="${item.id == service.id}">
@@ -241,7 +249,7 @@
 
                                         <select name="businessServiceList[0].id">
                                             <option value="">Select a service</option>
-                                            <option th:each="service : ${msg.serviceList}"
+                                            <option th:each="service : ${msg1.serviceList}"
                                                     th:value="${service.id}"
                                                     th:text="${service.name}">
                                             </option>
@@ -281,7 +289,7 @@
     </div>
 </div>
 <script th:inline="javascript">
-    var serviceList = /*[[${msg.serviceList}]]*/ [];
+    var serviceList = /*[[${msg1.serviceList}]]*/ [];
     console.log(serviceList);
 </script>
 <script src="/js/adminBase.js"></script>

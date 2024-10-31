@@ -24,10 +24,10 @@ public class CancelOrderValidation {
             return MapConfig.buildMapKey(errors, "You are not authorized to cancel this order.");
         }
 
-        if (!order.getStatus().equals(Status.ORDER_STATUS_PROCESSING)) {
-            return MapConfig.buildMapKey(errors, "Order cannot be cancelled");
-        }
-        System.out.println("CancelOrderValidation: " + errors);
+//        if (!order.getStatus().equals(Status.ORDER_STATUS_PROCESSING)) {
+//            return MapConfig.buildMapKey(errors, "Order cannot be cancelled");
+//        }
+//        System.out.println("CancelOrderValidation: " + errors);
         return errors;
     }
 }

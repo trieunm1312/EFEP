@@ -109,8 +109,8 @@ public class SellerController {
 
     @PutMapping("/order/status")
     @Operation(hidden = true)
-    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
-        return sellerService.changeOrderStatus(request, session, model);
+    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
+        return sellerService.changeOrderStatus(request, session, model, httpServletRequest,  redirectAttributes);
     }
 
     @PutMapping("/order/status/api")

@@ -2,6 +2,7 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.enums.Role;
+import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.entity_models.Wishlist;
@@ -48,7 +49,8 @@ public class AccountServiceImpl implements AccountService {
             redirectAttributes.addFlashAttribute("msg",(RegisterResponse) output);
             return "redirect:/login";
         }
-        redirectAttributes.addFlashAttribute("error",(Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", output);
+        redirectAttributes.addFlashAttribute("userInput", request);
         return "redirect:/register";
     }
 
@@ -95,7 +97,7 @@ public class AccountServiceImpl implements AccountService {
     private Account createNewAccount(RegisterRequest request) {
         return accountRepo.save(
                 Account.builder()
-                        .status("200")
+                        .status(Status.ACCOUNT_STATUS_ACTIVE)
                         .email(request.getEmail())
                         .password(request.getPassword())
                         .role(Role.BUYER)
@@ -121,7 +123,8 @@ public class AccountServiceImpl implements AccountService {
                     return "redirect:/";
             }
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", output);
+        redirectAttributes.addFlashAttribute("userInput", request);
         return "redirect:/login";
     }
 
@@ -228,8 +231,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public String updateProfile(UpdateProfileRequest request, HttpSession session, RedirectAttributes redirectAttributes) {
         Object output = updateProfileLogic(request);
+        Account account = accountRepo.findById(request.getId()).orElse(null);
+
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
-            Account account = accountRepo.findById(request.getId()).orElse(null);
             session.setAttribute("acc", account);
             redirectAttributes.addFlashAttribute("msg",(UpdateProfileResponse) output);
             switch (account.getRole().toUpperCase()) {
@@ -243,9 +247,13 @@ public class AccountServiceImpl implements AccountService {
 
             }
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        HomepageConfig.config(redirectAttributes, buyerService);
-        return "redirect:/";
+        redirectAttributes.addFlashAttribute("error", output);
+        if (account.getRole().toUpperCase().matches("SELLER") )
+                return "redirect:/seller/profile";
+        else  {
+                System.out.println(account.getUser().getWishlist().getWishlistItemList().size());
+                return "redirect:/myAccount";
+        }
     }
 
     @Override

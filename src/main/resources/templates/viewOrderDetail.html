@@ -178,9 +178,11 @@
                             <p class="order-date font-text font-weight">Order Status: <span th:text="${msg.orderStatus}">processing</span></p>
                             <span>change</span>
                             <div class="change-status">
-                                <form action="">
-                                <select name="" id="">
-                                    <option value="" selected hidden>Update status</option>
+                                <form th:action="@{/seller/order/status}" th:method="put">
+                                    <input type="hidden" name="accountId" th:value="${session.acc.id}">
+                                    <input type="hidden" name="orderId" th:value="${msg.orderId}">
+                                <select name="status" id="">
+                                    <option th:value="${msg.orderStatus}" selected hidden>Update status</option>
                                     <option value="packed">packed</option>
                                     <option value="cancelled">cancelled</option>
                                 </select>
