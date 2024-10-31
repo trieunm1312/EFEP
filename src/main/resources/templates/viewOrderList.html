@@ -201,6 +201,7 @@
                             </div> -->
                             <form th:action="@{/seller/order/sort}" th:method="get" onchange="this.submit()">
                                 <input type="hidden" name="sellerId" th:value="${session.acc.getId()}">
+                                <input type="hidden" name="status" id="sortStatus">
                                 <select class="sort-order" name="sortDirection" id="sortDirection">
                                     <option value="" disabled hidden selected>Sort</option>
                                     <option value="asc">Ascending</option>

@@ -94,8 +94,8 @@ public class SellerController {
 
     @PostMapping("/flower")
     @Operation(hidden = true)
-    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
-        return sellerService.createFlower(request, session, model);
+    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.createFlower(request, session, model, redirectAttributes);
     }
 
     @PostMapping("/flower/api")
@@ -109,7 +109,7 @@ public class SellerController {
         return sellerService.updateFlowerCategory(request, session, model, redirectAttributes);
     }
 
-    @PutMapping("/flower/category")
+    @PutMapping("/flower/category/api")
     public UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request){
         return sellerService.updateFlowerCategoryAPI(request);
     }

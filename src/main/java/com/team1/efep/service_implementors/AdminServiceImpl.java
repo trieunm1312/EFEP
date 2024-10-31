@@ -53,6 +53,8 @@ public class AdminServiceImpl implements AdminService {
 
     private final FlowerRepo flowerRepo;
 
+    private final PurchasedPlanRepo purchasedPlanRepo;
+
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
     public String viewBusinessPlan(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
@@ -761,9 +763,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void getTotalRevenue(Model model) {
-        float totalRevenue = orderRepo.findAll().stream()
-                .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
-                .map(Order::getTotalPrice)
+        float totalRevenue = purchasedPlanRepo.findAll().stream()
+                .filter(order -> order.getStatus().equals(Status.PURCHASED_PLAN_STATUS_PURCHASED))
+                .map(PurchasedPlan::getPrice)
                 .reduce(0f, Float::sum);
         model.addAttribute("totalRevenue", totalRevenue);
     }

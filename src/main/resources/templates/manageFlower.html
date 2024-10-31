@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Flower Page</title>
-    
+
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
     <link rel="stylesheet" href="/css/manageFlower.css">
 
-<!--     <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css"> -->
+    <!--     <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
+        <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css"> -->
 </head>
 
 <body>
@@ -109,22 +109,22 @@
             <i class="fa-solid fa-plus header__create-btn-icon"></i>
             <span>Create</span>
             <div class="header__create-block">
-<!--                <h4 class="header__create-title">Create New</h4>-->
-<!--                <ul class="header__create-list">-->
-<!--                    <li class="header__create-item">-->
-<!--                        <a href="#">-->
-<!--                            <i class="fa-solid fa-flower header__create-item-icon"></i>-->
-<!--                            &lt;!&ndash; <i class="fa-solid fa-spa"></i> &ndash;&gt;-->
-<!--                            <span class="sidebar__item-title">Flower</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li class="header__create-item">-->
-<!--                        <a href="#">-->
-<!--                            <i class="fa-solid fa-briefcase header__create-item-icon"></i>-->
-<!--                            <span class="sidebar__item-title">Business Plan</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </ul>-->
+                <!--                <h4 class="header__create-title">Create New</h4>-->
+                <!--                <ul class="header__create-list">-->
+                <!--                    <li class="header__create-item">-->
+                <!--                        <a href="#">-->
+                <!--                            <i class="fa-solid fa-flower header__create-item-icon"></i>-->
+                <!--                            &lt;!&ndash; <i class="fa-solid fa-spa"></i> &ndash;&gt;-->
+                <!--                            <span class="sidebar__item-title">Flower</span>-->
+                <!--                        </a>-->
+                <!--                    </li>-->
+                <!--                    <li class="header__create-item">-->
+                <!--                        <a href="#">-->
+                <!--                            <i class="fa-solid fa-briefcase header__create-item-icon"></i>-->
+                <!--                            <span class="sidebar__item-title">Business Plan</span>-->
+                <!--                        </a>-->
+                <!--                    </li>-->
+                <!--                </ul>-->
             </div>
         </div>
         <div class="header__others">
@@ -138,13 +138,14 @@
                      alt="Avatar">
                 <span th:text="${session.acc.getUser().getName()}"></span>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
-                <div  class="header__item-account" id="accountDropdown">
-                    <form th:action="@{/account/view/profile}"  class="form" method="get">
+                <div class="header__item-account" id="accountDropdown">
+                    <form th:action="@{/account/view/profile}" class="form" method="get">
                         <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
                         <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                     </form>
                     <form th:action="@{/change/password}" class="form">
-                        <input type="submit" name="action" class="header__item-account-item" value="Change Password"></input>
+                        <input type="submit" name="action" class="header__item-account-item"
+                               value="Change Password"></input>
                         <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                     </form>
                     <form th:action="@{/account/logout}" class="form" method="get">
@@ -190,7 +191,7 @@
                                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                         <td class="table__body-img">
                                             <img class="img" th:src="${item.imageList[0].link}" alt="">
-                                            <input type="url" name="image" class="img-input"
+                                            <input type="file" name="image" class="img-input"
                                                    style="display: none;">
                                         </td>
                                         <td class="table__body-name">
@@ -252,9 +253,9 @@
                     <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                         <tr class="table__body-item-new" style="display: none;">
-                            <!--                            <td class="table__body-img">-->
-                            <!--                                <input type="file" name="img" src="/img/flower.jpg" placeholder="Image">-->
-                            <!--                            </td>-->
+                            <td class="table__body-img">
+                                <input type="file" name="image" src="" placeholder="Image">
+                            </td>
                             <td class="table__body-name">
                                 <input name="name" th:value="${flowerName}" placeholder="Flower Name">
                             </td>
@@ -344,8 +345,8 @@
 
     </div>
 </div>
-<script src="/src/main/resources/static/js/adminBase.js"></script>
-<script src="/src/main/resources/static/js/manageFlower.js"></script>
+<script src="/js/adminBase.js"></script>
+<script src="/js/manageFlower.js"></script>
 </body>
 
 </html>

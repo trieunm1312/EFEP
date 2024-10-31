@@ -1,6 +1,7 @@
 package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.BusinessPlanVNPayConfig;
+import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -52,6 +53,7 @@ public class SellerServiceImpl implements SellerService {
     private final UserRepo userRepo;
 
     private final PaymentMethodRepo paymentMethodRepo;
+
     private final CategoryRepo categoryRepo;
 
     private final FlowerCategoryRepo flowerCategoryRepo;
@@ -60,14 +62,12 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------CREATE FLOWER------------------------------------------------//
 
     @Override
-    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
+    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Map<String, String> errors = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", CreateFlowerResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build());
-            return "login";
+            MapConfig.buildMapKey(errors, "Flower name is required");
+            return "redirect:/login";
         }
         Object output = createFlowerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
@@ -75,7 +75,7 @@ public class SellerServiceImpl implements SellerService {
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             return "redirect:/manageFlower";
         }
-        model.addAttribute("msg1", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "redirect:/manageFlower";
     }
 
@@ -124,7 +124,6 @@ public class SellerServiceImpl implements SellerService {
                                                             .link(image.getLink())
                                                             .build())
                                                     .toList()
-
                                     )
                                     .build()
                     )
@@ -133,7 +132,6 @@ public class SellerServiceImpl implements SellerService {
         //failed
         return error;
     }
-
 
     private Flower createNewFlower(CreateFlowerRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
@@ -144,23 +142,24 @@ public class SellerServiceImpl implements SellerService {
                 .seller(account.getUser().getSeller())
                 .description(request.getDescription())
                 .flowerAmount(request.getFlowerAmount())
+                .createDate(LocalDateTime.now())
                 .quantity(request.getQuantity())
                 .soldQuantity(0)
                 .status(Status.FLOWER_STATUS_AVAILABLE)
                 .build();
-
 
         return flowerRepo.save(flower);
     }
 
 
     private List<FlowerImage> addFlowerImages(CreateFlowerRequest request, Flower flower) {
-        if (request.getImgList() == null) {
-            List<String> imgList = new ArrayList<>();
+        List<String> imgList = new ArrayList<>();
+        if (request.getImage() == null) {
             imgList.add("/img/noImg.png");
-            request.setImgList(imgList);
+        } else {
+            imgList.add(request.getImage());
         }
-        List<FlowerImage> flowerImages = request.getImgList().stream()
+        List<FlowerImage> flowerImages = imgList.stream()
                 .map(link -> FlowerImage.builder()
                         .flower(flower)
                         .link(link)
@@ -570,11 +569,11 @@ public class SellerServiceImpl implements SellerService {
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewOrderHistoryResponse.builder()
+            model.addAttribute("error", ViewOrderDetailForSellerResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailForSellerResponse.class)) {
@@ -743,7 +742,7 @@ public class SellerServiceImpl implements SellerService {
         return FilterOrderResponse.OrderBill.builder()
                 .orderId(order.getId())
                 .buyerName(order.getBuyerName())
-                .createDate(order.getCreatedDate())
+                .createDate(order.getCreatedDate().toLocalDate())
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
@@ -1297,7 +1296,7 @@ public class SellerServiceImpl implements SellerService {
             model.addAttribute("msg", (UpdateFlowerCategoryResponse) output);
             return "updateFlowerCategory";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "updateFlowerCategory";
     }
 
@@ -1354,7 +1353,7 @@ public class SellerServiceImpl implements SellerService {
             model.addAttribute("msg", (RemoveFlowerCategoryResponse) output);
             return "removeFlowerCategory";
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "removeFlowerCategory";
     }
 
