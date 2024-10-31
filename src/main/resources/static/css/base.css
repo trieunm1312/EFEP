@@ -1067,7 +1067,7 @@ html {
     z-index: 999999;
 }
 
-.toast-error{
+#toast-error{
     position: fixed;
     top: 32px;
     right: 32px;

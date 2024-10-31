@@ -19,6 +19,11 @@
 <body>
     <div th:replace="~{base :: toast}">
     </div>
+
+    <div  th:replace="~{base :: error}">
+
+    </div>
+
     <div class="wrap">
         <!-- Nav Bar -->
         <nav class="navbar" th:replace="~{base :: navbar}">
@@ -51,7 +56,7 @@
                                     <label for="email" class="auth-form__label">
                                         <strong>E-Mail Address</strong>
                                     </label>
-                                    <input type="text" name="email" id="email" class="auth-form__input" placeholder="E-Mail Address" required>
+                                    <input type="text" name="email" th:value="${userInput?.email}" id="email" class="auth-form__input" placeholder="E-Mail Address" required>
                                 </div>
 
                                 <div class="auth-form__group">

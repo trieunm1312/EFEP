@@ -117,8 +117,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (CreateBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "/";
+        redirectAttributes.addFlashAttribute("error", output);
+        return "redirect:/admin/view/plan";
     }
 
     @Override
@@ -196,8 +196,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (UpdateBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error", output);
+        return "redirect:/admin/view/plan";
 
     }
 
@@ -305,8 +305,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (DisableBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error",  output);
+        return "redirect:/admin/view/plan";
     }
 
     @Override
@@ -379,8 +379,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (CreateBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error", output);
+        return "redirect:/admin/view/service";
     }
 
     @Override
@@ -423,8 +423,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (UpdateBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error", output);
+        return "redirect:/admin/view/service";
     }
 
     @Override
@@ -467,8 +467,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (DeleteBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "home";
+        redirectAttributes.addFlashAttribute("error",  output);
+        return "redirect:/admin/view/service";
     }
 
     @Override
@@ -593,8 +593,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (BanUserResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
-        return "home";
+        redirectAttributes.addFlashAttribute("error", ( output));
+        return "redirect:/admin/user/list";
     }
 
     @Override
@@ -634,8 +634,8 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (UnBanUserResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
-        return "/";
+        redirectAttributes.addFlashAttribute("error", ( output));
+        return "redirect:/admin/user/list";
     }
 
     @Override
@@ -676,8 +676,9 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (CreateAccountForSellerResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ((Map<String, String>) output));
-        return "/";
+        redirectAttributes.addFlashAttribute("error", ( output));
+        redirectAttributes.addFlashAttribute("userInput", request);
+        return "redirect:/admin/user/list";
     }
 
     @Override
