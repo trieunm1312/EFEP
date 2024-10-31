@@ -18,6 +18,8 @@ public class SearchUserListResponse {
 
     private String message;
 
+    private String keyword;
+
     private List<User> userList;
 
     @Data
@@ -33,6 +35,8 @@ public class SearchUserListResponse {
         private String phone;
 
         private String avatar;
+
+        private LocalDate createdDate;
 
         private ViewUserListResponse.Account accountUser;
     }

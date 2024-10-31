@@ -18,6 +18,8 @@ public class UpdateProfileRequest {
 
     private String phone;
 
+    private String email;
+
     private String avatar;
 
     private String background;
