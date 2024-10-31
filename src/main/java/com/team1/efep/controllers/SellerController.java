@@ -94,13 +94,41 @@ public class SellerController {
 
     @PostMapping("/flower")
     @Operation(hidden = true)
-    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model) {
-        return sellerService.createFlower(request, session, model);
+    public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.createFlower(request, session, model, redirectAttributes);
     }
 
     @PostMapping("/flower/api")
     public CreateFlowerResponse createFlower(@RequestBody CreateFlowerRequest request, HttpSession session) {
         return sellerService.createFlowerAPI(request);
+    }
+
+    @PutMapping("/flower/category")
+    @Operation(hidden = true)
+    public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes){
+        return sellerService.updateFlowerCategory(request, session, model, redirectAttributes);
+    }
+
+    @PutMapping("/flower/category/api")
+    public UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request){
+        return sellerService.updateFlowerCategoryAPI(request);
+    }
+
+    @GetMapping("/flower/category")
+    @Operation(hidden = true)
+    public String viewFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes){
+        return sellerService.viewFlowerCategory(session, model, flowerId, redirectAttributes);
+    }
+
+    @GetMapping("/flower/category/api/{flowerId}")
+    public ViewFlowerCategoryResponse viewFlowerCategoryAPI(@PathVariable int flowerId){
+        return sellerService.viewFlowerCategoryAPI(flowerId);
+    }
+
+    @PutMapping("/flower/category/remove")
+    @Operation(hidden = true)
+    public String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes){
+        return sellerService.removeFlowerCategory(request, session, model, redirectAttributes);
     }
 
     //-------------------------------------------------------------------------------------------------//

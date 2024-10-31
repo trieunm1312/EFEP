@@ -14,6 +14,7 @@ import java.util.Map;
 public class DeleteWishlistValidation {
     public static Map<String, String> validate(DeleteWishlistRequest request, AccountRepo accountRepo, WishlistRepo wishlistRepo) {
         Map<String, String> errors = new HashMap<>();
+
         if ( request.getWishlistId() <= 0) {
             return MapConfig.buildMapKey(errors, "Invalid wishlist ID.");
         }
