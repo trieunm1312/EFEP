@@ -261,7 +261,7 @@ public class SellerServiceImpl implements SellerService {
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
 
     @Override
-    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
+    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ChangeOrderStatusResponse.builder()
@@ -270,13 +270,14 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "redirect:/login";
         }
+        String referer = httpServletRequest.getHeader("Referer");
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
             model.addAttribute("msg", (ChangeOrderStatusResponse) output);
-            return "viewOrderStatusDetail";
+            return "redirect:" + referer;
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "viewOrderStatusDetail";
+        return "redirect:/seller/order/detail";
     }
 
     @Override
@@ -580,10 +581,10 @@ public class SellerServiceImpl implements SellerService {
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailForSellerResponse.class)) {
             model.addAttribute("msg", (ViewOrderDetailForSellerResponse) output);
-            return "viewOrderStatusDetail";
+            return "viewOrderDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "viewOrderStatusDetail";
+        return "viewOrderDetail";
     }
 
     @Override
@@ -630,6 +631,7 @@ public class SellerServiceImpl implements SellerService {
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
+                .createdDate(order.getCreatedDate().toLocalDate())
                 .detailList(detailList)
                 .build();
     }
