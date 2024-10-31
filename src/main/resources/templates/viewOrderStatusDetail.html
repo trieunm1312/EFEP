@@ -167,7 +167,7 @@
                                 </tr>
                                 <tr>
                                     <td class="table-order-detail contain-btn" colspan="1">
-                                        <form th:action="@{/buyer/order}" th:method="put">
+                                        <form th:action="@{/buyer/order/cancel}" th:method="put">
                                             <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                             <input type="hidden" name="orderId" th:value="${msg.orderId}">
                                             <button class="order-btn-cancel"
@@ -176,7 +176,7 @@
                                         </form>
                                     </td>
                                     <td class="table-order-detail contain-btn" colspan="1">
-                                        <form th:action="@{/buyer/order}" th:method="put">
+                                        <form th:action="@{/buyer/order/confirm}" th:method="put">
                                             <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                             <input type="hidden" name="orderId" th:value="${msg.orderId}">
                                             <button class="order-btn-confirm"

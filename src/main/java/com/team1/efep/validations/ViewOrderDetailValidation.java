@@ -18,8 +18,6 @@ public class ViewOrderDetailValidation {
 
         if (account == null) {
             return MapConfig.buildMapKey(error, "Account does not exist.");
-        } else if (!Role.checkIfThisAccountIsBuyer(account)) {
-            return MapConfig.buildMapKey(error, "Account must be a buyer to view order details.");
         }
 
         if (order == null) {

@@ -261,21 +261,23 @@ public class SellerServiceImpl implements SellerService {
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
 
     @Override
-    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model) {
+    public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ChangeOrderStatusResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
+        String referer = httpServletRequest.getHeader("Referer");
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
             model.addAttribute("msg", (ChangeOrderStatusResponse) output);
+            return "redirect:" + referer;
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "redirect:/seller/order/detail";
     }
 
     @Override
@@ -308,10 +310,6 @@ public class SellerServiceImpl implements SellerService {
         return ChangeOrderStatusResponse.builder()
                 .status("200")
                 .message("Change order status successful")
-                .order(ChangeOrderStatusResponse.ChangedStatus.builder()
-                        .id(order.getId())
-                        .status(order.getStatus())
-                        .build())
                 .build();
     }
 
@@ -581,11 +579,12 @@ public class SellerServiceImpl implements SellerService {
             return "login";
         }
         Object output = viewOrderDetailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            model.addAttribute("msg", (ViewOrderDetailResponse) output);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailForSellerResponse.class)) {
+            model.addAttribute("msg", (ViewOrderDetailForSellerResponse) output);
+            return "viewOrderDetail";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "seller";
+        return "viewOrderDetail";
     }
 
     @Override
@@ -631,6 +630,8 @@ public class SellerServiceImpl implements SellerService {
                 .buyerName(order.getUser().getName())
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
+                .paymentMethod(order.getPaymentMethod().getName())
+                .createdDate(order.getCreatedDate().toLocalDate())
                 .detailList(detailList)
                 .build();
     }
