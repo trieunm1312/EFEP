@@ -15,9 +15,9 @@
 </head>
 
 <body>
-<div id="toast" th:if="${msg != null}" th:fragment="toast">
+<div id="toast" th:if="${msg != null && msg.message != ''}" th:fragment="toast">
     <div th:if="${msg.status == '200'}">
-        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s .3s forwards;">
+        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1s forwards;">
             <div class="toast__icon">
                 <i class="fas fa-check-circle"></i>
             </div>
@@ -232,6 +232,7 @@
                                     <!-- No wishlist: header__cart-list--no-wishlist -->
                                     <div class="header__cart-list">
                                         <span class="header__cart-list-no-wishlist-msg" th:if="${session.acc == null}">Your shopping wishlist is empty!</span>
+                                        <span class="header__cart-list-no-wishlist-msg" th:if="${session.acc != null && session.acc.getUser().getWishlist().getWishlistItemList().isEmpty()}">Your shopping wishlist is empty!</span>
 
                                         <!-- Cart item -->
                                         <ul class="header__cart-list-item" th:if="${session.acc != null}">

@@ -22,6 +22,7 @@
 </head>
 
 <body>
+
     <aside class="sidebar">
         <a href="" class="sidebar__logo">
             <img src="/img/flowrista-logo.png" alt="Web Logo">
@@ -162,15 +163,14 @@
                     <div class="manage-order">
                         <div class="filter-sort">
                             <div class="filter-order">
-                                <form th:action="@{/}" th:method="get" class="all-order">
-                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                <form th:action="@{/seller/order/list}" th:method="get" class="all-order">
                                     <button class="all-order-btn" value="">Show all</button>
                                 </form>
-                                <form th:action="@{/seller/order/filter}" onchange="this.form.submit()">
-                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                <form th:action="@{/seller/order/filter}" th:method="post" onchange="this.submit()">
+                                    <input type="hidden" name="sellerId" th:value="${session.acc.getId()}">
                                     <select class="filter-by-status" name="status" id="status">
-                                        <option value="f-status" disabled hidden selected>Status</option>
-                                        <option th:value="processing">processing</option>
+                                        <option value="" disabled selected hidden>status</option>
+                                        <option value="processing">processing</option>
                                         <option value="packed">packed</option>
                                         <option value="completed">completed</option>
                                         <option value="cancelled">cancelled</option>
@@ -199,11 +199,12 @@
                                     
                                 </form>
                             </div> -->
-                            <form th:action="@{/seller/order/sort}" method="post" onchange="this.form.submit()">
-                                <select class="sort-order" name="" id="sorting">
-                                    <option value="sort" disabled hidden selected>Sort</option>
-                                    <option th:value="asc">Ascending</option>
-                                    <option th:value="desc">Descending</option>
+                            <form th:action="@{/seller/order/sort}" th:method="get" onchange="this.submit()">
+                                <input type="hidden" name="sellerId" th:value="${session.acc.getId()}">
+                                <select class="sort-order" name="sortDirection" id="sortDirection">
+                                    <option value="" disabled hidden selected>Sort</option>
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
                                 </select>
                             </form>
                         </div>

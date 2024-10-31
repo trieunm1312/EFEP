@@ -101,7 +101,6 @@ public class BuyerServiceImpl implements BuyerService {
 
         return ViewWishlistResponse.builder()
                 .status("200")
-                .message("View wishlist successfully")
                 .id(account.getUser().getWishlist().getId())
                 .userId(account.getUser().getId())
                 .userName(account.getUser().getName())
@@ -137,16 +136,15 @@ public class BuyerServiceImpl implements BuyerService {
     public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
         Object output = addToWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-            redirectAttributes.addFlashAttribute("msg", (AddToWishlistResponse) output);
+            model.addAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
-        model.addAttribute("error",  output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "redirect:" + httpServletRequest.getHeader("Referer");
     }
 
@@ -248,7 +246,7 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     private Object updateWishlistLogic(UpdateWishlistRequest request) {
-        Map<String, String> error = UpdateWishlistValidation.validate(request, wishlistItemRepo);
+        Map<String, String> error = UpdateWishlistValidation.validate(request, wishlistItemRepo, accountRepo);
         if (!error.isEmpty()) {
             return error;
         }

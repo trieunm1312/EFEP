@@ -15,9 +15,9 @@ public class AddToWishlistValidation {
 
     public static Map<String, String> validate(AddToWishlistRequest request, AccountRepo accountRepo, FlowerRepo flowerRepo) {
         Map<String, String> errors = new HashMap<>();
-        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         if (account == null) {
-            return MapConfig.buildMapKey(errors, "Account does not exist");
+            return MapConfig.buildMapKey(errors, "You are not logged in");
         }
 
         if (!Role.checkIfThisAccountIsBuyer(account)) {

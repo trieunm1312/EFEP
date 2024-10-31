@@ -66,7 +66,7 @@
                     <div class="step-progress">
                         <div class="navigation-order">
                             <a th:href="@{/buyer/order/history}" class="auth-form__switch-btn"
-                                onclick="window.history.back(); return false;">
+                               >
                                 <i class="fa-solid fa-arrow-left"></i>
                                 Back
                             </a>
@@ -131,7 +131,7 @@
                                                             th:text="${product.quantity}">1</span>
                                                     </div>
                                                     <span class="table-order-price text-orange font-bold"
-                                                        th:text="${product.price}">$122.00</span>
+                                                        th:text="${'$' + product.price}">$122.00</span>
                                                 </div>
 
                                             </div>
@@ -145,7 +145,7 @@
                                     </td>
                                     <td class="table-order-detail text-left" colspan="1">
                                         <span class="table-order-total-price text-orange font-bold font-size"
-                                            th:text="${msg.totalPrice}">$122.00</span>
+                                            th:text="${'$' + msg.totalPrice}">$122.00</span>
                                     </td>
                                 </tr>
                                 <!--                                <tr>-->
