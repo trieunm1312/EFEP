@@ -14,6 +14,11 @@ import java.util.Map;
 public class DeleteWishlistValidation {
     public static Map<String, String> validate(DeleteWishlistRequest request, AccountRepo accountRepo, WishlistRepo wishlistRepo) {
         Map<String, String> errors = new HashMap<>();
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null) {
+            return MapConfig.buildMapKey(errors, "You are not logged in");
+        }
+
         if ( request.getWishlistId() <= 0) {
             return MapConfig.buildMapKey(errors, "Invalid wishlist ID.");
         }

@@ -103,6 +103,34 @@ public class SellerController {
         return sellerService.createFlowerAPI(request);
     }
 
+    @PutMapping("/flower/category")
+    @Operation(hidden = true)
+    public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes){
+        return sellerService.updateFlowerCategory(request, session, model, redirectAttributes);
+    }
+
+    @PutMapping("/flower/category")
+    public UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request){
+        return sellerService.updateFlowerCategoryAPI(request);
+    }
+
+    @GetMapping("/flower/category")
+    @Operation(hidden = true)
+    public String viewFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes){
+        return sellerService.viewFlowerCategory(session, model, flowerId, redirectAttributes);
+    }
+
+    @GetMapping("/flower/category/api/{flowerId}")
+    public ViewFlowerCategoryResponse viewFlowerCategoryAPI(@PathVariable int flowerId){
+        return sellerService.viewFlowerCategoryAPI(flowerId);
+    }
+
+    @PutMapping("/flower/category/remove")
+    @Operation(hidden = true)
+    public String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes){
+        return sellerService.removeFlowerCategory(request, session, model, redirectAttributes);
+    }
+
     //-------------------------------------------------------------------------------------------------//
 
     //--------------------------------------------Order------------------------------------------------//
