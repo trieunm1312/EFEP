@@ -5,17 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Flower Page</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
-    <link rel="stylesheet" href="/css/manageFlower.css">
+    <link rel="stylesheet" href="/css/manageFlower.css"> -->
 
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css"> -->
+    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css">
 </head>
 
 <body>
@@ -171,11 +172,12 @@
                         <th class="table__header-image">Image</th>
                         <th class="table__header-name">Name</th>
                         <th class="table__header-desc">Description</th>
-                        <th class="table__header-status">Status</th>
                         <th class="table__header-amount">Flower Amount</th>
                         <th class="table__header-qnt">Quanity</th>
                         <th class="table__header-price">Price</th>
                         <th class="table__header-sold-qnt">Sold Quantity</th>
+                        <th class="table__header-status">Status</th>
+
                     </tr>
                     </thead>
                     <tbody class="table__body">
@@ -192,26 +194,16 @@
                                                    style="display: none;">
                                         </td>
                                         <td class="table__body-name">
-                                            <span th:text="${item.name}" class="name-text"></span>
+                                            <span th:text="${item.name}" class="name-text">RED</span>
                                             <input type="text" name="name" class="name-input" th:value="${item.name}"
                                                    style="display: none;"/>
                                         </td>
                                         <td class="table__body-desc">
-                                            <span th:text="${item.description}" class="desc-text"></span>
+                                            <span th:text="${item.description}" class="desc-text">Dep</span>
                                             <textarea name="description" th:text="${item.description}"
                                                       class="desc-input"
                                                       style="display: none;">
                                             </textarea>
-                                        </td>
-                                        <td class="table__body-status">
-                                            <span th:text="${item.status}" class="status-text"></span>
-                                            <!--                                        <input name="status" class="amount-input" th:value="${item.status}"-->
-                                            <!--                                               style="display: none;"/>-->
-                                            <select class="status-input" name="status" id="status"
-                                                    style="display: none;">
-                                                <option value="available" selected>available</option>
-                                                <option value="outOfStock">out of stock</option>
-                                            </select>
                                         </td>
                                         <td class="table__body-amount">
                                             <span th:text="${item.flowerAmount}" class="amount-text">100</span>
@@ -235,6 +227,9 @@
                                         <td class="table__body-sold_qnt">
                                             <span th:text="${item.soldQuantity}" class="sold-text">120</span>
                                         </td>
+                                        <td class="table__body-status">
+                                            <span th:text="${item.status}" class="status-text">Out</span>
+                                        </td>
                                         <td class="table__body-edit">
                                             <i class="fa-solid fa-pencil modify-icon" onclick="editRow(this)"></i>
                                             <span class="edit-btn" onclick="editRow(this)">Edit</span>
@@ -243,7 +238,6 @@
                                         </td>
                                     </form>
                                     <td class="table__body-toggle">
-
                                         <form th:action="@{/seller/flower}" th:method="delete">
                                             <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                             <input type="hidden" name="flowerId" th:value="${item.id}">
@@ -350,8 +344,8 @@
 
     </div>
 </div>
-<script src="/js/adminBase.js"></script>
-<script src="/js/manageFlower.js"></script>
+<script src="/src/main/resources/static/js/adminBase.js"></script>
+<script src="/src/main/resources/static/js/manageFlower.js"></script>
 </body>
 
 </html>

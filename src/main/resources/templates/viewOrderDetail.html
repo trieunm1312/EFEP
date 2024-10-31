@@ -165,15 +165,16 @@
         <div class="container">
             <div class="grid">
                 <div class="manage-flower" th:if="${msg}">
-                    <div class="manage-flower__heading">
-                        <h3 class="manage-flower__title">Order <span class="title-orderId" th:text="${msg.orderId}">1</span></h3>
-                    </div>
+<!--                    <div class="manage-flower__heading">-->
+<!--                        <h3 class="manage-flower__title">Order <span class="title-orderId" th:text="${msg.orderId}">1</span></h3>-->
+<!--                    </div>-->
 
                     <div class="order-detail">
                         <!-- <h2 class="order-detail-header"></h2> -->
                         <div class="customer-info">
                             <h3 class="cus-title text-color">Customer Information</h3>
                             <p class="cus-name font-text font-weight">Customer Name: <span th:text="${msg.buyerName}">EFEP</span></p>
+                            <p class="cus-name font-text font-weight">Created date: <span th:text="${msg.createDate}">12/01</span></p>
                             <p class="order-date font-text font-weight">Order Status: <span th:text="${msg.orderStatus}">processing</span></p>
                             <span>change</span>
                             <div class="change-status">
