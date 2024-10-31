@@ -756,6 +756,8 @@ public class SellerServiceImpl implements SellerService {
     private List<FilterOrderResponse.Item> viewFilterOrderDetailList(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(detail -> FilterOrderResponse.Item.builder()
+                        .image(detail.getFlower().getFlowerImageList().get(0).getLink())
+                        .description(detail.getFlower().getDescription())
                         .name(detail.getFlower().getName())
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
