@@ -33,6 +33,8 @@ function editRow(button) {
 
     var priceText = row.querySelector('.price-text');
     var priceInput = row.querySelector('.price-input');
+    var statusText = row.querySelector('.status-text');
+    var soldText = row.querySelector('.sold-text');
 
     var editBtn = row.querySelector('.edit-btn');
     var pencilIcon = row.querySelector('.modify-icon');
