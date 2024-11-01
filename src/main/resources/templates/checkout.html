@@ -82,8 +82,8 @@
                                     <td class="table-item-detail">
                                         <span class="table-item-name" th:text="${item.name}">Hiptage</span>
                                     </td>
-                                    <td class="table-item-detail">
-                                        <span class="table-item-id" th:text="${item.description}">DEP</span>
+                                    <td class="table-item-detail description">
+                                        <span class="table-item-description" th:text="${item.description}">Lortunde nisi aspernatur voluptatum quod, tempora beatae nemo. Illum repellendus, iusto delectus ipsa excepturi recusandae. Aliquid, aut.</span>
                                     </td>
                                     <td class="table-item-detail">
                                         <strong class="table-item-quantity" th:text="${item.quantity}">1</strong>
@@ -166,7 +166,7 @@
                             <tr>
                                 <th class="table-item-header">Image</th>
                                 <th class="table-item-header">Name</th>
-                                <th class="table-item-header">Model</th>
+                                <th class="table-item-header">Description</th>
                                 <th class="table-item-header">Quantity</th>
                                 <th class="table-item-header">Unit Price</th>
                                 <th class="table-item-header">Total</th>
@@ -176,15 +176,15 @@
                             <tr>
                                 <td class="table-item-detail">
                                     <div class="table-item-img">
-                                        <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
+                                        <img th:src="${msg1.flower.imgList}"
                                              alt="">
                                     </div>
                                 </td>
                                 <td class="table-item-detail">
                                     <span class="table-item-name" th:text="${msg1.flower.name}">Hiptage</span>
                                 </td>
-                                <td class="table-item-detail">
-                                    <span class="table-item-id" th:text="'Product ' + ${msg1.flower.id}">Product 1</span>
+                                <td class="table-item-detail description">
+                                    <span class="table-item-description" th:text="'Product ' + ${msg1.flower.description}">Product 1</span>
                                 </td>
                                 <td class="table-item-detail">
                                     <strong class="table-item-quantity" th:text="${msg1.flower.quantity}">1</strong>
