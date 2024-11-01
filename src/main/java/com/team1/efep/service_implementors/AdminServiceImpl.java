@@ -223,6 +223,7 @@ public class AdminServiceImpl implements AdminService {
             businessPlan.setName(request.getName());
                 for (Seller seller : businessPlan.getSellerList()) {
                     sendEmail(businessPlan, seller.getUser());
+                    businessPlan.setStatus(Status.BUSINESS_PLAN_STATUS_DISABLED);
                 }
             businessPlan.setPrice(request.getPrice());
             businessPlan.setDescription(request.getDescription());

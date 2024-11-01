@@ -117,7 +117,7 @@
                         <li class="header__create-item">
                             <a th:href="@{/admin/user/list(newSeller=true)}">
                                 <i class="fa-solid fa-user-pen header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Manage User</span>
+                                <span class="sidebar__item-title">Seller Account</span>
                             </a>
                         </li>
                     </ul>
@@ -211,7 +211,7 @@
                                     <img th:src="${item.image}" alt="" class="top-seller__img">
                                     <h5 class="top-seller__name" th:text="${item.sellerName}">Marco Luis</h5>
                                     <h5 class="top-seller__productivity" th:text="${item.revenue}">20.7</h5>
-                                    <span>Order/per day</span>
+                                    <span>Revenue/per month</span>
                                 </div>
                             </div>
                         </div>
