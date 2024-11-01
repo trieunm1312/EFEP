@@ -208,9 +208,9 @@
                                                 <input type="hidden" name="flowerId" th:value="${item.id}">
                                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                                 <td class="table__body-img">
-                                                    <img class="img" th:src="${item.imageList[0].link}" alt="" id="flowers-image">
-                                                    <input type="file" accept="image/*" value="" id="input-file" class="file-input" style="display: none;">
-                                                    <input type="hidden" name="image" id="flower-img" th:value="${item.imageList[0].link}">
+                                                    <img class="img" th:src="${item.imageList[0].link}" alt="" id="flower-update">
+                                                    <input type="file" accept="image/*" value="" id="update-file" class="file-input" style="display: none;">
+                                                    <input type="hidden" name="image" id="flower-img-update" value="">
                                                 </td>
                                                 <td class="table__body-name">
                                                     <span th:text="${item.name}" class="name-text">RED</span>
@@ -250,7 +250,7 @@
                                                     <i class="fa-solid fa-pencil modify-icon"
                                                         onclick="editRow(this)"></i>
                                                     <span class="edit-btn" onclick="editRow(this)">Edit</span>
-                                                    <input type="submit" name="action" class="save-btn" value="Save"
+                                                    <input type="submit" name="action" class="save-btn" value="Save" onclick="prepareSave(this)"
                                                         style="display: none;">
                                                 </td>
                                             </form>
@@ -272,8 +272,9 @@
                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                 <tr class="table__body-item-new" style="display: none;">
                                     <td class="table__body-img">
-                                        <input type="file" name="image" src="/img/flower.jpg" placeholder="Image">
-                                    </td>
+                                        <img class="img" src="" alt="" id="flowers-image">
+                                        <input type="file" accept="image/*" value="" id="input-file" class="file-input">
+                                        <input type="hidden" name="image" id="flower-img" value="">                                    </td>
                                     <td class="table__body-name">
                                         <input name="name" th:value="${flowerName}" placeholder="Flower Name">
                                     </td>
@@ -384,12 +385,43 @@
         const storage = getStorage(app);
 
         // Avatar upload logic
-        let profileAvatar = document.getElementById("flowers-image");
-        let inputFile = document.getElementById("input-file");
-        let avatarUrlInput = document.getElementById("flower-img");  // Reference to hidden input
+         let profileAvatar = document.getElementById("flowers-image");
+         let inputFile = document.getElementById("input-file");
+         let avatarUrlInput = document.getElementById("flower-img");  // Reference to hidden input
 
-        inputFile.onchange = async function () {
+        let flower_image = document.getElementById("flower-update");
+        let updateFile = document.getElementById("update-file");
+        let flower_img_update = document.getElementById("flower-img-update");
+
+         inputFile.onchange = async function () {
             const file = inputFile.files[0];
+                if (file) {
+                 // Use Firebase Storage ref to define the storage path
+                 const storageRef = ref(storage, `images/flowers/${file.name}`);
+        
+                 try {
+                     // Upload the file
+                     const snapshot = await uploadBytes(storageRef, file);
+        
+                     // Get the download URL
+                     const downloadURL = await getDownloadURL(snapshot.ref);
+        
+                     // Update the image source to display the uploaded image
+                     profileAvatar.src = downloadURL;
+        
+                     // Store the download URL in the hidden input field
+                     avatarUrlInput.value = downloadURL;
+        
+                     console.log("File available at: ", downloadURL);
+        
+                 } catch (error) {
+                     console.error("Error uploading file: ", error);
+                 }
+             }
+         };
+
+        updateFile.onchange = async function () {
+            const file = updateFile.files[0];
             if (file) {
                 // Use Firebase Storage ref to define the storage path
                 const storageRef = ref(storage, `images/flowers/${file.name}`);
@@ -402,10 +434,10 @@
                     const downloadURL = await getDownloadURL(snapshot.ref);
 
                     // Update the image source to display the uploaded image
-                    profileAvatar.src = downloadURL;
+                    flower_image.src = downloadURL;
 
                     // Store the download URL in the hidden input field
-                    avatarUrlInput.value = downloadURL;
+                    flower_img_update.value = downloadURL;
 
                     console.log("File available at: ", downloadURL);
 
