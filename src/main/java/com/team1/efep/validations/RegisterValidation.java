@@ -47,10 +47,6 @@ public class RegisterValidation {
             return MapConfig.buildMapKey(error, "Email is in invalid format");
         }
 
-        if (accountRepo.findByEmail(request.getEmail()).isPresent()) {
-            return MapConfig.buildMapKey(error, "Email already exists");
-        }
-
         //password is equal confirmed password
         //password isn't equal confirmed password
         if (request.getPassword().isEmpty()) {
