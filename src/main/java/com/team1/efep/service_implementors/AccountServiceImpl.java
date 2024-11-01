@@ -2,6 +2,7 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.enums.Role;
+import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.User;
 import com.team1.efep.models.entity_models.Wishlist;
@@ -95,7 +96,7 @@ public class AccountServiceImpl implements AccountService {
     private Account createNewAccount(RegisterRequest request) {
         return accountRepo.save(
                 Account.builder()
-                        .status("200")
+                        .status(Status.ACCOUNT_STATUS_ACTIVE)
                         .email(request.getEmail())
                         .password(request.getPassword())
                         .role(Role.BUYER)
