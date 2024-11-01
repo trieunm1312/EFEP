@@ -1559,6 +1559,7 @@ public class SellerServiceImpl implements SellerService {
         for (int i = 0; i < 20; i++) {
             listTenDates.add(LocalDate.now().minusDays(i));
         }
+        Collections.reverse(listTenDates);
 
         return GetOrderInDailyResponse.builder()
                 .status("200")
