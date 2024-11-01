@@ -25,5 +25,5 @@ public class CreateFlowerRequest {
 
     private Integer quantity;
 
-    private List<String> imgList;
+    private String image;
 }

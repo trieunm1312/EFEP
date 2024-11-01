@@ -10,6 +10,8 @@ public interface FlowerRepo extends JpaRepository<Flower, Integer> {
 
     Optional<Flower> findByName(String name);
 
-    List<Flower> findBySeller_Id(int id);
+    List<Flower> findAllBySeller_Id(int id);
+
+    List<Flower> findAllBySeller_IdAndName(int id, String name);
 
 }

@@ -127,6 +127,7 @@ public class PageController {
 
         } else  {
             model.addAttribute("error",  (Map<String, String>) model.getAttribute("error"));
+            return "redirect:/account/view/profile";
         }
 
         return "sellerProfile";
@@ -144,13 +145,12 @@ public class PageController {
             }
 
         } else  {
-            model.addAttribute("error",  (Map<String, String>) model.getAttribute("error"));
+            model.addAttribute("error", model.getAttribute("error"));
             return "redirect:/account/view/profile";
         }
 
 //        model.addAttribute("msg", (ViewProfileResponse) model.getAttribute("msg"));
         AllPage.allConfig(model, buyerService);
-
         return "myAccount";
     }
 

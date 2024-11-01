@@ -23,11 +23,11 @@ public interface SellerService {
 
     RemoveFlowerCategoryResponse removeFlowerCategoryAPI(RemoveFlowerCategoryRequest request);
 
-    String createFlower(CreateFlowerRequest request, HttpSession session, Model model);
+    String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request);
 
-    String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model);
+    String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes);
 
     ChangeOrderStatusResponse changeOrderStatusAPI(ChangeOrderStatusRequest request);
 

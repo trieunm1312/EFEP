@@ -5,19 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Detail</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
     <link rel="stylesheet" href="/css/manageFlower.css">
-    <link rel="stylesheet" href="/css/viewOrderDetail.css">
+    <link rel="stylesheet" href="/css/viewOrderDetail.css"> -->
 
-<!--     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderDetail.css"> -->
+    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderDetail.css">
 </head>
 
 <body>
@@ -37,23 +38,23 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/manageFlower}" class="sidebar__link">
-                        <div class="sidebar__item active">
+                    <a th:href="@{/seller/view/flower}" class="sidebar__link">
+                        <div class="sidebar__item">
                             <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Flower</span>
                         </div>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/orderList}" class="sidebar__link ">
-                        <div class="sidebar__item">
+                    <a th:href="@{/seller/order/list}" class="sidebar__link ">
+                        <div class="sidebar__item active">
                             <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
                             <span class="sidebar__item-title">Manage Order</span>
                         </div>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/seller/plan}" class="sidebar__link">
+                    <a th:href="@{/seller/plan/detail}" class="sidebar__link">
                         <div class="sidebar__item">
                             <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
                             <span class="sidebar__item-title">My Plan</span>
@@ -68,6 +69,16 @@
                         </div>
                     </a>
                 </li>
+                <li>
+                    <form th:action="@{/account/view/profile}" class="sidebar__link">
+                        <div class="sidebar__item">
+                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                            <input type="submit" name="action" value="Personal Profile"
+                                   class="sidebar__item-title"></input>
+                        </div>
+                        <input type="hidden" name="id" th:value="${session.acc.id}">
+                    </form>
+                </li>
             </ul>
         </div>
     </aside>
@@ -81,10 +92,10 @@
                         <span>Seller Page</span>
                     </a>
                     <span>/</span>
-                    <span>Manage</span><br>
+                    <span>Manage Order</span><br>
                 </div>
                 <div class="header__title">
-                    <h3>Manage Order</h3>
+                    <h3>Order detail</h3>
                 </div>
             </div>
 
@@ -124,11 +135,28 @@
                     <i class="fa-solid fa-bell"></i>
                 </div>
                 <span class="header__separate">|</span>
-                <div class="header__account">
-                    <img src="https://th.bing.com/th/id/OIP.fZnBtIe-qAaSrj3pGtJiQQHaHa?w=179&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                        alt="Avatar">
-                    <span>Xuất Sắc Bảnh</span>
+                <div class="header__account" id="headerAccount">
+                    <i th:if="${session.acc.getUser().getAvatar()} == ''"
+                       class="header__account-icon fa-solid fa-user"></i>
+                    <img th:if="${session.acc.getUser().getAvatar()} != ''"
+                         th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
+                    <span th:text="${session.acc.getUser().getName()}"></span>
                     <i class="fa-solid fa-ellipsis-vertical"></i>
+                    <div class="header__item-account" id="accountDropdown">
+                        <form th:action="@{/account/view/profile}" class="form" method="get">
+                            <input type="submit" name="action" value="My profile"
+                                   class="header__item-account-item"></input>
+                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                        </form>
+                        <form th:action="@{/change/password}" class="form">
+                            <input type="submit" name="action" class="header__item-account-item"
+                                   value="Change Password"></input>
+                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                        </form>
+                        <form th:action="@{/account/logout}" class="form" method="get">
+                            <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
+                        </form>
+                    </div>
                 </div>
             </div>
         </header>
@@ -136,115 +164,102 @@
         <!-- Container -->
         <div class="container">
             <div class="grid">
-                <div class="manage-flower">
-                    <div class="manage-flower__heading">
-                        <h3 class="manage-flower__title">Order Details</h3>
-                    </div>
+                <div class="manage-flower" th:if="${msg}">
+<!--                    <div class="manage-flower__heading">-->
+<!--                        <h3 class="manage-flower__title">Order <span class="title-orderId" th:text="${msg.orderId}">1</span></h3>-->
+<!--                    </div>-->
 
                     <div class="order-detail">
                         <!-- <h2 class="order-detail-header"></h2> -->
+                        <div class="back font-text">
+                            <a th:href="@{/seller/order/list}" class="auth-form__switch-btn">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span class="back-text">Back to Order List</span>
+                            </a>
+                        </div>
                         <div class="customer-info">
                             <h3 class="cus-title text-color">Customer Information</h3>
-                            <p class="cus-name font-text font-weight">Customer Name: <span>EFEP</span></p>
-                            <p class="order-date font-text font-weight">Order Date: <span>22/22/22</span></p>
-                            <p class="order-code font-text font-weight">Order Code: <span>11111</span></p>
+                            <p class="cus-name font-text font-weight">Customer Name: <span th:text="${msg.buyerName}">EFEP</span></p>
+                            <p class="cus-name font-text font-weight">Created date: <span th:text="${msg.createdDate}">12/01</span></p>
+                            <p class="order-date font-text font-weight">Order Status: <span th:text="${msg.orderStatus}">processing</span></p>
+                            <!-- <span>change</span>
+                            <div class="change-status">
+                                <form th:action="@{/seller/order/status}" th:method="put">
+                                    <input type="hidden" name="accountId" th:value="${session.acc.id}">
+                                    <input type="hidden" name="orderId" th:value="${msg.orderId}">
+                                <select name="status" id="">
+                                    <option th:value="${msg.orderStatus}" selected hidden>Update status</option>
+                                    <option value="packed">packed</option>
+                                    <option value="cancelled">cancelled</option>
+                                </select>
+                                <button class="change-status-btn">Update</button>
+                                </form>
+                            </div> -->
                         </div>
                         <hr class="line">
                         <h3 class="product-title text-color">Product Information</h3>
                         <div class="product-info">
-
-
                             <table border="1" cellpadding="20" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th class="tb-product-header font-text header-width">Product Image</th>
-                                        <th class="tb-product-header font-text">Product Name</th>
-                                        <th class="tb-product-header font-text">Event</th>
-                                        <th class="tb-product-header font-text">Quantity</th>
-                                        <th class="tb-product-header font-text">Price</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
                                         <td class="tb-product-detail">
-                                            <div class="table-item-img">
-                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                    alt="">
+                                            <div class="order-item text-flex" th:each="product : ${msg.detailList}">
+                                                <div class="table-order-img">
+                                                    <img th:src="${product.image}"
+                                                        alt="">
+                                                </div>
+                                                <div class="table-order-info">
+                                                    <h4 class="table-order-name" th:text="${product.flowerName}">Hiptage</h4>
+                                                    <p class="table-order-description" th:text="${product.description}">DEP</p>
+                                                    <div class="table-order-cate" >
+                                                        <span th:each="cate : ${product.categories}"
+                                                              class="cate-item" th:text="${cate}">Wedding</span>
+                                                    </div>
+                                                    <div class="table-order-info-price">
+                                                        <div class="table-order-info-qnt">
+                                                            <span class="table-order-multiple font-bold">x</span>
+                                                            <span class="table-order-quantity font-bold font-qnt"
+                                                                th:text="${product.quantity}">1</span>
+                                                        </div>
+                                                        <span class="table-order-price text-orange font-bold"
+                                                            th:text="${'$' + product.price}">$122.00</span>
+                                                    </div>
+
+                                                </div>
                                             </div>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-name">hiptage</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-event">wed</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-quantity font-bold">1</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-price font-bold">123</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="tb-product-detail">
-                                            <div class="table-item-img">
-                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                    alt="">
+                                        <td class="total-product">
+                                            <div class="total">
+                                                <span class="tb-product-footer font-text">Total</span>
+                                                <span class="tb-product-footer-total font-text font-bold" th:text="${'$' + msg.totalPrice}">123</span>
                                             </div>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-name">hiptage</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-event">wed</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-quantity font-bold">1</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-price font-bold">123</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tb-product-detail">
-                                            <div class="table-item-img">
-                                                <img src="https://flowerista.themability.com/image/cache/catalog/products/6-75x90.jpg"
-                                                    alt="">
-                                            </div>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-name">hiptage</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-event">wed</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-quantity font-bold">1</span>
-                                        </td>
-                                        <td class="tb-product-detail font-text">
-                                            <span class="tb-product-price font-bold">123</span>
                                         </td>
                                     </tr>
                                 </tbody>
-                                <!-- <tfoot>
-                                <tr>
-                                    <td colspan="4" class="tb-product-footer font-text">Total</td>
-                                    <td colspan="1" class="tb-product-footer-total font-text" >0</td>
-                                </tr>
-                            </tfoot> -->
                             </table>
                         </div>
                         <div class="end-component">
-
-                            <div class="back font-text">
-                                <a th:href="@{/}">
-                                    <i class="fa-solid fa-arrow-left"></i>
-                                    <span class="back-text">Back to Order List</span>
-                                </a>
+                            <div class="contain-btn" colspan="1">
+                                <form th:action="@{/seller/order/status}" th:method="put">
+                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                    <input type="hidden" name="orderId" th:value="${msg.orderId}">
+                                    <input type="hidden" name="status" th:value="${cancelled}">
+                                    <button class="order-btn-cancel"
+                                    th:attr="disabled=${msg.orderStatus != 'processing' ? 'disabled' : null}"
+                                    >Cancel order</button>
+                                </form>
                             </div>
-                            <div class="total">
-                                <span class="tb-product-footer font-text">Total</span>
-                                <span class="tb-product-footer-total font-text font-bold">123</span>
+                            <div class="contain-btn" colspan="1">
+                                <form th:action="@{/seller/order/status}" th:method="put">
+                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                    <input type="hidden" name="orderId" th:value="${msg.orderId}">
+                                    <input type="hidden" name="status" th:value="${packed}">
+                                    <button class="order-btn-confirm"
+                                    th:attr="disabled=${msg.orderStatus != 'processing' ? 'disabled' : null}"
+                                    >Packed order</button>
+                                </form>
                             </div>
                         </div>
                     </div>

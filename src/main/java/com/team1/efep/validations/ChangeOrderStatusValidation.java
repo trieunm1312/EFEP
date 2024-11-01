@@ -16,7 +16,6 @@ public class ChangeOrderStatusValidation {
         if (request.getStatus() == null || request.getStatus().trim().isEmpty()) {
             return MapConfig.buildMapKey(errors, "Order status is required");
         }
-
         return errors;
     }
 }

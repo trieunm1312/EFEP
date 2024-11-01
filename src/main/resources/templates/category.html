@@ -16,15 +16,14 @@
 </head>
 
 <body>
+<div  th:replace="~{base :: toast}">
+
+</div>
     <div class="wrap">
         <!-- Nav Bar -->
         <nav class="navbar" th:replace="~{base :: navbar}">
 
         </nav>
-        <div th:if="${msg != null}">
-            <span th:text="${msg.status}"></span>
-            <span th:text="${msg.message}"></span>
-        </div>
 
         <!-- Header -->
         <header class="header" th:replace="~{base :: header}">

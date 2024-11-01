@@ -342,7 +342,6 @@ tbody tr {
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
-    
 }
 
 .table-order-info {
@@ -406,4 +405,10 @@ tbody tr {
 .table-order-date_detail,
 .table-order-payment-type {
     padding-right: 8px;
+}
+
+button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }

@@ -101,11 +101,55 @@ textarea {
     resize: vertical;
     min-height: 40px;
     box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.desc-text {
+    text-align: justify;
 }
 
 input{
-    width: 70%;
+    width: 75%;
 }
+
+.file-input {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+input {
+    /* padding: 12px 20px; */
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Focus effect */
+  input[type="text"]:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+  }
+  
+  /* Placeholder color */
+  input[type="text"]::placeholder
+  {
+    color: #aaa;
+  }
+  
+  /* Optional hover effect */
+  input[type="text"]:hover {
+    border-color: #888;
+  }
 
 .toggle-btn {
     color: var(--white-color);
@@ -141,3 +185,4 @@ input{
 .disabled {
     color: #99A9C9;
 }
+

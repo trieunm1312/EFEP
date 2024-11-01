@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function() {
 function editRow(button) {
     var row = button.closest('tr');
 
-    var img = row.querySelector('.img');
-    var imgInput = row.querySelector('.img-input');
+    var img = row.querySelector('#flower-update');
+    var imgInput = row.querySelector('.file-input');
 
     var nameText = row.querySelector('.name-text');
     var nameInput = row.querySelector('.name-input');
@@ -33,13 +33,15 @@ function editRow(button) {
 
     var priceText = row.querySelector('.price-text');
     var priceInput = row.querySelector('.price-input');
+    var statusText = row.querySelector('.status-text');
+    var soldText = row.querySelector('.sold-text');
 
     var editBtn = row.querySelector('.edit-btn');
     var pencilIcon = row.querySelector('.modify-icon');
     var saveBtn = row.querySelector('.save-btn');
     var toggleBtn = row.querySelector('.toggle-btn');
 
-    img.style.display = 'none';
+    // img.style.display = 'none';
     imgInput.style.display = 'inline-block';
 
     nameText.style.display = 'none';
