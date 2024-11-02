@@ -297,6 +297,14 @@
     display: block;
 }
 
+.flower__heading{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .flower__name{
     color: var(--text-color);
     text-align: start;
@@ -304,6 +312,10 @@
     font-size: 1.8rem;
     background-color: transparent;
     border: none;
+}
+
+.flower-rating__star{
+    color: #fec60f;
 }
 
 
@@ -342,7 +354,6 @@
     font-size: 2.2rem;
     line-height: 2rem;
     padding: 0;
-    padding-bottom: 16px;
     border: none;
     background-color: transparent;
     color: var(--text-color);
@@ -354,6 +365,10 @@
 
 .flower-list__name:hover{
     color: var(--primary-color);
+}
+
+.flower-list__rating{
+    padding-bottom: 16px;
 }
 
 .flower-list__content span{

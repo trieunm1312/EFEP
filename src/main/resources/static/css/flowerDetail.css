@@ -122,6 +122,22 @@
     font-weight: 600;
 }
 
+.flower-rating{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    gap: 8px;
+}
+
+.flower-rating__average{
+    font-size: 1.8rem;
+    text-decoration: underline;
+}
+
+.flower-rating__star{
+    color: #fec60f;
+}
+
 .flower-information__price{
     font-weight: 600;
     color: var(--primary-color);
