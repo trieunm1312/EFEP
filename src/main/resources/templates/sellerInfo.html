@@ -51,103 +51,9 @@
                             <span>Products</span>
                         </a>
                     </li>
-
-                    <li class="breadbrum__element-list-item">
-                        <a href="" class="breadbrum__element-list-item-link">
-                            <i class="fa-solid fa-angles-right"></i>
-                            <span th:text="${msg.flower.name}"></span>
-                        </a>
-                    </li>
                 </ul>
             </div>
             <div class="grid">
-                <!-- Flower Detail -->
-                <div class="flower-information">
-                    <div class="flower-information__img">
-                        <div class="flower-information__img-main-screen">
-                            <img th:src="@{${msg.flower.imageList[0].link}}" alt="">
-                        </div>
-                            <div class="flower-information__img-list">
-                                <img th:each="image : ${msg.flower.imageList}"
-                                     class="flower-information__img-item"
-                                     th:src="@{${image.link}}" alt="Flower Sub Image">
-                            </div>
-                    </div>
-                    <div class="flower-information__content">
-                        <h3 class="flower-information__name" th:text="${msg.flower.name}"></h3>
-                        <hr>
-                        <div class="flower-information__short-desc">
-                            <span class="flower-information__category">Category:
-                                <div >
-                                    <form th:action="@{/buyer/category/filter}" th:method="post">
-                                        <button th:each="cate : ${msg.flower.categoryList}">
-                                            <p th:text="${cate.name}"></p>
-                                            <input type="hidden" name="categoryId" th:value="${cate.id}" >
-                                        </button>
-                                    </form>
-                                </div>
-                            </span>
-                            <span class="flower-information__num-of-flower">
-                                        Batch:
-                                        <p th:text="${msg.flower.flowerAmount}"></p>
-                                        <p> flowers</p>
-                                    </span>
-                            <span class="flower-information__desc-detail">
-                                Description:
-                                <p th:text="${msg.flower.description}"></p>
-                            </span>
-                        </div>
-                        <hr>
-                        <h3 class="flower-information__price">
-                            $
-                            <span th:text="${msg.flower.price}"></span>
-                        </h3>
-                        <hr>
-                        <div class="flower-information__quantity">
-                            <h4>Quantity: </h4>
-                            <div class="flower-information__quantity-buy">
-                                <div class="value-button" id="decrease" onclick="decreaseValue()"
-                                     value="Decrease Value">-
-                                </div>
-                                <input type="number" id="number" class="flower-information__quantity-buy"
-                                       name="quantity" value="1" onchange="updateHiddenInput()"/>
-                                <div class="value-button" id="increase" onclick="increaseValue()"
-                                     value="Increase Value">+
-                                </div>
-                            </div>
-                            <span class="flower-information__quantity-available">
-                                            <span th:text="${msg.flower.quantity}"></span>
-                                            <span> available</span>
-                                        </span>
-                            <span class="flower-information__quantity-separate">|</span>
-                            <span class="flower-information__quantity-sold">
-                                        <span th:text="${msg.flower.soldQuantity}"></span>
-                                        <span> sold</span>
-                            </span>
-                        </div>
-                        <div class="flower-information__button">
-                            <form th:action="@{/buyer/wishlist}" th:method="post" class="form-button">
-                                <input type="hidden" id="quantity" name="quantity" value="1">
-                                <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
-                                <div th:if="${session.acc}">
-                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                </div>
-
-                                <input type="submit" class="flower-information__wishlist-btn btn" name="action"
-                                       value="Add to Wishlist">
-                            </form>
-                            <form th:action="@{/buyer/order/buyNow}" method="get" class="form-button">
-                                <input type="hidden" id="flowerQuantity" name="quantity" value="1">
-                                <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
-                                <input th:if="${session.acc}" type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                <input type="submit" class="flower-information__checkout-btn btn btn--primary"
-                                       name="action" value="Buy Now">
-                            </form>
-                        </div>
-                    </div>
-                    <br>
-                </div>
-
                 <!-- Seller Information -->
                 <div class="seller">
                     <div class="seller__item">
@@ -161,8 +67,96 @@
                     </div>
                 </div>
 
-               
-
+                <!-- Product Feedback -->
+                <div class="product-feedback">
+                    <h2 class="product-feedback__heading">Product Feedback</h2>
+                    <div class="product-feedback__list">
+                        <div class="product-feedback__item">
+                            <div class="product-feedback__content">
+                                <div class="user__avatar">
+                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
+                                </div>
+                                <div class="user__info">
+                                    <span class="user__name">SayGexzzz</span>
+                                    <br>
+                                    <div class="user__rating unfill">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                    </div>
+                                    <div class="user__rating filled">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-feedback__body">
+                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
+                            </div>
+                        </div>
+                        <div class="product-feedback__item">
+                            <div class="product-feedback__content">
+                                <div class="user__avatar">
+                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
+                                </div>
+                                <div class="user__info">
+                                    <span class="user__name">SayGexzzz</span>
+                                    <br>
+                                    <div class="user__rating unfill">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                    </div>
+                                    <div class="user__rating filled">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-feedback__body">
+                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
+                            </div>
+                        </div>
+                        <div class="product-feedback__item">
+                            <div class="product-feedback__content">
+                                <div class="user__avatar">
+                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
+                                </div>
+                                <div class="user__info">
+                                    <span class="user__name">SayGexzzz</span>
+                                    <br>
+                                    <div class="user__rating unfill">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                    </div>
+                                    <div class="user__rating filled">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-feedback__body">
+                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Top sale Product -->
                 <div class="top-category">

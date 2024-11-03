@@ -34,7 +34,7 @@
 
 <div id="toast-error" th:if="${error != null}" th:fragment="error">
     <div th:each="errorMessage : ${error.values()}">
-        <div class="toast toast--error" style="animation: slightInLeft ease .3s, fadeOut linear 1s .5s forwards;">
+        <div class="toast toast--error" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1s forwards;">
             <div class="toast__icon">
                 <i class="fas fa-exclamation-circle"></i>
             </div>

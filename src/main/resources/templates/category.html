@@ -141,11 +141,12 @@
                                         </form>
                                     </div>
                                 </div>
-                                <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
-                                    <input type="submit" name="action" th:value="${item.name}" class="flower__name">
-                                    </input>
-                                    <input type="hidden" name="id" th:value="${item.id}">
-                                </form>
+                                    <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
+                                        <input type="submit" name="action" th:value="${item.name}" class="flower__name">
+                                        </input>
+                                        <input type="hidden" name="id" th:value="${item.id}">
+                                    </form>
+
                                 <div class="flower__content">
                                     <span th:text="${'$' + item.price}"></span>
                                     <span th:text="${'Sold:' + item.soldQuantity}"></span>
@@ -163,6 +164,7 @@
                                         </input>
                                         <input type="hidden" name="id" th:value="${item.id}">
                                     </form>
+
                                     <p class="flower-list__desc" th:text="${item.description}" ></p>
                                     <div class="flower-list__content">
                                         <span th:text="${'$' + item.price}"></span>

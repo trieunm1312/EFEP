@@ -474,7 +474,7 @@
                     </div>
                     <div class="seller" th:if="${session.acc.getRole() == 'seller'}">
                         <div class="notify-btn">
-                            <form th:action="@{/seller/view/plan}" method="get">
+                            <form th:action="@{/seller/plan/detail}" method="get">
                                 <input class="btn-home" type="submit" value="Your Business Plan" name="Action">
                             </form>
                         </div>
