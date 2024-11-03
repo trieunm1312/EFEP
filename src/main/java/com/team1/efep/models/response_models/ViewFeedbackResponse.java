@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -17,6 +18,22 @@ public class ViewFeedbackResponse {
 
     private String message;
 
+    private int id;
+
+    private String name;
+
+    private String email;
+
+    private String phone;
+
+    private String avatar;
+
+    private String background;
+
+    private int totalFlower;
+
+    private float sellerRating;
+
     private List<FeedbackDetail> feedbackList;
 
     @Data
@@ -25,13 +42,17 @@ public class ViewFeedbackResponse {
     @Builder
     public static class FeedbackDetail {
 
-        private Integer id;
+        private int id;
 
-        private String userName;
+        private String name;
+
+        private String avatar;
 
         private String content;
 
         private int rating;
+
+        private LocalDate createDate;
     }
 
 }

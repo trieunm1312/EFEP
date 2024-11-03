@@ -30,7 +30,7 @@ public class PageController {
     private final AdminService adminService;
 
     @GetMapping("/")
-    public String startPage(Model model) {
+    public String startPage(Model model, HttpSession session) {
         AllPage.allConfig(model, buyerService);
         HomepageConfig.config(model,buyerService);
         return "home";
