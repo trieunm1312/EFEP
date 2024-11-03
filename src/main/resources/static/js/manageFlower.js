@@ -151,7 +151,5 @@ function removeImage(imageIndex, event) {
 
 // Placeholder function for save button
 function saveData() {
-    // Here you would typically collect data and save it
-    alert("Data saved!");
     closePopup();
 }
