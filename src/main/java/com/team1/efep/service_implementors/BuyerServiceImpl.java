@@ -1723,6 +1723,8 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+    //---------------------------------------VIEW FEEDBACK---------------------------------------//
+
     @Override
     public String viewFeedback(int sellerId, Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
@@ -1787,6 +1789,12 @@ public class BuyerServiceImpl implements BuyerService {
         return ViewFeedbackResponse.builder()
                 .status("200")
                 .message("Feedback found")
+                .id(seller.getId())
+                .name(seller.getUser().getName())
+                .email(seller.getUser().getAccount().getEmail())
+                .phone(seller.getUser().getPhone())
+                .avatar(seller.getUser().getAvatar())
+                .background(seller.getUser().getBackground())
                 .totalFlower(seller.getFlowerList().size())
                 .sellerRating(seller.getRating())
                 .feedbackList(feedbackDetails)
