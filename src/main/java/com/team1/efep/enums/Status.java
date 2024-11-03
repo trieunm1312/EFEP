@@ -48,11 +48,6 @@ public class Status {
         flowerRepo.save(flower);
     }
 
-    public static void getRoleStatus(BusinessPlan businessPlan, String status, BusinessPlanRepo businessPlanRepo) {
-        businessPlan.setStatus(status);
-        businessPlanRepo.save(businessPlan);
-    }
-
     public static List<String> getFlowerStatusList() {
         List<String> flowerStatuses = new ArrayList<>();
 

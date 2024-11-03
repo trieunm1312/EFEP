@@ -59,7 +59,6 @@ public class AccountController {
     @GetMapping("/view/profile")
     @Operation(hidden = true)
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-
         return accountService.viewProfile(session, model, redirectAttributes);
     }
 

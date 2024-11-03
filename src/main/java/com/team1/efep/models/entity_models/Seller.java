@@ -21,10 +21,6 @@ public class Seller {
     @JoinColumn(name = "`user_id`")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "`plan_id`")
-    private BusinessPlan businessPlan;
-
     @Column(name = "`plan_purchase_date`")
     private LocalDateTime planPurchaseDate;
 
