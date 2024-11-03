@@ -109,7 +109,12 @@ textarea {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.desc-text {
+.padding-td {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.table__body-desc {
     text-align: justify;
 }
 
@@ -164,7 +169,7 @@ input {
 .table__body-toggle {
     width: 126px;
     color: var(--primary-color);
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 
 .table__body-item-new td{
