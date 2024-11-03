@@ -1737,11 +1737,11 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
-            return "/";
+            return "sellerInfo";
         }
 
         model.addAttribute("error", (Map<String, String>) output);
-        return "/";
+        return "sellerInfo";
     }
 
     @Override
