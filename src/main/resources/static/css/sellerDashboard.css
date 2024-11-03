@@ -53,8 +53,9 @@
 }
 
 .key-metric__item-icon{
-     width: 18.5%;
+     width: 45px;
     /* height: max-content; */
+    text-align: center;
     padding: 10px;
     font-size: 1rem;
     color: var(--white-color);
@@ -80,19 +81,16 @@
 /* Analytics */
 
 .daily-order-chart,
-.daily-user-chart,
-.flower-category-chart,
-.order-type-chart
+.flower-category-chart
 {
     display: inline-block;
-    width: 50%;
+    width: 49%;
     height: 300px;
     margin: 0;
 }
 
-.order-type-chart,
 .flower-category-chart{
-    width: 45%;
+    width: 49%;
     vertical-align: top;
     margin-left: 20px;
 }
