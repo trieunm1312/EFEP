@@ -39,14 +39,6 @@ public interface SellerService {
 
     ViewFlowerListForSellerResponse viewFlowerListForSellerAPI(int sellerId);
 
-    String viewBusinessPlan(HttpSession session, Model model);
-
-    ViewBusinessPlanResponse viewBusinessPlanAPI();
-
-    String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model, HttpSession session);
-
-    CancelBusinessPlanResponse cancelBusinessPlanAPI(CancelBusinessPlanRequest request);
-
     String viewBuyerList(HttpSession session, Model model);
 
     ViewBuyerListResponse viewBuyerListAPI(ViewBuyerListRequest request);
@@ -62,14 +54,6 @@ public interface SellerService {
     String filterOrder(FilterOrderRequest request, HttpSession session, Model model);
 
     FilterOrderResponse filterOrderAPI(FilterOrderRequest request);
-
-    String createVNPayPaymentLink(VNPayBusinessPlanRequest request, Model model, HttpServletRequest httpServletRequest);
-
-    VNPayResponse createVNPayPaymentLinkAPI(VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest);
-
-    String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session);
-
-    VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest);
 
     String sortOrder(FilterOrderRequest filterOrderRequest, HttpSession session, Model model);
 
@@ -96,12 +80,6 @@ public interface SellerService {
     String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
     DeleteFlowerImageResponse deleteFlowerImageAPI(DeleteFlowerImageRequest request);
-
-    String confirmOrder(HttpSession session, Model model, int busPlanId);
-
-    String viewBusinessPlanDetail(HttpSession session, Model model);
-
-    ViewBusinessPlanDetailResponse viewBusinessPlanDetailAPI(int planIId);
 
     void getTotalNumberFlower(Model model);
 

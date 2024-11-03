@@ -38,19 +38,14 @@ public class Status {
         orderRepo.save(order);
     }
 
-    public static void changePurchasedPlanStatus(PurchasedPlan purchasedPlan, String status, PurchasedPlanRepo purchasedPlanRepo) {
-        purchasedPlan.setStatus(status);
-        purchasedPlanRepo.save(purchasedPlan);
-    }
+//    public static void changePurchasedPlanStatus(PurchasedPlan purchasedPlan, String status, PurchasedPlanRepo purchasedPlanRepo) {
+//        purchasedPlan.setStatus(status);
+//        purchasedPlanRepo.save(purchasedPlan);
+//    }
 
     public static void changeFlowerStatus(Flower flower, String status, FlowerRepo flowerRepo) {
         flower.setStatus(status);
         flowerRepo.save(flower);
-    }
-
-    public static void getRoleStatus(BusinessPlan businessPlan, String status, BusinessPlanRepo businessPlanRepo) {
-        businessPlan.setStatus(status);
-        businessPlanRepo.save(businessPlan);
     }
 
     public static List<String> getFlowerStatusList() {

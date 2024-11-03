@@ -1,4 +1,4 @@
-package com.team1.efep.models.request_models;
+package com.team1.efep.models.response_models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,29 +11,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateBusinessPlanRequest {
-
-    private int id;
-
-    private String name;
-
-    private String description;
-
-    private float price;
-
-    private int duration;
+public class ViewNotificationResponse {
 
     private String status;
 
-    private List<Integer> businessServiceList;
+    private String message;
+
+    private List<NotificationDetail> notificationList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class BusinessService {
-
+    public static class NotificationDetail {
         private int id;
-
+        private String content;
     }
 }

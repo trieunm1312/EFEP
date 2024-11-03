@@ -6,13 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class CreateBusinessServiceRequest {
-    private String name;
-
-    private String description;
-
-    private float price;
+public class CreateFeedbackRequest {
+    private Integer accountId;
+    private Integer sellerId;
+    private String content;
+    private int rating;
 }

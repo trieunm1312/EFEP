@@ -6,24 +6,32 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "`plan_service`")
-public class PlanService {
+@Table(name = "`feedback`")
+public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "`plan_id`")
-    private BusinessPlan businessPlan;
+    @JoinColumn(name = "`user_id`")
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "`service_id`")
-    private BusinessService businessService;
-    ;
+    @JoinColumn(name = "`seller_id`")
+    private Seller seller;
+
+    private LocalDateTime createDate;
+
+    private String content;
+
+    private int rating;
+
 }

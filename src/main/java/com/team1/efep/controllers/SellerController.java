@@ -185,34 +185,6 @@ public class SellerController {
         return sellerService.filterOrderAPI(request);
     }
 
-    @PostMapping("/order/payment")
-    @Operation(hidden = true)
-    public String createVNPayPaymentLink(VNPayBusinessPlanRequest request, Model model, HttpServletRequest httpServletRequest) {
-        return sellerService.createVNPayPaymentLink(request, model, httpServletRequest);
-    }
-
-    @PostMapping("/order/payment/api")
-    public VNPayResponse createVNPayPaymentLinkAPI(@RequestBody VNPayBusinessPlanRequest request, HttpServletRequest httpServletRequest) {
-        return sellerService.createVNPayPaymentLinkAPI(request, httpServletRequest);
-    }
-
-    @GetMapping("/order/payment/result")
-    @Operation(hidden = true)
-    public String getPaymentResult(@RequestParam Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
-        return sellerService.getPaymentResult(params, httpServletRequest, model, session);
-    }
-
-//    @GetMapping("/order/payment/result")
-//    public VNPayResponse getPaymentResult(@RequestParam Map<String, String> params, @RequestParam int accountId, HttpServletRequest httpServletRequest) {
-//        return sellerService.getPaymentResultAPI(params, accountId, httpServletRequest);
-//    }
-
-    @GetMapping("/order/confirm")
-    @Operation(hidden = true)
-    public String confirmOrder(HttpSession session, Model model,@RequestParam int busPlanId) {
-        return sellerService.confirmOrder(session, model, busPlanId);
-    }
-
     @GetMapping("/order/sort")
     @Operation(hidden = true)
     public String sortOrder(FilterOrderRequest filterOrderRequest, HttpSession session, Model model) {
@@ -225,27 +197,6 @@ public class SellerController {
     }
 
     //-------------------------------------------------------------------------------------------------//
-
-    @PutMapping("/plan")
-    public String cancelBusinessPlan(CancelBusinessPlanRequest request, Model model, HttpSession session) {
-        return sellerService.cancelBusinessPlan(request, model, session);
-    }
-
-    @PostMapping("/view/plan")
-    @Operation(hidden = true)
-    public String viewBusinessPlan(HttpSession session, Model model) {
-        return sellerService.viewBusinessPlan(session, model);
-    }
-
-    @PostMapping("/view/plan/api")
-    public ViewBusinessPlanResponse viewBusinessPlan() {
-        return sellerService.viewBusinessPlanAPI();
-    }
-
-    @PutMapping("/plan/api")
-    public CancelBusinessPlanResponse cancelBusinessPlan(@RequestBody CancelBusinessPlanRequest request) {
-        return sellerService.cancelBusinessPlanAPI(request);
-    }
 
     @GetMapping("/buyer/list")
     public String viewBuyerList(HttpSession session, Model model) {
@@ -267,14 +218,4 @@ public class SellerController {
         return sellerService.searchBuyerListAPI(request, id);
     }
 
-    @GetMapping("/plan/detail")
-    @Operation(hidden = true)
-    public String viewBusinessPlanDetail(HttpSession session, Model model) {
-        return sellerService.viewBusinessPlanDetail(session, model);
-    }
-
-    @GetMapping("/plan/detail/api")
-    public ViewBusinessPlanDetailResponse viewBusinessPlanDetail(int planId) {
-        return sellerService.viewBusinessPlanDetailAPI(planId);
-    }
 }

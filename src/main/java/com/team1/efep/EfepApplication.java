@@ -26,13 +26,9 @@ public class EfepApplication {
     private final OrderDetailRepo orderDetailRepo;
     private final WishlistItemRepo wishlistItemRepo;
     private final FlowerImageRepo flowerImageRepo;
-    private final BusinessServiceRepo businessServiceRepo;
-    private final BusinessPlanRepo businessPlanRepo;
-    private final PlanServiceRepo planServiceRepo;
     private final CategoryRepo categoryRepo;
     private final FlowerCategoryRepo flowerCategoryRepo;
     private final PaymentMethodRepo paymentMethodRepo;
-    private final PurchasedPlanRepo purchasedPlanRepo;
 
 
     public static void main(String[] args) {

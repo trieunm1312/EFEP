@@ -20,72 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdminController {
     private final AdminService adminService;
 
-    @PostMapping("/plan")
-    @Operation(hidden = true)
-    public String createBusinessPlan(CreateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
-        return adminService.createBusinessPlan(request, model, redirectAttributes);
-    }
-
-    @PostMapping("/plan/api")
-    public CreateBusinessPlanResponse createBusinessPlan(@RequestBody CreateBusinessPlanRequest request) {
-        return adminService.createBusinessPlanAPI(request);
-    }
-
-    @PutMapping("/plan")
-    @Operation(hidden = true)
-    public String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
-        return adminService.updateBusinessPlan(request, model, redirectAttributes);
-    }
-
-    @PutMapping("/plan/api")
-    public UpdateBusinessPlanResponse updateBusinessPlan(@RequestBody UpdateBusinessPlanRequest request) {
-        return adminService.updateBusinessPlanAPI(request);
-    }
-
-    @DeleteMapping("/plan")
-    @Operation(hidden = true)
-    public String disableBusinessPlan(DisableBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
-        return adminService.disableBusinessPlan(request, model, redirectAttributes);
-    }
-
-    @DeleteMapping("/plan/api")
-    public DisableBusinessPlanResponse disableBusinessPlan(@RequestBody DisableBusinessPlanRequest request) {
-        return adminService.disableBusinessPlanAPI(request);
-    }
-
-    @PostMapping("/service")
-    @Operation(hidden = true)
-    public String createBusinessService(CreateBusinessServiceRequest request, Model model, RedirectAttributes redirectAttributes) {
-        return adminService.createBusinessService(request, model, redirectAttributes);
-    }
-
-    @PostMapping("/service/api")
-    public CreateBusinessServiceResponse createBusinessService(@RequestBody CreateBusinessServiceRequest request) {
-        return adminService.createBusinessServiceAPI(request);
-    }
-
-    @PutMapping("/service")
-    @Operation(hidden = true)
-    public String updateBusinessService(UpdateBusinessServiceRequest request, Model model, RedirectAttributes redirectAttributes) {
-        return adminService.updateBusinessService(request, model, redirectAttributes);
-    }
-
-    @PutMapping("/service/api")
-    public UpdateBusinessServiceResponse updateBusinessService(@RequestBody UpdateBusinessServiceRequest request) {
-        return adminService.updateBusinessServiceAPI(request);
-    }
-
-    @DeleteMapping("/service")
-    @Operation(hidden = true)
-    public String deleteBusinessService(DeleteBusinessServiceRequest request, Model model,  RedirectAttributes redirectAttributes) {
-        return adminService.deleteBusinessService(request, model, redirectAttributes);
-    }
-
-    @DeleteMapping("/service/api")
-    public DeleteBusinessServiceResponse deleteBusinessService(@RequestBody DeleteBusinessServiceRequest request) {
-        return adminService.deleteBusinessServiceAPI(request);
-    }
-
     @GetMapping("/user/list")
     @Operation(hidden = true)
     public String viewUserList(HttpSession session, Model model) {
@@ -95,28 +29,6 @@ public class AdminController {
     @GetMapping("/user/list/api")
     public ViewUserListResponse viewUserList() {
         return adminService.viewUserListAPI();
-    }
-
-    @GetMapping("/view/plan")
-    @Operation(hidden = true)
-    public String viewBusinessPlan(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        return adminService.viewBusinessPlan(session, model, redirectAttributes);
-    }
-
-    @GetMapping("/view/plan/api")
-    public ViewBusinessPlanResponse viewBusinessPlan() {
-        return adminService.viewBusinessPlanAPI();
-    }
-
-    @GetMapping("/view/service")
-    @Operation(hidden = true)
-    public String viewBusinessService(HttpSession session, Model model) {
-        return adminService.viewBusinessService(session, model);
-    }
-
-    @GetMapping("/view/service/api")
-    public ViewBusinessServiceResponse viewBusinessService() {
-        return adminService.viewBusinessServiceAPI();
     }
 
     @PostMapping("/search/user/")
