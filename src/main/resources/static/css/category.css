@@ -177,7 +177,8 @@
 .flower__grid.active-view {
     display: grid; /* Use grid layout for grid view */
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    gap: 32px 16px;
+    align-items: start;
 }
 
 /* Show list view when active */
@@ -193,22 +194,23 @@
 
 
 /* Flower Grid */
-.flower__grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px 10px;
+
+
+.flower__item {
     width: 100%;
 }
 
-
 .flower__img{
+    width: 260px;
+    height: 310px;
     position: relative;
 }
 
 .flower__img img{
-    width: 263px;
-    height: 313px;
+    width: 260px;
+    height: 310px;
     border-radius: 12px;
+    object-fit: cover;
 }
 
 .overlay{
@@ -218,8 +220,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(255, 86, 141, 0.2);
-    border: 1px solid var();
-    display: block;
+    border: 3px solid var(--primary-color);
     border-radius: 12px;
     text-align: center;
     display: none;
@@ -299,16 +300,15 @@
 
 
 .flower__name{
+    display: flex;
+    flex-wrap: wrap;
     color: var(--text-color);
     text-align: start;
     font-weight: 600;
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     background-color: transparent;
     border: none;
 }
-
-
-
 
 .flower__name:hover{
     text-decoration: none;
@@ -317,6 +317,7 @@
 
 .flower__content{
     display: flex;
+    width: 90%;
     justify-content: space-between;
     margin: 0 2.5%;
 }
@@ -335,9 +336,10 @@
 }
 
 .flower-list__item img{
-    width: 270px;
-    height: 320px;
+    width: 260px;
+    height: 310px;
     margin-right: 32px;
+    aspect-ratio: 1;
 }
 
 .flower-list__name{

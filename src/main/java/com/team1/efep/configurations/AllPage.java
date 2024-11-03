@@ -8,7 +8,7 @@ public class AllPage {
     public static void allConfig(Model model, BuyerService buyerService){
 
         buyerService.viewCategory(model);
-        buyerService.viewFlowerTopList(5, model);
+        buyerService.viewSellerTopList(5, model);
     }
 
 }

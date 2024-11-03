@@ -667,7 +667,6 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-
     private Object viewOrderHistoryLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
 
@@ -820,42 +819,42 @@ public class BuyerServiceImpl implements BuyerService {
                 .toList();
     }
 
-    //--------------------------------------VIEW FLOWER TOP LIST------------------------------------------//
+    //--------------------------------------VIEW SELLER TOP LIST------------------------------------------//
 
     @Override
-    public void viewFlowerTopList(int top, Model model) {
-        model.addAttribute("msg2", viewFlowerTopListLogic(top));
+    public void viewSellerTopList(int top, Model model) {
+        model.addAttribute("msg2", viewSellerTopListLogic(top));
     }
 
     @Override
-    public ViewFlowerTopListResponse viewFlowerTopListAPI(int top) {
-        return viewFlowerTopListLogic(top);
+    public ViewSellerTopListResponse viewSellerTopListAPI(int top) {
+        return viewSellerTopListLogic(top);
     }
 
 
-    public ViewFlowerTopListResponse viewFlowerTopListLogic(int top) {
-
-        return ViewFlowerTopListResponse.builder()
+    public ViewSellerTopListResponse viewSellerTopListLogic(int top) {
+        return ViewSellerTopListResponse.builder()
                 .status("200")
-                .message("")
-                .flowerList(
-                        flowerRepo.findAll()
+                .message("Top Sellers by Rating")
+                .sellerList(
+                        sellerRepo.findAll()
                                 .stream()
                                 .limit(top)
-                                .map(
-                                        flower -> ViewFlowerTopListResponse.Flower.builder()
-                                                .id(flower.getId())
-                                                .name(flower.getName())
-                                                .price(flower.getPrice())
-                                                .images(
-                                                        flower.getFlowerImageList().stream()
-                                                                .map(img -> ViewFlowerTopListResponse.Image.builder()
-                                                                        .link(img.getLink())
-                                                                        .build())
-                                                                .toList()
-                                                )
-                                                .build()
-                                )
+                                .map(seller -> {
+                                    List<Feedback> feedbackList = seller.getFeedbackList();
+                                    double averageRating = feedbackList != null && !feedbackList.isEmpty()
+                                            ? feedbackList.stream().mapToDouble(Feedback::getRating).average().orElse(0.0)
+                                            : 0.0;
+
+                                    return ViewSellerTopListResponse.Seller.builder()
+                                            .id(seller.getId())
+                                            .name(seller.getUser().getName())
+                                            .avatar(seller.getUser().getAvatar())
+                                            .averageRating(averageRating)
+                                            .build();
+                                })
+                                .sorted((s1, s2) -> Double.compare(s2.getAverageRating(), s1.getAverageRating()))
+                                .limit(top)
                                 .toList()
                 )
                 .build();
@@ -1738,11 +1737,11 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
-            return "/";
+            return "sellerInfo";
         }
 
         model.addAttribute("error", (Map<String, String>) output);
-        return "/";
+        return "sellerInfo";
     }
 
     @Override
