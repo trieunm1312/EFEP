@@ -93,4 +93,8 @@ public interface SellerService {
 
     void getOrderInDaily(Model model);
 
+    String viewFeedback(int sellerId, Model model, HttpSession session);
+
+    ViewFeedbackResponse viewFeedbackAPI(int sellerId);
+
 }

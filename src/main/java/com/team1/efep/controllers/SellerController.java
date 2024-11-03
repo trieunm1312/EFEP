@@ -1,5 +1,6 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.configurations.AllPage;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.SellerService;
@@ -216,6 +217,19 @@ public class SellerController {
     @PostMapping("/search/buyer/api")
     public SearchBuyerListResponse searchBuyerList(@RequestBody SearchBuyerListRequest request, @RequestBody int id) {
         return sellerService.searchBuyerListAPI(request, id);
+    }
+
+    //---------------FEEDBACK----------------//
+
+    @GetMapping("/feedback")
+    @Operation(hidden = true)
+    public String viewFeedback(int accountId, Model model, HttpSession session) {
+        return sellerService.viewFeedback(accountId, model, session);
+    }
+
+    @GetMapping("/feedback/api/{accountId}")
+    public ViewFeedbackResponse viewFeedbackAPI(@PathVariable int accountId) {
+        return sellerService.viewFeedbackAPI(accountId);
     }
 
 }
