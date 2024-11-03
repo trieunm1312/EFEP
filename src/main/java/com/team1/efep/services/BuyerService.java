@@ -112,12 +112,6 @@ public interface BuyerService {
 
     FilterCategoryResponse filterCategoryAPI(FilterCategoryRequest request);
 
-    String viewNotification(HttpSession session, Model model);
-
-    String viewFeedback(int sellerId, Model model, HttpSession session);
-
-    ViewFeedbackResponse viewFeedbackAPI(int sellerId);
-
     String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     CreateFeedbackResponse createFeedbackAPI(CreateFeedbackRequest request);

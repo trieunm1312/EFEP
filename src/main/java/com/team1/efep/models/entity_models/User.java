@@ -50,5 +50,4 @@ public class User {
     @EqualsAndHashCode.Exclude
     private List<Feedback> feedbackList;
 
-
 }
