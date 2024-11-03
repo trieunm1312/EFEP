@@ -42,9 +42,9 @@ public interface BuyerService {
 
     ViewOrderHistoryResponse viewOrderHistoryAPI(int accountId);
 
-    void viewFlowerTopList(int top, Model model);
+    void viewSellerTopList(int top, Model model);
 
-    ViewFlowerTopListResponse viewFlowerTopListAPI(int top);
+    ViewSellerTopListResponse viewSellerTopListAPI(int top);
 
     String searchFlower(SearchFlowerRequest request, Model model);
 
@@ -111,6 +111,10 @@ public interface BuyerService {
     String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes);
 
     FilterCategoryResponse filterCategoryAPI(FilterCategoryRequest request);
+
+    String viewFeedback(int sellerId, Model model, HttpSession session);
+
+    ViewFeedbackResponse viewFeedbackAPI(int sellerId);
 
     String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 

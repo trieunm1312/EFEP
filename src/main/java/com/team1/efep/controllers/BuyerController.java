@@ -207,6 +207,7 @@ public class BuyerController {
     public ViewWishlistResponse viewWishlist(@PathVariable int accountId) {
         return buyerService.viewWishlistAPI(accountId);
     }
+
     @PutMapping("/wishlist")
     @Operation(hidden = true)
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
@@ -258,8 +259,8 @@ public class BuyerController {
 
     //mac dinh chay song song vs home page ==> ko can controller cho Thymeleaf
     @PostMapping("/flower/top/list/api")
-    public ViewFlowerTopListResponse viewFlowerTopList(@RequestBody ViewFlowerTopListRequest request) {
-        return buyerService.viewFlowerTopListAPI(request.getTop());
+    public ViewSellerTopListResponse viewSellerTopList(@RequestBody ViewSellerTopListRequest request) {
+        return buyerService.viewSellerTopListAPI(request.getTop());
     }
 
     @PostMapping("/flower/search")
@@ -310,5 +311,28 @@ public class BuyerController {
 
     //---------------FEEDBACK----------------//
 
+    @GetMapping("/feedback")
+    @Operation(hidden = true)
+    public String viewFeedback(int accountId, Model model, HttpSession session) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.viewFeedback(accountId, model, session);
+    }
+
+    @GetMapping("/feedback/api/{accountId}")
+    public ViewFeedbackResponse viewFeedbackAPI(@PathVariable int accountId) {
+        return buyerService.viewFeedbackAPI(accountId);
+    }
+
+    @PostMapping("/feedback")
+    @Operation(hidden = true)
+    public String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.createFeedback(request, session, model, redirectAttributes);
+    }
+
+    @PostMapping("/feedback/api")
+    public CreateFeedbackResponse createFeedback(@RequestBody CreateFeedbackRequest request) {
+        return buyerService.createFeedbackAPI(request);
+    }
 
 }

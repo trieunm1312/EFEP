@@ -667,7 +667,6 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-
     private Object viewOrderHistoryLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
 
@@ -820,42 +819,42 @@ public class BuyerServiceImpl implements BuyerService {
                 .toList();
     }
 
-    //--------------------------------------VIEW FLOWER TOP LIST------------------------------------------//
+    //--------------------------------------VIEW SELLER TOP LIST------------------------------------------//
 
     @Override
-    public void viewFlowerTopList(int top, Model model) {
-        model.addAttribute("msg2", viewFlowerTopListLogic(top));
+    public void viewSellerTopList(int top, Model model) {
+        model.addAttribute("msg2", viewSellerTopListLogic(top));
     }
 
     @Override
-    public ViewFlowerTopListResponse viewFlowerTopListAPI(int top) {
-        return viewFlowerTopListLogic(top);
+    public ViewSellerTopListResponse viewSellerTopListAPI(int top) {
+        return viewSellerTopListLogic(top);
     }
 
 
-    public ViewFlowerTopListResponse viewFlowerTopListLogic(int top) {
-
-        return ViewFlowerTopListResponse.builder()
+    public ViewSellerTopListResponse viewSellerTopListLogic(int top) {
+        return ViewSellerTopListResponse.builder()
                 .status("200")
-                .message("")
-                .flowerList(
-                        flowerRepo.findAll()
+                .message("Top Sellers by Rating")
+                .sellerList(
+                        sellerRepo.findAll()
                                 .stream()
                                 .limit(top)
-                                .map(
-                                        flower -> ViewFlowerTopListResponse.Flower.builder()
-                                                .id(flower.getId())
-                                                .name(flower.getName())
-                                                .price(flower.getPrice())
-                                                .images(
-                                                        flower.getFlowerImageList().stream()
-                                                                .map(img -> ViewFlowerTopListResponse.Image.builder()
-                                                                        .link(img.getLink())
-                                                                        .build())
-                                                                .toList()
-                                                )
-                                                .build()
-                                )
+                                .map(seller -> {
+                                    List<Feedback> feedbackList = seller.getFeedbackList();
+                                    double averageRating = feedbackList != null && !feedbackList.isEmpty()
+                                            ? feedbackList.stream().mapToDouble(Feedback::getRating).average().orElse(0.0)
+                                            : 0.0;
+
+                                    return ViewSellerTopListResponse.Seller.builder()
+                                            .id(seller.getId())
+                                            .name(seller.getUser().getName())
+                                            .avatar(seller.getUser().getAvatar())
+                                            .averageRating(averageRating)
+                                            .build();
+                                })
+                                .sorted((s1, s2) -> Double.compare(s2.getAverageRating(), s1.getAverageRating()))
+                                .limit(top)
                                 .toList()
                 )
                 .build();
@@ -882,7 +881,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .flowerList(
                         flowerRepo.findAll()
                                 .stream()
-                                .filter(flower -> flower.getName().contains(request.getKeyword()))
+                                .filter(flower -> flower.getName().toUpperCase().contains(request.getKeyword().toUpperCase()))
                                 .map(
                                         flower -> SearchFlowerResponse.Flower.builder()
                                                 .id(flower.getId())
@@ -904,7 +903,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
+    //--------------------------------------------VIEW FLOWER DETAIL---------------------------------------------//
 
     @Override
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
@@ -1721,6 +1720,95 @@ public class BuyerServiceImpl implements BuyerService {
                                         .build())
                                 .toList()
                 )
+                .build();
+    }
+
+    //---------------------------------------VIEW FEEDBACK---------------------------------------//
+
+    @Override
+    public String viewFeedback(int sellerId, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ViewFeedbackResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to view feedback")
+                    .build());
+            return "login";
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            model.addAttribute("msg", (ViewFeedbackResponse) output);
+            return "sellerInfo";
+        }
+
+        model.addAttribute("error", (Map<String, String>) output);
+        return "sellerInfo";
+    }
+
+    @Override
+    public ViewFeedbackResponse viewFeedbackAPI(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("Seller not found")
+                    .build();
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            return (ViewFeedbackResponse) output;
+        }
+
+        return ViewFeedbackResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewFeedbackLogic(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return Map.of("error", "Seller not found");
+        }
+
+        List<Feedback> feedbackList = seller.getFeedbackList();
+        if (feedbackList.isEmpty()) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("No feedback found for this seller")
+                    .build();
+        }
+
+        List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
+                .map(this::mapToFeedbackDetail)
+                .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
+                .collect(Collectors.toList());
+
+        return ViewFeedbackResponse.builder()
+                .status("200")
+                .message("Feedback found")
+                .id(seller.getId())
+                .name(seller.getUser().getName())
+                .email(seller.getUser().getAccount().getEmail())
+                .phone(seller.getUser().getPhone())
+                .avatar(seller.getUser().getAvatar())
+                .background(seller.getUser().getBackground())
+                .totalFlower(seller.getFlowerList().size())
+                .sellerRating(seller.getRating())
+                .feedbackList(feedbackDetails)
+                .build();
+    }
+
+    private ViewFeedbackResponse.FeedbackDetail mapToFeedbackDetail(Feedback feedback) {
+        return ViewFeedbackResponse.FeedbackDetail.builder()
+                .id(feedback.getId())
+                .name(feedback.getUser().getName())
+                .avatar(feedback.getUser().getAvatar())
+                .content(feedback.getContent())
+                .rating(feedback.getRating())
+                .createDate(feedback.getCreateDate().toLocalDate())
                 .build();
     }
 
