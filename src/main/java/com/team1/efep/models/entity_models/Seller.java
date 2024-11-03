@@ -21,9 +21,6 @@ public class Seller {
     @JoinColumn(name = "`user_id`")
     private User user;
 
-    @Column(name = "`plan_purchase_date`")
-    private LocalDateTime planPurchaseDate;
-
     private float rating;
 
     @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
@@ -31,7 +28,7 @@ public class Seller {
     @EqualsAndHashCode.Exclude
     private List<Flower> flowerList;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Feedback> feedbackList;
