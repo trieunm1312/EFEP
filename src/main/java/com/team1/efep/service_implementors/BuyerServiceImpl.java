@@ -828,14 +828,14 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public ViewFlowerTopListResponse viewFlowerTopListAPI(int top) {
+    public ViewSellerTopListResponse viewFlowerTopListAPI(int top) {
         return viewFlowerTopListLogic(top);
     }
 
 
-    public ViewFlowerTopListResponse viewFlowerTopListLogic(int top) {
+    public ViewSellerTopListResponse viewFlowerTopListLogic(int top) {
 
-        return ViewFlowerTopListResponse.builder()
+        return ViewSellerTopListResponse.builder()
                 .status("200")
                 .message("")
                 .flowerList(
@@ -843,13 +843,13 @@ public class BuyerServiceImpl implements BuyerService {
                                 .stream()
                                 .limit(top)
                                 .map(
-                                        flower -> ViewFlowerTopListResponse.Flower.builder()
+                                        flower -> ViewSellerTopListResponse.Flower.builder()
                                                 .id(flower.getId())
                                                 .name(flower.getName())
                                                 .price(flower.getPrice())
                                                 .images(
                                                         flower.getFlowerImageList().stream()
-                                                                .map(img -> ViewFlowerTopListResponse.Image.builder()
+                                                                .map(img -> ViewSellerTopListResponse.Image.builder()
                                                                         .link(img.getLink())
                                                                         .build())
                                                                 .toList()

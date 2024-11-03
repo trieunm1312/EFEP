@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewFlowerTopListRequest {
+public class ViewSellerTopListRequest {
     private int top;
 }

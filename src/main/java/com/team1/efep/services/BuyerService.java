@@ -42,9 +42,9 @@ public interface BuyerService {
 
     ViewOrderHistoryResponse viewOrderHistoryAPI(int accountId);
 
-    void viewFlowerTopList(int top, Model model);
+    void viewSellerTopList(int top, Model model);
 
-    ViewFlowerTopListResponse viewFlowerTopListAPI(int top);
+    ViewSellerTopListResponse viewFlowerTopListAPI(int top);
 
     String searchFlower(SearchFlowerRequest request, Model model);
 

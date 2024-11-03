@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewFlowerTopListResponse {
+public class ViewSellerTopListResponse {
     private String status;
     private String message;
     private List<Flower> flowerList;
