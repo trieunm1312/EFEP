@@ -57,153 +57,145 @@
                 <!-- Seller Information -->
                 <div class="seller">
                     <div class="seller__item">
-                        <div class="seller__img">
-                            <img th:src="${msg.flower.seller.avatar == null || msg.flower.seller.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.flower.seller.avatar}" alt="Avatar">                        </div>
+                        <div class="seller__avartar">
+                            <img src="/src/main/resources/static/img/Screenshot 2023-12-13 224847.png" alt="">
+                            <span class="seller__name">Ác wỷ 666</span>
+                        </div>
                         <div class="seller__info">
-                            <span class="seller__name" th:text="${msg.flower.seller.name}" ></span>
-                            <span class="seller__email" th:text="${msg.flower.seller.email}" ></span>
-                            <span class="seller__phone" th:text="${msg.flower.seller.phone}" ></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Feedback -->
-                <div class="product-feedback">
-                    <h2 class="product-feedback__heading">Product Feedback</h2>
-                    <div class="product-feedback__list">
-                        <div class="product-feedback__item">
-                            <div class="product-feedback__content">
-                                <div class="user__avatar">
-                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
-                                </div>
-                                <div class="user__info">
-                                    <span class="user__name">SayGexzzz</span>
-                                    <br>
-                                    <div class="user__rating unfill">
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <div class="user__rating filled">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-feedback__body">
-                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
-                            </div>
-                        </div>
-                        <div class="product-feedback__item">
-                            <div class="product-feedback__content">
-                                <div class="user__avatar">
-                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
-                                </div>
-                                <div class="user__info">
-                                    <span class="user__name">SayGexzzz</span>
-                                    <br>
-                                    <div class="user__rating unfill">
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <div class="user__rating filled">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-feedback__body">
-                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
-                            </div>
-                        </div>
-                        <div class="product-feedback__item">
-                            <div class="product-feedback__content">
-                                <div class="user__avatar">
-                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
-                                </div>
-                                <div class="user__info">
-                                    <span class="user__name">SayGexzzz</span>
-                                    <br>
-                                    <div class="user__rating unfill">
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <div class="user__rating filled">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-feedback__body">
-                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Top sale Product -->
-                <div class="top-category">
-                    <h2 class="top-category__title">Top Sale Flowers<br>
-                        <img src="/img/title-flower.png" alt="">
-                    </h2>
-                    <div class="top-category__list">
-                        <div th:each="item : ${msg2.flowerList}" class="top-category__item">
-                            <div class="top-category__img">
-                                <img th:src="@{${item.images[0].link}}" alt="Flower Image">
-                                <div class="overlay">
-                                    <form th:action="@{/buyer/wishlist}" method="post">
-                                        <div th:if="${session.acc != null}">
-                                            <input type="hidden" name="quantity" value="1">
-                                            <input type="hidden" name="flowerId" th:value="${item.id}">
-                                            <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                            <div class="seller__rating seller__info-detail">
+                                <i class="fa-solid fa-award"></i>
+                                <span>Rating: </span>
+                                <span>
+                                        <div class="user__rating unfill">
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
                                         </div>
-                                        <button class="add-to-wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span class="add-to-wishlist__msg">Add To Wishlist</span>
-                                        </button>
-                                    </form>
-
-                                    <form th:action="@{/buyer/flower/detail}" method="get">
-                                        <button class="view-detail">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span class="view-detail__msg">View detail</span>
-                                            <input type="hidden" name="id" th:value="${item.id}">
-                                        </button>
-                                    </form>
-                                </div>
+                                        <div class="user__rating filled">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </span>
                             </div>
-                            <form th:action="@{/buyer/flower/detail}" class="form" method="post">
-                                <input type="submit" name="action" th:value="${item.name}" class="top-category__name">
-                                </input>
-                                <input type="hidden" name="id" th:value="${item.id}">
-                            </form>
-                            <div class="top-category__content">
-                            <span>
-                                $
-                                <span th:text="${item.price}"></span>
-                            </span>
-                                <span th:text="${'Sold: ' + item.soldQuanity}">Sold: 1000</span>
+                            <div class="seller__product seller__info-detail">
+                                <i class="fa-solid fa-store"></i>
+                                <span>Products: </span>
+                                <span class="seller_data">16</span>
+                            </div>
+                            <div class="seller__email seller__info-detail">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span>Email: </span>
+                                <span class="seller_data">acwy666@gmail.com</span>
+                            </div>
+                            <div class="seller__phone seller__info-detail">
+                                <i class="fa-solid fa-phone"></i>
+                                <span>Phone: </span>
+                                <span class="seller_data">666666</span>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+                <!-- Seller Feedback -->
+                <div class="seller-feedback">
+                    <h2 class="seller-feedback__heading">Seller Feedback</h2>
+                    <div class="seller-feedback__list">
+                        <div class="seller-feedback__item">
+                            <div class="seller-feedback__content">
+                                <div class="user__avatar">
+                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
+                                </div>
+                                <div class="user__info">
+                                    <span class="user__name">SayGexzzz</span>
+                                    <br>
+                                    <div class="user__rating unfill">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                    </div>
+                                    <div class="user__rating filled">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="seller-feedback__body">
+                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
+                            </div>
+                        </div>
+                        <div class="seller-feedback__item">
+                            <div class="seller-feedback__content">
+                                <div class="user__avatar">
+                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
+                                </div>
+                                <div class="user__info">
+                                    <span class="user__name">SayGexzzz</span>
+                                    <br>
+                                    <div class="user__rating unfill">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                    </div>
+                                    <div class="user__rating filled">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="seller-feedback__body">
+                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
+                            </div>
+                        </div>
+                        <div class="seller-feedback__item">
+                            <div class="seller-feedback__content">
+                                <div class="user__avatar">
+                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
+                                </div>
+                                <div class="user__info">
+                                    <span class="user__name">SayGexzzz</span>
+                                    <br>
+                                    <div class="user__rating unfill">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                    </div>
+                                    <div class="user__rating filled">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="seller-feedback__body">
+                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Related Product -->
+
             </div>
         </div>
     </div>
