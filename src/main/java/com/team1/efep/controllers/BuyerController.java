@@ -258,8 +258,8 @@ public class BuyerController {
 
     //mac dinh chay song song vs home page ==> ko can controller cho Thymeleaf
     @PostMapping("/flower/top/list/api")
-    public ViewFlowerTopListResponse viewFlowerTopList(@RequestBody ViewFlowerTopListRequest request) {
-        return buyerService.viewFlowerTopListAPI(request.getTop());
+    public ViewSellerTopListResponse viewSellerTopList(@RequestBody ViewSellerTopListRequest request) {
+        return buyerService.viewSellerTopListAPI(request.getTop());
     }
 
     @PostMapping("/flower/search")

@@ -92,6 +92,7 @@
 }
 
 .table-item-detail {
+    width: 130px;
     text-align: center;
     font-size: 1.4rem;
     font-weight: bold;
@@ -99,7 +100,7 @@
 
 .table-item-img {
     display: inline-block;
-    width: 100px;
+    width: 96px;
     height: 104px;
 
 }
@@ -114,6 +115,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.description {
+    width: fit-content;
+    text-align: justify;
+    padding: 10px;
 }
 
 .input-quantity {
@@ -241,6 +248,7 @@
 .shopping-wishlist-empty {
     text-align: center;
     margin-top: 55px;
+    margin-left: 60px;
 }
 
 .empty-msg {
@@ -250,7 +258,7 @@
 .wishlist-show {
     display: grid;
     /* flex-flow: row wrap; */
-    grid-template-columns: 1fr 0.5fr;
+    grid-template-columns: 1fr 0.25fr;
     gap: 10px; /* Khoảng cách giữa các cột */
 }
 
@@ -261,6 +269,7 @@
 
 .total__wishlist-header {
     font-weight: 600;
+    margin-bottom: 0px;
 }
 
 .total__wishlist-detail-title {
@@ -276,7 +285,7 @@
 
 .line {
     color: rgba(0, 0, 0, 0.4);
-
+    margin-top: 6px;
 }
 
 table {

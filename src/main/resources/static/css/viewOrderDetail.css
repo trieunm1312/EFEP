@@ -108,12 +108,12 @@ table {
 }
 
 .cate-item {
-    color: #5C4033;
     font-weight: 600;
-    font-size: 14px;
-    background-color: antiquewhite;
+    font-size: 1.3rem;
     padding: 4px 6px;
     border-radius: 20px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
 }
 
 .table-order-info-price {
