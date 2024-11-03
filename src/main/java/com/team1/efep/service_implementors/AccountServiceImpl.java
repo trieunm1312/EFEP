@@ -119,7 +119,7 @@ public class AccountServiceImpl implements AccountService {
                 case "ADMIN":
                     return "redirect:/admin/dashboard";
                 default:
-                    HomepageConfig.config(model, buyerService);
+//                    HomepageConfig.config(model, buyerService);
                     return "redirect:/";
             }
         }
