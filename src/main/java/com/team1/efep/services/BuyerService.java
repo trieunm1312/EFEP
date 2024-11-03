@@ -114,8 +114,6 @@ public interface BuyerService {
 
     String viewNotification(HttpSession session, Model model);
 
-    ViewNotificationResponse viewNotificationAPI(int accountId);
-
     String viewFeedback(int sellerId, Model model, HttpSession session);
 
     ViewFeedbackResponse viewFeedbackAPI(int sellerId);

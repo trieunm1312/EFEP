@@ -181,27 +181,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-
         Account account = Role.getCurrentLoggedAccount(session);
-
         assert account != null;
-
         ViewProfileRequest profileRequest = ViewProfileRequest.builder().id(account.getUser().getId()).build();
         ViewProfileResponse response = viewProfileLogic(profileRequest);
         session.setAttribute("acc", account);
         redirectAttributes.addFlashAttribute("msg", response);
         switch (account.getRole().toUpperCase()) {
-
             case "SELLER":
                 return "redirect:/seller/profile";
-
             case "BUYER":
                 return "redirect:/myAccount";
-
         }
-
         return "redirect:/";
-
     }
 
     @Override
@@ -214,6 +206,33 @@ public class AccountServiceImpl implements AccountService {
     private ViewProfileResponse viewProfileLogic(ViewProfileRequest request) {
             User user = userRepo.findById(request.getId()).orElse(null);
             assert user != null;
+            if (user.getAccount().getRole().equals(Role.SELLER)) {
+                return ViewProfileResponse.builder()
+                        .status("200")
+                        .message("View profile successfully")
+                        .id(user.getId())
+                        .name(user.getName())
+                        .phone(user.getPhone())
+                        .email(user.getAccount().getEmail())
+                        .avatar(user.getAvatar())
+                        .background(user.getBackground())
+                        .totalFlower(user.getSeller().getFlowerList().size())
+                        .sellerRating(user.getSeller().getRating())
+                        .feedbackList(
+                                user.getSeller().getFeedbackList().stream()
+                                        .map(feedback -> ViewProfileResponse.FeedbackDetail.builder()
+                                                .id(feedback.getId())
+                                                .name(feedback.getUser().getName())
+                                                .avatar(feedback.getUser().getAvatar())
+                                                .content(feedback.getContent())
+                                                .rating(feedback.getRating())
+                                                .createDate(feedback.getCreateDate().toLocalDate())
+                                                .build()
+                                        )
+                                        .toList()
+                        )
+                        .build();
+            }
             return ViewProfileResponse.builder()
                     .status("200")
                     .message("View profile successfully")
@@ -232,19 +251,15 @@ public class AccountServiceImpl implements AccountService {
     public String updateProfile(UpdateProfileRequest request, HttpSession session, RedirectAttributes redirectAttributes) {
         Object output = updateProfileLogic(request);
         Account account = accountRepo.findById(request.getId()).orElse(null);
-
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
             session.setAttribute("acc", account);
             redirectAttributes.addFlashAttribute("msg",(UpdateProfileResponse) output);
             switch (account.getRole().toUpperCase()) {
                 case "SELLER":
-
                     return "redirect:/seller/profile";
-
                 case "BUYER":
                     System.out.println(account.getUser().getWishlist().getWishlistItemList().size());
                     return "redirect:/myAccount";
-
             }
         }
         redirectAttributes.addFlashAttribute("error", output);
