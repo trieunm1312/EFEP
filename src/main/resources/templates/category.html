@@ -141,31 +141,11 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="flower__heading">
                                     <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
                                         <input type="submit" name="action" th:value="${item.name}" class="flower__name">
                                         </input>
                                         <input type="hidden" name="id" th:value="${item.id}">
                                     </form>
-                                    <div class="flower-rating">
-                                        <div class="flower-rating__star">
-                                            <div class="filled">
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </div>
-                                            <div class="unfill">
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="flower__content">
                                     <span th:text="${'$' + item.price}"></span>
@@ -184,24 +164,7 @@
                                         </input>
                                         <input type="hidden" name="id" th:value="${item.id}">
                                     </form>
-                                    <div class="flower-list__rating">
-                                        <div class="flower-rating__star">
-                                            <div class="filled">
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                            </div>
-                                            <div class="unfill">
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <p class="flower-list__desc" th:text="${item.description}" ></p>
                                     <div class="flower-list__content">
                                         <span th:text="${'$' + item.price}"></span>

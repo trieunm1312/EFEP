@@ -122,22 +122,6 @@
     font-weight: 600;
 }
 
-.flower-rating{
-    width: 100%;
-    display: flex;
-    justify-content: start;
-    gap: 8px;
-}
-
-.flower-rating__average{
-    font-size: 1.8rem;
-    text-decoration: underline;
-}
-
-.flower-rating__star{
-    color: #fec60f;
-}
-
 .flower-information__price{
     font-weight: 600;
     color: var(--primary-color);
@@ -333,67 +317,6 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 1.6rem;
     font-weight: 500;
 }
-
-.product-feedback{
-    width: 100%;
-    margin-left: 100px;
-    margin-top: 54px;
-}
-
-
-.product-feedback__heading{
-    display: block;
-    font-weight: 600;
-    background-color: var(--primary-color);
-    color: var(--white-color);
-    width: 100%;
-    padding: 24px 0;
-    text-align: center;
-}
-
-.product-feedback__list{
-    width: 100%;
-    height: fit-content;
-    background-color: #fffbf8;
-    border: 1px solid #f9ede5
-}
-
-.product-feedback__item{
-    width: 95%;
-    margin: 2%;
-    border-bottom: 1px solid rgba(0, 0, 0, .09);
-}
-
-.product-feedback__content{
-    width: 60%;
-    display: flex;
-    justify-content: start;
-    gap: 24px;
-    vertical-align: top;
-}
-
-.user__avatar img{
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 32px;
-}
-
-.user__name{
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--text-color);
-}
-
-.user__rating{
-    color: #fec60f;
-}
-
-.product-feedback__body{
-    font-size: 1.4rem;
-    margin-bottom: 24px;
-}
-
 
 /* Top Category */
 .top-category{
