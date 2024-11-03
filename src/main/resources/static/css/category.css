@@ -297,6 +297,7 @@
     display: block;
 }
 
+
 .flower__name{
     color: var(--text-color);
     text-align: start;
@@ -305,6 +306,8 @@
     background-color: transparent;
     border: none;
 }
+
+
 
 
 .flower__name:hover{
@@ -355,6 +358,8 @@
 .flower-list__name:hover{
     color: var(--primary-color);
 }
+
+
 
 .flower-list__content span{
     display: inline-block;

@@ -572,7 +572,6 @@ public class BuyerServiceImpl implements BuyerService {
         // if find -> print size of flower
         return ViewFlowerListResponse.builder()
                 .status("200")
-                .message("Number of flowers: " + flowers.size())
                 .keyword("")
                 .flowerList(viewFlowerList(flowers))
                 .build();
