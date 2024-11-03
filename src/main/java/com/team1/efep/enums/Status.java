@@ -38,10 +38,10 @@ public class Status {
         orderRepo.save(order);
     }
 
-    public static void changePurchasedPlanStatus(PurchasedPlan purchasedPlan, String status, PurchasedPlanRepo purchasedPlanRepo) {
-        purchasedPlan.setStatus(status);
-        purchasedPlanRepo.save(purchasedPlan);
-    }
+//    public static void changePurchasedPlanStatus(PurchasedPlan purchasedPlan, String status, PurchasedPlanRepo purchasedPlanRepo) {
+//        purchasedPlan.setStatus(status);
+//        purchasedPlanRepo.save(purchasedPlan);
+//    }
 
     public static void changeFlowerStatus(Flower flower, String status, FlowerRepo flowerRepo) {
         flower.setStatus(status);

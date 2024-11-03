@@ -32,6 +32,9 @@ public class Flower {
     @Column(name = "`flower_amount`")
     private int flowerAmount;
 
+    @Column(name = "`withering_time`")
+    private int witheringTime;
+
     private int quantity;
 
     @Column(name = "`sold_quantity`")
