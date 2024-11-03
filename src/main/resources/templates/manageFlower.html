@@ -309,9 +309,10 @@
                                                                     </div>
                                                                     <h4 class="cate-title">Categories</h4>
                                                                     <div class="categories">
-                                                                        <label th:each="cate : ${msg.categories}"><input type="checkbox" name="category" th:value="${cate.id}"
+                                                                        <div th:each="cate : ${msg.categoryList}">
+                                                                        <label ><input type="checkbox" name="category" th:value="${cate.id}"
                                                                                                                          th:text="${cate.name}"> Wedding</label>
-
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -319,7 +320,7 @@
                                                             <!-- Buttons at the bottom -->
                                                             <div class="popup-buttons">
                                                                 <button onclick="closePopup()">Cancel</button>
-                                                                <button>Save</button>
+                                                                <button onclick="saveData()">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -368,6 +369,72 @@
                                         <input type="submit" class="save-btn" name="action" value="Create">
                                     </td>
                                 </tr>
+                                <!-- Popup modal -->
+                                <div id="createPopup" class="popup">
+                                    <div class="popup-content">
+                                        <span class="close" onclick="closePopup()">&times;</span>
+
+                                        <div class="popup-form">
+                                            <!-- Left half for input fields -->
+                                            <div class="left-section">
+                                                <h3>Create Flower Information</h3>
+                                                <label for="name">Name:</label>
+                                                <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name">
+
+                                                <label for="description">Description:</label>
+                                                <textarea name="description" th:text="${description}" placeholder="Enter your description about flower"></textarea>
+
+                                                <label for="flowerAmount">Flower Amount:</label>
+                                                <input name="flowerAmount"
+                                                       th:value="${flowerAmount}" pattern="\d*" title="Please enter a valid number" placeholder="Enter flower amount">
+
+                                                <label for="quantity">Quantity:</label>
+                                                <input name="quantity" th:value="${quantity}"
+                                                       pattern="\d*" title="Please enter a valid number" placeholder="Enter quantity">
+
+                                                <label for="price">Price:</label>
+                                                <input step="0.01" name="price" th:value="${price}"
+                                                       pattern="\d*" title="Please enter a valid number" placeholder="Enter price">
+                                            </div>
+
+                                            <!-- Right half for image upload and categories -->
+                                            <div class="right-section">
+                                                <h4 class="image-title">Upload Image</h4>
+                                                <input type="file" id="imageUpload1" name="imageUpload" onchange="uploadImage()" multiple style="display: none;">
+                                                <div id="imagePreviewContainer1">
+                                                    <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
+                                                    <img id="previewImage2" src="#" alt="Image Preview 2"/>
+                                                    <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
+                                                    <div class="image-preview1" onclick="selectSlot(1)">
+                                                        <img id="previewImage11" src="#" alt="Image Preview 1" style="display: none;" />
+                                                        <button class="remove-button" onclick="removeImage(1, event)">&times;</button>
+                                                    </div>
+                                                    <div class="image-preview" onclick="selectSlot(2)">
+                                                        <img id="previewImage21" src="#" alt="Image Preview 2" style="display: none;" />
+                                                        <button class="remove-button" onclick="removeImage(2, event)">&times;</button>
+                                                    </div>
+                                                    <div class="image-preview" onclick="selectSlot(3)">
+                                                        <img id="previewImage31" src="#" alt="Image Preview 3" style="display: none;" />
+                                                        <button class="remove-button" onclick="removeImage(3, event)">&times;</button>
+                                                    </div>
+                                                </div>
+                                                <h4 class="cate-title">Categories</h4>
+                                                <div class="categories">
+                                                    <div th:each="cate : ${msg.categoryList}">
+                                                        <label ><input type="checkbox" name="category" th:value="${cate.id}"
+                                                                       th:text="${cate.name}"> Wedding</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Buttons at the bottom -->
+                                        <div class="popup-buttons">
+                                            <button onclick="closePopup()">Cancel</button>
+                                            <button class="save-btn" name="action" onclick="saveData()">Create</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
 
                         </tbody>
