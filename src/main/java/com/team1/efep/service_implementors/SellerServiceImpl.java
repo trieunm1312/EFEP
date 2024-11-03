@@ -972,14 +972,17 @@ public class SellerServiceImpl implements SellerService {
             return Map.of("error", "Flower not found");
         }
 
-        List<String> categories = flower.getFlowerCategoryList().stream()
-                .map(flowerCategory -> flowerCategory.getCategory().getName())
+        List<ViewFlowerCategoryResponse.CategoryDetail> categories = flower.getFlowerCategoryList().stream()
+                .map(flowerCategory -> ViewFlowerCategoryResponse.CategoryDetail.builder()
+                        .id(flowerCategory.getCategory().getId())
+                        .name(flowerCategory.getCategory().getName())
+                        .build())
                 .collect(Collectors.toList());
 
         return ViewFlowerCategoryResponse.builder()
                 .status("200")
                 .message("Flower categories retrieved successfully")
-                .categories(categories)
+                .categoryList(categories)
                 .build();
     }
 
