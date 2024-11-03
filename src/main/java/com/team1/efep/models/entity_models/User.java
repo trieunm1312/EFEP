@@ -45,5 +45,9 @@ public class User {
     @EqualsAndHashCode.Exclude
     private Wishlist wishlist;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Feedback> feedbackList;
 
 }

@@ -51,220 +51,6 @@
     margin-right: 10px;
 }
 
-/* Flower Information */
-
-
-  .flower-information {
-    margin: 50px 0 50px 100px;
-    display: flex; 
-    width: 120%;
-}
-
-.flower-information__img {
-    width: 40%;
-    margin-right: 36px; 
-}
-
-.flower-information__img-main-screen {
-    width: 100%;
-    text-align: center; 
-}
-
-.flower-information__img-main-screen img {
-    width: 100%; 
-    height: auto; 
-}
-
-.flower-information__content {
-    width: 40%; 
-}
-
-.flower-information__img-list {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-top: 16px;
-}
-
-.flower-information__img-item {
-    margin-right: 12px;
-    cursor: pointer;
-}
-
-.pink-border {
-    border: 4px solid var(--primary-color);
-}
-
-/* Adjust the image size in the Swiper */
-.flower-information__img-list img {
-    width: 100px; /* Adjust the size of images in Swiper */
-    height: auto;
-}
-
-
-/*Flower information*/
-.flower-information__content {
-    display: flex;
-    flex-direction: column; 
-}
-
-.flower-information__content hr{
-    margin: 16px 0;
-    border: 0;  
-    height: 1px;
-    background-color: #999;
-    opacity: 0.5; 
-    width: 600px;
-}
-
-.flower-information__name {
-    width: 300px;
-    font-weight: 600;
-}
-
-.flower-information__price{
-    font-weight: 600;
-    color: var(--primary-color);
-}
-
-.flower-information__short-desc span {
-    display: flex;
-    margin-top: 16px;
-}
-
-
-
-.flower-information__short-desc p{
-    margin-left: 8px;
-    color: #666;
-    opacity: 0.9;
-}
-
-.flower-information__short-desc span:first-child{
-    margin-top: 0;
-}
-
-.flower-information__category button{
-    border: none;
-    background-color: transparent;
-    vertical-align: top;
-}
-
-
-.flower-information__category button p{
-    color: var(--white-color);
-    background-color: var(--primary-color);
-    padding: 4px 12px;
-    border-radius: 16px;
-}
-
-/* Buy Quantity */
-/* Adjusted Buy Quantity */
-.value-button {
-    display: inline-block;
-    border: 1px solid #ddd;
-    margin: 0;
-    width: 40px;
-    height: 40px; 
-    text-align: center;
-    vertical-align: middle;
-    line-height: 3.8rem; 
-    background: #eee;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.value-button:hover {
-    cursor: pointer;
-}
-
-#decrease {
-    margin-bottom: 3px;
-    padding-right: 1px;
-    margin-right: -4px;
-    border-radius: 8px 0 0 8px;
-    background-color: var(--primary-color);
-    color: var(--white-color);
-}
-
-#increase {
-    margin-bottom: 3px;
-    margin-left: -4px;
-    padding-left: 1px;
-    padding-top: 1.5px;
-    border-radius: 0 8px 8px 0;
-    background-color: var(--primary-color);
-    color: var(--white-color);
-}
-
-input#number {
-    text-align: center;
-    border: 1px solid #ddd; 
-    margin: 0;
-    width: 100px; 
-    height: 40px; 
-    font-size: 1.6rem; 
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.flower-information__quantity {
-    width: 80%;
-    margin: 8px 0 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-}
-
-.flower-information__quantity h4 {
-    margin-right: 16px; 
-}
-
-.flower-information__quantity span{
-    color: #666;
-    opacity: 0.7;
-}
-
-.flower-information__quantity-separate{
-    padding: 0 2px;
-}
-
-.flower-information__button{
-    width: 70%;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.btn{
-    border-radius: 4px;
-    font-size: 1.8rem;
-    padding: 12px;
-}
-
-.btn:hover{
-    opacity: 0.8;
-}
-
-.flower-information__wishlist-btn{
-    background-color: rgba(255, 86, 141, 0.2);
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-}
-
-.flower-information__wishlist-btn:hover{
-    color: var(--primary-color);
-}
-
-
-
 .seller {
     margin: 32px 0 32px 100px;
 }
@@ -317,6 +103,67 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 1.6rem;
     font-weight: 500;
 }
+
+.product-feedback{
+    width: 100%;
+    margin-left: 100px;
+    margin-top: 54px;
+}
+
+
+.product-feedback__heading{
+    display: block;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 100%;
+    padding: 24px 0;
+    text-align: center;
+}
+
+.product-feedback__list{
+    width: 100%;
+    height: fit-content;
+    background-color: #fffbf8;
+    border: 1px solid #f9ede5
+}
+
+.product-feedback__item{
+    width: 95%;
+    margin: 2%;
+    border-bottom: 1px solid rgba(0, 0, 0, .09);
+}
+
+.product-feedback__content{
+    width: 60%;
+    display: flex;
+    justify-content: start;
+    gap: 24px;
+    vertical-align: top;
+}
+
+.user__avatar img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 32px;
+}
+
+.user__name{
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.user__rating{
+    color: #fec60f;
+}
+
+.product-feedback__body{
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+}
+
 
 /* Top Category */
 .top-category{

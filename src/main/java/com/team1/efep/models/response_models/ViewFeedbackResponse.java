@@ -8,34 +8,30 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class UpdateBusinessPlanResponse {
+public class ViewFeedbackResponse {
 
     private String status;
 
     private String message;
 
-    private String name;
-
-    private String description;
-
-    private float price;
-
-    private int duration;
-
-    private List<BusinessService> businessServiceList;
+    private List<FeedbackDetail> feedbackList;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class BusinessService{
+    public static class FeedbackDetail {
 
-        private int id;
+        private Integer id;
 
-        private String name;
+        private String userName;
 
+        private String content;
+
+        private int rating;
     }
+
 }
