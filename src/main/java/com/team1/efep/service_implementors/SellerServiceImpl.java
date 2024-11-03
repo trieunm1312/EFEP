@@ -340,6 +340,7 @@ public class SellerServiceImpl implements SellerService {
                         .quantity(item.getQuantity())
                         .soldQuantity(item.getSoldQuantity())
                         .status(item.getStatus())
+                        .categoryList(viewCategoryList(item.getFlowerCategoryList()))
                         .build())
                 .toList();
 
@@ -349,6 +350,15 @@ public class SellerServiceImpl implements SellerService {
         return imageList.stream()
                 .map(img -> ViewFlowerListForSellerResponse.Image.builder()
                         .link(img.getLink())
+                        .build())
+                .toList();
+    }
+
+    private List<ViewFlowerListForSellerResponse.CategoryDetail> viewCategoryList(List<FlowerCategory> categoryList) {
+        return categoryList.stream()
+                .map(cat -> ViewFlowerListForSellerResponse.CategoryDetail.builder()
+                        .id(cat.getCategory().getId())
+                        .name(cat.getCategory().getName())
                         .build())
                 .toList();
     }
@@ -734,6 +744,18 @@ public class SellerServiceImpl implements SellerService {
         if (request.getQuantity() == 0) {
             flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
         }
+
+        List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
+        flowerCategoryRepo.deleteAll(existingCategories);
+
+        List<FlowerCategory> newCategories = request.getCategoryIdList().stream()
+                .map(categoryId -> FlowerCategory.builder()
+                        .flower(flower)
+                        .category(categoryRepo.findById(categoryId).orElse(null))
+                        .build())
+                .collect(Collectors.toList());
+
+        flowerCategoryRepo.saveAll(newCategories);
 
         flowerRepo.save(flower);
         return UpdateFlowerResponse.builder()

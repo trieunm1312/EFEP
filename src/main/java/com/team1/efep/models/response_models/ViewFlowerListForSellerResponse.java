@@ -42,6 +42,8 @@ public class ViewFlowerListForSellerResponse {
         private int soldQuantity;
 
         private List<Image> imageList;
+
+        private List<CategoryDetail> categoryList;
     }
 
     @Data
@@ -51,6 +53,17 @@ public class ViewFlowerListForSellerResponse {
     public static class Image {
 
         private String link;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class CategoryDetail {
+
+        private int id;
+
+        private String name;
     }
 
 }
