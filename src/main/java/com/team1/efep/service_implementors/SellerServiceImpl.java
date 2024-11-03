@@ -324,9 +324,18 @@ public class SellerServiceImpl implements SellerService {
         List<Flower> flowers = flowerRepo.findAllBySeller_Id(sellerId);
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
+                .allCategory(
+                        categoryRepo.findAll().stream()
+                                .map(cat -> ViewFlowerListForSellerResponse.AllCategoryDetail.builder()
+                                        .id(cat.getId())
+                                        .name(cat.getName())
+                                        .build())
+                                .toList()
+                )
                 .flowerList(viewFlowerList(flowers))
                 .build();
     }
+
 
     private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
 
@@ -341,7 +350,10 @@ public class SellerServiceImpl implements SellerService {
                         .quantity(item.getQuantity())
                         .soldQuantity(item.getSoldQuantity())
                         .status(item.getStatus())
-                        .categoryList(viewCategoryList(flowerCategoryRepo.findAll()))
+                        .categoryList(viewCategoryList(item.getFlowerCategoryList()))
+                        .categoryIdList(item.getFlowerCategoryList().stream()
+                                .map(cat -> cat.getCategory().getId())
+                                .toList())
                         .build())
                 .toList();
 
