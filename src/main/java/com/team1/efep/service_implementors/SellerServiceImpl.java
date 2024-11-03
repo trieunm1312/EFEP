@@ -44,8 +44,6 @@ public class SellerServiceImpl implements SellerService {
 
     private final OrderDetailRepo orderDetailRepo;
 
-    private final PurchasedPlanRepo purchasedPlanRepo;
-
     private final BusinessPlanRepo businessPlanRepo;
 
     private final BusinessServiceRepo businessServiceRepo;
@@ -904,25 +902,25 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        assert account != null;
-        Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
-            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
-            model.addAttribute("msg", (VNPayResponse) output);
-            return ((VNPayResponse) output).getPaymentURL();
-        }
-        model.addAttribute("error", (Map<String, String>) output);
+//        Account account = Role.getCurrentLoggedAccount(session);
+//        assert account != null;
+//        Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+//            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+//            model.addAttribute("msg", (VNPayResponse) output);
+//            return ((VNPayResponse) output).getPaymentURL();
+//        }
+//        model.addAttribute("error", (Map<String, String>) output);
         return "paymentFailed";
     }
 
     @Override
     public VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
-
-        Object output = getPaymentResultLogic(params, accountId, httpServletRequest);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
-            return (VNPayResponse) output;
-        }
+//
+//        Object output = getPaymentResultLogic(params, accountId, httpServletRequest);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
+//            return (VNPayResponse) output;
+//        }
         return VNPayResponse.builder()
                 .status("400")
                 .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
@@ -930,23 +928,23 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
-        User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
-        Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
-        if (!error.isEmpty()) {
-            return error;
-        }
-        String transactionStatus = params.get("vnp_TransactionStatus");
-        if ("00".equals(transactionStatus)) {
-            String orderInfo = params.get("vnp_OrderInfo");
-            int busPlanId = Integer.parseInt(extractBusPlanId(orderInfo));
-            BusinessPlan businessPlan = businessPlanRepo.findById(busPlanId).orElse(null);
-            savePurchasedPlan(params, user, businessPlan);
-            return VNPayResponse.builder()
-                    .status("200")
-                    .message("Your payment is successfully")
-                    .paymentURL("/viewOrderSummary")
-                    .build();
-        }
+//        User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
+//        Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
+//        if (!error.isEmpty()) {
+//            return error;
+//        }
+//        String transactionStatus = params.get("vnp_TransactionStatus");
+//        if ("00".equals(transactionStatus)) {
+//            String orderInfo = params.get("vnp_OrderInfo");
+//            int busPlanId = Integer.parseInt(extractBusPlanId(orderInfo));
+//            BusinessPlan businessPlan = businessPlanRepo.findById(busPlanId).orElse(null);
+//            savePurchasedPlan(params, user, businessPlan);
+//            return VNPayResponse.builder()
+//                    .status("200")
+//                    .message("Your payment is successfully")
+//                    .paymentURL("/viewOrderSummary")
+//                    .build();
+//        }
         return VNPayResponse.builder()
                 .status("400")
                 .message("Your payment is failed")
@@ -955,29 +953,29 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private void savePurchasedPlan(Map<String, String> params, User user, BusinessPlan businessPlan) {
-
-        float vnpAmount = Float.parseFloat(params.get("vnp_Amount"));
-
-        Seller seller = user.getSeller();
-        seller.setBusinessPlan(businessPlan);
-        seller.setPlanPurchaseDate(LocalDateTime.now());
-        sellerRepo.save(seller);
-
-        purchasedPlanRepo.save(PurchasedPlan.builder()
-                .seller(user.getSeller())
-                .status(Status.ORDER_STATUS_PROCESSING)
-                .name(businessPlan.getName())
-                .status(Status.PURCHASED_PLAN_STATUS_PURCHASED)
-                .paymentMethod(paymentMethodRepo.findById(1).orElse(null))
-                .purchasedDate(LocalDateTime.now())
-                .price(vnpAmount / 100)
-                .build());
+//
+//        float vnpAmount = Float.parseFloat(params.get("vnp_Amount"));
+//
+//        Seller seller = user.getSeller();
+//        seller.setBusinessPlan(businessPlan);
+//        seller.setPlanPurchaseDate(LocalDateTime.now());
+//        sellerRepo.save(seller);
+//
+//        purchasedPlanRepo.save(PurchasedPlan.builder()
+//                .seller(user.getSeller())
+//                .status(Status.ORDER_STATUS_PROCESSING)
+//                .name(businessPlan.getName())
+//                .status(Status.PURCHASED_PLAN_STATUS_PURCHASED)
+//                .paymentMethod(paymentMethodRepo.findById(1).orElse(null))
+//                .purchasedDate(LocalDateTime.now())
+//                .price(vnpAmount / 100)
+//                .build());
     }
 
     private String extractBusPlanId(String orderInfo) {
-        if (orderInfo != null && orderInfo.contains("Business Plan ID: ")) {
-            return orderInfo.split("Business Plan ID: ")[1];
-        }
+//        if (orderInfo != null && orderInfo.contains("Business Plan ID: ")) {
+//            return orderInfo.split("Business Plan ID: ")[1];
+//        }
         return null;
     }
 

@@ -308,5 +308,16 @@ public class BuyerController {
         return buyerService.filterCategoryAPI(request);
     }
 
+    //---------------FEEDBACK----------------//
+
+
+    //---------------NOTIFICCATION----------------//
+
+    @GetMapping("/notification")
+    @Operation(hidden = true)
+    public String viewNotification(HttpSession session, Model model) {
+        AllPage.allConfig(model, buyerService);
+        return buyerService.viewNotification(session, model);
+    }
 
 }

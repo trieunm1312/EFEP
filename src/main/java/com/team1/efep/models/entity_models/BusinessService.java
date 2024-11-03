@@ -23,9 +23,4 @@ public class BusinessService {
 
     private float price;
 
-    @OneToMany(mappedBy = "businessService")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private List<PlanService> planServiceList;
-
 }

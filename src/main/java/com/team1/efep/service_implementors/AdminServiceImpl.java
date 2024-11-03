@@ -39,8 +39,6 @@ public class AdminServiceImpl implements AdminService {
 
     private final BusinessPlanRepo businessPlanRepo;
 
-    private final PlanServiceRepo planServiceRepo;
-
     private final AccountRepo accountRepo;
 
     private final UserRepo userRepo;
@@ -53,7 +51,6 @@ public class AdminServiceImpl implements AdminService {
 
     private final FlowerRepo flowerRepo;
 
-    private final PurchasedPlanRepo purchasedPlanRepo;
 
     //-------------------------------------VIEW BUSINESS PLAN----------------------------//
     @Override
@@ -68,207 +65,211 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private ViewBusinessPlanResponse viewBusinessPlanLogic() {
-        return ViewBusinessPlanResponse.builder()
-                .status("200")
-                .message("")
-                .serviceList(
-                        businessServiceRepo.findAll()
-                                .stream()
-                                .map(
-                                        service -> ViewBusinessPlanResponse.BusinessService.builder()
-                                                .id(service.getId())
-                                                .name(service.getName())
-                                                .description(service.getDescription())
-                                                .price(service.getPrice())
-                                                .build()
-                                )
-                                .toList()
-                )
-                .businessPlanList(
-                        businessPlanRepo.findAll()
-                                .stream()
-                                .map(
-                                        plan -> ViewBusinessPlanResponse.BusinessPlan.builder()
-                                                .id(plan.getId())
-                                                .name(plan.getName())
-                                                .description(plan.getDescription())
-                                                .price(plan.getPrice())
-                                                .duration(plan.getDuration())
-                                                .status(plan.getStatus())
-                                                .businessServiceList(plan.getPlanServiceList().stream()
-                                                        .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
-                                                                .id(service.getBusinessService().getId())
-                                                                .name(service.getBusinessService().getName())
-                                                                .description(service.getBusinessService().getDescription())
-                                                                .price(service.getBusinessService().getPrice())
-                                                                .build()
-                                                        )
-                                                        .toList())
-                                                .build()
-                                )
-                                .toList())
-                .build();
-
+//        return ViewBusinessPlanResponse.builder()
+//                .status("200")
+//                .message("")
+//                .serviceList(
+//                        businessServiceRepo.findAll()
+//                                .stream()
+//                                .map(
+//                                        service -> ViewBusinessPlanResponse.BusinessService.builder()
+//                                                .id(service.getId())
+//                                                .name(service.getName())
+//                                                .description(service.getDescription())
+//                                                .price(service.getPrice())
+//                                                .build()
+//                                )
+//                                .toList()
+//                )
+//                .businessPlanList(
+//                        businessPlanRepo.findAll()
+//                                .stream()
+//                                .map(
+//                                        plan -> ViewBusinessPlanResponse.BusinessPlan.builder()
+//                                                .id(plan.getId())
+//                                                .name(plan.getName())
+//                                                .description(plan.getDescription())
+//                                                .price(plan.getPrice())
+//                                                .duration(plan.getDuration())
+//                                                .status(plan.getStatus())
+//                                                .businessServiceList(plan.getPlanServiceList().stream()
+//                                                        .map(service -> ViewBusinessPlanResponse.BusinessService.builder()
+//                                                                .id(service.getBusinessService().getId())
+//                                                                .name(service.getBusinessService().getName())
+//                                                                .description(service.getBusinessService().getDescription())
+//                                                                .price(service.getBusinessService().getPrice())
+//                                                                .build()
+//                                                        )
+//                                                        .toList())
+//                                                .build()
+//                                )
+//                                .toList())
+//                .build();
+        return null;
     }
 
     //-------------------------------------CREATE BUSINESS PLAN------------------------------------------//
     @Override
     public String createBusinessPlan(CreateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
-        Object output = createBusinessPlanLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
-            redirectAttributes.addFlashAttribute("msg", (CreateBusinessPlanResponse) output);
-            return "redirect:/admin/view/plan";
-        }
-        redirectAttributes.addFlashAttribute("error", output);
+//        Object output = createBusinessPlanLogic(request);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
+//            redirectAttributes.addFlashAttribute("msg", (CreateBusinessPlanResponse) output);
+//            return "redirect:/admin/view/plan";
+//        }
+//        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:/admin/view/plan";
     }
 
     @Override
     public CreateBusinessPlanResponse createBusinessPlanAPI(CreateBusinessPlanRequest request) {
-        Object output = createBusinessPlanLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
-            return (CreateBusinessPlanResponse) output;
-        }
+//        Object output = createBusinessPlanLogic(request);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateBusinessPlanResponse.class)) {
+//            return (CreateBusinessPlanResponse) output;
+//        }
 
-        return CreateBusinessPlanResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
+//        return CreateBusinessPlanResponse.builder()
+//                .status("400")
+//                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+//                .build();
+        return null;
     }
 
     private Object createBusinessPlanLogic(CreateBusinessPlanRequest request) {
         Map<String, String> errors = CreateBusinessPlanValidation.validate(request);
-        if (errors.isEmpty()) {
-            //success
-            BusinessPlan businessPlan = businessPlanRepo.save(BusinessPlan.builder()
-                    .name(request.getName())
-                    .price(request.getPrice())
-                    .description(request.getDescription())
-                    .duration(request.getDuration())
-                    .planServiceList(new ArrayList<>())
-                    .build()
-            );
-            return CreateBusinessPlanResponse.builder()
-                    .status("200")
-                    .message("Created business plan successfully")
-                    .name(request.getName())
-                    .description(request.getDescription())
-                    .price(request.getPrice())
-                    .duration(request.getDuration())
-                    .plansStatus(Status.BUSINESS_PLAN_STATUS_ACTIVE)
-                    .businessServiceList(
-                            importPlanService(request, businessPlan).stream()
-                                    .map(
-                                            ps -> CreateBusinessPlanResponse.BusinessService.builder()
-                                                    .id(ps.getBusinessService().getId())
-                                                    .name(ps.getBusinessService().getName())
-                                                    .build()
-                                    )
-                                    .toList()
-                    )
-                    .build();
-        }
+//        if (errors.isEmpty()) {
+//            //success
+//            BusinessPlan businessPlan = businessPlanRepo.save(BusinessPlan.builder()
+//                    .name(request.getName())
+//                    .price(request.getPrice())
+//                    .description(request.getDescription())
+//                    .duration(request.getDuration())
+//                    .planServiceList(new ArrayList<>())
+//                    .build()
+//            );
+//            return CreateBusinessPlanResponse.builder()
+//                    .status("200")
+//                    .message("Created business plan successfully")
+//                    .name(request.getName())
+//                    .description(request.getDescription())
+//                    .price(request.getPrice())
+//                    .duration(request.getDuration())
+//                    .plansStatus(Status.BUSINESS_PLAN_STATUS_ACTIVE)
+//                    .businessServiceList(
+//                            importPlanService(request, businessPlan).stream()
+//                                    .map(
+//                                            ps -> CreateBusinessPlanResponse.BusinessService.builder()
+//                                                    .id(ps.getBusinessService().getId())
+//                                                    .name(ps.getBusinessService().getName())
+//                                                    .build()
+//                                    )
+//                                    .toList()
+//                    )
+//                    .build();
+//        }
         return errors;
     }
 
-    private List<PlanService> importPlanService(CreateBusinessPlanRequest request, BusinessPlan businessPlan) {
-        return planServiceRepo.saveAll(
-                businessServiceRepo.findAll().stream()
-                        .filter(  //chuyen no sang Integer
-                                service -> request.getBusinessServiceList().stream()
-                                        .map(s -> Integer.valueOf(s.getId()))
-                                        .toList()
-                                        .contains(service.getId())
-                        )
-                        .map(
-                                service -> PlanService.builder()
-                                        .businessPlan(businessPlan)
-                                        .businessService(service)
-                                        .build()
-                        ).toList()
-        );
-    }
+//    private List<PlanService> importPlanService(CreateBusinessPlanRequest request, BusinessPlan businessPlan) {
+//        return planServiceRepo.saveAll(
+//                businessServiceRepo.findAll().stream()
+//                        .filter(  //chuyen no sang Integer
+//                                service -> request.getBusinessServiceList().stream()
+//                                        .map(s -> Integer.valueOf(s.getId()))
+//                                        .toList()
+//                                        .contains(service.getId())
+//                        )
+//                        .map(
+//                                service -> PlanService.builder()
+//                                        .businessPlan(businessPlan)
+//                                        .businessService(service)
+//                                        .build()
+//                        ).toList()
+//        );
+//        return null;
+//    }
 
     //-------------------------------------UPDATE BUSINESS PLAN------------------------------------------//
 
     @Override
     public String updateBusinessPlan(UpdateBusinessPlanRequest request, Model model, RedirectAttributes redirectAttributes) {
-        Object output = updateBusinessPlanLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
-            redirectAttributes.addFlashAttribute("msg", (UpdateBusinessPlanResponse) output);
-            return "redirect:/admin/view/plan";
-        }
-        redirectAttributes.addFlashAttribute("error", output);
+//        Object output = updateBusinessPlanLogic(request);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
+//            redirectAttributes.addFlashAttribute("msg", (UpdateBusinessPlanResponse) output);
+//            return "redirect:/admin/view/plan";
+//        }
+//        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:/admin/view/plan";
 
     }
 
     @Override
     public UpdateBusinessPlanResponse updateBusinessPlanAPI(UpdateBusinessPlanRequest request) {
-        Object output = updateBusinessPlanLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
-            return (UpdateBusinessPlanResponse) output;
-        }
-        return UpdateBusinessPlanResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
+//        Object output = updateBusinessPlanLogic(request);
+//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateBusinessPlanResponse.class)) {
+//            return (UpdateBusinessPlanResponse) output;
+//        }
+//        return UpdateBusinessPlanResponse.builder()
+//                .status("400")
+//                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+//                .build();
+        return null;
     }
 
     private Object updateBusinessPlanLogic(UpdateBusinessPlanRequest request) {
         Map<String, String> errors = UpdateBusinessPlanValidation.validate(request, businessPlanRepo, businessServiceRepo);
-        if (errors.isEmpty()) {
-            BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
-            assert businessPlan != null;
-            businessPlan.setName(request.getName());
-                for (Seller seller : businessPlan.getSellerList()) {
-                    sendEmail(businessPlan, seller.getUser());
-                    businessPlan.setStatus(Status.BUSINESS_PLAN_STATUS_DISABLED);
-                }
-            businessPlan.setPrice(request.getPrice());
-            businessPlan.setDescription(request.getDescription());
-            businessPlan.setDuration(request.getDuration());
-            return UpdateBusinessPlanResponse.builder()
-                    .status("200")
-                    .message("Updated business plan successfully")
-                    .name(request.getName())
-                    .price(request.getPrice())
-                    .description(request.getDescription())
-                    .duration(request.getDuration())
-                    .businessServiceList(updatePlanService(request, businessPlan).stream()
-                            .map(ps -> UpdateBusinessPlanResponse.BusinessService.builder()
-                                    .id(ps.getBusinessService().getId())
-                                    .name(ps.getBusinessService().getName())
-                                    .build())
-                            .toList())
-                    .build();
-        }
+//        if (errors.isEmpty()) {
+//            BusinessPlan businessPlan = businessPlanRepo.findById(request.getId()).orElse(null);
+//            assert businessPlan != null;
+//            businessPlan.setName(request.getName());
+//                for (Seller seller : businessPlan.getSellerList()) {
+//                    sendBusinessEmail(businessPlan, seller.getUser());
+//                    businessPlan.setStatus(Status.BUSINESS_PLAN_STATUS_DISABLED);
+//                }
+//            businessPlan.setPrice(request.getPrice());
+//            businessPlan.setDescription(request.getDescription());
+//            businessPlan.setDuration(request.getDuration());
+//            return UpdateBusinessPlanResponse.builder()
+//                    .status("200")
+//                    .message("Updated business plan successfully")
+//                    .name(request.getName())
+//                    .price(request.getPrice())
+//                    .description(request.getDescription())
+//                    .duration(request.getDuration())
+//                    .businessServiceList(updatePlanService(request, businessPlan).stream()
+//                            .map(ps -> UpdateBusinessPlanResponse.BusinessService.builder()
+//                                    .id(ps.getBusinessService().getId())
+//                                    .name(ps.getBusinessService().getName())
+//                                    .build())
+//                            .toList())
+//                    .build();
+//        }
         return errors;
     }
 
-    private List<PlanService> updatePlanService(UpdateBusinessPlanRequest request, BusinessPlan businessPlan) {
-        //ko co status moi dc xoa trắng để tạo lại thằng mới
-        planServiceRepo.deleteAll(
-                planServiceRepo.findAll().stream().filter(ps -> ps.getBusinessPlan().equals(businessPlan)).toList()
-        );
-        return planServiceRepo.saveAll(
-                businessServiceRepo.findAll().stream()
-                        .filter(  //chuyen no sang Integer
-                                service -> request.getBusinessServiceList().stream()
+//    private List<PlanService> updatePlanService(UpdateBusinessPlanRequest request, BusinessPlan businessPlan) {
+    //ko co status moi dc xoa trắng để tạo lại thằng mới
+//        planServiceRepo.deleteAll(
+//                planServiceRepo.findAll().stream().filter(ps -> ps.getBusinessPlan().equals(businessPlan)).toList()
+//        );
+//        return planServiceRepo.saveAll(
+//                businessServiceRepo.findAll().stream()
+//                        .filter(  //chuyen no sang Integer
+//                                service -> request.getBusinessServiceList().stream()
+//
+//                                        .toList()
+//                                        .contains(service.getId())
+//                        )
+//                        .map(
+//                                service -> PlanService.builder()
+//                                        .businessPlan(businessPlan)
+//                                        .businessService(service)
+//                                        .build()
+//                        ).toList()
+//        );
+//        return null;
+//    }
 
-                                        .toList()
-                                        .contains(service.getId())
-                        )
-                        .map(
-                                service -> PlanService.builder()
-                                        .businessPlan(businessPlan)
-                                        .businessService(service)
-                                        .build()
-                        ).toList()
-        );
-    }
-
-    private void sendEmail(BusinessPlan businessPlan, User user) {
+    private void sendBusinessEmail(BusinessPlan businessPlan, User user) {
 
         // Create a MimeMessage
         MimeMessage message = mailSender.createMimeMessage();
@@ -308,7 +309,7 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (DisableBusinessPlanResponse) output);
             return "redirect:/admin/view/plan";
         }
-        redirectAttributes.addFlashAttribute("error",  output);
+        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:/admin/view/plan";
     }
 
@@ -470,7 +471,7 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (DeleteBusinessServiceResponse) output);
             return "redirect:/admin/view/service";
         }
-        redirectAttributes.addFlashAttribute("error",  output);
+        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:/admin/view/service";
     }
 
@@ -596,7 +597,7 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (BanUserResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ( output));
+        redirectAttributes.addFlashAttribute("error", (output));
         return "redirect:/admin/user/list";
     }
 
@@ -637,7 +638,7 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (UnBanUserResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ( output));
+        redirectAttributes.addFlashAttribute("error", (output));
         return "redirect:/admin/user/list";
     }
 
@@ -679,7 +680,7 @@ public class AdminServiceImpl implements AdminService {
             redirectAttributes.addFlashAttribute("msg", (CreateAccountForSellerResponse) output);
             return "redirect:/admin/user/list";
         }
-        redirectAttributes.addFlashAttribute("error", ( output));
+        redirectAttributes.addFlashAttribute("error", (output));
         redirectAttributes.addFlashAttribute("userInput", request);
         return "redirect:/admin/user/list";
     }
@@ -764,11 +765,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void getTotalRevenue(Model model) {
-        float totalRevenue = purchasedPlanRepo.findAll().stream()
-                .filter(order -> order.getStatus().equals(Status.PURCHASED_PLAN_STATUS_PURCHASED))
-                .map(PurchasedPlan::getPrice)
-                .reduce(0f, Float::sum);
-        model.addAttribute("totalRevenue", totalRevenue);
+//        float totalRevenue = purchasedPlanRepo.findAll().stream()
+//                .filter(order -> order.getStatus().equals(Status.PURCHASED_PLAN_STATUS_PURCHASED))
+//                .map(PurchasedPlan::getPrice)
+//                .reduce(0f, Float::sum);
+//        model.addAttribute("totalRevenue", totalRevenue);
     }
 
     @Override

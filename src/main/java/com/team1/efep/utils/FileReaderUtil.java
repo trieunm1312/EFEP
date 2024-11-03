@@ -1,6 +1,7 @@
 package com.team1.efep.utils;
 
 import com.team1.efep.models.entity_models.BusinessPlan;
+import com.team1.efep.models.entity_models.Order;
 import com.team1.efep.models.entity_models.User;
 
 import java.io.BufferedReader;
@@ -41,6 +42,25 @@ public class FileReaderUtil {
             result = result.replaceAll("@@###", user.getName());
             result = result.replaceAll("@@@##", businessPlan.getName());
             result = result.replaceAll("@@##", String.valueOf(remainingDays));
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String readFile(Order order, User user) {
+        String result = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/team1/efep/email_file/order.txt"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+
+            result = result.replaceAll("@@###", user.getName());
+            result = result.replaceAll("@@@##", user.getName());
+            result = result.replaceAll("@@##", user.getName());
             br.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,6 +3,7 @@ package com.team1.efep.service_implementors;
 import com.team1.efep.VNPay.BuyNowVNPAYConfig;
 import com.team1.efep.VNPay.VNPayConfig;
 import com.team1.efep.configurations.AllPage;
+import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
@@ -23,6 +24,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -48,6 +50,8 @@ public class BuyerServiceImpl implements BuyerService {
     private final CategoryRepo categoryRepo;
     private final UserRepo userRepo;
     private final PaymentMethodRepo paymentMethodRepo;
+    private final FeedbackRepo feedbackRepo;
+    private final SellerRepo sellerRepo;
 
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
@@ -1371,7 +1375,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .status(Status.ORDER_STATUS_PROCESSING)
                     .paymentMethod(paymentMethod)
                     .build());
-
+            sendOrderEmail(savedOrder, user);
             for (WishlistItem item : entry.getValue()) {
                 Flower flower = item.getFlower();
                 flower.setSoldQuantity(flower.getSoldQuantity() + item.getQuantity());
@@ -1391,6 +1395,31 @@ public class BuyerServiceImpl implements BuyerService {
         wishlistItemRepo.deleteAll(items);
         user.getWishlist().setWishlistItemList(new ArrayList<>());
         userRepo.save(user);
+    }
+
+    private void sendOrderEmail(Order order, User user) {
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom("vannhuquynhp@gmail.com");
+
+            helper.setTo(user.getAccount().getEmail());
+
+            helper.setSubject(Const.BUSINESS_PLAN_SUBJECT);
+
+            String emailContent = FileReaderUtil.readFile(order, user);
+
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //-----------------------------------GET COD PAYMENT RESULT--------------------------------------//
@@ -1696,6 +1725,221 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+    //---------------------------------VIEW FEEDBACK---------------------------------//
+
+    @Override
+    public String viewFeedback(int sellerId, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ViewFeedbackResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to view feedback")
+                    .build());
+            return "login";
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            model.addAttribute("msg", (ViewFeedbackResponse) output);
+            return "/";
+        }
+
+        model.addAttribute("error", (Map<String, String>) output);
+        return "/";
+    }
+
+    @Override
+    public ViewFeedbackResponse viewFeedbackAPI(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("Seller not found")
+                    .build();
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            return (ViewFeedbackResponse) output;
+        }
+
+        return ViewFeedbackResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewFeedbackLogic(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return Map.of("error", "Seller not found");
+        }
+
+        List<Feedback> feedbackList = seller.getFeedbackList();
+        if (feedbackList.isEmpty()) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("No feedback found for this seller")
+                    .build();
+        }
+
+        List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
+                .map(this::mapToFeedbackDetail)
+                .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
+                .collect(Collectors.toList());
+
+        return ViewFeedbackResponse.builder()
+                .status("200")
+                .message("Feedback found")
+                .feedbackList(feedbackDetails)
+                .build();
+    }
+
+    private ViewFeedbackResponse.FeedbackDetail mapToFeedbackDetail(Feedback feedback) {
+        return ViewFeedbackResponse.FeedbackDetail.builder()
+                .id(feedback.getId())
+                .userName(feedback.getUser().getName())
+                .content(feedback.getContent())
+                .rating(feedback.getRating())
+                .build();
+    }
+
+    //---------------------------------CREATE FEEDBACK---------------------------------//
+
+    @Override
+    public String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Map<String, String> errors = new HashMap<>();
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            MapConfig.buildMapKey(errors, "Please login with a buyer account to leave feedback");
+            return "redirect:/login";
+        }
+
+        Object output = createFeedbackLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFeedbackResponse.class)) {
+            model.addAttribute("msg1", (CreateFeedbackResponse) output);
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+            return "redirect:/";
+        }
+
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        return "redirect:/";
+    }
+
+    @Override
+    public CreateFeedbackResponse createFeedbackAPI(CreateFeedbackRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            return CreateFeedbackResponse.builder()
+                    .status("400")
+                    .message("Please login with a buyer account to leave feedback")
+                    .build();
+        }
+
+        Object output = createFeedbackLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFeedbackResponse.class)) {
+            return (CreateFeedbackResponse) output;
+        }
+
+        return CreateFeedbackResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object createFeedbackLogic(CreateFeedbackRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        Map<String, String> error = CreateFeedbackValidation.validate(request, orderRepo, account.getUser());
+
+        if (error.isEmpty()) {
+            Feedback feedback = createNewFeedback(request);
+            calculateSellerRating(feedback.getSeller());
+            return CreateFeedbackResponse.builder()
+                    .status("200")
+                    .message("Feedback submitted successfully")
+                    .feedback(
+                            CreateFeedbackResponse.FeedbackInfo.builder()
+                                    .id(feedback.getId())
+                                    .buyerName(feedback.getUser().getName())
+                                    .content(feedback.getContent())
+                                    .rating(feedback.getRating())
+                                    .createDate(feedback.getCreateDate())
+                                    .build()
+                    )
+                    .build();
+        }
+        return error;
+    }
+
+    private Feedback createNewFeedback(CreateFeedbackRequest request) {
+        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
+        assert account != null;
+        Seller seller = sellerRepo.findById(request.getSellerId()).orElse(null);
+        assert seller != null;
+
+        Feedback feedback = Feedback.builder()
+                .user(account.getUser())
+                .seller(seller)
+                .content(request.getContent())
+                .rating(request.getRating())
+                .createDate(LocalDateTime.now())
+                .build();
+
+        return feedbackRepo.save(feedback);
+    }
+
+    private void calculateSellerRating(Seller seller) {
+        List<Feedback> feedbackList = seller.getFeedbackList();
+
+        if (feedbackList == null || feedbackList.isEmpty()) {
+            seller.setRating(0);
+        } else {
+            double averageRating = feedbackList.stream()
+                    .mapToInt(Feedback::getRating)
+                    .average()
+                    .orElse(0.0);
+            seller.setRating((float) averageRating);
+        }
+
+        sellerRepo.save(seller);
+    }
+
+    //---------------------------------SCHEDULE---------------------------------//
+
+    @Scheduled(cron = "0 0 7 * * ?") // Runs daily at 8 AM
+    public void sendWitheringNotifications() {
+        List<WishlistItem> wishlistItems = wishlistItemRepo.findAll();
+        LocalDateTime now = LocalDateTime.now();
+
+        for (WishlistItem item : wishlistItems) {
+            Flower flower = item.getFlower();
+            LocalDateTime witheringDate = flower.getCreateDate().plusDays(flower.getWitheringTime());
+            Wishlist wishlist = item.getWishlist();
+            User user = wishlist.getUser();
+
+            if (now.isBefore(witheringDate) && witheringDate.minusDays(1).isBefore(now)) {
+                sendEmailNotification(user.getAccount().getEmail(), flower, witheringDate);
+            }
+        }
+    }
+
+    private void sendEmailNotification(String email, Flower flower, LocalDateTime witheringDate) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setTo(email);
+            helper.setSubject("Flower Withering Soon!");
+            helper.setText("Dear user, the flower \"" + flower.getName() +
+                    "\" in your wishlist will wither on " + witheringDate +
+                    ". Buy it now before it withers!", true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 

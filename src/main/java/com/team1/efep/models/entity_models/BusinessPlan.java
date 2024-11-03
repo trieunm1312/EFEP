@@ -31,9 +31,4 @@ public class BusinessPlan {
     @EqualsAndHashCode.Exclude
     private List<Seller> sellerList;
 
-    @OneToMany(mappedBy = "businessPlan")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private List<PlanService> planServiceList;
-
 }
