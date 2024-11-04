@@ -249,6 +249,10 @@ input{
 }
 
 /* Basic styling for popup */
+.edit-btn {
+    cursor: pointer;
+}
+
 .popup {
     display: none;
     position: fixed;

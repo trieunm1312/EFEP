@@ -257,7 +257,8 @@
 <!--                                                    <input type="submit" name="action" class="save-btn" value="Save"-->
 <!--                                                        onclick="prepareSave(this)" style="display: none;">-->
                                                     <!-- Button to open the popup -->
-                                                    <span onclick="openPopup()">Edit</span>
+<!--                                                    <i class="fa-solid fa-pencil modify-icon" onclick="openPopup()"></i>-->
+                                                    <span class="edit-btn" onclick="openPopup()">Edit</span>
                                                     <!-- Popup modal -->
                                                     <div id="editPopup" class="popup">
                                                         <div class="popup-content">
@@ -329,10 +330,15 @@
                                                     </div>
                                                 </td>
                                             </form>
+                                            <td>
+                                                <span th:text="${item.id}">0</span>
+                                            </td>
                                             <td class="table__body-toggle">
-                                                <input type="submit" onclick="openDeletePopup()" name="action" value="Delete"
-                                                       class="toggle-btn">
+                                                <span onclick="openDeletePopup()" name="action"
+                                                      class="toggle-btn">Delete</span>
+
                                                 <div id="confirmDelete" class="confirmDelete">
+                                                    <span th:text="${item.id}">0</span>
                                                     <div class="confirmDelete-form">
                                                     <span class="confirm-text">Do you want to delete flower <span th:text="${item.name}">RED</span> ?</span>
                                                         <form th:action="@{/seller/flower}" th:method="delete">

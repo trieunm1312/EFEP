@@ -133,62 +133,62 @@
         <!-- Container -->
         <div class="container">
             <div class="container-wrap">
-                <div th:if="${msg}">
-                    <div class="business-plan">
-                        <div class="business-plan__header">
-                            <h3 class="business-plan__first-line">
-                                <span>You are on the </span>
-                                <span class="business-plan__name" th:text="${msg.name}"></span>
-                                <span>Plan</span>
-                            </h3>
-                            <h3>Unlock your potential with the services of your plan!</h3>
-                        </div>
-                        <div class="business-plan__body">
-                            <span class="business-plan__service" th:each="service : ${msg.businessServiceList}">
-                                <i class="fa-solid fa-check"></i>
-                                <span th:text="${service.name + '. '}"></span>
-                            </span>
-                            <span class="business-plan__price"></span>
-                            <span class="business-plan__price" th:text="${'$' + msg.price}"></span>
-                            <span class="business-plan__duration" th:text="${'/duration for ' + msg.duration + ' months.'}"></span>
-                        </div>
+<!--                <div th:if="${msg}">-->
+<!--                    <div class="business-plan">-->
+<!--                        <div class="business-plan__header">-->
+<!--                            <h3 class="business-plan__first-line">-->
+<!--                                <span>You are on the </span>-->
+<!--                                <span class="business-plan__name" th:text="${msg.name}"></span>-->
+<!--                                <span>Plan</span>-->
+<!--                            </h3>-->
+<!--                            <h3>Unlock your potential with the services of your plan!</h3>-->
+<!--                        </div>-->
+<!--                        <div class="business-plan__body">-->
+<!--                            <span class="business-plan__service" th:each="service : ${msg.businessServiceList}">-->
+<!--                                <i class="fa-solid fa-check"></i>-->
+<!--                                <span th:text="${service.name + '. '}"></span>-->
+<!--                            </span>-->
+<!--                            <span class="business-plan__price"></span>-->
+<!--                            <span class="business-plan__price" th:text="${'$' + msg.price}"></span>-->
+<!--                            <span class="business-plan__duration" th:text="${'/duration for ' + msg.duration + ' months.'}"></span>-->
+<!--                        </div>-->
 
-                    </div>
-                    <form th:action="@{/seller/plan}" th:method="put">
-                        <input type="submit" name="action" value="Cancel This Plan" class="cancel-btn btn btn--primary">
-                        <input type="hidden" name="id" th:value="${msg.id}"></input>
-                    </form>
-                </div>
+<!--                    </div>-->
+<!--                    <form th:action="@{/seller/plan}" th:method="put">-->
+<!--                        <input type="submit" name="action" value="Cancel This Plan" class="cancel-btn btn btn&#45;&#45;primary">-->
+<!--                        <input type="hidden" name="id" th:value="${msg.id}"></input>-->
+<!--                    </form>-->
+<!--                </div>-->
 
 
                 <!-- Before purchased Business Plan -->
-                <div th:if="${nullPlan}" class="free-plan">
-                    <div class="business-plan">
-                        <div class="business-plan__header">
-                            <h3 class="business-plan__first-line">
-                                <span>You are on the </span>
-                                <span class="business-plan__name">Free Plan</span>
-                            </h3>
-                            <h3>This is your free plan for basically starting selling event surplus flower!</h3>
-                        </div>
-                        <div class="business-plan__body">
-                            <span class="business-plan__service">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Limited post only 10 flowers.</span>
-                            </span>
-                            <br>
-                            <span class="business-plan__price">$0</span>
-                            <span class="business-plan__duration">/duration forever.</span>
-                        </div>
-                    </div>
-                    <div class="guide">
-                        <h3>Or unlock more opportunities when you’re ready to grow!</h3>
-                        <form th:action="@{/seller/plan/intro}">
-                            <input class="" name="action" type="submit" value="Go Get It Now!">
-                        </form>
-                    </div>
+<!--                <div th:if="${nullPlan}" class="free-plan">-->
+<!--                    <div class="business-plan">-->
+<!--                        <div class="business-plan__header">-->
+<!--                            <h3 class="business-plan__first-line">-->
+<!--                                <span>You are on the </span>-->
+<!--                                <span class="business-plan__name">Free Plan</span>-->
+<!--                            </h3>-->
+<!--                            <h3>This is your free plan for basically starting selling event surplus flower!</h3>-->
+<!--                        </div>-->
+<!--                        <div class="business-plan__body">-->
+<!--                            <span class="business-plan__service">-->
+<!--                                <i class="fa-solid fa-check"></i>-->
+<!--                                <span>Limited post only 10 flowers.</span>-->
+<!--                            </span>-->
+<!--                            <br>-->
+<!--                            <span class="business-plan__price">$0</span>-->
+<!--                            <span class="business-plan__duration">/duration forever.</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="guide">-->
+<!--                        <h3>Or unlock more opportunities when you’re ready to grow!</h3>-->
+<!--                        <form th:action="@{/seller/plan/intro}">-->
+<!--                            <input class="" name="action" type="submit" value="Go Get It Now!">-->
+<!--                        </form>-->
+<!--                    </div>-->
 
-                </div>
+<!--                </div>-->
             </div>
         </div>
 
