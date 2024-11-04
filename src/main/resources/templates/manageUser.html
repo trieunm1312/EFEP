@@ -41,7 +41,7 @@
                 <a th:href="@{/admin/user/list}" class="sidebar__link">
                     <div class="sidebar__item active">
                         <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                        <span class="sidebar__item-title">Manage User</span>
+                        <span class="sidebar__item-title">Seller list</span>
                     </div>
                 </a>
             </li>
@@ -58,10 +58,10 @@
                         <span>Admin Page</span>
                     </a>
                     <span>/</span>
-                    <span>User</span><br>
+                    <span>Seller List</span><br>
                 </div>
                 <div class="header__title">
-                    <h3>Manage User</h3>
+                    <h3>Seller List</h3>
                 </div>
             </div>
 
@@ -73,33 +73,6 @@
                     </button>
                     <input type="text" class="header__search-input" name="keyword" placeholder="Search.......">
                 </form>
-            </div>
-            <div th:replace="~{adminBase :: header__create-btn}" class="header__create-btn btn">
-                <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                <span>Create</span>
-                <div class="header__create-block">
-                    <h4 class="header__create-title">Create New</h4>
-                    <ul class="header__create-list">
-                        <li class="header__create-item">
-                            <a th:href="@{/admin/view/service(newService=true)}">
-                                <i class="fa-regular fa-clipboard header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Business Service</span>
-                            </a>
-                        </li>
-                        <li class="header__create-item">
-                            <a th:href="@{/admin/view/plan(newPlan=true)}">
-                                <i class="fa-solid fa-briefcase header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Business Plan</span>
-                            </a>
-                        </li>
-                        <li class="header__create-item">
-                            <a th:href="@{/admin/user/list(newSeller=true)}">
-                                <i class="fa-solid fa-user-pen header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Seller Account</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </div>
             <div th:replace="~{adminBase :: header__others}" class="header__others">
                 <div class="header__noti">
@@ -130,14 +103,14 @@
                             <tr>
                                 <th class="table__header-user">User</th>
                                 <th class="table__header-phone">Phone</th>
-                                <th class="table__header-role">Role</th>
+<!--                                <th class="table__header-role">Role</th>-->
                                 <th class="table__header-role">Created Date</th>
                                 <th class="table__header-status">Status</th>
                             </tr>
                         </thead>
                         <tbody class="table__body">
                                 <tr th:each="user : ${msg1.userList}" class="table__body-item">
-                                    <div th:if="${user.accountUser.role} != 'admin'">
+                                    <div th:if="${user.accountUser.role} == 'seller'">
                                         <td class="table__body-user">
                                             <img th:src="${user.avatar == null || user.avatar == ''} ? '/img/default-avatar.jpg' : ${user.avatar}" alt="Avatar" class="table__body-avt">
                                             <span class="table__body-unique">
@@ -148,9 +121,9 @@
                                         <td class="table__body-phone">
                                             <span class="desc-text" th:text="${user.phone}"></span>
                                         </td>
-                                        <td class="table__body-role">
-                                            <span class="price-text" th:text="${user.accountUser.role}"></span>
-                                        </td>
+<!--                                        <td class="table__body-role">-->
+<!--                                            <span class="price-text" th:text="${user.accountUser.role}"></span>-->
+<!--                                        </td>-->
 
                                         <td class="table__body-created-date">
                                             <span class="price-text" th:text="${user.createdDate}"></span>
@@ -160,24 +133,24 @@
                                             <td class="table__body-status unban ">
                                                 Available
                                             </td>
-                                            <form th:action="@{/admin/ban/user}" th:method="put" class="user__form">
-                                                <td class="table__body-toggle">
-                                                    <input type="submit" name="action" value="Ban" class="toggle-btn">
-                                                    <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>
-                                                </td>
-                                            </form>
+<!--                                            <form th:action="@{/admin/ban/user}" th:method="put" class="user__form">-->
+<!--                                                <td class="table__body-toggle">-->
+<!--                                                    <input type="submit" name="action" value="Ban" class="toggle-btn">-->
+<!--                                                    <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>-->
+<!--                                                </td>-->
+<!--                                            </form>-->
                                         </div>
-                                        <div th:if="${user.accountUser.status != 'active'}">
-                                            <td class="table__body-status ban ">
-                                                Banned
-                                            </td>
-                                            <form th:action="@{/admin/unban/user}" th:method="put" class="user__form">
-                                                <td class="table__body-toggle">
-                                                    <input type="submit" name="action" value="Unban" class="toggle-btn">
-                                                    <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>
-                                                </td>
-                                            </form>
-                                        </div>
+<!--                                        <div th:if="${user.accountUser.status != 'active'}">-->
+<!--                                            <td class="table__body-status ban ">-->
+<!--                                                Banned-->
+<!--                                            </td>-->
+<!--                                            <form th:action="@{/admin/unban/user}" th:method="put" class="user__form">-->
+<!--                                                <td class="table__body-toggle">-->
+<!--                                                    <input type="submit" name="action" value="Unban" class="toggle-btn">-->
+<!--                                                    <input type="hidden" name="id" th:value="${user.accountUser.id}"></input>-->
+<!--                                                </td>-->
+<!--                                            </form>-->
+<!--                                        </div>-->
                                     </div>
 
                                 </tr>

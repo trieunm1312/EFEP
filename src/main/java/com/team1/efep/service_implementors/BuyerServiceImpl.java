@@ -124,9 +124,14 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         Object output = addToWishlistLogic(request);
+
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-            model.addAttribute("msg", (AddToWishlistResponse) output);
+            if(httpServletRequest.getHeader("Referer").contains("category")){
+                Category category = categoryRepo.findByName(request.getKeyword());
+                ((AddToWishlistResponse) output).setKeyword(category.getId() + "");
+            }
+            redirectAttributes.addFlashAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
         redirectAttributes.addFlashAttribute("error", output);
@@ -1433,6 +1438,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .keyword(category.getName())
                 .flowerList(
                         category.getFlowerCategoryList().stream()
+                                .filter(flower -> flower.getFlower().getStatus().equals(Status.FLOWER_STATUS_AVAILABLE))
                                 .map(flower -> FilterCategoryResponse.Flower.builder()
                                         .id(flower.getFlower().getId())
                                         .name(flower.getFlower().getName())
