@@ -423,7 +423,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private ViewFlowerListResponse viewFlowerListLogic() {
-        List<Flower> flowers = flowerRepo.findAll();
+        List<Flower> flowers = flowerRepo.findByStatus(Status.FLOWER_STATUS_AVAILABLE);
         // if find -> print size of flower
         return ViewFlowerListResponse.builder()
                 .status("200")
@@ -439,7 +439,6 @@ public class BuyerServiceImpl implements BuyerService {
                         .name(item.getName())
                         .price(item.getPrice())
                         .description(item.getDescription())
-                        .soldQuantity(item.getSoldQuantity())
                         .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
                         .build()
                 ).toList();
@@ -727,14 +726,12 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("200")
                     .message("")
                     .flower(
-
                             ViewFlowerDetailResponse.Flower.builder()
                                     .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
                                     .quantity(flower.getQuantity())
                                     .flowerAmount(flower.getFlowerAmount())
-                                    .soldQuantity(flower.getSoldQuantity())
                                     .description(flower.getDescription())
 
                                     .seller(ViewFlowerDetailResponse.Seller.builder()

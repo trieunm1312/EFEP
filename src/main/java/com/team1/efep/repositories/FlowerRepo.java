@@ -14,4 +14,5 @@ public interface FlowerRepo extends JpaRepository<Flower, Integer> {
 
     List<Flower> findAllBySeller_IdAndName(int id, String name);
 
+    List<Flower> findByStatus(String status);
 }

@@ -262,6 +262,10 @@ public class SellerServiceImpl implements SellerService {
 
     public ViewFlowerListForSellerResponse viewFlowerListForSellerLogic(int sellerId) {
         List<Flower> flowers = flowerRepo.findAllBySeller_Id(sellerId);
+
+        //Sắp xếp hoa mới nhất lên đầu
+        // có thể sắp xếp theo id, ID của đối tượng mới thường lớn hơn
+        flowers.sort(Comparator.comparing(Flower::getId).reversed());
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
                 .allCategory(
@@ -288,7 +292,6 @@ public class SellerServiceImpl implements SellerService {
                         .imageList(viewImageList(item.getFlowerImageList()))
                         .flowerAmount(item.getFlowerAmount())
                         .quantity(item.getQuantity())
-                        .soldQuantity(item.getSoldQuantity())
                         .status(item.getStatus())
                         .categoryList(viewCategoryList(item.getFlowerCategoryList()))
                         .categoryIdList(item.getFlowerCategoryList().stream()
@@ -634,7 +637,7 @@ public class SellerServiceImpl implements SellerService {
         flower.setFlowerAmount(request.getFlowerAmount());
         flower.setQuantity(request.getQuantity());
         if (request.getQuantity() == 0) {
-            flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
+            flower.setStatus(Status.FLOWER_STATUS_DELETED);
         }
 
         List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
