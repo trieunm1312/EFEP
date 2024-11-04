@@ -81,21 +81,6 @@
                     <input type="text" class="header__search-input" name="keyword" placeholder="Search.......">
                 </form>
             </div>
-            <div th:fragment="header__create-btn" class="header__create-btn btn">
-                <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                <span>Create</span>
-                <div class="header__create-block">
-                    <h4 class="header__create-title">Create New</h4>
-                    <ul class="header__create-list">
-                        <li class="header__create-item">
-                            <a th:href="@{/admin/user/list(newSeller=true)}">
-                                <i class="fa-solid fa-user-pen header__create-item-icon"></i>
-                                <span class="sidebar__item-title">Manage User</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
             <div th:fragment="header__others" class="header__others">
                 <div class="header__account" id="headerAccount">
                     <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>

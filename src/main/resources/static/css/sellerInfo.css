@@ -52,6 +52,149 @@
     margin-right: 10px;
 }
 
+/* Flower Grid */
+.seller-flower__heading{
+    margin-left: 100px;
+}
+
+.flower__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 20px;
+    width: 100%;
+    margin-left: 100px;
+}
+
+
+.flower__img{
+    position: relative;
+}
+
+.flower__img img{
+    width: 100%;
+    border-radius: 12px;
+}
+
+.overlay{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 86, 141, 0.2);
+    border: 1px solid var();
+    display: block;
+    border-radius: 12px;
+    text-align: center;
+    display: none;
+
+}
+
+.add-to-wishlist{
+    position: absolute;
+    bottom: 16px;
+    left: 75px;
+    font-size: 1.8rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    padding: 4px 10px;
+    border-radius: 8px;
+    animation: fadeInUp ease .3s;
+    border: none;
+}
+
+.overlay button:hover{
+    color: var(--white-color);
+    background-color: var(--black-color);
+}
+
+.view-detail{
+    position: absolute;
+    bottom: 16px;
+    right: 82px;
+    font-size: 1.8rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: none;
+    animation: fadeInUp ease .3s;
+}
+
+.add-to-wishlist__msg{
+    position: absolute;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 80px;
+    color: var(--white-color);
+    padding: 4px;
+    background-color: var(--black-color);
+    border-radius: 4px;
+    bottom: 40px;
+    left: -20px;
+    display: none;
+}
+
+.add-to-wishlist:hover .add-to-wishlist__msg{
+    display: block;
+}
+
+.view-detail:hover .view-detail__msg{
+    display: block;
+}
+
+
+.view-detail__msg{
+    position: absolute;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--white-color);
+    width: 60px;
+    padding: 4px;
+    background-color: var(--black-color);
+    border-radius: 4px;
+    bottom: 40px;
+    right: -10px;
+    display: none;
+}
+
+.flower__item:hover .overlay{
+    display: block;
+}
+
+.flower__heading{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flower__name{
+    color: var(--text-color);
+    text-align: start;
+    font-weight: 600;
+}
+
+.flower-rating__star{
+    color: #fec60f;
+}
+
+
+.flower__name:hover{
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.flower__content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flower__content span:first-child{
+    font-weight: 600;
+}
+
 /* Seller information */
 .seller {
     width: 100%;
