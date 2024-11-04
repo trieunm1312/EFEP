@@ -275,16 +275,16 @@
                                                                     <textarea id="description" name="description" th:text="${item.description}"></textarea>
 
                                                                     <label for="flowerAmount">Flower Amount:</label>
-                                                                    <input type="number" id="flowerAmount" name="flowerAmount"
+                                                                    <input type="number" id="flowerAmount" name="flowerAmount" min="1"
                                                                            th:value="${item.flowerAmount}" pattern="\d*" title="Please enter a valid number">
 
                                                                     <label for="quantity">Quantity:</label>
-                                                                    <input type="number" id="quantity" name="quantity" th:value="${item.quantity}"
+                                                                    <input type="number" id="quantity" name="quantity" min="1" th:value="${item.quantity}"
                                                                            pattern="\d*" title="Please enter a valid number">
 
                                                                     <label for="price">Price:</label>
-                                                                    <input id="price" step="0.01" name="price" th:value="${item.price}"
-                                                                           pattern="\d*" title="Please enter a valid number">
+                                                                    <input id="price" name="price" th:value="${item.price}"
+                                                                           pattern="\d+(\.\d{1,2})?" title="Please enter a valid number">
                                                                 </div>
 
                                                                 <!-- Right half for image upload and categories -->
@@ -330,15 +330,12 @@
                                                     </div>
                                                 </td>
                                             </form>
-                                            <td>
-                                                <span th:text="${item.id}">0</span>
-                                            </td>
+
                                             <td class="table__body-toggle">
                                                 <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
                                                        class="toggle-btn">Delete</span>
 
                                                 <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
-                                                    <span th:text="${item.id}">0</span>
                                                     <div class="confirmDelete-form">
                                                     <span class="confirm-text">Do you want to delete flower <span th:text="${item.name}">RED</span> ?</span>
                                                         <form th:action="@{/seller/flower}" th:method="delete">
@@ -410,8 +407,8 @@
                                                        pattern="\d*" title="Please enter a valid number" placeholder="Enter quantity">
 
                                                 <label for="price">Price:</label>
-                                                <input id="createPrice" step="0.01" name="price" th:value="${price}"
-                                                       pattern="\d*" title="Please enter a valid number" placeholder="Enter price">
+                                                <input id="createPrice" name="price" th:value="${price}"
+                                                       pattern="\d+(\.\d{1,2})?" title="Please enter a valid number" placeholder="Enter price">
                                             </div>
 
                                             <!-- Right half for image upload and categories -->
