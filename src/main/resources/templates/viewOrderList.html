@@ -195,6 +195,12 @@
                         <div class="order-list" th:if="${msg}">
                             <div class="order-item" th:each="order : ${msg.orderList}">
                                 <div class="order-header">
+                                    <div class="header-code">
+                                        <h3>
+                                            <i class="fa-solid fa-receipt"></i>
+                                            <span th:text="${order.orderId}"></span>
+                                        </h3>
+                                    </div>
                                     <div class="header-info">
                                         <h4 class="header-buyer">
                                             <i class="fa-solid fa-user"></i>
@@ -209,7 +215,7 @@
                                                     (${order.status == 'cancelled'} ? 'order-status-cancel' : '')))">
                                                 Delivered</span>
                                         </div>
-                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="order-details">
