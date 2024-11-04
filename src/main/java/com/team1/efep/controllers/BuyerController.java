@@ -60,7 +60,7 @@ public class BuyerController {
         return buyerService.viewOrderHistory(session, model);
     }
 
-    @PostMapping("/order/detail")
+    @GetMapping("/order/detail")
     @Operation(hidden = true)
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
         AllPage.allConfig(model, buyerService);

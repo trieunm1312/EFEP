@@ -247,7 +247,7 @@
                                     <input type="hidden" name="orderId" th:value="${msg.orderId}">
                                     <input type="hidden" name="status" value="cancelled">
                                     <button class="order-btn-cancel"
-                                    th:attr="disabled=${msg.orderStatus != 'processing' ? 'disabled' : null}"
+                                    th:attr="disabled=${msg.orderStatus != 'processing' && msg.orderStatus != 'packed' ? 'disabled' : null}"
                                     >Cancel order</button>
                                 </form>
                             </div>
