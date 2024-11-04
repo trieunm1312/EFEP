@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @Service
@@ -41,9 +43,31 @@ public class AccountServiceImpl implements AccountService {
 
     private final BuyerService buyerService;
 
+//--------------------------Hash password------------------------//
+
+    private String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashedBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error hashing password", e);
+        }
+    }
+
+    private boolean checkPassword(String inputPassword, String storedPassword) {
+        String hashedInputPassword = hashPassword(inputPassword);
+        return hashedInputPassword.equals(storedPassword);
+    }
+
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
+        request.setPassword(hashPassword(request.getPassword()));
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
             redirectAttributes.addFlashAttribute("msg",(RegisterResponse) output);
@@ -52,19 +76,6 @@ public class AccountServiceImpl implements AccountService {
         redirectAttributes.addFlashAttribute("error", output);
         redirectAttributes.addFlashAttribute("userInput", request);
         return "redirect:/register";
-    }
-
-    @Override
-    public RegisterResponse registerAPI(RegisterRequest request) {
-        Object output = registerLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
-            return (RegisterResponse) output;
-        }
-        return RegisterResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-
     }
 
     private Object registerLogic(RegisterRequest request) {
@@ -128,26 +139,19 @@ public class AccountServiceImpl implements AccountService {
         return "redirect:/login";
     }
 
-    @Override
-    public LoginResponse loginAPI(LoginRequest request) {
-        Object output = loginLogic(request);
-
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class)) {
-            return (LoginResponse) output;
-        }
-        return LoginResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
 
     private Object loginLogic(LoginRequest request) {
         Map<String, String> errors = LoginValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
-            return LoginResponse.builder()
-                    .status("200")
-                    .message("Login successfully")
-                    .build();
+            Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
+            if (account != null && checkPassword(request.getPassword(), account.getPassword())) {
+                return LoginResponse.builder()
+                        .status("200")
+                        .message("Login successfully")
+                        .build();
+            } else {
+                errors.put("login", "Invalid email or password");
+            }
         }
         return errors;
     }
@@ -194,11 +198,6 @@ public class AccountServiceImpl implements AccountService {
                 return "redirect:/myAccount";
         }
         return "redirect:/";
-    }
-
-    @Override
-    public ViewProfileResponse viewProfileAPI(ViewProfileRequest request) {
-            return viewProfileLogic(request);
     }
 
     // việc trả về hồ sơ người dùng nên trả về ViewProfileResponse
@@ -271,18 +270,6 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    @Override
-    public UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request) {
-        Object output = updateProfileLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
-            return (UpdateProfileResponse) output;
-        }
-        return UpdateProfileResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
     private Object updateProfileLogic(UpdateProfileRequest request) {
         Map<String, String> errors = UpdateProfileValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
@@ -321,19 +308,6 @@ public class AccountServiceImpl implements AccountService {
         return "redirect:/change/password";
     }
 
-    @Override
-    public ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request) {
-        Object output = changePasswordLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
-            return (ChangePasswordResponse) output;
-        }
-        return ChangePasswordResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
-
     private Object changePasswordLogic(ChangePasswordRequest request) {
         Map<String, String> errors = ChangePasswordValidation.validate(request);
         if (errors.isEmpty()) {
@@ -359,6 +333,8 @@ public class AccountServiceImpl implements AccountService {
         }
         return "redirect:/login";
     }
+
+
 
 }
 

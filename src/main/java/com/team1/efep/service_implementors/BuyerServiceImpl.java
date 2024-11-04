@@ -70,25 +70,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "viewWishlist";
     }
 
-    @Override
-    public ViewWishlistResponse viewWishlistAPI(int accountId) {
-        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
-        if (account == null) {
-            return ViewWishlistResponse.builder()
-                    .status("400")
-                    .message("You are not logged in")
-                    .build();
-        }
-        Object output = viewWishlistLogic(accountId);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewWishlistResponse.class)) {
-            return (ViewWishlistResponse) output;
-        }
-        return ViewWishlistResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
     private Object viewWishlistLogic(int accountId) {
         Map<String, String> error = ViewWishlistValidation.validate(accountId, accountRepo);
         if (!error.isEmpty()) {
@@ -152,25 +133,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "redirect:" + httpServletRequest.getHeader("Referer");
     }
 
-    @Override
-    public AddToWishlistResponse addToWishlistAPI(AddToWishlistRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null) {
-            return AddToWishlistResponse.builder()
-                    .status("400")
-                    .message("You are not logged in")
-                    .build();
-        }
-        Object output = addToWishlistLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
-            return (AddToWishlistResponse) output;
-        }
-        return AddToWishlistResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
     private Object addToWishlistLogic(AddToWishlistRequest request) {
         Map<String, String> error = AddToWishlistValidation.validate(request, accountRepo, flowerRepo);
         if (!error.isEmpty()) {
@@ -228,26 +190,6 @@ public class BuyerServiceImpl implements BuyerService {
         return viewWishlist(session, model, redirectAttributes);
     }
 
-    @Override
-    public UpdateWishlistResponse updateWishlistAPI(UpdateWishlistRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            return UpdateWishlistResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build();
-        }
-        Object output = updateWishlistLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
-            return (UpdateWishlistResponse) output;
-        }
-        return UpdateWishlistResponse.builder()
-                .status("400")
-                .message("Wishlist updated fail")
-                .build();
-    }
-
-
     private Object updateWishlistLogic(UpdateWishlistRequest request) {
         Map<String, String> error = UpdateWishlistValidation.validate(request, wishlistItemRepo, accountRepo);
         if (!error.isEmpty()) {
@@ -300,27 +242,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "redirect:/buyer/wishlist";
     }
 
-    @Override
-    public DeleteWishlistResponse deleteWishlistAPI(DeleteWishlistRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            return DeleteWishlistResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build();
-        }
-
-        Object output = deleteWishlistLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
-            return (DeleteWishlistResponse) output;
-        }
-
-        return DeleteWishlistResponse.builder()
-                .message("400")
-                .message("Wishlist deleted fail")
-                .build();
-    }
-
     private Object deleteWishlistLogic(DeleteWishlistRequest request) {
         Map<String, String> error = DeleteWishlistValidation.validate(request, accountRepo, wishlistRepo);
         if (!error.isEmpty()) {
@@ -360,25 +281,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "home";
     }
 
-    @Override
-    public DeleteWishlistItemResponse deleteWishlistItemAPI(DeleteWishlistItemRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null) {
-            return DeleteWishlistItemResponse.builder()
-                    .status("400")
-                    .message("You are not logged in")
-                    .build();
-        }
-        Object output = deleteWishlistItemLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
-            return (DeleteWishlistItemResponse) output;
-        }
-        return DeleteWishlistItemResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
     private Object deleteWishlistItemLogic(DeleteWishlistItemRequest request) {
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         assert account != null;
@@ -416,20 +318,6 @@ public class BuyerServiceImpl implements BuyerService {
         session.setAttribute("otp" + request.getToEmail(), response.getExtraInfo());
         redirectAttributes.addFlashAttribute("email", request.getToEmail());
         return "redirect:/login";
-    }
-
-    @Override
-    public ForgotPasswordResponse sendEmailAPI(ForgotPasswordRequest request) {
-        Object output = sendEmailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
-            ForgotPasswordResponse response = (ForgotPasswordResponse) output;
-            response.setExtraInfo("");
-            return response;
-        }
-        return ForgotPasswordResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
     }
 
     private Object sendEmailLogic(ForgotPasswordRequest request) {
@@ -509,18 +397,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "redirect:/password/renew";
     }
 
-    @Override
-    public RenewPasswordResponse renewPassAPI(RenewPasswordRequest request) {
-        Object output = renewPassLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
-            return (RenewPasswordResponse) output;
-        }
-        return RenewPasswordResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
     private Object renewPassLogic(RenewPasswordRequest request) {
 
         Map<String, String> errors = RenewPasswordValidation.validate(request, accountRepo);
@@ -537,20 +413,6 @@ public class BuyerServiceImpl implements BuyerService {
                 .status("200")
                 .message("Renew password successfully")
                 .build();
-//        Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
-//        if (acc != null && request.getPassword().equals(request.getConfirmPassword())) {
-//            acc.setPassword(request.getPassword());
-//            accountRepo.save(acc);
-//            return RenewPasswordResponse.builder()
-//                    .status("200")
-//                    .message("Renew password successfully")
-//                    .build();
-//        }
-//
-//        return RenewPasswordResponse.builder()
-//                .status("400")
-//                .message("Invalid email or password")
-//                .build();
     }
 
     //-------------------------------------------VIEW BUYER FLOWER LIST---------------------------------------//
@@ -559,12 +421,6 @@ public class BuyerServiceImpl implements BuyerService {
         ViewFlowerListResponse output = viewFlowerListLogic();
         model.addAttribute("msg", output);
         return "category";
-    }
-
-    @Override
-    public ViewFlowerListResponse viewFlowerListAPI() {
-        ViewFlowerListResponse output = viewFlowerListLogic();
-        return output;
     }
 
     private ViewFlowerListResponse viewFlowerListLogic() {
@@ -605,12 +461,6 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("msg1", viewSlideBarLogic());
     }
 
-    @Override
-    public ViewSlideBarResponse viewSlideBarAPI() {
-        return viewSlideBarLogic();
-    }
-
-
     private ViewSlideBarResponse viewSlideBarLogic() {
         List<String> flowerImageLinkList = new ArrayList<>();
 
@@ -646,25 +496,6 @@ public class BuyerServiceImpl implements BuyerService {
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "viewOrderHistory";
-    }
-
-    @Override
-    public ViewOrderHistoryResponse viewOrderHistoryAPI(int accountId) {
-        Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            return ViewOrderHistoryResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build();
-        }
-        Object output = viewOrderHistoryLogic(account.getId());
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
-            return (ViewOrderHistoryResponse) output;
-        }
-        return ViewOrderHistoryResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
     }
 
     private Object viewOrderHistoryLogic(int accountId) {
@@ -750,26 +581,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "viewOrderStatusDetail";
     }
 
-    @Override
-    public ViewOrderDetailResponse viewOrderDetailAPI(ViewOrderDetailRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            return ViewOrderDetailResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build();
-        }
-        Object output = viewOrderDetailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            return (ViewOrderDetailResponse) output;
-        }
-        return ViewOrderDetailResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
-
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
@@ -830,37 +641,30 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("msg2", viewSellerTopListLogic(top));
     }
 
-    @Override
-    public ViewSellerTopListResponse viewSellerTopListAPI(int top) {
-        return viewSellerTopListLogic(top);
-    }
-
-
     public ViewSellerTopListResponse viewSellerTopListLogic(int top) {
+        List<ViewSellerTopListResponse.Seller> sellers = sellerRepo.findAll()
+                .stream()
+                .map(seller -> {
+                    List<Feedback> feedbackList = seller.getFeedbackList();
+                    double averageRating = feedbackList != null && !feedbackList.isEmpty()
+                            ? feedbackList.stream().mapToDouble(Feedback::getRating).average().orElse(0.0)
+                            : 0.0;
+
+                    return ViewSellerTopListResponse.Seller.builder()
+                            .id(seller.getId())
+                            .name(seller.getUser().getName())
+                            .avatar(seller.getUser().getAvatar())
+                            .averageRating(averageRating)
+                            .build();
+                })
+                .sorted((s1, s2) -> Double.compare(s2.getAverageRating(), s1.getAverageRating()))
+                .limit(top)
+                .collect(Collectors.toList());
+
         return ViewSellerTopListResponse.builder()
                 .status("200")
                 .message("Top Sellers by Rating")
-                .sellerList(
-                        sellerRepo.findAll()
-                                .stream()
-                                .limit(top)
-                                .map(seller -> {
-                                    List<Feedback> feedbackList = seller.getFeedbackList();
-                                    double averageRating = feedbackList != null && !feedbackList.isEmpty()
-                                            ? feedbackList.stream().mapToDouble(Feedback::getRating).average().orElse(0.0)
-                                            : 0.0;
-
-                                    return ViewSellerTopListResponse.Seller.builder()
-                                            .id(seller.getId())
-                                            .name(seller.getUser().getName())
-                                            .avatar(seller.getUser().getAvatar())
-                                            .averageRating(averageRating)
-                                            .build();
-                                })
-                                .sorted((s1, s2) -> Double.compare(s2.getAverageRating(), s1.getAverageRating()))
-                                .limit(top)
-                                .toList()
-                )
+                .sellerList(sellers)
                 .build();
     }
 
@@ -870,11 +674,6 @@ public class BuyerServiceImpl implements BuyerService {
     public String searchFlower(SearchFlowerRequest request, Model model) {
         model.addAttribute("msg", searchFlowerLogic(request));
         return "category";
-    }
-
-    @Override
-    public SearchFlowerResponse searchFlowerAPI(SearchFlowerRequest request) {
-        return searchFlowerLogic(request);
     }
 
     private SearchFlowerResponse searchFlowerLogic(SearchFlowerRequest request) {
@@ -918,18 +717,6 @@ public class BuyerServiceImpl implements BuyerService {
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "home";
-    }
-
-    @Override
-    public ViewFlowerDetailResponse viewFlowerDetailAPI(ViewFlowerDetailRequest request) {
-        Object output = viewFlowerDetailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class)) {
-            return (ViewFlowerDetailResponse) output;
-        }
-        return ViewFlowerDetailResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
     }
 
     public Object viewFlowerDetailLogic(ViewFlowerDetailRequest request) {
@@ -977,26 +764,6 @@ public class BuyerServiceImpl implements BuyerService {
                                     .build()
                     ).build();
 
-
-//                    ViewFlowerDetailResponse.builder()
-//                    .status("200")
-//                    .message("")
-//                    .id(flower.getId())
-//                    .name(flower.getName())
-//                    .price(flower.getPrice())
-//                    .flowerAmount(flower.getFlowerAmount())
-//                    .quantity(flower.getQuantity())
-//                    .soldQuantity(flower.getSoldQuantity())
-//                    .imageList(
-//                            flower.getFlowerImageList().stream()
-//                                    .map(
-//                                            img -> ViewFlowerDetailResponse.Image.builder()
-//                                                    .link(img.getLink())
-//                                                    .build()
-//                                    )
-//                                    .toList()
-//                    )
-//                    .build();
         }
 
         return errors;
@@ -1023,19 +790,6 @@ public class BuyerServiceImpl implements BuyerService {
             return "errorPage";
         }
     }
-
-    @Override
-    public ViewOrderStatusResponse viewOrderStatusAPI(ViewOrderStatusRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            return ViewOrderStatusResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build();
-        }
-        return viewOrderStatusLogic(request.getOrderId());
-    }
-
 
     private ViewOrderStatusResponse viewOrderStatusLogic(int orderId) {
         Order order = orderRepo.findById(orderId).orElse(null);
@@ -1074,26 +828,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "redirect:/buyer/order/detail";
     }
 
-    @Override
-    public CancelOrderResponse cancelOrderAPI(CancelOrderRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            CancelOrderResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build();
-        }
-        Object output = cancelOrderLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
-            return (CancelOrderResponse) output;
-        }
-        return CancelOrderResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
-
     private Object cancelOrderLogic(CancelOrderRequest request) {
         Map<String, String> error = CancelOrderValidation.validate(request, orderRepo, accountRepo);
         if (!error.isEmpty()) {
@@ -1131,26 +865,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "redirect:/buyer/order/detail";
     }
 
-    @Override
-    public CancelOrderResponse confirmOrderAPI(CancelOrderRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            CancelOrderResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build();
-        }
-        Object output = confirmOrderLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
-            return (CancelOrderResponse) output;
-        }
-        return CancelOrderResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
-
     private Object confirmOrderLogic(CancelOrderRequest request) {
         Map<String, String> error = CancelOrderValidation.validate(request, orderRepo, accountRepo);
         if (!error.isEmpty()) {
@@ -1172,12 +886,6 @@ public class BuyerServiceImpl implements BuyerService {
     public void viewCategory(Model model) {
         model.addAttribute("msg3", viewCategoryLogic());
     }
-
-    @Override
-    public ViewCategoryListResponse viewCategoryAPI() {
-        return viewCategoryLogic();
-    }
-
 
     private ViewCategoryListResponse viewCategoryLogic() {
         return ViewCategoryListResponse.builder()
@@ -1205,11 +913,6 @@ public class BuyerServiceImpl implements BuyerService {
         VNPayResponse vnPayResponse = createVNPayPaymentLinkLogic(request, httpServletRequest);
         model.addAttribute("msg", vnPayResponse);
         return "redirect:" + vnPayResponse.getPaymentURL();
-    }
-
-    @Override
-    public VNPayResponse createVNPayPaymentLinkAPI(VNPayRequest request, HttpServletRequest httpServletRequest) {
-        return createVNPayPaymentLinkLogic(request, httpServletRequest);
     }
 
     private VNPayResponse createVNPayPaymentLinkLogic(VNPayRequest request, HttpServletRequest httpServletRequest) {
@@ -1315,19 +1018,6 @@ public class BuyerServiceImpl implements BuyerService {
         }
         model.addAttribute("error", (Map<String, String>) output);
         return "paymentFailed";
-    }
-
-    @Override
-    public VNPayResponse getPaymentResultAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
-
-        Object output = getPaymentResultLogic(params, accountId, httpServletRequest);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
-            return (VNPayResponse) output;
-        }
-        return VNPayResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
     }
 
     private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
@@ -1498,11 +1188,6 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("quantity", request.getQuantity());
         model.addAttribute("msg", vnPayResponse);
         return "redirect:" + vnPayResponse.getPaymentURL();
-    }
-
-    @Override
-    public VNPayResponse createVNPayPaymentLinkForBuyNowAPI(VNPayRequest request, HttpServletRequest httpServletRequest) {
-        return createVNPayPaymentLinkForBuyNowLogic(request, httpServletRequest);
     }
 
     private VNPayResponse createVNPayPaymentLinkForBuyNowLogic(VNPayRequest request, HttpServletRequest httpServletRequest) {
@@ -1728,11 +1413,6 @@ public class BuyerServiceImpl implements BuyerService {
         return "redirect:/category";
     }
 
-    @Override
-    public FilterCategoryResponse filterCategoryAPI(FilterCategoryRequest request) {
-        return filterCategoryLogic(request);
-    }
-
     public FilterCategoryResponse filterCategoryLogic(FilterCategoryRequest request) {
 
         Category category = categoryRepo.findById(request.getCategoryId()).orElse(null);
@@ -1785,27 +1465,6 @@ public class BuyerServiceImpl implements BuyerService {
 
         model.addAttribute("error", (Map<String, String>) output);
         return "sellerInfo";
-    }
-
-    @Override
-    public ViewFeedbackResponse viewFeedbackAPI(int sellerId) {
-        Seller seller = sellerRepo.findById(sellerId).orElse(null);
-        if (seller == null) {
-            return ViewFeedbackResponse.builder()
-                    .status("404")
-                    .message("Seller not found")
-                    .build();
-        }
-
-        Object output = viewFeedbackLogic(sellerId);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
-            return (ViewFeedbackResponse) output;
-        }
-
-        return ViewFeedbackResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
     }
 
     private Object viewFeedbackLogic(int sellerId) {
@@ -1873,27 +1532,6 @@ public class BuyerServiceImpl implements BuyerService {
 
         redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "redirect:/";
-    }
-
-    @Override
-    public CreateFeedbackResponse createFeedbackAPI(CreateFeedbackRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            return CreateFeedbackResponse.builder()
-                    .status("400")
-                    .message("Please login with a buyer account to leave feedback")
-                    .build();
-        }
-
-        Object output = createFeedbackLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFeedbackResponse.class)) {
-            return (CreateFeedbackResponse) output;
-        }
-
-        return CreateFeedbackResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
     }
 
     private Object createFeedbackLogic(CreateFeedbackRequest request) {
