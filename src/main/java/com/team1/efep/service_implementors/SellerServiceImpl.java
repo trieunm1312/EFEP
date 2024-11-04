@@ -311,7 +311,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String viewFlowerListForSeller(HttpSession session, Model model) {
-        model.addAttribute("msg", viewFlowerListForSellerLogic(((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
+        model.addAttribute("msg", viewFlowerListForSellerLogic(Role.getCurrentLoggedAccount(session).getUser().getSeller().getId()));
         return "manageFlower";
     }
 
