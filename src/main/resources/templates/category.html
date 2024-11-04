@@ -33,6 +33,7 @@
         <div class="container">
             <div class="container__wrap">
                 <!-- Breadbrum -->
+                <h1 th:text="${msg.keyword}"></h1>
                 <div th:if="${not #strings.isEmpty(msg.keyword)}">
                     <div class="breadbrum">
                         <h1 class="breadbrum__title">Search For:
@@ -106,6 +107,7 @@
                             <span>Found: (
                                 <span th:text="${#lists.size(msg.flowerList)}"></span>
                                 ) Results</span>
+                            <span th:if="${msg.keyword}" th:text="${msg.keyword}"></span>
                         </div>
                         <!-- Flower Grid -->
                         <div class="flower__grid active-view">
@@ -118,6 +120,7 @@
                                                 <input type="hidden" name="quantity" value="1">
                                                 <input type="hidden" name="flowerId" th:value="${item.id}">
                                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                                <input th:if="${msg.keyword}" type="hidden" name="keyword" th:value="${msg.keyword}">
                                             </div>
                                             <button class="add-to-wishlist">
                                                 <i class="fa-solid fa-heart"></i>
@@ -147,7 +150,7 @@
                         
                         <!-- Flower List -->
                         <div  class="flower-list ">
-                            <div th:each="item : ${msg.flowerList}" th:if="${item.quantity > 0}" class="flower-list__item">
+                            <div th:each="item : ${msg.flowerList}" th:if="${item.quantity} > 0" class="flower-list__item">
                                 <img th:src="${item.images[0].link}" alt="">
                                 <div class="flower-list__item-content">
                                     <form th:action="@{/buyer/flower/detail}" class="form" method="post">

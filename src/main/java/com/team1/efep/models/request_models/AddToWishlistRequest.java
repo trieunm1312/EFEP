@@ -16,4 +16,7 @@ public class AddToWishlistRequest {
 
     int quantity;
 
+//    This is for case clicking add to wishlist when currently stand in category page
+    String keyword;
+
 }
