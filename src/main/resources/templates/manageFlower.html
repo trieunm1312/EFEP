@@ -335,7 +335,14 @@
                                                 <div id="confirmDelete" class="confirmDelete">
                                                     <div class="confirmDelete-form">
                                                     <span class="confirm-text">Do you want to delete flower <span th:text="${item.name}">RED</span> ?</span>
-
+                                                        <form th:action="@{/seller/flower}" th:method="delete">
+                                                            <input type="hidden" name="accountId"
+                                                                   th:value="${session.acc.getId()}">
+                                                            <input type="hidden" name="flowerId" th:value="${item.id}">
+                                                            <span class="cancel-delete" onclick="closeDeletePopup()">Cancel</span>
+                                                            <input type="submit" name="action" value="Delete"
+                                                                   class="delete-btn">
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </td>
