@@ -287,16 +287,23 @@
                                                                             <button class="remove-button" onclick="removeImage(3, event)">&times;</button>
                                                                         </div>
                                                                     </div>
-                                                                    <h4 class="cate-title">Categories</h4>
-                                                                    <div class="categories">
-<!--                                                                        <div th:each="cate : ${msg.allCategory}">-->
-<!--                                                                            <label>-->
-<!--                                                                                <input type="checkbox" name="categoryIdList" th:value="${cate.id}"-->
-<!--                                                                                       th:checked="${#lists.contains(flower.categoryIdList, cate.id)}"-->
-<!--                                                                                       th:text="${cate.name}">-->
-<!--                                                                            </label>-->
-<!--                                                                        </div>-->
-                                                                    </div>
+<!--                                                                    <h4 class="cate-title">Categories</h4>-->
+<!--                                                                    <div class="categories">-->
+<!--&lt;!&ndash;                                                                        <div th:each="cate : ${msg.allCategory}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                            <label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                <input type="checkbox" name="categoryIdList" th:value="${cate.id}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                       th:checked="${#lists.contains(flower.categoryIdList, cate.id)}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                       th:text="${cate.name}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                            </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                        </div>&ndash;&gt;-->
+<!--                                                                        <label for="multi-select">Choose categories:</label>-->
+<!--                                                                        <select id="multi-select" name="options" multiple>-->
+<!--                                                                            <option value="option1">wedding</option>-->
+<!--                                                                            <option value="option2">anni</option>-->
+<!--                                                                            <option value="option3">mother</option>-->
+<!--                                                                            <option value="option4">Tùy chọn 4</option>-->
+<!--                                                                        </select>-->
+<!--                                                                    </div>-->
                                                                 </div>
                                                             </div>
 
@@ -310,7 +317,7 @@
                                                 </td>
                                             </form>
 
-                                            <td class="table__body-toggle">
+                                            <td class="table__body-toggle" th:if="${item.quantity} > 0">
                                                 <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
                                                        class="toggle-btn">Delete</span>
 

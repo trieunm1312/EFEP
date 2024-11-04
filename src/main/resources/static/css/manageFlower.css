@@ -651,3 +651,46 @@ textarea {
 .image-preview:hover button {
     display: block; /* Hiển thị nút xóa khi di chuột qua ô */
 }
+
+/* Style cho label */
+label[for="multi-select"] {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    display: block; /* Giúp label nằm trên select */
+    margin-bottom: 8px;
+}
+
+/* Style cho select */
+#multi-select {
+    width: 100%; /* Cho chiều rộng full container */
+    max-width: 300px; /* Giới hạn chiều rộng tối đa */
+    height: 120px; /* Chiều cao để hiển thị nhiều tùy chọn */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    outline: none; /* Bỏ viền mặc định khi focus */
+    resize: vertical; /* Cho phép thay đổi chiều cao */
+}
+
+/* Style cho các tùy chọn bên trong select */
+#multi-select option {
+    padding: 4px;
+    color: #333;
+}
+
+/* Thêm hiệu ứng khi focus */
+#multi-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Style cho option khi được chọn */
+#multi-select option:checked {
+    background-color: #007bff;
+    color: #fff;
+}
