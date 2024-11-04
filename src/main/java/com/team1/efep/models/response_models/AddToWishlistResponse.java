@@ -15,4 +15,7 @@ public class AddToWishlistResponse {
 
     private String message;
 
+    private String keyword;
+
+
 }

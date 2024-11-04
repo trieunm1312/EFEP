@@ -4,6 +4,9 @@ import com.team1.efep.configurations.AdminPageConfig;
 import com.team1.efep.configurations.AllPage;
 import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.configurations.SellerPageConfig;
+import com.team1.efep.models.entity_models.Category;
+import com.team1.efep.models.request_models.FilterCategoryRequest;
+import com.team1.efep.models.response_models.AddToWishlistResponse;
 import com.team1.efep.models.response_models.FilterCategoryResponse;
 import com.team1.efep.models.response_models.UpdateProfileResponse;
 import com.team1.efep.models.response_models.ViewProfileResponse;
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -162,7 +166,11 @@ public class PageController {
     }
 
     @GetMapping("/category")
-    public String categoryPage(Model model) {
+    public String categoryPage(Model model, RedirectAttributes redirectAttributes) {
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), AddToWishlistResponse.class)){
+            int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg")).getKeyword());
+            return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes);
+        }
         model.addAttribute("msg", (FilterCategoryResponse)model.getAttribute("msg"));
         AllPage.allConfig(model, buyerService);
         return "category";

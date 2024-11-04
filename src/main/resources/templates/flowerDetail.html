@@ -124,6 +124,7 @@
                             <form th:action="@{/buyer/wishlist}" th:method="post" class="form-button">
                                 <input type="hidden" id="quantity" name="quantity" value="1">
                                 <input type="hidden" name="flowerId" th:value="${msg.flower.id}">
+                                <input type="hidden" name="keyword" value="">
                                 <div th:if="${session.acc}">
                                     <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                 </div>
