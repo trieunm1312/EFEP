@@ -1,6 +1,7 @@
 package com.team1.efep.utils;
 
 import com.team1.efep.models.entity_models.Order;
+import com.team1.efep.models.entity_models.OrderDetail;
 import com.team1.efep.models.entity_models.User;
 
 import java.io.BufferedReader;
@@ -55,9 +56,14 @@ public class FileReaderUtil {
                 result += line;
             }
 
-            result = result.replaceAll("@@###", user.getName());
-            result = result.replaceAll("@@@##", user.getName());
-            result = result.replaceAll("@@##", user.getName());
+            OrderDetail orderDetail = order.getOrderDetailList().get(0);
+
+            result = result.replaceAll("@@##", order.getId().toString()); //order id
+            result = result.replaceAll("@@@##", order.getCreatedDate().toLocalDate().toString());//created date
+            result = result.replaceAll("@@#", orderDetail.getFlowerName());//flower name
+            result = result.replaceAll("@@@###", String.valueOf(orderDetail.getQuantity()));//quantity
+            result = result.replaceAll("@@@@###", user.getName());//flower price
+            result = result.replaceAll("@@@@####", String.valueOf(order.getTotalPrice()));//total price
             br.close();
         } catch (Exception e) {
             e.printStackTrace();
