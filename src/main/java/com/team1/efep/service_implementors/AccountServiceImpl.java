@@ -78,19 +78,6 @@ public class AccountServiceImpl implements AccountService {
         return "redirect:/register";
     }
 
-    @Override
-    public RegisterResponse registerAPI(RegisterRequest request) {
-        Object output = registerLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
-            return (RegisterResponse) output;
-        }
-        return RegisterResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-
-    }
-
     private Object registerLogic(RegisterRequest request) {
         Map<String, String> errors = RegisterValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
@@ -152,18 +139,6 @@ public class AccountServiceImpl implements AccountService {
         return "redirect:/login";
     }
 
-    @Override
-    public LoginResponse loginAPI(LoginRequest request) {
-        Object output = loginLogic(request);
-
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class)) {
-            return (LoginResponse) output;
-        }
-        return LoginResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
 
     private Object loginLogic(LoginRequest request) {
         Map<String, String> errors = LoginValidation.validate(request, accountRepo);
@@ -223,11 +198,6 @@ public class AccountServiceImpl implements AccountService {
                 return "redirect:/myAccount";
         }
         return "redirect:/";
-    }
-
-    @Override
-    public ViewProfileResponse viewProfileAPI(ViewProfileRequest request) {
-            return viewProfileLogic(request);
     }
 
     // việc trả về hồ sơ người dùng nên trả về ViewProfileResponse
@@ -300,18 +270,6 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    @Override
-    public UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request) {
-        Object output = updateProfileLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
-            return (UpdateProfileResponse) output;
-        }
-        return UpdateProfileResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
     private Object updateProfileLogic(UpdateProfileRequest request) {
         Map<String, String> errors = UpdateProfileValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
@@ -349,19 +307,6 @@ public class AccountServiceImpl implements AccountService {
         redirectAttributes.addFlashAttribute("error", output);
         return "redirect:/change/password";
     }
-
-    @Override
-    public ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request) {
-        Object output = changePasswordLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
-            return (ChangePasswordResponse) output;
-        }
-        return ChangePasswordResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
 
     private Object changePasswordLogic(ChangePasswordRequest request) {
         Map<String, String> errors = ChangePasswordValidation.validate(request);

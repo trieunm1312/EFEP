@@ -56,11 +56,6 @@ public class AdminServiceImpl implements AdminService {
         return "manageUser";
     }
 
-    @Override
-    public ViewUserListResponse viewUserListAPI() {
-        return viewUserListLogic();
-    }
-
     private ViewUserListResponse viewUserListLogic() {
         return ViewUserListResponse.builder()
                 .status("200")
@@ -97,12 +92,6 @@ public class AdminServiceImpl implements AdminService {
         model.addAttribute("msg1", searchUserListLogic(request));
         return "manageUser";
     }
-
-    @Override
-    public SearchUserListResponse searchUserListAPI(SearchUserListRequest request) {
-        return searchUserListLogic(request);
-    }
-
 
     private SearchUserListResponse searchUserListLogic(SearchUserListRequest request) {
         return SearchUserListResponse.builder()
@@ -147,18 +136,6 @@ public class AdminServiceImpl implements AdminService {
         return "redirect:/admin/user/list";
     }
 
-    @Override
-    public BanUserResponse banUserAPI(BanUserRequest request) {
-        Object output = banUserLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, BanUserResponse.class)) {
-            return (BanUserResponse) output;
-        }
-        return BanUserResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
     private Object banUserLogic(BanUserRequest request) {
         Map<String, String> error = BanUserValidation.validate(request, userRepo);
         if (error.isEmpty()) {
@@ -188,19 +165,6 @@ public class AdminServiceImpl implements AdminService {
         return "redirect:/admin/user/list";
     }
 
-    @Override
-    public UnBanUserResponse unBanUserAPI(UnBanUserRequest request) {
-        Object output = unBanUserLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UnBanUserResponse.class)) {
-            return (UnBanUserResponse) output;
-        }
-        return UnBanUserResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
-
     private Object unBanUserLogic(UnBanUserRequest request) {
         Map<String, String> error = UnBanUserValidation.validate(request, userRepo);
         if (error.isEmpty()) {
@@ -229,18 +193,6 @@ public class AdminServiceImpl implements AdminService {
         redirectAttributes.addFlashAttribute("error", (output));
         redirectAttributes.addFlashAttribute("userInput", request);
         return "redirect:/admin/user/list";
-    }
-
-    @Override
-    public CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request) {
-        Object output = createAccountForSellerLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
-            return (CreateAccountForSellerResponse) output;
-        }
-        return CreateAccountForSellerResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
     }
 
     private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {
