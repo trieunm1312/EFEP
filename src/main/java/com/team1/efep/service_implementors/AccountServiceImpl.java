@@ -48,10 +48,10 @@ public class AccountServiceImpl implements AccountService {
 //--------------------------Hash password------------------------//
 
 
-    private boolean checkPassword(String inputPassword, String storedPassword) {
-        String hashedInputPassword = PasswordEncryptUtil.encrypt(inputPassword);
-        return hashedInputPassword.equals(storedPassword);
-    }
+//    private boolean checkPassword(String inputPassword, String storedPassword) {
+//        String hashedInputPassword = PasswordEncryptUtil.encrypt(inputPassword);
+//        return hashedInputPassword.equals(storedPassword);
+//    }
 
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
