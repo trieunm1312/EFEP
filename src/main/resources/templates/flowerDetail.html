@@ -116,14 +116,9 @@
                                 </div>
                             </div>
                             <span class="flower-information__quantity-available">
-                                            <span th:text="${msg.flower.quantity}"></span>
+                                            <span id="maxQuantity" th:text="${msg.flower.quantity}"></span>
                                             <span> available</span>
                                         </span>
-                            <span class="flower-information__quantity-separate">|</span>
-                            <span class="flower-information__quantity-sold">
-                                        <span th:text="${msg.flower.soldQuantity}"></span>
-                                        <span> sold</span>
-                            </span>
                         </div>
                         <div class="flower-information__button">
                             <form th:action="@{/buyer/wishlist}" th:method="post" class="form-button">

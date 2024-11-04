@@ -128,7 +128,7 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:" + httpServletRequest.getHeader("Referer");
     }
 
@@ -439,6 +439,8 @@ public class BuyerServiceImpl implements BuyerService {
                         .name(item.getName())
                         .price(item.getPrice())
                         .description(item.getDescription())
+                        .quantity(item.getQuantity())
+                        .soldQuantity(item.getSoldQuantity())
                         .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
                         .build()
                 ).toList();
@@ -684,6 +686,7 @@ public class BuyerServiceImpl implements BuyerService {
                                                 .name(flower.getName())
                                                 .price(flower.getPrice())
                                                 .description(flower.getDescription())
+                                                .quantity(flower.getQuantity())
                                                 .soldQuantity(flower.getSoldQuantity())
                                                 .images(
                                                         flower.getFlowerImageList().stream()
@@ -1426,6 +1429,7 @@ public class BuyerServiceImpl implements BuyerService {
                                         .name(flower.getFlower().getName())
                                         .description(flower.getFlower().getDescription())
                                         .price(flower.getFlower().getPrice())
+                                        .quantity(flower.getFlower().getQuantity())
                                         .soldQuantity(flower.getFlower().getSoldQuantity())
                                         .images(
                                                 flower.getFlower().getFlowerImageList().stream()

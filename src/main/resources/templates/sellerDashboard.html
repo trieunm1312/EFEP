@@ -117,14 +117,16 @@
             </div>
             <span class="header__separate">|</span>
             <div class="header__account" id="headerAccount">
-                <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
-                <img th:if="${session.acc.getUser().getAvatar()} != ''" th:src="${session.acc.getUser().getAvatar()}"
-                     alt="Avatar">
+                <i th:if="${session.acc.getUser().getAvatar()} == ''"
+                   class="header__account-icon fa-solid fa-user"></i>
+                <img th:if="${session.acc.getUser().getAvatar()} != ''"
+                     th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
                 <span th:text="${session.acc.getUser().getName()}"></span>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
                 <div class="header__item-account" id="accountDropdown">
                     <form th:action="@{/account/view/profile}" class="form" method="get">
-                        <input type="submit" name="action" value="My profile" class="header__item-account-item"></input>
+                        <input type="submit" name="action" value="My profile"
+                               class="header__item-account-item"></input>
                         <input type="hidden" name="id" th:value="${session.acc.id}"></input>
                     </form>
                     <form th:action="@{/change/password}" class="form">
