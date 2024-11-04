@@ -450,6 +450,7 @@ html {
     margin-top: 16px;
     font-size: 1.4rem;
     font-weight: 600;
+    text-align: center;
 }
 
 .seller__item:first-child{
@@ -466,7 +467,6 @@ html {
 }
 
 .seller__item-link img{
-    margin-right: 10px;
     width: 100px;
     height: 100px;
 }

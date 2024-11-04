@@ -184,6 +184,7 @@ public class SellerServiceImpl implements SellerService {
         Object output = viewOrderListLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
             model.addAttribute("msg", (ViewOrderListResponse) output);
+            session.removeAttribute("status");
             return "viewOrderList";
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -338,6 +339,7 @@ public class SellerServiceImpl implements SellerService {
 
 
     private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
+
         return flowers.stream()
                 .map(item -> ViewFlowerListForSellerResponse.Flower.builder()
                         .id(item.getId())
@@ -585,6 +587,7 @@ public class SellerServiceImpl implements SellerService {
         Object output = filterOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
             model.addAttribute("msg", (FilterOrderResponse) output);
+            session.setAttribute("status", request.getStatus());
             return "viewOrderList";
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -687,12 +690,33 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public SortOrderResponse sortOrderAPI(FilterOrderRequest filterOrderRequest) {
-        return sortOrderLogic(filterOrderRequest);
+//        return sortOrderLogic(filterOrderRequest);
+        return null;
     }
 
+
+//    private SortOrderResponse sortOrderLogic(FilterOrderRequest filterRequest) {
+//        FilterOrderResponse response = (FilterOrderResponse) filterOrderLogic(filterRequest);
+//        List<FilterOrderResponse.OrderBill> orders = new ArrayList<>(response.getOrderList());
+//        if ("asc".equalsIgnoreCase(filterRequest.getSortDirection())) {
+//            orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate));
+//        } else if ("desc".equalsIgnoreCase(filterRequest.getSortDirection())) {
+//            orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate).reversed());
+//        }
+//
+//        return SortOrderResponse.builder()
+//                .status("200")
+//                .message("Sort order successfully")
+//                .orderList(orders)
+//                .build();
+//    }
+
     private SortOrderResponse sortOrderLogic(FilterOrderRequest filterRequest) {
-        FilterOrderResponse response = (FilterOrderResponse) filterOrderLogic(filterRequest);
-        List<FilterOrderResponse.OrderBill> orders = new ArrayList<>(response.getOrderList());
+        // Gọi filterOrderLogic để lấy các đơn hàng đã được lọc theo status
+        FilterOrderResponse filteredResponse = (FilterOrderResponse) filterOrderLogic(filterRequest);
+        List<FilterOrderResponse.OrderBill> orders = new ArrayList<>(filteredResponse.getOrderList());
+
+        // Thực hiện sắp xếp theo sortDirection
         if ("asc".equalsIgnoreCase(filterRequest.getSortDirection())) {
             orders.sort(Comparator.comparing(FilterOrderResponse.OrderBill::getCreateDate));
         } else if ("desc".equalsIgnoreCase(filterRequest.getSortDirection())) {
@@ -705,6 +729,7 @@ public class SellerServiceImpl implements SellerService {
                 .orderList(orders)
                 .build();
     }
+
 
     //------------------------------UPDATE FLOWER------------------------------------------//
 
@@ -1260,6 +1285,95 @@ public class SellerServiceImpl implements SellerService {
         return orderRepo.findAll().stream()
                 .filter(order -> order.getCreatedDate().toLocalDate().equals(date))
                 .count();
+    }
+
+    //----------------------------------------VIEW FEEDBACK---------------------------------------//
+
+    @Override
+    public String viewFeedback(int sellerId, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ViewFeedbackResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to view feedback")
+                    .build());
+            return "login";
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            model.addAttribute("msg", (ViewFeedbackResponse) output);
+            return "sellerInfo";
+        }
+
+        model.addAttribute("error", (Map<String, String>) output);
+        return "sellerInfo";
+    }
+
+    @Override
+    public ViewFeedbackResponse viewFeedbackAPI(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("Seller not found")
+                    .build();
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            return (ViewFeedbackResponse) output;
+        }
+
+        return ViewFeedbackResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewFeedbackLogic(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return Map.of("error", "Seller not found");
+        }
+
+        List<Feedback> feedbackList = seller.getFeedbackList();
+        if (feedbackList.isEmpty()) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("No feedback found for this seller")
+                    .build();
+        }
+
+        List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
+                .map(this::mapToFeedbackDetail)
+                .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
+                .collect(Collectors.toList());
+
+        return ViewFeedbackResponse.builder()
+                .status("200")
+                .message("Feedback found")
+                .id(seller.getId())
+                .name(seller.getUser().getName())
+                .email(seller.getUser().getAccount().getEmail())
+                .phone(seller.getUser().getPhone())
+                .avatar(seller.getUser().getAvatar())
+                .background(seller.getUser().getBackground())
+                .totalFlower(seller.getFlowerList().size())
+                .sellerRating(seller.getRating())
+                .feedbackList(feedbackDetails)
+                .build();
+    }
+
+    private ViewFeedbackResponse.FeedbackDetail mapToFeedbackDetail(Feedback feedback) {
+        return ViewFeedbackResponse.FeedbackDetail.builder()
+                .id(feedback.getId())
+                .name(feedback.getUser().getName())
+                .avatar(feedback.getUser().getAvatar())
+                .content(feedback.getContent())
+                .rating(feedback.getRating())
+                .createDate(feedback.getCreateDate().toLocalDate())
+                .build();
     }
 }
 
