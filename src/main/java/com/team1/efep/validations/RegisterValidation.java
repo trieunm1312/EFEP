@@ -53,7 +53,7 @@ public class RegisterValidation {
             return MapConfig.buildMapKey(error, "Password cannot be empty");
         }
 
-        if (!request.getPassword().matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
+        if (!request.getPassword().matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$")) {
             return MapConfig.buildMapKey(error, "Password is invalid format");
         }
 
