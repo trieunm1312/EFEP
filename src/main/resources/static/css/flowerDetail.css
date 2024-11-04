@@ -132,8 +132,6 @@
     margin-top: 16px;
 }
 
-
-
 .flower-information__short-desc p{
     margin-left: 8px;
     color: #666;
@@ -269,7 +267,7 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 32px 0 32px 100px;
 }
 
-.seller__item{
+.seller__link{
     width: 30%;
     height: fit-content;
     margin-bottom: 48px;

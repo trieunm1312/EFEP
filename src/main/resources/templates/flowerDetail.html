@@ -150,18 +150,16 @@
 
                 <!-- Seller Information -->
                 <div class="seller">
-                    <div class="seller__item">
+                    <a th:href="@{/buyer/feedback(accountId=${msg.flower.seller.id})}" class="seller__link">
                         <div class="seller__img">
-                            <a th:href="@{/buyer/feedback(accountId=${msg.flower.seller.id})}">
-                                <img th:src="${msg.flower.seller.avatar == null || msg.flower.seller.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.flower.seller.avatar}" alt="Avatar"/>
-                            </a>
+                            <img th:src="${msg.flower.seller.avatar == null || msg.flower.seller.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.flower.seller.avatar}" alt="Avatar"/>
                         </div>
                         <div class="seller__info">
                             <span class="seller__name" th:text="${msg.flower.seller.name}" ></span>
                             <span class="seller__email" th:text="${msg.flower.seller.email}" ></span>
                             <span class="seller__phone" th:text="${msg.flower.seller.phone}" ></span>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                

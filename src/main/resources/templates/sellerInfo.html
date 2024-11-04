@@ -48,7 +48,7 @@
                     <li class="breadbrum__element-list-item">
                         <a th:href="@{/buyer/feedback(accountId=${msg.id})}" class="breadbrum__element-list-item-link">
                             <i class="fa-solid fa-angles-right"></i>
-                            <span th:text="@{msg.name}"></span>
+                            <span th:text="${msg.name}"></span>
                         </a>
                     </li>
                 </ul>
@@ -56,7 +56,7 @@
             <div class="grid">
                 <!-- Seller Information -->
                 <div class="seller">
-                    <div class="seller__item">
+                    <div class="seller__link">
                         <div class="seller__avartar">
                             <img th:src="${msg.avatar == null || msg.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.avatar}" alt="Avatar"/>
                             <span th:text="${msg.name}" class="seller__name"></span>
@@ -79,7 +79,7 @@
 
                                         <!-- Empty stars (up to 5 stars total) -->
                                         <span th:each="i : ${#numbers.sequence(msg.sellerRating.intValue() + (msg.sellerRating > msg.sellerRating.intValue() ? 1 : 0), 4)}">
-                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star unfill"></i>
                                         </span>
                                     </div>
                                 </span>
