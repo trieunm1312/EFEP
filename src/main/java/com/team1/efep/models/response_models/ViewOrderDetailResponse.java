@@ -18,6 +18,8 @@ public class ViewOrderDetailResponse {
 
     private String message;
 
+    private int sellerId;
+
     private int orderId;
 
     private String sellerName;

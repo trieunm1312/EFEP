@@ -17,6 +17,8 @@ public class ViewFlowerListForSellerResponse {
 
     private String message;
 
+    private List<AllCategoryDetail> allCategory;
+
     private List<Flower> flowerList;
 
     @Data
@@ -39,9 +41,11 @@ public class ViewFlowerListForSellerResponse {
 
         private int quantity;
 
-        private int soldQuantity;
-
         private List<Image> imageList;
+
+        private List<CategoryDetail> categoryList;
+
+        private List<Integer> categoryIdList;
     }
 
     @Data
@@ -51,6 +55,28 @@ public class ViewFlowerListForSellerResponse {
     public static class Image {
 
         private String link;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class CategoryDetail {
+
+        private int id;
+
+        private String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class AllCategoryDetail {
+
+        private int id;
+
+        private String name;
     }
 
 }

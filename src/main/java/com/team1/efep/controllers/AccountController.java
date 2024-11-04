@@ -29,20 +29,10 @@ public class AccountController {
         return accountService.register(request, model, redirectAttributes);
     }
 
-    @PostMapping("/register/api")
-    public RegisterResponse register(@RequestBody RegisterRequest request) {
-        return accountService.registerAPI(request);
-    }
-
     @PostMapping("/login")
     @Operation(hidden = true)
     public String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         return accountService.login(request, model, session, redirectAttributes);
-    }
-
-    @PostMapping("/login/api")
-    public LoginResponse login(@RequestBody LoginRequest request) {
-        return accountService.loginAPI(request);
     }
 
     @GetMapping("/login/google")
@@ -62,31 +52,16 @@ public class AccountController {
         return accountService.viewProfile(session, model, redirectAttributes);
     }
 
-    @GetMapping("/view/profile/api")
-    public ViewProfileResponse viewProfile(@RequestBody ViewProfileRequest request) {
-        return accountService.viewProfileAPI(request);
-    }
-
     @PutMapping("/update/profile")
     @Operation(hidden = true)
     public String updateProfile(UpdateProfileRequest request, HttpSession session, RedirectAttributes redirectAttributes) {
         return accountService.updateProfile(request, session, redirectAttributes);
     }
 
-    @PutMapping("/update/profile/api")
-    public UpdateProfileResponse updateProfile(@RequestBody UpdateProfileRequest request) {
-        return accountService.updateProfileAPI(request);
-    }
-
     @PostMapping("/change/password")
     @Operation(hidden = true)
     public String changePassword(ChangePasswordRequest request, HttpSession session, Model model,RedirectAttributes redirectAttributes) {
         return accountService.changePassword(request, session, model, redirectAttributes);
-    }
-
-    @PostMapping("/change/password/api")
-    public ChangePasswordResponse changePassword(@RequestBody ChangePasswordRequest request) {
-        return accountService.changePasswordAPI(request);
     }
 
     @GetMapping("/logout")

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ChangeOrderStatusRequest {
-    private int accountId;
 
     private int orderId;
 

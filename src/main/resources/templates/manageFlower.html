@@ -181,7 +181,7 @@
                 <div class="manage-flower">
                     <div class="manage-flower__heading">
                         <h4 class="manage-flower__title">Manage Flower</h4>
-                        <div class="manage-flower__create-btn">
+                        <div class="manage-flower__create-btn" onclick="openCreatePopup()">
                             <i class="fa-solid fa-plus header__create-btn-icon"></i>
                             <span>Create New</span>
                         </div>
@@ -193,7 +193,7 @@
                                 <th class="table__header-name">Name</th>
                                 <th class="table__header-desc">Description</th>
                                 <th class="table__header-amount">Flower Amount</th>
-                                <th class="table__header-qnt">Quanity</th>
+                                <th class="table__header-qnt">Quantity</th>
                                 <th class="table__header-price">Price</th>
                                 <th class="table__header-sold-qnt">Sold Quantity</th>
                                 <th class="table__header-status">Status</th>
@@ -218,31 +218,31 @@
                                                 </td>
                                                 <td class="table__body-name">
                                                     <span th:text="${item.name}" class="name-text">RED</span>
-                                                    <input type="text" name="name" class="name-input"
-                                                        th:value="${item.name}" style="display: none;" />
+<!--                                                    <input type="text" name="name" class="name-input"-->
+<!--                                                        th:value="${item.name}" style="display: none;" />-->
                                                 </td>
                                                 <td class="table__body-desc">
                                                     <span th:text="${item.description}" class="desc-text">Dep</span>
-                                                    <textarea name="description" th:text="${item.description}"
-                                                        class="desc-input" style="display: none;">
-                                            </textarea>
+<!--                                                    <textarea name="description" th:text="${item.description}"-->
+<!--                                                        class="desc-input" style="display: none;">-->
+<!--                                            </textarea>-->
                                                 </td>
                                                 <td class="table__body-amount">
                                                     <span th:text="${item.flowerAmount}" class="amount-text">100</span>
-                                                    <input name="flowerAmount" class="amount-input"
-                                                        th:value="${item.flowerAmount}" style="display: none;"
-                                                        pattern="\d*" title="Please enter a valid number" />
+<!--                                                    <input name="flowerAmount" class="amount-input"-->
+<!--                                                        th:value="${item.flowerAmount}" style="display: none;"-->
+<!--                                                        pattern="\d*" title="Please enter a valid number" />-->
                                                 </td>
                                                 <td class="table__body-qnt">
                                                     <span th:text="${item.quantity}" class="qnt-text">20</span>
-                                                    <input name="quantity" class="qnt-input" th:value="${item.quantity}"
-                                                        style="display: none;" pattern="\d*"
-                                                        title="Please enter a valid number" />
+<!--                                                    <input name="quantity" class="qnt-input" th:value="${item.quantity}"-->
+<!--                                                        style="display: none;" pattern="\d*"-->
+<!--                                                        title="Please enter a valid number" />-->
                                                 </td>
                                                 <td class="table__body-price">
                                                     <span th:text="${'$' + item.price}" class="price-text">120</span>
-                                                    <input name="price" class="price-input" th:value="${item.price}"
-                                                        style="display: none;" title="Please enter a valid number" />
+<!--                                                    <input name="price" class="price-input" th:value="${item.price}"-->
+<!--                                                        style="display: none;" title="Please enter a valid number" />-->
                                                 </td>
                                                 <td class="table__body-sold_qnt">
                                                     <span th:text="${item.soldQuantity}" class="sold-text">120</span>
@@ -251,21 +251,106 @@
                                                     <span th:text="${item.status}" class="status-text">Out</span>
                                                 </td>
                                                 <td class="table__body-edit">
-                                                    <i class="fa-solid fa-pencil modify-icon"
-                                                        onclick="editRow(this)"></i>
-                                                    <span class="edit-btn" onclick="editRow(this)">Edit</span>
-                                                    <input type="submit" name="action" class="save-btn" value="Save"
-                                                        onclick="prepareSave(this)" style="display: none;">
+<!--                                                    <i class="fa-solid fa-pencil modify-icon"-->
+<!--                                                        onclick="editRow(this)"></i>-->
+<!--                                                    <span class="edit-btn" onclick="editRow(this)">Edit</span>-->
+<!--                                                    <input type="submit" name="action" class="save-btn" value="Save"-->
+<!--                                                        onclick="prepareSave(this)" style="display: none;">-->
+                                                    <!-- Button to open the popup -->
+<!--                                                    <i class="fa-solid fa-pencil modify-icon" onclick="openPopup()"></i>-->
+                                                    <span class="edit-btn" th:onclick="'openPopup(' + ${item.id} + ')'">Edit</span>
+                                                    <!-- Popup modal -->
+                                                    <div th:id="'editPopup-' + ${item.id}" class="popup">
+                                                        <div class="popup-content">
+                                                            <span class="close" th:onclick="'closePopup(' + ${item.id} + ')'">&times;</span>
+
+                                                            <div class="popup-form">
+                                                                <!-- Left half for input fields -->
+                                                                <div class="left-section">
+                                                                    <h3>Edit Flower Information</h3>
+                                                                    <label for="name">Name:</label>
+                                                                    <input type="text" id="name" name="name" th:value="${item.name}">
+
+                                                                    <label for="description">Description:</label>
+                                                                    <textarea id="description" name="description" th:text="${item.description}"></textarea>
+
+                                                                    <label for="flowerAmount">Flower Amount:</label>
+                                                                    <input type="number" id="flowerAmount" name="flowerAmount"
+                                                                           th:value="${item.flowerAmount}" pattern="\d*" title="Please enter a valid number">
+
+                                                                    <label for="quantity">Quantity:</label>
+                                                                    <input type="number" id="quantity" name="quantity" th:value="${item.quantity}"
+                                                                           pattern="\d*" title="Please enter a valid number">
+
+                                                                    <label for="price">Price:</label>
+                                                                    <input id="price" step="0.01" name="price" th:value="${item.price}"
+                                                                           pattern="\d*" title="Please enter a valid number">
+                                                                </div>
+
+                                                                <!-- Right half for image upload and categories -->
+                                                                <div class="right-section">
+                                                                    <h4 class="image-title">Upload Image</h4>
+                                                                    <input type="file" id="imageUpload" name="imageUpload" onchange="uploadImage()" multiple style="display: none;">
+                                                                    <div id="imagePreviewContainer">
+                                                                        <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
+                                                                        <img id="previewImage2" src="#" alt="Image Preview 2"/>
+                                                                        <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
+                                                                        <div class="image-preview" onclick="selectSlot(1)">
+                                                                            <img id="previewImage1" src="#" alt="Image Preview 1" style="display: none;" />
+                                                                            <button class="remove-button" onclick="removeImage(1, event)">&times;</button>
+                                                                        </div>
+                                                                        <div class="image-preview" onclick="selectSlot(2)">
+                                                                            <img id="previewImage2" src="#" alt="Image Preview 2" style="display: none;" />
+                                                                            <button class="remove-button" onclick="removeImage(2, event)">&times;</button>
+                                                                        </div>
+                                                                        <div class="image-preview" onclick="selectSlot(3)">
+                                                                            <img id="previewImage3" src="#" alt="Image Preview 3" style="display: none;" />
+                                                                            <button class="remove-button" onclick="removeImage(3, event)">&times;</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <h4 class="cate-title">Categories</h4>
+                                                                    <div class="categories">
+<!--                                                                        <div th:each="cate : ${msg.allCategory}">-->
+<!--                                                                            <label>-->
+<!--                                                                                <input type="checkbox" name="categoryIdList" th:value="${cate.id}"-->
+<!--                                                                                       th:checked="${#lists.contains(flower.categoryIdList, cate.id)}"-->
+<!--                                                                                       th:text="${cate.name}">-->
+<!--                                                                            </label>-->
+<!--                                                                        </div>-->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Buttons at the bottom -->
+                                                            <div class="popup-buttons">
+                                                                <span th:onclick="'closePopup(' + ${item.id} + ')'">Cancel</span>
+                                                                <button name="update">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </form>
+                                            <td>
+                                                <span th:text="${item.id}">0</span>
+                                            </td>
                                             <td class="table__body-toggle">
-                                                <form th:action="@{/seller/flower}" th:method="delete">
-                                                    <input type="hidden" name="accountId"
-                                                        th:value="${session.acc.getId()}">
-                                                    <input type="hidden" name="flowerId" th:value="${item.id}">
-                                                    <input type="submit" name="action" value="Delete"
-                                                        class="toggle-btn">
-                                                </form>
+                                                <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
+                                                       class="toggle-btn">Delete</span>
+
+                                                <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
+                                                    <span th:text="${item.id}">0</span>
+                                                    <div class="confirmDelete-form">
+                                                    <span class="confirm-text">Do you want to delete flower <span th:text="${item.name}">RED</span> ?</span>
+                                                        <form th:action="@{/seller/flower}" th:method="delete">
+                                                            <input type="hidden" name="accountId"
+                                                                   th:value="${session.acc.getId()}">
+                                                            <input type="hidden" name="flowerId" th:value="${item.id}">
+                                                            <span class="cancel-delete" th:onclick="'closeDeletePopup(' + ${item.id} + ')'" >Cancel</span>
+                                                            <input type="submit" name="action" value="Delete"
+                                                                   class="delete-btn">
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </div>
                                     </tr>
@@ -274,107 +359,103 @@
 
                             <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                <tr class="table__body-item-new" style="display: none;">
-                                    <td class="table__body-img">
-                                        <img class="img" src="" alt="" id="flowers-image">
-                                        <input type="file" accept="image/*" value="" id="input-file" class="file-input">
-                                        <input type="hidden" name="image" id="flower-img" value="">
-                                    </td>
-                                    <td class="table__body-name">
-                                        <input name="name" th:value="${flowerName}" placeholder="Flower Name">
-                                    </td>
-                                    <td class="table__body-desc">
-                                        <textarea name="description" th:text="${description}"
-                                            placeholder="Description"></textarea>
-                                    </td>
-                                    <td class="table__body-amount">
-                                        <input name="flowerAmount" th:value="${flowerAmount}" placeholder="Amount">
-                                    </td>
-                                    <td class="table__body-qnt">
-                                        <input name="quantity" th:value="${quantity}" placeholder="Quantity">
-                                    </td>
-                                    <td class="table__body-price">
-                                        <span>$</span>
-                                        <input name="price" th:value="${price}" placeholder="Price">
-                                    </td>
-                                    <td class="table__body-save">
-                                        <input type="submit" class="save-btn" name="action" value="Create">
-                                    </td>
-                                </tr>
+<!--                                <tr class="table__body-item-new" style="display: none;">-->
+<!--                                    <td class="table__body-img">-->
+<!--                                        <img class="img" src="" alt="" id="flowers-image">-->
+<!--                                        <input type="file" accept="image/*" value="" id="input-file" class="file-input">-->
+<!--                                        <input type="hidden" name="image" id="flower-img" value="">-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-name">-->
+<!--                                        <input name="name" th:value="${flowerName}" placeholder="Flower Name">-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-desc">-->
+<!--                                        <textarea name="description" th:text="${description}"-->
+<!--                                            placeholder="Description"></textarea>-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-amount">-->
+<!--                                        <input name="flowerAmount" th:value="${flowerAmount}" placeholder="Amount">-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-qnt">-->
+<!--                                        <input name="quantity" th:value="${quantity}" placeholder="Quantity">-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-price">-->
+<!--                                        <span>$</span>-->
+<!--                                        <input name="price" th:value="${price}" placeholder="Price">-->
+<!--                                    </td>-->
+<!--                                    <td class="table__body-save">-->
+<!--                                        <input type="submit" class="save-btn" name="action" value="Create">-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+                                <!-- Popup modal -->
+                                <div id="createPopup" class="createPopup">
+                                    <div class="popup-content-create">
+                                        <span class="close" onclick="closeCreatePopup()">&times;</span>
+
+                                        <div class="popup-form-create">
+                                            <!-- Left half for input fields -->
+                                            <div class="left-section-create">
+                                                <h3>Create Flower Information</h3>
+                                                <label for="name">Name:</label>
+                                                <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name">
+
+                                                <label for="description">Description:</label>
+                                                <textarea name="description" th:text="${description}" placeholder="Enter your description about flower"></textarea>
+
+                                                <label for="flowerAmount">Flower Amount:</label>
+                                                <input type="number" min="1" name="flowerAmount"
+                                                       th:value="${flowerAmount}" pattern="\d*" title="Please enter a valid number" placeholder="Enter flower amount">
+
+                                                <label for="quantity">Quantity:</label>
+                                                <input type="number" min="1" name="quantity" th:value="${quantity}"
+                                                       pattern="\d*" title="Please enter a valid number" placeholder="Enter quantity">
+
+                                                <label for="price">Price:</label>
+                                                <input id="createPrice" step="0.01" name="price" th:value="${price}"
+                                                       pattern="\d*" title="Please enter a valid number" placeholder="Enter price">
+                                            </div>
+
+                                            <!-- Right half for image upload and categories -->
+                                            <div class="right-section-create">
+                                                <h4 class="image-title-create">Upload Image</h4>
+                                                <input type="file" id="imageUpload1" name="imageUpload" multiple style="display: none;">
+                                                <div id="imagePreviewContainer1">
+                                                    <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
+                                                    <img id="previewImage2" src="#" alt="Image Preview 2"/>
+                                                    <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
+                                                    <div class="image-preview" >
+                                                        <img id="previewImage11" src="#" alt="Image Preview 1" style="display: none;" />
+                                                        <button class="remove-button" >&times;</button>
+                                                    </div>
+                                                    <div class="image-preview">
+                                                        <img id="previewImage21" src="#" alt="Image Preview 2" style="display: none;" />
+                                                        <button class="remove-button" >&times;</button>
+                                                    </div>
+                                                    <div class="image-preview" >
+                                                        <img id="previewImage31" src="#" alt="Image Preview 3" style="display: none;" />
+                                                        <button class="remove-button" >&times;</button>
+                                                    </div>
+                                                </div>
+                                                <h4 class="cate-title">Categories</h4>
+                                                <div class="categories">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Buttons at the bottom -->
+                                        <div class="popup-buttons">
+                                            <span onclick="closeCreatePopup()">Cancel</span>
+                                            <button class="save-btn" name="action" >Create</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
 
                         </tbody>
                     </table>
                 </div>
-                <!-- Button to open the popup -->
-                <button onclick="openPopup()">Edit</button>
 
-                <!-- Popup modal -->
-                <div id="editPopup" class="popup">
-                    <div class="popup-content">
-                        <span class="close" onclick="closePopup()">&times;</span>
-
-                        <div class="popup-form">
-                            <!-- Left half for input fields -->
-                            <div class="left-section">
-                                <h3>Edit Flower Information</h3>
-                                <label for="name">Name:</label>
-                                <input type="text" id="name" name="name">
-
-                                <label for="description">Description:</label>
-                                <textarea id="description" name="description"></textarea>
-
-                                <label for="flowerAmount">Flower Amount:</label>
-                                <input type="number" id="flowerAmount" name="flowerAmount">
-
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" id="quantity" name="quantity">
-
-                                <label for="price">Price:</label>
-                                <input type="number" id="price" name="price">
-                            </div>
-
-                            <!-- Right half for image upload and categories -->
-                            <div class="right-section">
-                                <h4 class="image-title">Upload Image</h4>
-                                <input type="file" id="imageUpload" name="imageUpload" onchange="uploadImage()" multiple style="display: none;">
-                                <div id="imagePreviewContainer">
-                                    <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
-                                    <img id="previewImage2" src="#" alt="Image Preview 2"/>
-                                    <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
-                                    <div class="image-preview" onclick="selectSlot(1)">
-                                        <img id="previewImage1" src="#" alt="Image Preview 1" style="display: none;" />
-                                        <button class="remove-button" onclick="removeImage(1, event)">&times;</button>
-                                    </div>
-                                    <div class="image-preview" onclick="selectSlot(2)">
-                                        <img id="previewImage2" src="#" alt="Image Preview 2" style="display: none;" />
-                                        <button class="remove-button" onclick="removeImage(2, event)">&times;</button>
-                                    </div>
-                                    <div class="image-preview" onclick="selectSlot(3)">
-                                        <img id="previewImage3" src="#" alt="Image Preview 3" style="display: none;" />
-                                        <button class="remove-button" onclick="removeImage(3, event)">&times;</button>
-                                    </div>
-                                </div>
-                                <h4 class="cate-title">Categories</h4>
-                                <div class="categories">
-                                    <label><input type="checkbox" name="category" value="Wedding"> Wedding</label>
-                                    <label><input type="checkbox" name="category" value="Birthday"> Birthday</label>
-                                    <label><input type="checkbox" name="category" value="Anniversary">Anniversary</label>
-                                    <label><input type="checkbox" name="category" value="Anniversary">Anniversary</label>
-                                    <label><input type="checkbox" name="category" value="Anniversary">Anniversary</label>
-                                    <label><input type="checkbox" name="category" value="Anniversary">Anniversary</label>
-                                    <label><input type="checkbox" name="category" value="Anniversary">Anniversary</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Buttons at the bottom -->
-                        <div class="popup-buttons">
-                            <button onclick="closePopup()">Cancel</button>
-                            <button onclick="saveData()">Save</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 

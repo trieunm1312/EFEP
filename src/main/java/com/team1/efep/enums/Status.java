@@ -16,15 +16,8 @@ public class Status {
     public static String ORDER_STATUS_PACKED = "packed";
     public static String ORDER_STATUS_COMPLETED = "completed";
     public static String ORDER_STATUS_CANCELLED = "cancelled";
-    public static String PURCHASED_PLAN_STATUS_PROCESSING = "processing";
-    public static String PURCHASED_PLAN_STATUS_PURCHASED = "purchased";
-    public static String PURCHASED_PLAN_STATUS_CANCELLED = "cancelled";
-    public static String PURCHASED_PLAN_STATUS_DISABLED = "disabled";
     public static String FLOWER_STATUS_AVAILABLE = "available";
-    public static String FLOWER_STATUS_OUT_OF_STOCK = "out of stock";
     public static String FLOWER_STATUS_DELETED = "deleted";
-    public static String BUSINESS_PLAN_STATUS_DISABLED = "disabled";
-    public static String BUSINESS_PLAN_STATUS_ACTIVE = "active";
     public static String PAYMENT_METHOD_COD = "cod";
     public static String PAYMENT_METHOD_VN_PAY = "vn-pay";
 
@@ -37,11 +30,6 @@ public class Status {
         order.setStatus(status);
         orderRepo.save(order);
     }
-
-//    public static void changePurchasedPlanStatus(PurchasedPlan purchasedPlan, String status, PurchasedPlanRepo purchasedPlanRepo) {
-//        purchasedPlan.setStatus(status);
-//        purchasedPlanRepo.save(purchasedPlan);
-//    }
 
     public static void changeFlowerStatus(Flower flower, String status, FlowerRepo flowerRepo) {
         flower.setStatus(status);

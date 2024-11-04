@@ -17,6 +17,18 @@ public class ViewFlowerCategoryResponse {
 
     private String message;
 
-    private List<String> categories;
+    private List<CategoryDetail> categoryList;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class CategoryDetail {
+
+        private int id;
+
+        private String name;
+
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.team1.efep.controllers;
 
+import com.team1.efep.configurations.AllPage;
 import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.services.SellerService;
@@ -33,20 +34,10 @@ public class SellerController {
         return sellerService.updateFlower(request, session, model, redirectAttributes);
     }
 
-    @PutMapping("/flower/api")
-    public UpdateFlowerResponse updateFlower(@RequestBody UpdateFlowerRequest request) {
-        return sellerService.updateFlowerAPI(request);
-    }
-
     @DeleteMapping("/flower")
     @Operation(hidden = true)
     public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         return sellerService.deleteFlower(request, session, model,  redirectAttributes);
-    }
-
-    @DeleteMapping("/flower/api")
-    public DeleteFlowerResponse deleteFlower(@RequestBody DeleteFlowerRequest request) {
-        return sellerService.deleteFlowerAPI(request);
     }
 
     @GetMapping("/flower/image")
@@ -55,20 +46,10 @@ public class SellerController {
         return sellerService.viewFlowerImage(request, session, model, redirectAttributes);
     }
 
-    @PostMapping("/flower/image/api")
-    public ViewFlowerImageResponse viewFlowerImageAPI(@RequestBody ViewFlowerImageRequest request) {
-        return sellerService.viewFlowerImageAPI(request);
-    }
-
     @PostMapping("/flower/image/add")
     @Operation(hidden = true)
     public String addFlowerImage(AddFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         return sellerService.addFlowerImage(request, session, model, redirectAttributes);
-    }
-
-    @PostMapping("/flower/image/add/api")
-    public AddFlowerImageResponse addFlowerImage(@RequestBody AddFlowerImageRequest request) {
-        return sellerService.addFlowerImageAPI(request);
     }
 
     @DeleteMapping("/flower/image")
@@ -77,19 +58,9 @@ public class SellerController {
         return sellerService.deleteFlowerImage(request, session, model,  redirectAttributes);
     }
 
-    @DeleteMapping("/flower/image/api")
-    public DeleteFlowerImageResponse deleteFlowerImage(@RequestBody DeleteFlowerImageRequest request) {
-        return sellerService.deleteFlowerImageAPI(request);
-    }
-
     @GetMapping("/flower/status")
     public List<String> getAllFlowerStatus() {
         return sellerService.getAllFlowerStatus();
-    }
-
-    @GetMapping("/view/flower/api")
-    public ViewFlowerListForSellerResponse viewFlowerListForSeller(int sellerId) {
-        return sellerService.viewFlowerListForSellerAPI(sellerId);
     }
 
     @PostMapping("/flower")
@@ -98,31 +69,16 @@ public class SellerController {
         return sellerService.createFlower(request, session, model, redirectAttributes);
     }
 
-    @PostMapping("/flower/api")
-    public CreateFlowerResponse createFlower(@RequestBody CreateFlowerRequest request, HttpSession session) {
-        return sellerService.createFlowerAPI(request);
-    }
-
     @PutMapping("/flower/category")
     @Operation(hidden = true)
     public String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes){
         return sellerService.updateFlowerCategory(request, session, model, redirectAttributes);
     }
 
-    @PutMapping("/flower/category/api")
-    public UpdateFlowerCategoryResponse updateFlowerCategoryAPI(UpdateFlowerCategoryRequest request){
-        return sellerService.updateFlowerCategoryAPI(request);
-    }
-
     @GetMapping("/flower/category")
     @Operation(hidden = true)
     public String viewFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes){
         return sellerService.viewFlowerCategory(session, model, flowerId, redirectAttributes);
-    }
-
-    @GetMapping("/flower/category/api/{flowerId}")
-    public ViewFlowerCategoryResponse viewFlowerCategoryAPI(@PathVariable int flowerId){
-        return sellerService.viewFlowerCategoryAPI(flowerId);
     }
 
     @PutMapping("/flower/category/remove")
@@ -141,20 +97,10 @@ public class SellerController {
         return sellerService.changeOrderStatus(request, session, model, httpServletRequest,  redirectAttributes);
     }
 
-    @PutMapping("/order/status/api")
-    public ChangeOrderStatusResponse changeOrderStatus(@RequestBody ChangeOrderStatusRequest request) {
-        return sellerService.changeOrderStatusAPI(request);
-    }
-
     @GetMapping("/order/list")
     @Operation(hidden = true)
     public String viewOrderList(HttpSession session, Model model) {
         return sellerService.viewOrderList(session, model);
-    }
-
-    @GetMapping("/order/list/api/{id}")
-    public ViewOrderListResponse viewOrderListAPI(@PathVariable int id) {
-        return sellerService.viewOrderListAPI(id);
     }
 
     @GetMapping("/view/flower")
@@ -169,31 +115,16 @@ public class SellerController {
         return sellerService.viewOrderDetail(request, session, model);
     }
 
-    @GetMapping("/order/detail/api")
-    public ViewOrderDetailForSellerResponse viewOrderDetail(@RequestBody ViewOrderDetailRequest request) {
-        return sellerService.viewOrderDetailAPI(request);
-    }
-
     @PostMapping("/order/filter")
     @Operation(hidden = true)
     public String filterOrder(FilterOrderRequest request, HttpSession session, Model model) {
         return sellerService.filterOrder(request, session, model);
     }
 
-    @PostMapping("/order/filter/api")
-    public FilterOrderResponse filterOrder(@RequestBody FilterOrderRequest request) {
-        return sellerService.filterOrderAPI(request);
-    }
-
     @GetMapping("/order/sort")
     @Operation(hidden = true)
     public String sortOrder(FilterOrderRequest filterOrderRequest, HttpSession session, Model model) {
         return sellerService.sortOrder(filterOrderRequest, session, model);
-    }
-
-    @PostMapping("/order/sort/api")
-    public SortOrderResponse sortOrder(@RequestBody FilterOrderRequest filterOrderRequest) {
-        return sellerService.sortOrderAPI(filterOrderRequest);
     }
 
     //-------------------------------------------------------------------------------------------------//
@@ -203,19 +134,17 @@ public class SellerController {
         return sellerService.viewBuyerList(session, model);
     }
 
-    @PostMapping("/buyer/list/api")
-    public ViewBuyerListResponse viewBuyerList(@RequestBody ViewBuyerListRequest request) {
-        return sellerService.viewBuyerListAPI(request);
-    }
-
     @PostMapping("/search/buyer/")
     public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
         return sellerService.searchBuyerList(session, request, model);
     }
 
-    @PostMapping("/search/buyer/api")
-    public SearchBuyerListResponse searchBuyerList(@RequestBody SearchBuyerListRequest request, @RequestBody int id) {
-        return sellerService.searchBuyerListAPI(request, id);
+    //---------------FEEDBACK----------------//
+
+    @GetMapping("/feedback")
+    @Operation(hidden = true)
+    public String viewFeedback(int accountId, Model model, HttpSession session) {
+        return sellerService.viewFeedback(accountId, model, session);
     }
 
 }

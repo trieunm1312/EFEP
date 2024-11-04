@@ -145,7 +145,7 @@
 
                 <!-- Seller Information -->
                 <div class="seller">
-                    <a th:href="@{/buyer/feedback(accountId=${msg.flower.seller.id})}" class="seller__link">
+                    <a th:href="@{/buyer/feedback(p=${msg.flower.seller.id})}" class="seller__link">
                         <div class="seller__img">
                             <img th:src="${msg.flower.seller.avatar == null || msg.flower.seller.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.flower.seller.avatar}" alt="Avatar"/>
                         </div>

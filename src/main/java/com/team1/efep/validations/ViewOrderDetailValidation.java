@@ -10,14 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ViewOrderDetailValidation {
-    public static Map<String, String> validate(ViewOrderDetailRequest request, Account account, Order order) {
+    public static Map<String, String> validate(ViewOrderDetailRequest request, Order order) {
         Map<String, String> error = new HashMap<>();
         if (request.getOrderId() <= 0) {
             return MapConfig.buildMapKey(error, "Invalid order ID.");
-        }
-
-        if (account == null) {
-            return MapConfig.buildMapKey(error, "Account does not exist.");
         }
 
         if (order == null) {

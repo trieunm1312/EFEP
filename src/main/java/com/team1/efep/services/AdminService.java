@@ -10,23 +10,13 @@ public interface AdminService {
 
     String viewUserList(HttpSession session, Model model);
 
-    ViewUserListResponse viewUserListAPI();
-
     String banUser(BanUserRequest request, Model model, RedirectAttributes redirectAttributes);
-
-    BanUserResponse banUserAPI(BanUserRequest request);
 
     String unBanUser(UnBanUserRequest request, Model model,  RedirectAttributes redirectAttributes);
 
-    UnBanUserResponse unBanUserAPI(UnBanUserRequest request);
-
     String searchUserList(HttpSession session, SearchUserListRequest request, Model model);
 
-    SearchUserListResponse searchUserListAPI(SearchUserListRequest request);
-
     String createAccountForSeller(CreateAccountForSellerRequest request, Model model,  RedirectAttributes redirectAttributes);
-
-    CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request);
 
     void getTotalUser(Model model);
 
