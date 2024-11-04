@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @Service
@@ -41,9 +43,31 @@ public class AccountServiceImpl implements AccountService {
 
     private final BuyerService buyerService;
 
+//--------------------------Hash password------------------------//
+
+    private String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashedBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error hashing password", e);
+        }
+    }
+
+    private boolean checkPassword(String inputPassword, String storedPassword) {
+        String hashedInputPassword = hashPassword(inputPassword);
+        return hashedInputPassword.equals(storedPassword);
+    }
+
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
+        request.setPassword(hashPassword(request.getPassword()));
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
             redirectAttributes.addFlashAttribute("msg",(RegisterResponse) output);
@@ -144,10 +168,15 @@ public class AccountServiceImpl implements AccountService {
     private Object loginLogic(LoginRequest request) {
         Map<String, String> errors = LoginValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
-            return LoginResponse.builder()
-                    .status("200")
-                    .message("Login successfully")
-                    .build();
+            Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
+            if (account != null && checkPassword(request.getPassword(), account.getPassword())) {
+                return LoginResponse.builder()
+                        .status("200")
+                        .message("Login successfully")
+                        .build();
+            } else {
+                errors.put("login", "Invalid email or password");
+            }
         }
         return errors;
     }
@@ -359,6 +388,8 @@ public class AccountServiceImpl implements AccountService {
         }
         return "redirect:/login";
     }
+
+
 
 }
 

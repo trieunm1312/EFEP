@@ -833,30 +833,29 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     public ViewSellerTopListResponse viewSellerTopListLogic(int top) {
+        List<ViewSellerTopListResponse.Seller> sellers = sellerRepo.findAll()
+                .stream()
+                .map(seller -> {
+                    List<Feedback> feedbackList = seller.getFeedbackList();
+                    double averageRating = feedbackList != null && !feedbackList.isEmpty()
+                            ? feedbackList.stream().mapToDouble(Feedback::getRating).average().orElse(0.0)
+                            : 0.0;
+
+                    return ViewSellerTopListResponse.Seller.builder()
+                            .id(seller.getId())
+                            .name(seller.getUser().getName())
+                            .avatar(seller.getUser().getAvatar())
+                            .averageRating(averageRating)
+                            .build();
+                })
+                .sorted((s1, s2) -> Double.compare(s2.getAverageRating(), s1.getAverageRating()))
+                .limit(top)
+                .collect(Collectors.toList());
+
         return ViewSellerTopListResponse.builder()
                 .status("200")
                 .message("Top Sellers by Rating")
-                .sellerList(
-                        sellerRepo.findAll()
-                                .stream()
-                                .limit(top)
-                                .map(seller -> {
-                                    List<Feedback> feedbackList = seller.getFeedbackList();
-                                    double averageRating = feedbackList != null && !feedbackList.isEmpty()
-                                            ? feedbackList.stream().mapToDouble(Feedback::getRating).average().orElse(0.0)
-                                            : 0.0;
-
-                                    return ViewSellerTopListResponse.Seller.builder()
-                                            .id(seller.getId())
-                                            .name(seller.getUser().getName())
-                                            .avatar(seller.getUser().getAvatar())
-                                            .averageRating(averageRating)
-                                            .build();
-                                })
-                                .sorted((s1, s2) -> Double.compare(s2.getAverageRating(), s1.getAverageRating()))
-                                .limit(top)
-                                .toList()
-                )
+                .sellerList(sellers)
                 .build();
     }
 
@@ -973,26 +972,6 @@ public class BuyerServiceImpl implements BuyerService {
                                     .build()
                     ).build();
 
-
-//                    ViewFlowerDetailResponse.builder()
-//                    .status("200")
-//                    .message("")
-//                    .id(flower.getId())
-//                    .name(flower.getName())
-//                    .price(flower.getPrice())
-//                    .flowerAmount(flower.getFlowerAmount())
-//                    .quantity(flower.getQuantity())
-//                    .soldQuantity(flower.getSoldQuantity())
-//                    .imageList(
-//                            flower.getFlowerImageList().stream()
-//                                    .map(
-//                                            img -> ViewFlowerDetailResponse.Image.builder()
-//                                                    .link(img.getLink())
-//                                                    .build()
-//                                    )
-//                                    .toList()
-//                    )
-//                    .build();
         }
 
         return errors;
