@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/animate.css">
     <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
     <link rel="stylesheet" href="/css/adminBase.css">
-    <link rel="stylesheet" href="/css/sellerPlan.css">
+    <link rel="stylesheet" href="/css/feedback.css">
 </head>
 
 <body>
@@ -49,10 +49,10 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/seller/plan/detail}" class="sidebar__link">
+                <a th:href="@{/seller/feedback(accountId=${session.acc.getId()})}" class="sidebar__link">
                     <div class="sidebar__item active">
                         <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                        <span class="sidebar__item-title">My Plan</span>
+                        <span class="sidebar__item-title">Feedback</span>
                     </div>
                 </a>
             </li>
@@ -86,10 +86,10 @@
                         <span>Seller Page</span>
                     </a>
                     <span>/</span>
-                    <span>My Plan</span><br>
+                    <span>Feedback</span><br>
                 </div>
                 <div class="header__title">
-                    <h3>My Plan</h3>
+                    <h3>Feedback</h3>
                 </div>
             </div>
 

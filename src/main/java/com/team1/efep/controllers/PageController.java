@@ -88,7 +88,7 @@ public class PageController {
     @GetMapping("/seller/plan")
     public String myPlanPage(Model model) {
         AllPage.allConfig(model, buyerService);
-        return "sellerPlan";
+        return "feedback";
     }
 
     @GetMapping("/seller/plan/intro")

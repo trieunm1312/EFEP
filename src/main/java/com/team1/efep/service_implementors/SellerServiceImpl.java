@@ -311,7 +311,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String viewFlowerListForSeller(HttpSession session, Model model) {
-        model.addAttribute("msg", viewFlowerListForSellerLogic(((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
+        model.addAttribute("msg", viewFlowerListForSellerLogic(Role.getCurrentLoggedAccount(session).getUser().getSeller().getId()));
         return "manageFlower";
     }
 
@@ -1116,23 +1116,14 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String viewFeedback(int sellerId, Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", ViewFeedbackResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to view feedback")
-                    .build());
-            return "login";
-        }
-
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
-            return "sellerInfo";
+            return "feedback";
         }
 
         model.addAttribute("error", (Map<String, String>) output);
-        return "sellerInfo";
+        return "feedback";
     }
 
     private Object viewFeedbackLogic(int sellerId) {
