@@ -1,6 +1,5 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.Account;
@@ -13,11 +12,13 @@ import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.services.AccountService;
 import com.team1.efep.services.BuyerService;
-import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.GoogleLoginGeneratorUtil;
 import com.team1.efep.utils.GoogleLoginUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
-import com.team1.efep.validations.*;
+import com.team1.efep.validations.ChangePasswordValidation;
+import com.team1.efep.validations.LoginValidation;
+import com.team1.efep.validations.RegisterValidation;
+import com.team1.efep.validations.UpdateProfileValidation;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +68,7 @@ public class AccountServiceImpl implements AccountService {
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
+        // Mã hóa mật khẩu trước khi lưu
         request.setPassword(hashPassword(request.getPassword()));
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
