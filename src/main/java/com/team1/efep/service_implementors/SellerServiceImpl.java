@@ -690,17 +690,17 @@ public class SellerServiceImpl implements SellerService {
             flower.setStatus(Status.FLOWER_STATUS_AVAILABLE);
         }
 
-        List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
-        flowerCategoryRepo.deleteAll(existingCategories);
-
-        List<FlowerCategory> newCategories = request.getCategoryIdList().stream()
-                .map(categoryId -> FlowerCategory.builder()
-                        .flower(flower)
-                        .category(categoryRepo.findById(categoryId).orElse(null))
-                        .build())
-                .collect(Collectors.toList());
-
-        flowerCategoryRepo.saveAll(newCategories);
+//        List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
+//        flowerCategoryRepo.deleteAll(existingCategories);
+//
+//        List<FlowerCategory> newCategories = request.getCategoryIdList().stream()
+//                .map(categoryId -> FlowerCategory.builder()
+//                        .flower(flower)
+//                        .category(categoryRepo.findById(categoryId).orElse(null))
+//                        .build())
+//                .collect(Collectors.toList());
+//
+//        flowerCategoryRepo.saveAll(newCategories);
 
         flowerRepo.save(flower);
         return UpdateFlowerResponse.builder()
@@ -986,7 +986,7 @@ public class SellerServiceImpl implements SellerService {
                 .message("")
                 .totalNumberFlowers(flowerRepo.findAll().stream()
                         .filter(
-                                flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_DELETED) &&
+                                flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_OUT_OF_STOCK) &&
                                 LocalDate.now().getMonth().equals(flower.getCreateDate().getMonth())
                         )
                         .count()

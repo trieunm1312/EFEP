@@ -1200,10 +1200,10 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     @Override
-    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
         VNPayResponse vnPayResponse = createVNPayPaymentLinkForBuyNowLogic(request, httpServletRequest);
-        model.addAttribute("flowerId", request.getFlowerId());
-        model.addAttribute("quantity", request.getQuantity());
+        session.setAttribute("flowerId", request.getFlowerId());
+        session.setAttribute("quantity", request.getQuantity());
         model.addAttribute("msg", vnPayResponse);
         return "redirect:" + vnPayResponse.getPaymentURL();
     }
@@ -1278,7 +1278,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        Object output = getPaymentResultForBuyNowLogic(params, request.getFlowerId(), request.getQuantity(), account.getId(), httpServletRequest);
+        Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()) , Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
             Account account1 = accountRepo.findById(account.getId()).orElse(null);
@@ -1331,6 +1331,11 @@ public class BuyerServiceImpl implements BuyerService {
         flower.setSoldQuantity(flower.getSoldQuantity() + quantity);
         flower.setQuantity(flower.getQuantity() - quantity);
 
+        WishlistItem item = wishlistItemRepo.findByFlower_IdAndWishlist_User_Id(flowerId, user.getId()).orElse(null);
+        if (item != null) {
+            item.setQuantity(item.getQuantity() - quantity);
+        }
+        wishlistItemRepo.save(item);
         List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(savedOrder)
