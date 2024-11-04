@@ -85,6 +85,63 @@ public class FileReaderUtil {
         return result;
     }
 
+    public static String readFile1(Order order) {
+        String result = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/team1/efep/email_file/cancelOrderToSeller.txt"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+
+            result = result.replaceAll("##orderId", String.valueOf(order.getId()));
+            result = result.replaceAll("##createDate", String.valueOf(order.getCreatedDate().toLocalDate()));
+
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String readFile2(Order order) {
+        String result = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/team1/efep/email_file/packedOrder.txt"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+
+            result = result.replaceAll("##orderId", String.valueOf(order.getId()));
+            result = result.replaceAll("##createDate", String.valueOf(order.getCreatedDate().toLocalDate()));
+
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String readFile3(Order order) {
+        String result = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/team1/efep/email_file/cancelOrderToBuyer.txt"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+
+            result = result.replaceAll("##orderId", String.valueOf(order.getId()));
+            result = result.replaceAll("##createDate", String.valueOf(order.getCreatedDate().toLocalDate()));
+
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
 
     //psvm = ham test main

@@ -134,9 +134,8 @@
                         </table>
                     </div>
                     <form th:action="@{/buyer/order/detail}" th:method="get" class="contain-btn">
-                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                         <input type="hidden" name="orderId" th:value="${order.orderId}">
-                        <button class="table-order-status-btn" value="Detail" name="detail">View Detail</button>
+                        <button class="table-order-status-btn">View Detail</button>
                     </form>
                 </div>
 

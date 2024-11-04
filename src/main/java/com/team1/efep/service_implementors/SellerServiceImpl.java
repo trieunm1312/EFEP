@@ -2,6 +2,7 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.VNPay.BusinessPlanVNPayConfig;
 import com.team1.efep.configurations.MapConfig;
+import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.*;
@@ -10,11 +11,16 @@ import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.SellerService;
 import com.team1.efep.utils.ConvertMapIntoStringUtil;
+import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -51,6 +57,8 @@ public class SellerServiceImpl implements SellerService {
     private final CategoryRepo categoryRepo;
 
     private final FlowerCategoryRepo flowerCategoryRepo;
+
+    private final JavaMailSenderImpl mailSender;
 
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
@@ -219,14 +227,6 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ChangeOrderStatusResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build());
-            return "redirect:/login";
-        }
         String referer = httpServletRequest.getHeader("Referer");
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
@@ -245,12 +245,67 @@ public class SellerServiceImpl implements SellerService {
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
         Status.changeOrderStatus(order, request.getStatus(), orderRepo);
+        if(request.getStatus().equals(Status.ORDER_STATUS_PACKED)){
+            sendPackedOrderEmail(order, order.getUser());
+        } else {
+            sendCancelOrderEmail(order, order.getUser());
+        }
         return ChangeOrderStatusResponse.builder()
                 .status("200")
                 .message("Change order status successful")
                 .build();
     }
 
+
+    private void sendPackedOrderEmail(Order order, User user) {
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom("vannhuquynhp@gmail.com");
+
+            helper.setTo(user.getAccount().getEmail());
+
+            helper.setSubject(Const.EMAIL_SUBJECT_ORDER);
+
+            String emailContent = FileReaderUtil.readFile2(order);
+
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void sendCancelOrderEmail(Order order, User user) {
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom("vannhuquynhp@gmail.com");
+
+            helper.setTo(user.getAccount().getEmail());
+
+            helper.setSubject(Const.EMAIL_SUBJECT_ORDER);
+
+            String emailContent = FileReaderUtil.readFile3(order);
+
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
 

@@ -147,7 +147,7 @@
                                         <h4 class="seller__heading">Top Seller</h4>
                                         <ul class="seller__list">
                                             <li th:each="item : ${msg2.sellerList}" class="seller__item">
-                                                <a th:href="@{/buyer/feedback(accountId=${item.id})}" class="seller__item-link">
+                                                <a th:href="@{/buyer/feedback(p=${item.id})}" class="seller__item-link">
                                                     <img th:src="${item.avatar == null || item.avatar == ''} ? '/img/default-avatar.jpg' : ${item.avatar}" alt="Seller image">
                                                     <div class="seller__item-link-content">
                                                         <p class="seller__item-link-name" th:text="${item.name}"></p>

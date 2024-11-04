@@ -181,7 +181,7 @@
                 <div class="manage-flower">
                     <div class="manage-flower__heading">
                         <h4 class="manage-flower__title">Manage Flower</h4>
-                        <div class="manage-flower__create-btn">
+                        <div class="manage-flower__create-btn" onclick="openCreatePopup()">
                             <i class="fa-solid fa-plus header__create-btn-icon"></i>
                             <span>Create New</span>
                         </div>
@@ -193,7 +193,7 @@
                                 <th class="table__header-name">Name</th>
                                 <th class="table__header-desc">Description</th>
                                 <th class="table__header-amount">Flower Amount</th>
-                                <th class="table__header-qnt">Quanity</th>
+                                <th class="table__header-qnt">Quantity</th>
                                 <th class="table__header-price">Price</th>
                                 <th class="table__header-sold-qnt">Sold Quantity</th>
                                 <th class="table__header-status">Status</th>
@@ -257,11 +257,12 @@
 <!--                                                    <input type="submit" name="action" class="save-btn" value="Save"-->
 <!--                                                        onclick="prepareSave(this)" style="display: none;">-->
                                                     <!-- Button to open the popup -->
-                                                    <span onclick="openPopup()">Edit</span>
+<!--                                                    <i class="fa-solid fa-pencil modify-icon" onclick="openPopup()"></i>-->
+                                                    <span class="edit-btn" th:onclick="'openPopup(' + ${item.id} + ')'">Edit</span>
                                                     <!-- Popup modal -->
-                                                    <div id="editPopup" class="popup">
+                                                    <div th:id="'editPopup-' + ${item.id}" class="popup">
                                                         <div class="popup-content">
-                                                            <span class="close" onclick="closePopup()">&times;</span>
+                                                            <span class="close" th:onclick="'closePopup(' + ${item.id} + ')'">&times;</span>
 
                                                             <div class="popup-form">
                                                                 <!-- Left half for input fields -->
@@ -322,21 +323,34 @@
 
                                                             <!-- Buttons at the bottom -->
                                                             <div class="popup-buttons">
-                                                                <button onclick="closePopup()">Cancel</button>
-                                                                <button onclick="saveData()">Save</button>
+                                                                <span th:onclick="'closePopup(' + ${item.id} + ')'">Cancel</span>
+                                                                <button name="update">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                             </form>
+                                            <td>
+                                                <span th:text="${item.id}">0</span>
+                                            </td>
                                             <td class="table__body-toggle">
-                                                <form th:action="@{/seller/flower}" th:method="delete">
-                                                    <input type="hidden" name="accountId"
-                                                        th:value="${session.acc.getId()}">
-                                                    <input type="hidden" name="flowerId" th:value="${item.id}">
-                                                    <input type="submit" name="action" value="Delete"
-                                                        class="toggle-btn">
-                                                </form>
+                                                <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
+                                                       class="toggle-btn">Delete</span>
+
+                                                <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
+                                                    <span th:text="${item.id}">0</span>
+                                                    <div class="confirmDelete-form">
+                                                    <span class="confirm-text">Do you want to delete flower <span th:text="${item.name}">RED</span> ?</span>
+                                                        <form th:action="@{/seller/flower}" th:method="delete">
+                                                            <input type="hidden" name="accountId"
+                                                                   th:value="${session.acc.getId()}">
+                                                            <input type="hidden" name="flowerId" th:value="${item.id}">
+                                                            <span class="cancel-delete" th:onclick="'closeDeletePopup(' + ${item.id} + ')'" >Cancel</span>
+                                                            <input type="submit" name="action" value="Delete"
+                                                                   class="delete-btn">
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </div>
                                     </tr>
@@ -373,13 +387,13 @@
 <!--                                    </td>-->
 <!--                                </tr>-->
                                 <!-- Popup modal -->
-                                <div id="createPopup" class="popup">
-                                    <div class="popup-content">
-                                        <span class="close" >&times;</span>
+                                <div id="createPopup" class="createPopup">
+                                    <div class="popup-content-create">
+                                        <span class="close" onclick="closeCreatePopup()">&times;</span>
 
-                                        <div class="popup-form">
+                                        <div class="popup-form-create">
                                             <!-- Left half for input fields -->
-                                            <div class="left-section">
+                                            <div class="left-section-create">
                                                 <h3>Create Flower Information</h3>
                                                 <label for="name">Name:</label>
                                                 <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name">
@@ -388,27 +402,27 @@
                                                 <textarea name="description" th:text="${description}" placeholder="Enter your description about flower"></textarea>
 
                                                 <label for="flowerAmount">Flower Amount:</label>
-                                                <input name="flowerAmount"
+                                                <input type="number" min="1" name="flowerAmount"
                                                        th:value="${flowerAmount}" pattern="\d*" title="Please enter a valid number" placeholder="Enter flower amount">
 
                                                 <label for="quantity">Quantity:</label>
-                                                <input name="quantity" th:value="${quantity}"
+                                                <input type="number" min="1" name="quantity" th:value="${quantity}"
                                                        pattern="\d*" title="Please enter a valid number" placeholder="Enter quantity">
 
                                                 <label for="price">Price:</label>
-                                                <input step="0.01" name="price" th:value="${price}"
+                                                <input id="createPrice" step="0.01" name="price" th:value="${price}"
                                                        pattern="\d*" title="Please enter a valid number" placeholder="Enter price">
                                             </div>
 
                                             <!-- Right half for image upload and categories -->
-                                            <div class="right-section">
-                                                <h4 class="image-title">Upload Image</h4>
+                                            <div class="right-section-create">
+                                                <h4 class="image-title-create">Upload Image</h4>
                                                 <input type="file" id="imageUpload1" name="imageUpload" multiple style="display: none;">
                                                 <div id="imagePreviewContainer1">
                                                     <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
                                                     <img id="previewImage2" src="#" alt="Image Preview 2"/>
                                                     <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
-                                                    <div class="image-preview1" >
+                                                    <div class="image-preview" >
                                                         <img id="previewImage11" src="#" alt="Image Preview 1" style="display: none;" />
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
@@ -431,7 +445,7 @@
 
                                         <!-- Buttons at the bottom -->
                                         <div class="popup-buttons">
-<!--                                            <span onclick="closePopup()">Cancel</span>-->
+                                            <span onclick="closeCreatePopup()">Cancel</span>
                                             <button class="save-btn" name="action" >Create</button>
                                         </div>
                                     </div>

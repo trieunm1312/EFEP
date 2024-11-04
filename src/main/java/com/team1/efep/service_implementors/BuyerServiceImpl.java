@@ -568,7 +568,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("400")
                     .message("Please login a buyer account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
@@ -580,13 +580,8 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        Map<String, String> error = ViewOrderDetailValidation.validate(request, order);
-        if (!error.isEmpty()) {
-            return error;
-        }
         List<ViewOrderDetailResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
 
         String sellerName = order.getOrderDetailList().stream()
@@ -806,14 +801,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", CancelOrderResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build());
-            return "redirect:/login";
-        }
         String referer = httpServletRequest.getHeader("Referer");
         Object output = cancelOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
@@ -832,11 +819,37 @@ public class BuyerServiceImpl implements BuyerService {
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
         Status.changeOrderStatus(order, Status.ORDER_STATUS_CANCELLED, orderRepo);
+        sendCancelOrderEmail(order, order.getOrderDetailList().get(0).getFlower().getSeller());
 
         return CancelOrderResponse.builder()
                 .status("200")
                 .message("Cancel order successfully")
                 .build();
+    }
+
+    private void sendCancelOrderEmail(Order order, Seller seller) {
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom("vannhuquynhp@gmail.com");
+
+            helper.setTo(seller.getUser().getAccount().getEmail());
+
+            helper.setSubject(Const.EMAIL_SUBJECT_ORDER);
+
+            String emailContent = FileReaderUtil.readFile1(order);
+
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //--------------------------------CONFIRM ORDER------------------------------------------//
@@ -1431,15 +1444,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String viewFeedback(int sellerId, Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", ViewFeedbackResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to view feedback")
-                    .build());
-            return "login";
-        }
-
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
