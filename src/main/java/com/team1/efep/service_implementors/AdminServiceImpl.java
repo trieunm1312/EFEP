@@ -1,32 +1,32 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
-import com.team1.efep.models.entity_models.*;
-import com.team1.efep.models.request_models.*;
+import com.team1.efep.models.entity_models.Account;
+import com.team1.efep.models.entity_models.Order;
+import com.team1.efep.models.entity_models.Seller;
+import com.team1.efep.models.entity_models.User;
+import com.team1.efep.models.request_models.BanUserRequest;
+import com.team1.efep.models.request_models.CreateAccountForSellerRequest;
+import com.team1.efep.models.request_models.SearchUserListRequest;
+import com.team1.efep.models.request_models.UnBanUserRequest;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.AdminService;
-import com.team1.efep.utils.ConvertMapIntoStringUtil;
-import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
-import com.team1.efep.validations.*;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import com.team1.efep.validations.BanUserValidation;
+import com.team1.efep.validations.CreateAccountForSellerValidation;
+import com.team1.efep.validations.UnBanUserValidation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -54,11 +54,6 @@ public class AdminServiceImpl implements AdminService {
     public String viewUserList(HttpSession session, Model model) {
         model.addAttribute("msg1", viewUserListLogic());
         return "manageUser";
-    }
-
-    @Override
-    public ViewUserListResponse viewUserListAPI() {
-        return viewUserListLogic();
     }
 
     private ViewUserListResponse viewUserListLogic() {
@@ -97,12 +92,6 @@ public class AdminServiceImpl implements AdminService {
         model.addAttribute("msg1", searchUserListLogic(request));
         return "manageUser";
     }
-
-    @Override
-    public SearchUserListResponse searchUserListAPI(SearchUserListRequest request) {
-        return searchUserListLogic(request);
-    }
-
 
     private SearchUserListResponse searchUserListLogic(SearchUserListRequest request) {
         return SearchUserListResponse.builder()
@@ -147,18 +136,6 @@ public class AdminServiceImpl implements AdminService {
         return "redirect:/admin/user/list";
     }
 
-    @Override
-    public BanUserResponse banUserAPI(BanUserRequest request) {
-        Object output = banUserLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, BanUserResponse.class)) {
-            return (BanUserResponse) output;
-        }
-        return BanUserResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
     private Object banUserLogic(BanUserRequest request) {
         Map<String, String> error = BanUserValidation.validate(request, userRepo);
         if (error.isEmpty()) {
@@ -188,19 +165,6 @@ public class AdminServiceImpl implements AdminService {
         return "redirect:/admin/user/list";
     }
 
-    @Override
-    public UnBanUserResponse unBanUserAPI(UnBanUserRequest request) {
-        Object output = unBanUserLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UnBanUserResponse.class)) {
-            return (UnBanUserResponse) output;
-        }
-        return UnBanUserResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
-    }
-
-
     private Object unBanUserLogic(UnBanUserRequest request) {
         Map<String, String> error = UnBanUserValidation.validate(request, userRepo);
         if (error.isEmpty()) {
@@ -229,18 +193,6 @@ public class AdminServiceImpl implements AdminService {
         redirectAttributes.addFlashAttribute("error", (output));
         redirectAttributes.addFlashAttribute("userInput", request);
         return "redirect:/admin/user/list";
-    }
-
-    @Override
-    public CreateAccountForSellerResponse createAccountForSellerAPI(CreateAccountForSellerRequest request) {
-        Object output = createAccountForSellerLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateAccountForSellerResponse.class)) {
-            return (CreateAccountForSellerResponse) output;
-        }
-        return CreateAccountForSellerResponse.builder()
-                .status("400")
-                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-                .build();
     }
 
     private Object createAccountForSellerLogic(CreateAccountForSellerRequest request) {

@@ -5,6 +5,7 @@ import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.request_models.LoginRequest;
 import com.team1.efep.repositories.AccountRepo;
+import com.team1.efep.utils.PasswordEncryptUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class LoginValidation {
         // check email (exist DB) and check pass  (exist DB)
         // --> check email and check pass not exits Database
 
-        Account account = accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).orElse(null);
+        Account account = accountRepo.findByEmailAndPassword(request.getEmail(), PasswordEncryptUtil.encrypt(request.getPassword())).orElse(null);
         if (account == null) {
             return MapConfig.buildMapKey(error, "Email or password is incorrect");
         }

@@ -41,8 +41,6 @@ public class ViewFlowerListForSellerResponse {
 
         private int quantity;
 
-        private int soldQuantity;
-
         private List<Image> imageList;
 
         private List<CategoryDetail> categoryList;

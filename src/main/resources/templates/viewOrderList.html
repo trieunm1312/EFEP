@@ -264,10 +264,9 @@
                                 </div>
                                 <div class="detail-btn">
                                     <form th:action="@{/seller/order/detail}" th:method="get">
-                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+<!--                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">-->
                                         <input type="hidden" name="orderId" th:value="${order.orderId}">
-                                        <input type="submit" class="table-order-status-btn" value="View Detail"
-                                            name="detail" />
+                                        <input type="submit" class="table-order-status-btn" value="View detail"/>
                                     </form>
                                 </div>
                             </div>

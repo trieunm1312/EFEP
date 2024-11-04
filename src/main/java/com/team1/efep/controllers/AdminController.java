@@ -26,19 +26,9 @@ public class AdminController {
         return adminService.viewUserList(session, model);
     }
 
-    @GetMapping("/user/list/api")
-    public ViewUserListResponse viewUserList() {
-        return adminService.viewUserListAPI();
-    }
-
     @PostMapping("/search/user/")
     public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
         return adminService.searchUserList(session, request, model);
-    }
-
-    @PostMapping("/search/admin/api")
-    public SearchUserListResponse searchUserList(@RequestBody SearchUserListRequest request) {
-        return adminService.searchUserListAPI(request);
     }
 
     @PutMapping("/ban/user")
@@ -47,20 +37,10 @@ public class AdminController {
         return adminService.banUser(request, model, redirectAttributes);
     }
 
-    @PutMapping("/ban/user/api")
-    public BanUserResponse banUser(@RequestBody BanUserRequest request) {
-        return adminService.banUserAPI(request);
-    }
-
     @PutMapping("/unban/user")
     @Operation(hidden = true)
     public String unBanUser(UnBanUserRequest request, Model model, RedirectAttributes redirectAttributes) {
         return adminService.unBanUser(request, model, redirectAttributes);
-    }
-
-    @PutMapping("/unban/user/api")
-    public UnBanUserResponse unBanUser(@RequestBody UnBanUserRequest request) {
-        return adminService.unBanUserAPI(request);
     }
 
     @PostMapping("/account/seller")
@@ -68,10 +48,4 @@ public class AdminController {
     public String createAccountForSeller(CreateAccountForSellerRequest request, Model model,  RedirectAttributes redirectAttributes) {
         return adminService.createAccountForSeller(request, model, redirectAttributes);
     }
-
-    @PostMapping("/account/seller/api")
-    public CreateAccountForSellerResponse createAccountForSeller(@RequestBody CreateAccountForSellerRequest request) {
-        return adminService.createAccountForSellerAPI(request);
-    }
-
 }
