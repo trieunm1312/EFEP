@@ -14,6 +14,7 @@ import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.AdminService;
 import com.team1.efep.utils.OutputCheckerUtil;
+import com.team1.efep.utils.PasswordEncryptUtil;
 import com.team1.efep.validations.BanUserValidation;
 import com.team1.efep.validations.CreateAccountForSellerValidation;
 import com.team1.efep.validations.UnBanUserValidation;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -223,15 +225,52 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private Account createNewAccount(CreateAccountForSellerRequest request) {
+        String randomPassword = generateRandomPassword();
+        System.out.println("Random Password: " + randomPassword);
         return accountRepo.save(
                 Account.builder()
                         .status("200")
                         .email(request.getEmail())
-                        .password(request.getPassword())
+                        .password(PasswordEncryptUtil.encrypt(randomPassword))
                         .role(Role.SELLER)
                         .status(Status.ACCOUNT_STATUS_ACTIVE)
                         .build()
         );
+    }
+
+    private String generateRandomPassword() {
+        // Define the character sets to use
+        final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+        final String DIGITS = "0123456789";
+        final String SPECIAL_CHARACTERS = "@$!%*#?&";
+        final String ALL_CHARACTERS = UPPERCASE + LOWERCASE + DIGITS + SPECIAL_CHARACTERS;
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(8);
+
+        // Ensure the password meets the criteria
+        password.append(UPPERCASE.charAt(random.nextInt(UPPERCASE.length()))); // At least one uppercase letter
+        password.append(LOWERCASE.charAt(random.nextInt(LOWERCASE.length()))); // At least one lowercase letter
+        password.append(DIGITS.charAt(random.nextInt(DIGITS.length()))); // At least one digit
+        password.append(SPECIAL_CHARACTERS.charAt(random.nextInt(SPECIAL_CHARACTERS.length()))); // At least one special character
+
+        // Fill the remaining length of the password with random characters
+        while (password.length() < 8) {
+            password.append(ALL_CHARACTERS.charAt(random.nextInt(ALL_CHARACTERS.length())));
+        }
+
+        // Shuffle the characters to ensure randomness
+        char[] passwordArray = password.toString().toCharArray();
+        for (int i = passwordArray.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            // Swap characters
+            char temp = passwordArray[i];
+            passwordArray[i] = passwordArray[j];
+            passwordArray[j] = temp;
+        }
+
+        return new String(passwordArray);
     }
 
     //---------------------------------------------DASHBOARD------------------------------------------------//
