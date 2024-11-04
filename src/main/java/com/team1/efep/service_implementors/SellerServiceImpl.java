@@ -324,11 +324,21 @@ public class SellerServiceImpl implements SellerService {
         List<Flower> flowers = flowerRepo.findAllBySeller_Id(sellerId);
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
+                .allCategory(
+                        categoryRepo.findAll().stream()
+                                .map(cat -> ViewFlowerListForSellerResponse.AllCategoryDetail.builder()
+                                        .id(cat.getId())
+                                        .name(cat.getName())
+                                        .build())
+                                .toList()
+                )
                 .flowerList(viewFlowerList(flowers))
                 .build();
     }
 
+
     private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
+
         return flowers.stream()
                 .map(item -> ViewFlowerListForSellerResponse.Flower.builder()
                         .id(item.getId())
@@ -340,6 +350,10 @@ public class SellerServiceImpl implements SellerService {
                         .quantity(item.getQuantity())
                         .soldQuantity(item.getSoldQuantity())
                         .status(item.getStatus())
+                        .categoryList(viewCategoryList(item.getFlowerCategoryList()))
+                        .categoryIdList(item.getFlowerCategoryList().stream()
+                                .map(cat -> cat.getCategory().getId())
+                                .toList())
                         .build())
                 .toList();
 
@@ -349,6 +363,15 @@ public class SellerServiceImpl implements SellerService {
         return imageList.stream()
                 .map(img -> ViewFlowerListForSellerResponse.Image.builder()
                         .link(img.getLink())
+                        .build())
+                .toList();
+    }
+
+    private List<ViewFlowerListForSellerResponse.CategoryDetail> viewCategoryList(List<FlowerCategory> categoryList) {
+        return categoryList.stream()
+                .map(cat -> ViewFlowerListForSellerResponse.CategoryDetail.builder()
+                        .id(cat.getCategory().getId())
+                        .name(cat.getCategory().getName())
                         .build())
                 .toList();
     }
@@ -735,6 +758,18 @@ public class SellerServiceImpl implements SellerService {
             flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
         }
 
+        List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
+        flowerCategoryRepo.deleteAll(existingCategories);
+
+        List<FlowerCategory> newCategories = request.getCategoryIdList().stream()
+                .map(categoryId -> FlowerCategory.builder()
+                        .flower(flower)
+                        .category(categoryRepo.findById(categoryId).orElse(null))
+                        .build())
+                .collect(Collectors.toList());
+
+        flowerCategoryRepo.saveAll(newCategories);
+
         flowerRepo.save(flower);
         return UpdateFlowerResponse.builder()
                 .status("200")
@@ -972,14 +1007,17 @@ public class SellerServiceImpl implements SellerService {
             return Map.of("error", "Flower not found");
         }
 
-        List<String> categories = flower.getFlowerCategoryList().stream()
-                .map(flowerCategory -> flowerCategory.getCategory().getName())
+        List<ViewFlowerCategoryResponse.CategoryDetail> categories = flower.getFlowerCategoryList().stream()
+                .map(flowerCategory -> ViewFlowerCategoryResponse.CategoryDetail.builder()
+                        .id(flowerCategory.getCategory().getId())
+                        .name(flowerCategory.getCategory().getName())
+                        .build())
                 .collect(Collectors.toList());
 
         return ViewFlowerCategoryResponse.builder()
                 .status("200")
                 .message("Flower categories retrieved successfully")
-                .categories(categories)
+                .categoryList(categories)
                 .build();
     }
 
@@ -1223,6 +1261,95 @@ public class SellerServiceImpl implements SellerService {
         return orderRepo.findAll().stream()
                 .filter(order -> order.getCreatedDate().toLocalDate().equals(date))
                 .count();
+    }
+
+    //----------------------------------------VIEW FEEDBACK---------------------------------------//
+
+    @Override
+    public String viewFeedback(int sellerId, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ViewFeedbackResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to view feedback")
+                    .build());
+            return "login";
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            model.addAttribute("msg", (ViewFeedbackResponse) output);
+            return "sellerInfo";
+        }
+
+        model.addAttribute("error", (Map<String, String>) output);
+        return "sellerInfo";
+    }
+
+    @Override
+    public ViewFeedbackResponse viewFeedbackAPI(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("Seller not found")
+                    .build();
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            return (ViewFeedbackResponse) output;
+        }
+
+        return ViewFeedbackResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewFeedbackLogic(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return Map.of("error", "Seller not found");
+        }
+
+        List<Feedback> feedbackList = seller.getFeedbackList();
+        if (feedbackList.isEmpty()) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("No feedback found for this seller")
+                    .build();
+        }
+
+        List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
+                .map(this::mapToFeedbackDetail)
+                .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
+                .collect(Collectors.toList());
+
+        return ViewFeedbackResponse.builder()
+                .status("200")
+                .message("Feedback found")
+                .id(seller.getId())
+                .name(seller.getUser().getName())
+                .email(seller.getUser().getAccount().getEmail())
+                .phone(seller.getUser().getPhone())
+                .avatar(seller.getUser().getAvatar())
+                .background(seller.getUser().getBackground())
+                .totalFlower(seller.getFlowerList().size())
+                .sellerRating(seller.getRating())
+                .feedbackList(feedbackDetails)
+                .build();
+    }
+
+    private ViewFeedbackResponse.FeedbackDetail mapToFeedbackDetail(Feedback feedback) {
+        return ViewFeedbackResponse.FeedbackDetail.builder()
+                .id(feedback.getId())
+                .name(feedback.getUser().getName())
+                .avatar(feedback.getUser().getAvatar())
+                .content(feedback.getContent())
+                .rating(feedback.getRating())
+                .createDate(feedback.getCreateDate().toLocalDate())
+                .build();
     }
 }
 
