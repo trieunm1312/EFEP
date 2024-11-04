@@ -14,10 +14,10 @@ import java.util.Optional;
 
 public class DeleteWishlistItemValidation {
     public static Map<String, String> validate(DeleteWishlistItemRequest request, AccountRepo accountRepo) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         if (account == null) {
-            return MapConfig.buildMapKey(errors, "Account does not exist");
+            return MapConfig.buildMapKey(error, "Account does not exist");
         }
 
         Wishlist wishlist = account.getUser().getWishlist();
@@ -26,8 +26,8 @@ public class DeleteWishlistItemValidation {
                 .findFirst();
 
         if (wishlistItem.isEmpty()) {
-            return MapConfig.buildMapKey(errors, "Wishlist item does not exist or does not belong to the account");
+            return MapConfig.buildMapKey(error, "Wishlist item does not exist or does not belong to the account");
         }
-        return errors;
+        return error;
     }
 }

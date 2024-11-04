@@ -50,7 +50,7 @@ public interface BuyerService {
 
     String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes);
 
-    String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest);
+    String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session);
 
     String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session);
 

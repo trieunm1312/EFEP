@@ -34,6 +34,8 @@ public class ViewFeedbackResponse {
 
     private float sellerRating;
 
+    private List<ViewFlowerListResponse.Flower> flowerList;
+
     private List<FeedbackDetail> feedbackList;
 
     @Data
@@ -54,5 +56,6 @@ public class ViewFeedbackResponse {
 
         private LocalDate createDate;
     }
+
 
 }

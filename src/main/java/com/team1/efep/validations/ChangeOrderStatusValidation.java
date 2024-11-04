@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ChangeOrderStatusValidation {
     public static Map<String, String> validate(ChangeOrderStatusRequest request) {
-        Map<String, String> errors = new HashMap<>();
-        return errors;
+        Map<String, String> error = new HashMap<>();
+        return error;
     }
 }
