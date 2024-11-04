@@ -543,7 +543,6 @@ html {
 /* Search Bar */
 
 .header__item-search-box {
-
     position: absolute;
     height: 40px;
     width: 270px;
@@ -661,6 +660,7 @@ html {
     display: block;
     margin-bottom: 8px;
     background-color: transparent;
+    box-shadow: 0 0 0 !important;
     border: none;
     text-align: start;
     padding-left: 16px;
