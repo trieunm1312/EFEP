@@ -25,5 +25,7 @@ public class CreateFlowerRequest {
 
     private Integer quantity;
 
-    private String image;
+    private List<String> imageList;
+
+//    private List<Integer> categoryIdList;
 }

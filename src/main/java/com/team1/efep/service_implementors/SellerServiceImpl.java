@@ -81,7 +81,6 @@ public class SellerServiceImpl implements SellerService {
         Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo, account.getUser().getSeller());
 
         if (error.isEmpty()) {
-            //success
             Flower flower = createNewFlower(request);
             return CreateFlowerResponse.builder()
                     .status("200")
@@ -103,11 +102,17 @@ public class SellerServiceImpl implements SellerService {
                                                             .build())
                                                     .toList()
                                     )
+//                                    .flowerCategoryList(
+//                                            addFlowerCategories(request, flower).stream()
+//                                                    .map(flowerCategory -> FlowerCategory.builder()
+//                                                            .category(flowerCategory.getCategory())
+//                                                            .build())
+//                                                    .toList()
+//                                    )
                                     .build()
                     )
                     .build();
         }
-        //failed
         return error;
     }
 
@@ -125,26 +130,38 @@ public class SellerServiceImpl implements SellerService {
                 .soldQuantity(0)
                 .status(Status.FLOWER_STATUS_AVAILABLE)
                 .build();
-
-        return flowerRepo.save(flower);
+        flowerRepo.save(flower);
+        addFlowerImages(request, flower);
+//        addFlowerCategories(request, flower);
+        return flower;
     }
 
 
     private List<FlowerImage> addFlowerImages(CreateFlowerRequest request, Flower flower) {
-        List<String> imgList = new ArrayList<>();
-        if (request.getImage() == null) {
-            imgList.add("/img/noImg.png");
-        } else {
-            imgList.add(request.getImage());
-        }
+        List<String> imgList = (request.getImageList() == null || request.getImageList().isEmpty())
+                ? List.of("/img/noImg.png")
+                : request.getImageList();
+
         List<FlowerImage> flowerImages = imgList.stream()
                 .map(link -> FlowerImage.builder()
                         .flower(flower)
                         .link(link)
                         .build())
                 .toList();
+
+        // Save and return the list of FlowerImage objects
         return flowerImageRepo.saveAll(flowerImages);
     }
+
+//    private List<FlowerCategory> addFlowerCategories(CreateFlowerRequest request, Flower flower) {
+//        List<FlowerCategory> flowerCategories = request.getCategoryIdList().stream()
+//                .map(categoryId -> FlowerCategory.builder()
+//                        .flower(flower)
+//                        .category(categoryRepo.findById(categoryId).orElse(null))
+//                        .build())
+//                .toList();
+//        return flowerCategoryRepo.saveAll(flowerCategories);
+//    }
 
     //--------------------------------------GET ALL FLOWER STATUS------------------------------------------------//
 

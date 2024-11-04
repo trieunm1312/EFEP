@@ -1,5 +1,6 @@
 package com.team1.efep.models.response_models;
 
+import com.team1.efep.models.entity_models.FlowerCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +43,8 @@ public class CreateFlowerResponse {
         private int soldQuantity;
 
         private LocalDateTime createDate;
+
+        private List<FlowerCategory> flowerCategoryList;
 
         private List<Images> imageList;
 
