@@ -12,7 +12,6 @@ import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.BuyerService;
-import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
@@ -1271,19 +1270,6 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("error", (Map<String, String>) output);
         return "paymentFailed";
     }
-
-//    @Override
-//    public VNPayResponse getPaymentResultForBuyNowAPI(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
-//
-//        Object output = getPaymentResultForBuyNowLogic(params, accountId, httpServletRequest);
-//        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
-//            return (VNPayResponse) output;
-//        }
-//        return VNPayResponse.builder()
-//                .status("400")
-//                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
-//                .build();
-//    }
 
     private Object getPaymentResultForBuyNowLogic(Map<String, String> params, int flowerId, int quantity, int accountId, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();

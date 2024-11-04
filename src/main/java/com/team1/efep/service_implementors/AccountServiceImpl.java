@@ -1,6 +1,5 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
 import com.team1.efep.models.entity_models.Account;
@@ -13,11 +12,14 @@ import com.team1.efep.repositories.UserRepo;
 import com.team1.efep.repositories.WishlistRepo;
 import com.team1.efep.services.AccountService;
 import com.team1.efep.services.BuyerService;
-import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.GoogleLoginGeneratorUtil;
 import com.team1.efep.utils.GoogleLoginUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
-import com.team1.efep.validations.*;
+import com.team1.efep.utils.PasswordEncryptUtil;
+import com.team1.efep.validations.ChangePasswordValidation;
+import com.team1.efep.validations.LoginValidation;
+import com.team1.efep.validations.RegisterValidation;
+import com.team1.efep.validations.UpdateProfileValidation;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -45,32 +47,19 @@ public class AccountServiceImpl implements AccountService {
 
 //--------------------------Hash password------------------------//
 
-    private String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashedBytes = md.digest(password.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashedBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error hashing password", e);
-        }
-    }
 
     private boolean checkPassword(String inputPassword, String storedPassword) {
-        String hashedInputPassword = hashPassword(inputPassword);
+        String hashedInputPassword = PasswordEncryptUtil.encrypt(inputPassword);
         return hashedInputPassword.equals(storedPassword);
     }
 
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
-        request.setPassword(hashPassword(request.getPassword()));
+        request.setPassword(PasswordEncryptUtil.encrypt(request.getPassword()));
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
-            redirectAttributes.addFlashAttribute("msg",(RegisterResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (RegisterResponse) output);
             return "redirect:/login";
         }
         redirectAttributes.addFlashAttribute("error", output);
@@ -121,9 +110,9 @@ public class AccountServiceImpl implements AccountService {
     public String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Object output = loginLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class)) {
-            Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), request.getPassword()).get();
+            Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), PasswordEncryptUtil.encrypt(request.getPassword())).get();
             session.setAttribute("acc", acc);
-            redirectAttributes.addFlashAttribute("msg",(LoginResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (LoginResponse) output);
             switch (acc.getRole().toUpperCase()) {
                 case "SELLER":
                     return "redirect:/seller/dashboard";
@@ -144,14 +133,11 @@ public class AccountServiceImpl implements AccountService {
         Map<String, String> errors = LoginValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
-            if (account != null && checkPassword(request.getPassword(), account.getPassword())) {
-                return LoginResponse.builder()
-                        .status("200")
-                        .message("Login successfully")
-                        .build();
-            } else {
-                errors.put("login", "Invalid email or password");
-            }
+            assert account != null;
+            return LoginResponse.builder()
+                    .status("200")
+                    .message("Login successfully")
+                    .build();
         }
         return errors;
     }
@@ -168,7 +154,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String exchangeGoogleCode(String code,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String exchangeGoogleCode(String code, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         return GoogleLoginUtil.accessGoogleInfo(
                 googleLoginGeneratorUtil.exchangeAuthorizationCode(code).getAccess_token(),
                 this,
@@ -203,35 +189,9 @@ public class AccountServiceImpl implements AccountService {
     // việc trả về hồ sơ người dùng nên trả về ViewProfileResponse
     // thay vì Object (nếu phải check kiểu dữ liệu của Object ở nhiều nơi khác nhau ==> lỗi runtime)
     private ViewProfileResponse viewProfileLogic(ViewProfileRequest request) {
-            User user = userRepo.findById(request.getId()).orElse(null);
-            assert user != null;
-            if (user.getAccount().getRole().equals(Role.SELLER)) {
-                return ViewProfileResponse.builder()
-                        .status("200")
-                        .message("View profile successfully")
-                        .id(user.getId())
-                        .name(user.getName())
-                        .phone(user.getPhone())
-                        .email(user.getAccount().getEmail())
-                        .avatar(user.getAvatar())
-                        .background(user.getBackground())
-                        .totalFlower(user.getSeller().getFlowerList().size())
-                        .sellerRating(user.getSeller().getRating())
-                        .feedbackList(
-                                user.getSeller().getFeedbackList().stream()
-                                        .map(feedback -> ViewProfileResponse.FeedbackDetail.builder()
-                                                .id(feedback.getId())
-                                                .name(feedback.getUser().getName())
-                                                .avatar(feedback.getUser().getAvatar())
-                                                .content(feedback.getContent())
-                                                .rating(feedback.getRating())
-                                                .createDate(feedback.getCreateDate().toLocalDate())
-                                                .build()
-                                        )
-                                        .toList()
-                        )
-                        .build();
-            }
+        User user = userRepo.findById(request.getId()).orElse(null);
+        assert user != null;
+        if (user.getAccount().getRole().equals(Role.SELLER)) {
             return ViewProfileResponse.builder()
                     .status("200")
                     .message("View profile successfully")
@@ -241,7 +201,33 @@ public class AccountServiceImpl implements AccountService {
                     .email(user.getAccount().getEmail())
                     .avatar(user.getAvatar())
                     .background(user.getBackground())
+                    .totalFlower(user.getSeller().getFlowerList().size())
+                    .sellerRating(user.getSeller().getRating())
+                    .feedbackList(
+                            user.getSeller().getFeedbackList().stream()
+                                    .map(feedback -> ViewProfileResponse.FeedbackDetail.builder()
+                                            .id(feedback.getId())
+                                            .name(feedback.getUser().getName())
+                                            .avatar(feedback.getUser().getAvatar())
+                                            .content(feedback.getContent())
+                                            .rating(feedback.getRating())
+                                            .createDate(feedback.getCreateDate().toLocalDate())
+                                            .build()
+                                    )
+                                    .toList()
+                    )
                     .build();
+        }
+        return ViewProfileResponse.builder()
+                .status("200")
+                .message("View profile successfully")
+                .id(user.getId())
+                .name(user.getName())
+                .phone(user.getPhone())
+                .email(user.getAccount().getEmail())
+                .avatar(user.getAvatar())
+                .background(user.getBackground())
+                .build();
     }
 
 //------------------------------------------UPDATE PROFILE--------------------------------------------------//
@@ -252,7 +238,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepo.findById(request.getId()).orElse(null);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateProfileResponse.class)) {
             session.setAttribute("acc", account);
-            redirectAttributes.addFlashAttribute("msg",(UpdateProfileResponse) output);
+            redirectAttributes.addFlashAttribute("msg", (UpdateProfileResponse) output);
             switch (account.getRole().toUpperCase()) {
                 case "SELLER":
                     return "redirect:/seller/profile";
@@ -262,11 +248,11 @@ public class AccountServiceImpl implements AccountService {
             }
         }
         redirectAttributes.addFlashAttribute("error", output);
-        if (account.getRole().toUpperCase().matches("SELLER") )
-                return "redirect:/seller/profile";
-        else  {
-                System.out.println(account.getUser().getWishlist().getWishlistItemList().size());
-                return "redirect:/myAccount";
+        if (account.getRole().toUpperCase().matches("SELLER"))
+            return "redirect:/seller/profile";
+        else {
+            System.out.println(account.getUser().getWishlist().getWishlistItemList().size());
+            return "redirect:/myAccount";
         }
     }
 
@@ -333,7 +319,6 @@ public class AccountServiceImpl implements AccountService {
         }
         return "redirect:/login";
     }
-
 
 
 }
