@@ -1591,33 +1591,12 @@ public class BuyerServiceImpl implements BuyerService {
 
         for (WishlistItem item : wishlistItems) {
             Flower flower = item.getFlower();
-            LocalDateTime witheringDate = flower.getCreateDate().plusDays(flower.getWitheringTime());
             Wishlist wishlist = item.getWishlist();
             User user = wishlist.getUser();
 
-            if (now.isBefore(witheringDate) && witheringDate.minusDays(1).isBefore(now)) {
-                sendEmailNotification(user.getAccount().getEmail(), flower, witheringDate);
-            }
         }
     }
 
-    private void sendEmailNotification(String email, Flower flower, LocalDateTime witheringDate) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setFrom("vannhuquynhp@gmail.com");
-            helper.setTo(email);
-            helper.setSubject("Flower Withering Soon!");
-            helper.setText("Dear user, the flower \"" + flower.getName() +
-                    "\" in your wishlist will wither on " + witheringDate +
-                    ". Buy it now before it withers!", true);
-
-            mailSender.send(message);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
 
