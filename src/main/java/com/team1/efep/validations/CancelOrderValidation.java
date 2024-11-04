@@ -13,21 +13,21 @@ import java.util.Map;
 
 public class CancelOrderValidation {
     public static Map<String, String> validate(CancelOrderRequest request, OrderRepo orderRepo, AccountRepo accountRepo) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         if (order == null) {
-            return MapConfig.buildMapKey(errors, "Order does not exist.");
+            return MapConfig.buildMapKey(error, "Order does not exist.");
         }
 
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         if (account == null || !order.getUser().getId().equals(account.getUser().getId())) {
-            return MapConfig.buildMapKey(errors, "You are not authorized to cancel this order.");
+            return MapConfig.buildMapKey(error, "You are not authorized to cancel this order.");
         }
 
 //        if (!order.getStatus().equals(Status.ORDER_STATUS_PROCESSING)) {
 //            return MapConfig.buildMapKey(errors, "Order cannot be cancelled");
 //        }
 //        System.out.println("CancelOrderValidation: " + errors);
-        return errors;
+        return error;
     }
 }

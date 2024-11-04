@@ -28,5 +28,5 @@ public class UpdateFlowerRequest {
 
     private int quantity;
 
-    private List<Integer> categoryIdList;
+//    private List<Integer> categoryIdList;
 }

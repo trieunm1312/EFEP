@@ -59,6 +59,10 @@
     color: var(--white-color);
 }
 
+.point {
+    cursor: default;
+}
+
 .fa-angles-right{
     margin-right: 10px;
 }
@@ -302,6 +306,12 @@ tbody tr:nth-child(odd) {
     background-color: rgba(184, 181, 181, 0.103);
 }
 
+/*disable btn with condition*/
+button:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
 /* Top Category */
 .top-category{
     margin: 64px 32px ;
@@ -440,3 +450,4 @@ tbody tr:nth-child(odd) {
 .top-category__content span:first-child{
     font-weight: 600;
 }
+

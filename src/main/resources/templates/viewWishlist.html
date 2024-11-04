@@ -72,7 +72,7 @@
                     </li>
 
                     <li class="breadbrum__element-list-item">
-                        <a href="" class="breadbrum__element-list-item-link">
+                        <a href="" class="breadbrum__element-list-item-link point">
                             <i class="fa-solid fa-angles-right"></i>
                             <span>View wishlist</span>
                         </a>
@@ -97,6 +97,7 @@
                                     <th class="table-item-header">Name</th>
                                     <th class="table-item-header">Description</th>
                                     <th class="table-item-header">Quantity</th>
+                                    <th class="table-item-header">Unit price</th>
                                     <th class="table-item-header">Price</th>
                                     <th class="table-item-header">Stock Quantity</th>
                                     <th class="table-item-header">Remove</th>
@@ -123,8 +124,10 @@
                                                 <input type="hidden" name="wishlistId" th:value="${msg.id}">
                                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                                                 <input type="hidden" name="request" value="desc">
+<!--                                                <button class="table-item-btn-decrease" type="submit"-->
+<!--                                                    th:disabled="${item.quantity == 1}">-</button>-->
                                                 <button class="table-item-btn-decrease" type="submit"
-                                                    th:disabled="${item.quantity == 1}">-</button>
+                                                        th:attr="disabled=${item.quantity == 1 ? 'disabled' : null}">-</button>
                                             </form>
 
                                             <span class="input-quantity" th:text="${item.quantity}">1</span>
@@ -133,13 +136,18 @@
                                                 <input type="hidden" name="wishlistId" th:value="${msg.id}">
                                                 <input type="hidden" name="wishlistItemId" th:value="${item.id}">
                                                 <input type="hidden" name="request" value="asc">
+<!--                                                <button class="table-item-btn-increase" type="submit"-->
+<!--                                                        th:disabled="${item.quantity == item.stockQuantity}">+</button>-->
                                                 <button class="table-item-btn-increase" type="submit"
-                                                        th:disabled="${item.quantity == item.stockQuantity}">+</button>
+                                                        th:attr="disabled=${item.quantity == item.stockQuantity ? 'disabled' : null}">+</button>
                                             </form>
                                         </div>
                                     </td>
                                     <td class="table-item-detail">
                                         <span class="table-item-price" th:text="'$ ' + ${item.price}">0</span>
+                                    </td>
+                                    <td class="table-item-detail">
+                                        <span class="table-item-price" th:text="'$ ' + ${item.price * item.quantity}">0</span>
                                     </td>
                                     <td class="table-item-detail">
                                         <span class="table-item-total"

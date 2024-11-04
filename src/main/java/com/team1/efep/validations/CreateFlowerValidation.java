@@ -11,34 +11,34 @@ import java.util.Map;
 public class CreateFlowerValidation {
 
     public static Map<String, String> validateInput(CreateFlowerRequest request, FlowerRepo flowerRepo, Seller seller) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         if (request.getName().trim().isEmpty()) {
-            return MapConfig.buildMapKey(errors, "Flower name is required");
+            return MapConfig.buildMapKey(error, "Flower name is required");
         } else if (request.getName().length() < 3 || request.getName().length() > 30) {
-            return MapConfig.buildMapKey(errors, "Flower name must be between 3 and 30 characters");
+            return MapConfig.buildMapKey(error, "Flower name must be between 3 and 30 characters");
         } else if (flowerRepo.findByName(request.getName()).isPresent()) {
-            return MapConfig.buildMapKey(errors, "Flower name already exists");
+            return MapConfig.buildMapKey(error, "Flower name already exists");
         } else if (!request.getName().matches("^[a-zA-Z0-9 ]*$")) {
-            return MapConfig.buildMapKey(errors, "Flower name must not contain special characters");
+            return MapConfig.buildMapKey(error, "Flower name must not contain special characters");
         }
 
         if (request.getPrice() == null) {
-            return MapConfig.buildMapKey(errors, "Price is required");
+            return MapConfig.buildMapKey(error, "Price is required");
         } else if (request.getPrice() <= 0) {
-            return MapConfig.buildMapKey(errors, "Price must be greater than 0");
+            return MapConfig.buildMapKey(error, "Price must be greater than 0");
         }
 
         if (request.getFlowerAmount() == null) {
-            return MapConfig.buildMapKey(errors, "Price is required");
+            return MapConfig.buildMapKey(error, "Price is required");
         } else if (request.getFlowerAmount() <= 0) {
-            return MapConfig.buildMapKey(errors, "Price amount must be greater than 0");
+            return MapConfig.buildMapKey(error, "Price amount must be greater than 0");
         }
 
         if (request.getQuantity() < 0) {
-            return MapConfig.buildMapKey(errors, "Quantity must be greater than 0");
+            return MapConfig.buildMapKey(error, "Quantity must be greater than 0");
         }
 
-        return errors;
+        return error;
     }
 
 
