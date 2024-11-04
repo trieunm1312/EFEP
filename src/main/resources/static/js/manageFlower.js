@@ -99,7 +99,7 @@ function closePopup(id) {
 // document.getElementById("imageUpload").addEventListener("change", function(event) {
 //     const files = event.target.files; // Lấy danh sách các tệp đã chọn
 //     const imagePreviewContainer = document.getElementById("imagePreviewContainer");
-    
+
 //     // Đặt lại hình ảnh đã hiển thị trước đó
 //     imagePreviewContainer.querySelectorAll("img").forEach(img => {
 //         img.style.display = "none"; // Ẩn tất cả ảnh trước đó
@@ -147,7 +147,7 @@ function uploadImage() {
 
     if (file && selectedSlot) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             const previewImage = document.getElementById(`previewImage${selectedSlot}`);
             previewImage.src = e.target.result;
             previewImage.style.display = "block"; // Hiển thị ảnh
@@ -165,7 +165,7 @@ function removeImage(imageIndex, event) {
 
     // Reset file input để có thể chọn lại
     const fileInput = document.getElementById("imageUpload");
-    fileInput.value = ""; 
+    fileInput.value = "";
 }
 
 
@@ -173,5 +173,11 @@ function removeImage(imageIndex, event) {
 // function saveData() {
 //     closePopup();
 // }
-
+// <td className="table__body-img">
+//     <img className="img" th:src="${item.imageList[0].link}" alt=""
+//          id="flower-update"/>
+//     <input type="file" accept="image/*" value="" id="update-file"
+//            className="file-input" style="display: none;"/>
+//     <input type="hidden" name="image" id="flower-img-update" value=""/>
+// </td>
 

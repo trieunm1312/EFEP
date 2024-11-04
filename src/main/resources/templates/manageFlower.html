@@ -191,9 +191,9 @@
                                                 <td class="table__body-img">
                                                     <img class="img" th:src="${item.imageList[0].link}" alt=""
                                                         id="flower-update">
-                                                    <input type="file" accept="image/*" value="" id="update-file"
-                                                        class="file-input" style="display: none;">
-                                                    <input type="hidden" name="image" id="flower-img-update" value="">
+<!--                                                    <input type="file" accept="image/*" value="" id="update-file"-->
+<!--                                                        class="file-input" style="display: none;">-->
+<!--                                                    <input type="hidden" name="image" id="flower-img-update" value="">-->
                                                 </td>
                                                 <td class="table__body-name padding-td">
                                                     <span th:text="${item.name}" class="name-text">RED</span>
@@ -287,23 +287,23 @@
                                                                             <button class="remove-button" onclick="removeImage(3, event)">&times;</button>
                                                                         </div>
                                                                     </div>
-<!--                                                                    <h4 class="cate-title">Categories</h4>-->
-<!--                                                                    <div class="categories">-->
-<!--&lt;!&ndash;                                                                        <div th:each="cate : ${msg.allCategory}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                                            <label>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                                                <input type="checkbox" name="categoryIdList" th:value="${cate.id}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                                                       th:checked="${#lists.contains(flower.categoryIdList, cate.id)}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                                                       th:text="${cate.name}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                                            </label>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                                        </div>&ndash;&gt;-->
-<!--                                                                        <label for="multi-select">Choose categories:</label>-->
-<!--                                                                        <select id="multi-select" name="options" multiple>-->
-<!--                                                                            <option value="option1">wedding</option>-->
-<!--                                                                            <option value="option2">anni</option>-->
-<!--                                                                            <option value="option3">mother</option>-->
-<!--                                                                            <option value="option4">Tùy chọn 4</option>-->
-<!--                                                                        </select>-->
-<!--                                                                    </div>-->
+                                                                    <h4 class="cate-title">Categories</h4>
+                                                                    <div class="categories">
+<!--                                                                        <div th:each="cate : ${msg.allCategory}">-->
+<!--                                                                            <label>-->
+<!--                                                                                <input type="checkbox" name="categoryIdList" th:value="${cate.id}"-->
+<!--                                                                                       th:checked="${#lists.contains(flower.categoryIdList, cate.id)}"-->
+<!--                                                                                       th:text="${cate.name}">-->
+<!--                                                                            </label>-->
+<!--                                                                        </div>-->
+                                                                        <label for="multi-select">Choose categories:</label>
+                                                                        <select id="multi-select" name="options" multiple>
+                                                                            <option value="option1">wedding</option>
+                                                                            <option value="option2">anni</option>
+                                                                            <option value="option3">mother</option>
+                                                                            <option value="option4">Tùy chọn 4</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -319,7 +319,7 @@
 
                                             <td class="table__body-toggle" th:if="${item.quantity} > 0">
                                                 <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
-                                                       class="toggle-btn">Delete</span>
+                                                       class="toggle-btn">Disable</span>
 
                                                 <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
                                                     <div class="confirmDelete-form">
@@ -400,23 +400,26 @@
                                             <!-- Right half for image upload and categories -->
                                             <div class="right-section-create">
                                                 <h4 class="image-title-create">Upload Image</h4>
-                                                <input type="file" id="imageUpload1" name="imageUpload" multiple style="display: none;">
+                                                <input type="file" accept="image/*" id="input-file" class="file-input">
+                                                <input type="file" accept="image/*" id="input-file-2" class="file-input">
                                                 <div id="imagePreviewContainer1">
                                                     <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
                                                     <img id="previewImage2" src="#" alt="Image Preview 2"/>
                                                     <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
                                                     <div class="image-preview" >
-                                                        <img id="previewImage11" src="#" alt="Image Preview 1" style="display: none;" />
+                                                        <img id="flowers-image" class="img" src="#" alt="" />
+                                                        <input type="hidden" name="image" id="flower-img" value="">
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
                                                     <div class="image-preview">
-                                                        <img id="previewImage21" src="#" alt="Image Preview 2" style="display: none;" />
+                                                        <img id="flowers-image-2" class="img" src="#" alt="" />
+                                                        <input type="hidden" name="image" id="flower-img-2" value="">
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
-                                                    <div class="image-preview" >
-                                                        <img id="previewImage31" src="#" alt="Image Preview 3" style="display: none;" />
-                                                        <button class="remove-button" >&times;</button>
-                                                    </div>
+<!--                                                    <div class="image-preview" >-->
+<!--                                                        <img id="previewImage31" src="#" alt="Image Preview 3" style="display: none;" />-->
+<!--                                                        <button class="remove-button" >&times;</button>-->
+<!--                                                    </div>-->
                                                 </div>
                                                 <h4 class="cate-title">Categories</h4>
                                                 <div class="categories">
@@ -468,9 +471,13 @@
         const storage = getStorage(app);
 
         // Avatar upload logic
-        let profileAvatar = document.getElementById("flowers-image");
+        let img1_flower = document.getElementById("flowers-image");
         let inputFile = document.getElementById("input-file");
-        let avatarUrlInput = document.getElementById("flower-img");  // Reference to hidden input
+        let img1_flower_hide = document.getElementById("flower-img");  // Reference to hidden input
+
+        let img2_flower = document.getElementById("flowers-image-2");
+        let inputFile_2 = document.getElementById("input-file-2");
+        let img2_flower_hide = document.getElementById("flower-img-2");
 
         let flower_image = document.getElementById("flower-update");
         let updateFile = document.getElementById("update-file");
@@ -490,10 +497,37 @@
                     const downloadURL = await getDownloadURL(snapshot.ref);
 
                     // Update the image source to display the uploaded image
-                    profileAvatar.src = downloadURL;
+                    img1_flower.src = downloadURL;
 
                     // Store the download URL in the hidden input field
-                    avatarUrlInput.value = downloadURL;
+                    img1_flower_hide.value = downloadURL;
+
+                    console.log("File available at: ", downloadURL);
+
+                } catch (error) {
+                    console.error("Error uploading file: ", error);
+                }
+            }
+        };
+
+        inputFile_2.onchange = async function () {
+            const file = inputFile_2.files[0];
+            if (file) {
+                // Use Firebase Storage ref to define the storage path
+                const storageRef = ref(storage, `images/flowers/${file.name}`);
+
+                try {
+                    // Upload the file
+                    const snapshot = await uploadBytes(storageRef, file);
+
+                    // Get the download URL
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+
+                    // Update the image source to display the uploaded image
+                    img2_flower.src = downloadURL;
+
+                    // Store the download URL in the hidden input field
+                    img2_flower_hide.value = downloadURL;
 
                     console.log("File available at: ", downloadURL);
 
