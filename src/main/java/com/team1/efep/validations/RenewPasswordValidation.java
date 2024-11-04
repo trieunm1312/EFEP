@@ -24,7 +24,7 @@ public class RenewPasswordValidation {
         }
 
         // 5. Password format validation
-        if (!request.getPassword().matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
+        if (!request.getPassword().matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$")) {
             return MapConfig.buildMapKey(error, "Password is in invalid format");
         }
 

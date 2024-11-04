@@ -989,7 +989,10 @@ public class SellerServiceImpl implements SellerService {
                 .message("200")
                 .message("")
                 .totalNumberFlowers(flowerRepo.findAll().stream()
-                        .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_DELETED))
+                        .filter(
+                                flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_DELETED) &&
+                                LocalDate.now().getMonth().equals(flower.getCreateDate().getMonth())
+                        )
                         .count()
                 )
                 .build();
@@ -1009,7 +1012,10 @@ public class SellerServiceImpl implements SellerService {
                 .message("")
                 .getTotalNumberOfCanceledOrder(orderRepo.findAll()
                         .stream()
-                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED))
+                        .filter(
+                                order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED) &&
+                                LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                        )
                         .count())
                 .build();
     }
@@ -1019,6 +1025,9 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public void getRevenue(Model model) {
         float totalRevenue = orderRepo.findAll().stream()
+                .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED) &&
+                        LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                )
                 .map(Order::getTotalPrice)
                 .reduce(0f, Float::sum);
         model.addAttribute("revenue", totalRevenue);
@@ -1037,7 +1046,10 @@ public class SellerServiceImpl implements SellerService {
                 .status("200")
                 .message("")
                 .totalTotalNumberOfOder(orderRepo.findAll().stream()
-                        .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
+                        .filter(
+                                order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED) &&
+                                LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                        )
                         .count())
                 .build();
     }
