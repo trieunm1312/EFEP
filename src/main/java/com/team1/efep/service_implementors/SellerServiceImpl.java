@@ -117,7 +117,6 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Flower createNewFlower(CreateFlowerRequest request) {
-        List<FlowerImage> imgList = new ArrayList<>();
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         assert account != null;
         Flower flower = Flower.builder()
@@ -139,18 +138,18 @@ public class SellerServiceImpl implements SellerService {
 
 
     private List<FlowerImage> addFlowerImages(CreateFlowerRequest request, Flower flower) {
-        List<String> imgList = new ArrayList<>();
-        if (request.getImage() == null) {
-            imgList.add("/img/noImg.png");
-        } else {
-            imgList.add(request.getImage());
-        }
+        List<String> imgList = (request.getImageList() == null || request.getImageList().isEmpty())
+                ? List.of("/img/noImg.png")
+                : request.getImageList();
+
         List<FlowerImage> flowerImages = imgList.stream()
                 .map(link -> FlowerImage.builder()
                         .flower(flower)
                         .link(link)
                         .build())
                 .toList();
+
+        // Save and return the list of FlowerImage objects
         return flowerImageRepo.saveAll(flowerImages);
     }
 
