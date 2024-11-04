@@ -130,6 +130,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     private Object loginLogic(LoginRequest request) {
+        System.out.println(PasswordEncryptUtil.encrypt(request.getPassword()));
         Map<String, String> errors = LoginValidation.validate(request, accountRepo);
         if (errors.isEmpty()) {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);

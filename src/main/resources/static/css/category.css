@@ -317,6 +317,7 @@
 
 .flower__content{
     display: flex;
+    font-size: 1.6rem;
     width: 90%;
     justify-content: space-between;
     margin: 0 2.5%;

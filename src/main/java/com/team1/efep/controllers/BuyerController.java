@@ -200,9 +200,9 @@ public class BuyerController {
 
     @GetMapping("/feedback")
     @Operation(hidden = true)
-    public String viewFeedback(int accountId, Model model, HttpSession session) {
+    public String viewFeedback(int p, Model model, HttpSession session) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.viewFeedback(accountId, model, session);
+        return buyerService.viewFeedback(p, model, session);
     }
 
     @PostMapping("/feedback")

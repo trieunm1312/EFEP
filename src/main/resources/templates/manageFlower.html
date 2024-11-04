@@ -68,10 +68,10 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/seller/plan/detail}" class="sidebar__link">
+                    <a th:href="@{/seller/feedback(accountId=${session.acc.getId()})}" class="sidebar__link">
                         <div class="sidebar__item">
                             <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">My Plan</span>
+                            <span class="sidebar__item-title">Feedback</span>
                         </div>
                     </a>
                 </li>
@@ -122,28 +122,7 @@
                     <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
                 </form>
             </div>
-            <div class="header__create-btn btn">
-                <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                <span>Create</span>
-                <div class="header__create-block">
-                    <!--                <h4 class="header__create-title">Create New</h4>-->
-                    <!--                <ul class="header__create-list">-->
-                    <!--                    <li class="header__create-item">-->
-                    <!--                        <a href="#">-->
-                    <!--                            <i class="fa-solid fa-flower header__create-item-icon"></i>-->
-                    <!--                            &lt;!&ndash; <i class="fa-solid fa-spa"></i> &ndash;&gt;-->
-                    <!--                            <span class="sidebar__item-title">Flower</span>-->
-                    <!--                        </a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="header__create-item">-->
-                    <!--                        <a href="#">-->
-                    <!--                            <i class="fa-solid fa-briefcase header__create-item-icon"></i>-->
-                    <!--                            <span class="sidebar__item-title">Business Plan</span>-->
-                    <!--                        </a>-->
-                    <!--                    </li>-->
-                    <!--                </ul>-->
-                </div>
-            </div>
+
             <div class="header__others">
                 <div class="header__noti">
                     <i class="fa-solid fa-bell"></i>
@@ -181,7 +160,7 @@
                 <div class="manage-flower">
                     <div class="manage-flower__heading">
                         <h4 class="manage-flower__title">Manage Flower</h4>
-                        <div class="manage-flower__create-btn">
+                        <div class="manage-flower__create-btn" onclick="openCreatePopup()">
                             <i class="fa-solid fa-plus header__create-btn-icon"></i>
                             <span>Create New</span>
                         </div>
@@ -193,7 +172,7 @@
                                 <th class="table__header-name">Name</th>
                                 <th class="table__header-desc">Description</th>
                                 <th class="table__header-amount">Flower Amount</th>
-                                <th class="table__header-qnt">Quanity</th>
+                                <th class="table__header-qnt">Quantity</th>
                                 <th class="table__header-price">Price</th>
                                 <th class="table__header-sold-qnt">Sold Quantity</th>
                                 <th class="table__header-status">Status</th>
@@ -244,9 +223,9 @@
 <!--                                                    <input name="price" class="price-input" th:value="${item.price}"-->
 <!--                                                        style="display: none;" title="Please enter a valid number" />-->
                                                 </td>
-                                                <td class="table__body-sold_qnt">
-                                                    <span th:text="${item.soldQuantity}" class="sold-text">120</span>
-                                                </td>
+<!--                                                <td class="table__body-sold_qnt">-->
+<!--                                                    <span th:text="${item.soldQuantity}" class="sold-text">120</span>-->
+<!--                                                </td>-->
                                                 <td class="table__body-status">
                                                     <span th:text="${item.status}" class="status-text">Out</span>
                                                 </td>
@@ -257,11 +236,12 @@
 <!--                                                    <input type="submit" name="action" class="save-btn" value="Save"-->
 <!--                                                        onclick="prepareSave(this)" style="display: none;">-->
                                                     <!-- Button to open the popup -->
-                                                    <span onclick="openPopup()">Edit</span>
+<!--                                                    <i class="fa-solid fa-pencil modify-icon" onclick="openPopup()"></i>-->
+                                                    <span class="edit-btn" th:onclick="'openPopup(' + ${item.id} + ')'">Edit</span>
                                                     <!-- Popup modal -->
-                                                    <div id="editPopup" class="popup">
+                                                    <div th:id="'editPopup-' + ${item.id}" class="popup">
                                                         <div class="popup-content">
-                                                            <span class="close" onclick="closePopup()">&times;</span>
+                                                            <span class="close" th:onclick="'closePopup(' + ${item.id} + ')'">&times;</span>
 
                                                             <div class="popup-form">
                                                                 <!-- Left half for input fields -->
@@ -274,16 +254,16 @@
                                                                     <textarea id="description" name="description" th:text="${item.description}"></textarea>
 
                                                                     <label for="flowerAmount">Flower Amount:</label>
-                                                                    <input type="number" id="flowerAmount" name="flowerAmount"
+                                                                    <input type="number" id="flowerAmount" name="flowerAmount" min="1"
                                                                            th:value="${item.flowerAmount}" pattern="\d*" title="Please enter a valid number">
 
                                                                     <label for="quantity">Quantity:</label>
-                                                                    <input type="number" id="quantity" name="quantity" th:value="${item.quantity}"
+                                                                    <input type="number" id="quantity" name="quantity" min="1" th:value="${item.quantity}"
                                                                            pattern="\d*" title="Please enter a valid number">
 
                                                                     <label for="price">Price:</label>
-                                                                    <input id="price" step="0.01" name="price" th:value="${item.price}"
-                                                                           pattern="\d*" title="Please enter a valid number">
+                                                                    <input id="price" name="price" th:value="${item.price}"
+                                                                           pattern="\d+(\.\d{1,2})?" title="Please enter a valid number">
                                                                 </div>
 
                                                                 <!-- Right half for image upload and categories -->
@@ -322,21 +302,31 @@
 
                                                             <!-- Buttons at the bottom -->
                                                             <div class="popup-buttons">
-                                                                <button onclick="closePopup()">Cancel</button>
-                                                                <button onclick="saveData()">Save</button>
+                                                                <span th:onclick="'closePopup(' + ${item.id} + ')'">Cancel</span>
+                                                                <button name="update">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                             </form>
+
                                             <td class="table__body-toggle">
-                                                <form th:action="@{/seller/flower}" th:method="delete">
-                                                    <input type="hidden" name="accountId"
-                                                        th:value="${session.acc.getId()}">
-                                                    <input type="hidden" name="flowerId" th:value="${item.id}">
-                                                    <input type="submit" name="action" value="Delete"
-                                                        class="toggle-btn">
-                                                </form>
+                                                <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
+                                                       class="toggle-btn">Delete</span>
+
+                                                <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
+                                                    <div class="confirmDelete-form">
+                                                    <span class="confirm-text">Do you want to delete flower <span th:text="${item.name}">RED</span> ?</span>
+                                                        <form th:action="@{/seller/flower}" th:method="delete">
+                                                            <input type="hidden" name="accountId"
+                                                                   th:value="${session.acc.getId()}">
+                                                            <input type="hidden" name="flowerId" th:value="${item.id}">
+                                                            <span class="cancel-delete" th:onclick="'closeDeletePopup(' + ${item.id} + ')'" >Cancel</span>
+                                                            <input type="submit" name="action" value="Delete"
+                                                                   class="delete-btn">
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </div>
                                     </tr>
@@ -373,13 +363,13 @@
 <!--                                    </td>-->
 <!--                                </tr>-->
                                 <!-- Popup modal -->
-                                <div id="createPopup" class="popup">
-                                    <div class="popup-content">
-                                        <span class="close" >&times;</span>
+                                <div id="createPopup" class="createPopup">
+                                    <div class="popup-content-create">
+                                        <span class="close" onclick="closeCreatePopup()">&times;</span>
 
-                                        <div class="popup-form">
+                                        <div class="popup-form-create">
                                             <!-- Left half for input fields -->
-                                            <div class="left-section">
+                                            <div class="left-section-create">
                                                 <h3>Create Flower Information</h3>
                                                 <label for="name">Name:</label>
                                                 <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name">
@@ -388,27 +378,27 @@
                                                 <textarea name="description" th:text="${description}" placeholder="Enter your description about flower"></textarea>
 
                                                 <label for="flowerAmount">Flower Amount:</label>
-                                                <input name="flowerAmount"
+                                                <input type="number" min="1" name="flowerAmount"
                                                        th:value="${flowerAmount}" pattern="\d*" title="Please enter a valid number" placeholder="Enter flower amount">
 
                                                 <label for="quantity">Quantity:</label>
-                                                <input name="quantity" th:value="${quantity}"
+                                                <input type="number" min="1" name="quantity" th:value="${quantity}"
                                                        pattern="\d*" title="Please enter a valid number" placeholder="Enter quantity">
 
                                                 <label for="price">Price:</label>
-                                                <input step="0.01" name="price" th:value="${price}"
-                                                       pattern="\d*" title="Please enter a valid number" placeholder="Enter price">
+                                                <input id="createPrice" name="price" th:value="${price}"
+                                                       pattern="\d+(\.\d{1,2})?" title="Please enter a valid number" placeholder="Enter price">
                                             </div>
 
                                             <!-- Right half for image upload and categories -->
-                                            <div class="right-section">
-                                                <h4 class="image-title">Upload Image</h4>
+                                            <div class="right-section-create">
+                                                <h4 class="image-title-create">Upload Image</h4>
                                                 <input type="file" id="imageUpload1" name="imageUpload" multiple style="display: none;">
                                                 <div id="imagePreviewContainer1">
                                                     <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
                                                     <img id="previewImage2" src="#" alt="Image Preview 2"/>
                                                     <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
-                                                    <div class="image-preview1" >
+                                                    <div class="image-preview" >
                                                         <img id="previewImage11" src="#" alt="Image Preview 1" style="display: none;" />
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
@@ -431,8 +421,8 @@
 
                                         <!-- Buttons at the bottom -->
                                         <div class="popup-buttons">
-<!--                                            <span onclick="closePopup()">Cancel</span>-->
-                                            <button class="save-btn" name="action" >Create</button>
+                                            <span onclick="closeCreatePopup()">Cancel</span>
+                                            <button class="save-btn" >Create</button>
                                         </div>
                                     </div>
                                 </div>

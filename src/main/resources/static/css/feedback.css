@@ -1,0 +1,66 @@
+/* Seller feedback */
+
+.container {
+    padding-left: 0;
+}
+
+.container-wrap {
+    padding-right: 40px;
+}
+
+/*.seller-feedback{
+
+}*/
+
+.seller-feedback__heading{
+    display: block;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 100%;
+    padding: 24px 0;
+    text-align: center;
+}
+
+.seller-feedback__list{
+    width: 100%;
+    height: fit-content;
+    background-color: #fffbf8;
+    border: 1px solid #f9ede5
+}
+
+.seller-feedback__item{
+    width: 95%;
+    margin: 2%;
+    border-bottom: 1px solid rgba(0, 0, 0, .09);
+}
+
+.seller-feedback__content{
+    width: 60%;
+    display: flex;
+    justify-content: start;
+    gap: 24px;
+    vertical-align: top;
+}
+
+.user__avatar img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 32px;
+}
+
+.user__name{
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.user__rating{
+    color: #fec60f;
+}
+
+.seller-feedback__body{
+    font-size: 0.7rem;
+    margin-bottom: 24px;
+}

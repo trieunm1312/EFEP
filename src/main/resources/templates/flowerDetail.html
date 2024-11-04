@@ -116,14 +116,9 @@
                                 </div>
                             </div>
                             <span class="flower-information__quantity-available">
-                                            <span th:text="${msg.flower.quantity}"></span>
+                                            <span id="maxQuantity" th:text="${msg.flower.quantity}"></span>
                                             <span> available</span>
                                         </span>
-                            <span class="flower-information__quantity-separate">|</span>
-                            <span class="flower-information__quantity-sold">
-                                        <span th:text="${msg.flower.soldQuantity}"></span>
-                                        <span> sold</span>
-                            </span>
                         </div>
                         <div class="flower-information__button">
                             <form th:action="@{/buyer/wishlist}" th:method="post" class="form-button">
@@ -150,7 +145,7 @@
 
                 <!-- Seller Information -->
                 <div class="seller">
-                    <a th:href="@{/buyer/feedback(accountId=${msg.flower.seller.id})}" class="seller__link">
+                    <a th:href="@{/buyer/feedback(p=${msg.flower.seller.id})}" class="seller__link">
                         <div class="seller__img">
                             <img th:src="${msg.flower.seller.avatar == null || msg.flower.seller.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.flower.seller.avatar}" alt="Avatar"/>
                         </div>

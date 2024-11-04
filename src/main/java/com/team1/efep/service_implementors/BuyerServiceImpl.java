@@ -128,7 +128,7 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:" + httpServletRequest.getHeader("Referer");
     }
 
@@ -439,6 +439,8 @@ public class BuyerServiceImpl implements BuyerService {
                         .name(item.getName())
                         .price(item.getPrice())
                         .description(item.getDescription())
+                        .quantity(item.getQuantity())
+                        .soldQuantity(item.getSoldQuantity())
                         .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
                         .build()
                 ).toList();
@@ -568,7 +570,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("400")
                     .message("Please login a buyer account to do this action")
                     .build());
-            return "login";
+            return "redirect:/login";
         }
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
@@ -580,13 +582,8 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        Map<String, String> error = ViewOrderDetailValidation.validate(request, order);
-        if (!error.isEmpty()) {
-            return error;
-        }
         List<ViewOrderDetailResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
 
         String sellerName = order.getOrderDetailList().stream()
@@ -689,6 +686,7 @@ public class BuyerServiceImpl implements BuyerService {
                                                 .name(flower.getName())
                                                 .price(flower.getPrice())
                                                 .description(flower.getDescription())
+                                                .quantity(flower.getQuantity())
                                                 .soldQuantity(flower.getSoldQuantity())
                                                 .images(
                                                         flower.getFlowerImageList().stream()
@@ -806,14 +804,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", CancelOrderResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build());
-            return "redirect:/login";
-        }
         String referer = httpServletRequest.getHeader("Referer");
         Object output = cancelOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
@@ -832,11 +822,37 @@ public class BuyerServiceImpl implements BuyerService {
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
         Status.changeOrderStatus(order, Status.ORDER_STATUS_CANCELLED, orderRepo);
+        sendCancelOrderEmail(order, order.getOrderDetailList().get(0).getFlower().getSeller());
 
         return CancelOrderResponse.builder()
                 .status("200")
                 .message("Cancel order successfully")
                 .build();
+    }
+
+    private void sendCancelOrderEmail(Order order, Seller seller) {
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom("vannhuquynhp@gmail.com");
+
+            helper.setTo(seller.getUser().getAccount().getEmail());
+
+            helper.setSubject(Const.EMAIL_SUBJECT_ORDER);
+
+            String emailContent = FileReaderUtil.readFile1(order);
+
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //--------------------------------CONFIRM ORDER------------------------------------------//
@@ -1413,6 +1429,7 @@ public class BuyerServiceImpl implements BuyerService {
                                         .name(flower.getFlower().getName())
                                         .description(flower.getFlower().getDescription())
                                         .price(flower.getFlower().getPrice())
+                                        .quantity(flower.getFlower().getQuantity())
                                         .soldQuantity(flower.getFlower().getSoldQuantity())
                                         .images(
                                                 flower.getFlower().getFlowerImageList().stream()
@@ -1431,15 +1448,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String viewFeedback(int sellerId, Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", ViewFeedbackResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to view feedback")
-                    .build());
-            return "login";
-        }
-
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
@@ -1583,33 +1591,12 @@ public class BuyerServiceImpl implements BuyerService {
 
         for (WishlistItem item : wishlistItems) {
             Flower flower = item.getFlower();
-            LocalDateTime witheringDate = flower.getCreateDate().plusDays(flower.getWitheringTime());
             Wishlist wishlist = item.getWishlist();
             User user = wishlist.getUser();
 
-            if (now.isBefore(witheringDate) && witheringDate.minusDays(1).isBefore(now)) {
-                sendEmailNotification(user.getAccount().getEmail(), flower, witheringDate);
-            }
         }
     }
 
-    private void sendEmailNotification(String email, Flower flower, LocalDateTime witheringDate) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setFrom("vannhuquynhp@gmail.com");
-            helper.setTo(email);
-            helper.setSubject("Flower Withering Soon!");
-            helper.setText("Dear user, the flower \"" + flower.getName() +
-                    "\" in your wishlist will wither on " + witheringDate +
-                    ". Buy it now before it withers!", true);
-
-            mailSender.send(message);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
 
