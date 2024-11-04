@@ -11,7 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ViewOrderDetailRequest {
 
-    private int accountId;
-
     private int orderId;
 }

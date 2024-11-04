@@ -423,7 +423,7 @@
                                     <div class="header__cart-wrap">
                                         <i class="header__cart-icon fa-solid fa-heart"></i>
                                         <span class="header__cart-notice" th:if="${session.acc == null}"> 0 </span>
-                                        <span class="header__cart-notice" th:if="${session.acc != null}"> 0 </span>
+                                        <span class="header__cart-notice" th:if="${session.acc != null}" th:text="${session.acc.getUser().getWishlist().getWishlistItemList().size()}"> 0 </span>
                                     </div>
                                 </div>
                             </li>

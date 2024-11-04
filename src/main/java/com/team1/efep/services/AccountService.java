@@ -10,11 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public interface AccountService {
     String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes);
 
-    RegisterResponse registerAPI(RegisterRequest request);
-
     String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes);
-
-    LoginResponse loginAPI(LoginRequest request);
 
     void getGoogleLoginUrl(HttpServletResponse response);
 
@@ -22,15 +18,9 @@ public interface AccountService {
 
     String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
-    ViewProfileResponse viewProfileAPI(ViewProfileRequest request);
-
     String updateProfile(UpdateProfileRequest request, HttpSession session, RedirectAttributes redirectAttributes);
 
-    UpdateProfileResponse updateProfileAPI(UpdateProfileRequest request);
-
     String changePassword(ChangePasswordRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
-
-    ChangePasswordResponse changePasswordAPI(ChangePasswordRequest request);
 
     String logout(HttpSession session);
 }

@@ -35,6 +35,8 @@ public class SearchFlowerResponse {
 
         private String description;
 
+        private int quantity;
+
         private int soldQuantity;
 
         private List<Image> images;
