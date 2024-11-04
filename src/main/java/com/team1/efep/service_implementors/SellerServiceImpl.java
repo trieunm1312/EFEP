@@ -102,13 +102,13 @@ public class SellerServiceImpl implements SellerService {
                                                             .build())
                                                     .toList()
                                     )
-                                    .flowerCategoryList(
-                                            addFlowerCategories(request, flower).stream()
-                                                    .map(flowerCategory -> FlowerCategory.builder()
-                                                            .category(flowerCategory.getCategory())
-                                                            .build())
-                                                    .toList()
-                                    )
+//                                    .flowerCategoryList(
+//                                            addFlowerCategories(request, flower).stream()
+//                                                    .map(flowerCategory -> FlowerCategory.builder()
+//                                                            .category(flowerCategory.getCategory())
+//                                                            .build())
+//                                                    .toList()
+//                                    )
                                     .build()
                     )
                     .build();
@@ -132,7 +132,7 @@ public class SellerServiceImpl implements SellerService {
                 .build();
         flowerRepo.save(flower);
         addFlowerImages(request, flower);
-        addFlowerCategories(request, flower);
+//        addFlowerCategories(request, flower);
         return flower;
     }
 
@@ -153,15 +153,15 @@ public class SellerServiceImpl implements SellerService {
         return flowerImageRepo.saveAll(flowerImages);
     }
 
-    private List<FlowerCategory> addFlowerCategories(CreateFlowerRequest request, Flower flower) {
-        List<FlowerCategory> flowerCategories = request.getCategoryIdList().stream()
-                .map(categoryId -> FlowerCategory.builder()
-                        .flower(flower)
-                        .category(categoryRepo.findById(categoryId).orElse(null))
-                        .build())
-                .toList();
-        return flowerCategoryRepo.saveAll(flowerCategories);
-    }
+//    private List<FlowerCategory> addFlowerCategories(CreateFlowerRequest request, Flower flower) {
+//        List<FlowerCategory> flowerCategories = request.getCategoryIdList().stream()
+//                .map(categoryId -> FlowerCategory.builder()
+//                        .flower(flower)
+//                        .category(categoryRepo.findById(categoryId).orElse(null))
+//                        .build())
+//                .toList();
+//        return flowerCategoryRepo.saveAll(flowerCategories);
+//    }
 
     //--------------------------------------GET ALL FLOWER STATUS------------------------------------------------//
 

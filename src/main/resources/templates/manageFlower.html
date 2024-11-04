@@ -319,7 +319,7 @@
 
                                             <td class="table__body-toggle" th:if="${item.quantity} > 0">
                                                 <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
-                                                       class="toggle-btn">Delete</span>
+                                                       class="toggle-btn">Disable</span>
 
                                                 <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
                                                     <div class="confirmDelete-form">
@@ -401,7 +401,7 @@
                                             <div class="right-section-create">
                                                 <h4 class="image-title-create">Upload Image</h4>
                                                 <input type="file" accept="image/*" id="input-file" class="file-input">
-<!--                                                <input type="file" accept="image/*" id="input-file-2" class="file-input">-->
+                                                <input type="file" accept="image/*" id="input-file-2" class="file-input">
                                                 <div id="imagePreviewContainer1">
                                                     <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
                                                     <img id="previewImage2" src="#" alt="Image Preview 2"/>
@@ -411,11 +411,11 @@
                                                         <input type="hidden" name="image" id="flower-img" value="">
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
-<!--                                                    <div class="image-preview">-->
-<!--                                                        <img id="flowers-image-2" class="img" src="#" alt="" />-->
-<!--                                                        <input type="hidden" name="image" id="flower-img-2" value="">-->
-<!--                                                        <button class="remove-button" >&times;</button>-->
-<!--                                                    </div>-->
+                                                    <div class="image-preview">
+                                                        <img id="flowers-image-2" class="img" src="#" alt="" />
+                                                        <input type="hidden" name="image" id="flower-img-2" value="">
+                                                        <button class="remove-button" >&times;</button>
+                                                    </div>
 <!--                                                    <div class="image-preview" >-->
 <!--                                                        <img id="previewImage31" src="#" alt="Image Preview 3" style="display: none;" />-->
 <!--                                                        <button class="remove-button" >&times;</button>-->
