@@ -68,8 +68,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Object registerLogic(RegisterRequest request) {
-        Map<String, String> errors = RegisterValidation.validate(request, accountRepo);
-        if (errors.isEmpty()) {
+        Map<String, String> error = RegisterValidation.validate(request, accountRepo);
+        if (error.isEmpty()) {
             createNewBuyer(request);
             return RegisterResponse.builder()
                     .status("200")
@@ -77,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
                     .build();
         }
 
-        return errors;
+        return error;
     }
 
     private void createNewBuyer(RegisterRequest request) {
@@ -131,8 +131,8 @@ public class AccountServiceImpl implements AccountService {
 
     private Object loginLogic(LoginRequest request) {
         System.out.println(PasswordEncryptUtil.encrypt(request.getPassword()));
-        Map<String, String> errors = LoginValidation.validate(request, accountRepo);
-        if (errors.isEmpty()) {
+        Map<String, String> error = LoginValidation.validate(request, accountRepo);
+        if (error.isEmpty()) {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
             assert account != null;
             return LoginResponse.builder()
@@ -140,7 +140,7 @@ public class AccountServiceImpl implements AccountService {
                     .message("Login successfully")
                     .build();
         }
-        return errors;
+        return error;
     }
 
     //----------------------------------------LOGIN WITH GMAIL------------------------------------------//
@@ -258,8 +258,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Object updateProfileLogic(UpdateProfileRequest request) {
-        Map<String, String> errors = UpdateProfileValidation.validate(request, accountRepo);
-        if (errors.isEmpty()) {
+        Map<String, String> error = UpdateProfileValidation.validate(request, accountRepo);
+        if (error.isEmpty()) {
             Account account = accountRepo.findById(request.getId()).orElse(null);
             assert account != null;
             User user = account.getUser();
@@ -278,7 +278,7 @@ public class AccountServiceImpl implements AccountService {
                     .avatar(user.getAvatar())
                     .build();
         }
-        return errors;
+        return error;
     }
 
     //---------------------------------------CHANGE PASSWORD-------------------------------------//
@@ -296,8 +296,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Object changePasswordLogic(ChangePasswordRequest request) {
-        Map<String, String> errors = ChangePasswordValidation.validate(request);
-        if (errors.isEmpty()) {
+        Map<String, String> error = ChangePasswordValidation.validate(request);
+        if (error.isEmpty()) {
             Account account = accountRepo.findByIdAndPassword(request.getId(), request.getCurrentPassword()).orElse(null);
             assert account != null;
             account.setPassword(request.getNewPassword());
@@ -307,7 +307,7 @@ public class AccountServiceImpl implements AccountService {
                     .message("Change password successfully")
                     .build();
         }
-        return errors;
+        return error;
     }
 
     //-------------------------------LOG OUT----------------------------------------------//

@@ -1,6 +1,5 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.VNPay.BusinessPlanVNPayConfig;
 import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
@@ -10,7 +9,6 @@ import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.SellerService;
-import com.team1.efep.utils.ConvertMapIntoStringUtil;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.validations.*;
@@ -25,9 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -65,10 +60,10 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            MapConfig.buildMapKey(errors, "Flower name is required");
+            MapConfig.buildMapKey(error, "Flower name is required");
             return "redirect:/login";
         }
         Object output = createFlowerLogic(request);
@@ -245,7 +240,7 @@ public class SellerServiceImpl implements SellerService {
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
         Status.changeOrderStatus(order, request.getStatus(), orderRepo);
-        if(request.getStatus().equals(Status.ORDER_STATUS_PACKED)){
+        if (request.getStatus().equals(Status.ORDER_STATUS_PACKED)) {
             sendPackedOrderEmail(order, order.getUser());
         } else {
             sendCancelOrderEmail(order, order.getUser());
@@ -388,9 +383,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object viewBuyerListLogic(int sellerId) {
-        Map<String, String> errors = ViewBuyerListValidation.validate(sellerId, userRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ViewBuyerListValidation.validate(sellerId, userRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         return ViewBuyerListResponse.builder()
                 .status("200")
@@ -691,8 +686,8 @@ public class SellerServiceImpl implements SellerService {
         flower.setDescription(request.getDescription());
         flower.setFlowerAmount(request.getFlowerAmount());
         flower.setQuantity(request.getQuantity());
-        if (request.getQuantity() == 0) {
-            flower.setStatus(Status.FLOWER_STATUS_DELETED);
+        if (request.getQuantity()> 0) {
+            flower.setStatus(Status.FLOWER_STATUS_AVAILABLE);
         }
 
         List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
@@ -734,7 +729,8 @@ public class SellerServiceImpl implements SellerService {
     private DeleteFlowerResponse deleteFlowerLogic(DeleteFlowerRequest request) {
         Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
         assert flower != null;
-        flower.setStatus(Status.FLOWER_STATUS_DELETED);
+        flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
+        flower.setQuantity(0);
         flowerRepo.save(flower);
         return DeleteFlowerResponse.builder()
                 .status("200")
@@ -746,7 +742,7 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------VIEW FLOWER IMAGE----------------------------------------------//
 
     @Override
-    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String viewFlowerImage(ViewFlowerImageRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ViewFlowerImageResponse.builder()
@@ -989,7 +985,7 @@ public class SellerServiceImpl implements SellerService {
                 .message("200")
                 .message("")
                 .totalNumberFlowers(flowerRepo.findAll().stream()
-                        .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_DELETED))
+                        .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_OUT_OF_STOCK))
                         .count()
                 )
                 .build();

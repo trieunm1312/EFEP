@@ -13,21 +13,21 @@ import java.util.Map;
 
 public class DeleteWishlistValidation {
     public static Map<String, String> validate(DeleteWishlistRequest request, AccountRepo accountRepo, WishlistRepo wishlistRepo) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
 
         if ( request.getWishlistId() <= 0) {
-            return MapConfig.buildMapKey(errors, "Invalid wishlist ID.");
+            return MapConfig.buildMapKey(error, "Invalid wishlist ID.");
         }
 
         Account account = accountRepo.findById(request.getAccountId()).orElse(null);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            return MapConfig.buildMapKey(errors, "Invalid account or unauthorized access.");
+            return MapConfig.buildMapKey(error, "Invalid account or unauthorized access.");
         } else {
             Wishlist wishlist = wishlistRepo.findById(request.getWishlistId()).orElse(null);
             if (wishlist == null || !wishlist.getUser().getId().equals(account.getUser().getId())) {
-                return MapConfig.buildMapKey(errors, "Wishlist does not belong to the current user.");
+                return MapConfig.buildMapKey(error, "Wishlist does not belong to the current user.");
             }
         }
-        return errors;
+        return error;
     }
 }
