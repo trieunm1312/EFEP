@@ -66,6 +66,26 @@
 //     saveBtn.style.display = 'inline-block';
 // }
 
+// delete pop up
+// Open and close popup functions
+function openDeletePopup() {
+    document.getElementById("confirmDelete").style.display = "flex";
+}
+
+function closeDeletePopup() {
+    document.getElementById("confirmDelete").style.display = "none";
+}
+
+// create pop up
+// Open and close popup functions
+function openCreatePopup() {
+    document.getElementById("createPopup").style.display = "flex";
+}
+
+function closeCreatePopup() {
+    document.getElementById("createPopup").style.display = "none";
+}
+
 // Open and close popup functions
 function openPopup() {
     document.getElementById("editPopup").style.display = "flex";
@@ -154,22 +174,4 @@ function saveData() {
     closePopup();
 }
 
-// create pop up
-// Open and close popup functions
-function openCreatePopup() {
-    document.getElementById("createPopup").style.display = "flex";
-}
 
-function closeCreatePopup() {
-    document.getElementById("createPopup").style.display = "none";
-}
-
-// delete pop up
-// Open and close popup functions
-function openDeletePopup() {
-    document.getElementById("confirmDelete").style.display = "flex";
-}
-
-function closeDeletePopup() {
-    document.getElementById("confirmDelete").style.display = "none";
-}
