@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderStatusDetail.css"> -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
 
      <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/animate.css">
@@ -199,20 +197,20 @@
                     <div class="form-fb">
                         <div class="wrapper">
                             <h3>Give us your Feedback</h3>
-                            <form action="" id="feedback-form" onsubmit="handleSubmit(event)">
+                            <form th:action="@{/buyer/feedback}" id="feedback-form" th:method="post" onsubmit="handleSubmit(event)">
+                                <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                <input type="hidden" name="sellerId" th:value="${1}">
                                 <div class="rating">
-                                    <input type="number" id="rate" name="rating" th:value="1" hidden>
+                                    <input type="hidden" id="rate" name="rating" th:value="1">
                                     <i class="fa-regular fa-star star" style="--i: 0;"></i>
                                     <i class="fa-regular fa-star star" style="--i: 1;"></i>
                                     <i class="fa-regular fa-star star" style="--i: 2;"></i>
                                     <i class="fa-regular fa-star star" style="--i: 3;"></i>
                                     <i class="fa-regular fa-star star" style="--i: 4;"></i>
                                 </div>
-                                <textarea name="opinion" cols="30" rows="5" placeholder="Your opinion..."></textarea>
-                                <!-- <div id="editor"></div> -->
+                                <textarea th:text="${content}" name="content" cols="30" rows="5" placeholder="Your opinion..."></textarea>
                                 <div class="btn-group">
                                     <button type="submit" class="btn submit" disabled>Submit</button>
-                                    <!-- <button class="btn cancel">Cancel</button> -->
                                 </div>
                             </form>
                             <div id="submit-section" class="hide">
@@ -237,12 +235,7 @@
     <script src="/js/jquery.prettyPhoto.js"></script>
     <script src="/js/base.js"></script>
     <script src="/js/viewOrderStatusDetail.js"></script>
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-<script>
-    const quill = new Quill('#editor', {
-        theme: 'snow'
-    });
-</script>
+
 </body>
 
 </html>
