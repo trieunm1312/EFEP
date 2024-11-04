@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/flowerDetail.css">
+    <link rel="stylesheet" href="/css/sellerInfo.css">
 
     <!-- <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
@@ -37,7 +37,7 @@
         <div class="container__wrap">
             <!-- Breadrum -->
             <div class="breadbrum">
-                <h1 class="breadbrum__title" th:text="${msg.flower.name}"></h1><br>
+                <h1 class="breadbrum__title">Seller Information</h1><br>
                 <ul class="breadbrum__element-list">
                     <li class="breadbrum__element-list-item">
                         <a th:href="@{/}" class="breadbrum__element-list-item-link">
@@ -46,9 +46,9 @@
                     </li>
 
                     <li class="breadbrum__element-list-item">
-                        <a th:href="@{/buyer/flower}" class="breadbrum__element-list-item-link">
+                        <a th:href="@{/buyer/feedback(accountId=${msg.id})}" class="breadbrum__element-list-item-link">
                             <i class="fa-solid fa-angles-right"></i>
-                            <span>Products</span>
+                            <span th:text="${msg.name}"></span>
                         </a>
                     </li>
                 </ul>
@@ -56,46 +56,48 @@
             <div class="grid">
                 <!-- Seller Information -->
                 <div class="seller">
-                    <div class="seller__item">
+                    <div class="seller__link">
                         <div class="seller__avartar">
-                            <img src="/src/main/resources/static/img/Screenshot 2023-12-13 224847.png" alt="">
-                            <span class="seller__name">Ác wỷ 666</span>
+                            <img th:src="${msg.avatar == null || msg.avatar == ''} ? '/img/default-avatar.jpg' : ${msg.avatar}" alt="Avatar"/>
+                            <span th:text="${msg.name}" class="seller__name"></span>
                         </div>
                         <div class="seller__info">
                             <div class="seller__rating seller__info-detail">
                                 <i class="fa-solid fa-award"></i>
                                 <span>Rating: </span>
                                 <span>
-                                        <div class="user__rating unfill">
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                            <i class="fa-regular fa-star"></i>
-                                        </div>
-                                        <div class="user__rating filled">
+                                    <div class="user__rating">
+                                        <!-- Full stars -->
+                                        <span th:each="i : ${#numbers.sequence(1, msg.sellerRating.intValue())}">
                                             <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                        </div>
-                                    </span>
+                                        </span>
+
+                                        <!-- Half star (only if rating has a decimal part of 0.5) -->
+                                        <span th:if="${msg.sellerRating.intValue() < msg.sellerRating}">
+                                            <i class="fa-solid fa-star-half-alt"></i>
+                                        </span>
+
+                                        <!-- Empty stars (up to 5 stars total) -->
+                                        <span th:each="i : ${#numbers.sequence(msg.sellerRating.intValue() + (msg.sellerRating > msg.sellerRating.intValue() ? 1 : 0), 4)}">
+                                            <i class="fa-regular fa-star unfill"></i>
+                                        </span>
+                                    </div>
+                                </span>
                             </div>
                             <div class="seller__product seller__info-detail">
                                 <i class="fa-solid fa-store"></i>
                                 <span>Products: </span>
-                                <span class="seller_data">16</span>
+                                <span th:text="${msg.totalFlower}" class="seller_data"></span>
                             </div>
                             <div class="seller__email seller__info-detail">
                                 <i class="fa-regular fa-envelope"></i>
                                 <span>Email: </span>
-                                <span class="seller_data">acwy666@gmail.com</span>
+                                <span th:text="${msg.email}" class="seller_data"></span>
                             </div>
                             <div class="seller__phone seller__info-detail">
                                 <i class="fa-solid fa-phone"></i>
                                 <span>Phone: </span>
-                                <span class="seller_data">666666</span>
+                                <span th:text="${msg.phone}" class="seller_data"></span>
                             </div>
                         </div>
                     </div>
@@ -106,90 +108,34 @@
                 <div class="seller-feedback">
                     <h2 class="seller-feedback__heading">Seller Feedback</h2>
                     <div class="seller-feedback__list">
-                        <div class="seller-feedback__item">
+                        <div th:each="buyer : ${msg.feedbackList}" class="seller-feedback__item">
                             <div class="seller-feedback__content">
                                 <div class="user__avatar">
-                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
+                                    <img th:src="${buyer.avatar == null || buyer.avatar == ''} ? '/img/default-avatar.jpg' : ${buyer.avatar}" alt="Avatar"/>
                                 </div>
                                 <div class="user__info">
-                                    <span class="user__name">SayGexzzz</span>
+                                    <span th:text="${buyer.name}" class="user__name"></span>
                                     <br>
-                                    <div class="user__rating unfill">
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <div class="user__rating filled">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
+                                    <span th:text="${buyer.createDate}" class="user__name"></span>
+                                    <br>
+                                    <div class="user__rating">
+                                        <!-- Full stars -->
+                                        <span th:each="i : ${#numbers.sequence(1, msg.sellerRating.intValue())}">
+                                            <i class="fa-solid fa-star"></i>
+                                        </span>
+
+                                        <!-- Empty stars (up to 5 stars total) -->
+                                        <span th:each="i : ${#numbers.sequence(msg.sellerRating.intValue() + 1, 5)}">
+                                            <i class="fa-regular fa-star"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="seller-feedback__body">
-                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
+                                <span th:text="${buyer.content}"></span>
                             </div>
                         </div>
-                        <div class="seller-feedback__item">
-                            <div class="seller-feedback__content">
-                                <div class="user__avatar">
-                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
-                                </div>
-                                <div class="user__info">
-                                    <span class="user__name">SayGexzzz</span>
-                                    <br>
-                                    <div class="user__rating unfill">
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <div class="user__rating filled">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="seller-feedback__body">
-                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
-                            </div>
-                        </div>
-                        <div class="seller-feedback__item">
-                            <div class="seller-feedback__content">
-                                <div class="user__avatar">
-                                    <img src="/src/main/resources/static/img/Screenshot 2024-09-01 201601.png" alt="">
-                                </div>
-                                <div class="user__info">
-                                    <span class="user__name">SayGexzzz</span>
-                                    <br>
-                                    <div class="user__rating unfill">
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <div class="user__rating filled">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="seller-feedback__body">
-                                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt tenetur sed sapiente eius fuga architecto ratione eaque neque labore reiciendis dolores explicabo mollitia quia hic, quod nobis consequatur itaque numquam?</span>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 

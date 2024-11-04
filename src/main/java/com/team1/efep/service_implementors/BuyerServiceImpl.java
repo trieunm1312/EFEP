@@ -881,7 +881,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .flowerList(
                         flowerRepo.findAll()
                                 .stream()
-                                .filter(flower -> flower.getName().contains(request.getKeyword()))
+                                .filter(flower -> flower.getName().toUpperCase().contains(request.getKeyword().toUpperCase()))
                                 .map(
                                         flower -> SearchFlowerResponse.Flower.builder()
                                                 .id(flower.getId())
@@ -903,7 +903,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    //--------------------------------------VIEW FLOWER DETAIL------------------------------------------//
+    //--------------------------------------------VIEW FLOWER DETAIL---------------------------------------------//
 
     @Override
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
@@ -1720,6 +1720,87 @@ public class BuyerServiceImpl implements BuyerService {
                                         .build())
                                 .toList()
                 )
+                .build();
+    }
+
+    @Override
+    public String viewFeedback(int sellerId, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", ViewFeedbackResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to view feedback")
+                    .build());
+            return "login";
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            model.addAttribute("msg", (ViewFeedbackResponse) output);
+            return "sellerInfo";
+        }
+
+        model.addAttribute("error", (Map<String, String>) output);
+        return "sellerInfo";
+    }
+
+    @Override
+    public ViewFeedbackResponse viewFeedbackAPI(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("Seller not found")
+                    .build();
+        }
+
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            return (ViewFeedbackResponse) output;
+        }
+
+        return ViewFeedbackResponse.builder()
+                .status("400")
+                .message(ConvertMapIntoStringUtil.convert((Map<String, String>) output))
+                .build();
+    }
+
+    private Object viewFeedbackLogic(int sellerId) {
+        Seller seller = sellerRepo.findById(sellerId).orElse(null);
+        if (seller == null) {
+            return Map.of("error", "Seller not found");
+        }
+
+        List<Feedback> feedbackList = seller.getFeedbackList();
+        if (feedbackList.isEmpty()) {
+            return ViewFeedbackResponse.builder()
+                    .status("404")
+                    .message("No feedback found for this seller")
+                    .build();
+        }
+
+        List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
+                .map(this::mapToFeedbackDetail)
+                .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
+                .collect(Collectors.toList());
+
+        return ViewFeedbackResponse.builder()
+                .status("200")
+                .message("Feedback found")
+                .totalFlower(seller.getFlowerList().size())
+                .sellerRating(seller.getRating())
+                .feedbackList(feedbackDetails)
+                .build();
+    }
+
+    private ViewFeedbackResponse.FeedbackDetail mapToFeedbackDetail(Feedback feedback) {
+        return ViewFeedbackResponse.FeedbackDetail.builder()
+                .id(feedback.getId())
+                .name(feedback.getUser().getName())
+                .avatar(feedback.getUser().getAvatar())
+                .content(feedback.getContent())
+                .rating(feedback.getRating())
+                .createDate(feedback.getCreateDate().toLocalDate())
                 .build();
     }
 

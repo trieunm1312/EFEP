@@ -60,7 +60,7 @@
     border-radius: 12px;
 }
 
-.seller__item{
+.seller__link{
     width: 100%;
     height: fit-content;
     margin: 1%;
@@ -100,8 +100,8 @@
     margin-bottom: 8px;
 }
 
-.unfill i{
-    font-weight: 100;
+.unfill{
+    font-weight: 100 !important;
 }
 
 .seller_data{
