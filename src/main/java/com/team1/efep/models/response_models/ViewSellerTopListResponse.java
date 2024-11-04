@@ -14,7 +14,7 @@ import java.util.List;
 public class ViewSellerTopListResponse {
     private String status;
     private String message;
-    List<Seller> sellerList;
+    private List<Seller> sellerList;
 
     @Data
     @AllArgsConstructor
