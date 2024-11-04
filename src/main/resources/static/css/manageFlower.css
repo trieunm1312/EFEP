@@ -694,3 +694,8 @@ label[for="multi-select"] {
     background-color: #007bff;
     color: #fff;
 }
+/*<td class="table__body-img">*/
+/*<img class="img" src="" alt="" id="flowers-image">*/
+/*<input type="file" accept="image!*" value="" id="input-file" class="file-input">*/
+/*<input type="hidden" name="image" id="flower-img" value="">*/
+/*</td>*/
