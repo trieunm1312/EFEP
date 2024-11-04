@@ -93,14 +93,13 @@
     border-top: 1px solid #dedede;
     border-bottom: 1px solid #dedede;
     box-sizing: border-box;
-
+    text-align: center;
 }
 
 textarea {
     width: 80%;
     resize: vertical;
     min-height: 40px;
-    box-sizing: border-box;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -109,16 +108,19 @@ textarea {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.padding-td {
+.table__body-item .table__body-name {
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.table__body-item .table__body-desc {
+    text-align: center;
     padding-left: 4px;
-    padding-right: 4px;
+    padding-right: 5px;
 }
 
-.table__body-desc {
-    text-align: justify;
-}
-
-input{
+/*input{
     width: 75%;
 }
 
@@ -128,7 +130,6 @@ input{
 }
 
 .table__body-item input {
-    /* padding: 12px 20px; */
     margin: 8px 0;
     box-sizing: border-box;
     border: 1px solid #ccc;
@@ -163,6 +164,7 @@ input{
     padding: 4px;
     border-radius: 4px;
     width: 55px;
+    cursor: pointer;
 }
 
 .confirmDelete {
@@ -209,7 +211,7 @@ input{
     padding: 4px 4px 6px 4px;
     border-radius: 4px;
     cursor: pointer;
-    width: 58px;
+    width: 59px;
 }
 
 .delete-btn {
@@ -219,7 +221,7 @@ input{
     border: none;
     padding: 4px;
     border-radius: 4px;
-    width: 55px;
+    /*width: 55px;*/
 }
 
 .table__body-edit,
@@ -392,7 +394,9 @@ textarea {
     margin-top: 10px;
 }
 
-.popup-buttons button {
+.popup-buttons button,
+.popup-buttons span
+{
     padding: 8px 16px;
     font-size: 14px;
     border-radius: 5px;
@@ -401,12 +405,12 @@ textarea {
     transition: background-color 0.3s;
 }
 
-.popup-buttons button:first-child {
+.popup-buttons span:first-child {
     background-color: #ddd;
     color: #333;
 }
 
-.popup-buttons button:first-child:hover {
+.popup-buttons span:first-child:hover {
     background-color: #bbb;
 }
 
@@ -646,4 +650,47 @@ textarea {
 
 .image-preview:hover button {
     display: block; /* Hiển thị nút xóa khi di chuột qua ô */
+}
+
+/* Style cho label */
+label[for="multi-select"] {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    display: block; /* Giúp label nằm trên select */
+    margin-bottom: 8px;
+}
+
+/* Style cho select */
+#multi-select {
+    width: 100%; /* Cho chiều rộng full container */
+    max-width: 300px; /* Giới hạn chiều rộng tối đa */
+    height: 120px; /* Chiều cao để hiển thị nhiều tùy chọn */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    outline: none; /* Bỏ viền mặc định khi focus */
+    resize: vertical; /* Cho phép thay đổi chiều cao */
+}
+
+/* Style cho các tùy chọn bên trong select */
+#multi-select option {
+    padding: 4px;
+    color: #333;
+}
+
+/* Thêm hiệu ứng khi focus */
+#multi-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Style cho option khi được chọn */
+#multi-select option:checked {
+    background-color: #007bff;
+    color: #fff;
 }
