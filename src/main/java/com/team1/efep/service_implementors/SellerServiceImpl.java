@@ -271,19 +271,12 @@ public class SellerServiceImpl implements SellerService {
             model.addAttribute("msg", (ChangeOrderStatusResponse) output);
             return "redirect:" + referer;
         }
-        model.addAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "redirect:/seller/order/detail";
     }
 
     @Override
     public ChangeOrderStatusResponse changeOrderStatusAPI(ChangeOrderStatusRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            ChangeOrderStatusResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build();
-        }
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
             return (ChangeOrderStatusResponse) output;

@@ -1400,6 +1400,7 @@ public class BuyerServiceImpl implements BuyerService {
             savedOrder.setOrderDetailList(orderDetails);
             orderRepo.save(savedOrder);
             sendEmailResult = sendOrderEmail(savedOrder, user);
+            sendEmailResult = sendOrderSellerEmail(savedOrder, seller);
         }
         if(sendEmailResult) {
             wishlistItemRepo.deleteAll(items);
@@ -1420,9 +1421,35 @@ public class BuyerServiceImpl implements BuyerService {
 
             helper.setTo(user.getAccount().getEmail());
 
-            helper.setSubject(Const.BUSINESS_PLAN_SUBJECT);
+            helper.setSubject(Const.EMAIL_SUBJECT_ORDER);
 
             String emailContent = FileReaderUtil.readFile(order, user);
+
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+
+        } catch (MessagingException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean sendOrderSellerEmail(Order order, Seller seller) {
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom("vannhuquynhp@gmail.com");
+
+            helper.setTo(seller.getUser().getAccount().getEmail());
+
+            helper.setSubject(Const.EMAIL_SUBJECT_ORDER);
+
+            String emailContent = FileReaderUtil.readFile(order);
 
             helper.setText(emailContent, true);
 
