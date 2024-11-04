@@ -193,7 +193,7 @@
                                 <th class="table__header-name">Name</th>
                                 <th class="table__header-desc">Description</th>
                                 <th class="table__header-amount">Flower Amount</th>
-                                <th class="table__header-qnt">Quanity</th>
+                                <th class="table__header-qnt">Quantity</th>
                                 <th class="table__header-price">Price</th>
                                 <th class="table__header-sold-qnt">Sold Quantity</th>
                                 <th class="table__header-status">Status</th>
@@ -258,11 +258,11 @@
 <!--                                                        onclick="prepareSave(this)" style="display: none;">-->
                                                     <!-- Button to open the popup -->
 <!--                                                    <i class="fa-solid fa-pencil modify-icon" onclick="openPopup()"></i>-->
-                                                    <span class="edit-btn" onclick="openPopup()">Edit</span>
+                                                    <span class="edit-btn" th:onclick="'openPopup(' + ${item.id} + ')'">Edit</span>
                                                     <!-- Popup modal -->
-                                                    <div id="editPopup" class="popup">
+                                                    <div th:id="'editPopup-' + ${item.id}" class="popup">
                                                         <div class="popup-content">
-                                                            <span class="close" onclick="closePopup()">&times;</span>
+                                                            <span class="close" th:onclick="'closePopup(' + ${item.id} + ')'">&times;</span>
 
                                                             <div class="popup-form">
                                                                 <!-- Left half for input fields -->
@@ -323,8 +323,8 @@
 
                                                             <!-- Buttons at the bottom -->
                                                             <div class="popup-buttons">
-                                                                <button onclick="closePopup()">Cancel</button>
-                                                                <button onclick="saveData()">Save</button>
+                                                                <span th:onclick="'closePopup(' + ${item.id} + ')'">Cancel</span>
+                                                                <button name="update">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -334,10 +334,10 @@
                                                 <span th:text="${item.id}">0</span>
                                             </td>
                                             <td class="table__body-toggle">
-                                                <span onclick="openDeletePopup()" name="action"
-                                                      class="toggle-btn">Delete</span>
+                                                <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
+                                                       class="toggle-btn">Delete</span>
 
-                                                <div id="confirmDelete" class="confirmDelete">
+                                                <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
                                                     <span th:text="${item.id}">0</span>
                                                     <div class="confirmDelete-form">
                                                     <span class="confirm-text">Do you want to delete flower <span th:text="${item.name}">RED</span> ?</span>
@@ -345,7 +345,7 @@
                                                             <input type="hidden" name="accountId"
                                                                    th:value="${session.acc.getId()}">
                                                             <input type="hidden" name="flowerId" th:value="${item.id}">
-                                                            <span class="cancel-delete" onclick="closeDeletePopup()">Cancel</span>
+                                                            <span class="cancel-delete" th:onclick="'closeDeletePopup(' + ${item.id} + ')'" >Cancel</span>
                                                             <input type="submit" name="action" value="Delete"
                                                                    class="delete-btn">
                                                         </form>

@@ -68,12 +68,12 @@
 
 // delete pop up
 // Open and close popup functions
-function openDeletePopup() {
-    document.getElementById("confirmDelete").style.display = "flex";
+function openDeletePopup(id) {
+    document.getElementById('confirm-Delete-' + id).style.display = "flex";
 }
 
-function closeDeletePopup() {
-    document.getElementById("confirmDelete").style.display = "none";
+function closeDeletePopup(id) {
+    document.getElementById('confirm-Delete-' + id).style.display = "none";
 }
 
 // create pop up
@@ -87,12 +87,12 @@ function closeCreatePopup() {
 }
 
 // Open and close popup functions
-function openPopup() {
-    document.getElementById("editPopup").style.display = "flex";
+function openPopup(id) {
+    document.getElementById('editPopup-' + id).style.display = "flex";
 }
 
-function closePopup() {
-    document.getElementById("editPopup").style.display = "none";
+function closePopup(id) {
+    document.getElementById('editPopup-' + id).style.display = "none";
 }
 
 // Show image preview on file upload
@@ -169,9 +169,9 @@ function removeImage(imageIndex, event) {
 }
 
 
-// Placeholder function for save button
-function saveData() {
-    closePopup();
-}
+// // Placeholder function for save button
+// function saveData() {
+//     closePopup();
+// }
 
 
