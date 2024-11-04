@@ -171,31 +171,9 @@
                                     </select>
                                 </form>
                             </div>
-                            <!-- <div class="filter-order">
-                                <form th:action="@{/seller/order/filter}" method="post" onchange="this.form.submit()">
-                                    &lt;!&ndash; Account ID, gửi thông tin người dùng hiện tại &ndash;&gt;
-                                    <input type="hidden" name="accountId" th:value="${session.acc.getId()}" />
-
-                                    &lt;!&ndash; Dropdown chọn Status &ndash;&gt;
-                                    <select class="filter-by-status" name="status" id="status">
-                                        <option value="" disabled hidden th:selected="${not #strings.contains(status, 'processing')
-                                                        and not #strings.contains(status, 'packed')
-                                                        and not #strings.contains(status, 'completed')
-                                                        and not #strings.contains(status, 'cancelled')}">
-                                            Status
-                                        </option>
-                                        <option value="processing" th:selected="${status == 'processing'}">Processing</option>
-                                        <option value="packed" th:selected="${status == 'packed'}">Packed</option>
-                                        <option value="completed" th:selected="${status == 'completed'}">Completed</option>
-                                        <option value="cancelled" th:selected="${status == 'cancelled'}">Cancelled</option>
-                                    </select>
-
-                                    
-                                </form>
-                            </div> -->
                             <form th:action="@{/seller/order/sort}" th:method="get" onchange="this.submit()">
                                 <input type="hidden" name="sellerId" th:value="${session.acc.getId()}">
-                                <input type="hidden" name="status" id="sortStatus">
+                                <input type="hidden" name="status" th:value="${session.status}"> <!-- Truyền status đã chọn -->
                                 <select class="sort-order" name="sortDirection" id="sortDirection">
                                     <option value="" disabled hidden selected>Sort</option>
                                     <option value="asc">Ascending</option>
