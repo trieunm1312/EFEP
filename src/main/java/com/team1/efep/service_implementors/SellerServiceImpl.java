@@ -81,7 +81,6 @@ public class SellerServiceImpl implements SellerService {
         Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo, account.getUser().getSeller());
 
         if (error.isEmpty()) {
-            //success
             Flower flower = createNewFlower(request);
             return CreateFlowerResponse.builder()
                     .status("200")
@@ -103,15 +102,22 @@ public class SellerServiceImpl implements SellerService {
                                                             .build())
                                                     .toList()
                                     )
+                                    .flowerCategoryList(
+                                            addFlowerCategories(request, flower).stream()
+                                                    .map(flowerCategory -> FlowerCategory.builder()
+                                                            .category(flowerCategory.getCategory())
+                                                            .build())
+                                                    .toList()
+                                    )
                                     .build()
                     )
                     .build();
         }
-        //failed
         return error;
     }
 
     private Flower createNewFlower(CreateFlowerRequest request) {
+        List<FlowerImage> imgList = new ArrayList<>();
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         assert account != null;
         Flower flower = Flower.builder()
@@ -125,8 +131,10 @@ public class SellerServiceImpl implements SellerService {
                 .soldQuantity(0)
                 .status(Status.FLOWER_STATUS_AVAILABLE)
                 .build();
-
-        return flowerRepo.save(flower);
+        flowerRepo.save(flower);
+        addFlowerImages(request, flower);
+        addFlowerCategories(request, flower);
+        return flower;
     }
 
 
@@ -144,6 +152,16 @@ public class SellerServiceImpl implements SellerService {
                         .build())
                 .toList();
         return flowerImageRepo.saveAll(flowerImages);
+    }
+
+    private List<FlowerCategory> addFlowerCategories(CreateFlowerRequest request, Flower flower) {
+        List<FlowerCategory> flowerCategories = request.getCategoryIdList().stream()
+                .map(categoryId -> FlowerCategory.builder()
+                        .flower(flower)
+                        .category(categoryRepo.findById(categoryId).orElse(null))
+                        .build())
+                .toList();
+        return flowerCategoryRepo.saveAll(flowerCategories);
     }
 
     //--------------------------------------GET ALL FLOWER STATUS------------------------------------------------//
