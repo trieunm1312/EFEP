@@ -14,24 +14,24 @@ import java.util.Map;
 public class AddToWishlistValidation {
 
     public static Map<String, String> validate(AddToWishlistRequest request, AccountRepo accountRepo, FlowerRepo flowerRepo) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         if (account == null) {
-            return MapConfig.buildMapKey(errors, "You are not logged in");
+            return MapConfig.buildMapKey(error, "You are not logged in");
         }
 
         if (!Role.checkIfThisAccountIsBuyer(account)) {
-            return MapConfig.buildMapKey(errors, "Only buyers can add items to wishlist");
+            return MapConfig.buildMapKey(error, "Only buyers can add items to wishlist");
         }
 
         Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
         if (flower == null) {
-            return MapConfig.buildMapKey(errors, "Flower does not exist");
+            return MapConfig.buildMapKey(error, "Flower does not exist");
         }
 
         if (flower.getQuantity() <= 0) {
-            return MapConfig.buildMapKey(errors, "Flower is out of stock");
+            return MapConfig.buildMapKey(error, "Flower is out of stock");
         }
-        return errors;
+        return error;
     }
 }

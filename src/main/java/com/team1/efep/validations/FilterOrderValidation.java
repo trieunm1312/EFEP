@@ -9,10 +9,10 @@ import java.util.Map;
 
 public class FilterOrderValidation {
     public static Map<String, String> validate(FilterOrderRequest request) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         if (request.getSellerId() <= 0) {
-            return MapConfig.buildMapKey(errors,  "Invalid account ID");
+            return MapConfig.buildMapKey(error,  "Invalid account ID");
         }
-        return errors;
+        return error;
     }
 }

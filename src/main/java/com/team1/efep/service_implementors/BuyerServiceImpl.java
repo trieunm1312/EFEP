@@ -55,9 +55,10 @@ public class BuyerServiceImpl implements BuyerService {
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
     public String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            redirectAttributes.addFlashAttribute("error", "You must log in");
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
         Object output = viewWishlistLogic(account.getId());
@@ -106,7 +107,7 @@ public class BuyerServiceImpl implements BuyerService {
                                 )
                         )
                         .name(item.getFlower().getName())
-                        .quantity(item.getQuantity())
+                        .quantity(Math.min(item.getQuantity(), item.getFlower().getQuantity()))
                         .price(item.getFlower().getPrice())
                         .stockQuantity(item.getFlower().getQuantity())
                         .description(item.getFlower().getDescription())
@@ -325,9 +326,9 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object sendEmailLogic(ForgotPasswordRequest request) {
-        Map<String, String> errors = ForgotPasswordValidation.validate(request, accountRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = ForgotPasswordValidation.validate(request, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
         // Generate the OTP
         String otp = Const.OTP_LINK + OTPGeneratorUtil.generateOTP(6);
@@ -403,9 +404,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     private Object renewPassLogic(RenewPasswordRequest request) {
 
-        Map<String, String> errors = RenewPasswordValidation.validate(request, accountRepo);
-        if (!errors.isEmpty()) {
-            return errors;
+        Map<String, String> error = RenewPasswordValidation.validate(request, accountRepo);
+        if (!error.isEmpty()) {
+            return error;
         }
 
         Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
@@ -721,8 +722,8 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     public Object viewFlowerDetailLogic(ViewFlowerDetailRequest request) {
-        Map<String, String> errors = ViewFlowerDetailValidation.validate(request, flowerRepo);
-        if (errors.isEmpty()) {
+        Map<String, String> error = ViewFlowerDetailValidation.validate(request, flowerRepo);
+        if (error.isEmpty()) {
             Flower flower = flowerRepo.findById(request.getId()).orElse(null);
             assert flower != null;
             return ViewFlowerDetailResponse.builder()
@@ -765,7 +766,7 @@ public class BuyerServiceImpl implements BuyerService {
 
         }
 
-        return errors;
+        return error;
     }
 
     //-----------------------------------VIEW ORDER STATUS-------------------------------------------//
@@ -1199,10 +1200,10 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     @Override
-    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
         VNPayResponse vnPayResponse = createVNPayPaymentLinkForBuyNowLogic(request, httpServletRequest);
-        model.addAttribute("flowerId", request.getFlowerId());
-        model.addAttribute("quantity", request.getQuantity());
+        session.setAttribute("flowerId", request.getFlowerId());
+        session.setAttribute("quantity", request.getQuantity());
         model.addAttribute("msg", vnPayResponse);
         return "redirect:" + vnPayResponse.getPaymentURL();
     }
@@ -1225,7 +1226,7 @@ public class BuyerServiceImpl implements BuyerService {
         paramList.put("vnp_OrderInfo", "Order payment No " + txnRef + ", Amount: " + amount);
         paramList.put("vnp_OrderType", getOrderType());
         paramList.put("vnp_Locale", "vn");
-        paramList.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
+        paramList.put("vnp_ReturnUrl", BuyNowVNPAYConfig.vnp_ReturnUrl);
         paramList.put("vnp_IpAddr", ipAddress);
         paramList.put("vnp_CreateDate", getCreateDate(calendar, formatter));
         paramList.put("vnp_ExpireDate", getExpiredDate(15, calendar, formatter));
@@ -1277,9 +1278,10 @@ public class BuyerServiceImpl implements BuyerService {
     public String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        Object output = getPaymentResultForBuyNowLogic(params, request.getFlowerId(), request.getQuantity(), account.getId(), httpServletRequest);
+        Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()) , Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
+            Account account1 = accountRepo.findById(account.getId()).orElse(null);
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             session.removeAttribute("flowerId");
             session.removeAttribute("quantity");
@@ -1329,6 +1331,12 @@ public class BuyerServiceImpl implements BuyerService {
         flower.setSoldQuantity(flower.getSoldQuantity() + quantity);
         flower.setQuantity(flower.getQuantity() - quantity);
 
+        WishlistItem item = wishlistItemRepo.findByFlower_IdAndWishlist_User_Id(flowerId, user.getId()).orElse(null);
+        if (item != null) {
+            item.setQuantity(item.getQuantity() - quantity);
+        }
+        wishlistItemRepo.save(item);
+        List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(savedOrder)
                 .flower(flower)
@@ -1338,7 +1346,13 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
 
         orderDetailRepo.save(orderDetail);
+        orderDetails.add(orderDetail);
+        savedOrder.setOrderDetailList(orderDetails);
+        orderRepo.save(savedOrder);
+
         flowerRepo.save(flower);
+        sendOrderEmail(savedOrder, user);
+        sendOrderSellerEmail(savedOrder, flower.getSeller());
     }
 
     //-----------------------------------GET COD PAYMENT RESULT--------------------------------------//
@@ -1465,6 +1479,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object viewFeedbackLogic(int sellerId) {
+        List<Flower> flowers = flowerRepo.findAllBySeller_Id(sellerId);
         Seller seller = sellerRepo.findById(sellerId).orElse(null);
         if (seller == null) {
             return Map.of("error", "Seller not found");
@@ -1494,6 +1509,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .background(seller.getUser().getBackground())
                 .totalFlower(seller.getFlowerList().size())
                 .sellerRating(seller.getRating())
+                .flowerList(viewFlowerList(flowers))
                 .feedbackList(feedbackDetails)
                 .build();
     }
@@ -1509,14 +1525,15 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
+
     //---------------------------------CREATE FEEDBACK---------------------------------//
 
     @Override
     public String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            MapConfig.buildMapKey(errors, "Please login with a buyer account to leave feedback");
+            MapConfig.buildMapKey(error, "Please login with a buyer account to leave feedback");
             return "redirect:/login";
         }
 

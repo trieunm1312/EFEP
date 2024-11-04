@@ -97,9 +97,9 @@ public class BuyerController {
 
     @PostMapping("/order/now/payment")
     @Operation(hidden = true)
-    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.createVNPayPaymentLinkForBuyNow(request, model, httpServletRequest);
+        return buyerService.createVNPayPaymentLinkForBuyNow(request, model, httpServletRequest, session);
     }
 
     @GetMapping("/order/payment/result")

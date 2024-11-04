@@ -13,30 +13,30 @@ import java.util.Map;
 
 public class UpdateWishlistValidation {
     public static Map<String, String> validate(UpdateWishlistRequest request, WishlistItemRepo wishlistItemRepo, AccountRepo  accountRepo) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         if (account == null) {
-            return MapConfig.buildMapKey(errors, "You are not logged in");
+            return MapConfig.buildMapKey(error, "You are not logged in");
         }
 
         if (request.getWishlistId() <= 0) {
-            return MapConfig.buildMapKey(errors, "Invalid wishlist ID.");
+            return MapConfig.buildMapKey(error, "Invalid wishlist ID.");
         }
 
         if (request.getWishlistItemId() < 0) {
-            return MapConfig.buildMapKey(errors, "Invalid wishlist item ID.");
+            return MapConfig.buildMapKey(error, "Invalid wishlist item ID.");
         }
 
         if (!"asc".equals(request.getRequest()) && !"desc".equals(request.getRequest())) {
-            return MapConfig.buildMapKey(errors, "Invalid request action. Must be 'asc' or 'desc'.");
+            return MapConfig.buildMapKey(error, "Invalid request action. Must be 'asc' or 'desc'.");
         }
 
         if ("desc".equals(request.getRequest())) {
             WishlistItem wishlistItem = wishlistItemRepo.findById(request.getWishlistItemId()).orElse(null);
             if (wishlistItem != null && wishlistItem.getQuantity() <= 1) {
-                return MapConfig.buildMapKey(errors, "Quantity cannot be less than 1.");
+                return MapConfig.buildMapKey(error, "Quantity cannot be less than 1.");
             }
         }
-        return errors;
+        return error;
     }
 }

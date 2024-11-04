@@ -17,7 +17,7 @@ public class Status {
     public static String ORDER_STATUS_COMPLETED = "completed";
     public static String ORDER_STATUS_CANCELLED = "cancelled";
     public static String FLOWER_STATUS_AVAILABLE = "available";
-    public static String FLOWER_STATUS_DELETED = "deleted";
+    public static String FLOWER_STATUS_OUT_OF_STOCK = "out-of-stock";
     public static String PAYMENT_METHOD_COD = "cod";
     public static String PAYMENT_METHOD_VN_PAY = "vn-pay";
 

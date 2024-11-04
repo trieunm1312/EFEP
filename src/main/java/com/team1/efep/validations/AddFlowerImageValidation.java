@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class AddFlowerImageValidation {
     public static Map<String, String> validate(AddFlowerImageRequest request) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
 
-        return errors;
+        return error;
     }
 }

@@ -11,20 +11,20 @@ public class ViewWishlistValidation {
 
 
     public static Map<String, String> validate(int accountId, AccountRepo accountRepo) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
 
         if (accountId <= 0) {
-            return MapConfig.buildMapKey(errors, "Invalid account id");
+            return MapConfig.buildMapKey(error, "Invalid account id");
         }
 
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
         if (account == null) {
-            return MapConfig.buildMapKey(errors, "You are not logged in");
+            return MapConfig.buildMapKey(error, "You are not logged in");
         }
 
         if (account.getUser().getWishlist() == null || account.getUser().getWishlist().getWishlistItemList().isEmpty()) {
-            return MapConfig.buildMapKey(errors, "Wishlist is empty");
+            return MapConfig.buildMapKey(error, "Wishlist is empty");
         }
-        return errors;
+        return error;
     }
 }
