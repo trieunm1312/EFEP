@@ -191,7 +191,7 @@
                 </div>
 
                 <!-- Feedback and Rating -->
-                <div class="overview">
+                <div  th:if="${msg.orderStatus == 'completed'}" class="overview">
                     <h2 class="feedback">Feedback</h2>
                     <hr class="line">
                     <div class="form-fb">

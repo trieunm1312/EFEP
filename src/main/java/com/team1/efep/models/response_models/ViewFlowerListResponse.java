@@ -35,6 +35,8 @@ public class ViewFlowerListResponse {
 
         private String description;
 
+        private int quantity;
+
         private int soldQuantity;
 
         private List<Image> images;

@@ -139,42 +139,7 @@
                         <li class="header__item-megamenu-item header__item-megamenu-item__product">
                             <a th:href="@{/buyer/flower}">
                                 <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Products</span>
-                                <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
                                 <span class="header__item-megamenu-item-label-hot">Hot</span>
-                                <span class="header__item-megamenu-item-label-arrow-hot"></span>
-                                <div class="product__block">
-                                    <div class="product__top">
-                                        <h4 class="seller__heading">Top Seller</h4>
-                                        <ul class="seller__list">
-                                            <li th:each="item : ${msg2.sellerList}" class="seller__item">
-                                                <a th:href="@{/buyer/feedback(p=${item.id})}" class="seller__item-link">
-                                                    <img th:src="${item.avatar == null || item.avatar == ''} ? '/img/default-avatar.jpg' : ${item.avatar}" alt="Seller image">
-                                                    <div class="seller__item-link-content">
-                                                        <p class="seller__item-link-name" th:text="${item.name}"></p>
-                                                        <p class="seller__item-link-rating">
-                                                            <div class="user__rating">
-                                                                <!-- Full stars -->
-                                                                <span th:each="i : ${#numbers.sequence(1, item.averageRating.intValue())}">
-                                                                    <i class="fa-solid fa-star"></i>
-                                                                </span>
-
-                                                                <!-- Half star (only if rating has a decimal part of 0.5) -->
-                                                                <span th:if="${item.averageRating.intValue() < item.averageRating}">
-                                                                    <i class="fa-solid fa-star-half-alt"></i>
-                                                                </span>
-
-                                                                <!-- Empty stars (up to 5 stars total) -->
-                                                                <span th:each="i : ${#numbers.sequence(item.averageRating.intValue() + (item.averageRating > item.averageRating.intValue() ? 1 : 0), 4)}">
-                                                                    <i class="fa-regular fa-star"></i>
-                                                                </span>
-                                                            </div>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </a>
                         </li>
 
