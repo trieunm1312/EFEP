@@ -248,22 +248,22 @@
                                                                 <div class="left-section">
                                                                     <h3>Edit Flower Information</h3>
                                                                     <label for="name">Name:</label>
-                                                                    <input type="text" id="name" name="name" th:value="${item.name}">
+                                                                    <input type="text" id="name" name="name" th:value="${item.name}" required>
 
                                                                     <label for="description">Description:</label>
-                                                                    <textarea id="description" name="description" th:text="${item.description}"></textarea>
+                                                                    <textarea id="description" name="description" th:text="${item.description}" required></textarea>
 
                                                                     <label for="flowerAmount">Flower Amount:</label>
-                                                                    <input type="number" id="flowerAmount" name="flowerAmount" min="1"
+                                                                    <input type="number" id="flowerAmount" name="flowerAmount" min="1" required
                                                                            th:value="${item.flowerAmount}" pattern="\d*" title="Please enter a valid number">
 
                                                                     <label for="quantity">Quantity:</label>
                                                                     <input type="number" id="quantity" name="quantity" min="1" th:value="${item.quantity}"
-                                                                           pattern="\d*" title="Please enter a valid number">
+                                                                           pattern="\d*" title="Please enter a valid number" required>
 
                                                                     <label for="price">Price:</label>
                                                                     <input id="price" name="price" th:value="${item.price}"
-                                                                           pattern="\d+(\.\d{1,2})?" title="Please enter a valid number">
+                                                                           pattern="\d+(\.\d{1,2})?" title="Please enter a valid number" required>
                                                                 </div>
 
                                                                 <!-- Right half for image upload and categories -->
@@ -372,21 +372,21 @@
                                             <div class="left-section-create">
                                                 <h3>Create Flower Information</h3>
                                                 <label for="name">Name:</label>
-                                                <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name">
+                                                <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name" required>
 
                                                 <label for="description">Description:</label>
-                                                <textarea name="description" th:text="${description}" placeholder="Enter your description about flower"></textarea>
+                                                <textarea name="description" th:text="${description}" placeholder="Enter your description about flower" required></textarea>
 
                                                 <label for="flowerAmount">Flower Amount:</label>
-                                                <input type="number" min="1" name="flowerAmount"
+                                                <input type="number" min="1" name="flowerAmount" required
                                                        th:value="${flowerAmount}" pattern="\d*" title="Please enter a valid number" placeholder="Enter flower amount">
 
                                                 <label for="quantity">Quantity:</label>
-                                                <input type="number" min="1" name="quantity" th:value="${quantity}"
+                                                <input type="number" min="1" name="quantity" th:value="${quantity}" required
                                                        pattern="\d*" title="Please enter a valid number" placeholder="Enter quantity">
 
                                                 <label for="price">Price:</label>
-                                                <input id="createPrice" name="price" th:value="${price}"
+                                                <input id="createPrice" name="price" th:value="${price}" required
                                                        pattern="\d+(\.\d{1,2})?" title="Please enter a valid number" placeholder="Enter price">
                                             </div>
 
