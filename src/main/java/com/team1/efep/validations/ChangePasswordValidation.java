@@ -22,7 +22,7 @@ public class ChangePasswordValidation {
         }
 
         // 3. Check new password format
-        if (!request.getNewPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
+        if (!request.getNewPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$")) {
             return MapConfig.buildMapKey(error, "New password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character");
         }
 
