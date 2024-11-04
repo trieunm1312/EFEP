@@ -20,11 +20,17 @@ thumbnailImages.forEach(thumbnail => {
 
 // Quantity button
 function increaseValue() {
+  var maxQuantity = parseInt(document.getElementById('maxQuantity').innerText, 10);
   var value = parseInt(document.getElementById('number').value, 10);
   value = isNaN(value) ? 0 : value;
-  value++;
-  document.getElementById('number').value = value;
-  updateHiddenInput();
+  if (value < maxQuantity) {
+    value++;
+    document.getElementById('number').value = value;
+    updateHiddenInput();
+  }
+  if (value >= maxQuantity) {
+    document.getElementById('increase').disabled = true;
+  }
 }
 
 function decreaseValue() {
