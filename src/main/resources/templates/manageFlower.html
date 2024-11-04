@@ -183,7 +183,7 @@
                             <div>
                                 <div th:if="${msg}">
                                     <tr class="table__body-item" th:each="item : ${msg.flowerList}">
-                                        <div th:if="${item.status != 'deleted'}">
+                                        <div>
                                             <form th:action="@{/seller/flower}" th:method="put"
                                                 class="manage-flower__form">
                                                 <input type="hidden" name="flowerId" th:value="${item.id}">
@@ -322,7 +322,7 @@
                                                                    th:value="${session.acc.getId()}">
                                                             <input type="hidden" name="flowerId" th:value="${item.id}">
                                                             <span class="cancel-delete" th:onclick="'closeDeletePopup(' + ${item.id} + ')'" >Cancel</span>
-                                                            <input type="submit" name="action" value="Delete"
+                                                            <input type="submit"  value="Disable"
                                                                    class="delete-btn">
                                                         </form>
                                                     </div>
