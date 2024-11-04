@@ -183,7 +183,7 @@
                             <div>
                                 <div th:if="${msg}">
                                     <tr class="table__body-item" th:each="item : ${msg.flowerList}">
-                                        <div th:if="${item.status != 'deleted'}">
+                                        <div>
                                             <form th:action="@{/seller/flower}" th:method="put"
                                                 class="manage-flower__form">
                                                 <input type="hidden" name="flowerId" th:value="${item.id}">
@@ -195,7 +195,7 @@
                                                         class="file-input" style="display: none;">
                                                     <input type="hidden" name="image" id="flower-img-update" value="">
                                                 </td>
-                                                <td class="table__body-name">
+                                                <td class="table__body-name padding-td">
                                                     <span th:text="${item.name}" class="name-text">RED</span>
 <!--                                                    <input type="text" name="name" class="name-input"-->
 <!--                                                        th:value="${item.name}" style="display: none;" />-->
@@ -248,22 +248,22 @@
                                                                 <div class="left-section">
                                                                     <h3>Edit Flower Information</h3>
                                                                     <label for="name">Name:</label>
-                                                                    <input type="text" id="name" name="name" th:value="${item.name}">
+                                                                    <input type="text" id="name" name="name" th:value="${item.name}" required>
 
                                                                     <label for="description">Description:</label>
-                                                                    <textarea id="description" name="description" th:text="${item.description}"></textarea>
+                                                                    <textarea id="description" name="description" th:text="${item.description}" required></textarea>
 
                                                                     <label for="flowerAmount">Flower Amount:</label>
-                                                                    <input type="number" id="flowerAmount" name="flowerAmount" min="1"
+                                                                    <input type="number" id="flowerAmount" name="flowerAmount" min="1" required
                                                                            th:value="${item.flowerAmount}" pattern="\d*" title="Please enter a valid number">
 
                                                                     <label for="quantity">Quantity:</label>
                                                                     <input type="number" id="quantity" name="quantity" min="1" th:value="${item.quantity}"
-                                                                           pattern="\d*" title="Please enter a valid number">
+                                                                           pattern="\d*" title="Please enter a valid number" required>
 
                                                                     <label for="price">Price:</label>
                                                                     <input id="price" name="price" th:value="${item.price}"
-                                                                           pattern="\d+(\.\d{1,2})?" title="Please enter a valid number">
+                                                                           pattern="\d+(\.\d{1,2})?" title="Please enter a valid number" required>
                                                                 </div>
 
                                                                 <!-- Right half for image upload and categories -->
@@ -287,16 +287,23 @@
                                                                             <button class="remove-button" onclick="removeImage(3, event)">&times;</button>
                                                                         </div>
                                                                     </div>
-                                                                    <h4 class="cate-title">Categories</h4>
-                                                                    <div class="categories">
-<!--                                                                        <div th:each="cate : ${msg.allCategory}">-->
-<!--                                                                            <label>-->
-<!--                                                                                <input type="checkbox" name="categoryIdList" th:value="${cate.id}"-->
-<!--                                                                                       th:checked="${#lists.contains(flower.categoryIdList, cate.id)}"-->
-<!--                                                                                       th:text="${cate.name}">-->
-<!--                                                                            </label>-->
-<!--                                                                        </div>-->
-                                                                    </div>
+<!--                                                                    <h4 class="cate-title">Categories</h4>-->
+<!--                                                                    <div class="categories">-->
+<!--&lt;!&ndash;                                                                        <div th:each="cate : ${msg.allCategory}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                            <label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                <input type="checkbox" name="categoryIdList" th:value="${cate.id}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                       th:checked="${#lists.contains(flower.categoryIdList, cate.id)}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                       th:text="${cate.name}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                            </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                        </div>&ndash;&gt;-->
+<!--                                                                        <label for="multi-select">Choose categories:</label>-->
+<!--                                                                        <select id="multi-select" name="options" multiple>-->
+<!--                                                                            <option value="option1">wedding</option>-->
+<!--                                                                            <option value="option2">anni</option>-->
+<!--                                                                            <option value="option3">mother</option>-->
+<!--                                                                            <option value="option4">Tùy chọn 4</option>-->
+<!--                                                                        </select>-->
+<!--                                                                    </div>-->
                                                                 </div>
                                                             </div>
 
@@ -310,19 +317,19 @@
                                                 </td>
                                             </form>
 
-                                            <td class="table__body-toggle">
+                                            <td class="table__body-toggle" th:if="${item.quantity} > 0">
                                                 <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
                                                        class="toggle-btn">Delete</span>
 
                                                 <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
                                                     <div class="confirmDelete-form">
-                                                    <span class="confirm-text">Do you want to delete flower <span th:text="${item.name}">RED</span> ?</span>
+                                                    <span class="confirm-text">Do you want to disable flower <span th:text="${item.name}">RED</span> ?</span>
                                                         <form th:action="@{/seller/flower}" th:method="delete">
                                                             <input type="hidden" name="accountId"
                                                                    th:value="${session.acc.getId()}">
                                                             <input type="hidden" name="flowerId" th:value="${item.id}">
                                                             <span class="cancel-delete" th:onclick="'closeDeletePopup(' + ${item.id} + ')'" >Cancel</span>
-                                                            <input type="submit" name="action" value="Delete"
+                                                            <input type="submit"  value="Disable"
                                                                    class="delete-btn">
                                                         </form>
                                                     </div>
@@ -372,21 +379,21 @@
                                             <div class="left-section-create">
                                                 <h3>Create Flower Information</h3>
                                                 <label for="name">Name:</label>
-                                                <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name">
+                                                <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name" required>
 
                                                 <label for="description">Description:</label>
-                                                <textarea name="description" th:text="${description}" placeholder="Enter your description about flower"></textarea>
+                                                <textarea name="description" th:text="${description}" placeholder="Enter your description about flower" required></textarea>
 
                                                 <label for="flowerAmount">Flower Amount:</label>
-                                                <input type="number" min="1" name="flowerAmount"
+                                                <input type="number" min="1" name="flowerAmount" required
                                                        th:value="${flowerAmount}" pattern="\d*" title="Please enter a valid number" placeholder="Enter flower amount">
 
                                                 <label for="quantity">Quantity:</label>
-                                                <input type="number" min="1" name="quantity" th:value="${quantity}"
+                                                <input type="number" min="1" name="quantity" th:value="${quantity}" required
                                                        pattern="\d*" title="Please enter a valid number" placeholder="Enter quantity">
 
                                                 <label for="price">Price:</label>
-                                                <input id="createPrice" name="price" th:value="${price}"
+                                                <input id="createPrice" name="price" th:value="${price}" required
                                                        pattern="\d+(\.\d{1,2})?" title="Please enter a valid number" placeholder="Enter price">
                                             </div>
 

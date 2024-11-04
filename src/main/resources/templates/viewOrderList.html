@@ -195,6 +195,12 @@
                         <div class="order-list" th:if="${msg}">
                             <div class="order-item" th:each="order : ${msg.orderList}">
                                 <div class="order-header">
+                                    <div class="header-code">
+                                        <h3>
+                                            <i class="fa-solid fa-receipt"></i>
+                                            <span th:text="${order.orderId}"></span>
+                                        </h3>
+                                    </div>
                                     <div class="header-info">
                                         <h4 class="header-buyer">
                                             <i class="fa-solid fa-user"></i>
@@ -209,7 +215,7 @@
                                                     (${order.status == 'cancelled'} ? 'order-status-cancel' : '')))">
                                                 Delivered</span>
                                         </div>
-                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="order-details">
@@ -235,7 +241,7 @@
                                                                         th:text="${product.quantity}">1</span>
                                                                 </div>
                                                                 <span class="table-order-price text-orange font-bold"
-                                                                    th:text="${product.price}">$122.00</span>
+                                                                    th:text="${'$' + product.price}">$122.00</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -245,7 +251,7 @@
                                                 <td colspan="1">
                                                     <span>Total Price:</span>
                                                     <span class="summary-price text-orange"
-                                                        th:text="${order.totalPrice}">$150.00</span>
+                                                        th:text="${'$' + order.totalPrice}">$150.00</span>
                                                 </td>
                                             </tr>
                                             <tr class="summary">
