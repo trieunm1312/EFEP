@@ -774,7 +774,7 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        Map<String, String> error = ViewOrderDetailValidation.validate(request, account, order);
+        Map<String, String> error = ViewOrderDetailValidation.validate(request, order);
         if (!error.isEmpty()) {
             return error;
         }
@@ -1359,6 +1359,8 @@ public class BuyerServiceImpl implements BuyerService {
         Map<Seller, List<WishlistItem>> itemsBySeller = items.stream()
                 .collect(Collectors.groupingBy(item -> item.getFlower().getSeller()));
 
+        boolean sendEmailResult = false;
+
         for (Map.Entry<Seller, List<WishlistItem>> entry : itemsBySeller.entrySet()) {
             Seller seller = entry.getKey();
             List<WishlistItem> sellerItems = entry.getValue();
@@ -1377,7 +1379,8 @@ public class BuyerServiceImpl implements BuyerService {
                     .status(Status.ORDER_STATUS_PROCESSING)
                     .paymentMethod(paymentMethod)
                     .build());
-            sendOrderEmail(savedOrder, user);
+
+            List<OrderDetail> orderDetails = new ArrayList<>();
             for (WishlistItem item : entry.getValue()) {
                 Flower flower = item.getFlower();
                 flower.setSoldQuantity(flower.getSoldQuantity() + item.getQuantity());
@@ -1391,15 +1394,21 @@ public class BuyerServiceImpl implements BuyerService {
                         .price(item.getFlower().getPrice())
                         .build();
                 orderDetailRepo.save(orderDetail);
+                orderDetails.add(orderDetail);
                 flowerRepo.save(flower);
             }
+            savedOrder.setOrderDetailList(orderDetails);
+            orderRepo.save(savedOrder);
+            sendEmailResult = sendOrderEmail(savedOrder, user);
         }
-        wishlistItemRepo.deleteAll(items);
-        user.getWishlist().setWishlistItemList(new ArrayList<>());
-        userRepo.save(user);
+        if(sendEmailResult) {
+            wishlistItemRepo.deleteAll(items);
+            user.getWishlist().setWishlistItemList(new ArrayList<>());
+            userRepo.save(user);
+        }
     }
 
-    private void sendOrderEmail(Order order, User user) {
+    private boolean sendOrderEmail(Order order, User user) {
 
         MimeMessage message = mailSender.createMimeMessage();
 
@@ -1420,8 +1429,9 @@ public class BuyerServiceImpl implements BuyerService {
             mailSender.send(message);
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            return false;
         }
+        return true;
     }
 
     //-----------------------------------GET COD PAYMENT RESULT--------------------------------------//

@@ -213,6 +213,7 @@ public class SellerServiceImpl implements SellerService {
     private Object viewOrderListLogic(int accountId) {
         Account account = Role.getCurrentLoggedAccount(accountId, accountRepo);
         List<Order> orderList = getOrdersBySeller(account.getUser().getSeller().getId());
+
         if (!orderList.isEmpty()) {
             List<ViewOrderListResponse.OrderBill> orderBills = orderList.stream()
                     .map(this::viewOrderList)
@@ -521,10 +522,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
-        Map<String, String> error = ViewOrderDetailValidation.validate(request, account, order);
+        Map<String, String> error = ViewOrderDetailValidation.validate(request, order);
         if (!error.isEmpty()) {
             return error;
         }

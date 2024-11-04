@@ -6,6 +6,7 @@ import com.team1.efep.models.entity_models.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.List;
 
 public class FileReaderUtil {
     public static String readFile(String verificationLink) {
@@ -56,19 +57,36 @@ public class FileReaderUtil {
                 result += line;
             }
 
-            OrderDetail orderDetail = order.getOrderDetailList().get(0);
+            String[] splitResult = result.split("##loop");
 
-            result = result.replaceAll("@@##", order.getId().toString()); //order id
-            result = result.replaceAll("@@@##", order.getCreatedDate().toLocalDate().toString());//created date
-            result = result.replaceAll("@@#", orderDetail.getFlowerName());//flower name
-            result = result.replaceAll("@@@###", String.valueOf(orderDetail.getQuantity()));//quantity
-            result = result.replaceAll("@@@@###", user.getName());//flower price
-            result = result.replaceAll("@@@@####", String.valueOf(order.getTotalPrice()));//total price
+            result = splitResult[0];
+
+            List<OrderDetail> orderDetailList = order.getOrderDetailList();
+
+            for (OrderDetail orderDetail : orderDetailList) {
+                String data = replaceData(order, orderDetail, splitResult[1]);
+                result += data;
+            }
+
+            result += splitResult[2];
+
+            result = result.replaceAll("##orderId", String.valueOf(order.getId()));
+            result = result.replaceAll("##createDate", String.valueOf(order.getCreatedDate().toLocalDate()));
+            result = result.replaceAll("##totalPrice", String.valueOf(order.getTotalPrice()));
+
             br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private static String replaceData(Order order, OrderDetail orderDetail, String data) {
+        data = data.replaceAll("##flowerName", orderDetail.getFlowerName());
+        data = data.replaceAll("##description", orderDetail.getFlower().getDescription());
+        data = data.replaceAll("##quantity", String.valueOf(orderDetail.getQuantity()));
+        data = data.replaceAll("##price", String.valueOf(orderDetail.getPrice()));
+        return data;
     }
 
 
