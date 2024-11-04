@@ -148,7 +148,7 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("msg", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
-        redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
+        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:" + httpServletRequest.getHeader("Referer");
     }
 

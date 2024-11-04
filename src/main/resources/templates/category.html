@@ -141,7 +141,6 @@
 
                                 <div class="flower__content">
                                     <span th:text="${'$' + item.price}"></span>
-                                    <span th:text="${'Sold: ' + item.soldQuantity}"></span>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +159,6 @@
                                     <p class="flower-list__desc" th:text="${item.description}" ></p>
                                     <div class="flower-list__content">
                                         <span th:text="${'$' + item.price}"></span>
-                                        <span>Sold: 1000</span>
                                     </div>
                                     <div class="flower-list__actions">
                                         <form th:action="@{/buyer/wishlist}" method="post">
