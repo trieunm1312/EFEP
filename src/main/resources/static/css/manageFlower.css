@@ -164,6 +164,63 @@ input{
     width: 55px;
 }
 
+.confirmDelete {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.confirmDelete-form {
+    background-color: white;
+    padding: 20px;
+    width: 425px;
+    max-width: 100%;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.confirmDelete-form form {
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    gap: 70px
+}
+
+.cancel-delete {
+    font-size: 0.7rem;
+    color: var(--primary-color);
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    padding: 4px 4px 6px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 58px;
+}
+
+.delete-btn {
+    font-size: 0.7rem;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border: none;
+    padding: 4px;
+    border-radius: 4px;
+    width: 55px;
+}
+
 .table__body-edit,
 .table__body-toggle {
     width: 126px;
@@ -359,6 +416,204 @@ textarea {
 
 /* ándalsdnalknlakndak */
 #imagePreviewContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.image-preview {
+    width: 33.3%; /* Chiếm 30% chiều rộng */
+    height: 150px; /* Chiều cao cố định */
+    border: 2px dashed #ccc; /* Viền ô */
+    position: relative;
+    cursor: pointer; /* Thay đổi con trỏ khi di chuột qua */
+}
+
+.image-preview button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    display: none; /* Ẩn nút xóa mặc định */
+}
+
+.remove-button {
+    background-color: #d33a3a;
+    color: var(--white-color);
+    border: none;
+}
+
+.image-preview:hover button {
+    display: block; /* Hiển thị nút xóa khi di chuột qua ô */
+}
+
+/* create pop up*/
+.createPopup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup-content-create {
+    background-color: white;
+    padding: 20px;
+    width: 700px;
+    max-width: 100%;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-form-create {
+    display: flex;
+    gap: 20px;
+    /* justify-content: center; */
+}
+
+.left-section-create,
+.right-section-create {
+    flex: 1;
+}
+
+.left-section-create {
+    flex: 0.7;
+}
+
+.image-title-create {
+    margin-top: 49px;
+    font-weight: bold;
+}
+
+.cate-title {
+    font-weight: bold;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    color: #191919;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: black;
+}
+
+.popup-form-create {
+    text-align: left;
+}
+
+.popup-form-create label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.popup-form-create input[type="text"],
+.popup-form-create input[type="number"],
+.popup-form-create textarea,
+#createPrice,
+.popup-form-create input[type="file"] {
+    width: 95%;
+    padding: 8px;
+    margin: 0;
+    margin-bottom: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+    overflow-y: scroll;
+}
+
+#imagePreviewContainer1 {
+    display: flex;
+    /* flex-wrap: wrap;  */
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#previewImage11,
+#previewImage21,
+#previewImage31 {
+    display: none;
+    width: 100%;
+    max-height: 150px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    object-fit: contain;
+    width: 100%; /* Lấp đầy ô */
+    height: 100%; /* Lấp đầy ô */
+}
+
+.categories {
+    /* display: inline-block; */
+    /* flex-direction: row; */
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.categories label {
+    display: inline-block;
+    width: 150px;
+    margin-right: 8px;
+}
+
+.categories input {
+    width: 20px;
+    margin-right: 8px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.popup-buttons button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.popup-buttons button:first-child {
+    background-color: #ddd;
+    color: #333;
+}
+
+.popup-buttons button:first-child:hover {
+    background-color: #bbb;
+}
+
+.popup-buttons button:last-child {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.popup-buttons button:last-child:hover {
+    background-color: #45a049;
+}
+
+/* ándalsdnalknlakndak */
+#imagePreviewContainer1 {
     display: flex;
     justify-content: space-between;
 }
