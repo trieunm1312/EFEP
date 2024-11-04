@@ -577,10 +577,10 @@
                         <div class="top-seller__img">
                             <img th:src="${item.avatar == null || item.avatar == ''} ? '/img/default-avatar.jpg' : ${item.avatar}" alt="Seller image">
                         </div>
-                        <form action="" class="form" method="post">
+                        <form th:action="@{/buyer/feedback}" class="form" method="get">
                             <input type="submit" name="action" th:value="${item.name}" class="top-seller__name">
                             </input>
-                            <input type="hidden" name="id" th:value="${item.id}">
+                            <input type="hidden" name="p" th:value="${item.id}">
                         </form>
                         <div class="top-seller__content">
                             <div class="user__rating">

@@ -199,7 +199,7 @@
                             <h3>Give us your Feedback</h3>
                             <form th:action="@{/buyer/feedback}" id="feedback-form" th:method="post" onsubmit="handleSubmit(event)">
                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                <input type="hidden" name="sellerId" th:value="${1}">
+                                <input type="hidden" name="sellerId" th:value="${msg.sellerId}">
                                 <div class="rating">
                                     <input type="hidden" id="rate" name="rating" th:value="1">
                                     <i class="fa-regular fa-star star" style="--i: 0;"></i>
