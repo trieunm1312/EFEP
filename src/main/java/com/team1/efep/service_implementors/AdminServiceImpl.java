@@ -314,6 +314,7 @@ public class AdminServiceImpl implements AdminService {
                 ));
 
         double totalRevenue = revenueMap.values().stream().mapToDouble(Double::doubleValue).sum();
+        totalRevenue = Math.floor(totalRevenue * 10) / 10.0;
         model.addAttribute("totalRevenue", totalRevenue);
     }
 

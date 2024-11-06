@@ -229,12 +229,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
-            redirectAttributes.addFlashAttribute("error", "You are not logged in");
-            return "redirect:/login";
-        }
-
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -1334,8 +1328,9 @@ public class BuyerServiceImpl implements BuyerService {
         WishlistItem item = wishlistItemRepo.findByFlower_IdAndWishlist_User_Id(flowerId, user.getId()).orElse(null);
         if (item != null) {
             item.setQuantity(item.getQuantity() - quantity);
+            wishlistItemRepo.save(item);
         }
-        wishlistItemRepo.save(item);
+
         List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(savedOrder)

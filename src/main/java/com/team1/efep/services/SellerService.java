@@ -49,7 +49,7 @@ public interface SellerService {
 
     void getTotalNumberFlower(Model model);
 
-    void getSoldQuantityCategory(Model model);
+    void getSoldQuantityCategory(Model model, HttpSession session);
 
     void getTotalNumberOfCanceledOrder(Model model);
 
