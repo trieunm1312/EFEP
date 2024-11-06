@@ -54,25 +54,33 @@
 
 /* Flower Grid */
 .seller-flower__heading{
+    width: 90% !important;
     margin-left: 100px;
 }
 
 .flower__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 32px 20px;
-    width: 100%;
+    gap: 32px 16px;
+    align-items: start;
     margin-left: 100px;
 }
 
+.flower__item {
+    width: 100%;
+}
 
 .flower__img{
+    width: 260px;
+    height: 310px;
     position: relative;
 }
 
 .flower__img img{
-    width: 100%;
+    width: 260px;
+    height: 310px;
     border-radius: 12px;
+    object-fit: cover;
 }
 
 .overlay{
@@ -82,12 +90,10 @@
     width: 100%;
     height: 100%;
     background-color: rgba(255, 86, 141, 0.2);
-    border: 1px solid var();
-    display: block;
+    border: 3px solid var(--primary-color);
     border-radius: 12px;
     text-align: center;
     display: none;
-
 }
 
 .add-to-wishlist{
@@ -162,24 +168,17 @@
     display: block;
 }
 
-.flower__heading{
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
 .flower__name{
+    display: flex;
+    flex-wrap: wrap;
     color: var(--text-color);
     text-align: start;
     font-weight: 600;
+    font-size: 1.7rem;
+    background-color: transparent;
+    border: none;
 }
-
-.flower-rating__star{
-    color: #fec60f;
-}
-
 
 .flower__name:hover{
     text-decoration: none;
@@ -188,7 +187,10 @@
 
 .flower__content{
     display: flex;
+    font-size: 1.6rem;
+    width: 90%;
     justify-content: space-between;
+    margin: 0 2.5%;
 }
 
 .flower__content span:first-child{

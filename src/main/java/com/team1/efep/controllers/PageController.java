@@ -114,8 +114,8 @@ public class PageController {
     }
 
     @GetMapping("/seller/dashboard")
-    public String sellerDashboard(Model model) {
-        SellerPageConfig.config(model, sellerService);
+    public String sellerDashboard(Model model, HttpSession session) {
+        SellerPageConfig.config(model, sellerService, session);
         return "sellerDashboard";
     }
 

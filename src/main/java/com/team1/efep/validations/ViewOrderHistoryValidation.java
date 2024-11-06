@@ -23,21 +23,21 @@ public class ViewOrderHistoryValidation {
             return MapConfig.buildMapKey(error, "No orders found for this account.");
         }
 
-        for (Order order : orderList) {
-            if (order.getOrderDetailList() == null || order.getOrderDetailList().isEmpty()) {
-                return MapConfig.buildMapKey(error, "Order ID " + order.getId() + " has no details.");
-            }
-
-            for (OrderDetail detail : order.getOrderDetailList()) {
-                if (detail.getFlower() == null) {
-                    return MapConfig.buildMapKey(error, "Order ID " + order.getId() + " has a missing flower.");
-                }
-
-                if (detail.getQuantity()     <= 0) {
-                    return MapConfig.buildMapKey(error,  "Order ID " + order.getId() + " has invalid quantity.");
-                }
-            }
-        }
+//        for (Order order : orderList) {
+//            if (order.getOrderDetailList() == null || order.getOrderDetailList().isEmpty()) {
+//                return MapConfig.buildMapKey(error, "Order ID " + order.getId() + " has no details.");
+//            }
+//
+//            for (OrderDetail detail : order.getOrderDetailList()) {
+//                if (detail.getFlower() == null) {
+//                    return MapConfig.buildMapKey(error, "Order ID " + order.getId() + " has a missing flower.");
+//                }
+//
+//                if (detail.getQuantity()     <= 0) {
+//                    return MapConfig.buildMapKey(error,  "Order ID " + order.getId() + " has invalid quantity.");
+//                }
+//            }
+//        }
         return error;
     }
 }

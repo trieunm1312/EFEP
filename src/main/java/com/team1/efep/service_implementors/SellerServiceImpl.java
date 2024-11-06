@@ -1069,30 +1069,32 @@ public class SellerServiceImpl implements SellerService {
 
     //--------------------------------------------GET SOLD QUANTITY CATEGORY---------------------------------------------//
     @Override
-    public void getSoldQuantityCategory(Model model) {
-        model.addAttribute("soldQuantityCategory", getSoldQuantityCategoryLogic());
+    public void getSoldQuantityCategory(Model model, HttpSession session) {
+        model.addAttribute("soldQuantityCategory", getSoldQuantityCategoryLogic(session));
     }
 
-    private GetSoldQuantityCategoryResponse getSoldQuantityCategoryLogic() {
+    private GetSoldQuantityCategoryResponse getSoldQuantityCategoryLogic(HttpSession session) {
         return GetSoldQuantityCategoryResponse.builder()
                 .status("200")
                 .message("")
                 .soldQuantityCategories(categoryRepo.findAll().stream()
                         .map(cate -> GetSoldQuantityCategoryResponse.soldQuantityCategory.builder()
-                                .soldFlowerQuantity(calculateSoldQuantityInCategory(cate))
+                                .soldFlowerQuantity(calculateSoldQuantityInCategory(cate, session))
                                 .category(cate.getName())
                                 .build())
                         .toList())
                 .build();
     }
 
-    private Long calculateSoldQuantityInCategory(Category category) {
+    private Long calculateSoldQuantityInCategory(Category category, HttpSession session) {
         long total = 0;
+        Seller seller = Role.getCurrentLoggedAccount(session).getUser().getSeller();
         List<Flower> flowers = categoryRepo.findAll().stream()
                 .filter(cate -> cate.equals(category))
                 .map(Category::getFlowerCategoryList)
                 .flatMap(List::stream)
                 .map(FlowerCategory::getFlower)
+                .filter(flower -> flower.getSeller().getId().equals(seller.getId()))
                 .distinct()
                 .toList();
 
