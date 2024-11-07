@@ -28,6 +28,10 @@ public class Feedback {
     @JoinColumn(name = "`seller_id`")
     private Seller seller;
 
+    @ManyToOne
+    @JoinColumn(name = "`order_id`")
+    private Order order;
+
     private LocalDateTime createDate;
 
     private String content;

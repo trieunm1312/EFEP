@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class CreateFeedbackRequest {
     private Integer accountId;
     private Integer sellerId;
+    private Integer orderId;
     private String content;
     private int rating;
 }

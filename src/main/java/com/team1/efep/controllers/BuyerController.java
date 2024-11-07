@@ -207,9 +207,14 @@ public class BuyerController {
 
     @PostMapping("/feedback")
     @Operation(hidden = true)
-    public String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.createFeedback(request, session, model, redirectAttributes);
+        return buyerService.createFeedback(request, session, model, redirectAttributes, httpServletRequest);
+    }
+
+    @PostMapping("/feedback/api")
+    public CreateFeedbackResponse createFeedbackAPI(CreateFeedbackRequest request) {
+        return buyerService.createFeedback(request);
     }
 
 }

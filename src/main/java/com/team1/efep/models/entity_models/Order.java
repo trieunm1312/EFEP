@@ -37,9 +37,16 @@ public class Order {
     @Column(name = "`total_price`")
     private float totalPrice;
 
+    private boolean isFeedback;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<OrderDetail> orderDetailList;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Feedback> feedbackList;
 
 }
