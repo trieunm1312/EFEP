@@ -77,8 +77,8 @@ public class SellerController {
 
     @GetMapping("/flower/category")
     @Operation(hidden = true)
-    public String viewFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes){
-        return sellerService.viewFlowerCategory(session, model, flowerId, redirectAttributes);
+    public String getFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes){
+        return sellerService.getFlowerCategory(session, model, flowerId, redirectAttributes);
     }
 
     @PutMapping("/flower/category/remove")

@@ -869,16 +869,16 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    //----------------------------------------VIEW FLOWER CATEGORY----------------------------------------------//
+    //----------------------------------------GET FLOWER CATEGORY----------------------------------------------//
 
     @Override
-    public String viewFlowerCategory(HttpSession session, Model model, int flowerId, RedirectAttributes redirectAttributes) {
+    public String getFlowerCategory(HttpSession session, Model model, int flowerId, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
-        Object output = viewFlowerCategoryLogic(flowerId);
+        Object output = getFlowerCategoryLogic(flowerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerCategoryResponse.class)) {
             model.addAttribute("msg", (ViewFlowerCategoryResponse) output);
             return "viewFlowerCategory";
@@ -887,7 +887,7 @@ public class SellerServiceImpl implements SellerService {
         return "viewFlowerCategory";
     }
 
-    private Object viewFlowerCategoryLogic(int flowerId) {
+    private Object getFlowerCategoryLogic(int flowerId) {
         Flower flower = flowerRepo.findById(flowerId).orElse(null);
         if (flower == null) {
             return Map.of("error", "Flower not found");

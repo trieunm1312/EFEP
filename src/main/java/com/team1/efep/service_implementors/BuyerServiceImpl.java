@@ -793,6 +793,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("200")
                     .message("View Order Status successful")
                     .orderStatus(order.getStatus())
+                    .isFeedback(order.isFeedback())
                     .build();
         }
         return ViewOrderStatusResponse.builder()
@@ -800,8 +801,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-
-    //--------------------------------CANCEL ORDER------------------------------------------//
+    //-----------------------------------------------CANCEL ORDER--------------------------------------------------//
 
     @Override
     public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {

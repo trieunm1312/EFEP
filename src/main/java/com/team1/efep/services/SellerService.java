@@ -13,7 +13,7 @@ import java.util.Map;
 public interface SellerService {
     String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
-    String viewFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes);
+    String getFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes);
 
     String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
