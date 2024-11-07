@@ -13,4 +13,5 @@ public class ViewOrderStatusResponse {
     private String status;
     private String message;
     private String orderStatus;
+    private boolean isFeedback;
 }
