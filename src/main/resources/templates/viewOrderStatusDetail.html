@@ -39,7 +39,7 @@
                 <h1 class="breadbrum__title">View Order Detail</h1><br>
                 <ul class="breadbrum__element-list">
                     <li class="breadbrum__element-list-item">
-                        <a href="home.html" class="breadbrum__element-list-item-link">
+                        <a th:href="@{/}" class="breadbrum__element-list-item-link">
                             <i class="fa-solid fa-user"></i>
                             <span>Account</span>
                         </a>
@@ -197,9 +197,10 @@
                     <div class="form-fb">
                         <div class="wrapper">
                             <h3>Give us your Feedback</h3>
-                            <form th:action="@{/buyer/feedback}" id="feedback-form" th:method="post" onsubmit="handleSubmit(event)">
+                            <form th:action="@{/buyer/feedback}" id="feedback-form" th:method="post">
                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                 <input type="hidden" name="sellerId" th:value="${msg.sellerId}">
+                                <input type="hidden" name="orderId" th:value="${msg.orderId}">
                                 <div class="rating">
                                     <input type="hidden" id="rate" name="rating" th:value="1">
                                     <i class="fa-regular fa-star star" style="--i: 0;"></i>

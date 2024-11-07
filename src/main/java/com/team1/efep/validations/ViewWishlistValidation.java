@@ -22,9 +22,11 @@ public class ViewWishlistValidation {
             return MapConfig.buildMapKey(error, "You are not logged in");
         }
 
-        if (account.getUser().getWishlist() == null || account.getUser().getWishlist().getWishlistItemList().isEmpty()) {
-            return MapConfig.buildMapKey(error, "Wishlist is empty");
-        }
+//        if (account.getUser().getWishlist() == null || account.getUser().getWishlist().getWishlistItemList().isEmpty()) {
+//            return MapConfig.buildMapKey(error, "Wishlist is empty");
+//        }
+
+        // dong comment lai thi khong hien Your wish lisst is emty nua
         return error;
     }
 }

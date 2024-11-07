@@ -869,16 +869,16 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    //----------------------------------------VIEW FLOWER CATEGORY----------------------------------------------//
+    //----------------------------------------GET FLOWER CATEGORY----------------------------------------------//
 
     @Override
-    public String viewFlowerCategory(HttpSession session, Model model, int flowerId, RedirectAttributes redirectAttributes) {
+    public String getFlowerCategory(HttpSession session, Model model, int flowerId, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
-        Object output = viewFlowerCategoryLogic(flowerId);
+        Object output = getFlowerCategoryLogic(flowerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerCategoryResponse.class)) {
             model.addAttribute("msg", (ViewFlowerCategoryResponse) output);
             return "viewFlowerCategory";
@@ -887,7 +887,7 @@ public class SellerServiceImpl implements SellerService {
         return "viewFlowerCategory";
     }
 
-    private Object viewFlowerCategoryLogic(int flowerId) {
+    private Object getFlowerCategoryLogic(int flowerId) {
         Flower flower = flowerRepo.findById(flowerId).orElse(null);
         if (flower == null) {
             return Map.of("error", "Flower not found");
@@ -1069,30 +1069,32 @@ public class SellerServiceImpl implements SellerService {
 
     //--------------------------------------------GET SOLD QUANTITY CATEGORY---------------------------------------------//
     @Override
-    public void getSoldQuantityCategory(Model model) {
-        model.addAttribute("soldQuantityCategory", getSoldQuantityCategoryLogic());
+    public void getSoldQuantityCategory(Model model, HttpSession session) {
+        model.addAttribute("soldQuantityCategory", getSoldQuantityCategoryLogic(session));
     }
 
-    private GetSoldQuantityCategoryResponse getSoldQuantityCategoryLogic() {
+    private GetSoldQuantityCategoryResponse getSoldQuantityCategoryLogic(HttpSession session) {
         return GetSoldQuantityCategoryResponse.builder()
                 .status("200")
                 .message("")
                 .soldQuantityCategories(categoryRepo.findAll().stream()
                         .map(cate -> GetSoldQuantityCategoryResponse.soldQuantityCategory.builder()
-                                .soldFlowerQuantity(calculateSoldQuantityInCategory(cate))
+                                .soldFlowerQuantity(calculateSoldQuantityInCategory(cate, session))
                                 .category(cate.getName())
                                 .build())
                         .toList())
                 .build();
     }
 
-    private Long calculateSoldQuantityInCategory(Category category) {
+    private Long calculateSoldQuantityInCategory(Category category, HttpSession session) {
         long total = 0;
+        Seller seller = Role.getCurrentLoggedAccount(session).getUser().getSeller();
         List<Flower> flowers = categoryRepo.findAll().stream()
                 .filter(cate -> cate.equals(category))
                 .map(Category::getFlowerCategoryList)
                 .flatMap(List::stream)
                 .map(FlowerCategory::getFlower)
+                .filter(flower -> flower.getSeller().getId().equals(seller.getId()))
                 .distinct()
                 .toList();
 
@@ -1151,6 +1153,18 @@ public class SellerServiceImpl implements SellerService {
         return "feedback";
     }
 
+    @Override
+    public ViewFeedbackResponse viewFeedbackAPI(int sellerId) {
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            return (ViewFeedbackResponse) output;
+        }
+        return ViewFeedbackResponse.builder()
+                .status("400")
+                .message("Feedback not found")
+                .build();
+    }
+
     private Object viewFeedbackLogic(int sellerId) {
         Seller seller = sellerRepo.findById(sellerId).orElse(null);
         if (seller == null) {
@@ -1186,6 +1200,10 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private ViewFeedbackResponse.FeedbackDetail mapToFeedbackDetail(Feedback feedback) {
+        List<String> flowerNameList = feedback.getOrder().getOrderDetailList().stream()
+                .map(orderDetail -> orderDetail.getFlower().getName())
+                .toList();
+
         return ViewFeedbackResponse.FeedbackDetail.builder()
                 .id(feedback.getId())
                 .name(feedback.getUser().getName())
@@ -1193,6 +1211,7 @@ public class SellerServiceImpl implements SellerService {
                 .content(feedback.getContent())
                 .rating(feedback.getRating())
                 .createDate(feedback.getCreateDate().toLocalDate())
+                .flowerNameList(flowerNameList)
                 .build();
     }
 }

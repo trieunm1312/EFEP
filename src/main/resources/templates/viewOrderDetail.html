@@ -54,10 +54,10 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/seller/plan/detail}" class="sidebar__link">
+                    <a th:href="@{/seller/feedback(accountId=${session.acc.getId()})}" class="sidebar__link">
                         <div class="sidebar__item">
                             <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">My Plan</span>
+                            <span class="sidebar__item-title">Feedback</span>
                         </div>
                     </a>
                 </li>
@@ -131,10 +131,6 @@
                 </div>
             </div>-->
             <div class="header__others">
-                <div class="header__noti">
-                    <i class="fa-solid fa-bell"></i>
-                </div>
-                <span class="header__separate">|</span>
                 <div class="header__account" id="headerAccount">
                     <i th:if="${session.acc.getUser().getAvatar()} == ''"
                        class="header__account-icon fa-solid fa-user"></i>

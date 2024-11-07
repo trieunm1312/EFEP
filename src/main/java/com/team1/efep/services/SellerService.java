@@ -13,7 +13,7 @@ import java.util.Map;
 public interface SellerService {
     String updateFlowerCategory(UpdateFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
-    String viewFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes);
+    String getFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes);
 
     String removeFlowerCategory(RemoveFlowerCategoryRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
@@ -49,7 +49,7 @@ public interface SellerService {
 
     void getTotalNumberFlower(Model model);
 
-    void getSoldQuantityCategory(Model model);
+    void getSoldQuantityCategory(Model model, HttpSession session);
 
     void getTotalNumberOfCanceledOrder(Model model);
 
@@ -60,4 +60,6 @@ public interface SellerService {
     void getOrderInDaily(Model model);
 
     String viewFeedback(int sellerId, Model model, HttpSession session);
+
+    ViewFeedbackResponse viewFeedbackAPI(int sellerId);
 }

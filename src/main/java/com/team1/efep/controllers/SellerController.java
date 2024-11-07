@@ -77,8 +77,8 @@ public class SellerController {
 
     @GetMapping("/flower/category")
     @Operation(hidden = true)
-    public String viewFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes){
-        return sellerService.viewFlowerCategory(session, model, flowerId, redirectAttributes);
+    public String getFlowerCategory(HttpSession session, Model model, int flowerId,  RedirectAttributes redirectAttributes){
+        return sellerService.getFlowerCategory(session, model, flowerId, redirectAttributes);
     }
 
     @PutMapping("/flower/category/remove")
@@ -145,6 +145,11 @@ public class SellerController {
     @Operation(hidden = true)
     public String viewFeedback(int accountId, Model model, HttpSession session) {
         return sellerService.viewFeedback(accountId, model, session);
+    }
+
+    @GetMapping("/feedback/api/{sellerId}")
+    public ViewFeedbackResponse viewFeedback(@PathVariable int sellerId) {
+        return sellerService.viewFeedbackAPI(sellerId);
     }
 
 }

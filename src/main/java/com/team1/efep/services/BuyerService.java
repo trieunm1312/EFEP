@@ -68,5 +68,7 @@ public interface BuyerService {
 
     String viewFeedback(int sellerId, Model model, HttpSession session);
 
-    String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
+    String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest);
+
+    CreateFeedbackResponse createFeedback(CreateFeedbackRequest request);
 }

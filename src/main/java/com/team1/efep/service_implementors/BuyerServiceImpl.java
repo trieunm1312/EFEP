@@ -229,12 +229,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
-            redirectAttributes.addFlashAttribute("error", "You are not logged in");
-            return "redirect:/login";
-        }
-
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -250,6 +244,7 @@ public class BuyerServiceImpl implements BuyerService {
     private Object deleteWishlistLogic(DeleteWishlistRequest request) {
         Map<String, String> error = DeleteWishlistValidation.validate(request, accountRepo, wishlistRepo);
         if (!error.isEmpty()) {
+            System.out.println(error);
             return error;
         }
 
@@ -798,6 +793,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .status("200")
                     .message("View Order Status successful")
                     .orderStatus(order.getStatus())
+                    .isFeedback(order.isFeedback())
                     .build();
         }
         return ViewOrderStatusResponse.builder()
@@ -805,8 +801,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-
-    //--------------------------------CANCEL ORDER------------------------------------------//
+    //-----------------------------------------------CANCEL ORDER--------------------------------------------------//
 
     @Override
     public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
@@ -1334,8 +1329,9 @@ public class BuyerServiceImpl implements BuyerService {
         WishlistItem item = wishlistItemRepo.findByFlower_IdAndWishlist_User_Id(flowerId, user.getId()).orElse(null);
         if (item != null) {
             item.setQuantity(item.getQuantity() - quantity);
+            wishlistItemRepo.save(item);
         }
-        wishlistItemRepo.save(item);
+
         List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(savedOrder)
@@ -1529,28 +1525,47 @@ public class BuyerServiceImpl implements BuyerService {
     //---------------------------------CREATE FEEDBACK---------------------------------//
 
     @Override
-    public String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+    public String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             MapConfig.buildMapKey(error, "Please login with a buyer account to leave feedback");
             return "redirect:/login";
         }
-
         Object output = createFeedbackLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFeedbackResponse.class)) {
             model.addAttribute("msg1", (CreateFeedbackResponse) output);
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
-            return "redirect:/";
+            return "redirect:" + httpServletRequest.getHeader("Referer");
         }
 
         redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        return "redirect:/";
+        return "redirect:" + httpServletRequest.getHeader("Referer");
+    }
+
+    @Override
+    public CreateFeedbackResponse createFeedback(CreateFeedbackRequest request) {
+        Object output = createFeedbackLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFeedbackResponse.class)) {
+            return (CreateFeedbackResponse) output;
+        }
+
+        return CreateFeedbackResponse.builder()
+                .status("400")
+                .message("You have already left feedback for this order")
+                .build();
     }
 
     private Object createFeedbackLogic(CreateFeedbackRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Map<String, String> error = CreateFeedbackValidation.validate(request, orderRepo, account.getUser());
+
+        if (feedbackRepo.existsByOrder_IdAndSeller_Id(request.getOrderId(), request.getSellerId())) {
+            return ViewFeedbackResponse.builder()
+                    .status("400")
+                    .message("You have already left feedback for this order")
+                    .build();
+        }
 
         if (error.isEmpty()) {
             Feedback feedback = createNewFeedback(request);
@@ -1577,16 +1592,24 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         Seller seller = sellerRepo.findById(request.getSellerId()).orElse(null);
         assert seller != null;
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
 
         Feedback feedback = Feedback.builder()
                 .user(account.getUser())
                 .seller(seller)
+                .order(order)
                 .content(request.getContent())
                 .rating(request.getRating())
                 .createDate(LocalDateTime.now())
                 .build();
 
+        //set isFeedback = true
+        order.setFeedback(true);
+        orderRepo.save(order);
+
         return feedbackRepo.save(feedback);
+
     }
 
     private void calculateSellerRating(Seller seller) {
