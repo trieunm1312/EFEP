@@ -55,6 +55,8 @@ public class ViewFeedbackResponse {
         private int rating;
 
         private LocalDate createDate;
+
+        private List<String> flowerNameList;
     }
 
 

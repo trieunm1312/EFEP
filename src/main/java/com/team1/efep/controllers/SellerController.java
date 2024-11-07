@@ -147,4 +147,9 @@ public class SellerController {
         return sellerService.viewFeedback(accountId, model, session);
     }
 
+    @GetMapping("/feedback/api/{sellerId}")
+    public ViewFeedbackResponse viewFeedback(@PathVariable int sellerId) {
+        return sellerService.viewFeedbackAPI(sellerId);
+    }
+
 }

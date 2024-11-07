@@ -1153,6 +1153,18 @@ public class SellerServiceImpl implements SellerService {
         return "feedback";
     }
 
+    @Override
+    public ViewFeedbackResponse viewFeedbackAPI(int sellerId) {
+        Object output = viewFeedbackLogic(sellerId);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
+            return (ViewFeedbackResponse) output;
+        }
+        return ViewFeedbackResponse.builder()
+                .status("400")
+                .message("Feedback not found")
+                .build();
+    }
+
     private Object viewFeedbackLogic(int sellerId) {
         Seller seller = sellerRepo.findById(sellerId).orElse(null);
         if (seller == null) {
@@ -1188,6 +1200,10 @@ public class SellerServiceImpl implements SellerService {
     }
 
     private ViewFeedbackResponse.FeedbackDetail mapToFeedbackDetail(Feedback feedback) {
+        List<String> flowerNameList = feedback.getOrder().getOrderDetailList().stream()
+                .map(orderDetail -> orderDetail.getFlower().getName())
+                .toList();
+
         return ViewFeedbackResponse.FeedbackDetail.builder()
                 .id(feedback.getId())
                 .name(feedback.getUser().getName())
@@ -1195,6 +1211,7 @@ public class SellerServiceImpl implements SellerService {
                 .content(feedback.getContent())
                 .rating(feedback.getRating())
                 .createDate(feedback.getCreateDate().toLocalDate())
+                .flowerNameList(flowerNameList)
                 .build();
     }
 }
