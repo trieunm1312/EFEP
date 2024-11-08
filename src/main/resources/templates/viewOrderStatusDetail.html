@@ -197,7 +197,7 @@
                     <div class="form-fb">
                         <div class="wrapper">
                             <h3>Give us your Feedback</h3>
-                            <form th:action="@{/buyer/feedback}" id="feedback-form" th:method="post" onchange="handleSubmit(event)">
+                            <form th:if="${msg.isFeedback == false}" th:action="@{/buyer/feedback}" id="feedback-form" th:method="post" >
                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                 <input type="hidden" name="sellerId" th:value="${msg.sellerId}">
                                 <input type="hidden" name="orderId" th:value="${msg.orderId}">
@@ -211,10 +211,10 @@
                                 </div>
                                 <textarea th:text="${content}" name="content" cols="30" rows="5" placeholder="Your opinion..."></textarea>
                                 <div class="btn-group">
-                                    <button type="submit" class="btn submit" disabled>Submit</button>
+                                    <button type="button" class="btn submit" disabled onclick="submitFeedback()">Submit</button>
                                 </div>
                             </form>
-                            <div id="submit-section" class="hide">
+                            <div th:classappend="${msg.isFeedback == true} ? '' : 'hide'" id="submit-section" >
                                 <p id="submit-msg">Thanks for your feedback</p>
                             </div>
                         </div>

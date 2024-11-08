@@ -121,10 +121,11 @@
     align-items: center;
 }
 
-.description {
-    width: fit-content;
+.table-item-info .description {
+    /*width: fit-content;*/
     text-align: justify;
     padding: 10px;
+    width: 400px;
 }
 
 .input-quantity {
