@@ -28,21 +28,21 @@ allStar.forEach((item, idx) => {
     })
 })
 
-// function handleSubmit(event) {
-//     event.preventDefault(); // Ngăn trang reload
-//     document.getElementById("feedback-form").classList.add("hide");
-//     document.getElementById("submit-section").classList.remove("hide");
-// }
-
-document.getElementById("feedback-form").addEventListener("submit", handleSubmit);
-
 function handleSubmit(event) {
     event.preventDefault(); // Ngăn trang reload
-
-    // Ẩn form và hiển thị phần xác nhận sau khi gửi
     document.getElementById("feedback-form").classList.add("hide");
     document.getElementById("submit-section").classList.remove("hide");
-
-    // Gửi form
-    document.getElementById("feedback-form").submit();
 }
+
+// document.getElementById("feedback-form").addEventListener("submit", handleSubmit);
+//
+// function handleSubmit(event) {
+//     event.preventDefault(); // Ngăn trang reload
+//
+//     // Ẩn form và hiển thị phần xác nhận sau khi gửi
+//     document.getElementById("feedback-form").classList.add("hide");
+//     document.getElementById("submit-section").classList.remove("hide");
+//
+//     // Gửi form
+//     document.getElementById("feedback-form").submit();
+// }
