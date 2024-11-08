@@ -41,4 +41,5 @@ function submitFeedback() {
 // Ẩn form và hiển thị phần xác nhận ngay sau khi gọi `fetch`
     document.getElementById("feedback-form").classList.add("hide");
     document.getElementById("submit-section").classList.remove("hide");
+
 }

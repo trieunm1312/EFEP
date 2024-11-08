@@ -1031,7 +1031,7 @@ public class BuyerServiceImpl implements BuyerService {
             return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "paymentFailed";
+        return ((VNPayResponse) output).getPaymentURL();
     }
 
     private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
@@ -1192,6 +1192,7 @@ public class BuyerServiceImpl implements BuyerService {
         model.addAttribute("msg", viewWishlistLogic(account.getId()));
         return "checkout";
     }
+
     //----------------------CREATE PAYMENT LINK FOR BUY NOW------------------------//
 
 
@@ -1284,7 +1285,7 @@ public class BuyerServiceImpl implements BuyerService {
             return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "paymentFailed";
+        return ((VNPayResponse) output).getPaymentURL();
     }
 
     private Object getPaymentResultForBuyNowLogic(Map<String, String> params, int flowerId, int quantity, int accountId, HttpServletRequest httpServletRequest) {
@@ -1561,7 +1562,10 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         Map<String, String> error = CreateFeedbackValidation.validate(request, orderRepo, account.getUser());
 
-        if (feedbackRepo.existsByOrder_IdAndSeller_Id(request.getOrderId(), request.getSellerId())) {
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        assert order != null;
+
+        if (order.isFeedback()) {
             return ViewFeedbackResponse.builder()
                     .status("400")
                     .message("You have already left feedback for this order")
