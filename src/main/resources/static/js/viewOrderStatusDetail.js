@@ -28,21 +28,17 @@ allStar.forEach((item, idx) => {
     })
 })
 
-// function handleSubmit(event) {
-//     event.preventDefault(); // Ngăn trang reload
-//     document.getElementById("feedback-form").classList.add("hide");
-//     document.getElementById("submit-section").classList.remove("hide");
-// }
+function submitFeedback() {
+    // Lấy dữ liệu từ form
+    const form = document.getElementById("feedback-form");
+    const formData = new FormData(form);
 
-document.getElementById("feedback-form").addEventListener("submit", handleSubmit);
-
-function handleSubmit(event) {
-    event.preventDefault(); // Ngăn trang reload
-
-    // Ẩn form và hiển thị phần xác nhận sau khi gửi
+    // Gửi dữ liệu qua `fetch` mà không tải lại trang
+    fetch(form.action, {
+        method: "POST",
+        body: formData
+    })
+// Ẩn form và hiển thị phần xác nhận ngay sau khi gọi `fetch`
     document.getElementById("feedback-form").classList.add("hide");
     document.getElementById("submit-section").classList.remove("hide");
-
-    // Gửi form
-    document.getElementById("feedback-form").submit();
 }
