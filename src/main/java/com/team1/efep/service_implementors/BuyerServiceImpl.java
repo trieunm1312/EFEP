@@ -605,6 +605,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .orderStatus(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
                 .detailList(detailList)
+                .isFeedback(order.isFeedback())
                 .build();
     }
 
@@ -779,7 +780,7 @@ public class BuyerServiceImpl implements BuyerService {
 
         if (statusResponse != null) {
             model.addAttribute("msg", statusResponse.getOrderStatus());
-            return "orderPage";
+            return "viewOrderStatusDetail";
         } else {
             model.addAttribute("error", "Order not found");
             return "errorPage";

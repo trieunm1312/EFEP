@@ -104,8 +104,8 @@
                                     <th class="table-item-header">Remove</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr th:each="item : ${msg.wishlistItemList}">
+                            <tbody th:if="${msg}">
+                                <tr th:each="item : ${msg.wishlistItemList}" class="table-item-info">
                                     <td class="table-item-detail">
                                         <div class="table-item-img">
                                             <img th:src="${item.imgList[0].link}"

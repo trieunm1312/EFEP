@@ -30,6 +30,8 @@ public class ViewOrderDetailResponse {
 
     private String paymentMethod;
 
+    private boolean isFeedback;
+
     private List<Detail> detailList;
 
     @Data
