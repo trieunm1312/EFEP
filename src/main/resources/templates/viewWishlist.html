@@ -131,7 +131,7 @@
                                                         th:attr="disabled=${item.quantity == 1 ? 'disabled' : null}">-</button>
                                             </form>
 
-                                            <span class="input-quantity" th:text="${item.quantity}">1</span>
+                                            <span class="input-quantity" data-id="${item.id}" th:text="${item.quantity}">1</span>
 
                                             <form class="form-quantity" th:action="@{/buyer/wishlist}" th:method="put">
                                                 <input type="hidden" name="wishlistId" th:value="${msg.id}">
@@ -155,12 +155,12 @@
                                             th:text="${item.stockQuantity}">0</span>
                                     </td>
                                     <td class="table-item-detail padding-delete">
-                                        <form class="form-delete" th:action="@{/buyer/wishlist-item}" method="post">
-                                            <input type="hidden" name="_method" value="delete">
+                                        <form class="form-delete" th:action="@{/buyer/wishlist-item}" th:method="delete">
+<!--                                            <input type="hidden" name="_method" value="delete">-->
                                             <!-- muốn sử dụng put delete thì t -->
                                             <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                             <input type="hidden" name="wishlistItemId" th:value="${item.id}">
-                                            <button class="table-item-removed">
+                                            <button class="table-item-removed" type="submit">
                                                 <i class="fa-solid fa-circle-xmark table-item-icon-removed"></i>
                                             </button>
                                         </form>
