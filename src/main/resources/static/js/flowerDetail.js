@@ -59,3 +59,17 @@ function updateHiddenInput() {
   document.getElementById('quantity').value = numberInputValue;  // Cập nhật giá trị vào hidden input
   document.getElementById('flowerQuantity').value = numberInputValue;
 }
+
+function addToWishlist() {
+
+  // Lấy dữ liệu từ form
+  const form = document.getElementById("wishlist-form");
+  const formData = new FormData(form);
+
+  // Gửi dữ liệu qua AJAX
+  fetch("/buyer/wishlist", {
+    method: "POST",
+    body: formData
+  })
+
+}
