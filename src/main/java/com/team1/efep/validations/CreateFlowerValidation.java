@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CreateFlowerValidation {
 
-    public static Map<String, String> validateInput(CreateFlowerRequest request, FlowerRepo flowerRepo, Seller seller) {
+    public static Map<String, String> validateInput(CreateFlowerRequest request, FlowerRepo flowerRepo) {
         Map<String, String> error = new HashMap<>();
         if (request.getName().trim().isEmpty()) {
             return MapConfig.buildMapKey(error, "Flower name is required");

@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <div id="toast" th:if="${msg != null && msg.message != ''}" th:fragment="toast">
+    <div id="toast" th:if="${msg != null && msg.message != '' && msg.message != null}" th:fragment="toast">
         <div th:if="${msg.status == '200'}">
             <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1s forwards;">
                 <div class="toast__icon">
@@ -409,17 +409,17 @@
                                                     <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
                                                     <div class="image-preview" >
                                                         <img id="flowers-image" class="img" src="#" alt="" />
-                                                        <input type="hidden" name="image" id="flower-img" value="">
+                                                        <input type="hidden" name="imageList" id="flower-img" value="">
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
                                                     <div class="image-preview">
                                                         <img id="flowers-image-2" class="img" src="#" alt="" />
-                                                        <input type="hidden" name="image" id="flower-img-2" value="">
+                                                        <input type="hidden" name="imageList" id="flower-img-2" value="">
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
                                                     <div class="image-preview">
                                                         <img id="flowers-image-3" class="img" src="#" alt="" />
-                                                        <input type="hidden" name="image" id="flower-img-3" value="">
+                                                        <input type="hidden" name="imageList" id="flower-img-3" value="">
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
                                                 </div>

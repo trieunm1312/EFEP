@@ -1565,7 +1565,9 @@ public class BuyerServiceImpl implements BuyerService {
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
 
-        if (order.isFeedback()) {
+        boolean existFeedback = feedbackRepo.existsByOrder_IdAndSeller_Id(request.getOrderId(), request.getSellerId());
+
+        if (order.isFeedback() || existFeedback) {
             return ViewFeedbackResponse.builder()
                     .status("400")
                     .message("You have already left feedback for this order")
