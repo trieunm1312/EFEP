@@ -47,17 +47,17 @@ public interface SellerService {
 
     String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
-    void getTotalNumberFlower(Model model);
+    void getTotalNumberFlower(Model model, HttpSession session);
 
     void getSoldQuantityCategory(Model model, HttpSession session);
 
-    void getTotalNumberOfCanceledOrder(Model model);
+    void getTotalNumberOfCanceledOrder(Model model, HttpSession session);
 
-    void getTotalNumberOfOrder(Model model);
+    void getTotalNumberOfOrder(Model model, HttpSession session);
 
-    void getRevenue(Model model);
+    void getRevenue(Model model, HttpSession session);
 
-    void getOrderInDaily(Model model);
+    void getOrderInDaily(Model model, HttpSession session);
 
     String viewFeedback(int sellerId, Model model, HttpSession session);
 

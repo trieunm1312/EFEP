@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<div id="toast" th:if="${msg != null && msg.message != ''}" th:fragment="toast">
+<div id="toast" th:if="${msg != null && msg.message != null && msg.message != ''}" th:fragment="toast">
     <div th:if="${msg.status == '200'}">
         <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1s forwards;">
             <div class="toast__icon">

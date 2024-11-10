@@ -335,14 +335,6 @@ public class SellerServiceImpl implements SellerService {
         flowers.sort(Comparator.comparing(Flower::getId).reversed());
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
-                .allCategory(
-                        categoryRepo.findAll().stream()
-                                .map(cat -> ViewFlowerListForSellerResponse.AllCategoryDetail.builder()
-                                        .id(cat.getId())
-                                        .name(cat.getName())
-                                        .build())
-                                .toList()
-                )
                 .flowerList(viewFlowerList(flowers))
                 .build();
     }
@@ -360,10 +352,6 @@ public class SellerServiceImpl implements SellerService {
                         .flowerAmount(item.getFlowerAmount())
                         .quantity(item.getQuantity())
                         .status(item.getStatus())
-                        .categoryList(viewCategoryList(item.getFlowerCategoryList()))
-                        .categoryIdList(item.getFlowerCategoryList().stream()
-                                .map(cat -> cat.getCategory().getId())
-                                .toList())
                         .build())
                 .toList();
 
@@ -373,15 +361,6 @@ public class SellerServiceImpl implements SellerService {
         return imageList.stream()
                 .map(img -> ViewFlowerListForSellerResponse.Image.builder()
                         .link(img.getLink())
-                        .build())
-                .toList();
-    }
-
-    private List<ViewFlowerListForSellerResponse.CategoryDetail> viewCategoryList(List<FlowerCategory> categoryList) {
-        return categoryList.stream()
-                .map(cat -> ViewFlowerListForSellerResponse.CategoryDetail.builder()
-                        .id(cat.getCategory().getId())
-                        .name(cat.getCategory().getName())
                         .build())
                 .toList();
     }
@@ -992,19 +971,18 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET TOTAL NUMBER OF FLOWER---------------------------------------------//
 
     @Override
-    public void getTotalNumberFlower(Model model) {
-        model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic());
+    public void getTotalNumberFlower(Model model, HttpSession session) {
+        model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic(Role.getCurrentLoggedAccount(session)));
     }
 
-    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic() {
+    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic(Account account) {
 
         return GetTotalNumberFlowerResponse.builder()
                 .message("200")
                 .message("")
-                .totalNumberFlowers(flowerRepo.findAll().stream()
+                .totalNumberFlowers(flowerRepo.findAllBySeller_User_Account_Id(account.getId()).stream()
                         .filter(
-                                flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_OUT_OF_STOCK) &&
-                                LocalDate.now().getMonth().equals(flower.getCreateDate().getMonth())
+                                flower -> LocalDate.now().getMonth().equals(flower.getCreateDate().getMonth())
                         )
                         .count()
                 )
@@ -1015,11 +993,11 @@ public class SellerServiceImpl implements SellerService {
 
     //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
     @Override
-    public void getTotalNumberOfCanceledOrder(Model model) {
-        model.addAttribute("totalNumberOfCanceledOrder", getTotalNumberOfCanceledOrderLogic());
+    public void getTotalNumberOfCanceledOrder(Model model, HttpSession session) {
+        model.addAttribute("totalNumberOfCanceledOrder", getTotalNumberOfCanceledOrderLogic(Role.getCurrentLoggedAccount(session)));
     }
 
-    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
+    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic(Account account) {
         return GetTotalNumberOfCanceledOrderResponse.builder()
                 .status("200")
                 .message("")
@@ -1027,7 +1005,8 @@ public class SellerServiceImpl implements SellerService {
                         .stream()
                         .filter(
                                 order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED) &&
-                                LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                                LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth()) &&
+                                        order.getOrderDetailList().get(0).getFlower().getSeller().equals(account.getUser().getSeller())
                         )
                         .count())
                 .build();
@@ -1036,10 +1015,12 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET REVENUE---------------------------------------------//
 
     @Override
-    public void getRevenue(Model model) {
+    public void getRevenue(Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
         float totalRevenue = orderRepo.findAll().stream()
                 .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED) &&
-                        LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                        LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth()) &&
+                        order.getOrderDetailList().get(0).getFlower().getSeller().equals(account.getUser().getSeller())
                 )
                 .map(Order::getTotalPrice)
                 .reduce(0f, Float::sum);
@@ -1049,19 +1030,19 @@ public class SellerServiceImpl implements SellerService {
 
     //--------------------------------------------GET TOTAL NUMBER OF ORDER---------------------------------------------//
     @Override
-    public void getTotalNumberOfOrder(Model model) {
-        model.addAttribute("totalNumberOfOrder", getTotalNumberOfOrderLogic());
+    public void getTotalNumberOfOrder(Model model, HttpSession session) {
+        model.addAttribute("totalNumberOfOrder", getTotalNumberOfOrderLogic(Role.getCurrentLoggedAccount(session)));
     }
 
 
-    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic() {
+    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic(Account account) {
         return GetTotalNumberOfOrderResponse.builder()
                 .status("200")
                 .message("")
                 .totalTotalNumberOfOder(orderRepo.findAll().stream()
                         .filter(
-                                order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED) &&
-                                LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                                order -> LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                                && order.getOrderDetailList().get(0).getFlower().getSeller().equals(account.getUser().getSeller())
                         )
                         .count())
                 .build();
@@ -1106,12 +1087,16 @@ public class SellerServiceImpl implements SellerService {
 
     //----------------------------------------GET ORDER IN DAILY---------------------------------------//
     @Override
-    public void getOrderInDaily(Model model) {
-        model.addAttribute("orderInDaily", getOrderInDailyLogic());
+    public void getOrderInDaily(Model model, HttpSession session) {
+        model.addAttribute("orderInDaily", getOrderInDailyLogic(session));
     }
 
 
-    private GetOrderInDailyResponse getOrderInDailyLogic() {
+    private GetOrderInDailyResponse getOrderInDailyLogic(HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if(account == null || !Role.checkIfThisAccountIsSeller(account)) {
+
+        }
         List<LocalDate> listTenDates = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         for (int i = 0; i < 20; i++) {
@@ -1125,7 +1110,7 @@ public class SellerServiceImpl implements SellerService {
                 .orderCounts(
                         listTenDates.stream()
                                 .map(date -> GetOrderInDailyResponse.OrderCount.builder()
-                                        .count(getQuantityOrder(date))
+                                        .count(getQuantityOrder(date, account))
                                         .date(date.format(formatter))
                                         .build())
                                 .toList()
@@ -1133,9 +1118,11 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    private long getQuantityOrder(LocalDate date) {
+    private long getQuantityOrder(LocalDate date, Account account) {
         return orderRepo.findAll().stream()
-                .filter(order -> order.getCreatedDate().toLocalDate().equals(date))
+                .filter(order -> order.getCreatedDate().toLocalDate().equals(date) &&
+                        order.getOrderDetailList().get(0).getFlower().getSeller().equals(account.getUser().getSeller())
+                        )
                 .count();
     }
 
