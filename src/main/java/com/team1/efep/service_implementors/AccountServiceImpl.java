@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.Map;
 
 @Service
@@ -45,17 +46,10 @@ public class AccountServiceImpl implements AccountService {
 
     private final BuyerService buyerService;
 
-//--------------------------Hash password------------------------//
-
-
-//    private boolean checkPassword(String inputPassword, String storedPassword) {
-//        String hashedInputPassword = PasswordEncryptUtil.encrypt(inputPassword);
-//        return hashedInputPassword.equals(storedPassword);
-//    }
-
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
+        request.setPassword(request.getPassword());
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
             redirectAttributes.addFlashAttribute("msg", (RegisterResponse) output);
@@ -87,7 +81,8 @@ public class AccountServiceImpl implements AccountService {
                         .name(request.getName())
                         .phone(request.getPhone())
                         .avatar(request.getAvatar())
-                        .background(request.getBackground())
+                        .background("https://hpconnect.vn/wp-content/uploads/2020/02/hinh-anh-hoa-hong-dep-3-1.jpg")
+                        .createdDate(LocalDate.now())
                         .build()))
                 .build()
         );

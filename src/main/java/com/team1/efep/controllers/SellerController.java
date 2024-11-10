@@ -34,6 +34,11 @@ public class SellerController {
         return sellerService.updateFlower(request, session, model, redirectAttributes);
     }
 
+    @PutMapping("/flower/api")
+    public UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request) {
+        return sellerService.updateFlowerAPI(request);
+    }
+
     @DeleteMapping("/flower")
     @Operation(hidden = true)
     public String deleteFlower(DeleteFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
@@ -68,6 +73,13 @@ public class SellerController {
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         return sellerService.createFlower(request, session, model, redirectAttributes);
     }
+
+    @PostMapping("/flower/api")
+    public CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request) {
+        return sellerService.createFlowerAPI(request);
+    }
+
+
 
     @PutMapping("/flower/category")
     @Operation(hidden = true)

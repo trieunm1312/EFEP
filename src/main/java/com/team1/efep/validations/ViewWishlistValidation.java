@@ -26,7 +26,7 @@ public class ViewWishlistValidation {
 //            return MapConfig.buildMapKey(error, "Wishlist is empty");
 //        }
 
-        // dong comment lai thi khong hien Your wish lisst is emty nua
+        // dong comment lai thi khong hien Your wish list is empty nua
         return error;
     }
 }

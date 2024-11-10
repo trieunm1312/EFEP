@@ -21,12 +21,16 @@ public class UpdateProfileValidation {
             return MapConfig.buildMapKey(error, "Name cannot be empty");
         }
 
+        if (!request.getName().matches("(?i)^[A-Za-z]{1,20}( [A-Za-z]{1,20})*$")) {
+            return MapConfig.buildMapKey(error, "Name must contain only letters and have a maximum length of 16 characters");
+        }
+
         if(request.getPhone().isEmpty()) {
             return MapConfig.buildMapKey(error, "Phone cannot be empty");
         }
 
-        if (!request.getPhone().matches("\\d{10}")) {
-            return MapConfig.buildMapKey(error, "Phone number must be 10 digits");
+        if (!request.getPhone().matches("^(09|07|03)\\d{8}$")) {
+            return MapConfig.buildMapKey(error, "Phone number must start with 09, 07, or 03 and be 10 digits long");
         }
 
         return error;

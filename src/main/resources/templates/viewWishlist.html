@@ -80,7 +80,7 @@
                 </ul>
             </div>
             <div class="container__wrap">
-                <div class="wishlist-show" th:if="${msg != null}">
+                <div class="wishlist-show" th:if="${msg != null && session.acc.getUser().getWishlist().getWishlistItemList().size() > 0}">
                     <div class="table-item-cart">
                         <div class="btn-delete-wishlist">
                             <form th:action="@{/buyer/wishlist}" th:method="delete">
@@ -186,7 +186,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="shopping-wishlist-empty" th:if="${msg == null}">
+                <div class="shopping-wishlist-empty" th:if="${session.acc.getUser().getWishlist().getWishlistItemList().size() <= 0}">
                     <span class="empty-msg">Your wishlist is empty. Buy flower now </span>
                     <form class="btn-form-empty" th:action="@{/buyer/flower}" method="get">
                         <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
