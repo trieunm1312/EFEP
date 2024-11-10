@@ -415,7 +415,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .build();
     }
 
-    //-------------------------------------------VIEW BUYER FLOWER LIST---------------------------------------//
+    //-------------------------------------------VIEW FLOWER LIST---------------------------------------//
     @Override
     public String viewFlowerList(HttpSession session, Model model) {
         ViewFlowerListResponse output = viewFlowerListLogic();
