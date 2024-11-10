@@ -8,11 +8,11 @@ public class SellerPageConfig {
 
     public static void config(Model model, SellerService sellerService, HttpSession session){
         sellerService.getSoldQuantityCategory(model, session);
-        sellerService.getRevenue(model);
-        sellerService.getTotalNumberFlower(model);
-        sellerService.getTotalNumberOfCanceledOrder(model);
-        sellerService.getOrderInDaily(model);
-        sellerService.getTotalNumberOfOrder(model);
+        sellerService.getRevenue(model,session);
+        sellerService.getTotalNumberFlower(model, session);
+        sellerService.getTotalNumberOfCanceledOrder(model, session);
+        sellerService.getOrderInDaily(model, session);
+        sellerService.getTotalNumberOfOrder(model, session);
 
     }
 
