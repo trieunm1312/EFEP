@@ -18,44 +18,44 @@ public class CreateFlowerResponse {
     private String status;
 
     private String message;
-
-    private FlowerInfo flower;
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class FlowerInfo {
-        private int id;
-
-        private String name;
-
-        private float price;
-
-        private float rating;
-
-        private String description;
-
-        private int flowerAmount;
-
-        private int quantity;
-
-        private int soldQuantity;
-
-        private LocalDateTime createDate;
-
-        private List<FlowerCategory> flowerCategoryList;
-
-        private List<Images> imageList;
-
-        @Data
-        @AllArgsConstructor
-        @NoArgsConstructor
-        @Builder
-        public static class Images {
-            private String link;
-        }
-    }
+//
+//    private FlowerInfo flower;
+//
+//    @Data
+//    @AllArgsConstructor
+//    @NoArgsConstructor
+//    @Builder
+//    public static class FlowerInfo {
+//        private int id;
+//
+//        private String name;
+//
+//        private float price;
+//
+//        private float rating;
+//
+//        private String description;
+//
+//        private int flowerAmount;
+//
+//        private int quantity;
+//
+//        private int soldQuantity;
+//
+//        private LocalDateTime createDate;
+//
+//        private List<FlowerCategory> flowerCategoryList;
+//
+//        private List<Images> imageList;
+//
+//        @Data
+//        @AllArgsConstructor
+//        @NoArgsConstructor
+//        @Builder
+//        public static class Images {
+//            private String link;
+//        }
+//    }
 
 
 }

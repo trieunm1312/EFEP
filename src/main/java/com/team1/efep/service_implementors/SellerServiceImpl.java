@@ -61,62 +61,46 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            MapConfig.buildMapKey(error, "Flower name is required");
-            return "redirect:/login";
-        }
         Object output = createFlowerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
             model.addAttribute("msg1", (CreateFlowerResponse) output);
-            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+            session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             return "redirect:/manageFlower";
         }
         redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
         return "redirect:/manageFlower";
     }
 
-    private Object createFlowerLogic(CreateFlowerRequest request) {
-        Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
-        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo, account.getUser().getSeller());
+    @Override
+    public CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request) {
 
-        if (error.isEmpty()) {
-            Flower flower = createNewFlower(request);
+        Object output = createFlowerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
             return CreateFlowerResponse.builder()
                     .status("200")
                     .message("Flower created successfully")
-                    .flower(
-                            CreateFlowerResponse.FlowerInfo.builder()
-                                    .id(flower.getId())
-                                    .name(flower.getName())
-                                    .price(flower.getPrice())
-                                    .description(flower.getDescription())
-                                    .flowerAmount(flower.getFlowerAmount())
-                                    .quantity(flower.getQuantity())
-                                    .soldQuantity(flower.getSoldQuantity())
-                                    .createDate(LocalDateTime.now())
-                                    .imageList(
-                                            addFlowerImages(request, flower).stream()
-                                                    .map(image -> CreateFlowerResponse.FlowerInfo.Images.builder()
-                                                            .link(image.getLink())
-                                                            .build())
-                                                    .toList()
-                                    )
-//                                    .flowerCategoryList(
-//                                            addFlowerCategories(request, flower).stream()
-//                                                    .map(flowerCategory -> FlowerCategory.builder()
-//                                                            .category(flowerCategory.getCategory())
-//                                                            .build())
-//                                                    .toList()
-//                                    )
-                                    .build()
-                    )
+                    .build();
+        }
+        return CreateFlowerResponse.builder()
+                .status("400")
+                .message("Flower create failed")
+                .build();
+    }
+
+    private Object createFlowerLogic(CreateFlowerRequest request) {
+        Map<String, String> error = CreateFlowerValidation.validateInput(request, flowerRepo);
+        System.out.println(error);
+        if (error.isEmpty()) {
+            createNewFlower(request);
+            return CreateFlowerResponse.builder()
+                    .status("200")
+                    .message("Flower created successfully")
                     .build();
         }
         return error;
     }
 
-    private Flower createNewFlower(CreateFlowerRequest request) {
+    private void createNewFlower(CreateFlowerRequest request) {
         Account account = Role.getCurrentLoggedAccount(request.getAccountId(), accountRepo);
         assert account != null;
         Flower flower = Flower.builder()
@@ -130,14 +114,14 @@ public class SellerServiceImpl implements SellerService {
                 .soldQuantity(0)
                 .status(Status.FLOWER_STATUS_AVAILABLE)
                 .build();
+
         flowerRepo.save(flower);
         addFlowerImages(request, flower);
 //        addFlowerCategories(request, flower);
-        return flower;
     }
 
 
-    private List<FlowerImage> addFlowerImages(CreateFlowerRequest request, Flower flower) {
+    private void addFlowerImages(CreateFlowerRequest request, Flower flower) {
         List<String> imgList = (request.getImageList() == null || request.getImageList().isEmpty())
                 ? List.of("/img/noImg.png")
                 : request.getImageList();
@@ -149,19 +133,18 @@ public class SellerServiceImpl implements SellerService {
                         .build())
                 .toList();
 
-        // Save and return the list of FlowerImage objects
-        return flowerImageRepo.saveAll(flowerImages);
+        flowerImageRepo.saveAll(flowerImages);
     }
 
-//    private List<FlowerCategory> addFlowerCategories(CreateFlowerRequest request, Flower flower) {
-//        List<FlowerCategory> flowerCategories = request.getCategoryIdList().stream()
-//                .map(categoryId -> FlowerCategory.builder()
-//                        .flower(flower)
-//                        .category(categoryRepo.findById(categoryId).orElse(null))
-//                        .build())
-//                .toList();
-//        return flowerCategoryRepo.saveAll(flowerCategories);
-//    }
+    private void addFlowerCategories(CreateFlowerRequest request, Flower flower) {
+        List<FlowerCategory> flowerCategories = request.getCategoryIdList().stream()
+                .map(categoryId -> FlowerCategory.builder()
+                        .flower(flower)
+                        .category(categoryRepo.findById(categoryId).orElse(null))
+                        .build())
+                .toList();
+        flowerCategoryRepo.saveAll(flowerCategories);
+    }
 
     //--------------------------------------GET ALL FLOWER STATUS------------------------------------------------//
 
@@ -335,14 +318,6 @@ public class SellerServiceImpl implements SellerService {
         flowers.sort(Comparator.comparing(Flower::getId).reversed());
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
-                .allCategory(
-                        categoryRepo.findAll().stream()
-                                .map(cat -> ViewFlowerListForSellerResponse.AllCategoryDetail.builder()
-                                        .id(cat.getId())
-                                        .name(cat.getName())
-                                        .build())
-                                .toList()
-                )
                 .flowerList(viewFlowerList(flowers))
                 .build();
     }
@@ -360,10 +335,6 @@ public class SellerServiceImpl implements SellerService {
                         .flowerAmount(item.getFlowerAmount())
                         .quantity(item.getQuantity())
                         .status(item.getStatus())
-                        .categoryList(viewCategoryList(item.getFlowerCategoryList()))
-                        .categoryIdList(item.getFlowerCategoryList().stream()
-                                .map(cat -> cat.getCategory().getId())
-                                .toList())
                         .build())
                 .toList();
 
@@ -373,15 +344,6 @@ public class SellerServiceImpl implements SellerService {
         return imageList.stream()
                 .map(img -> ViewFlowerListForSellerResponse.Image.builder()
                         .link(img.getLink())
-                        .build())
-                .toList();
-    }
-
-    private List<ViewFlowerListForSellerResponse.CategoryDetail> viewCategoryList(List<FlowerCategory> categoryList) {
-        return categoryList.stream()
-                .map(cat -> ViewFlowerListForSellerResponse.CategoryDetail.builder()
-                        .id(cat.getCategory().getId())
-                        .name(cat.getCategory().getName())
                         .build())
                 .toList();
     }
@@ -675,20 +637,26 @@ public class SellerServiceImpl implements SellerService {
     }
 
 
-    //------------------------------UPDATE FLOWER------------------------------------------//
+    //-------------------------------------------------UPDATE FLOWER---------------------------------------------------//
 
     @Override
     public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            redirectAttributes.addFlashAttribute("error", UpdateFlowerResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build());
-            return "redirect:/login";
-        }
-        redirectAttributes.addFlashAttribute("response", updateFlowerLogic(request));
+        redirectAttributes.addFlashAttribute("msg", updateFlowerLogic(request));
         return "redirect:/manageFlower";
+    }
+
+    @Override
+    public UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request) {
+
+        Object output = updateFlowerLogic(request);
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateFlowerResponse.class)) {
+            return (UpdateFlowerResponse) output;
+        }
+
+        return UpdateFlowerResponse.builder()
+                .status("400")
+                .message("Update flower failed")
+                .build();
     }
 
     private Object updateFlowerLogic(UpdateFlowerRequest request) {
@@ -703,28 +671,54 @@ public class SellerServiceImpl implements SellerService {
         flower.setDescription(request.getDescription());
         flower.setFlowerAmount(request.getFlowerAmount());
         flower.setQuantity(request.getQuantity());
-        if (request.getQuantity()> 0) {
+        if (request.getQuantity() > 0) {
             flower.setStatus(Status.FLOWER_STATUS_AVAILABLE);
         }
-
-//        List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
-//        flowerCategoryRepo.deleteAll(existingCategories);
-//
-//        List<FlowerCategory> newCategories = request.getCategoryIdList().stream()
-//                .map(categoryId -> FlowerCategory.builder()
-//                        .flower(flower)
-//                        .category(categoryRepo.findById(categoryId).orElse(null))
-//                        .build())
-//                .collect(Collectors.toList());
-//
-//        flowerCategoryRepo.saveAll(newCategories);
-
         flowerRepo.save(flower);
+        updateImage(request, flower);
+        updateFlowerCategory(request, flower);
+
         return UpdateFlowerResponse.builder()
                 .status("200")
                 .message("Update flower successfully")
                 .build();
+    }
 
+    private void updateImage(UpdateFlowerRequest request, Flower flower) {
+        List<FlowerImage> existingImages = flower.getFlowerImageList();
+
+        for (String link : request.getImageList()) {
+            existingImages.add(FlowerImage.builder()
+                    .flower(flower)
+                    .link(link)
+                    .build());
+        }
+    }
+
+    private void updateFlowerCategory(UpdateFlowerRequest request, Flower flower) {
+        List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
+
+        List<Integer> newCategoryIds = request.getCategoryIdList();
+
+        List<Integer> existingCategoryIds = existingCategories.stream()
+                .map(flowerCategory -> flowerCategory.getCategory().getId())
+                .toList();
+
+        List<FlowerCategory> categoriesToAdd = newCategoryIds.stream()
+                .filter(categoryId -> !existingCategoryIds.contains(categoryId))
+                .map(categoryId -> FlowerCategory.builder()
+                        .flower(flower)
+                        .category(categoryRepo.findById(categoryId).orElse(null))
+                        .build())
+                .collect(Collectors.toList());
+
+        List<FlowerCategory> categoriesToRemove = existingCategories.stream()
+                .filter(flowerCategory -> !newCategoryIds.contains(flowerCategory.getCategory().getId()))
+                .collect(Collectors.toList());
+
+        flower.getFlowerCategoryList().removeAll(categoriesToRemove);
+        flowerCategoryRepo.deleteAll(categoriesToRemove);
+        flowerCategoryRepo.saveAll(categoriesToAdd);
     }
 
     //----------------------------------------DELETE FLOWER--------------------------------------------//
@@ -992,19 +986,18 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET TOTAL NUMBER OF FLOWER---------------------------------------------//
 
     @Override
-    public void getTotalNumberFlower(Model model) {
-        model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic());
+    public void getTotalNumberFlower(Model model, HttpSession session) {
+        model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic(Role.getCurrentLoggedAccount(session)));
     }
 
-    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic() {
+    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic(Account account) {
 
         return GetTotalNumberFlowerResponse.builder()
                 .message("200")
                 .message("")
-                .totalNumberFlowers(flowerRepo.findAll().stream()
+                .totalNumberFlowers(flowerRepo.findAllBySeller_User_Account_Id(account.getId()).stream()
                         .filter(
-                                flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_OUT_OF_STOCK) &&
-                                LocalDate.now().getMonth().equals(flower.getCreateDate().getMonth())
+                                flower -> LocalDate.now().getMonth().equals(flower.getCreateDate().getMonth())
                         )
                         .count()
                 )
@@ -1015,11 +1008,11 @@ public class SellerServiceImpl implements SellerService {
 
     //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
     @Override
-    public void getTotalNumberOfCanceledOrder(Model model) {
-        model.addAttribute("totalNumberOfCanceledOrder", getTotalNumberOfCanceledOrderLogic());
+    public void getTotalNumberOfCanceledOrder(Model model, HttpSession session) {
+        model.addAttribute("totalNumberOfCanceledOrder", getTotalNumberOfCanceledOrderLogic(Role.getCurrentLoggedAccount(session)));
     }
 
-    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic() {
+    private GetTotalNumberOfCanceledOrderResponse getTotalNumberOfCanceledOrderLogic(Account account) {
         return GetTotalNumberOfCanceledOrderResponse.builder()
                 .status("200")
                 .message("")
@@ -1027,7 +1020,8 @@ public class SellerServiceImpl implements SellerService {
                         .stream()
                         .filter(
                                 order -> order.getStatus().equals(Status.ORDER_STATUS_CANCELLED) &&
-                                LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                                LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth()) &&
+                                        order.getOrderDetailList().get(0).getFlower().getSeller().equals(account.getUser().getSeller())
                         )
                         .count())
                 .build();
@@ -1036,10 +1030,12 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET REVENUE---------------------------------------------//
 
     @Override
-    public void getRevenue(Model model) {
+    public void getRevenue(Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
         float totalRevenue = orderRepo.findAll().stream()
                 .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED) &&
-                        LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                        LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth()) &&
+                        order.getOrderDetailList().get(0).getFlower().getSeller().equals(account.getUser().getSeller())
                 )
                 .map(Order::getTotalPrice)
                 .reduce(0f, Float::sum);
@@ -1049,19 +1045,19 @@ public class SellerServiceImpl implements SellerService {
 
     //--------------------------------------------GET TOTAL NUMBER OF ORDER---------------------------------------------//
     @Override
-    public void getTotalNumberOfOrder(Model model) {
-        model.addAttribute("totalNumberOfOrder", getTotalNumberOfOrderLogic());
+    public void getTotalNumberOfOrder(Model model, HttpSession session) {
+        model.addAttribute("totalNumberOfOrder", getTotalNumberOfOrderLogic(Role.getCurrentLoggedAccount(session)));
     }
 
 
-    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic() {
+    private GetTotalNumberOfOrderResponse getTotalNumberOfOrderLogic(Account account) {
         return GetTotalNumberOfOrderResponse.builder()
                 .status("200")
                 .message("")
                 .totalTotalNumberOfOder(orderRepo.findAll().stream()
                         .filter(
-                                order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED) &&
-                                LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                                order -> LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                                && order.getOrderDetailList().get(0).getFlower().getSeller().equals(account.getUser().getSeller())
                         )
                         .count())
                 .build();
@@ -1106,12 +1102,16 @@ public class SellerServiceImpl implements SellerService {
 
     //----------------------------------------GET ORDER IN DAILY---------------------------------------//
     @Override
-    public void getOrderInDaily(Model model) {
-        model.addAttribute("orderInDaily", getOrderInDailyLogic());
+    public void getOrderInDaily(Model model, HttpSession session) {
+        model.addAttribute("orderInDaily", getOrderInDailyLogic(session));
     }
 
 
-    private GetOrderInDailyResponse getOrderInDailyLogic() {
+    private GetOrderInDailyResponse getOrderInDailyLogic(HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if(account == null || !Role.checkIfThisAccountIsSeller(account)) {
+
+        }
         List<LocalDate> listTenDates = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         for (int i = 0; i < 20; i++) {
@@ -1125,7 +1125,7 @@ public class SellerServiceImpl implements SellerService {
                 .orderCounts(
                         listTenDates.stream()
                                 .map(date -> GetOrderInDailyResponse.OrderCount.builder()
-                                        .count(getQuantityOrder(date))
+                                        .count(getQuantityOrder(date, account))
                                         .date(date.format(formatter))
                                         .build())
                                 .toList()
@@ -1133,9 +1133,11 @@ public class SellerServiceImpl implements SellerService {
                 .build();
     }
 
-    private long getQuantityOrder(LocalDate date) {
+    private long getQuantityOrder(LocalDate date, Account account) {
         return orderRepo.findAll().stream()
-                .filter(order -> order.getCreatedDate().toLocalDate().equals(date))
+                .filter(order -> order.getCreatedDate().toLocalDate().equals(date) &&
+                        order.getOrderDetailList().get(0).getFlower().getSeller().equals(account.getUser().getSeller())
+                        )
                 .count();
     }
 

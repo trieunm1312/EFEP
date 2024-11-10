@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
-        request.setPassword(PasswordEncryptUtil.encrypt(request.getPassword()));
+        request.setPassword(request.getPassword());
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
             redirectAttributes.addFlashAttribute("msg", (RegisterResponse) output);
@@ -99,7 +99,7 @@ public class AccountServiceImpl implements AccountService {
                 Account.builder()
                         .status(Status.ACCOUNT_STATUS_ACTIVE)
                         .email(request.getEmail())
-                        .password(request.getPassword())
+                        .password(PasswordEncryptUtil.encrypt(request.getPassword()))
                         .role(Role.BUYER)
                         .build()
         );
@@ -137,7 +137,7 @@ public class AccountServiceImpl implements AccountService {
             assert account != null;
             return LoginResponse.builder()
                     .status("200")
-                    .message("Login successfully")
+                    .message("")
                     .build();
         }
         return error;

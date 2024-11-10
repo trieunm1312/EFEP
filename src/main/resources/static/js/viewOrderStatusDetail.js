@@ -23,7 +23,6 @@ allStar.forEach((item, idx) => {
             }
         }
 
-        // Kích hoạt nút "Submit"
         document.querySelector(".submit").disabled = false;
     })
 })
