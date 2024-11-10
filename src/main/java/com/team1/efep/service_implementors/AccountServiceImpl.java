@@ -45,14 +45,6 @@ public class AccountServiceImpl implements AccountService {
 
     private final BuyerService buyerService;
 
-//--------------------------Hash password------------------------//
-
-
-//    private boolean checkPassword(String inputPassword, String storedPassword) {
-//        String hashedInputPassword = PasswordEncryptUtil.encrypt(inputPassword);
-//        return hashedInputPassword.equals(storedPassword);
-//    }
-
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
