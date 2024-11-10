@@ -19,6 +19,8 @@ public interface SellerService {
 
     String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
+    CreateFlowerResponse createFlowerAPI(CreateFlowerRequest request);
+
     String changeOrderStatus(ChangeOrderStatusRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes);
 
     String viewOrderList(HttpSession session, Model model);
@@ -36,6 +38,8 @@ public interface SellerService {
     String sortOrder(FilterOrderRequest filterOrderRequest, HttpSession session, Model model);
 
     String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
+
+    UpdateFlowerResponse updateFlowerAPI(UpdateFlowerRequest request);
 
     List<String> getAllFlowerStatus();
 

@@ -56,6 +56,7 @@ public class AccountServiceImpl implements AccountService {
     //----------------------------------------------REGISTER-------------------------------------------------//
     @Override
     public String register(RegisterRequest request, Model model, RedirectAttributes redirectAttributes) {
+        request.setPassword(request.getPassword());
         Object output = registerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RegisterResponse.class)) {
             redirectAttributes.addFlashAttribute("msg", (RegisterResponse) output);
