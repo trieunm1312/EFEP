@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.Map;
 
 @Service
@@ -79,7 +80,8 @@ public class AccountServiceImpl implements AccountService {
                         .name(request.getName())
                         .phone(request.getPhone())
                         .avatar(request.getAvatar())
-                        .background(request.getBackground())
+                        .background("https://hpconnect.vn/wp-content/uploads/2020/02/hinh-anh-hoa-hong-dep-3-1.jpg")
+                        .createdDate(LocalDate.now())
                         .build()))
                 .build()
         );
