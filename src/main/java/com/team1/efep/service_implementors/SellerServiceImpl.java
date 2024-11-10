@@ -47,14 +47,11 @@ public class SellerServiceImpl implements SellerService {
 
     private final UserRepo userRepo;
 
-    private final PaymentMethodRepo paymentMethodRepo;
-
     private final CategoryRepo categoryRepo;
 
     private final FlowerCategoryRepo flowerCategoryRepo;
 
     private final JavaMailSenderImpl mailSender;
-
 
     //--------------------------------------CREATE FLOWER------------------------------------------------//
 
@@ -319,9 +316,18 @@ public class SellerServiceImpl implements SellerService {
         return ViewFlowerListForSellerResponse.builder()
                 .status("200")
                 .flowerList(viewFlowerList(flowers))
+                .allCategory(allCategory())
                 .build();
     }
 
+    private List<ViewFlowerListForSellerResponse.AllCategoryDetail> allCategory() {
+        return categoryRepo.findAll().stream()
+                .map(category -> ViewFlowerListForSellerResponse.AllCategoryDetail.builder()
+                        .id(category.getId())
+                        .name(category.getName())
+                        .build())
+                .toList();
+    }
 
     private List<ViewFlowerListForSellerResponse.Flower> viewFlowerList(List<Flower> flowers) {
 
@@ -335,9 +341,19 @@ public class SellerServiceImpl implements SellerService {
                         .flowerAmount(item.getFlowerAmount())
                         .quantity(item.getQuantity())
                         .status(item.getStatus())
+                        .categoryList(viewCategoryList(item.getFlowerCategoryList()))
                         .build())
                 .toList();
 
+    }
+
+    private List<ViewFlowerListForSellerResponse.CategoryDetail> viewCategoryList(List<FlowerCategory> flowerCategories) {
+        return flowerCategories.stream()
+                .map(flowerCategory -> ViewFlowerListForSellerResponse.CategoryDetail.builder()
+                        .id(flowerCategory.getCategory().getId())
+                        .name(flowerCategory.getCategory().getName())
+                        .build())
+                .toList();
     }
 
     private List<ViewFlowerListForSellerResponse.Image> viewImageList(List<FlowerImage> imageList) {
