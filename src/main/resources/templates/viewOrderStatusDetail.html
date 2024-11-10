@@ -214,7 +214,7 @@
                                     <button type="button" class="btn submit" disabled onclick="submitFeedback()">Submit</button>
                                 </div>
                             </form>
-                            <div th:classappend="${msg.isFeedback == true} ? '' : 'hide'" id="submit-section" >
+                            <div id="submit-section" th:classappend="${msg.isFeedback} ? '' : 'hide'" >
                                 <p id="submit-msg">Thanks for your feedback</p>
                             </div>
                         </div>
