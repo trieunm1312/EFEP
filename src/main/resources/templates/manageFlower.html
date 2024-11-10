@@ -186,7 +186,7 @@
                                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                                 <td class="table__body-img">
                                                     <img class="img" th:src="${item.imageList[0].link}" alt=""
-                                                        id="flower-update">
+                                                        id="flower-main">
 <!--                                                    <input type="file" accept="image/*" value="" id="update-file"-->
 <!--                                                        class="file-input" style="display: none;">-->
 <!--                                                    <input type="hidden" name="image" id="flower-img-update" value="">-->
@@ -275,8 +275,8 @@
 <!--                                                                            <img id="previewImage1" src="#" alt="Image Preview 1" style="display: none;" />-->
 <!--                                                                            <button class="remove-button" onclick="removeImage(1, event)">&times;</button>-->
                                                                             <img class="img" th:src="${item.imageList[0].link}" alt=""
-                                                                                 id="flower-update-1">
-                                                                            <input type="hidden" name="image" id="flower-img-update" value="">
+                                                                                 id="flower-update">
+                                                                            <input type="hidden" name="imageList" id="flower-img-update" value="">
                                                                         </div>
 <!--                                                                        <div class="image-preview" onclick="selectSlot(2)">-->
 <!--                                                                            <img id="previewImage2" src="#" alt="Image Preview 2" style="display: none;" />-->
@@ -296,13 +296,18 @@
 <!--                                                                                       th:text="${cate.name}">-->
 <!--                                                                            </label>-->
 <!--                                                                        </div>-->
-                                                                        <label for="multi-select">Choose categories:</label>
-                                                                        <select id="multi-select" name="options" multiple>
-                                                                            <option value="option1">wedding</option>
-                                                                            <option value="option2">anni</option>
-                                                                            <option value="option3">mother</option>
-                                                                            <option value="option4">Tùy chọn 4</option>
-                                                                        </select>
+<!--                                                                        <label for="multi-select">Choose categories:</label>-->
+<!--                                                                        <select id="multi-select"  name="categoryIdList" multiple>-->
+<!--                                                                            <option th:each="cate : ${msg.allCategory}"-->
+<!--                                                                                    th:text="${cate.name}"-->
+<!--                                                                                    th:value="${cate.id}"-->
+<!--                                                                                    th:selected="${item.categoryList.contains(cate.id)}">-->
+<!--                                                                            </option>-->
+
+<!--                                                                        </select>-->
+                                                                        <label th:each="cate : ${msg.allCategory}">
+                                                                            <input type="checkbox" name="categoryIdList" th:text="${cate.name}" th:value="${cate.id}" th:checked="${item.categoryList.contains(cate.id)}"></label>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -342,33 +347,6 @@
 
                             <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-<!--                                <tr class="table__body-item-new" style="display: none;">-->
-<!--                                    <td class="table__body-img">-->
-<!--                                        <img class="img" src="" alt="" id="flowers-image">-->
-<!--                                        <input type="file" accept="image/*" value="" id="input-file" class="file-input">-->
-<!--                                        <input type="hidden" name="image" id="flower-img" value="">-->
-<!--                                    </td>-->
-<!--                                    <td class="table__body-name">-->
-<!--                                        <input name="name" th:value="${flowerName}" placeholder="Flower Name">-->
-<!--                                    </td>-->
-<!--                                    <td class="table__body-desc">-->
-<!--                                        <textarea name="description" th:text="${description}"-->
-<!--                                            placeholder="Description"></textarea>-->
-<!--                                    </td>-->
-<!--                                    <td class="table__body-amount">-->
-<!--                                        <input name="flowerAmount" th:value="${flowerAmount}" placeholder="Amount">-->
-<!--                                    </td>-->
-<!--                                    <td class="table__body-qnt">-->
-<!--                                        <input name="quantity" th:value="${quantity}" placeholder="Quantity">-->
-<!--                                    </td>-->
-<!--                                    <td class="table__body-price">-->
-<!--                                        <span>$</span>-->
-<!--                                        <input name="price" th:value="${price}" placeholder="Price">-->
-<!--                                    </td>-->
-<!--                                    <td class="table__body-save">-->
-<!--                                        <input type="submit" class="save-btn" name="action" value="Create">-->
-<!--                                    </td>-->
-<!--                                </tr>-->
                                 <!-- Popup modal -->
                                 <div id="createPopup" class="createPopup">
                                     <div class="popup-content-create">
@@ -404,9 +382,7 @@
                                                 <input type="file" accept="image/*" id="input-file-2" class="file-input">
                                                 <input type="file" accept="image/*" id="input-file-3" class="file-input">
                                                 <div id="imagePreviewContainer1">
-                                                    <!-- <img id="previewImage1" src="#" alt="Image Preview 1"/>
-                                                    <img id="previewImage2" src="#" alt="Image Preview 2"/>
-                                                    <img id="previewImage3" src="#" alt="Image Preview 3"/> -->
+
                                                     <div class="image-preview" >
                                                         <img id="flowers-image" class="img" src="#" alt="" />
                                                         <input type="hidden" name="imageList" id="flower-img" value="">
@@ -423,11 +399,22 @@
                                                         <button class="remove-button" >&times;</button>
                                                     </div>
                                                 </div>
-<!--                                                <h4 class="cate-title">Categories</h4>-->
-<!--                                                <div class="categories">-->
+                                                <h4 class="cate-title">Categories</h4>
+                                                <div class="categories">
+<!--                                                    <label for="multi-select-create">Choose categories:</label>-->
+<!--                                                    <select id="multi-select-create"  name="categoryIdList" multiple>-->
+<!--                                                        <option th:each="cate : ${msg.allCategory}"-->
+<!--                                                                th:text="${cate.name}"-->
+<!--                                                                th:value="${cate.id}"-->
+<!--                                                                >-->
+<!--                                                        </option>-->
 
+<!--                                                    </select>-->
 
-<!--                                                </div>-->
+                                                    <label th:each="cate : ${msg.allCategory}">
+                                                        <input type="checkbox" name="categoryIdList" th:text="${cate.name}" th:value="${cate.id}"></label>
+
+                                                </div>
                                             </div>
                                         </div>
 
@@ -486,7 +473,6 @@
         let img3_flower_hide = document.getElementById("flower-img-3");
 
         let flower_image = document.getElementById("flower-update");
-        let flower_image_1 = document.getElementById("flower-update-1");
         let updateFile = document.getElementById("update-file");
         let flower_img_update = document.getElementById("flower-img-update");
 
@@ -586,7 +572,6 @@
 
                     // Update the image source to display the uploaded image
                     flower_image.src = downloadURL;
-                    flower_image_1.src = downloadURL;
                     // Store the download URL in the hidden input field
                     flower_img_update.value = downloadURL;
 

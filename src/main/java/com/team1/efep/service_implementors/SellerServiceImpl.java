@@ -114,7 +114,7 @@ public class SellerServiceImpl implements SellerService {
 
         flowerRepo.save(flower);
         addFlowerImages(request, flower);
-//        addFlowerCategories(request, flower);
+        addFlowerCategories(request, flower);
     }
 
 
