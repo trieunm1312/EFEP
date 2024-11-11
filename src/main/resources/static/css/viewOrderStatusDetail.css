@@ -196,7 +196,10 @@
     font-weight: 600;
     margin-top: 10px;
 }
-.current-item .progress-count:before,
+.current-item .progress-count:before {
+    display: block;
+}
+
 .current-item ~ .step-wizard-item .progress-count:before{
     display: none;
 }
@@ -208,7 +211,7 @@
     opacity: 0.5;
 }
 .current-item .progress-count:after{
-    background: #FFF;
+    /*background: #FFF;*/
     border: 2px solid green;
 }
 .current-item .progress-count{
