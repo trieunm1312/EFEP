@@ -51,7 +51,7 @@ public interface SellerService {
 
     String deleteFlowerImage(DeleteFlowerImageRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
-    void getTotalNumberFlower(Model model, HttpSession session);
+    void getTotalSoldFlowers(Model model, HttpSession session);
 
     void getSoldQuantityCategory(Model model, HttpSession session);
 
