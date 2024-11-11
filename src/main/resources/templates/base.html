@@ -32,6 +32,23 @@
     </div>
 </div>
 
+<div id="toast1" th:if="${msg1 != null && msg1.message != null && msg1.message != ''}" th:fragment="toast1">
+    <div th:if="${msg1.status == '200'}">
+        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1s forwards;">
+            <div class="toast__icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">Successfully!</h3>
+                <p class="toast__msg" th:text="${msg1.message}"></p>
+            </div>
+            <div class="toast__close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="toast-error" th:if="${error != null}" th:fragment="error">
     <div th:each="errorMessage : ${error.values()}">
         <div class="toast toast--error" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1s forwards;">
@@ -72,7 +89,7 @@
                 <div class="navbar__item">
                     <a href="" class="navbar__item-contact-info">
                         <i class="navbar__item-icon fa-solid fa-phone"></i>
-                        <span class="navbar__item-phone">+070.334.6041</span>
+                        <span class="navbar__item-phone">070.334.6041</span>
                     </a>
                 </div>
 
@@ -183,12 +200,12 @@
                             <!-- Login successfully -->
                             <div th:if="${session.acc != null}" class="header__item-icon-user">
 
-                                <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
-                                <div th:if="${session.acc.getUser().getAvatar()} != ''">
+                                <i th:if="${session.acc.getUser().getAvatar() == '' || session.acc.getUser().getAvatar() == null} " class="header__account-icon fa-solid fa-user"></i>
+                                <div th:if="${session.acc.getUser().getAvatar() != '' && session.acc.getUser().getAvatar() != null} ">
                                     <img th:src="${session.acc.getUser().getAvatar()}" alt="Avatar"
                                          class="header__item-icon-user-icon header__item-user-img">
                                 </div>
-                                <span th:text="${session.acc.getUser().getName()}" class="header__item-icon-user-name"></span>
+                                <span th:text="${session.acc.getUser().getName()}" id="userName" class="header__item-icon-user-name"></span>
                                 <div th:if="${session.acc != null}" class="header__item-account">
                                     <form th:action="@{/account/view/profile}" class="form" method="get">
                                         <input type="submit" name="action" value="My profile"
@@ -348,19 +365,6 @@
                                 Life blooms best when shared—may we grow together, finding beauty not in perfection, but in the joy of each new beginning.
                             </span>
                         </div>
-                        <ul class="footer__item-contact-list footer__item-contact-list-icons">
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="footer__item-contact-list-item footer__item-contact-list-item-media">
-                                <a href="" class="footer__item-contact-list-item-link">
-                                    <i class="footer__item-contact-list-item-link-icon fa-brands fa-instagram"></i>
-                                </a>
-                            </li>
-
-                        </ul>
                     </div>
 
                 </div>
@@ -379,7 +383,7 @@
                             <li class="footer__item-contact-list-item">
                                     <span href="" class="footer__item-contact-list-item-link">
                                         <i class="footer__item-contact-list-item-link-icon fa-solid fa-phone"></i>
-                                        <span>+070.334.6041</span>
+                                        <span>070.334.6041</span>
                                     </span>
                             </li>
 

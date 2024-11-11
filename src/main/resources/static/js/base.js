@@ -37,6 +37,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+//Truncate user name
+document.addEventListener("DOMContentLoaded", function() {
+    const userNameElement = document.getElementById("userName");
+    let fullName = userNameElement.textContent.trim();
+
+    // Split the name by spaces and get the first word
+    let firstName = fullName.split(" ")[0];
+
+    // If the first name is longer than 5 characters, truncate it
+    if (firstName.length > 5) {
+        firstName = firstName.substring(0, 5) + "...";
+    }
+
+    // Update the span's text content with the truncated name
+    userNameElement.textContent = firstName;
+});
+
+
 document.querySelectorAll('.header__item-megamenu-item__category').forEach(item => {
     item.addEventListener('mouseenter', () => {
         item.querySelector('.category__block').style.display = 'block';
