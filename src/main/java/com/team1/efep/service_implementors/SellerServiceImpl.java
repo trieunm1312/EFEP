@@ -61,7 +61,6 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        Map<String, String> error = new HashMap<>();
         Object output = createFlowerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
             model.addAttribute("msg1", (CreateFlowerResponse) output);
@@ -707,37 +706,55 @@ public class SellerServiceImpl implements SellerService {
 
     private void updateImage(UpdateFlowerRequest request, Flower flower) {
         List<FlowerImage> existingImages = flower.getFlowerImageList();
+        List<String> newImageLinks = request.getImageList();
 
-        for (String link : request.getImageList()) {
-            existingImages.add(FlowerImage.builder()
-                    .flower(flower)
-                    .link(link)
-                    .build());
-        }
+        List<String> existingImageLinks = existingImages.stream()
+                .map(FlowerImage::getLink)
+                .toList();
+
+        List<FlowerImage> imagesToAdd = newImageLinks.stream()
+                .filter(link -> !existingImageLinks.contains(link))
+                .map(link -> FlowerImage.builder()
+                        .flower(flower)
+                        .link(link)
+                        .build())
+                .toList();
+
+        List<FlowerImage> imagesToRemove = existingImages.stream()
+                .filter(flowerImage -> !newImageLinks.contains(flowerImage.getLink()))
+                .toList();
+
+        flowerImageRepo.deleteAll(imagesToRemove);
+        flowerImageRepo.saveAll(imagesToAdd);
+        existingImages.removeAll(imagesToRemove);
+        existingImages.addAll(imagesToAdd);
     }
 
     private void updateFlowerCategory(UpdateFlowerRequest request, Flower flower) {
         List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
-
         List<Integer> newCategoryIds = request.getCategoryIdList();
+
+        List<Integer> validCategoryIds = newCategoryIds.stream()
+                .filter(categoryId -> categoryId != 0)
+                .toList();
 
         List<Integer> existingCategoryIds = existingCategories.stream()
                 .filter(flowerCategory -> flowerCategory.getCategory() != null)
                 .map(flowerCategory -> flowerCategory.getCategory().getId())
                 .toList();
 
-        List<FlowerCategory> categoriesToAdd = newCategoryIds.stream()
+        List<FlowerCategory> categoriesToAdd = validCategoryIds.stream()
                 .filter(categoryId -> !existingCategoryIds.contains(categoryId))
                 .map(categoryId -> FlowerCategory.builder()
                         .flower(flower)
                         .category(categoryRepo.findById(categoryId).orElse(null))
                         .build())
-                .collect(toList());
+                .toList();
 
         List<FlowerCategory> categoriesToRemove = existingCategories.stream()
                 .filter(flowerCategory -> flowerCategory.getCategory() != null &&
-                        !newCategoryIds.contains(flowerCategory.getCategory().getId()))
-                .collect(toList());
+                        !validCategoryIds.contains(flowerCategory.getCategory().getId()))
+                .toList();
 
         flower.getFlowerCategoryList().removeAll(categoriesToRemove);
         flowerCategoryRepo.deleteAll(categoriesToRemove);
