@@ -1,6 +1,5 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
@@ -27,7 +26,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -179,7 +179,7 @@ public class SellerServiceImpl implements SellerService {
         if (!orderList.isEmpty()) {
             List<ViewOrderListResponse.OrderBill> orderBills = orderList.stream()
                     .map(this::viewOrderList)
-                    .collect(Collectors.toList());
+                    .collect(toList());
             return ViewOrderListResponse.builder()
                     .status("200")
                     .message("Orders found")
@@ -212,7 +212,7 @@ public class SellerServiceImpl implements SellerService {
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
                         .build())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
@@ -505,7 +505,7 @@ public class SellerServiceImpl implements SellerService {
                 .map(detail -> {
                     List<String> categories = detail.getFlower().getFlowerCategoryList().stream()
                             .map(flowerCategory -> flowerCategory.getCategory().getName())
-                            .collect(Collectors.toList());
+                            .collect(toList());
 
                     return ViewOrderDetailForSellerResponse.Detail.builder()
                             .image(detail.getFlower().getFlowerImageList().stream()
@@ -583,7 +583,7 @@ public class SellerServiceImpl implements SellerService {
         return orderDetails.stream()
                 .map(OrderDetail::getOrder)
                 .distinct()
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     private FilterOrderResponse.OrderBill viewFilterOrderList(Order order) {
@@ -607,7 +607,7 @@ public class SellerServiceImpl implements SellerService {
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
                         .build())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     //----------------------------------SORT ORDER BY CREATE DATE-------------------------------------//
@@ -726,11 +726,11 @@ public class SellerServiceImpl implements SellerService {
                         .flower(flower)
                         .category(categoryRepo.findById(categoryId).orElse(null))
                         .build())
-                .collect(Collectors.toList());
+                .collect(toList());
 
         List<FlowerCategory> categoriesToRemove = existingCategories.stream()
                 .filter(flowerCategory -> !newCategoryIds.contains(flowerCategory.getCategory().getId()))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         flower.getFlowerCategoryList().removeAll(categoriesToRemove);
         flowerCategoryRepo.deleteAll(categoriesToRemove);
@@ -908,7 +908,7 @@ public class SellerServiceImpl implements SellerService {
                         .id(flowerCategory.getCategory().getId())
                         .name(flowerCategory.getCategory().getName())
                         .build())
-                .collect(Collectors.toList());
+                .collect(toList());
 
         return ViewFlowerCategoryResponse.builder()
                 .status("200")
@@ -952,7 +952,7 @@ public class SellerServiceImpl implements SellerService {
                             .build() : null;
                 })
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         flowerCategoryRepo.saveAll(newFlowerCategories);
 
@@ -1002,26 +1002,30 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET TOTAL NUMBER OF FLOWER---------------------------------------------//
 
     @Override
-    public void getTotalNumberFlower(Model model, HttpSession session) {
-        model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic(Role.getCurrentLoggedAccount(session)));
+    public void getTotalSoldFlowers(Model model, HttpSession session) {
+        model.addAttribute("totalNumberFlower", getTotalSoldFlowersLogic(Role.getCurrentLoggedAccount(session)));
     }
 
-    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic(Account account) {
+    private getTotalSoldFlowersResponse getTotalSoldFlowersLogic(Account account) {
 
-        return GetTotalNumberFlowerResponse.builder()
+        return getTotalSoldFlowersResponse.builder()
                 .message("200")
                 .message("")
-                .totalNumberFlowers(flowerRepo.findAllBySeller_User_Account_Id(account.getId()).stream()
-                        .filter(
-                                flower -> LocalDate.now().getMonth().equals(flower.getCreateDate().getMonth())
-                        )
-                        .count()
-                )
+                .totalNumberFlowers(getCompleteOrderedFlowerList(account))
                 .build();
-
-
     }
 
+    private long getCompleteOrderedFlowerList(Account account) {
+        return orderRepo.findAll().stream()
+                .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED)
+                && LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                )
+                .map(Order::getOrderDetailList)
+                .flatMap(List::stream)
+                .map(OrderDetail::getFlower)
+                .filter(f -> f.getSeller().getUser().getAccount().equals(account))
+                .count();
+    }
     //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
     @Override
     public void getTotalNumberOfCanceledOrder(Model model, HttpSession session) {
@@ -1200,7 +1204,7 @@ public class SellerServiceImpl implements SellerService {
         List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
                 .map(this::mapToFeedbackDetail)
                 .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
-                .collect(Collectors.toList());
+                .collect(toList());
 
         return ViewFeedbackResponse.builder()
                 .status("200")
