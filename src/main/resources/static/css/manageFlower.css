@@ -331,8 +331,8 @@ textarea {
 .popup-form input[type="text"],
 .popup-form input[type="number"],
 .popup-form textarea,
-#price,
-.popup-form input[type="file"] {
+#price 
+{
     width: 95%;
     padding: 8px; 
     margin: 0;
@@ -347,6 +347,16 @@ textarea {
     resize: none;
     height: 80px;
     overflow-y: scroll;
+}
+
+.popup-form input[type="file"]  {
+    width: 33.3%;
+    padding: 8px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
 #imagePreviewContainer {
@@ -435,6 +445,17 @@ textarea {
     border: 2px dashed #ccc; /* Viền ô */
     position: relative;
     cursor: pointer; /* Thay đổi con trỏ khi di chuột qua */
+}
+
+#flower-update,
+#flower-update-2,
+#flower-update-3
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    object-fit: contain;
 }
 
 .image-preview button {
@@ -531,8 +552,8 @@ textarea {
 .popup-form-create input[type="text"],
 .popup-form-create input[type="number"],
 .popup-form-create textarea,
-#createPrice,
-.popup-form-create input[type="file"] {
+#createPrice
+{
     width: 95%;
     padding: 8px;
     margin: 0;
@@ -549,24 +570,36 @@ textarea {
     overflow-y: scroll;
 }
 
-#imagePreviewContainer1 {
+.input-img {
+    display: flex;
+    gap: 8px;
+}
+
+.popup-form-create input[type="file"]  {
+    width: 33.3%;
+    padding: 8px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+#imagePreviewContainer-create {
     display: flex;
     /* flex-wrap: wrap;  */
     gap: 8px;
     margin-top: 10px;
 }
 
-#previewImage11,
-#previewImage21,
-#previewImage31 {
-    display: none;
+#flowers-image,
+#flowers-image-2,
+#flowers-image-3 {
     width: 100%;
-    max-height: 150px;
+    height: 100%;
     border-radius: 5px;
     border: 1px solid #ddd;
     object-fit: contain;
-    width: 100%; /* Lấp đầy ô */
-    height: 100%; /* Lấp đầy ô */
 }
 
 .categories {
@@ -621,19 +654,18 @@ textarea {
     background-color: #45a049;
 }
 
-/* ándalsdnalknlakndak */
-#imagePreviewContainer1 {
+#imagePreviewContainer-create {
     display: flex;
     justify-content: space-between;
 }
 
-.image-preview {
-    width: 33.3%; /* Chiếm 30% chiều rộng */
-    height: 150px; /* Chiều cao cố định */
-    border: 2px dashed #ccc; /* Viền ô */
+/* .image-preview {
+    width: 33.3%; 
+    height: 150px; 
+    border: 2px dashed #ccc; 
     position: relative;
-    cursor: pointer; /* Thay đổi con trỏ khi di chuột qua */
-}
+    cursor: pointer;
+} */
 
 .image-preview button {
     position: absolute;

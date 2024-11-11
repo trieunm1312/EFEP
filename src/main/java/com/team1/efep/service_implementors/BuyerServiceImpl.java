@@ -132,6 +132,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
+            redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
         Object output = addToWishlistLogic(request, account);
@@ -143,7 +144,7 @@ public class BuyerServiceImpl implements BuyerService {
                 Category category = categoryRepo.findByName(request.getKeyword());
                 ((AddToWishlistResponse) output).setKeyword(category.getId() + "");
             }
-            redirectAttributes.addFlashAttribute("msg", (AddToWishlistResponse) output);
+            redirectAttributes.addFlashAttribute("msg1", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
         redirectAttributes.addFlashAttribute("error", output);
