@@ -53,6 +53,10 @@ public class SellerServiceImpl implements SellerService {
 
     private final JavaMailSenderImpl mailSender;
 
+    private final WishlistRepo wishlistRepo;
+
+    private final WishlistItemRepo wishlistItemRepo;
+
     //--------------------------------------CREATE FLOWER------------------------------------------------//
 
     @Override
@@ -750,6 +754,7 @@ public class SellerServiceImpl implements SellerService {
             return "redirect:/login";
         }
         redirectAttributes.addFlashAttribute("msg", deleteFlowerLogic(request));
+        session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
         return "redirect:/manageFlower";
     }
 
@@ -759,6 +764,14 @@ public class SellerServiceImpl implements SellerService {
         flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
         flower.setQuantity(0);
         flowerRepo.save(flower);
+
+        List<WishlistItem> itemsToRemove = wishlistItemRepo.findAllByFlower_Id(request.getFlowerId());
+        for (WishlistItem item : itemsToRemove) {
+            Wishlist wishlist = item.getWishlist();
+            wishlist.getWishlistItemList().remove(item); // Loại bỏ item khỏi wishlist
+            wishlistItemRepo.delete(item); // Xóa item khỏi repo
+        }
+
         return DeleteFlowerResponse.builder()
                 .status("200")
                 .message(flower.getName() + " has been deleted" + "(" + flower.getStatus() + ")")

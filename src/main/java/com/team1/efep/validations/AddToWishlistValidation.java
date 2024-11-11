@@ -4,9 +4,12 @@ import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.Flower;
+import com.team1.efep.models.entity_models.Wishlist;
+import com.team1.efep.models.entity_models.WishlistItem;
 import com.team1.efep.models.request_models.AddToWishlistRequest;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.repositories.FlowerRepo;
+import com.team1.efep.repositories.WishlistItemRepo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +35,7 @@ public class AddToWishlistValidation {
         if (flower.getQuantity() <= 0) {
             return MapConfig.buildMapKey(error, "Flower is out of stock");
         }
+
         return error;
     }
 }

@@ -42,6 +42,7 @@ public class ViewWishlistResponse {
         int quantity;
         float price;
         int stockQuantity;
+        String status;
     }
 
 }
