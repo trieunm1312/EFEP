@@ -349,6 +349,7 @@ public class SellerServiceImpl implements SellerService {
 
     private List<ViewFlowerListForSellerResponse.CategoryDetail> viewCategoryList(List<FlowerCategory> flowerCategories) {
         return flowerCategories.stream()
+                .filter(flowerCategory -> flowerCategory.getCategory() != null)  // Only include non-null categories
                 .map(flowerCategory -> ViewFlowerListForSellerResponse.CategoryDetail.builder()
                         .id(flowerCategory.getCategory().getId())
                         .name(flowerCategory.getCategory().getName())
@@ -717,6 +718,7 @@ public class SellerServiceImpl implements SellerService {
         List<Integer> newCategoryIds = request.getCategoryIdList();
 
         List<Integer> existingCategoryIds = existingCategories.stream()
+                .filter(flowerCategory -> flowerCategory.getCategory() != null)
                 .map(flowerCategory -> flowerCategory.getCategory().getId())
                 .toList();
 
@@ -729,7 +731,8 @@ public class SellerServiceImpl implements SellerService {
                 .collect(toList());
 
         List<FlowerCategory> categoriesToRemove = existingCategories.stream()
-                .filter(flowerCategory -> !newCategoryIds.contains(flowerCategory.getCategory().getId()))
+                .filter(flowerCategory -> flowerCategory.getCategory() != null &&
+                        !newCategoryIds.contains(flowerCategory.getCategory().getId()))
                 .collect(toList());
 
         flower.getFlowerCategoryList().removeAll(categoriesToRemove);
