@@ -524,7 +524,7 @@ html {
 }
 
 .header__item-icon {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     position: relative;
     color: var(--primary-color);
     padding-top: 36px;
@@ -697,7 +697,7 @@ html {
 }
 
 .header__cart-icon {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     /* color: var(--white-color); */
     color: var(--primary-color);
     margin-top: 6px;
@@ -1059,6 +1059,13 @@ html {
 }
 
 #toast{
+    position: fixed;
+    top: 32px;
+    right: 32px;
+    z-index: 999999;
+}
+
+#toast1{
     position: fixed;
     top: 32px;
     right: 32px;
