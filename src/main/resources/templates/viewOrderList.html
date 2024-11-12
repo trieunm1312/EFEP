@@ -100,16 +100,6 @@
                 </div>
             </div>
 
-            <!-- Header search -->
-            <div class="header__search">
-                <form action="" method="get" class="header__search-form">
-                    <button class="header__search-btn">
-                        <i class="fa-solid  fa-magnifying-glass"></i>
-                    </button>
-                    <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
-                </form>
-            </div>
-
             <div class="header__others">
                 <div class="header__account" id="headerAccount">
                     <i th:if="${session.acc.getUser().getAvatar()} == ''" class="header__account-icon fa-solid fa-user"></i>
