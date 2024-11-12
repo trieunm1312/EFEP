@@ -1,6 +1,5 @@
 package com.team1.efep.configurations;
 
-import com.team1.efep.services.AccountService;
 import com.team1.efep.services.BuyerService;
 import org.springframework.ui.Model;
 
