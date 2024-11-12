@@ -194,13 +194,13 @@
                                     <span th:text="${buyer.createDate}" class="user__name"></span>
                                     <br>
                                     <div class="user__rating">
-                                        <!-- Full stars -->
-                                        <span th:each="i : ${#numbers.sequence(1, msg.sellerRating.intValue())}">
+
+                                        <span th:each="i : ${#numbers.sequence(1, buyer.rating.intValue())}">
                                             <i class="fa-solid fa-star"></i>
                                         </span>
 
-                                        <!-- Empty stars (up to 5 stars total) -->
-                                        <span th:each="i : ${#numbers.sequence(msg.sellerRating.intValue() + 1, 5)}">
+
+                                        <span th:if="${buyer.rating.intValue() < 5}" th:each="i : ${#numbers.sequence(1, 5 - buyer.rating.intValue())}">
                                             <i class="fa-regular fa-star"></i>
                                         </span>
                                     </div>

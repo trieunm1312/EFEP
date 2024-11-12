@@ -1,3 +1,11 @@
+//close toast
+function closeToast(element) {
+    const toast = element.closest('.toast');
+    if (toast) {
+        toast.style.display = 'none';
+    }
+}
+
 //Password constraint
 document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');

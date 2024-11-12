@@ -171,8 +171,9 @@
 }
 
 .top-seller__list{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 32px;
     width: 100%;
     margin-top: 32px;
