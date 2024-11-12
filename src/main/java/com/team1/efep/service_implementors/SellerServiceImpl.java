@@ -53,11 +53,14 @@ public class SellerServiceImpl implements SellerService {
 
     private final JavaMailSenderImpl mailSender;
 
+    private final WishlistRepo wishlistRepo;
+
+    private final WishlistItemRepo wishlistItemRepo;
+
     //--------------------------------------CREATE FLOWER------------------------------------------------//
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        Map<String, String> error = new HashMap<>();
         Object output = createFlowerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
             model.addAttribute("msg1", (CreateFlowerResponse) output);
@@ -418,8 +421,6 @@ public class SellerServiceImpl implements SellerService {
                 .map(Flower::getOrderDetailList)
                 .flatMap(List::stream)
                 .toList();
-        //The syntax is ClassName::methodName
-        //In this case, Flower::getOrderDetailList is equivalent to the lambda expression flower -> flower.getOrderDetailList()
     }
 
     private List<Flower> getFlowerList(int sellerId) {
@@ -441,10 +442,13 @@ public class SellerServiceImpl implements SellerService {
                 .status("200")
                 .message("")
                 .buyerList(getBuyerList(sellerId).stream()
-                        .filter(buyer -> buyer.getName().contains(request.getKeyword()))
+                        .filter(buyer -> buyer.getName().toUpperCase().contains(request.getKeyword().toUpperCase()))
                         .map(user -> SearchBuyerListResponse.Buyer.builder()
                                 .id(user.getId())
+                                .avatar(user.getAvatar())
                                 .name(user.getName())
+                                .email(user.getAccount().getEmail())
+                                .phone(user.getPhone())
                                 .build())
                         .toList()
                 )
@@ -703,37 +707,55 @@ public class SellerServiceImpl implements SellerService {
 
     private void updateImage(UpdateFlowerRequest request, Flower flower) {
         List<FlowerImage> existingImages = flower.getFlowerImageList();
+        List<String> newImageLinks = request.getImageList();
 
-        for (String link : request.getImageList()) {
-            existingImages.add(FlowerImage.builder()
-                    .flower(flower)
-                    .link(link)
-                    .build());
-        }
+        List<String> existingImageLinks = existingImages.stream()
+                .map(FlowerImage::getLink)
+                .toList();
+
+        List<FlowerImage> imagesToAdd = newImageLinks.stream()
+                .filter(link -> !existingImageLinks.contains(link))
+                .map(link -> FlowerImage.builder()
+                        .flower(flower)
+                        .link(link)
+                        .build())
+                .toList();
+
+        List<FlowerImage> imagesToRemove = existingImages.stream()
+                .filter(flowerImage -> !newImageLinks.contains(flowerImage.getLink()))
+                .toList();
+
+        flowerImageRepo.deleteAll(imagesToRemove);
+        flowerImageRepo.saveAll(imagesToAdd);
+        existingImages.removeAll(imagesToRemove);
+        existingImages.addAll(imagesToAdd);
     }
 
     private void updateFlowerCategory(UpdateFlowerRequest request, Flower flower) {
         List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
-
         List<Integer> newCategoryIds = request.getCategoryIdList();
+
+        List<Integer> validCategoryIds = newCategoryIds.stream()
+                .filter(categoryId -> categoryId != 0)
+                .toList();
 
         List<Integer> existingCategoryIds = existingCategories.stream()
                 .filter(flowerCategory -> flowerCategory.getCategory() != null)
                 .map(flowerCategory -> flowerCategory.getCategory().getId())
                 .toList();
 
-        List<FlowerCategory> categoriesToAdd = newCategoryIds.stream()
+        List<FlowerCategory> categoriesToAdd = validCategoryIds.stream()
                 .filter(categoryId -> !existingCategoryIds.contains(categoryId))
                 .map(categoryId -> FlowerCategory.builder()
                         .flower(flower)
                         .category(categoryRepo.findById(categoryId).orElse(null))
                         .build())
-                .collect(toList());
+                .toList();
 
         List<FlowerCategory> categoriesToRemove = existingCategories.stream()
                 .filter(flowerCategory -> flowerCategory.getCategory() != null &&
-                        !newCategoryIds.contains(flowerCategory.getCategory().getId()))
-                .collect(toList());
+                        !validCategoryIds.contains(flowerCategory.getCategory().getId()))
+                .toList();
 
         flower.getFlowerCategoryList().removeAll(categoriesToRemove);
         flowerCategoryRepo.deleteAll(categoriesToRemove);
@@ -753,6 +775,7 @@ public class SellerServiceImpl implements SellerService {
             return "redirect:/login";
         }
         redirectAttributes.addFlashAttribute("msg", deleteFlowerLogic(request));
+        session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
         return "redirect:/manageFlower";
     }
 
@@ -762,6 +785,14 @@ public class SellerServiceImpl implements SellerService {
         flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
         flower.setQuantity(0);
         flowerRepo.save(flower);
+
+        List<WishlistItem> itemsToRemove = wishlistItemRepo.findAllByFlower_Id(request.getFlowerId());
+        for (WishlistItem item : itemsToRemove) {
+            Wishlist wishlist = item.getWishlist();
+            wishlist.getWishlistItemList().remove(item); // Loại bỏ item khỏi wishlist
+            wishlistItemRepo.delete(item); // Xóa item khỏi repo
+        }
+
         return DeleteFlowerResponse.builder()
                 .status("200")
                 .message(flower.getName() + " has been deleted" + "(" + flower.getStatus() + ")")
@@ -1211,7 +1242,6 @@ public class SellerServiceImpl implements SellerService {
 
         return ViewFeedbackResponse.builder()
                 .status("200")
-                .message("Feedback found")
                 .id(seller.getId())
                 .name(seller.getUser().getName())
                 .email(seller.getUser().getAccount().getEmail())

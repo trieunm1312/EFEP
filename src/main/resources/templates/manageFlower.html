@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
@@ -20,247 +21,249 @@
 </head>
 
 <body>
-    <div id="toast" th:if="${msg != null && msg.message != '' && msg.message != null}" th:fragment="toast">
-        <div th:if="${msg.status == '200'}">
-            <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1s forwards;">
-                <div class="toast__icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="toast__body">
-                    <h3 class="toast__title">Successfully!</h3>
-                    <p class="toast__msg" th:text="${msg.message}"></p>
-                </div>
-                <div class="toast__close">
-                    <i class="fas fa-times"></i>
-                </div>
+<div id="toast" th:if="${msg != null && msg.message != '' && msg.message != null}" th:fragment="toast">
+    <div th:if="${msg.status == '200'}">
+        <div class="toast toast--success" style="animation: slightInLeft ease .3s, fadeOut linear 1s 1s forwards;">
+            <div class="toast__icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">Successfully!</h3>
+                <p class="toast__msg" th:text="${msg.message}"></p>
+            </div>
+            <div class="toast__close">
+                <i class="fas fa-times"></i>
             </div>
         </div>
     </div>
-    <aside class="sidebar">
-        <a href="" class="sidebar__logo">
-            <img src="/img/flowrista-logo.png" alt="Web Logo">
-        </a>
-        <hr class="horizontal dark ">
-        <div class="sidebar__components">
-            <ul class="sidebar__List">
-                <li>
-                    <a th:href="@{/seller/dashboard}" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Dashboard</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/seller/view/flower}" class="sidebar__link">
-                        <div class="sidebar__item active">
-                            <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Flower</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/seller/order/list}" class="sidebar__link ">
-                        <div class="sidebar__item">
-                            <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Manage Order</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/seller/feedback(accountId=${session.acc.getId()})}" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Feedback</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/seller/buyer/list}" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <span class="sidebar__item-title">Buyer List</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <form th:action="@{/account/view/profile}" class="sidebar__link">
-                        <div class="sidebar__item">
-                            <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
-                            <input type="submit" name="action" value="Personal Profile"
-                                class="sidebar__item-title"></input>
-                        </div>
-                        <input type="hidden" name="id" th:value="${session.acc.id}">
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </aside>
-    <div class="wrap">
-        <!-- header -->
-        <header class="header">
-            <!-- Header direction -->
-            <div class="header__direction">
-                <div class="header__path">
-                    <a href="">
-                        <span>Seller Page</span>
-                    </a>
-                    <span>/</span>
-                    <span>Manage</span><br>
-                </div>
-                <div class="header__title">
-                    <h3>Manage Flower</h3>
-                </div>
-            </div>
-
-            <!-- Header search -->
-            <div class="header__search">
-                <form action="" method="get" class="header__search-form">
-                    <button class="header__search-btn">
-                        <i class="fa-solid  fa-magnifying-glass"></i>
-                    </button>
-                    <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
+</div>
+<aside class="sidebar">
+    <a href="" class="sidebar__logo">
+        <img src="/img/flowrista-logo.png" alt="Web Logo">
+    </a>
+    <hr class="horizontal dark ">
+    <div class="sidebar__components">
+        <ul class="sidebar__List">
+            <li>
+                <a th:href="@{/seller/dashboard}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Dashboard</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/view/flower}" class="sidebar__link">
+                    <div class="sidebar__item active">
+                        <i class="fa-solid fa-briefcase sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Flower</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/order/list}" class="sidebar__link ">
+                    <div class="sidebar__item">
+                        <i class="fa-regular fa-clipboard sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Manage Order</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/feedback(accountId=${session.acc.getId()})}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Feedback</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/seller/buyer/list}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Buyer List</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <form th:action="@{/account/view/profile}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <input type="submit" name="action" value="Personal Profile"
+                               class="sidebar__item-title"></input>
+                    </div>
+                    <input type="hidden" name="id" th:value="${session.acc.id}">
                 </form>
+            </li>
+        </ul>
+    </div>
+</aside>
+<div class="wrap">
+    <!-- header -->
+    <header class="header">
+        <!-- Header direction -->
+        <div class="header__direction">
+            <div class="header__path">
+                <a href="">
+                    <span>Seller Page</span>
+                </a>
+                <span>/</span>
+                <span>Manage</span><br>
             </div>
+            <div class="header__title">
+                <h3>Manage Flower</h3>
+            </div>
+        </div>
 
-            <div class="header__others">
-                <div class="header__account" id="headerAccount">
-                    <i th:if="${session.acc.getUser().getAvatar()} == ''"
-                        class="header__account-icon fa-solid fa-user"></i>
-                    <img th:if="${session.acc.getUser().getAvatar()} != ''"
-                        th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
-                    <span th:text="${session.acc.getUser().getName()}"></span>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <div class="header__item-account" id="accountDropdown">
-                        <form th:action="@{/account/view/profile}" class="form" method="get">
-                            <input type="submit" name="action" value="My profile"
-                                class="header__item-account-item"></input>
-                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                        </form>
-                        <form th:action="@{/change/password}" class="form">
-                            <input type="submit" name="action" class="header__item-account-item"
-                                value="Change Password"></input>
-                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                        </form>
-                        <form th:action="@{/account/logout}" class="form" method="get">
-                            <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
-                        </form>
-                    </div>
+        <!-- Header search -->
+        <div class="header__search">
+            <form action="" method="get" class="header__search-form">
+                <button class="header__search-btn">
+                    <i class="fa-solid  fa-magnifying-glass"></i>
+                </button>
+                <input type="text" class="header__search-input" name="searchValue" placeholder="Search.......">
+            </form>
+        </div>
+
+        <div class="header__others">
+            <div class="header__account" id="headerAccount">
+                <i th:if="${session.acc.getUser().getAvatar()} == ''"
+                   class="header__account-icon fa-solid fa-user"></i>
+                <img th:if="${session.acc.getUser().getAvatar()} != ''"
+                     th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
+                <span th:text="${session.acc.getUser().getName()}"></span>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <div class="header__item-account" id="accountDropdown">
+                    <form th:action="@{/account/view/profile}" class="form" method="get">
+                        <input type="submit" name="action" value="My profile"
+                               class="header__item-account-item"></input>
+                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/change/password}" class="form">
+                        <input type="submit" name="action" class="header__item-account-item"
+                               value="Change Password"></input>
+                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/account/logout}" class="form" method="get">
+                        <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
+                    </form>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Container -->
-        <div class="container">
-            <div class="grid">
-                <div class="manage-flower">
-                    <div class="manage-flower__heading">
-                        <h4 class="manage-flower__title">Manage Flower</h4>
-                        <div class="manage-flower__create-btn" onclick="openCreatePopup()">
-                            <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                            <span>Create New</span>
-                        </div>
+    <!-- Container -->
+    <div class="container">
+        <div class="grid">
+            <div class="manage-flower">
+                <div class="manage-flower__heading">
+                    <h4 class="manage-flower__title">Manage Flower</h4>
+                    <div class="manage-flower__create-btn" onclick="openCreatePopup()">
+                        <i class="fa-solid fa-plus header__create-btn-icon"></i>
+                        <span>Create New</span>
                     </div>
-                    <table class="manage-flower__table">
-                        <thead class="table__header">
-                            <tr>
-                                <th class="table__header-image">Image</th>
-                                <th class="table__header-name">Name</th>
-                                <th class="table__header-desc">Description</th>
-                                <th class="table__header-amount">Flower Amount</th>
-                                <th class="table__header-qnt">Quantity</th>
-                                <th class="table__header-price">Price</th>
-                                <th class="table__header-sold-qnt">Sold Quantity</th>
-                                <th class="table__header-status">Status</th>
+                </div>
+                <table id="flower" class="manage-flower__table">
+                    <thead class="table__header">
+                    <tr>
+                        <th class="table__header-image">Image</th>
+                        <th class="table__header-name">Name</th>
+                        <th class="table__header-desc">Description</th>
+                        <th class="table__header-amount">Flower Amount</th>
+                        <th class="table__header-qnt">Quantity</th>
+                        <th class="table__header-price">Price</th>
+                        <th class="table__header-status">Status</th>
+                        <th class="table__header-status"></th>
+                        <th class="table__header-status"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="table__body">
+                            <tr th:if="${msg}" class="table__body-item" th:each="item : ${msg.flowerList}">
+                                    <form th:action="@{/seller/flower}" th:method="put"
+                                          class="manage-flower__form">
+                                        <input type="hidden" name="flowerId" th:value="${item.id}">
+                                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                                        <td class="table__body-img">
+                                            <img class="img" th:src="${item.imageList[0].link}" alt=""
+                                                 id="flower-main">
+                                            <!--                                                    <input type="file" accept="image/*" value="" id="update-file"-->
+                                            <!--                                                        class="file-input" style="display: none;">-->
+                                            <!--                                                    <input type="hidden" name="image" id="flower-img-update" value="">-->
+                                        </td>
+                                        <td class="table__body-name padding-td">
+                                            <span th:text="${item.name}" class="name-text">RED</span>
+                                            <!--                                                    <input type="text" name="name" class="name-input"-->
+                                            <!--                                                        th:value="${item.name}" style="display: none;" />-->
+                                        </td>
+                                        <td class="table__body-desc">
+                                            <span th:text="${item.description}" class="desc-text">Dep</span>
+                                            <!--                                                    <textarea name="description" th:text="${item.description}"-->
+                                            <!--                                                        class="desc-input" style="display: none;">-->
+                                            <!--                                            </textarea>-->
+                                        </td>
+                                        <td class="table__body-amount">
+                                            <span th:text="${item.flowerAmount}" class="amount-text">100</span>
+                                            <!--                                                    <input name="flowerAmount" class="amount-input"-->
+                                            <!--                                                        th:value="${item.flowerAmount}" style="display: none;"-->
+                                            <!--                                                        pattern="\d*" title="Please enter a valid number" />-->
+                                        </td>
+                                        <td class="table__body-qnt">
+                                            <span th:text="${item.quantity}" class="qnt-text">20</span>
+                                            <!--                                                    <input name="quantity" class="qnt-input" th:value="${item.quantity}"-->
+                                            <!--                                                        style="display: none;" pattern="\d*"-->
+                                            <!--                                                        title="Please enter a valid number" />-->
+                                        </td>
+                                        <td class="table__body-price">
+                                            <span th:text="${'$' + item.price}" class="price-text">120</span>
+                                            <!--                                                    <input name="price" class="price-input" th:value="${item.price}"-->
+                                            <!--                                                        style="display: none;" title="Please enter a valid number" />-->
+                                        </td>
+                                        <td class="table__body-status">
+                                            <span th:text="${item.status}" class="status-text">Out</span>
+                                        </td>
+                                        <td class="table__body-edit">
+                                            <!--                                                    <i class="fa-solid fa-pencil modify-icon"-->
+                                            <!--                                                        onclick="editRow(this)"></i>-->
+                                            <!--                                                    <span class="edit-btn" onclick="editRow(this)">Edit</span>-->
+                                            <!--                                                    <input type="submit" name="action" class="save-btn" value="Save"-->
+                                            <!--                                                        onclick="prepareSave(this)" style="display: none;">-->
+                                            <!-- Button to open the popup -->
+                                            <!--                                                    <i class="fa-solid fa-pencil modify-icon" onclick="openPopup()"></i>-->
+                                            <span class="edit-btn"
+                                                  th:onclick="'openPopup(' + ${item.id} + ')'">Edit</span>
+                                            <!-- Popup modal -->
+                                            <div th:id="'editPopup-' + ${item.id}" class="popup">
+                                                <div class="popup-content">
+                                                    <span class="close" th:onclick="'closePopup(' + ${item.id} + ')'">&times;</span>
 
-                            </tr>
-                        </thead>
-                        <tbody class="table__body">
-                            <div>
-                                <div th:if="${msg}">
-                                    <tr class="table__body-item" th:each="item : ${msg.flowerList}">
-                                        <div>
-                                            <form th:action="@{/seller/flower}" th:method="put"
-                                                class="manage-flower__form">
-                                                <input type="hidden" name="flowerId" th:value="${item.id}">
-                                                <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                                <td class="table__body-img">
-                                                    <img class="img" th:src="${item.imageList[0].link}" alt=""
-                                                        id="flower-main">
-<!--                                                    <input type="file" accept="image/*" value="" id="update-file"-->
-<!--                                                        class="file-input" style="display: none;">-->
-<!--                                                    <input type="hidden" name="image" id="flower-img-update" value="">-->
-                                                </td>
-                                                <td class="table__body-name padding-td">
-                                                    <span th:text="${item.name}" class="name-text">RED</span>
-<!--                                                    <input type="text" name="name" class="name-input"-->
-<!--                                                        th:value="${item.name}" style="display: none;" />-->
-                                                </td>
-                                                <td class="table__body-desc">
-                                                    <span th:text="${item.description}" class="desc-text">Dep</span>
-<!--                                                    <textarea name="description" th:text="${item.description}"-->
-<!--                                                        class="desc-input" style="display: none;">-->
-<!--                                            </textarea>-->
-                                                </td>
-                                                <td class="table__body-amount">
-                                                    <span th:text="${item.flowerAmount}" class="amount-text">100</span>
-<!--                                                    <input name="flowerAmount" class="amount-input"-->
-<!--                                                        th:value="${item.flowerAmount}" style="display: none;"-->
-<!--                                                        pattern="\d*" title="Please enter a valid number" />-->
-                                                </td>
-                                                <td class="table__body-qnt">
-                                                    <span th:text="${item.quantity}" class="qnt-text">20</span>
-<!--                                                    <input name="quantity" class="qnt-input" th:value="${item.quantity}"-->
-<!--                                                        style="display: none;" pattern="\d*"-->
-<!--                                                        title="Please enter a valid number" />-->
-                                                </td>
-                                                <td class="table__body-price">
-                                                    <span th:text="${'$' + item.price}" class="price-text">120</span>
-<!--                                                    <input name="price" class="price-input" th:value="${item.price}"-->
-<!--                                                        style="display: none;" title="Please enter a valid number" />-->
-                                                </td>
-<!--                                                <td class="table__body-sold_qnt">-->
-<!--                                                    <span th:text="${item.soldQuantity}" class="sold-text">120</span>-->
-<!--                                                </td>-->
-                                                <td class="table__body-status">
-                                                    <span th:text="${item.status}" class="status-text">Out</span>
-                                                </td>
-                                                <td class="table__body-edit">
-<!--                                                    <i class="fa-solid fa-pencil modify-icon"-->
-<!--                                                        onclick="editRow(this)"></i>-->
-<!--                                                    <span class="edit-btn" onclick="editRow(this)">Edit</span>-->
-<!--                                                    <input type="submit" name="action" class="save-btn" value="Save"-->
-<!--                                                        onclick="prepareSave(this)" style="display: none;">-->
-                                                    <!-- Button to open the popup -->
-<!--                                                    <i class="fa-solid fa-pencil modify-icon" onclick="openPopup()"></i>-->
-                                                    <span class="edit-btn" th:onclick="'openPopup(' + ${item.id} + ')'">Edit</span>
-                                                    <!-- Popup modal -->
-                                                    <div th:id="'editPopup-' + ${item.id}" class="popup">
-                                                        <div class="popup-content">
-                                                            <span class="close" th:onclick="'closePopup(' + ${item.id} + ')'">&times;</span>
+                                                    <div class="popup-form">
+                                                        <!-- Left half for input fields -->
+                                                        <div class="left-section">
+                                                            <h3>Edit Flower Information</h3>
+                                                            <label for="name">Name:</label>
+                                                            <input type="text" id="name" name="name"
+                                                                   th:value="${item.name}" required>
 
-                                                            <div class="popup-form">
-                                                                <!-- Left half for input fields -->
-                                                                <div class="left-section">
-                                                                    <h3>Edit Flower Information</h3>
-                                                                    <label for="name">Name:</label>
-                                                                    <input type="text" id="name" name="name" th:value="${item.name}" required>
+                                                            <label for="description">Description:</label>
+                                                            <textarea id="description" name="description"
+                                                                      th:text="${item.description}" required></textarea>
 
-                                                                    <label for="description">Description:</label>
-                                                                    <textarea id="description" name="description" th:text="${item.description}" required></textarea>
+                                                            <label for="flowerAmount">Flower Amount:</label>
+                                                            <input type="number" id="flowerAmount" name="flowerAmount"
+                                                                   min="1" required
+                                                                   th:value="${item.flowerAmount}" pattern="\d*"
+                                                                   title="Please enter a valid number">
 
-                                                                    <label for="flowerAmount">Flower Amount:</label>
-                                                                    <input type="number" id="flowerAmount" name="flowerAmount" min="1" required
-                                                                           th:value="${item.flowerAmount}" pattern="\d*" title="Please enter a valid number">
+                                                            <label for="quantity">Quantity:</label>
+                                                            <input type="number" id="quantity" name="quantity" min="1"
+                                                                   th:value="${item.quantity}"
+                                                                   pattern="\d*" title="Please enter a valid number"
+                                                                   required>
 
-                                                                    <label for="quantity">Quantity:</label>
-                                                                    <input type="number" id="quantity" name="quantity" min="1" th:value="${item.quantity}"
-                                                                           pattern="\d*" title="Please enter a valid number" required>
-
-                                                                    <label for="price">Price:</label>
-                                                                    <input id="price" name="price" th:value="${item.price}"
-                                                                           pattern="\d+(\.\d{1,2})?" title="Please enter a valid number" required>
-                                                                </div>
+                                                            <label for="price">Price:</label>
+                                                            <input id="price" name="price" th:value="${item.price}"
+                                                                   pattern="\d+(\.\d{1,2})?"
+                                                                   title="Please enter a valid number" required>
+                                                        </div>
 
                                                                 <!-- Right half for image upload and categories -->
                                                                 <div class="right-section">
@@ -322,72 +325,75 @@
                                                                 </div>
                                                             </div>
 
-                                                            <!-- Buttons at the bottom -->
-                                                            <div class="popup-buttons">
-                                                                <span th:onclick="'closePopup(' + ${item.id} + ')'">Cancel</span>
-                                                                <button name="update">Save</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </form>
-
-                                            <td class="table__body-toggle" th:if="${item.quantity} > 0">
-                                                <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
-                                                       class="toggle-btn">Disable</span>
-
-                                                <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
-                                                    <div class="confirmDelete-form">
-                                                    <span class="confirm-text">Do you want to disable flower <span th:text="${item.name}">RED</span> ?</span>
-                                                        <form th:action="@{/seller/flower}" th:method="delete">
-                                                            <input type="hidden" name="accountId"
-                                                                   th:value="${session.acc.getId()}">
-                                                            <input type="hidden" name="flowerId" th:value="${item.id}">
-                                                            <span class="cancel-delete" th:onclick="'closeDeletePopup(' + ${item.id} + ')'" >Cancel</span>
-                                                            <input type="submit"  value="Disable"
-                                                                   class="delete-btn">
-                                                        </form>
+                                                    <!-- Buttons at the bottom -->
+                                                    <div class="popup-buttons">
+                                                        <span th:onclick="'closePopup(' + ${item.id} + ')'">Cancel</span>
+                                                        <button name="update">Save</button>
                                                     </div>
                                                 </div>
-                                            </td>
-                                        </div>
-                                    </tr>
-                                </div>
-                            </div>
-
-                            <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
-                                <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
-                                <!-- Popup modal -->
-                                <div id="createPopup" class="createPopup">
-                                    <div class="popup-content-create">
-                                        <span class="close" onclick="closeCreatePopup()">&times;</span>
-
-                                        <div class="popup-form-create">
-                                            <!-- Left half for input fields -->
-                                            <div class="left-section-create">
-                                                <h3>Create Flower Information</h3>
-                                                <label for="name">Name:</label>
-                                                <input type="text" name="name" th:value="${flowerName}" placeholder="Enter flower name" required>
-
-                                                <label for="description">Description:</label>
-                                                <textarea name="description" th:text="${description}" placeholder="Enter your description about flower" required></textarea>
-
-                                                <label for="flowerAmount">Flower Amount:</label>
-                                                <input type="number" min="1" name="flowerAmount" required
-                                                       th:value="${flowerAmount}" pattern="\d*" title="Please enter a valid number" placeholder="Enter flower amount">
-
-                                                <label for="quantity">Quantity:</label>
-                                                <input type="number" min="1" name="quantity" th:value="${quantity}" required
-                                                       pattern="\d*" title="Please enter a valid number" placeholder="Enter quantity">
-
-                                                <label for="price">Price:</label>
-                                                <input id="createPrice" name="price" th:value="${price}" required
-                                                       pattern="\d+(\.\d{1,2})?" title="Please enter a valid number" placeholder="Enter price">
                                             </div>
+                                        </td>
+                                    </form>
+                                    <td class="table__body-toggle" th:if="${item.quantity} > 0">
+                                                <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
+                                                      class="toggle-btn">Disable</span>
 
-                                            <!-- Right half for image upload and categories -->
-                                            <div class="right-section-create">
-                                                <h4 class="image-title-create">Upload Image</h4>
+                                        <div th:id="'confirm-Delete-' + ${item.id}" class="confirmDelete">
+                                            <div class="confirmDelete-form">
+                                                <span class="confirm-text">Do you want to disable flower <span
+                                                        th:text="${item.name}">RED</span> ?</span>
+                                                <form th:action="@{/seller/flower}" th:method="delete">
+                                                    <input type="hidden" name="accountId"
+                                                           th:value="${session.acc.getId()}">
+                                                    <input type="hidden" name="flowerId" th:value="${item.id}">
+                                                    <span class="cancel-delete"
+                                                          th:onclick="'closeDeletePopup(' + ${item.id} + ')'">Cancel</span>
+                                                    <input type="submit" value="Disable"
+                                                           class="delete-btn">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                            </tr>
+
+                    <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
+                        <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
+                        <!-- Popup modal -->
+                        <div id="createPopup" class="createPopup">
+                            <div class="popup-content-create">
+                                <span class="close" onclick="closeCreatePopup()">&times;</span>
+
+                                <div class="popup-form-create">
+                                    <!-- Left half for input fields -->
+                                    <div class="left-section-create">
+                                        <h3>Create Flower Information</h3>
+                                        <label for="name">Name:</label>
+                                        <input type="text" name="name" th:value="${flowerName}"
+                                               placeholder="Enter flower name" required>
+
+                                        <label for="description">Description:</label>
+                                        <textarea name="description" th:text="${description}"
+                                                  placeholder="Enter your description about flower" required></textarea>
+
+                                        <label for="flowerAmount">Flower Amount:</label>
+                                        <input type="number" min="1" name="flowerAmount" required
+                                               th:value="${flowerAmount}" pattern="\d*"
+                                               title="Please enter a valid number" placeholder="Enter flower amount">
+
+                                        <label for="quantity">Quantity:</label>
+                                        <input type="number" min="1" name="quantity" th:value="${quantity}" required
+                                               pattern="\d*" title="Please enter a valid number"
+                                               placeholder="Enter quantity">
+
+                                        <label for="price">Price:</label>
+                                        <input id="createPrice" name="price" th:value="${price}" required
+                                               pattern="\d+(\.\d{1,2})?" title="Please enter a valid number"
+                                               placeholder="Enter price">
+                                    </div>
+
+                                    <!-- Right half for image upload and categories -->
+                                    <div class="right-section-create">
+                                        <h4 class="image-title-create">Upload Image</h4>
 
                                                 <div class="input-img">
                                                     <input type="file" accept="image/*" id="input-file" class="file-input">
@@ -397,266 +403,272 @@
 
                                                 <div id="imagePreviewContainer-create">
 
-                                                    <div class="image-preview" >
-                                                        <img id="flowers-image" class="img" src="#" alt="" />
-                                                        <input type="hidden" name="imageList" id="flower-img" value="">
-                                                        <button class="remove-button" >&times;</button>
-                                                    </div>
-                                                    <div class="image-preview">
-                                                        <img id="flowers-image-2" class="img" src="#" alt="" />
-                                                        <input type="hidden" name="imageList" id="flower-img-2" value="">
-                                                        <button class="remove-button" >&times;</button>
-                                                    </div>
-                                                    <div class="image-preview">
-                                                        <img id="flowers-image-3" class="img" src="#" alt="" />
-                                                        <input type="hidden" name="imageList" id="flower-img-3" value="">
-                                                        <button class="remove-button" >&times;</button>
-                                                    </div>
-                                                </div>
-                                                <h4 class="cate-title">Categories</h4>
-                                                <div class="categories">
-                                                    <label for="multi-select-create">Choose categories:</label>
-                                                    <select id="multi-select-create"  name="categoryIdList" multiple class="chosen-select">
-                                                        <option th:each="cate : ${msg.allCategory}"
-                                                                th:text="${cate.name}"
-                                                                th:value="${cate.id}"
-                                                                >
-                                                        </option>
-
-                                                    </select>
-
-<!--                                                    <label th:each="cate : ${msg.allCategory}">-->
-<!--                                                        <input type="checkbox" name="categoryIdList" th:text="${cate.name}" th:value="${cate.id}"></label>-->
-
-                                                </div>
+                                            <div class="image-preview">
+                                                <img id="flowers-image" class="img" src="#" alt=""/>
+                                                <input type="hidden" name="imageList" id="flower-img" value="">
+                                                <button class="remove-button">&times;</button>
+                                            </div>
+                                            <div class="image-preview">
+                                                <img id="flowers-image-2" class="img" src="#" alt=""/>
+                                                <input type="hidden" name="imageList" id="flower-img-2" value="">
+                                                <button class="remove-button">&times;</button>
+                                            </div>
+                                            <div class="image-preview">
+                                                <img id="flowers-image-3" class="img" src="#" alt=""/>
+                                                <input type="hidden" name="imageList" id="flower-img-3" value="">
+                                                <button class="remove-button">&times;</button>
                                             </div>
                                         </div>
+                                        <h4 class="cate-title">Categories</h4>
+                                        <div class="categories">
+                                            <label for="multi-select-create">Choose categories:</label>
+                                            <select id="multi-select-create" name="categoryIdList" multiple
+                                                    class="chosen-select">
+                                                <option th:each="cate : ${msg.allCategory}"
+                                                        th:text="${cate.name}"
+                                                        th:value="${cate.id}"
+                                                >
+                                                </option>
 
-                                        <!-- Buttons at the bottom -->
-                                        <div class="popup-buttons">
-                                            <span onclick="closeCreatePopup()">Cancel</span>
-                                            <button class="save-btn" >Create</button>
+                                            </select>
+
+                                            <!--                                                    <label th:each="cate : ${msg.allCategory}">-->
+                                            <!--                                                        <input type="checkbox" name="categoryIdList" th:text="${cate.name}" th:value="${cate.id}"></label>-->
+
                                         </div>
                                     </div>
                                 </div>
-                            </form>
 
-                        </tbody>
-                    </table>
-                </div>
+                                <!-- Buttons at the bottom -->
+                                <div class="popup-buttons">
+                                    <span onclick="closeCreatePopup()">Cancel</span>
+                                    <button class="save-btn">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
+                    </tbody>
+                </table>
             </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
 
         </div>
     </div>
-    <script type="module">
-        // Import Firebase and necessary functions from Firebase Storage
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
-        // Your Firebase configuration (replace with your own keys)
-        const firebaseConfig = {
-            apiKey: "AIzaSyAYjgYhoSy319eFC4NxXzhEpPUUQdMobM8",
-            authDomain: "eventflowerexhangeplatform.firebaseapp.com",
-            projectId: "eventflowerexhangeplatform",
-            storageBucket: "eventflowerexhangeplatform.appspot.com",
-            messagingSenderId: "338080219481",
-            appId: "1:338080219481:web:c91006677d06e47bd6cc48",
-            measurementId: "G-8W6SH49XD9"
-        };
+    <!-- Footer -->
+    <div class="footer">
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const storage = getStorage(app);
+    </div>
+</div>
+<script type="module">
+    // Import Firebase and necessary functions from Firebase Storage
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import {
+        getStorage,
+        ref,
+        uploadBytes,
+        getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
-        // Avatar upload logic
-        let img1_flower = document.getElementById("flowers-image");
-        let inputFile = document.getElementById("input-file");
-        let img1_flower_hide = document.getElementById("flower-img");  // Reference to hidden input
+    // Your Firebase configuration (replace with your own keys)
+    const firebaseConfig = {
+        apiKey: "AIzaSyAYjgYhoSy319eFC4NxXzhEpPUUQdMobM8",
+        authDomain: "eventflowerexhangeplatform.firebaseapp.com",
+        projectId: "eventflowerexhangeplatform",
+        storageBucket: "eventflowerexhangeplatform.appspot.com",
+        messagingSenderId: "338080219481",
+        appId: "1:338080219481:web:c91006677d06e47bd6cc48",
+        measurementId: "G-8W6SH49XD9"
+    };
 
-        let img2_flower = document.getElementById("flowers-image-2");
-        let inputFile_2 = document.getElementById("input-file-2");
-        let img2_flower_hide = document.getElementById("flower-img-2");
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
 
-        let img3_flower = document.getElementById("flowers-image-3");
-        let inputFile_3 = document.getElementById("input-file-3");
-        let img3_flower_hide = document.getElementById("flower-img-3");
+    // Avatar upload logic
+    let img1_flower = document.getElementById("flowers-image");
+    let inputFile = document.getElementById("input-file");
+    let img1_flower_hide = document.getElementById("flower-img");  // Reference to hidden input
 
-        let flower_image = document.getElementById("flower-update");
-        let updateFile = document.getElementById("update-file");
-        let flower_img_update = document.getElementById("flower-img-update");
+    let img2_flower = document.getElementById("flowers-image-2");
+    let inputFile_2 = document.getElementById("input-file-2");
+    let img2_flower_hide = document.getElementById("flower-img-2");
 
-        let flower_image_2 = document.getElementById("flower-update-2");
-        let updateFile_2 = document.getElementById("update-file-2");
-        let flower_img_update_2 = document.getElementById("flower-img-update-2");
+    let img3_flower = document.getElementById("flowers-image-3");
+    let inputFile_3 = document.getElementById("input-file-3");
+    let img3_flower_hide = document.getElementById("flower-img-3");
 
-        let flower_image_3 = document.getElementById("flower-update-3");
-        let updateFile_3 = document.getElementById("update-file-3");
-        let flower_img_update_3 = document.getElementById("flower-img-update-3");
+    let flower_image = document.getElementById("flower-update");
+    let updateFile = document.getElementById("update-file");
+    let flower_img_update = document.getElementById("flower-img-update");
 
-        inputFile.onchange = async function () {
-            const file = inputFile.files[0];
-            if (file) {
-                // Use Firebase Storage ref to define the storage path
-                const storageRef = ref(storage, `images/flowers/${file.name}`);
+    let flower_image_2 = document.getElementById("flower-update-2");
+    let updateFile_2 = document.getElementById("update-file-2");
+    let flower_img_update_2 = document.getElementById("flower-img-update-2");
 
-                try {
-                    // Upload the file
-                    const snapshot = await uploadBytes(storageRef, file);
+    let flower_image_3 = document.getElementById("flower-update-3");
+    let updateFile_3 = document.getElementById("update-file-3");
+    let flower_img_update_3 = document.getElementById("flower-img-update-3");
 
-                    // Get the download URL
-                    const downloadURL = await getDownloadURL(snapshot.ref);
+    inputFile.onchange = async function () {
+        const file = inputFile.files[0];
+        if (file) {
+            // Use Firebase Storage ref to define the storage path
+            const storageRef = ref(storage, `images/flowers/${file.name}`);
 
-                    // Update the image source to display the uploaded image
-                    img1_flower.src = downloadURL;
+            try {
+                // Upload the file
+                const snapshot = await uploadBytes(storageRef, file);
 
-                    // Store the download URL in the hidden input field
-                    img1_flower_hide.value = downloadURL;
+                // Get the download URL
+                const downloadURL = await getDownloadURL(snapshot.ref);
 
-                    console.log("File available at: ", downloadURL);
+                // Update the image source to display the uploaded image
+                img1_flower.src = downloadURL;
 
-                } catch (error) {
-                    console.error("Error uploading file: ", error);
-                }
+                // Store the download URL in the hidden input field
+                img1_flower_hide.value = downloadURL;
+
+                console.log("File available at: ", downloadURL);
+
+            } catch (error) {
+                console.error("Error uploading file: ", error);
             }
-        };
+        }
+    };
 
-        inputFile_2.onchange = async function () {
-            const file = inputFile_2.files[0];
-            if (file) {
-                // Use Firebase Storage ref to define the storage path
-                const storageRef = ref(storage, `images/flowers/${file.name}`);
+    inputFile_2.onchange = async function () {
+        const file = inputFile_2.files[0];
+        if (file) {
+            // Use Firebase Storage ref to define the storage path
+            const storageRef = ref(storage, `images/flowers/${file.name}`);
 
-                try {
-                    // Upload the file
-                    const snapshot = await uploadBytes(storageRef, file);
+            try {
+                // Upload the file
+                const snapshot = await uploadBytes(storageRef, file);
 
-                    // Get the download URL
-                    const downloadURL = await getDownloadURL(snapshot.ref);
+                // Get the download URL
+                const downloadURL = await getDownloadURL(snapshot.ref);
 
-                    // Update the image source to display the uploaded image
-                    img2_flower.src = downloadURL;
+                // Update the image source to display the uploaded image
+                img2_flower.src = downloadURL;
 
-                    // Store the download URL in the hidden input field
-                    img2_flower_hide.value = downloadURL;
+                // Store the download URL in the hidden input field
+                img2_flower_hide.value = downloadURL;
 
-                    console.log("File available at: ", downloadURL);
+                console.log("File available at: ", downloadURL);
 
-                } catch (error) {
-                    console.error("Error uploading file: ", error);
-                }
+            } catch (error) {
+                console.error("Error uploading file: ", error);
             }
-        };
+        }
+    };
 
-        inputFile_3.onchange = async function () {
-            const file = inputFile_3.files[0];
-            if (file) {
-                // Use Firebase Storage ref to define the storage path
-                const storageRef = ref(storage, `images/flowers/${file.name}`);
+    inputFile_3.onchange = async function () {
+        const file = inputFile_3.files[0];
+        if (file) {
+            // Use Firebase Storage ref to define the storage path
+            const storageRef = ref(storage, `images/flowers/${file.name}`);
 
-                try {
-                    // Upload the file
-                    const snapshot = await uploadBytes(storageRef, file);
+            try {
+                // Upload the file
+                const snapshot = await uploadBytes(storageRef, file);
 
-                    // Get the download URL
-                    const downloadURL = await getDownloadURL(snapshot.ref);
+                // Get the download URL
+                const downloadURL = await getDownloadURL(snapshot.ref);
 
-                    // Update the image source to display the uploaded image
-                    img3_flower.src = downloadURL;
+                // Update the image source to display the uploaded image
+                img3_flower.src = downloadURL;
 
-                    // Store the download URL in the hidden input field
-                    img3_flower_hide.value = downloadURL;
+                // Store the download URL in the hidden input field
+                img3_flower_hide.value = downloadURL;
 
-                    console.log("File available at: ", downloadURL);
+                console.log("File available at: ", downloadURL);
 
-                } catch (error) {
-                    console.error("Error uploading file: ", error);
-                }
+            } catch (error) {
+                console.error("Error uploading file: ", error);
             }
-        };
+        }
+    };
 
-        updateFile.onchange = async function () {
-            const file = updateFile.files[0];
-            if (file) {
-                // Use Firebase Storage ref to define the storage path
-                const storageRef = ref(storage, `images/flowers/${file.name}`);
+    updateFile.onchange = async function () {
+        const file = updateFile.files[0];
+        if (file) {
+            // Use Firebase Storage ref to define the storage path
+            const storageRef = ref(storage, `images/flowers/${file.name}`);
 
-                try {
-                    // Upload the file
-                    const snapshot = await uploadBytes(storageRef, file);
+            try {
+                // Upload the file
+                const snapshot = await uploadBytes(storageRef, file);
 
-                    // Get the download URL
-                    const downloadURL = await getDownloadURL(snapshot.ref);
+                // Get the download URL
+                const downloadURL = await getDownloadURL(snapshot.ref);
 
-                    // Update the image source to display the uploaded image
-                    flower_image.src = downloadURL;
-                    // Store the download URL in the hidden input field
-                    flower_img_update.value = downloadURL;
+                // Update the image source to display the uploaded image
+                flower_image.src = downloadURL;
+                // Store the download URL in the hidden input field
+                flower_img_update.value = downloadURL;
 
-                    console.log("File available at: ", downloadURL);
+                console.log("File available at: ", downloadURL);
 
-                } catch (error) {
-                    console.error("Error uploading file: ", error);
-                }
+            } catch (error) {
+                console.error("Error uploading file: ", error);
             }
-        };
+        }
+    };
 
-        updateFile_2.onchange = async function () {
-            const file = updateFile_2.files[0];
-            if (file) {
-                // Use Firebase Storage ref to define the storage path
-                const storageRef = ref(storage, `images/flowers/${file.name}`);
+    updateFile_2.onchange = async function () {
+        const file = updateFile_2.files[0];
+        if (file) {
+            // Use Firebase Storage ref to define the storage path
+            const storageRef = ref(storage, `images/flowers/${file.name}`);
 
-                try {
-                    // Upload the file
-                    const snapshot = await uploadBytes(storageRef, file);
+            try {
+                // Upload the file
+                const snapshot = await uploadBytes(storageRef, file);
 
-                    // Get the download URL
-                    const downloadURL = await getDownloadURL(snapshot.ref);
+                // Get the download URL
+                const downloadURL = await getDownloadURL(snapshot.ref);
 
-                    // Update the image source to display the uploaded image
-                    flower_image_2.src = downloadURL;
-                    // Store the download URL in the hidden input field
-                    flower_img_update_2.value = downloadURL;
+                // Update the image source to display the uploaded image
+                flower_image_2.src = downloadURL;
+                // Store the download URL in the hidden input field
+                flower_img_update_2.value = downloadURL;
 
-                    console.log("File available at: ", downloadURL);
+                console.log("File available at: ", downloadURL);
 
-                } catch (error) {
-                    console.error("Error uploading file: ", error);
-                }
+            } catch (error) {
+                console.error("Error uploading file: ", error);
             }
-        };
+        }
+    };
 
-        updateFile_3.onchange = async function () {
-            const file = updateFile_3.files[0];
-            if (file) {
-                // Use Firebase Storage ref to define the storage path
-                const storageRef = ref(storage, `images/flowers/${file.name}`);
+    updateFile_3.onchange = async function () {
+        const file = updateFile_3.files[0];
+        if (file) {
+            // Use Firebase Storage ref to define the storage path
+            const storageRef = ref(storage, `images/flowers/${file.name}`);
 
-                try {
-                    // Upload the file
-                    const snapshot = await uploadBytes(storageRef, file);
+            try {
+                // Upload the file
+                const snapshot = await uploadBytes(storageRef, file);
 
-                    // Get the download URL
-                    const downloadURL = await getDownloadURL(snapshot.ref);
+                // Get the download URL
+                const downloadURL = await getDownloadURL(snapshot.ref);
 
-                    // Update the image source to display the uploaded image
-                    flower_image_3.src = downloadURL;
-                    // Store the download URL in the hidden input field
-                    flower_img_update_3.value = downloadURL;
+                // Update the image source to display the uploaded image
+                flower_image_3.src = downloadURL;
+                // Store the download URL in the hidden input field
+                flower_img_update_3.value = downloadURL;
 
-                    console.log("File available at: ", downloadURL);
+                console.log("File available at: ", downloadURL);
 
-                } catch (error) {
-                    console.error("Error uploading file: ", error);
-                }
+            } catch (error) {
+                console.error("Error uploading file: ", error);
             }
-        };
-    </script>
+        }
+    };
+</script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
@@ -670,6 +682,21 @@
     </script>
     <script src="/js/adminBase.js"></script>
     <script src="/js/manageFlower.js"></script>
+    <script src="//code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="//cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#flower').DataTable();
+        } );
+    </script>
+    <script>
+        $(document).ready( function () {
+            $('#flower').DataTable();
+        } );
+    </script>
+    <script>
+    $.fn.dataTable.ext.errMode = 'none';
+    </script>
 
 </body>
 

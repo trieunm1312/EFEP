@@ -64,6 +64,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = viewWishlistLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewWishlistResponse.class)) {
             model.addAttribute("msg", (ViewWishlistResponse) output);
+            System.out.println(account.getUser().getWishlist().getWishlistItemList().size());
             return "viewWishlist";
         }
         model.addAttribute("error", (Map<String, String>) output);
@@ -78,11 +79,20 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = accountRepo.findById(accountId).orElse(null);
         assert account != null;
 
+        List<WishlistItem> wishlistItemList = account.getUser().getWishlist().getWishlistItemList();
         List<ViewWishlistResponse.WishlistItems> wishlistItems = viewWishlistItemList(accountId);
 
         float totalPrice = wishlistItems.stream()
                 .map(item -> item.getPrice() * item.getQuantity())
                 .reduce(0f, Float::sum);
+
+        for (ViewWishlistResponse.WishlistItems item : wishlistItems) {
+            if (item.getStatus().equals(Status.FLOWER_STATUS_OUT_OF_STOCK)) {
+                wishlistItemList.remove(wishlistItemRepo.findById(item.getId()).orElse(null));
+            }
+        }
+        wishlistRepo.save(account.getUser().getWishlist());
+
 
         return ViewWishlistResponse.builder()
                 .status("200")
@@ -111,6 +121,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .price(item.getFlower().getPrice())
                         .stockQuantity(item.getFlower().getQuantity())
                         .description(item.getFlower().getDescription())
+                        .status(item.getFlower().getStatus())
                         .build())
                 .toList();
     }
@@ -124,10 +135,11 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-        Object output = addToWishlistLogic(request);
+        Object output = addToWishlistLogic(request, account);
 
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
-            session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
+            account = accountRepo.findById(request.getAccountId()).orElse(null);
+            session.setAttribute("acc", account);
             if(httpServletRequest.getHeader("Referer").contains("category")){
                 Category category = categoryRepo.findByName(request.getKeyword());
                 ((AddToWishlistResponse) output).setKeyword(category.getId() + "");
@@ -139,21 +151,28 @@ public class BuyerServiceImpl implements BuyerService {
         return "redirect:" + httpServletRequest.getHeader("Referer");
     }
 
-    private Object addToWishlistLogic(AddToWishlistRequest request) {
+    private Object addToWishlistLogic(AddToWishlistRequest request, Account account) {
         Map<String, String> error = AddToWishlistValidation.validate(request, accountRepo, flowerRepo);
         if (!error.isEmpty()) {
             return error;
         }
         Flower flower = flowerRepo.findById(request.getFlowerId()).orElse(null);
         assert flower != null;
-        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
-        assert account != null;
         Wishlist wishlist = account.getUser().getWishlist();
         if (checkExistedItem(request, wishlist)) {
             WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
             assert wishlistItem != null;
+            if(wishlistItem.getQuantity() >= wishlistItem.getFlower().getQuantity() || wishlistItem.getQuantity() + request.getQuantity() > wishlistItem.getFlower().getQuantity()){
+                wishlistItem.setQuantity(Math.min(wishlistItem.getQuantity() + request.getQuantity(), wishlistItem.getFlower().getQuantity()));
+                wishlistItemRepo.save(wishlistItem);
+                return AddToWishlistResponse.builder()
+                        .status("200")
+                        .message("You have add all available quantity of this flower to wishlist")
+                        .build();
+            }
             wishlistItem.setQuantity(wishlistItem.getQuantity() + request.getQuantity());
             wishlistItemRepo.save(wishlistItem);
+            accountRepo.save(account);
         } else {
             wishlist.getWishlistItemList().add(
                     wishlistItemRepo.save(
@@ -682,6 +701,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .flowerList(
                         flowerRepo.findAll()
                                 .stream()
+                                .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_OUT_OF_STOCK))
                                 .filter(flower -> flower.getName().toUpperCase().contains(request.getKeyword().toUpperCase()))
                                 .map(
                                         flower -> SearchFlowerResponse.Flower.builder()

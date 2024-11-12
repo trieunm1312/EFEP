@@ -146,7 +146,7 @@ public class SellerController {
         return sellerService.viewBuyerList(session, model);
     }
 
-    @PostMapping("/search/buyer/")
+    @PostMapping("/search/buyer")
     public String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model) {
         return sellerService.searchBuyerList(session, request, model);
     }
