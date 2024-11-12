@@ -65,19 +65,20 @@
                             <div class="seller__rating seller__info-detail">
                                 <i class="fa-solid fa-award"></i>
                                 <span>Rating: </span>
+                                <span th:text="${msg.sellerRating}" class="seller_data"></span>
                                 <span>
                                     <div class="user__rating">
-                                        <!-- Full stars -->
+
                                         <span th:each="i : ${#numbers.sequence(1, msg.sellerRating.intValue())}">
                                             <i class="fa-solid fa-star"></i>
                                         </span>
 
-                                        <!-- Half star (only if rating has a decimal part of 0.5) -->
+
                                         <span th:if="${msg.sellerRating.intValue() < msg.sellerRating}">
                                             <i class="fa-solid fa-star-half-alt"></i>
                                         </span>
 
-                                        <!-- Empty stars (up to 5 stars total) -->
+
                                         <span th:if="${msg.sellerRating.intValue() < 5}" th:each="i : ${#numbers.sequence(msg.sellerRating.intValue() + (msg.sellerRating > msg.sellerRating.intValue() ? 1 : 0), 4)}">
                                             <i class="fa-regular fa-star unfill"></i>
                                         </span>

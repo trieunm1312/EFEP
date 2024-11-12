@@ -332,8 +332,8 @@ public class BuyerServiceImpl implements BuyerService {
     public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes) {
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
-            redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-            return "forgotPassword";
+            redirectAttributes.addFlashAttribute("error",  output);
+            return "redirect:/forgot/password";
         }
         ForgotPasswordResponse response = (ForgotPasswordResponse) output;
         session.setAttribute("mail", request.getToEmail());

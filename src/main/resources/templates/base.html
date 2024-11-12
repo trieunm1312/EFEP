@@ -25,7 +25,7 @@
                 <h3 class="toast__title">Successfully!</h3>
                 <p class="toast__msg" th:text="${msg.message}"></p>
             </div>
-            <div class="toast__close">
+            <div class="toast__close" onclick="closeToast(this)">
                 <i class="fas fa-times"></i>
             </div>
         </div>
@@ -42,7 +42,7 @@
                 <h3 class="toast__title">Successfully!</h3>
                 <p class="toast__msg" th:text="${msg1.message}"></p>
             </div>
-            <div class="toast__close">
+            <div class="toast__close" onclick="closeToast(this)">
                 <i class="fas fa-times"></i>
             </div>
         </div>
@@ -59,12 +59,13 @@
                 <h3 class="toast__title">Error</h3>
                 <p class="toast__msg" th:text="${errorMessage}"></p>
             </div>
-            <div class="toast__close">
+            <div class="toast__close" onclick="closeToast(this)">
                 <i class="fas fa-times"></i>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <div class="wrap">
@@ -122,7 +123,6 @@
                             <a th:href="@{/buyer/flower}">
                                 <span class="header__item-megamenu-item-title header__item-megamenu-item-title-with-icon">Categories</span>
                                 <i class="header__item-megamenu-item-icon fa-solid fa-angle-down"></i>
-                                <span class="header__item-megamenu-item-label-offer">Offer</span>
                                 <span class="header__item-megamenu-item-label-arrow-offer"></span>
                                 <div class="category__block">
                                     <ul class="category__list">
@@ -424,6 +424,7 @@
 <script src="/js/jquery.prettyPhoto.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/base.js"></script>
+
 </body>
 
 </html>
