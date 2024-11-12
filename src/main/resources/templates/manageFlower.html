@@ -8,7 +8,6 @@
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
-    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
@@ -152,7 +151,7 @@
                             <span>Create New</span>
                         </div>
                     </div>
-                    <table id="flower" class="manage-flower__table">
+                    <table class="manage-flower__table">
                         <thead class="table__header">
                             <tr>
                                 <th class="table__header-image">Image</th>
@@ -248,19 +247,19 @@
                                                                         <div class="image-preview">
                                                                             <img th:if="${item.imageList.size() > 0}" class="img" th:src="${item.imageList[0].link}" alt=""
                                                                                  id="flower-update">
-                                                                            <input type="hidden" name="imageList" id="flower-img-update" value="">
+                                                                            <input th:if="${item.imageList.size() > 0}" type="hidden" name="imageList" id="flower-img-update" th:value="${item.imageList[0].link}">
                                                                             <button class="remove-button" >&times;</button>
                                                                         </div>
                                                                         <div class="image-preview">
                                                                             <img th:if="${item.imageList.size() > 1}" class="img" th:src="${item.imageList[1].link}" alt=""
                                                                                  id="flower-update-2">
-                                                                            <input type="hidden" name="imageList" id="flower-img-update-2" value="">
+                                                                            <input th:if="${item.imageList.size() > 1}" type="hidden" name="imageList" id="flower-img-update-2" th:value="${item.imageList[1].link}">
                                                                             <button class="remove-button" >&times;</button>
                                                                         </div>
                                                                         <div class="image-preview">
                                                                             <img th:if="${item.imageList.size() > 2}" class="img" th:src="${item.imageList[2].link}" alt=""
                                                                                  id="flower-update-3">
-                                                                            <input type="hidden" name="imageList" id="flower-img-update-3" value="">
+                                                                            <input th:if="${item.imageList.size() > 2}" type="hidden" name="imageList" id="flower-img-update-3" th:value="${item.imageList[2].link}">
                                                                             <button class="remove-button" >&times;</button>
                                                                         </div>
                                                                     </div>
@@ -677,17 +676,6 @@
     </script>
     <script src="/js/adminBase.js"></script>
     <script src="/js/manageFlower.js"></script>
-    <script src="//code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="//cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script>
-        $(document).ready( function () {
-            $('#flower').DataTable();
-        } );
-    </script>
-    <script>
-    $.fn.dataTable.ext.errMode = 'none';
-    </script>
-
 </body>
 
 </html>
