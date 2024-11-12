@@ -13,13 +13,13 @@ public class RenewPasswordValidation {
     public static Map<String, String> validate(RenewPasswordRequest request, AccountRepo accountRepo) {
         Map<String, String> error = new HashMap<>();
 
-        // 2. Check if account exists for the email
+        //Check if account exists for the email
         Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
         if (acc == null) {
             return MapConfig.buildMapKey(error, "Account with this email does not exist");
         }
 
-        // 3. Password validation (not empty)
+        //Password validation (not empty)
         if (request.getPassword().isEmpty()) {
             return MapConfig.buildMapKey(error, "Password cannot be empty");
         }
