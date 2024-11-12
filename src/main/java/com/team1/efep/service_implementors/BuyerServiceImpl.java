@@ -15,6 +15,7 @@ import com.team1.efep.services.BuyerService;
 import com.team1.efep.utils.FileReaderUtil;
 import com.team1.efep.utils.OTPGeneratorUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
+import com.team1.efep.utils.PasswordEncryptUtil;
 import com.team1.efep.validations.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -428,7 +429,7 @@ public class BuyerServiceImpl implements BuyerService {
 
         Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
         if (acc != null && request.getPassword().equals(request.getConfirmPassword())) {
-            acc.setPassword(request.getPassword());
+            acc.setPassword(PasswordEncryptUtil.encrypt(request.getPassword()));
             accountRepo.save(acc);
         }
         return RenewPasswordResponse.builder()
