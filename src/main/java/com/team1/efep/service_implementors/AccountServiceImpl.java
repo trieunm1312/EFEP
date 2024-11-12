@@ -165,6 +165,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        if( model.getAttribute("error") != null) {
+            redirectAttributes.addFlashAttribute("error", (Map<String, String>)  model.getAttribute("error"));
+        }
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
         ViewProfileRequest profileRequest = ViewProfileRequest.builder().id(account.getUser().getId()).build();
