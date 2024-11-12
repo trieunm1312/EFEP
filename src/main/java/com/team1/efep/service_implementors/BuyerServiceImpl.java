@@ -333,7 +333,7 @@ public class BuyerServiceImpl implements BuyerService {
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
             redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-            return "redirect:/login";
+            return "forgotPassword";
         }
         ForgotPasswordResponse response = (ForgotPasswordResponse) output;
         session.setAttribute("mail", request.getToEmail());
@@ -1513,7 +1513,7 @@ public class BuyerServiceImpl implements BuyerService {
 
         return ViewFeedbackResponse.builder()
                 .status("200")
-                .message("Feedback found")
+                .message("")
                 .id(seller.getId())
                 .name(seller.getUser().getName())
                 .email(seller.getUser().getAccount().getEmail())

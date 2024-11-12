@@ -643,16 +643,6 @@
     };
 </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            $(".chosen-select").chosen({
-                width: "100%",          // Optional: make it full width
-                placeholder_text_multiple: "Choose categories"  // Optional placeholder text
-            });
-        });
-    </script>
     <script>
         // Hiển thị hình ảnh xem trước
         function previewImage(input, imgId, hiddenInputId) {
@@ -679,6 +669,7 @@
     <script src="/js/manageFlower.js"></script>
     <script src="//code.jquery.com/jquery-3.7.1.js"></script>
     <script src="//cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="/js/chosen.jquery.min.js"></script>
     <script>
         $(document).ready( function () {
             $('#flower').DataTable();
@@ -687,6 +678,14 @@
     <script>
     $.fn.dataTable.ext.errMode = 'none';
     </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $(".chosen-select").chosen({
+            width: "100%",
+            placeholder_text_multiple: "Choose categories"
+        });
+    });
+</script>
 
 </body>
 
