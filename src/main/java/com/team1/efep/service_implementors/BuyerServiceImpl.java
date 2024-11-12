@@ -54,7 +54,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
-    public String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String viewWishlist(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
@@ -129,7 +129,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------------ADD TO WISHLIST-----------------------------------------------------//
 
     @Override
-    public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
@@ -141,7 +141,7 @@ public class BuyerServiceImpl implements BuyerService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             account = accountRepo.findById(request.getAccountId()).orElse(null);
             session.setAttribute("acc", account);
-            if(httpServletRequest.getHeader("Referer").contains("category")){
+            if (httpServletRequest.getHeader("Referer").contains("category")) {
                 Category category = categoryRepo.findByName(request.getKeyword());
                 ((AddToWishlistResponse) output).setKeyword(category.getId() + "");
             }
@@ -163,7 +163,7 @@ public class BuyerServiceImpl implements BuyerService {
         if (checkExistedItem(request, wishlist)) {
             WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
             assert wishlistItem != null;
-            if(wishlistItem.getQuantity() >= wishlistItem.getFlower().getQuantity() || wishlistItem.getQuantity() + request.getQuantity() > wishlistItem.getFlower().getQuantity()){
+            if (wishlistItem.getQuantity() >= wishlistItem.getFlower().getQuantity() || wishlistItem.getQuantity() + request.getQuantity() > wishlistItem.getFlower().getQuantity()) {
                 wishlistItem.setQuantity(Math.min(wishlistItem.getQuantity() + request.getQuantity(), wishlistItem.getFlower().getQuantity()));
                 wishlistItemRepo.save(wishlistItem);
                 return AddToWishlistResponse.builder()
@@ -198,7 +198,7 @@ public class BuyerServiceImpl implements BuyerService {
     //----------------------------------------------UPDATE WISHLIST----------------------------------------------//
 
     @Override
-    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             return "redirect:/login";
@@ -249,7 +249,7 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------DELETE WISHLIST-----------------------------------//
 
     @Override
-    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -286,7 +286,7 @@ public class BuyerServiceImpl implements BuyerService {
     //----------------------------------------------DELETE WISHLIST ITEM----------------------------------------------//
 
     @Override
-    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
@@ -329,7 +329,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
-    public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes) {
+    public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
             redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
@@ -407,7 +407,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------------------RENEW PASSWORD------------------------------------------------------------//
 
     @Override
-    public String renewPass(RenewPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes) {
+    public String renewPass(RenewPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         request.setEmail(session.getAttribute("mail").toString());
         Object output = renewPassLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
@@ -415,7 +415,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute("msg", (RenewPasswordResponse) output);
             return "redirect:/login";
         }
-        redirectAttributes.addFlashAttribute("error",  output);
+        redirectAttributes.addFlashAttribute("error", output);
         return "redirect:/password/renew";
     }
 
@@ -507,7 +507,7 @@ public class BuyerServiceImpl implements BuyerService {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute(MapConfig.buildMapKey(error,"Please login a buyer account to do this action"));
+            model.addAttribute(MapConfig.buildMapKey(error, "Please login a buyer account to do this action"));
             return "redirect:/login";
         }
         Object output = viewOrderHistoryLogic(account.getId());
@@ -587,7 +587,7 @@ public class BuyerServiceImpl implements BuyerService {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute(MapConfig.buildMapKey(error,"Please login a buyer account to do this action"));
+            model.addAttribute(MapConfig.buildMapKey(error, "Please login a buyer account to do this action"));
             return "redirect:/login";
         }
         Object output = viewOrderDetailLogic(request);
@@ -785,7 +785,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------VIEW ORDER STATUS-------------------------------------------//
 
     @Override
-    public String viewOrderStatus(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String viewOrderStatus(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
             redirectAttributes.addFlashAttribute("error", "You are not logged in");
@@ -821,7 +821,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------------------CANCEL ORDER--------------------------------------------------//
 
     @Override
-    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
+    public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes) {
         String referer = httpServletRequest.getHeader("Referer");
         Object output = cancelOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
@@ -840,7 +840,13 @@ public class BuyerServiceImpl implements BuyerService {
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
         Status.changeOrderStatus(order, Status.ORDER_STATUS_CANCELLED, orderRepo);
-        sendCancelOrderEmail(order, order.getOrderDetailList().get(0).getFlower().getSeller());
+        order.getOrderDetailList().forEach(orderItem -> {
+            Flower flower = orderItem.getFlower();
+            int quantityToRestore = orderItem.getQuantity();
+            flower.setQuantity(flower.getQuantity() + quantityToRestore);
+            flowerRepo.save(flower);
+        });
+
 
         return CancelOrderResponse.builder()
                 .status("200")
@@ -875,7 +881,7 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------CONFIRM ORDER------------------------------------------//
 
     @Override
-    public String confirmOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes) {
+    public String confirmOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             model.addAttribute("error", CancelOrderResponse.builder()
@@ -1058,7 +1064,13 @@ public class BuyerServiceImpl implements BuyerService {
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
             List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-            saveOrder(params, user, items, paymentMethodRepo.findById(2).orElse(null));
+            if (!saveOrder(params, user, items, paymentMethodRepo.findById(2).orElse(null))) {
+                return VNPayResponse.builder()
+                        .status("400")
+                        .message("Your payment is failed")
+                        .paymentURL("/viewOrderSummary")
+                        .build();
+            }
             return VNPayResponse.builder()
                     .status("200")
                     .message("Your payment is successfully")
@@ -1073,7 +1085,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     }
 
-    private void saveOrder(Map<String, String> params, User user, List<WishlistItem> items, PaymentMethod paymentMethod) {
+    private boolean saveOrder(Map<String, String> params, User user, List<WishlistItem> items, PaymentMethod paymentMethod) {
 
         Map<Seller, List<WishlistItem>> itemsBySeller = items.stream()
                 .collect(Collectors.groupingBy(item -> item.getFlower().getSeller()));
@@ -1088,6 +1100,9 @@ public class BuyerServiceImpl implements BuyerService {
 
             for (WishlistItem item : sellerItems) {
                 totalPrice += item.getFlower().getPrice() * item.getQuantity();
+                if (checkFlowerQuantity(item.getFlower().getQuantity(), item.getQuantity())) {
+                    return false;
+                }
             }
 
             Order savedOrder = orderRepo.save(Order.builder()
@@ -1118,14 +1133,20 @@ public class BuyerServiceImpl implements BuyerService {
             }
             savedOrder.setOrderDetailList(orderDetails);
             orderRepo.save(savedOrder);
+
             sendEmailResult = sendOrderEmail(savedOrder, user);
             sendEmailResult = sendOrderSellerEmail(savedOrder, seller);
         }
-        if(sendEmailResult) {
+        if (sendEmailResult) {
             wishlistItemRepo.deleteAll(items);
             user.getWishlist().setWishlistItemList(new ArrayList<>());
             userRepo.save(user);
         }
+        return true;
+    }
+
+    private boolean checkFlowerQuantity(int orderQuantity, int stockQuantity) {
+        return orderQuantity > stockQuantity;
     }
 
     private boolean sendOrderEmail(Order order, User user) {
@@ -1188,11 +1209,18 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         User user = account.getUser();
         List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-        saveOrder(params, user, items, paymentMethodRepo.findById(1).orElse(null));
-        session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+        if (saveOrder(params, user, items, paymentMethodRepo.findById(1).orElse(null))) {
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+            CODPaymentResponse response = CODPaymentResponse.builder()
+                    .status("200")
+                    .message("Your order has been preparing...")
+                    .build();
+            redirectAttributes.addFlashAttribute("msg", response);
+            return "redirect:/viewOrderSummary";
+        }
         CODPaymentResponse response = CODPaymentResponse.builder()
-                .status("200")
-                .message("Your order has been preparing...")
+                .status("400")
+                .message("Your order is failed")
                 .build();
         redirectAttributes.addFlashAttribute("msg", response);
         return "redirect:/viewOrderSummary";
@@ -1290,7 +1318,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()) , Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), httpServletRequest);
+        Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()), Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
             Account account1 = accountRepo.findById(account.getId()).orElse(null);
