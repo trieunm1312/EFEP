@@ -701,6 +701,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .flowerList(
                         flowerRepo.findAll()
                                 .stream()
+                                .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_OUT_OF_STOCK))
                                 .filter(flower -> flower.getName().toUpperCase().contains(request.getKeyword().toUpperCase()))
                                 .map(
                                         flower -> SearchFlowerResponse.Flower.builder()

@@ -421,8 +421,6 @@ public class SellerServiceImpl implements SellerService {
                 .map(Flower::getOrderDetailList)
                 .flatMap(List::stream)
                 .toList();
-        //The syntax is ClassName::methodName
-        //In this case, Flower::getOrderDetailList is equivalent to the lambda expression flower -> flower.getOrderDetailList()
     }
 
     private List<Flower> getFlowerList(int sellerId) {
@@ -444,10 +442,13 @@ public class SellerServiceImpl implements SellerService {
                 .status("200")
                 .message("")
                 .buyerList(getBuyerList(sellerId).stream()
-                        .filter(buyer -> buyer.getName().contains(request.getKeyword()))
+                        .filter(buyer -> buyer.getName().toUpperCase().contains(request.getKeyword().toUpperCase()))
                         .map(user -> SearchBuyerListResponse.Buyer.builder()
                                 .id(user.getId())
+                                .avatar(user.getAvatar())
                                 .name(user.getName())
+                                .email(user.getAccount().getEmail())
+                                .phone(user.getPhone())
                                 .build())
                         .toList()
                 )
@@ -1241,7 +1242,6 @@ public class SellerServiceImpl implements SellerService {
 
         return ViewFeedbackResponse.builder()
                 .status("200")
-                .message("Feedback found")
                 .id(seller.getId())
                 .name(seller.getUser().getName())
                 .email(seller.getUser().getAccount().getEmail())

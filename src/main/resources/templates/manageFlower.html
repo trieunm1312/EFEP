@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
@@ -161,7 +162,7 @@
                         <span>Create New</span>
                     </div>
                 </div>
-                <table class="manage-flower__table">
+                <table id="flower" class="manage-flower__table">
                     <thead class="table__header">
                     <tr>
                         <th class="table__header-image">Image</th>
@@ -170,16 +171,13 @@
                         <th class="table__header-amount">Flower Amount</th>
                         <th class="table__header-qnt">Quantity</th>
                         <th class="table__header-price">Price</th>
-                        <th class="table__header-sold-qnt">Sold Quantity</th>
                         <th class="table__header-status">Status</th>
-
+                        <th class="table__header-status"></th>
+                        <th class="table__header-status"></th>
                     </tr>
                     </thead>
                     <tbody class="table__body">
-                    <div>
-                        <div th:if="${msg}">
-                            <tr class="table__body-item" th:each="item : ${msg.flowerList}">
-                                <div>
+                            <tr th:if="${msg}" class="table__body-item" th:each="item : ${msg.flowerList}">
                                     <form th:action="@{/seller/flower}" th:method="put"
                                           class="manage-flower__form">
                                         <input type="hidden" name="flowerId" th:value="${item.id}">
@@ -219,9 +217,6 @@
                                             <!--                                                    <input name="price" class="price-input" th:value="${item.price}"-->
                                             <!--                                                        style="display: none;" title="Please enter a valid number" />-->
                                         </td>
-                                        <!--                                                <td class="table__body-sold_qnt">-->
-                                        <!--                                                    <span th:text="${item.soldQuantity}" class="sold-text">120</span>-->
-                                        <!--                                                </td>-->
                                         <td class="table__body-status">
                                             <span th:text="${item.status}" class="status-text">Out</span>
                                         </td>
@@ -339,7 +334,6 @@
                                             </div>
                                         </td>
                                     </form>
-
                                     <td class="table__body-toggle" th:if="${item.quantity} > 0">
                                                 <span th:onclick="'openDeletePopup(' + ${item.id} + ')'"
                                                       class="toggle-btn">Disable</span>
@@ -360,10 +354,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                </div>
                             </tr>
-                        </div>
-                    </div>
 
                     <form th:action="@{/seller/flower}" method="post" class="manage-flower__form">
                         <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
@@ -691,6 +682,21 @@
     </script>
     <script src="/js/adminBase.js"></script>
     <script src="/js/manageFlower.js"></script>
+    <script src="//code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="//cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#flower').DataTable();
+        } );
+    </script>
+    <script>
+        $(document).ready( function () {
+            $('#flower').DataTable();
+        } );
+    </script>
+    <script>
+    $.fn.dataTable.ext.errMode = 'none';
+    </script>
 
 </body>
 

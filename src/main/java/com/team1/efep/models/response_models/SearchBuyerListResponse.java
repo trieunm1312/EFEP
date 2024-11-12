@@ -27,6 +27,12 @@ public class SearchBuyerListResponse {
 
         private int id;
 
+        private String avatar;
+
         private String name;
+
+        private String email;
+
+        private String phone;
     }
 }
