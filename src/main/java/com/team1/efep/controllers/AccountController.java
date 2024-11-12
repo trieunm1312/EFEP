@@ -50,6 +50,7 @@ public class AccountController {
     @GetMapping("/view/profile")
     @Operation(hidden = true)
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", model.getAttribute("error"));
         return accountService.viewProfile(session, model, redirectAttributes);
     }
 
