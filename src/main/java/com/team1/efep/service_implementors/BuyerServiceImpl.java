@@ -538,7 +538,6 @@ public class BuyerServiceImpl implements BuyerService {
             // Trả về kết quả
             return ViewOrderHistoryResponse.builder()
                     .status("200")
-                    .message("Orders found")
                     .orderList(orders)
                     .build();
         }
@@ -612,7 +611,6 @@ public class BuyerServiceImpl implements BuyerService {
 
         return ViewOrderDetailResponse.builder()
                 .status("200")
-                .message("Order details retrieved successfully")
                 .sellerId(order.getOrderDetailList().stream()
                         .findFirst()
                         .map(detail -> detail.getFlower().getSeller().getId())
@@ -811,7 +809,6 @@ public class BuyerServiceImpl implements BuyerService {
         if (order != null) {
             return ViewOrderStatusResponse.builder()
                     .status("200")
-                    .message("View Order Status successful")
                     .orderStatus(order.getStatus())
                     .isFeedback(order.isFeedback())
                     .build();
@@ -847,7 +844,6 @@ public class BuyerServiceImpl implements BuyerService {
 
         return CancelOrderResponse.builder()
                 .status("200")
-                .message("Cancel order successfully")
                 .build();
     }
 

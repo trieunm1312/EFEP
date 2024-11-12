@@ -152,7 +152,7 @@
                             <span>Create New</span>
                         </div>
                     </div>
-                    <table class="manage-flower__table">
+                    <table id="flower" class="manage-flower__table">
                         <thead class="table__header">
                             <tr>
                                 <th class="table__header-image">Image</th>
@@ -161,8 +161,9 @@
                                 <th class="table__header-amount">Flower Amount</th>
                                 <th class="table__header-qnt">Quantity</th>
                                 <th class="table__header-price">Price</th>
-                                <th class="table__header-sold-qnt">Sold Quantity</th>
                                 <th class="table__header-status">Status</th>
+                                <th class="table__header-status"></th>
+                                <th class="table__header-status"></th>
                             </tr>
                         </thead>
                         <tbody class="table__body">
@@ -678,11 +679,6 @@
     <script src="/js/manageFlower.js"></script>
     <script src="//code.jquery.com/jquery-3.7.1.js"></script>
     <script src="//cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script>
-        $(document).ready( function () {
-            $('#flower').DataTable();
-        } );
-    </script>
     <script>
         $(document).ready( function () {
             $('#flower').DataTable();
