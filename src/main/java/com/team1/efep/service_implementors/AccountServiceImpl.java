@@ -188,7 +188,7 @@ public class AccountServiceImpl implements AccountService {
         if (user.getAccount().getRole().equals(Role.SELLER)) {
             return ViewProfileResponse.builder()
                     .status("200")
-                    .message("View profile successfully")
+                    .message("")
                     .id(user.getId())
                     .name(user.getName())
                     .phone(user.getPhone())
@@ -214,7 +214,7 @@ public class AccountServiceImpl implements AccountService {
         }
         return ViewProfileResponse.builder()
                 .status("200")
-                .message("View profile successfully")
+                .message("")
                 .id(user.getId())
                 .name(user.getName())
                 .phone(user.getPhone())
