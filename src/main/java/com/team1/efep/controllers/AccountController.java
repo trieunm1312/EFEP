@@ -1,8 +1,9 @@
 package com.team1.efep.controllers;
 
-import com.team1.efep.configurations.AllPage;
-import com.team1.efep.models.request_models.*;
-import com.team1.efep.models.response_models.*;
+import com.team1.efep.models.request_models.ChangePasswordRequest;
+import com.team1.efep.models.request_models.LoginRequest;
+import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.models.request_models.UpdateProfileRequest;
 import com.team1.efep.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -49,6 +50,7 @@ public class AccountController {
     @GetMapping("/view/profile")
     @Operation(hidden = true)
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", model.getAttribute("error"));
         return accountService.viewProfile(session, model, redirectAttributes);
     }
 

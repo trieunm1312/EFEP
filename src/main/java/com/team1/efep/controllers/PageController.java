@@ -138,7 +138,7 @@ public class PageController {
     }
 
     @GetMapping("/myAccount")
-    public String myAccountPage(Model model) {
+    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes) {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
@@ -149,7 +149,7 @@ public class PageController {
             }
 
         } else  {
-            model.addAttribute("error", model.getAttribute("error"));
+            redirectAttributes.addFlashAttribute("error", model.getAttribute("error"));
             return "redirect:/account/view/profile";
         }
 

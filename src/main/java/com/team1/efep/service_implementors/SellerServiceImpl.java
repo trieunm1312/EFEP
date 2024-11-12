@@ -240,10 +240,18 @@ public class SellerServiceImpl implements SellerService {
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
         Status.changeOrderStatus(order, request.getStatus(), orderRepo);
-        if (request.getStatus().equals(Status.ORDER_STATUS_PACKED)) {
-            sendPackedOrderEmail(order, order.getUser());
-        } else {
-            sendCancelOrderEmail(order, order.getUser());
+//        if (request.getStatus().equals(Status.ORDER_STATUS_PACKED)) {
+//            sendPackedOrderEmail(order, order.getUser());
+//        } else {
+//            sendCancelOrderEmail(order, order.getUser());
+//        }
+        if(request.getStatus().equals(Status.ORDER_STATUS_CANCELLED)){
+            order.getOrderDetailList().forEach(orderItem -> {
+                Flower flower = orderItem.getFlower();
+                int quantityToRestore = orderItem.getQuantity();
+                flower.setQuantity(flower.getQuantity() + quantityToRestore);
+                flowerRepo.save(flower);
+            });
         }
         return ChangeOrderStatusResponse.builder()
                 .status("200")
