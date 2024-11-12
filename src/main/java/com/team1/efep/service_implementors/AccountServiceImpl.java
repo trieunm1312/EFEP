@@ -289,9 +289,9 @@ public class AccountServiceImpl implements AccountService {
     private Object changePasswordLogic(ChangePasswordRequest request) {
         Map<String, String> error = ChangePasswordValidation.validate(request);
         if (error.isEmpty()) {
-            Account account = accountRepo.findByIdAndPassword(request.getId(), request.getCurrentPassword()).orElse(null);
+            Account account = accountRepo.findByIdAndPassword(request.getId(), PasswordEncryptUtil.encrypt(request.getCurrentPassword())).orElse(null);
             assert account != null;
-            account.setPassword(request.getNewPassword());
+            account.setPassword(PasswordEncryptUtil.encrypt(request.getNewPassword()));
             accountRepo.save(account);
             return ChangePasswordResponse.builder()
                     .status("200")
