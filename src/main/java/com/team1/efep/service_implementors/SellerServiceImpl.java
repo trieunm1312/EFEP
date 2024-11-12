@@ -352,7 +352,7 @@ public class SellerServiceImpl implements SellerService {
 
     private List<ViewFlowerListForSellerResponse.CategoryDetail> viewCategoryList(List<FlowerCategory> flowerCategories) {
         return flowerCategories.stream()
-                .filter(flowerCategory -> flowerCategory.getCategory() != null)  // Only include non-null categories
+                .filter(flowerCategory -> flowerCategory.getCategory() != null)  
                 .map(flowerCategory -> ViewFlowerListForSellerResponse.CategoryDetail.builder()
                         .id(flowerCategory.getCategory().getId())
                         .name(flowerCategory.getCategory().getName())

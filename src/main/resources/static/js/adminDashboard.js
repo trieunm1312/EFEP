@@ -1,7 +1,7 @@
 
 // Generate xValues (months) and yValues (order counts) from orderCounts data
-const xValues = orderCounts.map(order => order.month);
-const yValues = orderCounts.map(order => order.count);
+const xValues = sellerCounts.map(order => order.month);
+const yValues = sellerCounts.map(order => order.count);
 
 // Create the chart as a bar chart
 new Chart("monthlyOrderChart", {
