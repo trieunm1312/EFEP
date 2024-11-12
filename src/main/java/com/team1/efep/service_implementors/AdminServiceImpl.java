@@ -350,6 +350,36 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public void getSellersInMonth(Model model) {
+        model.addAttribute("SellerMonthly", getSellersInMonthLogic());
+    }
+
+    private SellersInMonthResponse getSellersInMonthLogic() {
+        List<Seller> sellers = sellerRepo.findAll();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-yyyy");
+
+        Map<String, Long> sellerMap = sellers.stream()
+                .collect(Collectors.groupingBy(
+                        seller -> seller.getUser().getCreatedDate().format(formatter),
+                        Collectors.counting()
+                ));
+
+        List<SellersInMonthResponse.SellerCount> sellerCounts = sellerMap.entrySet().stream()
+                .map(entry -> SellersInMonthResponse.SellerCount.builder()
+                        .month(entry.getKey())
+                        .count(entry.getValue().intValue())
+                        .build())
+                .toList();
+
+        return SellersInMonthResponse.builder()
+                .status("200")
+                .message("Get sellers created in month successfully")
+                .sellerCounts(sellerCounts)
+                .build();
+    }
+
+    @Override
     public void getTop3SellerInMonth(Model model) {
         model.addAttribute("topSellers", getTop3SellerInMonthLogic());
     }

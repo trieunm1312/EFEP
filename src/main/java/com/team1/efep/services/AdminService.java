@@ -32,5 +32,7 @@ public interface AdminService {
 
     void getOrdersInMonth(Model model);
 
+    void getSellersInMonth(Model model);
+
     void getTop3SellerInMonth(Model model);
 }

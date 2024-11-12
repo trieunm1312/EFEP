@@ -9,7 +9,7 @@ public class SellerPageConfig {
     public static void config(Model model, SellerService sellerService, HttpSession session){
         sellerService.getSoldQuantityCategory(model, session);
         sellerService.getRevenue(model,session);
-        sellerService.getTotalNumberFlower(model, session);
+        sellerService.getTotalSoldFlowers(model, session);
         sellerService.getTotalNumberOfCanceledOrder(model, session);
         sellerService.getOrderInDaily(model, session);
         sellerService.getTotalNumberOfOrder(model, session);

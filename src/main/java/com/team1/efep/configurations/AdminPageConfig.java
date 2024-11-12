@@ -16,6 +16,7 @@ public class AdminPageConfig {
         adminService.getTop3SellerInMonth(model);
         adminService.getTotalSale(model);
         adminService.getOrdersInMonth(model);
+        adminService.getSellersInMonth(model);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.team1.efep.service_implementors;
 
-import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
@@ -27,7 +26,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -53,11 +53,14 @@ public class SellerServiceImpl implements SellerService {
 
     private final JavaMailSenderImpl mailSender;
 
+    private final WishlistRepo wishlistRepo;
+
+    private final WishlistItemRepo wishlistItemRepo;
+
     //--------------------------------------CREATE FLOWER------------------------------------------------//
 
     @Override
     public String createFlower(CreateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        Map<String, String> error = new HashMap<>();
         Object output = createFlowerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
             model.addAttribute("msg1", (CreateFlowerResponse) output);
@@ -179,7 +182,7 @@ public class SellerServiceImpl implements SellerService {
         if (!orderList.isEmpty()) {
             List<ViewOrderListResponse.OrderBill> orderBills = orderList.stream()
                     .map(this::viewOrderList)
-                    .collect(Collectors.toList());
+                    .collect(toList());
             return ViewOrderListResponse.builder()
                     .status("200")
                     .message("Orders found")
@@ -212,7 +215,7 @@ public class SellerServiceImpl implements SellerService {
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
                         .build())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     //-----------------------------------CHANGE ORDER STATUS----------------------------------------//
@@ -349,6 +352,7 @@ public class SellerServiceImpl implements SellerService {
 
     private List<ViewFlowerListForSellerResponse.CategoryDetail> viewCategoryList(List<FlowerCategory> flowerCategories) {
         return flowerCategories.stream()
+                .filter(flowerCategory -> flowerCategory.getCategory() != null)  
                 .map(flowerCategory -> ViewFlowerListForSellerResponse.CategoryDetail.builder()
                         .id(flowerCategory.getCategory().getId())
                         .name(flowerCategory.getCategory().getName())
@@ -417,8 +421,6 @@ public class SellerServiceImpl implements SellerService {
                 .map(Flower::getOrderDetailList)
                 .flatMap(List::stream)
                 .toList();
-        //The syntax is ClassName::methodName
-        //In this case, Flower::getOrderDetailList is equivalent to the lambda expression flower -> flower.getOrderDetailList()
     }
 
     private List<Flower> getFlowerList(int sellerId) {
@@ -440,10 +442,13 @@ public class SellerServiceImpl implements SellerService {
                 .status("200")
                 .message("")
                 .buyerList(getBuyerList(sellerId).stream()
-                        .filter(buyer -> buyer.getName().contains(request.getKeyword()))
+                        .filter(buyer -> buyer.getName().toUpperCase().contains(request.getKeyword().toUpperCase()))
                         .map(user -> SearchBuyerListResponse.Buyer.builder()
                                 .id(user.getId())
+                                .avatar(user.getAvatar())
                                 .name(user.getName())
+                                .email(user.getAccount().getEmail())
+                                .phone(user.getPhone())
                                 .build())
                         .toList()
                 )
@@ -505,7 +510,7 @@ public class SellerServiceImpl implements SellerService {
                 .map(detail -> {
                     List<String> categories = detail.getFlower().getFlowerCategoryList().stream()
                             .map(flowerCategory -> flowerCategory.getCategory().getName())
-                            .collect(Collectors.toList());
+                            .collect(toList());
 
                     return ViewOrderDetailForSellerResponse.Detail.builder()
                             .image(detail.getFlower().getFlowerImageList().stream()
@@ -583,7 +588,7 @@ public class SellerServiceImpl implements SellerService {
         return orderDetails.stream()
                 .map(OrderDetail::getOrder)
                 .distinct()
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     private FilterOrderResponse.OrderBill viewFilterOrderList(Order order) {
@@ -607,7 +612,7 @@ public class SellerServiceImpl implements SellerService {
                         .quantity(detail.getQuantity())
                         .price(detail.getPrice())
                         .build())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     //----------------------------------SORT ORDER BY CREATE DATE-------------------------------------//
@@ -702,35 +707,55 @@ public class SellerServiceImpl implements SellerService {
 
     private void updateImage(UpdateFlowerRequest request, Flower flower) {
         List<FlowerImage> existingImages = flower.getFlowerImageList();
+        List<String> newImageLinks = request.getImageList();
 
-        for (String link : request.getImageList()) {
-            existingImages.add(FlowerImage.builder()
-                    .flower(flower)
-                    .link(link)
-                    .build());
-        }
+        List<String> existingImageLinks = existingImages.stream()
+                .map(FlowerImage::getLink)
+                .toList();
+
+        List<FlowerImage> imagesToAdd = newImageLinks.stream()
+                .filter(link -> !existingImageLinks.contains(link))
+                .map(link -> FlowerImage.builder()
+                        .flower(flower)
+                        .link(link)
+                        .build())
+                .toList();
+
+        List<FlowerImage> imagesToRemove = existingImages.stream()
+                .filter(flowerImage -> !newImageLinks.contains(flowerImage.getLink()))
+                .toList();
+
+        flowerImageRepo.deleteAll(imagesToRemove);
+        flowerImageRepo.saveAll(imagesToAdd);
+        existingImages.removeAll(imagesToRemove);
+        existingImages.addAll(imagesToAdd);
     }
 
     private void updateFlowerCategory(UpdateFlowerRequest request, Flower flower) {
         List<FlowerCategory> existingCategories = flower.getFlowerCategoryList();
-
         List<Integer> newCategoryIds = request.getCategoryIdList();
 
+        List<Integer> validCategoryIds = newCategoryIds.stream()
+                .filter(categoryId -> categoryId != 0)
+                .toList();
+
         List<Integer> existingCategoryIds = existingCategories.stream()
+                .filter(flowerCategory -> flowerCategory.getCategory() != null)
                 .map(flowerCategory -> flowerCategory.getCategory().getId())
                 .toList();
 
-        List<FlowerCategory> categoriesToAdd = newCategoryIds.stream()
+        List<FlowerCategory> categoriesToAdd = validCategoryIds.stream()
                 .filter(categoryId -> !existingCategoryIds.contains(categoryId))
                 .map(categoryId -> FlowerCategory.builder()
                         .flower(flower)
                         .category(categoryRepo.findById(categoryId).orElse(null))
                         .build())
-                .collect(Collectors.toList());
+                .toList();
 
         List<FlowerCategory> categoriesToRemove = existingCategories.stream()
-                .filter(flowerCategory -> !newCategoryIds.contains(flowerCategory.getCategory().getId()))
-                .collect(Collectors.toList());
+                .filter(flowerCategory -> flowerCategory.getCategory() != null &&
+                        !validCategoryIds.contains(flowerCategory.getCategory().getId()))
+                .toList();
 
         flower.getFlowerCategoryList().removeAll(categoriesToRemove);
         flowerCategoryRepo.deleteAll(categoriesToRemove);
@@ -750,6 +775,7 @@ public class SellerServiceImpl implements SellerService {
             return "redirect:/login";
         }
         redirectAttributes.addFlashAttribute("msg", deleteFlowerLogic(request));
+        session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
         return "redirect:/manageFlower";
     }
 
@@ -759,6 +785,14 @@ public class SellerServiceImpl implements SellerService {
         flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
         flower.setQuantity(0);
         flowerRepo.save(flower);
+
+        List<WishlistItem> itemsToRemove = wishlistItemRepo.findAllByFlower_Id(request.getFlowerId());
+        for (WishlistItem item : itemsToRemove) {
+            Wishlist wishlist = item.getWishlist();
+            wishlist.getWishlistItemList().remove(item); // Loại bỏ item khỏi wishlist
+            wishlistItemRepo.delete(item); // Xóa item khỏi repo
+        }
+
         return DeleteFlowerResponse.builder()
                 .status("200")
                 .message(flower.getName() + " has been deleted" + "(" + flower.getStatus() + ")")
@@ -908,7 +942,7 @@ public class SellerServiceImpl implements SellerService {
                         .id(flowerCategory.getCategory().getId())
                         .name(flowerCategory.getCategory().getName())
                         .build())
-                .collect(Collectors.toList());
+                .collect(toList());
 
         return ViewFlowerCategoryResponse.builder()
                 .status("200")
@@ -952,7 +986,7 @@ public class SellerServiceImpl implements SellerService {
                             .build() : null;
                 })
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         flowerCategoryRepo.saveAll(newFlowerCategories);
 
@@ -1002,26 +1036,30 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------------GET TOTAL NUMBER OF FLOWER---------------------------------------------//
 
     @Override
-    public void getTotalNumberFlower(Model model, HttpSession session) {
-        model.addAttribute("totalNumberFlower", getTotalNumberFlowerLogic(Role.getCurrentLoggedAccount(session)));
+    public void getTotalSoldFlowers(Model model, HttpSession session) {
+        model.addAttribute("totalNumberFlower", getTotalSoldFlowersLogic(Role.getCurrentLoggedAccount(session)));
     }
 
-    private GetTotalNumberFlowerResponse getTotalNumberFlowerLogic(Account account) {
+    private getTotalSoldFlowersResponse getTotalSoldFlowersLogic(Account account) {
 
-        return GetTotalNumberFlowerResponse.builder()
+        return getTotalSoldFlowersResponse.builder()
                 .message("200")
                 .message("")
-                .totalNumberFlowers(flowerRepo.findAllBySeller_User_Account_Id(account.getId()).stream()
-                        .filter(
-                                flower -> LocalDate.now().getMonth().equals(flower.getCreateDate().getMonth())
-                        )
-                        .count()
-                )
+                .totalNumberFlowers(getCompleteOrderedFlowerList(account))
                 .build();
-
-
     }
 
+    private long getCompleteOrderedFlowerList(Account account) {
+        return orderRepo.findAll().stream()
+                .filter(order -> order.getStatus().equals(Status.ORDER_STATUS_COMPLETED)
+                && LocalDate.now().getMonth().equals(order.getCreatedDate().getMonth())
+                )
+                .map(Order::getOrderDetailList)
+                .flatMap(List::stream)
+                .map(OrderDetail::getFlower)
+                .filter(f -> f.getSeller().getUser().getAccount().equals(account))
+                .count();
+    }
     //--------------------------------------------GET TOTAL NUMBER OF CANCELED ORDER---------------------------------------------//
     @Override
     public void getTotalNumberOfCanceledOrder(Model model, HttpSession session) {
@@ -1200,11 +1238,10 @@ public class SellerServiceImpl implements SellerService {
         List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
                 .map(this::mapToFeedbackDetail)
                 .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
-                .collect(Collectors.toList());
+                .collect(toList());
 
         return ViewFeedbackResponse.builder()
                 .status("200")
-                .message("Feedback found")
                 .id(seller.getId())
                 .name(seller.getUser().getName())
                 .email(seller.getUser().getAccount().getEmail())
