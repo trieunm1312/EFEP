@@ -130,9 +130,10 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            redirectAttributes.addFlashAttribute("error", "You are not logged in");
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
         Object output = addToWishlistLogic(request, account);
@@ -286,9 +287,10 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null) {
-            redirectAttributes.addFlashAttribute("error", "You are not logged in");
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
         Object output = deleteWishlistItemLogic(request);
@@ -502,13 +504,11 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String viewOrderHistory(HttpSession session, Model model) {
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", ViewOrderHistoryResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build());
-            return "login";
+            model.addAttribute(MapConfig.buildMapKey(error,"Please login a buyer account to do this action"));
+            return "redirect:/login";
         }
         Object output = viewOrderHistoryLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
@@ -585,12 +585,10 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", ViewOrderHistoryResponse.builder()
-                    .status("400")
-                    .message("Please login a buyer account to do this action")
-                    .build());
+            model.addAttribute(MapConfig.buildMapKey(error,"Please login a buyer account to do this action"));
             return "redirect:/login";
         }
         Object output = viewOrderDetailLogic(request);
