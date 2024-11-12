@@ -361,7 +361,7 @@ public class AdminServiceImpl implements AdminService {
 
         Map<String, Long> sellerMap = sellers.stream()
                 .collect(Collectors.groupingBy(
-                        seller -> seller.getCreatedDate().format(formatter),
+                        seller -> seller.getUser().getCreatedDate().format(formatter),
                         Collectors.counting()
                 ));
 
