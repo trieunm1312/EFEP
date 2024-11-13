@@ -1147,7 +1147,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private boolean checkFlowerQuantity(int orderQuantity, int stockQuantity) {
-        return orderQuantity > stockQuantity;
+        return orderQuantity < stockQuantity;
     }
 
     private boolean sendOrderEmail(Order order, User user) {
