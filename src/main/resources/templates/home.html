@@ -454,7 +454,6 @@
                                                         <span class="header__cart-item-qnt"
                                                               th:text="${item.quantity}">0</span>
                                                         <span class="header__cart-item-multiply">x</span>
-                                                        <!-- <span class="header__cart-item-price" th:text="${'$ ' + item.flower.price * item.getQuantity()}">0</span>-->
                                                         <span class="header__cart-item-price"
                                                               th:text="${'$ ' + item.flower.price}">0</span>
 
@@ -533,7 +532,7 @@
     <!-- Container -->
     <div class="container">
         <div class="container__wrap">
-            <!-- Top Category -->
+            <!-- Top Seller -->
             <div class="top-seller">
                 <h2 class="top-seller__title">Top Seller<br>
                     <img src="/img/title-flower.png" alt="">
@@ -550,18 +549,18 @@
                         </form>
                         <div class="top-seller__content">
                             <div class="user__rating">
-                                <!-- Full stars -->
+
                                 <span th:each="i : ${#numbers.sequence(1, item.averageRating.intValue())}">
                                     <i class="fa-solid fa-star"></i>
                                 </span>
 
-                                <!-- Half star (only if rating has a decimal part of 0.5) -->
+
                                 <span th:if="${item.averageRating.intValue() < item.averageRating}">
                                     <i class="fa-solid fa-star-half-alt"></i>
                                 </span>
 
-                                <!-- Empty stars (up to 5 stars total) -->
-                                <span th:each="i : ${#numbers.sequence(item.averageRating.intValue() + (item.averageRating > item.averageRating.intValue() ? 1 : 0), 4)}">
+
+                                <span th:if="${item.averageRating.intValue() < 5}" th:each="i : ${#numbers.sequence(item.averageRating.intValue() + (item.averageRating > item.averageRating.intValue() ? 1 : 0), 4)}">
                                     <i class="fa-regular fa-star"></i>
                                 </span>
                             </div>
