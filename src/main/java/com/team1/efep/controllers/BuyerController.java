@@ -178,16 +178,16 @@ public class BuyerController {
     //-------------------------------------------------------------------------------//
     @PostMapping("/flower/search")
     @Operation(hidden = true)
-    public String searchFlower(SearchFlowerRequest request, Model model) {
+    public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.searchFlower(request, model);
+        return buyerService.searchFlower(request, model, session);
     }
 
     @GetMapping("/flower/detail")
     @Operation(hidden = true)
-    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
+    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model, HttpSession session) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.viewFlowerDetail(request, model);
+        return buyerService.viewFlowerDetail(request, model, session);
     }
 
     @PostMapping("/category/filter")

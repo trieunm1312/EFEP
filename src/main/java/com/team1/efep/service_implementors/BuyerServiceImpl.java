@@ -58,7 +58,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String viewWishlist(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
@@ -133,7 +133,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
@@ -163,6 +163,7 @@ public class BuyerServiceImpl implements BuyerService {
         Wishlist wishlist = account.getUser().getWishlist();
         if (checkExistedItem(request, wishlist)) {
             WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
+//            WishlistItem wishlistItem = wishlistItemRepo.findByFlower_IdAndWishlist_Id(request.getFlowerId(), account.getUser().getWishlist().getId()).orElse(null);
             assert wishlistItem != null;
             if (wishlistItem.getQuantity() >= wishlistItem.getFlower().getQuantity() || wishlistItem.getQuantity() + request.getQuantity() > wishlistItem.getFlower().getQuantity()) {
                 wishlistItem.setQuantity(Math.min(wishlistItem.getQuantity() + request.getQuantity(), wishlistItem.getFlower().getQuantity()));
@@ -201,7 +202,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String updateWishlist(UpdateWishlistRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             return "redirect:/login";
         }
         request.setAccountId(account.getId());
@@ -209,11 +210,11 @@ public class BuyerServiceImpl implements BuyerService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (UpdateWishlistResponse) output);
-            AllPage.allConfig(model, this);
+            AllPage.allConfig(model, this, session);
             return viewWishlist(session, model, redirectAttributes);
         }
         redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        AllPage.allConfig(model, this);
+        AllPage.allConfig(model, this, session);
         return viewWishlist(session, model, redirectAttributes);
     }
 
@@ -251,6 +252,11 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String deleteWishlist(DeleteWishlistRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
+            return "redirect:/login";
+        }
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -290,7 +296,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String deleteWishlistItem(DeleteWishlistItemRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
@@ -331,6 +337,11 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
     public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
+            return "redirect:/login";
+        }
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
             redirectAttributes.addFlashAttribute("error",  output);
@@ -409,6 +420,11 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String renewPass(RenewPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
+            return "redirect:/login";
+        }
         request.setEmail(session.getAttribute("mail").toString());
         Object output = renewPassLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
@@ -441,6 +457,14 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------VIEW FLOWER LIST---------------------------------------//
     @Override
     public String viewFlowerList(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewFlowerListResponse.builder()
+                    .status("400")
+                    .message("No permission")
+                    .build());
+            return "redirect:/login";
+        }
         ViewFlowerListResponse output = viewFlowerListLogic();
         model.addAttribute("msg", output);
         return "category";
@@ -685,7 +709,15 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------------SEARCH FLOWER------------------------------------------//
 
     @Override
-    public String searchFlower(SearchFlowerRequest request, Model model) {
+    public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", SearchFlowerResponse.builder()
+                    .status("400")
+                    .message("No permission")
+                    .build());
+            return "redirect:/login";
+        }
         model.addAttribute("msg", searchFlowerLogic(request));
         return "category";
     }
@@ -725,7 +757,15 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------------------VIEW FLOWER DETAIL---------------------------------------------//
 
     @Override
-    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
+    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewFlowerDetailResponse.builder()
+                    .status("400")
+                    .message("No permission")
+                    .build());
+            return "redirect:/login";
+        }
         Object output = viewFlowerDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class)) {
             model.addAttribute("msg", (ViewFlowerDetailResponse) output);
@@ -788,7 +828,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String viewOrderStatus(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
@@ -823,6 +863,14 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String cancelOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            model.addAttribute("error", CancelOrderResponse.builder()
+                    .status("400")
+                    .message("Please login a buyer account to do this action")
+                    .build());
+            return "redirect:/login";
+        }
         String referer = httpServletRequest.getHeader("Referer");
         Object output = cancelOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
@@ -919,7 +967,15 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------VIEW CATEGORY------------------------------------------//
 
     @Override
-    public void viewCategory(Model model) {
+    public void viewCategory(Model model, HttpSession session) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
+            model.addAttribute("error", ViewFlowerListResponse.builder()
+                    .status("400")
+                    .message("No permission")
+                    .build());
+            return;
+        }
         model.addAttribute("msg3", viewCategoryLogic());
     }
 
