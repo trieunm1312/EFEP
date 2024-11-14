@@ -71,7 +71,7 @@ public class GoogleLoginUtil {
                         Account.builder()
                                 .status(Status.ACCOUNT_STATUS_ACTIVE)
                                 .email(googleResponse.getEmail())
-                                .password(googleResponse.getId())
+                                .password(PasswordEncryptUtil.encrypt(googleResponse.getId()))
                                 .role(Role.BUYER)
                                 .build()
                 );
