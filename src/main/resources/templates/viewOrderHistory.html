@@ -11,13 +11,6 @@
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/viewOrderHistory.css">
 
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/base.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/viewOrderHistory.css"> -->
-    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/forgotPassword.css"> -->
-
 </head>
 
 <body>
@@ -47,7 +40,7 @@
                 </li>
 
                 <li class="breadbrum__element-list-item">
-                    <a href="" class="breadbrum__element-list-item-link">
+                    <a th:href="@{/account/view/profile}" class="breadbrum__element-list-item-link">
                         <i class="fa-solid fa-angles-right"></i>
                         <span>Account</span>
                     </a>
@@ -140,6 +133,9 @@
                     </form>
                 </div>
 
+            </div>
+            <div th:if="${msg == null}" class="order-empty">
+                <span>You don't have order !</span>
             </div>
         </div>
 

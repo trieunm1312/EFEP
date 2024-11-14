@@ -69,8 +69,7 @@
                                 <i class="fa-solid fa-arrow-left"></i>
                                 Back
                             </a>
-                            <!--                            <p class="text-orange navigation-order-code">ORDER CODE: <span-->
-                            <!--                                    th:text="${msg.orderId}">ABC12345</span></p>-->
+
                         </div>
                         <section class="step-wizard">
                             <ul class="step-wizard-list" th:if="${msg.orderStatus != 'cancelled'}">
@@ -148,14 +147,6 @@
                                             th:text="${'$' + msg.totalPrice}">$122.00</span>
                                     </td>
                                 </tr>
-                                <!--                                <tr>-->
-                                <!--                                    <td class="table-order-detail text-size text-left" colspan="1">-->
-                                <!--                                        <span class="table-order-date font-weight">Order Date</span>-->
-                                <!--                                    </td>-->
-                                <!--                                    <td class="table-order-detail text-left" colspan="1">-->
-                                <!--                                        <span class="table-order-date_detail font-size">12/12/12</span>-->
-                                <!--                                    </td>-->
-                                <!--                                </tr>-->
                                 <tr>
                                     <td class="table-order-detail text-size text-left" colspan="1">
                                         <span class="table-order-payment font-weight">Payment Method</span>
