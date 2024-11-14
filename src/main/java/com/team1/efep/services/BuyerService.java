@@ -44,7 +44,7 @@ public interface BuyerService {
 
     String confirmOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes);
 
-    String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest);
+    String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session);
 
     String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session);
 
