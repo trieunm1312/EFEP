@@ -23,6 +23,10 @@ public class ViewOrderDetailForSellerResponse {
 
     private String buyerName;
 
+    private String buyerPhone;
+
+    private String address;
+
     private float totalPrice;
 
     private String orderStatus;

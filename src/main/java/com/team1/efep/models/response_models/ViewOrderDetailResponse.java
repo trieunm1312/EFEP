@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -29,6 +30,20 @@ public class ViewOrderDetailResponse {
     private String orderStatus;
 
     private String paymentMethod;
+
+    private LocalDateTime createDate;
+
+    private LocalDateTime packedDate;
+
+    private LocalDateTime completedDate;
+
+    private LocalDateTime canceledDate;
+
+    private String buyerName;
+
+    private String buyerPhone;
+
+    private String address;
 
     private boolean isFeedback;
 

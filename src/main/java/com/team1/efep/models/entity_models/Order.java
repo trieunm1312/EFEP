@@ -34,6 +34,15 @@ public class Order {
     @Column(name = "`created_date`")
     private LocalDateTime createdDate;
 
+    @Column(name = "`packed_date`")
+    private LocalDateTime packedDate;
+
+    @Column(name = "`completed_date`")
+    private LocalDateTime completedDate;
+
+    @Column(name = "`canceled_date`")
+    private LocalDateTime canceledDate;
+
     @Column(name = "`total_price`")
     private float totalPrice;
 

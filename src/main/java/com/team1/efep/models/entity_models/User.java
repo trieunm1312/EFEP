@@ -22,6 +22,8 @@ public class User {
 
     private String name;
 
+    private String address;
+
     private String phone;
 
     private String avatar;
@@ -29,6 +31,8 @@ public class User {
     private String background;
 
     private LocalDate createdDate;
+
+    private boolean isSeller;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @ToString.Exclude

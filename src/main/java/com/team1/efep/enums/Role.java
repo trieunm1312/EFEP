@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Role {
+    public static final String NONE_ROLE = "none";
     public static final String BUYER = "buyer";
     public static final String SELLER = "seller";
     public static final String ADMIN = "admin";
@@ -16,11 +17,23 @@ public class Role {
     }
 
     public static boolean checkIfThisAccountIsSeller(Account account) {
-        return account.getRole().equals(SELLER);
+        return account.getUser().isSeller();
     }
 
-    public static boolean checkIfThisAccountIsAdmin(Account account) {
-        return account.getRole().equals(ADMIN);
+    public static boolean changeToBuyer(Account account) {
+        if (account.getRole().equals(SELLER)){
+            account.setRole(BUYER);
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean changeToSeller(Account account) {
+        if (account.getRole().equals(BUYER) && account.getUser().isSeller()){
+            account.setRole(SELLER);
+            return true;
+        }
+        return false;
     }
 
     public static Account getCurrentLoggedAccount(HttpSession session) {
@@ -30,4 +43,5 @@ public class Role {
     public static Account getCurrentLoggedAccount(int id, AccountRepo accountRepo) {
         return accountRepo.findById(id).orElse(null);
     }
+
 }

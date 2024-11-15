@@ -161,7 +161,7 @@
                             </tbody>
                         </table>
                         <form th:action="@{/buyer/flower}" method="get">
-                            <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                            <input class="btn-cart-continue" type="submit" value="Continue shopping">
                         </form>
                     </div>
                     <div class="total__wishlist">
@@ -181,7 +181,7 @@
                 <div class="shopping-wishlist-empty" th:if="${session.acc.getUser().getWishlist().getWishlistItemList().size() <= 0}">
                     <span class="empty-msg">Your wishlist is empty. Buy flower now </span>
                     <form class="btn-form-empty" th:action="@{/buyer/flower}" method="get">
-                        <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                        <input class="btn-cart-continue" type="submit" value="Continue shopping">
                     </form>
                 </div>
 

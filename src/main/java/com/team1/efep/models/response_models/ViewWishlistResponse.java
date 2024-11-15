@@ -25,6 +25,10 @@ public class ViewWishlistResponse {
 
     String userName;
 
+    String phone;
+
+    String address;
+
     float totalPrice;
 
     List<WishlistItems> wishlistItemList;

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -40,6 +41,8 @@ public class ViewFlowerListForSellerResponse {
         private int flowerAmount;
 
         private int quantity;
+
+        private LocalDate witheringDate;
 
         private List<CategoryDetail> categoryList;
 

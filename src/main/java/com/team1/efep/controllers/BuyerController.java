@@ -141,7 +141,7 @@ public class BuyerController {
 
 
     //------------------------------------WISHLIST---------------------------------//
-    @GetMapping("/wishlist")
+    @PostMapping("/wishlist/view")
     @Operation(hidden = true)
     public String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService, session);
