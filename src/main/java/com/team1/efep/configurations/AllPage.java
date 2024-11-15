@@ -9,7 +9,6 @@ public class AllPage {
         buyerService.viewCategory(model);
         buyerService.viewSellerTopList(5, model);
     }
-
 }
 
 

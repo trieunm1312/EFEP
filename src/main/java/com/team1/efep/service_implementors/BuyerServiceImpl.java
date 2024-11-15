@@ -62,6 +62,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
+        Role.changeToBuyer(account);
         Object output = viewWishlistLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewWishlistResponse.class)) {
             model.addAttribute("msg", (ViewWishlistResponse) output);
@@ -100,6 +101,8 @@ public class BuyerServiceImpl implements BuyerService {
                 .id(account.getUser().getWishlist().getId())
                 .userId(account.getUser().getId())
                 .userName(account.getUser().getName())
+                .phone(account.getUser().getPhone())
+                .address(account.getUser().getAddress())
                 .totalPrice(totalPrice)
                 .wishlistItemList(viewWishlistItemList(accountId))
                 .build();
@@ -162,7 +165,7 @@ public class BuyerServiceImpl implements BuyerService {
         assert flower != null;
         Wishlist wishlist = account.getUser().getWishlist();
         if (checkExistedItem(request, wishlist)) {
-            WishlistItem wishlistItem = wishlistItemRepo.findByFlower_Id(request.getFlowerId()).orElse(null);
+            WishlistItem wishlistItem = wishlistItemRepo.findByFlower_IdAndWishlist_Id(request.getFlowerId(), account.getUser().getWishlist().getId()).orElse(null);
             assert wishlistItem != null;
             if (wishlistItem.getQuantity() >= wishlistItem.getFlower().getQuantity() || wishlistItem.getQuantity() + request.getQuantity() > wishlistItem.getFlower().getQuantity()) {
                 wishlistItem.setQuantity(Math.min(wishlistItem.getQuantity() + request.getQuantity(), wishlistItem.getFlower().getQuantity()));
@@ -255,12 +258,12 @@ public class BuyerServiceImpl implements BuyerService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (DeleteWishlistResponse) output);
-            return "redirect:/buyer/wishlist";
+            return "redirect:/buyer/wishlist/view";
         }
 
-        model.addAttribute("response", (Map<String, String>) output);
+        model.addAttribute("msg", (Map<String, String>) output);
         session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-        return "redirect:/buyer/wishlist";
+        return "redirect:/buyer/wishlist/view";
     }
 
     private Object deleteWishlistLogic(DeleteWishlistRequest request) {
@@ -298,10 +301,10 @@ public class BuyerServiceImpl implements BuyerService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (DeleteWishlistItemResponse) output);
-            return "redirect:/buyer/wishlist";
+            return "redirect:/buyer/wishlist/view";
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "home";
+        return "redirect:/buyer/wishlist/view";
     }
 
     private Object deleteWishlistItemLogic(DeleteWishlistItemRequest request) {
@@ -621,6 +624,13 @@ public class BuyerServiceImpl implements BuyerService {
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
+                .createDate(order.getCreatedDate())
+                .packedDate(order.getPackedDate())
+                .completedDate(order.getCompletedDate())
+                .canceledDate(order.getCanceledDate())
+                .buyerName(order.getUser().getName())
+                .buyerPhone(order.getUser().getPhone())
+                .address(order.getUser().getAddress())
                 .detailList(detailList)
                 .isFeedback(order.isFeedback())
                 .build();

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -24,6 +25,8 @@ public class CreateFlowerRequest {
     private Integer flowerAmount;
 
     private Integer quantity;
+
+    private LocalDate witheringDate;
 
     private List<String> imageList;
 
