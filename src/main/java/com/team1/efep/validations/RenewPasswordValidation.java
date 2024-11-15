@@ -38,8 +38,6 @@ public class RenewPasswordValidation {
         if (!request.getPassword().equals(request.getConfirmPassword())) {
             return MapConfig.buildMapKey(error, "Confirmed password doesn't match the password");
         }
-
-
         return error;
     }
 }
