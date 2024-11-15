@@ -26,7 +26,7 @@ public interface BuyerService {
 
     String viewOrderHistory(HttpSession session, Model model);
 
-    void viewSellerTopList(int top, Model model);
+    void viewSellerTopList(int top, Model model, HttpSession session);
 
     String searchFlower(SearchFlowerRequest request, Model model, HttpSession session);
 
@@ -50,7 +50,7 @@ public interface BuyerService {
 
     String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes);
 
-    String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session);
+    String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes);
 
     String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session);
 
@@ -64,9 +64,9 @@ public interface BuyerService {
 
     String handleOTP(String code, Model model, HttpSession session);
 
-    String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes);
+    String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes, HttpSession session);
 
-    String viewFeedback(int sellerId, Model model, HttpSession session);
+    String viewFeedback(int sellerId, Model model, HttpSession session, RedirectAttributes redirectAttributes);
 
     String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest);
 

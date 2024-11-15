@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 public class AllPage {
     public static void allConfig(Model model, BuyerService buyerService, HttpSession session){
         buyerService.viewCategory(model, session);
-        buyerService.viewSellerTopList(5, model);
+        buyerService.viewSellerTopList(5, model, session);
     }
 }
 
