@@ -169,7 +169,7 @@ public class PageController {
     public String categoryPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
         if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), AddToWishlistResponse.class)){
             int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg")).getKeyword());
-            return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes);
+            return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes, session);
         }
         model.addAttribute("msg", (FilterCategoryResponse)model.getAttribute("msg"));
         AllPage.allConfig(model, buyerService, session);
