@@ -97,9 +97,9 @@ public class BuyerController {
 
     @PostMapping("/order/now/payment")
     @Operation(hidden = true)
-    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
+    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService, session);
-        return buyerService.createVNPayPaymentLinkForBuyNow(request, model, httpServletRequest, session);
+        return buyerService.createVNPayPaymentLinkForBuyNow(request, model, httpServletRequest, session, redirectAttributes);
     }
 
     @GetMapping("/order/payment/result")
@@ -192,17 +192,17 @@ public class BuyerController {
 
     @PostMapping("/category/filter")
     @Operation(hidden = true)
-    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes) {
-        return buyerService.filterCategory(request, redirectAttributes);
+    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes, HttpSession session) {
+        return buyerService.filterCategory(request, redirectAttributes, session);
     }
 
     //---------------FEEDBACK----------------//
 
     @GetMapping("/feedback")
     @Operation(hidden = true)
-    public String viewFeedback(int p, Model model, HttpSession session) {
+    public String viewFeedback(int p, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService, session);
-        return buyerService.viewFeedback(p, model, session);
+        return buyerService.viewFeedback(p, model, session, redirectAttributes);
     }
 
     @PostMapping("/feedback")

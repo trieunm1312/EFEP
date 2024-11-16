@@ -347,6 +347,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
             return "redirect:/login";
         }
+        Role.changeToBuyer(account);
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
             redirectAttributes.addFlashAttribute("error", output);
@@ -430,6 +431,8 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
             return "redirect:/login";
         }
+
+        Role.changeToBuyer(account); // Đảm bảo tài khoản có vai trò buyer
         request.setEmail(session.getAttribute("mail").toString());
         Object output = renewPassLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
@@ -462,14 +465,6 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------VIEW FLOWER LIST---------------------------------------//
     @Override
     public String viewFlowerList(HttpSession session, Model model) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewFlowerListResponse.builder()
-                    .status("400")
-                    .message("No permission")
-                    .build());
-            return "redirect:/login";
-        }
         ViewFlowerListResponse output = viewFlowerListLogic();
         model.addAttribute("msg", output);
         return "category";
@@ -629,10 +624,10 @@ public class BuyerServiceImpl implements BuyerService {
         Role.changeToBuyer(account);
         Object output = viewOrderDetailLogic(order);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
-            model.addAttribute("msg", output);
+            model.addAttribute("msg", (ViewOrderDetailResponse) output);
             return "viewOrderStatusDetail";
         }
-        model.addAttribute("error", output);
+        model.addAttribute("error", (Map<String, String>) output);
         return "viewOrderStatusDetail";
     }
 
@@ -701,7 +696,12 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------------VIEW SELLER TOP LIST------------------------------------------//
 
     @Override
-    public void viewSellerTopList(int top, Model model) {
+    public void viewSellerTopList(int top, Model model, HttpSession session) {
+//        Account account = Role.getCurrentLoggedAccount(session);
+//        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+//            throw new SecurityException("Only buyers are allowed to view the top seller list.");
+//        }
+//        Role.changeToBuyer(account);
         model.addAttribute("msg2", viewSellerTopListLogic(top));
     }
 
@@ -744,6 +744,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
+        Role.changeToBuyer(account);
         model.addAttribute("msg", searchFlowerLogic(request));
         return "category";
     }
@@ -792,6 +793,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
+        Role.changeToBuyer(account);
         Object output = viewFlowerDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class)) {
             model.addAttribute("msg", (ViewFlowerDetailResponse) output);
@@ -996,14 +998,15 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public void viewCategory(Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewFlowerListResponse.builder()
-                    .status("400")
-                    .message("No permission")
-                    .build());
-            return;
-        }
+//        Account account = Role.getCurrentLoggedAccount(session);
+//        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
+//            model.addAttribute("error", ViewFlowerListResponse.builder()
+//                    .status("400")
+//                    .message("No permission")
+//                    .build());
+//            return;
+//        }
+//        Role.changeToBuyer(account);
         model.addAttribute("msg3", viewCategoryLogic());
     }
 
@@ -1031,6 +1034,9 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
         session.setAttribute("destination", request.getDestination());
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        Role.changeToBuyer(account);
         VNPayResponse vnPayResponse = createVNPayPaymentLinkLogic(request, httpServletRequest);
         model.addAttribute("msg", vnPayResponse);
         return "redirect:" + vnPayResponse.getPaymentURL();
@@ -1132,6 +1138,7 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
         String destination = (String) session.getAttribute("destination");
+        Role.changeToBuyer(account);
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest, destination);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
@@ -1322,6 +1329,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String confirmCheckoutOrder(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
+        Role.changeToBuyer(account);
         model.addAttribute("msg", viewWishlistLogic(account.getId()));
         return "checkout";
     }
@@ -1330,7 +1338,16 @@ public class BuyerServiceImpl implements BuyerService {
 
 
     @Override
-    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
+    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if(account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            redirectAttributes.addFlashAttribute("msg", VNPayResponse.builder()
+                    .status("400")
+                    .message("You must log in with a buyer account to make a payment.")
+                    .build());
+            return "redirect:/login";
+        }
+        Role.changeToBuyer(account);
         VNPayResponse vnPayResponse = createVNPayPaymentLinkForBuyNowLogic(request, httpServletRequest);
         session.setAttribute("flowerId", request.getFlowerId());
         session.setAttribute("quantity", request.getQuantity());
@@ -1409,6 +1426,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
+        Role.changeToBuyer(account);
         Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()), Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), session.getAttribute("destination").toString(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
@@ -1493,7 +1511,13 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String getCODPaymentResultForBuyNow(VNPayRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        assert account != null;
+        if(account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            redirectAttributes.addFlashAttribute("msg", CODPaymentResponse.builder()
+                    .status("400")
+                    .message("You must log in with a buyer account to make a payment.")
+                    .build());
+            return "redirect:/login";
+        }
         User user = account.getUser();
         Role.changeToBuyer(account);
         saveOrderNow(request.getDestination(), request.getFlowerId(), request.getQuantity(), user, paymentMethodRepo.findById(1).orElse(null));
@@ -1511,7 +1535,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String buyNow(ConfirmOrderRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             model.addAttribute("error", "You must log in");
             return "redirect:/login";
         }
@@ -1560,8 +1584,7 @@ public class BuyerServiceImpl implements BuyerService {
     //---------------------------------FILTER CATEGORY---------------------------------//
 
     @Override
-    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes) {
-
+    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes, HttpSession session) {
 //        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
 //        model.addAttribute("msg", filterCategoryLogic(request));
         redirectAttributes.addFlashAttribute("msg", filterCategoryLogic(request));
@@ -1604,10 +1627,16 @@ public class BuyerServiceImpl implements BuyerService {
     //---------------------------------------VIEW FEEDBACK---------------------------------------//
 
     @Override
-    public String viewFeedback(int sellerId, Model model, HttpSession session) {
+    public String viewFeedback(int sellerId, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        assert account != null;
-        Role.changeToBuyer(account);
+        if(account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+            redirectAttributes.addFlashAttribute("msg", ViewFeedbackResponse.builder()
+                    .status("400")
+                    .message("You must log in with a buyer account to make a payment.")
+                    .build());
+            return "redirect:/login";
+        }
+            Role.changeToBuyer(account);
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
