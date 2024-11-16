@@ -46,6 +46,8 @@ public class Order {
     @Column(name = "`total_price`")
     private float totalPrice;
 
+    private String destination;
+
     private boolean isFeedback;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)

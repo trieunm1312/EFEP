@@ -14,7 +14,7 @@ public interface BuyerService {
 
     String renewPass(RenewPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes);
 
-    String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes);
+    String viewWishlist(HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
@@ -48,7 +48,7 @@ public interface BuyerService {
 
     String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session);
 
-    String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes);
+    String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes, String destination);
 
     String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session);
 

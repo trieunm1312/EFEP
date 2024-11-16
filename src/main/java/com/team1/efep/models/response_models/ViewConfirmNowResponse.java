@@ -23,6 +23,10 @@ public class ViewConfirmNowResponse {
 
     String userName;
 
+    String buyerPhone;
+
+    String address;
+
     float totalPrice;
 
     FlowerInfo flower;
