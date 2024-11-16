@@ -225,11 +225,21 @@
     box-shadow: 5px 15px 15px rgba(0,0,0,0.1);
     border-radius: 10px;
     display: flex;
-    justify-content: space-around;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    /* text-align: center; */
     padding: 20px 10px;
     position: relative;
     z-index: 10;
+}
+
+.track-cancel {
+    text-align: center;
+}
+
+.cancel-date {
+    margin: 0;
 }
 
 .step-wizard-item-icon {
@@ -326,6 +336,15 @@ tbody tr {
 .order-btn-confirm:hover {
     background-color: var(--primary-color);
     color: var(--white-color);
+}
+
+.size-text {
+    font-size: 1.4rem;
+}
+
+.buyer-name {
+    font-size: 1.5rem;
+    color: black;
 }
 
 .table-order-img {

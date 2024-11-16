@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/viewOrderStatusDetail.css"> 
+    <link rel="stylesheet" href="/css/viewOrderStatusDetail.css">
 
 </head>
 
@@ -77,21 +77,29 @@
                                     th:classappend="${msg.orderStatus == 'processing'} ? 'current-item'">
                                     <span class="progress-count">1</span>
                                     <span class="progress-label">Processing</span>
+                                    <span class="">1/1/2024</span>
                                 </li>
                                 <li class="step-wizard-item "
                                     th:classappend="${msg.orderStatus == 'packed'} ? 'current-item'">
                                     <span class="progress-count">2</span>
                                     <span class="progress-label">Packed</span>
+                                    <span class="">1/1/2024</span>
+
                                 </li>
                                 <li class="step-wizard-item "
                                     th:classappend="${msg.orderStatus == 'completed'} ? 'current-item'">
                                     <span class="progress-count">3</span>
                                     <span class="progress-label">Completed</span>
+                                    <span class="">1/1/2024</span>
+
                                 </li>
                             </ul>
                             <div class="step-wizard-cancel" th:if="${msg.orderStatus == 'cancelled'}"
                                 th:classappend="${msg.orderStatus == 'cancelled'} ? 'order-cancel'">
-                                <span class="step-wizard-item-cancel">Order Cancelled</span>
+                                <div class="track-cancel">
+                                    <span class="step-wizard-item-cancel">Order Cancelled</span>
+                                    <p class="cancel-date">1/1/2024</p>
+                                </div>
                                 <i class="fa-solid fa-circle-xmark step-wizard-item-icon"></i>
                             </div>
                         </section>
@@ -107,7 +115,16 @@
                                         </div>
                                     </td>
                                 </tr>
-
+                                <tr>
+                                    <td class="table-order-detail size-text" colspan="2">
+                                        <span class="buyer-name">Thang</span>
+                                        <span>09090900</span>
+                                        <div class="address-detail">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <span class="">5/14 Lô tư</span>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td class="table-order-detail" colspan="2">
                                         <div class="order-item text-flex" th:each="product : ${msg.detailList}">

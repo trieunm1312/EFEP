@@ -26,3 +26,8 @@ function openPopup(id) {
 function closePopup(id) {
     document.getElementById('editPopup-' + id).style.display = "none";
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const today = new Date().toISOString().split("T")[0]; // Lấy ngày hiện tại định dạng 'yyyy-mm-dd'
+    document.getElementById("expiredDate").setAttribute("min", today); // Đặt giá trị min
+});
