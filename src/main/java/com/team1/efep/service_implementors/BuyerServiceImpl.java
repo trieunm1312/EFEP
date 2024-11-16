@@ -468,15 +468,6 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------VIEW FLOWER LIST---------------------------------------//
     @Override
     public String viewFlowerList(HttpSession session, Model model) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewFlowerListResponse.builder()
-                    .status("400")
-                    .message("No permission")
-                    .build());
-            return "redirect:/login";
-        }
-        Role.changeToBuyer(account);
         ViewFlowerListResponse output = viewFlowerListLogic();
         model.addAttribute("msg", output);
         return "category";
@@ -697,10 +688,10 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public void viewSellerTopList(int top, Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            throw new SecurityException("Only buyers are allowed to view the top seller list.");
-        }
+//        Account account = Role.getCurrentLoggedAccount(session);
+//        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+//            throw new SecurityException("Only buyers are allowed to view the top seller list.");
+//        }
 //        Role.changeToBuyer(account);
         model.addAttribute("msg2", viewSellerTopListLogic(top));
     }
@@ -999,15 +990,15 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public void viewCategory(Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewFlowerListResponse.builder()
-                    .status("400")
-                    .message("No permission")
-                    .build());
-            return;
-        }
-        Role.changeToBuyer(account);
+//        Account account = Role.getCurrentLoggedAccount(session);
+//        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
+//            model.addAttribute("error", ViewFlowerListResponse.builder()
+//                    .status("400")
+//                    .message("No permission")
+//                    .build());
+//            return;
+//        }
+//        Role.changeToBuyer(account);
         model.addAttribute("msg3", viewCategoryLogic());
     }
 
@@ -1586,16 +1577,6 @@ public class BuyerServiceImpl implements BuyerService {
     public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes, HttpSession session) {
 //        // Kiểm tra điều kiện categoryId không hợp lệ hoặc null
 //        model.addAttribute("msg", filterCategoryLogic(request));
-        Account account = Role.getCurrentLoggedAccount(session);
-        if(account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            redirectAttributes.addFlashAttribute("msg", ViewFeedbackResponse.builder()
-                    .status("400")
-                    .message("You must log in with a buyer account to make a payment.")
-                    .build());
-            return "redirect:/login";
-        }
-        // Chuyển vai trò thành buyer (nếu cần)
-        Role.changeToBuyer(account);
         redirectAttributes.addFlashAttribute("msg", filterCategoryLogic(request));
         return "redirect:/category";
     }
