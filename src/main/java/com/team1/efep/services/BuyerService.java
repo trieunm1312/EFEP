@@ -14,7 +14,7 @@ public interface BuyerService {
 
     String renewPass(RenewPasswordRequest request, Model model, HttpSession session,  RedirectAttributes redirectAttributes);
 
-    String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes);
+    String viewWishlist(HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     String addToWishlist(AddToWishlistRequest request,HttpServletRequest httpServletRequest, HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 
@@ -28,9 +28,9 @@ public interface BuyerService {
 
     void viewSellerTopList(int top, Model model);
 
-    String searchFlower(SearchFlowerRequest request, Model model);
+    String searchFlower(SearchFlowerRequest request, Model model, HttpSession session);
 
-    String viewFlowerDetail(ViewFlowerDetailRequest request, Model model);
+    String viewFlowerDetail(ViewFlowerDetailRequest request, Model model, HttpSession session);
 
     String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
 
@@ -44,13 +44,13 @@ public interface BuyerService {
 
     String confirmOrder(CancelOrderRequest request, HttpSession session, Model model, HttpServletRequest httpServletRequest,  RedirectAttributes redirectAttributes);
 
-    String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest);
+    String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session);
 
     String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session);
 
-    String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes);
+    String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes, String destination);
 
-    String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session);
+    String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes);
 
     String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session);
 
@@ -66,7 +66,7 @@ public interface BuyerService {
 
     String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes);
 
-    String viewFeedback(int sellerId, Model model, HttpSession session);
+    String viewFeedback(int sellerId, Model model, HttpSession session, RedirectAttributes redirectAttributes);
 
     String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest);
 

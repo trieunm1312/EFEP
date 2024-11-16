@@ -182,7 +182,7 @@
                 <!-- Seller Feedback -->
                 <div class="seller-feedback">
                     <h2  class="seller-feedback__heading">Buyer Feedback</h2>
-                    <div th:if="${msg.feedbackList != null}" class="seller-feedback__list">
+                    <div th:if="${msg != null}" class="seller-feedback__list">
                         <div th:each="buyer : ${msg.feedbackList}" class="seller-feedback__item">
                             <div class="seller-feedback__content">
                                 <div class="user__avatar">

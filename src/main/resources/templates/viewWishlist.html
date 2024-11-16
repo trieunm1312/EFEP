@@ -160,8 +160,8 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <form th:action="@{/buyer/flower}" method="get">
-                            <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                        <form th:action="@{/buyer/flower}" th:method="get">
+                            <input class="btn-cart-continue" type="submit" value="Continue shopping">
                         </form>
                     </div>
                     <div class="total__wishlist">
@@ -172,7 +172,7 @@
                             <span class="total__wishlist-detail-price" th:text="${'$ ' + msg.totalPrice}">0</span>
                         </div>
                         <div class="btn-cart">
-                            <form th:action="@{/buyer/order/confirm}" method="get">
+                            <form th:action="@{/buyer/order/confirm}" th:method="get">
                                 <input class="btn-cart-checkout" type="submit" value="Confirm order">
                             </form>
                         </div>
@@ -180,8 +180,8 @@
                 </div>
                 <div class="shopping-wishlist-empty" th:if="${session.acc.getUser().getWishlist().getWishlistItemList().size() <= 0}">
                     <span class="empty-msg">Your wishlist is empty. Buy flower now </span>
-                    <form class="btn-form-empty" th:action="@{/buyer/flower}" method="get">
-                        <input class="btn-cart-continue" type="submit" value="Continue shopping" name="Action">
+                    <form class="btn-form-empty" th:action="@{/buyer/flower}" th:method="get">
+                        <input class="btn-cart-continue" type="submit" value="Continue shopping">
                     </form>
                 </div>
 

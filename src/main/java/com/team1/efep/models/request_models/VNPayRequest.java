@@ -16,4 +16,6 @@ public class VNPayRequest {
     private int flowerId;
 
     private int quantity;
+
+    private String destination;
 }

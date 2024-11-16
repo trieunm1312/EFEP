@@ -1,7 +1,7 @@
 package com.team1.efep.configurations;
 
-import com.team1.efep.services.AccountService;
 import com.team1.efep.services.BuyerService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 public class AllPage {
@@ -9,7 +9,6 @@ public class AllPage {
         buyerService.viewCategory(model);
         buyerService.viewSellerTopList(5, model);
     }
-
 }
 
 

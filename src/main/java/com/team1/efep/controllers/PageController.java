@@ -34,7 +34,7 @@ public class PageController {
     private final AdminService adminService;
 
     @GetMapping("/")
-    public String startPage(Model model, HttpSession session) {
+    public String startPage(Model model) {
         AllPage.allConfig(model, buyerService);
         HomepageConfig.config(model,buyerService);
         return "home";
@@ -84,7 +84,7 @@ public class PageController {
     }
 
     @GetMapping("/viewOrderSummary")
-    public String viewOrderSummaryPage(Model model, HttpSession session) {
+    public String viewOrderSummaryPage(Model model) {
         AllPage.allConfig(model, buyerService);
         return "viewOrderSummary";
     }
@@ -138,7 +138,7 @@ public class PageController {
     }
 
     @GetMapping("/myAccount")
-    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes) {
+    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes, HttpSession session) {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
@@ -153,20 +153,19 @@ public class PageController {
             return "redirect:/account/view/profile";
         }
 
-//        model.addAttribute("msg", (ViewProfileResponse) model.getAttribute("msg"));
         AllPage.allConfig(model, buyerService);
         return "myAccount";
     }
 
 
     @GetMapping("/wishlist")
-    public String viewWishlistPage(HttpSession session, Model model) {
+    public String viewWishlistPage(Model model) {
         AllPage.allConfig(model, buyerService);
         return "viewWishlist";
     }
 
     @GetMapping("/category")
-    public String categoryPage(Model model, RedirectAttributes redirectAttributes) {
+    public String categoryPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
         if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), AddToWishlistResponse.class)){
             int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg")).getKeyword());
             return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes);

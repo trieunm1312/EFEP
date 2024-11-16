@@ -462,9 +462,8 @@
                                             </li>
                                         </ul>
                                         <div class="header__cart-list-btn">
-                                            <form th:action="@{/buyer/wishlist}" method="get">
-                                                <input class="btn-view-cart" type="submit" value="View wishlist"
-                                                       name="Action">
+                                            <form th:action="@{/buyer/wishlist/view}" method="post">
+                                                <input class="btn-view-cart" type="submit" value="View wishlist">
                                             </form>
                                         </div>
                                     </div>

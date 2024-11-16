@@ -6,19 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Flower Page</title>
 
-    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
-    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
-    <!-- <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/adminBase.css">
-    <link rel="stylesheet" href="/css/manageFlower.css"> -->
+    <link rel="stylesheet" href="/css/manageFlower.css">
 
-    <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/all.min.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/animate.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/adminBase.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css">
-
+    <link rel="stylesheet" href="/src/main/resources/static/css/manageFlower.css"> -->
 </head>
 
 <body>
@@ -115,32 +114,32 @@
                 </div>
             </div>
 
-            <div class="header__others">
-                <div class="header__account" id="headerAccount">
-                    <i th:if="${session.acc.getUser().getAvatar()} == ''"
-                        class="header__account-icon fa-solid fa-user"></i>
-                    <img th:if="${session.acc.getUser().getAvatar()} != ''"
-                        th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
-                    <span th:text="${session.acc.getUser().getName()}"></span>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <div class="header__item-account" id="accountDropdown">
-                        <form th:action="@{/account/view/profile}" class="form" method="get">
-                            <input type="submit" name="action" value="My profile"
-                                class="header__item-account-item"></input>
-                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                        </form>
-                        <form th:action="@{/change/password}" class="form">
-                            <input type="submit" name="action" class="header__item-account-item"
-                                value="Change Password"></input>
-                            <input type="hidden" name="id" th:value="${session.acc.id}"></input>
-                        </form>
-                        <form th:action="@{/account/logout}" class="form" method="get">
-                            <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
-                        </form>
-                    </div>
+        <div class="header__others">
+            <div class="header__account" id="headerAccount">
+                <i th:if="${session.acc.getUser().getAvatar()} == ''"
+                   class="header__account-icon fa-solid fa-user"></i>
+                <img th:if="${session.acc.getUser().getAvatar()} != ''"
+                     th:src="${session.acc.getUser().getAvatar()}" alt="Avatar">
+                <span th:text="${session.acc.getUser().getName()}"></span>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <div class="header__item-account" id="accountDropdown">
+                    <form th:action="@{/account/view/profile}" class="form" method="get">
+                        <input type="submit" name="action" value="My profile"
+                               class="header__item-account-item"></input>
+                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/change/password}" class="form">
+                        <input type="submit" name="action" class="header__item-account-item"
+                               value="Change Password"></input>
+                        <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                    </form>
+                    <form th:action="@{/account/logout}" class="form" method="get">
+                        <input type="submit" name="action" value="Logout" class="header__item-account-item"></input>
+                    </form>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
         <!-- Container -->
         <div class="container">
@@ -172,8 +171,7 @@
                                 <div th:if="${msg}">
                                     <tr class="table__body-item" th:each="item : ${msg.flowerList}">
                                         <div>
-                                            <form th:action="@{/seller/flower}" th:method="put"
-                                                class="manage-flower__form">
+                                            <form th:action="@{/seller/flower}" th:method="put" class="manage-flower__form">
                                                 <input type="hidden" name="flowerId" th:value="${item.id}">
                                                 <input type="hidden" name="accountId" th:value="${session.acc.getId()}">
                                                 <td class="table__body-img">
@@ -736,18 +734,9 @@
         }
     </script>
     <script src="/js/adminBase.js"></script>
-    <script src="/src/main/resources/static/js/manageFlower.js"></script>
+    <script src="/js/manageFlower.js"></script>
     <script src="//code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="//cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="/js/chosen.jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#flower').DataTable();
-        });
-    </script>
-    <script>
-        $.fn.dataTable.ext.errMode = 'none';
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             $(".chosen-select").chosen({

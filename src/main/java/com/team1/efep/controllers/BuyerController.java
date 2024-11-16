@@ -90,16 +90,16 @@ public class BuyerController {
 
     @PostMapping("/order/payment")
     @Operation(hidden = true)
-    public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest) {
+    public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.createVNPayPaymentLink(request, model, httpServletRequest);
+        return buyerService.createVNPayPaymentLink(request, model, httpServletRequest, session);
     }
 
     @PostMapping("/order/now/payment")
     @Operation(hidden = true)
-    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
+    public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.createVNPayPaymentLinkForBuyNow(request, model, httpServletRequest, session);
+        return buyerService.createVNPayPaymentLinkForBuyNow(request, model, httpServletRequest, session, redirectAttributes);
     }
 
     @GetMapping("/order/payment/result")
@@ -117,8 +117,8 @@ public class BuyerController {
     }
 
     @PostMapping("/order/cod")
-    public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
-        return buyerService.getCODPaymentResult(params, session, redirectAttributes);
+    public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes,@RequestParam String destination) {
+        return buyerService.getCODPaymentResult(params, session, redirectAttributes, destination);
     }
 
     @PostMapping("/order/now/cod")
@@ -143,7 +143,7 @@ public class BuyerController {
     //------------------------------------WISHLIST---------------------------------//
     @GetMapping("/wishlist")
     @Operation(hidden = true)
-    public String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String viewWishlist(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
         return buyerService.viewWishlist(session, model, redirectAttributes);
     }
@@ -178,21 +178,21 @@ public class BuyerController {
     //-------------------------------------------------------------------------------//
     @PostMapping("/flower/search")
     @Operation(hidden = true)
-    public String searchFlower(SearchFlowerRequest request, Model model) {
+    public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.searchFlower(request, model);
+        return buyerService.searchFlower(request, model, session);
     }
 
     @GetMapping("/flower/detail")
     @Operation(hidden = true)
-    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model) {
+    public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model, HttpSession session) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.viewFlowerDetail(request, model);
+        return buyerService.viewFlowerDetail(request, model, session);
     }
 
     @PostMapping("/category/filter")
     @Operation(hidden = true)
-    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes) {
+    public String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes, HttpSession session) {
         return buyerService.filterCategory(request, redirectAttributes);
     }
 
@@ -200,9 +200,9 @@ public class BuyerController {
 
     @GetMapping("/feedback")
     @Operation(hidden = true)
-    public String viewFeedback(int p, Model model, HttpSession session) {
+    public String viewFeedback(int p, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.viewFeedback(p, model, session);
+        return buyerService.viewFeedback(p, model, session, redirectAttributes);
     }
 
     @PostMapping("/feedback")

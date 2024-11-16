@@ -6,9 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 public class HomepageConfig {
-
     public static void config(Model model, BuyerService buyerService){
         buyerService.viewSlideBar(model);
-
     }
 }

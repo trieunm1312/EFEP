@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface WishlistItemRepo extends JpaRepository<WishlistItem, Integer> {
 
-    Optional<WishlistItem> findByFlower_Id(int flowerId);
+    Optional<WishlistItem> findByFlower_IdAndWishlist_Id(int flowerId, int wishlistId);
+
+//    Optional<WishlistItem> findByFlower_IdAndWishlist_Id(int flowerId, int wishlistId);
 
     List<WishlistItem> findAllByFlower_Id(int flowerId);
 
