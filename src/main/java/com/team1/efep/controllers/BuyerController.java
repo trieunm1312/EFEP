@@ -117,8 +117,8 @@ public class BuyerController {
     }
 
     @PostMapping("/order/cod")
-    public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
-        return buyerService.getCODPaymentResult(params, session, redirectAttributes);
+    public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes,@RequestParam String destination) {
+        return buyerService.getCODPaymentResult(params, session, redirectAttributes, destination);
     }
 
     @PostMapping("/order/now/cod")
@@ -141,9 +141,9 @@ public class BuyerController {
 
 
     //------------------------------------WISHLIST---------------------------------//
-    @PostMapping("/wishlist/view")
+    @GetMapping("/wishlist")
     @Operation(hidden = true)
-    public String viewWishlist(HttpSession session, Model model,  RedirectAttributes redirectAttributes) {
+    public String viewWishlist(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService, session);
         return buyerService.viewWishlist(session, model, redirectAttributes);
     }

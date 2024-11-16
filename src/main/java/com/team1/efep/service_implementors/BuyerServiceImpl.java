@@ -142,7 +142,6 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Role.changeToBuyer(account);
         Object output = addToWishlistLogic(request, account);
-
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             account = accountRepo.findById(request.getAccountId()).orElse(null);
             session.setAttribute("acc", account);
@@ -208,10 +207,8 @@ public class BuyerServiceImpl implements BuyerService {
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             return "redirect:/login";
         }
-        //Sau khi kiểm tra và xác định tài khoản đăng nhập là buyer
-        // ta chuyển quyền của tài khoản sang buyer trước khi tiếp tục xử lý logic.
-        Role.changeToBuyer(account);
         request.setAccountId(account.getId());
+        Role.changeToBuyer(account);
         Object output = updateWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -268,12 +265,12 @@ public class BuyerServiceImpl implements BuyerService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (DeleteWishlistResponse) output);
-            return "redirect:/buyer/wishlist/view";
+            return viewWishlist(session, model, redirectAttributes);
         }
 
         model.addAttribute("msg", (Map<String, String>) output);
         session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
-        return "redirect:/buyer/wishlist/view";
+        return viewWishlist(session, model, redirectAttributes);
     }
 
     private Object deleteWishlistLogic(DeleteWishlistRequest request) {
@@ -312,10 +309,10 @@ public class BuyerServiceImpl implements BuyerService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (DeleteWishlistItemResponse) output);
-            return "redirect:/buyer/wishlist/view";
+            return viewWishlist(session, model, redirectAttributes);
         }
         model.addAttribute("error", (Map<String, String>) output);
-        return "redirect:/buyer/wishlist/view";
+        return viewWishlist(session, model, redirectAttributes);
     }
 
     private Object deleteWishlistItemLogic(DeleteWishlistItemRequest request) {
@@ -353,7 +350,7 @@ public class BuyerServiceImpl implements BuyerService {
         Role.changeToBuyer(account);
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
-            redirectAttributes.addFlashAttribute("error",  output);
+            redirectAttributes.addFlashAttribute("error", output);
             return "redirect:/forgot/password";
         }
         ForgotPasswordResponse response = (ForgotPasswordResponse) output;
@@ -619,8 +616,13 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute(MapConfig.buildMapKey(error, "Please login a buyer account to do this action"));
             return "redirect:/login";
         }
+        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        if (order == null || !checkIfOrderBelongToSeller(account.getId(), order)) {
+            model.addAttribute(MapConfig.buildMapKey(error, "You are not allowed to view this order"));
+            return "redirect:/login";
+        }
         Role.changeToBuyer(account);
-        Object output = viewOrderDetailLogic(request);
+        Object output = viewOrderDetailLogic(order);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
             model.addAttribute("msg", (ViewOrderDetailResponse) output);
             return "viewOrderStatusDetail";
@@ -629,22 +631,14 @@ public class BuyerServiceImpl implements BuyerService {
         return "viewOrderStatusDetail";
     }
 
-    private Object viewOrderDetailLogic(ViewOrderDetailRequest request) {
-        Order order = orderRepo.findById(request.getOrderId()).orElse(null);
-        assert order != null;
+    private Object viewOrderDetailLogic(Order order) {
         List<ViewOrderDetailResponse.Detail> detailList = viewOrderDetailLists(order.getOrderDetailList());
-
-        String sellerName = order.getOrderDetailList().stream()
-                .findFirst()
-                .map(detail -> detail.getFlower().getSeller().getUser().getName())
-                .orElse("Unknown Seller");
+        String sellerName = getSellerName(order);
+        int sellerId = getSellerId(order);
 
         return ViewOrderDetailResponse.builder()
                 .status("200")
-                .sellerId(order.getOrderDetailList().stream()
-                        .findFirst()
-                        .map(detail -> detail.getFlower().getSeller().getId())
-                        .orElse(0))
+                .sellerId(sellerId)
                 .orderId(order.getId())
                 .sellerName(sellerName)
                 .totalPrice(order.getTotalPrice())
@@ -664,24 +658,39 @@ public class BuyerServiceImpl implements BuyerService {
 
     private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
-                .map(detail -> {
-                    List<String> categories = detail.getFlower().getFlowerCategoryList().stream()
-                            .map(flowerCategory -> flowerCategory.getCategory().getName())
-                            .collect(Collectors.toList());
-
-                    return ViewOrderDetailResponse.Detail.builder()
-                            .image(detail.getFlower().getFlowerImageList().stream()
-                                    .findFirst()
-                                    .map(FlowerImage::getLink)
-                                    .orElse("Unknown Image"))
-                            .description(detail.getFlower().getDescription())
-                            .categories(categories)
-                            .flowerName(detail.getFlowerName())
-                            .quantity(detail.getQuantity())
-                            .price(detail.getPrice())
-                            .build();
-                })
+                .map(detail -> ViewOrderDetailResponse.Detail.builder()
+                        .image(detail.getFlower().getFlowerImageList().stream()
+                                .findFirst()
+                                .map(FlowerImage::getLink)
+                                .orElse("Unknown Image"))
+                        .description(detail.getFlower().getDescription())
+                        .categories(detail.getFlower().getFlowerCategoryList().stream()
+                                .map(flowerCategory -> flowerCategory.getCategory().getName())
+                                .collect(Collectors.toList()))
+                        .flowerName(detail.getFlowerName())
+                        .quantity(detail.getQuantity())
+                        .price(detail.getPrice())
+                        .build())
                 .toList();
+    }
+
+    private boolean checkIfOrderBelongToSeller(int sellerId, Order order) {
+        return order.getOrderDetailList().stream()
+                .anyMatch(detail -> detail.getFlower().getSeller().getId() == sellerId);
+    }
+
+    private String getSellerName(Order order) {
+        return order.getOrderDetailList().stream()
+                .findFirst()
+                .map(detail -> detail.getFlower().getSeller().getUser().getName())
+                .orElse("Unknown Seller");
+    }
+
+    private int getSellerId(Order order) {
+        return order.getOrderDetailList().stream()
+                .findFirst()
+                .map(detail -> detail.getFlower().getSeller().getId())
+                .orElse(0);
     }
 
     //--------------------------------------VIEW SELLER TOP LIST------------------------------------------//
@@ -851,9 +860,8 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute("error", "You are not logged in");
             return "redirect:/login";
         }
-
-        Role.changeToBuyer(account);
         int orderId = (int) session.getAttribute("orderId");
+        Role.changeToBuyer(account);
         ViewOrderStatusResponse statusResponse = viewOrderStatusLogic(orderId);
 
         if (statusResponse != null) {
@@ -891,8 +899,8 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
         String referer = httpServletRequest.getHeader("Referer");
+        Role.changeToBuyer(account);
         Object output = cancelOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
             model.addAttribute("msg", (CancelOrderResponse) output);
@@ -960,8 +968,8 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
         String referer = httpServletRequest.getHeader("Referer");
+        Role.changeToBuyer(account);
         Object output = confirmOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
             model.addAttribute("msg", (CancelOrderResponse) output);
@@ -1025,9 +1033,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
+        session.setAttribute("destination", request.getDestination());
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        // Chuyển vai trò thành buyer (nếu cần)
         Role.changeToBuyer(account);
         VNPayResponse vnPayResponse = createVNPayPaymentLinkLogic(request, httpServletRequest);
         model.addAttribute("msg", vnPayResponse);
@@ -1129,18 +1137,20 @@ public class BuyerServiceImpl implements BuyerService {
     public String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
+        String destination = (String) session.getAttribute("destination");
         Role.changeToBuyer(account);
-        Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest);
+        Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest, destination);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
+            session.removeAttribute("destination");
             return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
         return ((VNPayResponse) output).getPaymentURL();
     }
 
-    private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest) {
+    private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest, String destination) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
         Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
         if (!error.isEmpty()) {
@@ -1149,7 +1159,7 @@ public class BuyerServiceImpl implements BuyerService {
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
             List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-            if (!saveOrder(params, user, items, paymentMethodRepo.findById(2).orElse(null))) {
+            if (!saveOrder(params, user, items, paymentMethodRepo.findById(2).orElse(null), destination)) {
                 return VNPayResponse.builder()
                         .status("400")
                         .message("Your payment is failed")
@@ -1170,7 +1180,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     }
 
-    private boolean saveOrder(Map<String, String> params, User user, List<WishlistItem> items, PaymentMethod paymentMethod) {
+    private boolean saveOrder(Map<String, String> params, User user, List<WishlistItem> items, PaymentMethod paymentMethod, String destination) {
 
         Map<Seller, List<WishlistItem>> itemsBySeller = items.stream()
                 .collect(Collectors.groupingBy(item -> item.getFlower().getSeller()));
@@ -1197,6 +1207,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .totalPrice(totalPrice)
                     .status(Status.ORDER_STATUS_PROCESSING)
                     .paymentMethod(paymentMethod)
+                    .destination(destination)
                     .build());
 
             List<OrderDetail> orderDetails = new ArrayList<>();
@@ -1289,13 +1300,13 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------GET COD PAYMENT RESULT--------------------------------------//
 
     @Override
-    public String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes, String destination) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
         Role.changeToBuyer(account);
         User user = account.getUser();
         List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-        if (saveOrder(params, user, items, paymentMethodRepo.findById(1).orElse(null))) {
+        if (saveOrder(params, user, items, paymentMethodRepo.findById(1).orElse(null), destination)) {
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             CODPaymentResponse response = CODPaymentResponse.builder()
                     .status("200")
@@ -1336,11 +1347,11 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
-        // Chuyển vai trò thành buyer (nếu cần)
         Role.changeToBuyer(account);
         VNPayResponse vnPayResponse = createVNPayPaymentLinkForBuyNowLogic(request, httpServletRequest);
         session.setAttribute("flowerId", request.getFlowerId());
         session.setAttribute("quantity", request.getQuantity());
+        session.setAttribute("destination", request.getDestination());
         model.addAttribute("msg", vnPayResponse);
         return "redirect:" + vnPayResponse.getPaymentURL();
     }
@@ -1416,20 +1427,20 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
         Role.changeToBuyer(account);
-        Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()), Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), httpServletRequest);
+        Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()), Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), session.getAttribute("destination").toString(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
-            Account account1 = accountRepo.findById(account.getId()).orElse(null);
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             session.removeAttribute("flowerId");
             session.removeAttribute("quantity");
+            session.removeAttribute("destination");
             return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
         return ((VNPayResponse) output).getPaymentURL();
     }
 
-    private Object getPaymentResultForBuyNowLogic(Map<String, String> params, int flowerId, int quantity, int accountId, HttpServletRequest httpServletRequest) {
+    private Object getPaymentResultForBuyNowLogic(Map<String, String> params, int flowerId, int quantity, int accountId, String destination, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
         Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
         if (!error.isEmpty()) {
@@ -1437,7 +1448,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
-            saveOrderNow(flowerId, quantity, user, paymentMethodRepo.findById(2).orElse(null));
+            saveOrderNow(destination, flowerId, quantity, user, paymentMethodRepo.findById(2).orElse(null));
             return VNPayResponse.builder()
                     .status("200")
                     .message("Your payment is successfully")
@@ -1452,7 +1463,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     }
 
-    private void saveOrderNow(int flowerId, int quantity, User user, PaymentMethod paymentMethod) {
+    private void saveOrderNow(String destination, int flowerId, int quantity, User user, PaymentMethod paymentMethod) {
         Flower flower = flowerRepo.findById(flowerId).orElse(null);
         assert flower != null;
 
@@ -1464,6 +1475,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .totalPrice(totalPrice)
                 .status(Status.ORDER_STATUS_PROCESSING)
                 .paymentMethod(paymentMethod)
+                .destination(destination)
                 .build());
 
         flower.setSoldQuantity(flower.getSoldQuantity() + quantity);
@@ -1498,9 +1510,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String getCODPaymentResultForBuyNow(VNPayRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-//        Account account = Role.getCurrentLoggedAccount(session);
-//        assert account != null;
-//        Role.changeToBuyer(account);
         Account account = Role.getCurrentLoggedAccount(session);
         if(account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             redirectAttributes.addFlashAttribute("msg", CODPaymentResponse.builder()
@@ -1509,10 +1518,9 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
-        // Chuyển vai trò thành buyer (nếu cần)
-        Role.changeToBuyer(account);
         User user = account.getUser();
-        saveOrderNow(request.getFlowerId(), request.getQuantity(), user, paymentMethodRepo.findById(1).orElse(null));
+        Role.changeToBuyer(account);
+        saveOrderNow(request.getDestination(), request.getFlowerId(), request.getQuantity(), user, paymentMethodRepo.findById(1).orElse(null));
         session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
         CODPaymentResponse response = CODPaymentResponse.builder()
                 .status("200")
@@ -1551,6 +1559,8 @@ public class BuyerServiceImpl implements BuyerService {
                 .message("View Confirm Order Now successful")
                 .userId(account.getUser().getId())
                 .userName(account.getUser().getName())
+                .buyerPhone(account.getUser().getPhone())
+                .address(account.getUser().getAddress())
                 .totalPrice(totalPrice)
                 .flower(
                         ViewConfirmNowResponse.FlowerInfo.builder()
@@ -1626,7 +1636,6 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
-            // Chuyển vai trò thành buyer (nếu cần)
             Role.changeToBuyer(account);
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
