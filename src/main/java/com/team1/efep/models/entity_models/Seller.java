@@ -17,8 +17,10 @@ public class Seller {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "`user_id`")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
 
     private float rating;
