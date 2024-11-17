@@ -52,6 +52,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final PaymentMethodRepo paymentMethodRepo;
     private final FeedbackRepo feedbackRepo;
     private final SellerRepo sellerRepo;
+    private final SellerApplicationRepo sellerApplicationRepo;
 
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
@@ -529,12 +530,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String viewOrderHistory(HttpSession session, Model model) {
-        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute(MapConfig.buildMapKey(error, "Please login a buyer account to do this action"));
-            return "redirect:/login";
-        }
         Role.changeToBuyer(account);
         Object output = viewOrderHistoryLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
@@ -612,12 +608,8 @@ public class BuyerServiceImpl implements BuyerService {
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute(MapConfig.buildMapKey(error, "Please login a buyer account to do this action"));
-            return "redirect:/login";
-        }
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
-        if (order == null || !checkIfOrderBelongToSeller(account.getId(), order)) {
+        if (order == null || !checkIfOrderBelongToBuyer(account.getUser().getId(), order)) {
             model.addAttribute(MapConfig.buildMapKey(error, "You are not allowed to view this order"));
             return "redirect:/login";
         }
@@ -674,9 +666,8 @@ public class BuyerServiceImpl implements BuyerService {
                 .toList();
     }
 
-    private boolean checkIfOrderBelongToSeller(int sellerId, Order order) {
-        return order.getOrderDetailList().stream()
-                .anyMatch(detail -> detail.getFlower().getSeller().getId() == sellerId);
+    private boolean checkIfOrderBelongToBuyer(int userId, Order order) {
+        return order.getUser().getId() == userId;
     }
 
     private String getSellerName(Order order) {
@@ -1822,6 +1813,51 @@ public class BuyerServiceImpl implements BuyerService {
         }
     }
 
+    //---------------------------------SELLER CHANNEL---------------------------------/
+
+    @Override
+    public String directToSellerChannel(HttpSession session, Model model) {
+        Map<String, String> error = new HashMap<>();
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            model.addAttribute(MapConfig.buildMapKey(error, "Please login to access this page"));
+            return "redirect:/login";
+        }
+        List<SellerApplication> applicationList = sellerApplicationRepo.findAll();
+        List<SellerApplication> filterApplication = applicationList.stream()
+                .filter(app -> app.getUser().getId() == account.getUser().getId())
+                .toList();
+        SellerApplication application = (SellerApplication) filterApplication.stream()
+                .filter(app -> app.getCreatedDate().equals(filterApplication.stream()
+                        .map(SellerApplication::getCreatedDate)
+                        .max(LocalDateTime::compareTo)
+                        .orElse(null)));
+        if (!filterApplication.isEmpty()) {
+            switch (application.getStatus().toUpperCase()) {
+                case "PENDING":
+                    model.addAttribute("msg", DirectToSellerChannelResponse.builder()
+                            .status("200")
+                            .message("Your application is pending")
+                            .build());
+                    return "sellerRequest";
+                case "REJECTED":
+                    model.addAttribute("msg", DirectToSellerChannelResponse.builder()
+                            .status("200")
+                            .message("Your application is rejected")
+                            .build());
+                    return "sellerRequest";
+                case "APPROVED":
+                    return "redirect:/seller/dashboard";
+                default:
+                    return "sellerRequest";
+            }
+        }
+        model.addAttribute("msg", DirectToSellerChannelResponse.builder()
+                .status("200")
+                .message("You have not applied to become a seller")
+                .build());
+        return "sellerRequest";
+    }
 
 }
 

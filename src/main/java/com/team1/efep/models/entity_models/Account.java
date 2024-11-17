@@ -3,6 +3,8 @@ package com.team1.efep.models.entity_models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,5 +29,10 @@ public class Account {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private User user;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<SellerApplication> sellerApplicationList;
 
 }

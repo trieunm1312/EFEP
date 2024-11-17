@@ -20,6 +20,9 @@ public class Status {
     public static String FLOWER_STATUS_OUT_OF_STOCK = "out-of-stock";
     public static String PAYMENT_METHOD_COD = "cod";
     public static String PAYMENT_METHOD_VN_PAY = "vn-pay";
+    public static String SELLER_APPLICATION_STATUS_PENDING = "pending";
+    public static String SELLER_APPLICATION_STATUS_APPROVED = "approved";
+    public static String SELLER_APPLICATION_STATUS_REJECTED = "rejected";
 
     public static void changeAccountStatus(Account account, String status, AccountRepo accountRepo) {
         account.setStatus(status);

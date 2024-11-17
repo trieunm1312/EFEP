@@ -54,4 +54,10 @@ public class User {
     @EqualsAndHashCode.Exclude
     private List<Feedback> feedbackList;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<SellerApplication> sellerApplicationList;
+
+
 }

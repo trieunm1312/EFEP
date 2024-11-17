@@ -71,4 +71,6 @@ public interface BuyerService {
     String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest);
 
     CreateFeedbackResponse createFeedback(CreateFeedbackRequest request);
+
+    String directToSellerChannel(HttpSession session, Model model);
 }
