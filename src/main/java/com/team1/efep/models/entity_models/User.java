@@ -59,5 +59,4 @@ public class User {
     @EqualsAndHashCode.Exclude
     private List<SellerApplication> sellerApplicationList;
 
-
 }

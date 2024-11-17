@@ -30,9 +30,4 @@ public class Account {
     @EqualsAndHashCode.Exclude
     private User user;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private List<SellerApplication> sellerApplicationList;
-
 }

@@ -217,4 +217,12 @@ public class BuyerController {
         return buyerService.createFeedback(request);
     }
 
+    //---------------SELLER CHANNEL----------------//
+
+    @GetMapping("/seller/channel")
+    @Operation(hidden = true)
+    public String viewSellerChannel(HttpSession session, Model model) {
+        return buyerService.directToSellerChannel(session, model);
+    }
+
 }

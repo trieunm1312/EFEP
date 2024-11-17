@@ -1853,7 +1853,7 @@ public class BuyerServiceImpl implements BuyerService {
             }
         }
         model.addAttribute("msg", DirectToSellerChannelResponse.builder()
-                .status("200")
+                .status("400")
                 .message("You have not applied to become a seller")
                 .build());
         return "sellerRequest";

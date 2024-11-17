@@ -37,8 +37,4 @@ public class SellerApplication {
     @JoinColumn(name = "`user_id`")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "`account_id`")
-    private Account account;
-
 }
