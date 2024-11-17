@@ -2,14 +2,8 @@ package com.team1.efep.service_implementors;
 
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
-import com.team1.efep.models.entity_models.Account;
-import com.team1.efep.models.entity_models.Order;
-import com.team1.efep.models.entity_models.Seller;
-import com.team1.efep.models.entity_models.User;
-import com.team1.efep.models.request_models.BanUserRequest;
-import com.team1.efep.models.request_models.CreateAccountForSellerRequest;
-import com.team1.efep.models.request_models.SearchUserListRequest;
-import com.team1.efep.models.request_models.UnBanUserRequest;
+import com.team1.efep.models.entity_models.*;
+import com.team1.efep.models.request_models.*;
 import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.*;
 import com.team1.efep.services.AdminService;
@@ -29,6 +23,7 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,6 +43,8 @@ public class AdminServiceImpl implements AdminService {
     private final OrderRepo orderRepo;
 
     private final FlowerRepo flowerRepo;
+
+    private final SellerApplicationRepo sellerApplicationRepo;
 
 
     //-------------------------------------VIEW USER LIST----------------------------//
@@ -385,6 +382,7 @@ public class AdminServiceImpl implements AdminService {
         model.addAttribute("topSellers", getTop3SellerInMonthLogic());
     }
 
+
     private TopSellersResponse getTop3SellerInMonthLogic() {
         List<Order> orders = orderRepo.findAll().stream()
                 .filter(order -> order.getCreatedDate().getMonth() == LocalDateTime.now().getMonth() && order.getStatus().equals(Status.ORDER_STATUS_COMPLETED))
@@ -412,6 +410,86 @@ public class AdminServiceImpl implements AdminService {
                 .status("200")
                 .message("Top 3 sellers retrieved successfully")
                 .sellers(topSellers)
+                .build();
+    }
+
+    //-------------------------------------VIEW APPLICATION LIST----------------------------//
+
+    @Override
+    public String viewApplicationList(HttpSession session, Model model) {
+        model.addAttribute("msg", viewSellerApplicationLogic());
+        return "sellerRequest";
+    }
+
+    private List<ViewSellerApplicationResponse> viewSellerApplicationLogic() {
+        List<SellerApplication> applications = sellerApplicationRepo.findAll();
+
+        return applications.stream()
+                .sorted(Comparator.comparing((SellerApplication app) -> app.getStatus().equalsIgnoreCase("PENDING") ? 0 : 1)
+                        .thenComparing(SellerApplication::getCreatedDate, Comparator.reverseOrder()))
+                .map(app -> ViewSellerApplicationResponse.builder()
+                        .id(app.getId())
+                        .content(app.getContent())
+                        .rejectionReason(app.getRejectionReason())
+                        .status(app.getStatus())
+                        .createdDate(app.getCreatedDate() != null ? app.getCreatedDate().toString() : null)
+                        .approvedDate(app.getApprovedDate() != null ? app.getApprovedDate().toString() : null)
+                        .user(app.getUser() != null ? app.getUser().getName() : "Unknown User")
+                        .build())
+                .toList();
+    }
+
+    //-------------------------------------ACCEPT APPLICATION----------------------------//
+
+    @Override
+    public String acceptApplication(ApproveApplicationRequest request, Model model, RedirectAttributes redirectAttributes) {
+        Object output = approveSellerApplicationLogic(request.getApplicationId());
+        model.addAttribute("msg", output);
+        return "sellerRequest";
+    }
+
+    private ApproveSellerApplicationResponse approveSellerApplicationLogic(int applicationId) {
+        SellerApplication application = sellerApplicationRepo.findById(applicationId).orElse(null);
+        assert application != null;
+        User user = application.getUser();
+        user.setSeller(true);
+        userRepo.save(user);
+        Seller seller = Seller.builder()
+                .user(user)
+                .rating(0)
+                .build();
+        sellerRepo.save(seller);
+
+        application.setStatus(Status.SELLER_APPLICATION_STATUS_APPROVED);
+        application.setApprovedDate(LocalDateTime.now());
+        sellerApplicationRepo.save(application);
+
+        return ApproveSellerApplicationResponse.builder()
+                .status("200")
+                .message("Application approved successfully!")
+                .build();
+    }
+
+    //-------------------------------------REJECT APPLICATION----------------------------//
+
+    @Override
+    public String rejectApplication(RejectApplicationRequest request, Model model, RedirectAttributes redirectAttributes) {
+        Object output = rejectSellerApplicationLogic(request.getApplicationId(), request.getRejectionReason());
+        model.addAttribute("msg", output);
+        return "sellerRequest";
+    }
+
+    private RejectSellerApplicationResponse rejectSellerApplicationLogic(int applicationId, String reason) {
+        SellerApplication application = sellerApplicationRepo.findById(applicationId).orElse(null);
+        assert application != null;
+        application.setStatus(Status.SELLER_APPLICATION_STATUS_REJECTED);
+        application.setRejectionReason(reason);
+        application.setApprovedDate(LocalDateTime.now());
+        sellerApplicationRepo.save(application);
+
+        return RejectSellerApplicationResponse.builder()
+                .status("200")
+                .message("Application rejected successfully!")
                 .build();
     }
 

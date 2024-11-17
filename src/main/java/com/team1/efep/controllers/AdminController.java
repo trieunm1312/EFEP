@@ -48,4 +48,22 @@ public class AdminController {
     public String createAccountForSeller(CreateAccountForSellerRequest request, Model model,  RedirectAttributes redirectAttributes) {
         return adminService.createAccountForSeller(request, model, redirectAttributes);
     }
+
+    @GetMapping("/application/list")
+    @Operation(hidden = true)
+    public String viewApplicationList(HttpSession session, Model model) {
+        return adminService.viewApplicationList(session, model);
+    }
+
+    @PutMapping("/application/accept")
+    @Operation(hidden = true)
+    public String acceptApplication(ApproveApplicationRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.acceptApplication(request, model, redirectAttributes);
+    }
+
+    @PutMapping("/application/reject")
+    @Operation(hidden = true)
+    public String rejectApplication(RejectApplicationRequest request, Model model, RedirectAttributes redirectAttributes) {
+        return adminService.rejectApplication(request, model, redirectAttributes);
+    }
 }
