@@ -26,7 +26,7 @@ public interface BuyerService {
 
     String viewOrderHistory(HttpSession session, Model model);
 
-    void viewSellerTopList(int top, Model model, HttpSession session);
+    void viewSellerTopList(int top, Model model);
 
     String searchFlower(SearchFlowerRequest request, Model model, HttpSession session);
 
@@ -56,7 +56,7 @@ public interface BuyerService {
 
     String getCODPaymentResultForBuyNow(VNPayRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
-    void viewCategory(Model model, HttpSession session);
+    void viewCategory(Model model);
 
     String buyNow(ConfirmOrderRequest request, HttpSession session, Model model);
 
@@ -64,7 +64,7 @@ public interface BuyerService {
 
     String handleOTP(String code, Model model, HttpSession session);
 
-    String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes, HttpSession session);
+    String filterCategory(FilterCategoryRequest request, RedirectAttributes redirectAttributes);
 
     String viewFeedback(int sellerId, Model model, HttpSession session, RedirectAttributes redirectAttributes);
 

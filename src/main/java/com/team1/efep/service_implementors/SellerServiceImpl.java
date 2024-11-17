@@ -1309,7 +1309,7 @@ public class SellerServiceImpl implements SellerService {
         if(account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ViewFeedbackResponse.builder()
                     .status("400")
-                    .message("Please login as a buyer to view feedback")
+                    .message("Please login as a seller to view feedback")
                     .build());
             return "login";
         }
