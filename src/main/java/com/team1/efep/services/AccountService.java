@@ -23,4 +23,6 @@ public interface AccountService {
     String changePassword(ChangePasswordRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     String logout(HttpSession session);
+
+    String loginWithGmail(LoginWithGmailRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes);
 }

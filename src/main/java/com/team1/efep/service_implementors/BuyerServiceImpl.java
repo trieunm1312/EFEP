@@ -217,11 +217,11 @@ public class BuyerServiceImpl implements BuyerService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (UpdateWishlistResponse) output);
-            AllPage.allConfig(model, this);
+            AllPage.allConfig(model, this, session);
             return viewWishlist(session, model, redirectAttributes);
         }
         redirectAttributes.addFlashAttribute("error", (Map<String, String>) output);
-        AllPage.allConfig(model, this);
+        AllPage.allConfig(model, this, session);
         return viewWishlist(session, model, redirectAttributes);
     }
 
@@ -617,14 +617,14 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------VIEW ORDER DETAIL--------------------------------------//
 
     @Override
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes ) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             model.addAttribute(MapConfig.buildMapKey(error, "Please login a buyer account to do this action"));
             return "redirect:/login";
         }
-//        Role.changeToBuyer(account);
+        Role.changeToBuyer(account);
 
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         if (order == null || !checkIfOrderBelongToSeller(account.getId(), order)) {
