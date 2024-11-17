@@ -198,6 +198,18 @@ public class PageController {
         AllPage.allConfig(model, buyerService);
         return "renewPassword";
     }
+
+    @GetMapping("/seller/request")
+    public String sellerRequestPage(Model model) {
+        AllPage.allConfig(model, buyerService);
+        return "sellerRequest";
+    }
+
+    @GetMapping("/request/success")
+    public String requestSuccessPage(Model model) {
+        AllPage.allConfig(model, buyerService);
+        return "requestSuccess";
+    }
 }
 
 

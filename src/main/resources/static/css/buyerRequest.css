@@ -87,8 +87,59 @@
     background-color: var(--primary-color);
 }
 
-.decline{
+.decline {
     background-color: #fd0e35;
+    cursor: pointer;
+}
+
+.reason {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reason.active {
+    display: flex;
+}
+
+.reason.closed {
+    display: none;
+}
+
+.reason__background {
+    background-color: var(--white-color);
+    width: 50%;
+    height: fit-content;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.ql-editor {
+    height: 150px;
+}
+
+.reason__heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #333;
+}
+
+#closeBtn {
+    position: absolute;
+    top: 35%;
+    left: 70%;
+    font-size: 1.1rem;
+    cursor: pointer;
 }
 
 .user__title {
