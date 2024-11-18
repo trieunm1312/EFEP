@@ -161,7 +161,8 @@
                                 <th class="table__header-amount">Flower Amount</th>
                                 <th class="table__header-qnt">Quantity</th>
                                 <th class="table__header-price">Price</th>
-                                <th class="table__header-status">Price</th>
+                                <th class="table__header-status">CreatedDate</th>
+                                <th class="table__header-status">witheringDate</th>
                                 <th class="table__header-status">Status</th>
                                 <th class="table__header-status"></th>
                                 <th class="table__header-status"></th>
@@ -199,6 +200,9 @@
                                                 <td class="table__body-price">
                                                     <span th:text="${'$' + item.price}" class="price-text">120</span>
 
+                                                </td>
+                                                <td class="table__body-status">
+                                                    <span th:text="${item.createdDate}" class="status-text">12/01</span>
                                                 </td>
                                                 <td class="table__body-status">
                                                     <span th:text="${item.witheringDate}" class="status-text">12/01</span>
