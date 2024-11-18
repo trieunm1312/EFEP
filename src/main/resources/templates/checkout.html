@@ -236,7 +236,9 @@
                         </div>
 
                         <hr class="line">
-
+                        <form id="checkout" action="/buyer/order/now/payment" method="post"
+                              data-cod-action="/buyer/order/now/cod" data-vnpay-action="/buyer/order/now/payment"
+                              onsubmit="return handleCheckout()">
                         <h3>Information Delivered</h3>
                         <p class="p-size" th:text="${msg.userName}">Thang</p>
                         <p class="p-size" th:text="${msg.phone}">09090909</p>
@@ -246,16 +248,14 @@
 
                         <hr class="line">
                         <div class="btn-cart">
-                            <form id="checkout" action="/buyer/order/now/payment" method="post"
-                                  data-cod-action="/buyer/order/now/cod" data-vnpay-action="/buyer/order/now/payment"
-                                  onsubmit="return handleCheckout()">
+
                                 <input type="hidden" name="amount" th:value="${msg1.totalPrice}">
                                 <input type="hidden" name="flowerId" th:value="${msg1.flower.id}">
                                 <input type="hidden" name="quantity" th:value="${msg1.flower.quantity}">
                                 <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
-                            </form>
-                        </div>
 
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
