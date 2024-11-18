@@ -307,13 +307,15 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String logout(HttpSession session) {
-        if (session.getAttribute("acc") != null) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account != null) {
+            account.setRole(Role.BUYER);
+            accountRepo.save(account);
             session.invalidate();
             return "redirect:/login";
         }
         return "redirect:/login";
     }
-
 
 }
 
