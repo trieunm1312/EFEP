@@ -1831,13 +1831,13 @@ public class BuyerServiceImpl implements BuyerService {
                             .status("200")
                             .message("Your application is pending")
                             .build());
-                    return "sellerRequest";
+                    return "requestSuccess";
                 case "REJECTED":
                     model.addAttribute("msg", DirectToSellerChannelResponse.builder()
                             .status("200")
                             .message("Your application is rejected")
                             .build());
-                    return "sellerRequest";
+                    return "requestSuccess";
                 case "APPROVED":
                     return "redirect:/seller/dashboard";
                 default:
