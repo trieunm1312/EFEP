@@ -246,3 +246,52 @@ tr:nth-child(even) {
 .payment-item {
     margin-bottom: 3px;
 }
+
+/* Định kiểu cho nhãn */
+label {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333; /* Màu chữ */
+}
+
+/* Định kiểu cho trường nhập */
+input[type="text"] {
+    width: 100%; /* Đầy chiều rộng container */
+    padding: 10px; /* Thêm khoảng cách bên trong */
+    margin-bottom: 10px; /* Khoảng cách bên dưới */
+    font-size: 1.4rem;
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 5px; /* Bo góc */
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+    outline: none;
+    transition: border-color 0.3s ease-in-out; /* Hiệu ứng chuyển đổi màu viền */
+}
+
+/* Hiệu ứng khi trường nhập được focus */
+input[type="text"]:focus {
+    border-color: #007BFF; /* Màu viền khi focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Đổ bóng */
+}
+
+/* Trạng thái placeholder */
+input[type="text"]::placeholder {
+    font-style: italic;
+    color: #999; /* Màu placeholder */
+}
+
+/* Trạng thái lỗi (nếu có lỗi) */
+input[type="text"]:invalid {
+    border-color: #dc3545; /* Màu đỏ khi lỗi */
+}
+
+/* Thông báo lỗi tùy chỉnh */
+input[type="text"]:invalid:focus {
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* Đổ bóng đỏ */
+}
+
+.p-size {
+    font-size: 1.4rem;
+    color: var(--text-color);
+}

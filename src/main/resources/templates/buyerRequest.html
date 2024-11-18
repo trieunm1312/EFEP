@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage User Page</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="/src/main/resources/static/css/base.css"> -->
+    <link rel="stylesheet" href="/css/adminBase.css">
+    <link rel="stylesheet" href="/css/buyerRequest.css">
+</head>
+
+<body>
+<div  th:replace="~{base :: toast}">
+
+</div>
+
+<div  th:replace="~{base :: error}">
+
+</div>
+
+    <aside class="sidebar">
+    <a href="" class="sidebar__logo">
+        <img src="/img/flowrista-logo.png" alt="Web Logo">
+    </a>
+    <hr class="horizontal dark ">
+    <div class="sidebar__components">
+        <ul class="sidebar__List">
+            <li>
+                <a th:href="@{/admin/dashboard}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Dashboard</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/user/list}" class="sidebar__link">
+                    <div class="sidebar__item active">
+                        <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Seller list</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+    <div class="wrap">
+        <!-- header -->
+        <header class="header">
+            <!-- Header direction -->
+            <div class="header__direction">
+                <div class="header__path">
+                    <a href="">
+                        <span>Admin Page</span>
+                    </a>
+                    <span>/</span>
+                    <span>Seller List</span><br>
+                </div>
+                <div class="header__title">
+                    <h3>Seller List</h3>
+                </div>
+            </div>
+
+            <!-- Header search -->
+            <div th:replace="~{adminBase :: header__search}" class="header__search">
+                <form th:action="@{/admin/search/user/}" th:method="post" class="header__search-form">
+                    <button class="header__search-btn">
+                        <i class="fa-solid  fa-magnifying-glass"></i>
+                    </button>
+                    <input type="text" class="header__search-input" name="keyword" placeholder="Search.......">
+                </form>
+            </div>
+            <div th:replace="~{adminBase :: header__others}" class="header__others">
+                <div class="header__noti">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+                <span class="header__separate">|</span>
+                <div class="header__account">
+                    <span th:text="${session.acc.getUser().getName()}"></span>
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Container -->
+        <div class="container">
+            <div class="grid">
+                <div class="seller-request">
+                    <div class="seller-request__heading">
+                        <h4 class="buyer__title">Buyer Request:</h4>
+                    </div>
+                    <div class="request">
+                        <div class=" request-content" style="animation: slightInLeft ease .3s">
+                            <div class="request__icon">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </div>
+                            <div class="request__body">
+                                <h3 class="request__title">New Request!</h3>
+                                <p class="request__msg">ABC registered to become a seller</p>
+                            </div>
+                            <div class="request-btn">
+                                <form action="">
+                                    <input type="submit" class="decision-btn approve" name="btAction"
+                                           value="Approve">
+                                </form>
+                                <div>
+                                    <span class="decision-btn decline" id="declineBtn">Decline</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reason" id="reason">
+                            <div class="reason__background">
+                                <h1 class="reason__heading">Reason why decline:</h1>
+                                <i class="fa-solid fa-xmark" id="closeBtn"></i>
+                                <div id="editor"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+
+        </div>
+    </div>
+    <script src="/js/adminBase.js"></script>
+    <script src="/js/buyerRequest.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <script>
+        const options = {
+            debug: 'info',
+            modules: {
+                toolbar: true,
+            },
+            placeholder: 'Reason...',
+            theme: 'snow'
+        };
+        const quill = new Quill('#editor', options);
+    </script>
+</body>
+
+</html>

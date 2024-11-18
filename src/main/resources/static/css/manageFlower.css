@@ -717,3 +717,44 @@ label[for="multi-select"] {
 .title-color {
     color: var(--primary-color);
 }
+
+.expired {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333; /* Màu chữ */
+}
+
+/* Định kiểu cho trường nhập ngày */
+input[type="date"] {
+    width: 100%; /* Đầy chiều rộng container */
+    padding: 10px; /* Khoảng cách bên trong */
+    font-size: 1.4rem;
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 5px; /* Bo góc */
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+    background-color: #fff; /* Nền trắng */
+    color: #333; /* Màu chữ */
+    outline: none;
+    transition: border-color 0.3s ease-in-out; /* Hiệu ứng chuyển đổi màu viền */
+    cursor: pointer; /* Con trỏ chuột dạng bàn tay khi chọn */
+}
+
+/* Hiệu ứng khi trường nhập được focus */
+input[type="date"]:focus {
+    border-color: #007BFF; /* Màu viền khi focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Đổ bóng */
+}
+
+/* Hiển thị placeholder */
+input[type="date"]::placeholder {
+    font-style: italic;
+    color: #999; /* Màu placeholder */
+}
+
+/* Trạng thái khi nhập sai hoặc không hợp lệ */
+input[type="date"]:invalid {
+    border-color: #dc3545; /* Màu viền đỏ */
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* Đổ bóng đỏ */
+}

@@ -126,7 +126,7 @@
                 <div th:if="${session.acc == null || session.acc.getRole() != 'seller'} " class="header__item">
                     <ul class="header__item-megamenu">
                         <li class="header__item-megamenu-item">
-                            <a th:href="@{/}">
+                            <a th:href="@{/home}">
                                 <span class="header__item-megamenu-item-title">Home</span>
                             </a>
                         </li>
@@ -209,6 +209,10 @@
                                         <input type="submit" name="action" value="My profile"
                                                class="header__item-account-item"></input>
                                         <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                                    </form>
+                                    <form th:action="@{/buyer/seller/channel}" class="form" method="get">
+                                        <input type="submit" name="action" value="Seller Channel"
+                                               class="header__item-account-item"></input>
                                     </form>
                                     <form th:action="@{/account/logout}" class="form" method="get">
                                         <input type="submit" name="action" value="Logout"

@@ -28,7 +28,7 @@ public interface BuyerService {
 
     void viewSellerTopList(int top, Model model);
 
-    String searchFlower(SearchFlowerRequest request, Model model, HttpSession session);
+    String searchFlower(SearchFlowerRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes);
 
     String viewFlowerDetail(ViewFlowerDetailRequest request, Model model, HttpSession session);
 
