@@ -1872,5 +1872,30 @@ public class BuyerServiceImpl implements BuyerService {
         }
     }
 
+    //---------------------------------CREATE SELLER REQUEST---------------------------------//
+
+    @Override
+    public String createSellerApplication(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        Role.changeToBuyer(account, accountRepo);
+        createSellerApplicationLogic(account.getUser().getId());
+        return "";
+    }
+
+    private void createSellerApplicationLogic(int userId) {
+        User user = userRepo.findById(userId).orElse(null);
+        assert user != null;
+
+        SellerApplication application = SellerApplication.builder()
+                .user(user)
+                .content("I want to become a seller")
+                .status("PENDING")
+                .createdDate(LocalDateTime.now())
+                .build();
+
+        sellerApplicationRepo.save(application);
+    }
+
 }
 
