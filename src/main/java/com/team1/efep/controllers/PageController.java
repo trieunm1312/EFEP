@@ -34,14 +34,12 @@ public class PageController {
     private final AdminService adminService;
 
     @GetMapping("/")
-    public String startPage(Model model) {
-        AllPage.allConfig(model, buyerService);
-        HomepageConfig.config(model,buyerService);
-        return "home";
+    public String startPage() {
+        return "redirect:/home";
     }
 
     @GetMapping("/home")
-    public String homePage(Model model, HttpSession session) {
+    public String homePage(Model model) {
         AllPage.allConfig(model, buyerService);
         HomepageConfig.config(model,buyerService);
         return "home";
@@ -145,7 +143,7 @@ public class PageController {
     }
 
     @GetMapping("/myAccount")
-    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes, HttpSession session) {
+    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes) {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
@@ -172,7 +170,7 @@ public class PageController {
     }
 
     @GetMapping("/category")
-    public String categoryPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String categoryPage(Model model, RedirectAttributes redirectAttributes) {
         if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), AddToWishlistResponse.class)){
             int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg")).getKeyword());
             return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes);
@@ -205,6 +203,7 @@ public class PageController {
         AllPage.allConfig(model, buyerService);
         return "renewPassword";
     }
+
 }
 
 

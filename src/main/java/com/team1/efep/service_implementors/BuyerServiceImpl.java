@@ -608,7 +608,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------VIEW ORDER DETAIL--------------------------------------//
 
     @Override
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes ) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);

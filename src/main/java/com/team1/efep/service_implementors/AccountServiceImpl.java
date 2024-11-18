@@ -16,10 +16,7 @@ import com.team1.efep.utils.GoogleLoginGeneratorUtil;
 import com.team1.efep.utils.GoogleLoginUtil;
 import com.team1.efep.utils.OutputCheckerUtil;
 import com.team1.efep.utils.PasswordEncryptUtil;
-import com.team1.efep.validations.ChangePasswordValidation;
-import com.team1.efep.validations.LoginValidation;
-import com.team1.efep.validations.RegisterValidation;
-import com.team1.efep.validations.UpdateProfileValidation;
+import com.team1.efep.validations.*;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -98,22 +95,19 @@ public class AccountServiceImpl implements AccountService {
         );
     }
 
+
     //-------------------------------------------LOGIN------------------------------------------------------//
     @Override
     public String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Object output = loginLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class)) {
+        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class) && session.getAttribute("acc") == null) {
             Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), PasswordEncryptUtil.encrypt(request.getPassword())).get();
             session.setAttribute("acc", acc);
             redirectAttributes.addFlashAttribute("msg", (LoginResponse) output);
-            switch (acc.getRole().toUpperCase()) {
-                case "SELLER":
-                    return "redirect:/seller/dashboard";
-                case "ADMIN":
-                    return "redirect:/admin/dashboard";
-                default:
-                    return "redirect:/home";
+            if (acc.getRole().equalsIgnoreCase("ADMIN")) {
+                return "redirect:/admin/dashboard";
             }
+            return "redirect:/home";
         }
         redirectAttributes.addFlashAttribute("error", output);
         redirectAttributes.addFlashAttribute("userInput", request);
@@ -135,7 +129,7 @@ public class AccountServiceImpl implements AccountService {
         return error;
     }
 
-    //----------------------------------------LOGIN WITH GMAIL------------------------------------------//
+    //----------------------------------------LOGIN WITH GOOGLE------------------------------------------//
 
     @Override
     public void getGoogleLoginUrl(HttpServletResponse response) {
@@ -160,12 +154,23 @@ public class AccountServiceImpl implements AccountService {
         );
     }
 
+    public String loginWithEmailLogic(String email, RedirectAttributes redirectAttributes, HttpSession session) {
+        Account account = accountRepo.findByEmail(email).orElse(null);
+        assert account != null;
+        session.setAttribute("acc", account);
+        redirectAttributes.addFlashAttribute("msg", LoginResponse.builder().status("200").message("").build());
+        if (account.getRole().equalsIgnoreCase("ADMIN")) {
+            return "redirect:/admin/dashboard";
+        }
+        return "redirect:/home";
+    }
+
     //------------------------------------------VIEW PROFILE-----------------------------------------------//
 
     @Override
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        if( model.getAttribute("error") != null) {
-            redirectAttributes.addFlashAttribute("error", (Map<String, String>)  model.getAttribute("error"));
+        if (model.getAttribute("error") != null) {
+            redirectAttributes.addFlashAttribute("error", (Map<String, String>) model.getAttribute("error"));
         }
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
@@ -313,7 +318,6 @@ public class AccountServiceImpl implements AccountService {
         }
         return "redirect:/login";
     }
-
 
 }
 
