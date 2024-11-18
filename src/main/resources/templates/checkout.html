@@ -115,14 +115,6 @@
                             <span class="total__checkout-detail-price" th:text="${'$ ' + msg.totalPrice}">0</span>
                         </div>
                         <hr class="line">
-                        <h3 class="total__checkout-header">Information Delivered</h3>
-                        <p class="p-size" th:text="${msg.userName}">Thang</p>
-                        <p class="p-size" th:text="${msg.phone}">09090909</p>
-                        <label for="address">Your Address:</label>
-                        <input type="text" id="address" name="address" th:text="${msg.address}"
-                               pattern="[A-Za-z0-9/.,\s]+" minlength="10" placeholder="Enter your Address" required>
-                        <hr class="line">
-
                         <div class="payment-method">
                             <h3 class="payment-header">Choose Payment Method</h3>
                             <label for="paymentMethod"></label>
@@ -132,15 +124,25 @@
                             </select>
                         </div>
                         <hr class="line">
+                        <form id="checkout" action="/buyer/order/payment" method="post"
+                        <h3 class="total__checkout-header">Information Delivered</h3>
+                        <p class="p-size" th:text="${msg.userName}">Thang</p>
+                        <p class="p-size" th:text="${msg.phone}">09090909</p>
+                        <label for="address">Your Address:</label>
+                        <input type="text" id="address" name="destination" th:value="${msg.address}"
+                               pattern="[A-Za-z0-9/.,\s]+" minlength="10" placeholder="Enter your Address" required>
+
+                        <hr class="line">
+
                         <div class="btn-cart">
-                            <form id="checkout" action="/buyer/order/payment" method="post"
+
                                 data-cod-action="/buyer/order/cod" data-vnpay-action="/buyer/order/payment"
                                 onsubmit="return handleCheckout()">
                                 <input type="hidden" name="amount" th:value="${msg.totalPrice}">
                                 <input class="btn-cart-checkout" type="submit" value="Checkout" name="Action">
-                            </form>
-                        </div>
 
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -223,13 +225,7 @@
                             <span class="total__checkout-detail-price" th:text="${'$ ' + msg1.totalPrice}">0</span>
                         </div>
                         <hr class="line">
-                        <h3>Information Delivered</h3>
-                        <p class="p-size" th:text="${msg.userName}">Thang</p>
-                        <p class="p-size" th:text="${msg.phone}">09090909</p>
-                        <label for="address-buynow">Your Address:</label>
-                        <input type="text" id="address-buynow" name="destination" th:text="${msg.address}"
-                               pattern="[A-Za-z0-9@/.\s]+" minlength="10" placeholder="Enter your Address" required>
-                        <hr class="line">
+
                         <div class="payment-method">
                             <h3 class="payment-header">Choose Payment Method</h3>
                             <label for="paymentMethod"></label>
@@ -238,6 +234,16 @@
                                 <option value="VNPay">VNPay</option>
                             </select>
                         </div>
+
+                        <hr class="line">
+
+                        <h3>Information Delivered</h3>
+                        <p class="p-size" th:text="${msg.userName}">Thang</p>
+                        <p class="p-size" th:text="${msg.phone}">09090909</p>
+                        <label for="address-buynow">Your Address:</label>
+                        <input type="text" id="address-buynow" name="destination" th:text="${msg.address}"
+                               pattern="[A-Za-z0-9@/.\s]+" minlength="10" placeholder="Enter your Address" required>
+
                         <hr class="line">
                         <div class="btn-cart">
                             <form id="checkout" action="/buyer/order/now/payment" method="post"
