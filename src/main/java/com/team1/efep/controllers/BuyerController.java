@@ -178,9 +178,9 @@ public class BuyerController {
     //-------------------------------------------------------------------------------//
     @PostMapping("/flower/search")
     @Operation(hidden = true)
-    public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session) {
+    public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.searchFlower(request, model, session);
+        return buyerService.searchFlower(request, model, session, redirectAttributes);
     }
 
     @GetMapping("/flower/detail")

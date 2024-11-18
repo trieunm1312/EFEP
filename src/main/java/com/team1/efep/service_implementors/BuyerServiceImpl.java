@@ -153,6 +153,12 @@ public class BuyerServiceImpl implements BuyerService {
                 Category category = categoryRepo.findByName(request.getKeyword());
                 ((AddToWishlistResponse) output).setKeyword(category.getId() + "");
             }
+
+            if (httpServletRequest.getHeader("Referer").contains("search/flower")) {
+                String keyword = httpServletRequest.getParameter("keyword");
+                ((AddToWishlistResponse) output).setKeyword(keyword);
+            }
+
             redirectAttributes.addFlashAttribute("msg1", (AddToWishlistResponse) output);
             return "redirect:" + httpServletRequest.getHeader("Referer");
         }
@@ -728,7 +734,7 @@ public class BuyerServiceImpl implements BuyerService {
     //--------------------------------------SEARCH FLOWER------------------------------------------//
 
     @Override
-    public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session) {
+    public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account != null && Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", SearchFlowerResponse.builder()
@@ -739,8 +745,8 @@ public class BuyerServiceImpl implements BuyerService {
         }
         Role.changeToBuyer(account, accountRepo);
 
-        model.addAttribute("msg", searchFlowerLogic(request));
-        return "category";
+        redirectAttributes.addFlashAttribute("msg", searchFlowerLogic(request));
+        return "redirect:/search/flower";
     }
 
     private SearchFlowerResponse searchFlowerLogic(SearchFlowerRequest request) {
@@ -1831,13 +1837,13 @@ public class BuyerServiceImpl implements BuyerService {
                             .status("200")
                             .message("Your application is pending")
                             .build());
-                    return "sellerRequest";
+                    return "requestSuccess";
                 case "REJECTED":
                     model.addAttribute("msg", DirectToSellerChannelResponse.builder()
                             .status("200")
                             .message("Your application is rejected")
                             .build());
-                    return "sellerRequest";
+                    return "requestSuccess";
                 case "APPROVED":
                     return "redirect:/seller/dashboard";
                 default:

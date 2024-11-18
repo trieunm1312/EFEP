@@ -8,10 +8,8 @@ import com.team1.efep.enums.Role;
 import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.Category;
 import com.team1.efep.models.request_models.FilterCategoryRequest;
-import com.team1.efep.models.response_models.AddToWishlistResponse;
-import com.team1.efep.models.response_models.FilterCategoryResponse;
-import com.team1.efep.models.response_models.UpdateProfileResponse;
-import com.team1.efep.models.response_models.ViewProfileResponse;
+import com.team1.efep.models.request_models.SearchFlowerRequest;
+import com.team1.efep.models.response_models.*;
 import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.services.AdminService;
 import com.team1.efep.services.BuyerService;
@@ -183,11 +181,22 @@ public class PageController {
 
     @GetMapping("/category")
     public String categoryPage(Model model, RedirectAttributes redirectAttributes) {
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), AddToWishlistResponse.class)){
-            int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg")).getKeyword());
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg1"), AddToWishlistResponse.class)){
+            int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg1")).getKeyword());
             return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes);
         }
         model.addAttribute("msg", (FilterCategoryResponse)model.getAttribute("msg"));
+        AllPage.allConfig(model, buyerService);
+        return "category";
+    }
+
+    @GetMapping("/search/flower")
+    public String searchFlowerPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg1"), AddToWishlistResponse.class)){
+            String keyword = ((AddToWishlistResponse)model.getAttribute("msg1")).getKeyword();
+            return buyerService.searchFlower(SearchFlowerRequest.builder().build().builder().keyword(keyword).build(), model, session, redirectAttributes);
+        }
+        model.addAttribute("msg", (SearchFlowerResponse)model.getAttribute("msg"));
         AllPage.allConfig(model, buyerService);
         return "category";
     }
@@ -216,6 +225,17 @@ public class PageController {
         return "renewPassword";
     }
 
+    @GetMapping("/seller/request")
+    public String sellerRequestPage(Model model) {
+        AllPage.allConfig(model, buyerService);
+        return "sellerRequest";
+    }
+
+    @GetMapping("/request/success")
+    public String requestSuccessPage(Model model) {
+        AllPage.allConfig(model, buyerService);
+        return "requestSuccess";
+    }
 }
 
 
