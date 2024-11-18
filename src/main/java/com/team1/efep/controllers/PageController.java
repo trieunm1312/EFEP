@@ -39,17 +39,8 @@ public class PageController {
     private final AccountRepo accountRepo;
 
     @GetMapping("/")
-    public String startPage(Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null) {
-            AllPage.allConfig(model, buyerService);
-            HomepageConfig.config(model,buyerService);
-            return "home";
-        }
-        Role.changeToBuyer(account, accountRepo);
-        AllPage.allConfig(model, buyerService);
-        HomepageConfig.config(model,buyerService);
-        return "home";
+    public String startPage() {
+        return "redirect:/home";
     }
 
     @GetMapping("/home")
@@ -141,6 +132,7 @@ public class PageController {
 
     @GetMapping("/seller/dashboard")
     public String sellerDashboard(Model model, HttpSession session) {
+        System.out.println(session.getAttribute("acc"));
         SellerPageConfig.config(model, sellerService, session);
         return "sellerDashboard";
     }

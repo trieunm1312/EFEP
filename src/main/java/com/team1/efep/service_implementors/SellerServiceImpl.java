@@ -1245,6 +1245,7 @@ public class SellerServiceImpl implements SellerService {
 
     private Long calculateSoldQuantityInCategory(Category category, HttpSession session) {
         long total = 0;
+        Account account = (Account) session.getAttribute("acc");
         Seller seller = Role.getCurrentLoggedAccount(session).getUser().getSeller();
         List<Flower> flowers = categoryRepo.findAll().stream()
                 .filter(cate -> cate.equals(category))
