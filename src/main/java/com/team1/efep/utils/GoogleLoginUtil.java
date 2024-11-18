@@ -67,7 +67,7 @@ public class GoogleLoginUtil {
             GoogleResponse googleResponse = extractResponse(response);
             Account account = accountRepo.findByEmail(googleResponse.getEmail()).orElse(null);
             if (account == null) {
-                Account acc = accountRepo.save(
+                account = accountRepo.save(
                         Account.builder()
                                 .status(Status.ACCOUNT_STATUS_ACTIVE)
                                 .email(googleResponse.getEmail())
@@ -78,7 +78,7 @@ public class GoogleLoginUtil {
 
                 User user = userRepo.save(
                         User.builder()
-                                .account(acc)
+                                .account(account)
                                 .name(googleResponse.getFamilyName())
                                 .phone("")
                                 .avatar(googleResponse.getPicture())
@@ -87,8 +87,8 @@ public class GoogleLoginUtil {
                                 .build()
                 );
 
-                acc.setUser(user);
-                accountRepo.save(acc);
+                account.setUser(user);
+                accountRepo.save(account);
 
                 Wishlist wishlist = wishlistRepo.save(
                         Wishlist.builder()
@@ -102,7 +102,7 @@ public class GoogleLoginUtil {
             }
             reader.close();
             connection.disconnect();
-            return accountService.login(LoginRequest.builder().email(googleResponse.getEmail()).password(googleResponse.getId()).build(), model, session, redirectAttributes);
+            return accountService.loginWithEmailLogic(account.getEmail(), redirectAttributes, session);
 
         } catch (Exception e) {
             e.printStackTrace();

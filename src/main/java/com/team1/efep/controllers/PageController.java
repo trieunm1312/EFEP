@@ -34,15 +34,13 @@ public class PageController {
     private final AdminService adminService;
 
     @GetMapping("/")
-    public String startPage(Model model) {
-        AllPage.allConfig(model, buyerService);
-        HomepageConfig.config(model,buyerService);
-        return "home";
+    public String startPage() {
+        return "redirect:/home";
     }
 
     @GetMapping("/home")
-    public String homePage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String homePage(Model model) {
+        AllPage.allConfig(model, buyerService);
         HomepageConfig.config(model,buyerService);
         return "home";
     }

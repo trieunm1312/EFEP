@@ -98,6 +98,7 @@ public class AccountServiceImpl implements AccountService {
         );
     }
 
+
     //-------------------------------------------LOGIN------------------------------------------------------//
     @Override
     public String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -106,14 +107,10 @@ public class AccountServiceImpl implements AccountService {
             Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), PasswordEncryptUtil.encrypt(request.getPassword())).get();
             session.setAttribute("acc", acc);
             redirectAttributes.addFlashAttribute("msg", (LoginResponse) output);
-            switch (acc.getRole().toUpperCase()) {
-                case "SELLER":
-                    return "redirect:/seller/dashboard";
-                case "ADMIN":
-                    return "redirect:/admin/dashboard";
-                default:
-                    return "redirect:/home";
+            if (acc.getRole().equalsIgnoreCase("ADMIN")) {
+                return "redirect:/admin/dashboard";
             }
+            return "redirect:/home";
         }
         redirectAttributes.addFlashAttribute("error", output);
         redirectAttributes.addFlashAttribute("userInput", request);
@@ -160,12 +157,23 @@ public class AccountServiceImpl implements AccountService {
         );
     }
 
+    public String loginWithEmailLogic(String email, RedirectAttributes redirectAttributes, HttpSession session) {
+        Account account = accountRepo.findByEmail(email).orElse(null);
+        assert account != null;
+        session.setAttribute("acc", account);
+        redirectAttributes.addFlashAttribute("msg", LoginResponse.builder().status("200").message("").build());
+        if (account.getRole().equalsIgnoreCase("ADMIN")) {
+            return "redirect:/admin/dashboard";
+        }
+        return "redirect:/home";
+    }
+
     //------------------------------------------VIEW PROFILE-----------------------------------------------//
 
     @Override
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        if( model.getAttribute("error") != null) {
-            redirectAttributes.addFlashAttribute("error", (Map<String, String>)  model.getAttribute("error"));
+        if (model.getAttribute("error") != null) {
+            redirectAttributes.addFlashAttribute("error", (Map<String, String>) model.getAttribute("error"));
         }
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
