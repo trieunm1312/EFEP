@@ -42,7 +42,7 @@ public class PageController {
 
     @GetMapping("/home")
     public String homePage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+        AllPage.allConfig(model, buyerService);
         HomepageConfig.config(model,buyerService);
         return "home";
     }

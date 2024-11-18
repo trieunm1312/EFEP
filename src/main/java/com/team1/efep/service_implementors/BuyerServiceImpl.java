@@ -642,7 +642,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .canceledDate(order.getCanceledDate())
                 .buyerName(order.getUser().getName())
                 .buyerPhone(order.getUser().getPhone())
-                .address(order.getUser().getAddress())
+                .address(order.getDestination())
                 .detailList(detailList)
                 .isFeedback(order.isFeedback())
                 .build();

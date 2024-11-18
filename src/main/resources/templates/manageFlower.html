@@ -161,6 +161,7 @@
                                 <th class="table__header-amount">Flower Amount</th>
                                 <th class="table__header-qnt">Quantity</th>
                                 <th class="table__header-price">Price</th>
+                                <th class="table__header-status">Price</th>
                                 <th class="table__header-status">Status</th>
                                 <th class="table__header-status"></th>
                                 <th class="table__header-status"></th>
@@ -199,7 +200,9 @@
                                                     <span th:text="${'$' + item.price}" class="price-text">120</span>
 
                                                 </td>
-
+                                                <td class="table__body-status">
+                                                    <span th:text="${item.witheringDate}" class="status-text">12/01</span>
+                                                </td>
                                                 <td class="table__body-status">
                                                     <span th:text="${item.status}" class="status-text">Out</span>
                                                 </td>
@@ -340,7 +343,6 @@
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
 
@@ -476,15 +478,24 @@
                                                 </div>
                                                 <div>
                                                     <label class="expired" for="expiredDate">Expired date:</label>
-                                                    <input type="date" id="expiredDate" name="expiredDate" min="{{today}}" required>
+                                                    <input type="date" id="expiredDate" name="witheringDate" min="{{today}}" th:value="${witheringDate}" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Buttons at the bottom -->
                                         <div class="popup-buttons">
                                             <span onclick="closeCreatePopup()">Cancel</span>
-                                            <button type="submit" class="save-btn">Create</button>
+                                            <span onclick="openConfirmDatePopup()" class="save-btn">Create</span>
                                         </div>
+                                    </div>
+                                </div>
+                                <div id="confirm-date" class="confirmDelete">
+                                    <div class="confirmDelete-form">
+                                        <span class="confirm-text">Do you want to create flower with withering date:
+                                            <span th:text="${item.witheringDate}">12/01</span> ?</span>
+
+                                            <span class="cancel-delete" onclick="closeConfirmDatePopup()">Cancel</span>
+                                        <button type="submit" class="save-btn">Create</button>
                                     </div>
                                 </div>
                             </form>
