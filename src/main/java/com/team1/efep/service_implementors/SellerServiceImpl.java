@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
@@ -517,17 +518,19 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------VIEW ORDER DETAIL-----------------------------------//
 
     @Override
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !checkIfOrderBelongToSeller(account.getUser().getSeller().getId(), orderRepo.findById(request.getOrderId()).orElse(null))) {
-            model.addAttribute("error", ViewOrderDetailForSellerResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build());
+        if (account == null ) {
+            model.addAttribute(MapConfig.buildMapKey(error, "Please login a seller account to do this action"));
             return "redirect:/login";
+        } else if (!checkIfOrderBelongToSeller(account.getUser().getSeller().getId(), orderRepo.findById(request.getOrderId()).orElse(null))){
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "This order does not belong to you"));
+            return "redirect:/home";
+        }else if (!Role.changeToSeller(account)){
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not a seller"));
+            return "redirect:/home";
         }
-        Role.changeToSeller(account);
-
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailForSellerResponse.class)) {
             model.addAttribute("msg", (ViewOrderDetailForSellerResponse) output);
