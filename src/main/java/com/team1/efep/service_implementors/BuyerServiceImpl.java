@@ -66,7 +66,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = viewWishlistLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewWishlistResponse.class)) {
             model.addAttribute("msg", (ViewWishlistResponse) output);
@@ -144,7 +144,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = addToWishlistLogic(request, account);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, AddToWishlistResponse.class)) {
             account = accountRepo.findById(request.getAccountId()).orElse(null);
@@ -212,7 +212,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         request.setAccountId(account.getId());
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = updateWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -264,7 +264,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = deleteWishlistLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -308,7 +308,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = deleteWishlistItemLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, DeleteWishlistItemResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -351,7 +351,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
             redirectAttributes.addFlashAttribute("error", output);
@@ -435,7 +435,7 @@ public class BuyerServiceImpl implements BuyerService {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
 
         request.setEmail(session.getAttribute("mail").toString());
         Object output = renewPassLogic(request);
@@ -534,7 +534,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String viewOrderHistory(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = viewOrderHistoryLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
             model.addAttribute("msg", (ViewOrderHistoryResponse) output);
@@ -616,7 +616,7 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute(MapConfig.buildMapKey(error, "You are not allowed to view this order"));
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = viewOrderDetailLogic(order);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailResponse.class)) {
             model.addAttribute("msg", (ViewOrderDetailResponse) output);
@@ -737,7 +737,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
 
         model.addAttribute("msg", searchFlowerLogic(request));
         return "category";
@@ -855,7 +855,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         int orderId = (int) session.getAttribute("orderId");
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         ViewOrderStatusResponse statusResponse = viewOrderStatusLogic(orderId);
 
         if (statusResponse != null) {
@@ -894,7 +894,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         String referer = httpServletRequest.getHeader("Referer");
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = cancelOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
             model.addAttribute("msg", (CancelOrderResponse) output);
@@ -963,7 +963,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         String referer = httpServletRequest.getHeader("Referer");
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = confirmOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CancelOrderResponse.class)) {
             model.addAttribute("msg", (CancelOrderResponse) output);
@@ -1021,7 +1021,7 @@ public class BuyerServiceImpl implements BuyerService {
         session.setAttribute("destination", request.getDestination());
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         VNPayResponse vnPayResponse = createVNPayPaymentLinkLogic(request, httpServletRequest);
         model.addAttribute("msg", vnPayResponse);
         return "redirect:" + vnPayResponse.getPaymentURL();
@@ -1122,7 +1122,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String getPaymentResult(Map<String, String> params, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         String destination = (String) session.getAttribute("destination");
         Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest, destination);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
@@ -1288,7 +1288,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes, String destination) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         User user = account.getUser();
         List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
         if (saveOrder(params, user, items, paymentMethodRepo.findById(1).orElse(null), destination)) {
@@ -1314,7 +1314,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String confirmCheckoutOrder(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         model.addAttribute("msg", viewWishlistLogic(account.getId()));
         return "checkout";
     }
@@ -1332,7 +1332,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         VNPayResponse vnPayResponse = createVNPayPaymentLinkForBuyNowLogic(request, httpServletRequest);
         session.setAttribute("flowerId", request.getFlowerId());
         session.setAttribute("quantity", request.getQuantity());
@@ -1411,7 +1411,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String getPaymentResultForBuyNow(Map<String, String> params, BuyNowCODPayMentRequest request, HttpServletRequest httpServletRequest, Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()), Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), session.getAttribute("destination").toString(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
@@ -1504,7 +1504,7 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         User user = account.getUser();
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         saveOrderNow(request.getDestination(), request.getFlowerId(), request.getQuantity(), user, paymentMethodRepo.findById(1).orElse(null));
         session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
         CODPaymentResponse response = CODPaymentResponse.builder()
@@ -1524,7 +1524,7 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute("error", "You must log in");
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         ViewConfirmNowResponse response = viewConfirmOrderNow(account.getId(), request.getFlowerId(), request.getQuantity());
         model.addAttribute("msg1", response);
         return "checkout";
@@ -1619,7 +1619,7 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "redirect:/login";
         }
-            Role.changeToBuyer(account);
+            Role.changeToBuyer(account, accountRepo);
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
@@ -1688,7 +1688,7 @@ public class BuyerServiceImpl implements BuyerService {
             MapConfig.buildMapKey(error, "Please login with a buyer account to leave feedback");
             return "redirect:/login";
         }
-        Role.changeToBuyer(account);
+        Role.changeToBuyer(account, accountRepo);
         Object output = createFeedbackLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFeedbackResponse.class)) {
             model.addAttribute("msg1", (CreateFeedbackResponse) output);
