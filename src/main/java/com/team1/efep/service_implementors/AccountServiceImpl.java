@@ -104,18 +104,8 @@ public class AccountServiceImpl implements AccountService {
             Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), PasswordEncryptUtil.encrypt(request.getPassword())).get();
             session.setAttribute("acc", acc);
             redirectAttributes.addFlashAttribute("msg", (LoginResponse) output);
-<<<<<<< HEAD
             if (acc.getRole().equalsIgnoreCase("ADMIN")) {
                 return "redirect:/admin/dashboard";
-=======
-            switch (acc.getRole().toUpperCase()) {
-                case "SELLER":
-                    return "redirect:/seller/dashboard";
-                case "ADMIN":
-                    return "redirect:/admin/dashboard";
-                default:
-                    return "redirect:/";
->>>>>>> 39a39ffcc78c7f13bd62dcec99cbb4a76f89090a
             }
             return "redirect:/home";
         }
@@ -132,42 +122,6 @@ public class AccountServiceImpl implements AccountService {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
             assert account != null;
             return LoginResponse.builder()
-                    .status("200")
-                    .message("")
-                    .build();
-        }
-        return error;
-    }
-
-    //----------------------------------------LOGIN WITH GMAIL------------------------------------------//
-
-    @Override
-    public String loginWithGmail(LoginWithGmailRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-        Object output = loginWithGmailLogic(request);
-        if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginWithGmailResponse.class)) {
-            Account acc = accountRepo.findByEmail(request.getEmail()).get();
-            session.setAttribute("acc", acc);
-            redirectAttributes.addFlashAttribute("msg", (LoginWithGmailResponse) output);
-            switch (acc.getRole().toUpperCase()) {
-                case "SELLER":
-                    return "redirect:/seller/dashboard";
-                case "ADMIN":
-                    return "redirect:/admin/dashboard";
-                default:
-                    return "redirect:/";
-            }
-        }
-        redirectAttributes.addFlashAttribute("error", output);
-        redirectAttributes.addFlashAttribute("userInput", request);
-        return "redirect:/login";
-    }
-
-    private Object loginWithGmailLogic(LoginWithGmailRequest request) {
-        Map<String, String> error = LoginWithGmailValidation.validate(request, accountRepo);
-        if (error.isEmpty()) {
-            Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
-            assert account != null;
-            return LoginWithGmailResponse.builder()
                     .status("200")
                     .message("")
                     .build();

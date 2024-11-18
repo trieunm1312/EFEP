@@ -33,12 +33,6 @@ public class AccountController {
         return accountService.login(request, model, session, redirectAttributes);
     }
 
-    @PostMapping("/loginGmail")
-    @Operation(hidden = true)
-    public String loginWithGmail(LoginWithGmailRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-        return accountService.loginWithGmail(request, model, session, redirectAttributes);
-    }
-
     @GetMapping("/login/google")
     public void googleLogin(HttpServletResponse response) {
         accountService.getGoogleLoginUrl(response);

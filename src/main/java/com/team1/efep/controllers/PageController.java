@@ -34,7 +34,6 @@ public class PageController {
     private final AdminService adminService;
 
     @GetMapping("/")
-<<<<<<< HEAD
     public String startPage() {
         return "redirect:/home";
     }
@@ -42,78 +41,74 @@ public class PageController {
     @GetMapping("/home")
     public String homePage(Model model) {
         AllPage.allConfig(model, buyerService);
-=======
-    public String startPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
->>>>>>> 39a39ffcc78c7f13bd62dcec99cbb4a76f89090a
         HomepageConfig.config(model,buyerService);
         return "home";
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String loginPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "login";
     }
 
     @GetMapping("/register")
-    public String registerPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String registerPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "register";
     }
 
     @GetMapping("/change/password")
-    public String changePasswordPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String changePasswordPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "changePassword";
     }
 
     @GetMapping("/forgot/password")
-    public String forgotPasswordPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String forgotPasswordPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "forgotPassword";
     }
 
     @GetMapping("/orderList")
-    public String orderListPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String orderListPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "viewOrderList";
     }
 
     @GetMapping("/checkout")
-    public String checkoutPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String checkoutPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "checkout";
     }
 
     @GetMapping("/manageFlower")
     public String manageFlowerPage(HttpSession session, Model model) {
-        AllPage.allConfig(model, buyerService, session);
+        AllPage.allConfig(model, buyerService);
         sellerService.viewFlowerListForSeller(session, model);
         return "manageFlower";
     }
 
     @GetMapping("/viewOrderSummary")
-    public String viewOrderSummaryPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String viewOrderSummaryPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "viewOrderSummary";
     }
 
     @GetMapping("/seller/plan")
-    public String myPlanPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String myPlanPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "feedback";
     }
 
     @GetMapping("/seller/plan/intro")
-    public String choosePlanPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String choosePlanPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "choosePlan";
     }
 
     @GetMapping("/planList")
-    public String planListPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String planListPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "planList";
     }
 
@@ -130,7 +125,7 @@ public class PageController {
     }
 
     @GetMapping("/seller/profile")
-    public String sellerProfilePage(Model model, HttpSession session) {
+    public String sellerProfilePage(Model model) {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
@@ -148,7 +143,7 @@ public class PageController {
     }
 
     @GetMapping("/myAccount")
-    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes, HttpSession session) {
+    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes) {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
@@ -163,49 +158,49 @@ public class PageController {
             return "redirect:/account/view/profile";
         }
 
-        AllPage.allConfig(model, buyerService, session);
+        AllPage.allConfig(model, buyerService);
         return "myAccount";
     }
 
 
     @GetMapping("/wishlist")
-    public String viewWishlistPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String viewWishlistPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "viewWishlist";
     }
 
     @GetMapping("/category")
-    public String categoryPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String categoryPage(Model model, RedirectAttributes redirectAttributes) {
         if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), AddToWishlistResponse.class)){
             int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg")).getKeyword());
             return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes);
         }
         model.addAttribute("msg", (FilterCategoryResponse)model.getAttribute("msg"));
-        AllPage.allConfig(model, buyerService, session);
+        AllPage.allConfig(model, buyerService);
         return "category";
     }
 
     @GetMapping("/about/us")
-    public String aboutUsPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String aboutUsPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "aboutUs";
     }
 
     @GetMapping("/privacy/policy")
-    public String privacyPolicyPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String privacyPolicyPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "privacyPolicy";
     }
 
     @GetMapping("/terms/conditions")
-    public String termConditionPage(Model model,HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String termConditionPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "termCondition";
     }
 
     @GetMapping("/password/renew")
-    public String renewPasswordPage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+    public String renewPasswordPage(Model model) {
+        AllPage.allConfig(model, buyerService);
         return "renewPassword";
     }
 
