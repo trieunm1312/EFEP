@@ -4,12 +4,15 @@ import com.team1.efep.configurations.AdminPageConfig;
 import com.team1.efep.configurations.AllPage;
 import com.team1.efep.configurations.HomepageConfig;
 import com.team1.efep.configurations.SellerPageConfig;
+import com.team1.efep.enums.Role;
+import com.team1.efep.models.entity_models.Account;
 import com.team1.efep.models.entity_models.Category;
 import com.team1.efep.models.request_models.FilterCategoryRequest;
 import com.team1.efep.models.response_models.AddToWishlistResponse;
 import com.team1.efep.models.response_models.FilterCategoryResponse;
 import com.team1.efep.models.response_models.UpdateProfileResponse;
 import com.team1.efep.models.response_models.ViewProfileResponse;
+import com.team1.efep.repositories.AccountRepo;
 import com.team1.efep.services.AdminService;
 import com.team1.efep.services.BuyerService;
 import com.team1.efep.services.SellerService;
@@ -33,16 +36,23 @@ public class PageController {
 
     private final AdminService adminService;
 
+    private final AccountRepo accountRepo;
+
     @GetMapping("/")
-    public String startPage(Model model) {
-        AllPage.allConfig(model, buyerService);
-        HomepageConfig.config(model,buyerService);
-        return "home";
+    public String startPage() {
+        return "redirect:/home";
     }
 
     @GetMapping("/home")
     public String homePage(Model model, HttpSession session) {
-        AllPage.allConfig(model, buyerService, session);
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            AllPage.allConfig(model, buyerService);
+            HomepageConfig.config(model,buyerService);
+            return "home";
+        }
+        Role.changeToBuyer(account, accountRepo);
+        AllPage.allConfig(model, buyerService);
         HomepageConfig.config(model,buyerService);
         return "home";
     }
@@ -84,9 +94,9 @@ public class PageController {
     }
 
     @GetMapping("/manageFlower")
-    public String manageFlowerPage(HttpSession session, Model model) {
+    public String manageFlowerPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        sellerService.viewFlowerListForSeller(session, model);
+        sellerService.viewFlowerListForSeller(session, model, redirectAttributes);
         return "manageFlower";
     }
 
@@ -122,6 +132,7 @@ public class PageController {
 
     @GetMapping("/seller/dashboard")
     public String sellerDashboard(Model model, HttpSession session) {
+        System.out.println(session.getAttribute("acc"));
         SellerPageConfig.config(model, sellerService, session);
         return "sellerDashboard";
     }
@@ -145,7 +156,7 @@ public class PageController {
     }
 
     @GetMapping("/myAccount")
-    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes, HttpSession session) {
+    public String myAccountPage(Model model,  RedirectAttributes redirectAttributes) {
 
         if(model.getAttribute("msg") != null) {
             if (OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), UpdateProfileResponse.class)) {
@@ -172,7 +183,7 @@ public class PageController {
     }
 
     @GetMapping("/category")
-    public String categoryPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String categoryPage(Model model, RedirectAttributes redirectAttributes) {
         if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), AddToWishlistResponse.class)){
             int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg")).getKeyword());
             return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes);

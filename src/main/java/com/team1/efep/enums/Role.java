@@ -20,17 +20,19 @@ public class Role {
         return account.getUser().isSeller();
     }
 
-    public static boolean changeToBuyer(Account account) {
+    public static boolean changeToBuyer(Account account, AccountRepo accountRepo) {
         if (account.getRole().equals(SELLER)){
             account.setRole(BUYER);
+            accountRepo.save(account);
             return true;
         }
         return false;
     }
     
-    public static boolean changeToSeller(Account account) {
+    public static boolean changeToSeller(Account account, AccountRepo accountRepo) {
         if (account.getRole().equals(BUYER) && account.getUser().isSeller()){
             account.setRole(SELLER);
+            accountRepo.save(account);
             return true;
         }
         return false;

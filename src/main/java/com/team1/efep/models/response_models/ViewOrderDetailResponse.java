@@ -31,13 +31,13 @@ public class ViewOrderDetailResponse {
 
     private String paymentMethod;
 
-    private LocalDateTime createDate;
+    private String createDate;
 
-    private LocalDateTime packedDate;
+    private String packedDate;
 
-    private LocalDateTime completedDate;
+    private String completedDate;
 
-    private LocalDateTime canceledDate;
+    private String canceledDate;
 
     private String buyerName;
 

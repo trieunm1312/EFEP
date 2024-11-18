@@ -32,7 +32,7 @@ public interface BuyerService {
 
     String viewFlowerDetail(ViewFlowerDetailRequest request, Model model, HttpSession session);
 
-    String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
+    String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     String viewOrderStatus(HttpSession session, Model model,  RedirectAttributes redirectAttributes);
 

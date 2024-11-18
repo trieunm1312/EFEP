@@ -1,7 +1,9 @@
 package com.team1.efep.services;
 
-import com.team1.efep.models.request_models.*;
-import com.team1.efep.models.response_models.*;
+import com.team1.efep.models.request_models.ChangePasswordRequest;
+import com.team1.efep.models.request_models.LoginRequest;
+import com.team1.efep.models.request_models.RegisterRequest;
+import com.team1.efep.models.request_models.UpdateProfileRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
