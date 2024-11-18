@@ -33,6 +33,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,6 +54,8 @@ public class BuyerServiceImpl implements BuyerService {
     private final FeedbackRepo feedbackRepo;
     private final SellerRepo sellerRepo;
     private final SellerApplicationRepo sellerApplicationRepo;
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     //---------------------------------------VIEW WISHLIST------------------------------------------//
     @Override
@@ -636,16 +639,20 @@ public class BuyerServiceImpl implements BuyerService {
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
-                .createDate(order.getCreatedDate())
-                .packedDate(order.getPackedDate())
-                .completedDate(order.getCompletedDate())
-                .canceledDate(order.getCanceledDate())
+                .createDate(formatLocalDateTime(order.getCreatedDate()))
+                .packedDate(formatLocalDateTime(order.getPackedDate()))
+                .completedDate(formatLocalDateTime(order.getCompletedDate()))
+                .canceledDate(formatLocalDateTime(order.getCanceledDate()))
                 .buyerName(order.getUser().getName())
                 .buyerPhone(order.getUser().getPhone())
-                .address(order.getUser().getAddress())
+                .address(order.getDestination())
                 .detailList(detailList)
                 .isFeedback(order.isFeedback())
                 .build();
+    }
+
+    private String formatLocalDateTime(LocalDateTime dateTime) {
+        return dateTime != null ? dateTime.format(FORMATTER) : "";
     }
 
     private List<ViewOrderDetailResponse.Detail> viewOrderDetailLists(List<OrderDetail> orderDetails) {

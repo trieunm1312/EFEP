@@ -31,7 +31,7 @@ public interface SellerService {
 
     String searchBuyerList(HttpSession session, SearchBuyerListRequest request, Model model);
 
-    String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model);
+    String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes);
 
     String filterOrder(FilterOrderRequest request, HttpSession session, Model model);
 
