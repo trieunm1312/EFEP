@@ -184,8 +184,8 @@ public class PageController {
 
     @GetMapping("/category")
     public String categoryPage(Model model, RedirectAttributes redirectAttributes) {
-        if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg"), AddToWishlistResponse.class)){
-            int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg")).getKeyword());
+        if(OutputCheckerUtil.checkIfThisIsAResponseObject(model.getAttribute("msg1"), AddToWishlistResponse.class)){
+            int categoryId = Integer.parseInt(((AddToWishlistResponse)model.getAttribute("msg1")).getKeyword());
             return buyerService.filterCategory(FilterCategoryRequest.builder().categoryId(categoryId).build(), redirectAttributes);
         }
         model.addAttribute("msg", (FilterCategoryResponse)model.getAttribute("msg"));

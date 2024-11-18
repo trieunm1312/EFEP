@@ -1815,40 +1815,55 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute(MapConfig.buildMapKey(error, "Please login to access this page"));
             return "redirect:/login";
         }
-        List<SellerApplication> applicationList = sellerApplicationRepo.findAll();
-        List<SellerApplication> filterApplication = applicationList.stream()
+        List<SellerApplication> applicationList = sellerApplicationRepo.findAll().stream()
                 .filter(app -> app.getUser().getId() == account.getUser().getId())
                 .toList();
-        SellerApplication application = (SellerApplication) filterApplication.stream()
-                .filter(app -> app.getCreatedDate().equals(filterApplication.stream()
-                        .map(SellerApplication::getCreatedDate)
-                        .max(LocalDateTime::compareTo)
-                        .orElse(null)));
-        if (!filterApplication.isEmpty()) {
-            switch (application.getStatus().toUpperCase()) {
-                case "PENDING":
-                    model.addAttribute("msg", DirectToSellerChannelResponse.builder()
-                            .status("200")
-                            .message("Your application is pending")
-                            .build());
-                    return "sellerRequest";
-                case "REJECTED":
-                    model.addAttribute("msg", DirectToSellerChannelResponse.builder()
-                            .status("200")
-                            .message("Your application is rejected")
-                            .build());
-                    return "sellerRequest";
-                case "APPROVED":
-                    return "redirect:/seller/dashboard";
-                default:
-                    return "sellerRequest";
-            }
+
+        if (applicationList.isEmpty()) {
+            model.addAttribute("msg", DirectToSellerChannelResponse.builder()
+                    .status("400")
+                    .message("You have not applied to become a seller")
+                    .build());
+            return "sellerRequest";
         }
-        model.addAttribute("msg", DirectToSellerChannelResponse.builder()
-                .status("400")
-                .message("You have not applied to become a seller")
-                .build());
-        return "sellerRequest";
+
+        SellerApplication latestApplication = applicationList.stream()
+                .max(Comparator.comparing(SellerApplication::getCreatedDate))
+                .orElse(null);
+
+        if (latestApplication == null) {
+            model.addAttribute("msg", DirectToSellerChannelResponse.builder()
+                    .status("400")
+                    .message("Unable to find your latest application")
+                    .build());
+            return "sellerRequest";
+        }
+
+        switch (latestApplication.getStatus().toUpperCase()) {
+            case "PENDING":
+                model.addAttribute("msg", DirectToSellerChannelResponse.builder()
+                        .status("200")
+                        .message("Your application is pending")
+                        .build());
+                return "sellerRequest";
+
+            case "REJECTED":
+                model.addAttribute("msg", DirectToSellerChannelResponse.builder()
+                        .status("200")
+                        .message("Your application is rejected")
+                        .build());
+                return "sellerRequest";
+
+            case "APPROVED":
+                return "redirect:/seller/dashboard";
+
+            default:
+                model.addAttribute("msg", DirectToSellerChannelResponse.builder()
+                        .status("400")
+                        .message("Unknown application status")
+                        .build());
+                return "sellerRequest";
+        }
     }
 
 }
