@@ -62,9 +62,9 @@ public class BuyerController {
 
     @GetMapping("/order/detail")
     @Operation(hidden = true)
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         AllPage.allConfig(model, buyerService);
-        return buyerService.viewOrderDetail(request, session, model);
+        return buyerService.viewOrderDetail(request, session, model, redirectAttributes);
     }
 
     @GetMapping("/order/status")
