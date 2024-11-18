@@ -1,5 +1,6 @@
 package com.team1.efep.service_implementors;
 
+import com.team1.efep.configurations.MapConfig;
 import com.team1.efep.enums.Const;
 import com.team1.efep.enums.Role;
 import com.team1.efep.enums.Status;
@@ -69,7 +70,6 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
         Object output = createFlowerLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, CreateFlowerResponse.class)) {
             model.addAttribute("msg1", (CreateFlowerResponse) output);
@@ -175,7 +175,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
         Object output = viewOrderListLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
             model.addAttribute("msg", (ViewOrderListResponse) output);
@@ -241,7 +241,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
         String referer = httpServletRequest.getHeader("Referer");
         Object output = changeOrderStatusLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangeOrderStatusResponse.class)) {
@@ -333,16 +333,16 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------------VIEW FLOWER LIST FOR SELLER---------------------------------------//
 
     @Override
-    public String viewFlowerListForSeller(HttpSession session, Model model) {
+    public String viewFlowerListForSeller(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewFlowerListForSellerResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build());
-            return "login";
+        if (account == null ) {
+            model.addAttribute(MapConfig.buildMapKey(error, "Please login "));
+            return "redirect:/login";
+        } else if (!Role.changeToSeller(account, accountRepo)){
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not a seller"));
+            return "redirect:/home";
         }
-        Role.changeToSeller(account);
 
         model.addAttribute("msg", viewFlowerListForSellerLogic(Role.getCurrentLoggedAccount(session).getUser().getSeller().getId()));
         return "manageFlower";
@@ -419,7 +419,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         Object output = viewBuyerListLogic(((Account) session.getAttribute("acc")).getUser().getSeller().getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewBuyerListResponse.class)) {
@@ -490,7 +490,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         model.addAttribute("msg", searchBuyerListLogic(request, ((Account) session.getAttribute("acc")).getUser().getSeller().getId()));
         return "buyerList";
@@ -517,17 +517,19 @@ public class SellerServiceImpl implements SellerService {
     //--------------------------------VIEW ORDER DETAIL-----------------------------------//
 
     @Override
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !checkIfOrderBelongToSeller(account.getUser().getSeller().getId(), orderRepo.findById(request.getOrderId()).orElse(null))) {
-            model.addAttribute("error", ViewOrderDetailForSellerResponse.builder()
-                    .status("400")
-                    .message("Please login a seller account to do this action")
-                    .build());
+        if (account == null ) {
+            model.addAttribute(MapConfig.buildMapKey(error, "Please login "));
             return "redirect:/login";
+        } else if (!Role.changeToSeller(account, accountRepo)){
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not a seller"));
+            return "redirect:/home";
+        } else if (!checkIfOrderBelongToSeller(account.getUser().getSeller().getId(), orderRepo.findById(request.getOrderId()).orElse(null))){
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "This order does not belong to you"));
+            return "redirect:/home";
         }
-        Role.changeToSeller(account);
-
         Object output = viewOrderDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderDetailForSellerResponse.class)) {
             model.addAttribute("msg", (ViewOrderDetailForSellerResponse) output);
@@ -607,8 +609,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
-
+        Role.changeToSeller(account, accountRepo);
         Object output = filterOrderLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, FilterOrderResponse.class)) {
             model.addAttribute("msg", (FilterOrderResponse) output);
@@ -697,7 +698,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         model.addAttribute("msg", sortOrderLogic(filterOrderRequest));
         return "viewOrderList";
@@ -750,7 +751,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         redirectAttributes.addFlashAttribute("msg", updateFlowerLogic(request));
         return "redirect:/manageFlower";
@@ -864,7 +865,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "redirect:/login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         redirectAttributes.addFlashAttribute("msg", deleteFlowerLogic(request));
         session.setAttribute("acc", accountRepo.findById(request.getAccountId()).orElse(null));
@@ -904,7 +905,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "redirect:/login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         model.addAttribute("msg", viewFlowerImageLogic(request));
         return "redirect:/seller/view/flower";
@@ -938,7 +939,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "redirect:/login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         redirectAttributes.addFlashAttribute("msg", (Map<String, String>) addFlowerImageLogic(request));
         return "redirect:/seller/view/flower";
@@ -977,7 +978,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "redirect:/login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         redirectAttributes.addFlashAttribute("msg", (DeleteFlowerImageResponse) deleteFlowerImageLogic(request.getImageId()));
         return "redirect:/seller/view/flower";
@@ -1019,7 +1020,7 @@ public class SellerServiceImpl implements SellerService {
             redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         Object output = getFlowerCategoryLogic(flowerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerCategoryResponse.class)) {
@@ -1059,7 +1060,7 @@ public class SellerServiceImpl implements SellerService {
             redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         Object output = updateFlowerCategoryLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, UpdateFlowerCategoryResponse.class)) {
@@ -1106,7 +1107,7 @@ public class SellerServiceImpl implements SellerService {
             redirectAttributes.addFlashAttribute("error", "You must log in");
             return "redirect:/login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         Object output = removeFlowerCategoryLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RemoveFlowerCategoryResponse.class)) {
@@ -1244,6 +1245,7 @@ public class SellerServiceImpl implements SellerService {
 
     private Long calculateSoldQuantityInCategory(Category category, HttpSession session) {
         long total = 0;
+        Account account = (Account) session.getAttribute("acc");
         Seller seller = Role.getCurrentLoggedAccount(session).getUser().getSeller();
         List<Flower> flowers = categoryRepo.findAll().stream()
                 .filter(cate -> cate.equals(category))
@@ -1313,7 +1315,7 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account);
+        Role.changeToSeller(account, accountRepo);
 
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {

@@ -28,6 +28,11 @@ public class SellerController {
 
     //--------------------------------------------Flower------------------------------------------------//
 
+    @GetMapping("/view/flower")
+    public String viewFlowerListForSeller(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.viewFlowerListForSeller(session, model, redirectAttributes);
+    }
+
     @PutMapping("/flower")
     @Operation(hidden = true)
     public String updateFlower(UpdateFlowerRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
@@ -115,16 +120,10 @@ public class SellerController {
         return sellerService.viewOrderList(session, model);
     }
 
-    @GetMapping("/view/flower")
-    public String viewFlowerListForSeller(HttpSession session, Model model) {
-        return sellerService.viewFlowerListForSeller(session, model);
-    }
-
-
     @GetMapping("/order/detail")
     @Operation(hidden = true)
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
-        return sellerService.viewOrderDetail(request, session, model);
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.viewOrderDetail(request, session, model, redirectAttributes);
     }
 
     @PostMapping("/order/filter")
