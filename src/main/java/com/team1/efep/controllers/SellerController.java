@@ -123,8 +123,8 @@ public class SellerController {
 
     @GetMapping("/order/detail")
     @Operation(hidden = true)
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
-        return sellerService.viewOrderDetail(request, session, model);
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        return sellerService.viewOrderDetail(request, session, model, redirectAttributes);
     }
 
     @PostMapping("/order/filter")
