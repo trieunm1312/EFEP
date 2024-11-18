@@ -1244,7 +1244,7 @@ public class BuyerServiceImpl implements BuyerService {
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setFrom("nguyenngoctram762@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
 
@@ -1270,7 +1270,7 @@ public class BuyerServiceImpl implements BuyerService {
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setFrom("nguyenngoctram762@gmail.com");
 
             helper.setTo(seller.getUser().getAccount().getEmail());
 
