@@ -417,17 +417,19 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String viewApplicationList(HttpSession session, Model model) {
-        model.addAttribute("msg", viewSellerApplicationLogic());
+        model.addAttribute("msg", ViewSellerApplicationResponse.builder()
+                .applicationList(viewSellerApplicationLogic())
+                .build());
         return "sellerRequest";
     }
 
-    private List<ViewSellerApplicationResponse> viewSellerApplicationLogic() {
+    private List<ViewSellerApplicationResponse.Application> viewSellerApplicationLogic() {
         List<SellerApplication> applications = sellerApplicationRepo.findAll();
 
         return applications.stream()
                 .sorted(Comparator.comparing((SellerApplication app) -> app.getStatus().equalsIgnoreCase("PENDING") ? 0 : 1)
                         .thenComparing(SellerApplication::getCreatedDate, Comparator.reverseOrder()))
-                .map(app -> ViewSellerApplicationResponse.builder()
+                .map(app -> ViewSellerApplicationResponse.Application.builder()
                         .id(app.getId())
                         .content(app.getContent())
                         .rejectionReason(app.getRejectionReason())

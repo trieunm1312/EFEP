@@ -1244,7 +1244,7 @@ public class BuyerServiceImpl implements BuyerService {
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setFrom("nguyenngoctram762@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
 
@@ -1270,7 +1270,7 @@ public class BuyerServiceImpl implements BuyerService {
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setFrom("nguyenngoctram762@gmail.com");
 
             helper.setTo(seller.getUser().getAccount().getEmail());
 
@@ -1870,6 +1870,31 @@ public class BuyerServiceImpl implements BuyerService {
                         .build());
                 return "sellerRequest";
         }
+    }
+
+    //---------------------------------CREATE SELLER REQUEST---------------------------------//
+
+    @Override
+    public String createSellerApplication(HttpSession session, Model model) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        assert account != null;
+        Role.changeToBuyer(account, accountRepo);
+        createSellerApplicationLogic(account.getUser().getId());
+        return "";
+    }
+
+    private void createSellerApplicationLogic(int userId) {
+        User user = userRepo.findById(userId).orElse(null);
+        assert user != null;
+
+        SellerApplication application = SellerApplication.builder()
+                .user(user)
+                .content("I want to become a seller")
+                .status("PENDING")
+                .createdDate(LocalDateTime.now())
+                .build();
+
+        sellerApplicationRepo.save(application);
     }
 
 }
