@@ -519,7 +519,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsSeller(account)) {
+        if (account == null || !checkIfOrderBelongToSeller(account.getUser().getSeller().getId(), orderRepo.findById(request.getOrderId()).orElse(null))) {
             model.addAttribute("error", ViewOrderDetailForSellerResponse.builder()
                     .status("400")
                     .message("Please login a seller account to do this action")
@@ -588,6 +588,11 @@ public class SellerServiceImpl implements SellerService {
                             .build();
                 })
                 .toList();
+    }
+
+    private boolean checkIfOrderBelongToSeller(int sellerId, Order order) {
+        return order.getOrderDetailList().stream()
+                .anyMatch(detail -> detail.getFlower().getSeller().getId() == sellerId);
     }
 
     //-----------------------------------------FILTER ORDER--------------------------------------//

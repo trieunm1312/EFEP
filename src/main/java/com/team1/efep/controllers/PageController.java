@@ -40,6 +40,13 @@ public class PageController {
         return "home";
     }
 
+    @GetMapping("/home")
+    public String homePage(Model model, HttpSession session) {
+        AllPage.allConfig(model, buyerService, session);
+        HomepageConfig.config(model,buyerService);
+        return "home";
+    }
+
     @GetMapping("/login")
     public String loginPage(Model model) {
         AllPage.allConfig(model, buyerService);

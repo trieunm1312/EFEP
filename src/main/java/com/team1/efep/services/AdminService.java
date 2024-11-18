@@ -35,4 +35,10 @@ public interface AdminService {
     void getSellersInMonth(Model model);
 
     void getTop3SellerInMonth(Model model);
+
+    String viewApplicationList(HttpSession session, Model model);
+
+    String acceptApplication(ApproveApplicationRequest request, Model model, RedirectAttributes redirectAttributes);
+
+    String rejectApplication(RejectApplicationRequest request, Model model, RedirectAttributes redirectAttributes);
 }
