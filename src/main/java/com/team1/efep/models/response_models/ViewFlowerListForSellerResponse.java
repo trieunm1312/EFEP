@@ -42,7 +42,9 @@ public class ViewFlowerListForSellerResponse {
 
         private int quantity;
 
-        private LocalDate witheringDate;
+        private String createDate;
+
+        private String witheringDate;
 
         private List<CategoryDetail> categoryList;
 
