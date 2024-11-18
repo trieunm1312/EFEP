@@ -161,7 +161,7 @@
                                 <th class="table__header-amount">Flower Amount</th>
                                 <th class="table__header-qnt">Quantity</th>
                                 <th class="table__header-price">Price</th>
-                                <th class="table__header-status">CreatedDate</th>
+                                <th class="table__header-status">CreateDate</th>
                                 <th class="table__header-status">witheringDate</th>
                                 <th class="table__header-status">Status</th>
                                 <th class="table__header-status"></th>
@@ -202,7 +202,7 @@
 
                                                 </td>
                                                 <td class="table__body-status">
-                                                    <span th:text="${item.createdDate}" class="status-text">12/01</span>
+                                                    <span th:text="${item.createDate}" class="status-text">12/01</span>
                                                 </td>
                                                 <td class="table__body-status">
                                                     <span th:text="${item.witheringDate}" class="status-text">12/01</span>
@@ -495,8 +495,7 @@
                                 </div>
                                 <div id="confirm-date" class="confirmDelete">
                                     <div class="confirmDelete-form">
-                                        <span class="confirm-text">Do you want to create flower with withering date:
-                                            <span th:text="${item.witheringDate}">12/01</span> ?</span>
+                                        <span class="confirm-text">Do you want to create flower with withering date?</span>
 
                                             <span class="cancel-delete" onclick="closeConfirmDatePopup()">Cancel</span>
                                         <button type="submit" class="save-btn">Create</button>
