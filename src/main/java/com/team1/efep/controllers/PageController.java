@@ -130,7 +130,6 @@ public class PageController {
 
     @GetMapping("/seller/dashboard")
     public String sellerDashboard(Model model, HttpSession session) {
-        System.out.println(session.getAttribute("acc"));
         SellerPageConfig.config(model, sellerService, session);
         return "sellerDashboard";
     }
