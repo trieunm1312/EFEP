@@ -434,7 +434,9 @@ public class AdminServiceImpl implements AdminService {
                         .status(app.getStatus())
                         .createdDate(app.getCreatedDate() != null ? app.getCreatedDate().toString() : null)
                         .approvedDate(app.getApprovedDate() != null ? app.getApprovedDate().toString() : null)
-                        .user(app.getUser() != null ? app.getUser().getName() : "Unknown User")
+                        .accountId(app.getUser().getAccount().getId())
+                        .buyerName(app.getUser().getName())
+                        .buyerPhone(app.getUser().getPhone())
                         .build())
                 .toList();
     }

@@ -15,5 +15,8 @@ public class ViewSellerApplicationResponse {
     String status;
     String createdDate;
     String approvedDate;
-    String user;
+    int accountId;
+    String buyerName;
+    String buyerPhone;
+
 }
