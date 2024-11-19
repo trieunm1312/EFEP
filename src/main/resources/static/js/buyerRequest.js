@@ -16,13 +16,19 @@ document.querySelectorAll('.close-btn').forEach((closeBtn, index) => {
 });
 
 
-//pass value from quill.js to rejectionReason
+// Pass sanitized value from Quill.js to rejectionReason
 document.querySelectorAll('.reason__background').forEach((form, index) => {
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        const quillContent = editors[index].quill.root.innerHTML;
+
+
+        const quillContent = editors[index].quill.root.innerHTML.trim();
+        const sanitizedContent = quillContent.replace(/^<p>|<\/p>$/g, '').trim();
+
+        // Set sanitized content to hidden input
         const rejectionReasonInput = form.querySelector('input[name="rejectionReason"]');
-        rejectionReasonInput.value = quillContent;
+        rejectionReasonInput.value = sanitizedContent;
+
         form.submit();
     });
 });
