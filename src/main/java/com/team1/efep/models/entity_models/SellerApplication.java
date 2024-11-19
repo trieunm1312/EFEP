@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -33,8 +34,7 @@ public class SellerApplication {
     @Column(name = "`approved_date`")
     private LocalDateTime approvedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "`user_id`")
-    private User user;
+    @OneToMany(mappedBy = "sellerApplication", fetch = FetchType.EAGER)
+    private List<UserSellerApplication> userSellerApplicationList;
 
 }

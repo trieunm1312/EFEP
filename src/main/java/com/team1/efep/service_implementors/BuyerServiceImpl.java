@@ -54,6 +54,7 @@ public class BuyerServiceImpl implements BuyerService {
     private final FeedbackRepo feedbackRepo;
     private final SellerRepo sellerRepo;
     private final SellerApplicationRepo sellerApplicationRepo;
+    private final UserSellerApplicationRepo userSellerApplicationRepo;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -613,7 +614,7 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------VIEW ORDER DETAIL--------------------------------------//
 
     @Override
-    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes ) {
+    public String viewOrderDetail(ViewOrderDetailRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
@@ -739,7 +740,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null){
+        if (account == null) {
             redirectAttributes.addFlashAttribute("msg", searchFlowerLogic(request, account));
             return "redirect:/search/flower";
         }
@@ -1328,7 +1329,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if(account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             redirectAttributes.addFlashAttribute("msg", VNPayResponse.builder()
                     .status("400")
                     .message("You must log in with a buyer account to make a payment.")
@@ -1474,7 +1475,7 @@ public class BuyerServiceImpl implements BuyerService {
             item.setQuantity(item.getQuantity() - quantity);
             wishlistItemRepo.save(item);
         }
-        if (flower.getQuantity() == 0){
+        if (flower.getQuantity() == 0) {
             flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
             flowerRepo.save(flower);
         }
@@ -1503,7 +1504,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String getCODPaymentResultForBuyNow(VNPayRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if(account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
             redirectAttributes.addFlashAttribute("msg", CODPaymentResponse.builder()
                     .status("400")
                     .message("You must log in with a buyer account to make a payment.")
@@ -1662,7 +1663,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .avatar(seller.getUser().getAvatar())
                 .background(seller.getUser().getBackground())
                 .totalFlower(seller.getFlowerList().size())
-                .sellerRating(seller.getRating())
+                .sellerRating((float) Math.floor(seller.getRating() * 10) / 10)
                 .flowerList(viewFlowerList(flowers))
                 .feedbackList(feedbackDetails)
                 .build();
@@ -1818,7 +1819,9 @@ public class BuyerServiceImpl implements BuyerService {
             return "redirect:/login";
         }
         List<SellerApplication> applicationList = sellerApplicationRepo.findAll().stream()
-                .filter(app -> app.getUser().getId() == account.getUser().getId())
+                .filter(app -> app.getUserSellerApplicationList().stream()
+                        .filter(userApp -> userApp.getUser().getId() == account.getUser().getId()).isParallel()
+                )
                 .toList();
 
         if (applicationList.isEmpty()) {
@@ -1884,13 +1887,18 @@ public class BuyerServiceImpl implements BuyerService {
         assert user != null;
 
         SellerApplication application = SellerApplication.builder()
-                .user(user)
                 .content("I want to become a seller")
                 .status("pending")
                 .createdDate(LocalDateTime.now())
                 .build();
 
+        UserSellerApplication userApp = UserSellerApplication.builder()
+                .sellerApplication(application)
+                .user(user)
+                .build();
+
         sellerApplicationRepo.save(application);
+        userSellerApplicationRepo.save(userApp);
     }
 
 }
