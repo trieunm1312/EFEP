@@ -175,7 +175,6 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account, accountRepo);
         Object output = viewOrderListLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
             model.addAttribute("msg", (ViewOrderListResponse) output);
@@ -288,7 +287,7 @@ public class SellerServiceImpl implements SellerService {
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setFrom("nguyenngoctram762@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
 
@@ -313,7 +312,7 @@ public class SellerServiceImpl implements SellerService {
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setFrom("nguyenngoctram762@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
 
