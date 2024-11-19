@@ -1848,6 +1848,7 @@ public class BuyerServiceImpl implements BuyerService {
                 model.addAttribute("msg", DirectToSellerChannelResponse.builder()
                         .status("200")
                         .message("Your application is pending")
+                        .applicationStatus("pending")
                         .build());
                 return "requestSuccess";
 
@@ -1855,6 +1856,7 @@ public class BuyerServiceImpl implements BuyerService {
                 model.addAttribute("msg", DirectToSellerChannelResponse.builder()
                         .status("200")
                         .message("Your application is rejected because " + latestApplication.getRejectionReason())
+                        .applicationStatus("rejected")
                         .build());
                 return "requestSuccess";
 

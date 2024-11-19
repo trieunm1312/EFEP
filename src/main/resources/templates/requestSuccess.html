@@ -23,7 +23,7 @@
         <header class="header" th:fragment="header">
             <div class="grid">
                 <div class="header__wrap">
-                    <a href="" class="header__item back-link" onclick="window.history.back(); return false;">
+                    <a th:href="@{/home}" class="header__item back-link" >
                         <h1>
                             <i class="fa-solid fa-arrow-left"></i>
                             Back
@@ -31,7 +31,7 @@
                     </a>
 
                     <!-- Logo -->
-                    <a href="home.html" class="header__item">
+                    <a th:href="@{/home}" class="header__item">
                         <div class="header__item-logo">
                             <img src="/img/flowrista-logo.png" alt="Logo"
                                 class="header__item-logo-img">
@@ -48,9 +48,17 @@
                     <i class="fa-regular fa-circle-check introduction-block__icon"></i>
                     
                     <h1 class="introduction-block__heading" th:text="${msg.message}">Your request has sent to System Administrator. Wait for Approval!</h1>
-                    <form th:action="@{/home}">
+                    <form th:if="${msg.applicationStatus == 'pending'}" th:action="@{/home}">
                         <input class="next-btn" type="submit" name="action" value="Back to Home Page">
                     </form>
+                    <div th:if="${msg.applicationStatus != 'pending'}" class="direct-btn">
+                        <a th:href="@{/home}" class="next-btn cancel">
+                            Back to Home Page
+                        </a>
+                        <a th:href="@{/buyer/seller/application}" class="next-btn">
+                            Send Again
+                        </a>
+                    </div>
 
                 </div>
             </div>
@@ -59,7 +67,7 @@
 
 
         <!-- Footer -->
-        <footer class="footer" th:fragment="footer">
+        <footer class="footer" th:replace="~{base :: footer}">
             <div class="grid">
                 <div class="footer__wrap">
                     <div class="footer__item">
