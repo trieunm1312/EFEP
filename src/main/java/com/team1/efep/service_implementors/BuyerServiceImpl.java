@@ -708,29 +708,26 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     public ViewSellerTopListResponse viewSellerTopListLogic(int top) {
-        List<ViewSellerTopListResponse.Seller> sellers = sellerRepo.findAll()
-                .stream()
-                .map(seller -> {
-                    List<Feedback> feedbackList = seller.getFeedbackList();
-                    double averageRating = feedbackList != null && !feedbackList.isEmpty()
-                            ? feedbackList.stream().mapToDouble(Feedback::getRating).average().orElse(0.0)
-                            : 0.0;
-
-                    return ViewSellerTopListResponse.Seller.builder()
-                            .id(seller.getId())
-                            .name(seller.getUser().getName())
-                            .avatar(seller.getUser().getAvatar())
-                            .averageRating(averageRating)
-                            .build();
-                })
-                .sorted((s1, s2) -> Double.compare(s2.getAverageRating(), s1.getAverageRating()))
+        List<ViewSellerTopListResponse.Seller> sellers = sellerRepo.findAll().stream()
+                .map(this::mapSellerToResponse)
+                .sorted(Comparator.comparingDouble(ViewSellerTopListResponse.Seller::getAverageRating).reversed())
                 .limit(top)
-                .collect(Collectors.toList());
+                .toList();
+        System.out.println(sellers.size());
 
         return ViewSellerTopListResponse.builder()
                 .status("200")
                 .message("Top Sellers by Rating")
                 .sellerList(sellers)
+                .build();
+    }
+
+    private ViewSellerTopListResponse.Seller mapSellerToResponse(Seller seller) {
+        return ViewSellerTopListResponse.Seller.builder()
+                .id(seller.getId())
+                .name(seller.getUser().getName())
+                .avatar(seller.getUser().getAvatar())
+                .averageRating(seller.getRating())
                 .build();
     }
 
