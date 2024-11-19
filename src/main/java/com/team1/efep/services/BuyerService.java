@@ -73,4 +73,6 @@ public interface BuyerService {
     CreateFeedbackResponse createFeedback(CreateFeedbackRequest request);
 
     String directToSellerChannel(HttpSession session, Model model);
+
+    String createSellerApplication(HttpSession session, Model model);
 }
