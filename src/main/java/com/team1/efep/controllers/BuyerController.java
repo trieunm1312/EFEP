@@ -225,4 +225,12 @@ public class BuyerController {
         return buyerService.directToSellerChannel(session, model);
     }
 
+    //---------------SELLER APPLICATION----------------//
+
+    @GetMapping("/seller/application")
+    @Operation(hidden = true)
+    public String viewSellerApplication(HttpSession session, Model model) {
+        return buyerService.createSellerApplication(session, model);
+    }
+
 }
