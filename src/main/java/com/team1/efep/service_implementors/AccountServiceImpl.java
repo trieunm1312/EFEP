@@ -287,6 +287,7 @@ public class AccountServiceImpl implements AccountService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (ChangePasswordResponse) output);
+            logout(session);
             return "redirect:/login";
         }
         redirectAttributes.addFlashAttribute("error", output);
@@ -314,6 +315,10 @@ public class AccountServiceImpl implements AccountService {
     public String logout(HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account != null) {
+            if (account.getRole().equalsIgnoreCase("ADMIN")) {
+                session.invalidate();
+                return "redirect:/login";
+            }
             account.setRole(Role.BUYER);
             accountRepo.save(account);
             session.invalidate();

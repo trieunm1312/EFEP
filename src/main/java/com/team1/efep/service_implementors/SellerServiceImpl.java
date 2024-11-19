@@ -260,10 +260,13 @@ public class SellerServiceImpl implements SellerService {
         assert order != null;
         Status.changeOrderStatus(order, request.getStatus(), orderRepo);
         if (request.getStatus().equals(Status.ORDER_STATUS_PACKED)) {
+            order.setPackedDate(LocalDateTime.now());
             sendPackedOrderEmail(order, order.getUser());
         } else {
+            order.setCanceledDate(LocalDateTime.now());
             sendCancelOrderEmail(order, order.getUser());
         }
+        orderRepo.save(order);
         if (request.getStatus().equals(Status.ORDER_STATUS_CANCELLED)) {
             order.getOrderDetailList().forEach(orderItem -> {
                 Flower flower = orderItem.getFlower();
@@ -566,6 +569,7 @@ public class SellerServiceImpl implements SellerService {
                 .orderStatus(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
                 .createdDate(order.getCreatedDate().toLocalDate())
+                .isFeedback(order.isFeedback())
                 .detailList(detailList)
                 .build();
     }
