@@ -68,8 +68,7 @@
                                 <span th:text="${msg.sellerRating}" class="seller_data"></span>
                                 <span>
                                     <div class="user__rating">
-
-                                        <span th:each="i : ${#numbers.sequence(1, msg.sellerRating.intValue())}">
+                                        <span th:if="${msg.sellerRating.intValue() > 0}" th:each="i : ${#numbers.sequence(1, msg.sellerRating.intValue())}">
                                             <i class="fa-solid fa-star"></i>
                                         </span>
 

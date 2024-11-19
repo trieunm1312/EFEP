@@ -74,6 +74,14 @@
     color: var(--primary-color);
 }
 
+.direct-btn{
+    width: 100%;
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
 .next-btn{
     font-size: 2.4rem;
     font-weight: 500;
@@ -85,6 +93,14 @@
     margin-left: 16px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .25);
     margin-top: 32px;
+}
+
+.next-btn:hover,
+.next-btn:focus{
+    text-decoration: none;
+    color: var(--white-color);
+    opacity: 0.8;
+
 }
 
 .footer__item-desc{

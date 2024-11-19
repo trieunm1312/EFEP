@@ -371,7 +371,7 @@ public class AdminServiceImpl implements AdminService {
                         .count(entry.getValue().intValue())
                         .build())
                 .toList();
-        System.out.println(sellerCounts);
+
 
         return SellersInMonthResponse.builder()
                 .status("200")
