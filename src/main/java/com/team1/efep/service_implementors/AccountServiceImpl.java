@@ -287,6 +287,7 @@ public class AccountServiceImpl implements AccountService {
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
             session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (ChangePasswordResponse) output);
+            logout(session);
             return "redirect:/login";
         }
         redirectAttributes.addFlashAttribute("error", output);

@@ -352,12 +352,6 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
     public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
-            return "redirect:/login";
-        }
-        Role.changeToBuyer(account, accountRepo);
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
             redirectAttributes.addFlashAttribute("error", output);
