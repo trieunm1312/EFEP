@@ -41,7 +41,17 @@
     border-left: 4px solid;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
     transition: all linear 0.3s;
+    border-color: var(--primary-color);
+}
+
+.approved-content{
     border-color: #47d864;
+    color: #47d864 !important;
+}
+
+.rejected-content{
+    border-color: #fd0e35;
+    color: #fd0e35 !important;
 }
 @keyframes slideInLeft {
     from{
@@ -56,10 +66,11 @@
 
 .request__icon{
     padding: 0 16px;
-    color: #47d864;
+    color: var(--primary-color);
     font-size: 24px;
-
 }
+
+
 .request__body{
     flex-grow: 1;
 }
@@ -73,6 +84,8 @@
     color: #888;
     margin-top: 6px;
     line-height: 1.5;
+    display: flex;
+    justify-content: start;
 }
 
 .decision-btn {
@@ -84,7 +97,7 @@
 }
 
 .approve{
-    background-color: var(--primary-color);
+    background-color: #47d864;
 }
 
 .decline {
@@ -136,7 +149,7 @@
 
 #closeBtn {
     position: absolute;
-    top: 35%;
+    top: 30%;
     left: 70%;
     font-size: 1.1rem;
     cursor: pointer;

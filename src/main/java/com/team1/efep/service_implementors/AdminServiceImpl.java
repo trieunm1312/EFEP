@@ -420,7 +420,7 @@ public class AdminServiceImpl implements AdminService {
         model.addAttribute("msg", ViewSellerApplicationResponse.builder()
                 .applicationList(viewSellerApplicationLogic())
                 .build());
-        return "sellerRequest";
+        return "buyerRequest";
     }
 
     private List<ViewSellerApplicationResponse.Application> viewSellerApplicationLogic() {
@@ -449,7 +449,7 @@ public class AdminServiceImpl implements AdminService {
     public String acceptApplication(ApproveApplicationRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = approveSellerApplicationLogic(request.getApplicationId());
         model.addAttribute("msg", output);
-        return "sellerRequest";
+        return "redirect:/admin/application/list";
     }
 
     private ApproveSellerApplicationResponse approveSellerApplicationLogic(int applicationId) {
@@ -480,7 +480,7 @@ public class AdminServiceImpl implements AdminService {
     public String rejectApplication(RejectApplicationRequest request, Model model, RedirectAttributes redirectAttributes) {
         Object output = rejectSellerApplicationLogic(request.getApplicationId(), request.getRejectionReason());
         model.addAttribute("msg", output);
-        return "sellerRequest";
+        return "redirect:/admin/application/list";
     }
 
     private RejectSellerApplicationResponse rejectSellerApplicationLogic(int applicationId, String reason) {

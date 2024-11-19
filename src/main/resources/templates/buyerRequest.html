@@ -15,13 +15,13 @@
 </head>
 
 <body>
-<div  th:replace="~{base :: toast}">
+<!--<div  th:replace="~{base :: toast}">-->
 
-</div>
+<!--</div>-->
 
-<div  th:replace="~{base :: error}">
+<!--<div  th:replace="~{base :: error}">-->
 
-</div>
+<!--</div>-->
 
     <aside class="sidebar">
     <a href="" class="sidebar__logo">
@@ -39,8 +39,16 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/admin/user/list}" class="sidebar__link">
+                <a th:href="@{/admin/application/list}" class="sidebar__link">
                     <div class="sidebar__item active">
+                        <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Buyer Request</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/user/list}" class="sidebar__link">
+                    <div class="sidebar__item">
                         <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
                         <span class="sidebar__item-title">Seller list</span>
                     </div>
@@ -59,22 +67,14 @@
                         <span>Admin Page</span>
                     </a>
                     <span>/</span>
-                    <span>Seller List</span><br>
+                    <span>Buyer Application</span><br>
                 </div>
                 <div class="header__title">
-                    <h3>Seller List</h3>
+                    <h3>Buyer Application</h3>
                 </div>
             </div>
 
-            <!-- Header search -->
-            <div th:replace="~{adminBase :: header__search}" class="header__search">
-                <form th:action="@{/admin/search/user/}" th:method="post" class="header__search-form">
-                    <button class="header__search-btn">
-                        <i class="fa-solid  fa-magnifying-glass"></i>
-                    </button>
-                    <input type="text" class="header__search-input" name="keyword" placeholder="Search.......">
-                </form>
-            </div>
+
             <div th:replace="~{adminBase :: header__others}" class="header__others">
                 <div class="header__noti">
                     <i class="fa-solid fa-bell"></i>
@@ -92,32 +92,88 @@
             <div class="grid">
                 <div class="seller-request">
                     <div class="seller-request__heading">
-                        <h4 class="buyer__title">Buyer Request:</h4>
+                        <h4 class="buyer__title">Buyer Application:</h4>
                     </div>
-                    <div class="request">
+                    <div th:each="request : ${msg.applicationList}" th:if="${request.status == 'pending'}" class="request">
                         <div class=" request-content" style="animation: slightInLeft ease .3s">
                             <div class="request__icon">
                                 <i class="fa-solid fa-circle-info"></i>
                             </div>
                             <div class="request__body">
                                 <h3 class="request__title">New Request!</h3>
-                                <p class="request__msg">ABC registered to become a seller</p>
+                                <p class="request__msg">
+                                    <span th:text="${'From: ' + request.buyerName}"></span>
+                                    <span th:text="${' - ' + request.createdDate}"></span>
+                                </p>
+                                <p class="request__msg" th:text="${request.content}"></p>
                             </div>
                             <div class="request-btn">
-                                <form action="">
+                                <form th:action="@{/admin/application/accept}" th:method="put">
+                                    <input type="hidden" name="applicationId" th:value="${request.id}">
+                                    <input type="hidden" name="accountId" th:value="${request.accountId}">
                                     <input type="submit" class="decision-btn approve" name="btAction"
                                            value="Approve">
                                 </form>
                                 <div>
-                                    <span class="decision-btn decline" id="declineBtn">Decline</span>
+                                    <span class="decision-btn decline reject-btn">Reject</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="reason" id="reason">
-                            <div class="reason__background">
-                                <h1 class="reason__heading">Reason why decline:</h1>
-                                <i class="fa-solid fa-xmark" id="closeBtn"></i>
-                                <div id="editor"></div>
+                        <div class="reason closed">
+                            <form th:action="@{/admin/application/reject}" th:method="put" class="reason__background">
+                                <h1 class="reason__heading">Reason why reject:</h1>
+                                <i class="fa-solid fa-xmark close-btn" id="closeBtn"></i>
+                                <div class="editor"></div>
+                                <input type="hidden" name="applicationId" th:value="${request.id}">
+                                <input type="hidden" name="accountId" th:value="${request.accountId}">
+                                <input type="hidden" name="rejectionReason" value="">
+                                <input type="submit" class="decision-btn decline" name="btAction" value="Send">
+                            </form>
+                        </div>
+                    </div>
+                    <div th:each="request : ${msg.applicationList}" th:if="${request.status != 'pending'}" class="request">
+                        <div th:if="${request.status == 'approved'}" class=" request-content approved-content" style="animation: slightInLeft ease .3s">
+                            <div class="request__icon approved-content">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="request__body">
+                                <h3 class="request__title">Approved!</h3>
+                                <p class="request__msg">
+                                    <span th:text="${'From: ' + request.buyerName}"></span>
+                                    <span th:text="${' - ' + request.createdDate}"></span>
+                                </p>
+                                <p class="request__msg" th:text="${request.content}"></p>
+                            </div>
+                            <div class="request-btn">
+                                <div>
+                                    <span class="decision-btn approve">Approved</span>
+                                </div>
+                                <div>
+                                    <span class="approved-date" th:text="${request.approvedDate}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${request.status == 'rejected'}" class=" request-content rejected-content" style="animation: slightInLeft ease .3s">
+                            <div class="request__icon rejected-content">
+                                <i class="fa-solid fa-circle-xmark "></i>
+                            </div>
+                            <div class="request__body">
+                                <h3 class="request__title">Rejected!</h3>
+                                <p class="request__msg">
+                                    <span th:text="${'From: ' + request.buyerName}"></span>
+                                    <span th:text="${' - ' + request.createdDate}"></span>
+                                </p>
+                                <p class="request__msg" th:text="${request.content}"></p>
+                                <p class="request__msg" th:text="${'Reason: ' + request.rejectionReason}"></p>
+
+                            </div>
+                            <div class="request-btn">
+                                <div>
+                                    <span class="decision-btn decline">Rejected</span>
+                                </div>
+                                <div>
+                                    <span class="approved-date" th:text="${request.approvedDate}"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -142,7 +198,11 @@
             placeholder: 'Reason...',
             theme: 'snow'
         };
-        const quill = new Quill('#editor', options);
+        const editors = [];
+        document.querySelectorAll('.editor').forEach((editorElement, index) => {
+            const quill = new Quill(editorElement, options);
+            editors.push({ element: editorElement, quill });
+        });
     </script>
 </body>
 
