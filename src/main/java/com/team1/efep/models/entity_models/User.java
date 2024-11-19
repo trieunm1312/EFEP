@@ -57,6 +57,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<SellerApplication> sellerApplicationList;
+    private List<UserSellerApplication> userSellerApplicationList;
 
 }

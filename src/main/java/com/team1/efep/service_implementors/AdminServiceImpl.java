@@ -439,9 +439,9 @@ public class AdminServiceImpl implements AdminService {
                         .status(app.getStatus())
                         .createdDate(app.getCreatedDate() != null ? formatLocalDateTime(app.getCreatedDate()) : null)
                         .approvedDate(app.getApprovedDate() != null ? formatLocalDateTime(app.getApprovedDate()) : null)
-                        .accountId(app.getUser().getAccount().getId())
-                        .buyerName(app.getUser().getName())
-                        .buyerPhone(app.getUser().getPhone())
+                        .accountId(app.getUserSellerApplicationList().get(0).getUser().getAccount().getId())
+                        .buyerName(app.getUserSellerApplicationList().get(0).getUser().getName())
+                        .buyerPhone(app.getUserSellerApplicationList().get(0).getUser().getPhone())
                         .build())
                 .toList();
     }
@@ -462,7 +462,7 @@ public class AdminServiceImpl implements AdminService {
     private ApproveSellerApplicationResponse approveSellerApplicationLogic(int applicationId) {
         SellerApplication application = sellerApplicationRepo.findById(applicationId).orElse(null);
         assert application != null;
-        User user = application.getUser();
+        User user = application.getUserSellerApplicationList().get(0).getUser();
         user.setSeller(true);
         userRepo.save(user);
         Seller seller = Seller.builder()
