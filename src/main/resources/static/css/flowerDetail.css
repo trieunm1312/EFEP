@@ -52,8 +52,6 @@
 }
 
 /* Flower Information */
-
-
   .flower-information {
     margin: 50px 0 50px 100px;
     display: flex; 
@@ -71,8 +69,9 @@
 }
 
 .flower-information__img-main-screen img {
-    width: 100%; 
-    height: auto; 
+    width: 620px;
+    height: 620px;
+    aspect-ratio: 1;
 }
 
 .flower-information__content {
@@ -98,7 +97,7 @@
 /* Adjust the image size in the Swiper */
 .flower-information__img-list img {
     width: 100px; /* Adjust the size of images in Swiper */
-    height: auto;
+    height: 120px;
 }
 
 
