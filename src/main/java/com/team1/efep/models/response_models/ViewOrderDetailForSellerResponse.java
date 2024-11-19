@@ -35,6 +35,8 @@ public class ViewOrderDetailForSellerResponse {
 
     private LocalDate createdDate;
 
+    private boolean isFeedback;
+
     private List<Detail> detailList;
 
     @Data

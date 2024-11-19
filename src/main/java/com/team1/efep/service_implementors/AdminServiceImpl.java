@@ -46,6 +46,8 @@ public class AdminServiceImpl implements AdminService {
 
     private final SellerApplicationRepo sellerApplicationRepo;
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
     //-------------------------------------VIEW USER LIST----------------------------//
 
@@ -61,6 +63,7 @@ public class AdminServiceImpl implements AdminService {
                 .message("")
                 .userList(
                         userRepo.findAll().stream()
+                                .filter(user -> user.getAccount().getRole().equals(Role.SELLER) || (user.getAccount().getRole().equals(Role.BUYER) && user.isSeller()))
                                 .map(
                                         user -> ViewUserListResponse.User.builder()
                                                 .id(user.getId())
@@ -434,13 +437,17 @@ public class AdminServiceImpl implements AdminService {
                         .content(app.getContent())
                         .rejectionReason(app.getRejectionReason())
                         .status(app.getStatus())
-                        .createdDate(app.getCreatedDate() != null ? app.getCreatedDate().toString() : null)
-                        .approvedDate(app.getApprovedDate() != null ? app.getApprovedDate().toString() : null)
+                        .createdDate(app.getCreatedDate() != null ? formatLocalDateTime(app.getCreatedDate()) : null)
+                        .approvedDate(app.getApprovedDate() != null ? formatLocalDateTime(app.getApprovedDate()) : null)
                         .accountId(app.getUser().getAccount().getId())
                         .buyerName(app.getUser().getName())
                         .buyerPhone(app.getUser().getPhone())
                         .build())
                 .toList();
+    }
+
+    private String formatLocalDateTime(LocalDateTime dateTime) {
+        return dateTime != null ? dateTime.format(FORMATTER) : "";
     }
 
     //-------------------------------------ACCEPT APPLICATION----------------------------//

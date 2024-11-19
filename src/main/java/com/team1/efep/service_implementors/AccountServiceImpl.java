@@ -314,6 +314,10 @@ public class AccountServiceImpl implements AccountService {
     public String logout(HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         if (account != null) {
+            if (account.getRole().equalsIgnoreCase("ADMIN")) {
+                session.invalidate();
+                return "redirect:/login";
+            }
             account.setRole(Role.BUYER);
             accountRepo.save(account);
             session.invalidate();

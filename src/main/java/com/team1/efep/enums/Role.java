@@ -30,7 +30,7 @@ public class Role {
     }
     
     public static boolean changeToSeller(Account account, AccountRepo accountRepo) {
-        if (account.getRole().equals(BUYER) && account.getUser().isSeller()){
+        if (account.getRole().equals(BUYER) && account.getUser().isSeller() || account.getRole().equals(SELLER) && account.getUser().isSeller()){
             account.setRole(SELLER);
             accountRepo.save(account);
             return true;
