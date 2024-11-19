@@ -34,7 +34,8 @@ public class SellerApplication {
     @Column(name = "`approved_date`")
     private LocalDateTime approvedDate;
 
-    @OneToMany(mappedBy = "sellerApplication", fetch = FetchType.EAGER)
-    private List<UserSellerApplication> userSellerApplicationList;
+    @ManyToOne
+    @JoinColumn(name = "`user_id`")
+    private User user;
 
 }

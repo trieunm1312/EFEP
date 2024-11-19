@@ -54,7 +54,6 @@ public class BuyerServiceImpl implements BuyerService {
     private final FeedbackRepo feedbackRepo;
     private final SellerRepo sellerRepo;
     private final SellerApplicationRepo sellerApplicationRepo;
-    private final UserSellerApplicationRepo userSellerApplicationRepo;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -1663,7 +1662,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .avatar(seller.getUser().getAvatar())
                 .background(seller.getUser().getBackground())
                 .totalFlower(seller.getFlowerList().size())
-                .sellerRating((float) Math.floor(seller.getRating() * 10) / 10)
+                .sellerRating(seller.getRating())
                 .flowerList(viewFlowerList(flowers))
                 .feedbackList(feedbackDetails)
                 .build();
@@ -1778,7 +1777,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private void calculateSellerRating(Seller seller) {
-        List<Feedback> feedbackList = seller.getFeedbackList();
+        List<Feedback> feedbackList = feedbackRepo.findAllBySeller_Id(seller.getId());
 
         if (feedbackList == null || feedbackList.isEmpty()) {
             seller.setRating(0);
@@ -1818,10 +1817,8 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute(MapConfig.buildMapKey(error, "Please login to access this page"));
             return "redirect:/login";
         }
-        List<UserSellerApplication> userAppList = userSellerApplicationRepo.findAllByUser_Id(account.getUser().getId());
-
-        List<SellerApplication> applicationList = userAppList.stream()
-                .map(UserSellerApplication::getSellerApplication)
+        List<SellerApplication> applicationList = sellerApplicationRepo.findAll().stream()
+                .filter(app -> app.getUser().getId() == account.getUser().getId())
                 .toList();
 
         if (applicationList.isEmpty()) {
@@ -1889,18 +1886,13 @@ public class BuyerServiceImpl implements BuyerService {
         assert user != null;
 
         SellerApplication application = SellerApplication.builder()
+                .user(user)
                 .content("I want to become a seller")
                 .status("pending")
                 .createdDate(LocalDateTime.now())
                 .build();
 
-        UserSellerApplication userApp = UserSellerApplication.builder()
-                .sellerApplication(application)
-                .user(user)
-                .build();
-
         sellerApplicationRepo.save(application);
-        userSellerApplicationRepo.save(userApp);
     }
 
 }
