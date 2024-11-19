@@ -38,7 +38,7 @@
         </div>
     </div>
     <aside class="sidebar">
-        <a href="" class="sidebar__logo">
+        <a th:href="@{/home}" class="sidebar__logo">
             <img src="/img/flowrista-logo.png" alt="Web Logo">
         </a>
         <hr class="horizontal dark ">
@@ -123,6 +123,10 @@
                 <span th:text="${session.acc.getUser().getName()}"></span>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
                 <div class="header__item-account" id="accountDropdown">
+                    <form th:action="@{/home}" class="form" method="get">
+                        <input type="submit" name="action" value="Buyer Channel"
+                               class="header__item-account-item"></input>
+                    </form>
                     <form th:action="@{/account/view/profile}" class="form" method="get">
                         <input type="submit" name="action" value="My profile"
                                class="header__item-account-item"></input>
