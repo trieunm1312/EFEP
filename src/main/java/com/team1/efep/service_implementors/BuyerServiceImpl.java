@@ -1818,10 +1818,10 @@ public class BuyerServiceImpl implements BuyerService {
             model.addAttribute(MapConfig.buildMapKey(error, "Please login to access this page"));
             return "redirect:/login";
         }
-        List<SellerApplication> applicationList = sellerApplicationRepo.findAll().stream()
-                .filter(app -> app.getUserSellerApplicationList().stream()
-                        .filter(userApp -> userApp.getUser().getId() == account.getUser().getId()).isParallel()
-                )
+        List<UserSellerApplication> userAppList = userSellerApplicationRepo.findAllByUser_Id(account.getUser().getId());
+
+        List<SellerApplication> applicationList = userAppList.stream()
+                .map(UserSellerApplication::getSellerApplication)
                 .toList();
 
         if (applicationList.isEmpty()) {
