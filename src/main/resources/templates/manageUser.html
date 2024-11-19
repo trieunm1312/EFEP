@@ -118,7 +118,7 @@
                         </thead>
                         <tbody class="table__body">
                                 <tr th:each="user : ${msg1.userList}" class="table__body-item">
-                                    <div th:if="${user.accountUser.role} == 'seller'">
+                                    <div>
                                         <td class="table__body-user">
                                             <img th:src="${user.avatar == null || user.avatar == ''} ? '/img/default-avatar.jpg' : ${user.avatar}" alt="Avatar" class="table__body-avt">
                                             <span class="table__body-unique">

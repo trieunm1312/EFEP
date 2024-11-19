@@ -140,7 +140,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String addToWishlist(AddToWishlistRequest request, HttpServletRequest httpServletRequest, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+        if (account == null) {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
             return "redirect:/login";
         }
@@ -352,12 +352,6 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------------------FORGOT PASSWORD------------------------------------------------------------//
     @Override
     public String sendEmail(ForgotPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
-            return "redirect:/login";
-        }
-        Role.changeToBuyer(account, accountRepo);
         Object output = sendEmailLogic(request);
         if (!OutputCheckerUtil.checkIfThisIsAResponseObject(output, ForgotPasswordResponse.class)) {
             redirectAttributes.addFlashAttribute("error", output);
@@ -475,14 +469,19 @@ public class BuyerServiceImpl implements BuyerService {
     //-------------------------------------------VIEW FLOWER LIST---------------------------------------//
     @Override
     public String viewFlowerList(HttpSession session, Model model) {
-        ViewFlowerListResponse output = viewFlowerListLogic();
+        Account account = Role.getCurrentLoggedAccount(session);
+        ViewFlowerListResponse output = viewFlowerListLogic(account);
         model.addAttribute("msg", output);
         return "category";
     }
 
-    private ViewFlowerListResponse viewFlowerListLogic() {
+    private ViewFlowerListResponse viewFlowerListLogic(Account account) {
         List<Flower> flowers = flowerRepo.findByStatus(Status.FLOWER_STATUS_AVAILABLE);
-        // if find -> print size of flower
+        if (account != null && "buyer".equalsIgnoreCase(account.getRole()) && account.getUser().isSeller()) {
+            flowers = flowers.stream()
+                    .filter(flower -> flower.getSeller().getUser().getId() != account.getUser().getId())
+                    .toList();
+        }
         return ViewFlowerListResponse.builder()
                 .status("200")
                 .keyword("")
@@ -618,9 +617,13 @@ public class BuyerServiceImpl implements BuyerService {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
+        if (account == null) {
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(error, "You are not logged in"));
+            return "redirect:/login";
+        }
         if (order == null || !checkIfOrderBelongToBuyer(account.getUser().getId(), order)) {
             model.addAttribute(MapConfig.buildMapKey(error, "You are not allowed to view this order"));
-            return "redirect:/login";
+            return "redirect:/home";
         }
         Role.changeToBuyer(account, accountRepo);
         Object output = viewOrderDetailLogic(order);
@@ -736,20 +739,16 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String searchFlower(SearchFlowerRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", SearchFlowerResponse.builder()
-                    .status("400")
-                    .message("No permission")
-                    .build());
-            return "redirect:/login";
+        if (account == null){
+            redirectAttributes.addFlashAttribute("msg", searchFlowerLogic(request, account));
+            return "redirect:/search/flower";
         }
         Role.changeToBuyer(account, accountRepo);
-
-        redirectAttributes.addFlashAttribute("msg", searchFlowerLogic(request));
+        redirectAttributes.addFlashAttribute("msg", searchFlowerLogic(request, account));
         return "redirect:/search/flower";
     }
 
-    private SearchFlowerResponse searchFlowerLogic(SearchFlowerRequest request) {
+    private SearchFlowerResponse searchFlowerLogic(SearchFlowerRequest request, Account account) {
         return SearchFlowerResponse.builder()
                 .status("200")
                 .message("")
@@ -759,6 +758,7 @@ public class BuyerServiceImpl implements BuyerService {
                                 .stream()
                                 .filter(flower -> !flower.getStatus().equals(Status.FLOWER_STATUS_OUT_OF_STOCK))
                                 .filter(flower -> flower.getName().toUpperCase().contains(request.getKeyword().toUpperCase()))
+                                .filter(flower -> account == null || !Objects.equals(flower.getSeller().getUser().getAccount().getId(), account.getId()))
                                 .map(
                                         flower -> SearchFlowerResponse.Flower.builder()
                                                 .id(flower.getId())
@@ -987,6 +987,8 @@ public class BuyerServiceImpl implements BuyerService {
         Order order = orderRepo.findById(request.getOrderId()).orElse(null);
         assert order != null;
         Status.changeOrderStatus(order, Status.ORDER_STATUS_COMPLETED, orderRepo);
+        order.setCompletedDate(LocalDateTime.now());
+        orderRepo.save(order);
 
         return CancelOrderResponse.builder()
                 .status("200")
@@ -1206,6 +1208,10 @@ public class BuyerServiceImpl implements BuyerService {
                 Flower flower = item.getFlower();
                 flower.setSoldQuantity(flower.getSoldQuantity() + item.getQuantity());
                 flower.setQuantity(flower.getQuantity() - item.getQuantity());
+
+                if (flower.getQuantity() == 0) {
+                    flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
+                }
 
                 OrderDetail orderDetail = OrderDetail.builder()
                         .order(savedOrder)
@@ -1477,6 +1483,10 @@ public class BuyerServiceImpl implements BuyerService {
             item.setQuantity(item.getQuantity() - quantity);
             wishlistItemRepo.save(item);
         }
+        if (flower.getQuantity() == 0){
+            flower.setStatus(Status.FLOWER_STATUS_OUT_OF_STOCK);
+            flowerRepo.save(flower);
+        }
 
         List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = OrderDetail.builder()
@@ -1618,14 +1628,9 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String viewFeedback(int sellerId, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if(account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            redirectAttributes.addFlashAttribute("msg", ViewFeedbackResponse.builder()
-                    .status("400")
-                    .message("You must log in with a buyer account to make a payment.")
-                    .build());
-            return "redirect:/login";
-        }
+        if (account != null) {
             Role.changeToBuyer(account, accountRepo);
+        }
         Object output = viewFeedbackLogic(sellerId);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
@@ -1690,7 +1695,7 @@ public class BuyerServiceImpl implements BuyerService {
     public String createFeedback(CreateFeedbackRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+        if (account == null) {
             MapConfig.buildMapKey(error, "Please login with a buyer account to leave feedback");
             return "redirect:/login";
         }
@@ -1832,7 +1837,6 @@ public class BuyerServiceImpl implements BuyerService {
                     .build());
             return "sellerRequest";
         }
-
         SellerApplication latestApplication = applicationList.stream()
                 .max(Comparator.comparing(SellerApplication::getCreatedDate))
                 .orElse(null);
@@ -1861,6 +1865,7 @@ public class BuyerServiceImpl implements BuyerService {
                 return "requestSuccess";
 
             case "APPROVED":
+                Role.changeToSeller(account, accountRepo);
                 return "redirect:/seller/dashboard";
 
             default:
@@ -1880,7 +1885,7 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         Role.changeToBuyer(account, accountRepo);
         createSellerApplicationLogic(account.getUser().getId());
-        return "";
+        return "redirect:/buyer/seller/channel";
     }
 
     private void createSellerApplicationLogic(int userId) {
@@ -1890,7 +1895,7 @@ public class BuyerServiceImpl implements BuyerService {
         SellerApplication application = SellerApplication.builder()
                 .user(user)
                 .content("I want to become a seller")
-                .status("PENDING")
+                .status("pending")
                 .createdDate(LocalDateTime.now())
                 .build();
 
