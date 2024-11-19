@@ -138,7 +138,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                    <form th:action="@{/buyer/flower/detail}" class="form" th:method="post">
+                                    <form th:action="@{/buyer/flower/detail}" class="form" th:method="get">
                                         <input type="submit" name="action" th:value="${item.name}" class="flower__name">
                                         </input>
                                         <input type="hidden" name="id" th:value="${item.id}">
@@ -155,7 +155,7 @@
                             <div th:each="item : ${msg.flowerList}" th:if="${item.quantity} > 0" class="flower-list__item">
                                 <img th:src="${item.images[0].link}" alt="">
                                 <div class="flower-list__item-content">
-                                    <form th:action="@{/buyer/flower/detail}" class="form" method="post">
+                                    <form th:action="@{/buyer/flower/detail}" class="form" method="get">
                                         <input type="submit" name="action" th:value="${item.name}" class="flower-list__name">
                                         </input>
                                         <input type="hidden" name="id" th:value="${item.id}">
