@@ -1662,7 +1662,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .avatar(seller.getUser().getAvatar())
                 .background(seller.getUser().getBackground())
                 .totalFlower(seller.getFlowerList().size())
-                .sellerRating(seller.getRating())
+                .sellerRating((float) Math.floor(seller.getRating() * 10) / 10)
                 .flowerList(viewFlowerList(flowers))
                 .feedbackList(feedbackDetails)
                 .build();
@@ -1845,6 +1845,7 @@ public class BuyerServiceImpl implements BuyerService {
                 model.addAttribute("msg", DirectToSellerChannelResponse.builder()
                         .status("200")
                         .message("Your application is pending")
+                        .applicationStatus("pending")
                         .build());
                 return "requestSuccess";
 
@@ -1852,6 +1853,7 @@ public class BuyerServiceImpl implements BuyerService {
                 model.addAttribute("msg", DirectToSellerChannelResponse.builder()
                         .status("200")
                         .message("Your application is rejected because " + latestApplication.getRejectionReason())
+                        .applicationStatus("rejected")
                         .build());
                 return "requestSuccess";
 

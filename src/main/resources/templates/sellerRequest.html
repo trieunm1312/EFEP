@@ -23,7 +23,7 @@
         <header class="header" th:fragment="header">
             <div class="grid">
                 <div class="header__wrap">
-                    <a href="" class="header__item back-link" onclick="window.history.back(); return false;">
+                    <a th:href="@{/home}" class="header__item back-link" >
                         <h1>
                             <i class="fa-solid fa-arrow-left"></i>
                             Back
@@ -31,7 +31,7 @@
                     </a>
 
                     <!-- Logo -->
-                    <a href="home.html" class="header__item">
+                    <a th:href="@{/home}" class="header__item">
                         <div class="header__item-logo">
                             <img src="/img/flowrista-logo.png" alt="Logo"
                                 class="header__item-logo-img">
@@ -59,7 +59,7 @@
                         <span>We will value your customer's feedbacks to evaluate your service!</span>
                     </div>
                     <div class="direct-btn">
-                        <a th:href="@{/}" class="next-btn cancel">
+                        <a th:href="@{/home}" class="next-btn cancel">
                             Cancel
                         </a>
                         <a th:href="@{/buyer/seller/application}" class="next-btn">
@@ -73,7 +73,7 @@
 
 
         <!-- Footer -->
-        <footer class="footer" th:fragment="footer">
+        <footer class="footer" th:replace="~{base :: footer}">
             <div class="grid">
                 <div class="footer__wrap">
                     <div class="footer__item">
