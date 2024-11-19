@@ -785,15 +785,6 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String viewFlowerDetail(ViewFlowerDetailRequest request, Model model, HttpSession session) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account != null && Role.checkIfThisAccountIsSeller(account)) {
-            model.addAttribute("error", ViewFlowerDetailResponse.builder()
-                    .status("400")
-                    .message("No permission")
-                    .build());
-            return "redirect:/login";
-        }
-
         Object output = viewFlowerDetailLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFlowerDetailResponse.class)) {
             model.addAttribute("msg", (ViewFlowerDetailResponse) output);
