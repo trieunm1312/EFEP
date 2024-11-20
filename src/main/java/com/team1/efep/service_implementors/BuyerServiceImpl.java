@@ -431,15 +431,15 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String renewPass(RenewPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         request.setEmail(session.getAttribute("mail").toString());
-//        Account account = Role.getCurrentLoggedAccount(session);
-//        if (account == null) {
-//            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
-//            return "redirect:/login";
-//        }
-//
+        Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
+        if (account == null) {
+            redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
+            return "redirect:/login";
+        }
+
         Object output = renewPassLogic(request);
-//
-//        Role.changeToBuyer(account, accountRepo);
+
+        Role.changeToBuyer(account, accountRepo);
 
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
             session.removeAttribute("mail");
