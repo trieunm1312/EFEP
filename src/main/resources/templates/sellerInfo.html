@@ -104,7 +104,7 @@
                 </div>
 
                 <!-- Seller flower -->
-                <h2 class="seller-feedback__heading seller-flower__heading">Seller Flower</h2>
+                <h2 class="seller-feedback__heading seller-flower__heading" th:if="${!msg.flowerList.isEmpty()}">Seller Flower</h2>
                 <div class="flower__grid">
                     <div th:each="item : ${msg.flowerList}" class="flower__item">
                         <div class="flower__img">
@@ -144,7 +144,7 @@
                 </div>
 
                 <!-- Seller Feedback -->
-                <div class="seller-feedback">
+                <div class="seller-feedback" th:if="${!msg.feedbackList.isEmpty()}">
                     <h2 class="seller-feedback__heading">Seller Feedback</h2>
                     <div class="seller-feedback__list">
                         <div th:each="buyer : ${msg.feedbackList}" class="seller-feedback__item">
