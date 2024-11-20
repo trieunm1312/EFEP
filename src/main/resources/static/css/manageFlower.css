@@ -183,8 +183,7 @@ textarea {
 .confirmDelete-form {
     background-color: white;
     padding: 20px;
-    width: 480px;
-    max-width: 100%;
+    width: max-content;
     position: relative;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -720,7 +719,7 @@ label[for="multi-select"] {
 
 .expired {
     display: block;
-    font-size: 1.4rem;
+    margin-top: 14px;
     font-weight: bold;
     margin-bottom: 5px;
     color: #333; /* Màu chữ */
@@ -730,7 +729,6 @@ label[for="multi-select"] {
 input[type="date"] {
     width: 100%; /* Đầy chiều rộng container */
     padding: 10px; /* Khoảng cách bên trong */
-    font-size: 1.4rem;
     border: 1px solid #ccc; /* Đường viền */
     border-radius: 5px; /* Bo góc */
     box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
@@ -757,4 +755,11 @@ input[type="date"]::placeholder {
 input[type="date"]:invalid {
     border-color: #dc3545; /* Màu viền đỏ */
     box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* Đổ bóng đỏ */
+}
+
+.create-confirm {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 150px;
 }
