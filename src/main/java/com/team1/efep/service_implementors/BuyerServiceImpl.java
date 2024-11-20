@@ -430,15 +430,17 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String renewPass(RenewPasswordRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-        Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
+        request.setEmail(session.getAttribute("mail").toString());
+        Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
+        if (account == null) {
             redirectAttributes.addFlashAttribute(MapConfig.buildMapKey(new HashMap<>(), "You are not logged in"));
             return "redirect:/login";
         }
+
+        Object output = renewPassLogic(request);
+
         Role.changeToBuyer(account, accountRepo);
 
-        request.setEmail(session.getAttribute("mail").toString());
-        Object output = renewPassLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, RenewPasswordResponse.class)) {
             session.removeAttribute("mail");
             redirectAttributes.addFlashAttribute("msg", (RenewPasswordResponse) output);
@@ -1640,25 +1642,25 @@ public class BuyerServiceImpl implements BuyerService {
         List<Feedback> feedbackList = seller.getFeedbackList();
 
 
-            List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
-                    .map(this::mapToFeedbackDetail)
-                    .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
-                    .collect(Collectors.toList());
+        List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
+                .map(this::mapToFeedbackDetail)
+                .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
+                .collect(Collectors.toList());
 
-            return ViewFeedbackResponse.builder()
-                    .status("200")
-                    .message("")
-                    .id(seller.getId())
-                    .name(seller.getUser().getName())
-                    .email(seller.getUser().getAccount().getEmail())
-                    .phone(seller.getUser().getPhone())
-                    .avatar(seller.getUser().getAvatar())
-                    .background(seller.getUser().getBackground())
-                    .totalFlower(seller.getFlowerList().size())
-                    .sellerRating(seller.getRating())
-                    .flowerList(viewFlowerList(flowers))
-                    .feedbackList(feedbackDetails)
-                    .build();
+        return ViewFeedbackResponse.builder()
+                .status("200")
+                .message("")
+                .id(seller.getId())
+                .name(seller.getUser().getName())
+                .email(seller.getUser().getAccount().getEmail())
+                .phone(seller.getUser().getPhone())
+                .avatar(seller.getUser().getAvatar())
+                .background(seller.getUser().getBackground())
+                .totalFlower(seller.getFlowerList().size())
+                .sellerRating(seller.getRating())
+                .flowerList(viewFlowerList(flowers))
+                .feedbackList(feedbackDetails)
+                .build();
 
     }
 

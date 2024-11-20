@@ -342,6 +342,15 @@ tbody tr {
     font-size: 1.4rem;
 }
 
+.info-title {
+    margin: 0;
+    color: black;
+}
+
+.address-detail i {
+    color: var(--primary-color);
+}
+
 .buyer-name {
     font-size: 1.5rem;
     color: black;
