@@ -1630,39 +1630,36 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     private Object viewFeedbackLogic(int sellerId) {
+        Map<String, String> error = new HashMap<>();
         List<Flower> flowers = flowerRepo.findAllBySeller_Id(sellerId);
         Seller seller = sellerRepo.findById(sellerId).orElse(null);
         if (seller == null) {
-            return Map.of("error", "Seller not found");
+            return MapConfig.buildMapKey(error, "This seller is not available");
         }
 
         List<Feedback> feedbackList = seller.getFeedbackList();
-        if (feedbackList.isEmpty()) {
+
+
+            List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
+                    .map(this::mapToFeedbackDetail)
+                    .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
+                    .collect(Collectors.toList());
+
             return ViewFeedbackResponse.builder()
-                    .status("404")
-                    .message("No feedback found for this seller")
+                    .status("200")
+                    .message("")
+                    .id(seller.getId())
+                    .name(seller.getUser().getName())
+                    .email(seller.getUser().getAccount().getEmail())
+                    .phone(seller.getUser().getPhone())
+                    .avatar(seller.getUser().getAvatar())
+                    .background(seller.getUser().getBackground())
+                    .totalFlower(seller.getFlowerList().size())
+                    .sellerRating(seller.getRating())
+                    .flowerList(viewFlowerList(flowers))
+                    .feedbackList(feedbackDetails)
                     .build();
-        }
 
-        List<ViewFeedbackResponse.FeedbackDetail> feedbackDetails = feedbackList.stream()
-                .map(this::mapToFeedbackDetail)
-                .sorted(Comparator.comparing(ViewFeedbackResponse.FeedbackDetail::getId).reversed())
-                .collect(Collectors.toList());
-
-        return ViewFeedbackResponse.builder()
-                .status("200")
-                .message("")
-                .id(seller.getId())
-                .name(seller.getUser().getName())
-                .email(seller.getUser().getAccount().getEmail())
-                .phone(seller.getUser().getPhone())
-                .avatar(seller.getUser().getAvatar())
-                .background(seller.getUser().getBackground())
-                .totalFlower(seller.getFlowerList().size())
-                .sellerRating(seller.getRating())
-                .flowerList(viewFlowerList(flowers))
-                .feedbackList(feedbackDetails)
-                .build();
     }
 
     private ViewFeedbackResponse.FeedbackDetail mapToFeedbackDetail(Feedback feedback) {
