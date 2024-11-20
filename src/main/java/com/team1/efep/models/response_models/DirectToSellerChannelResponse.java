@@ -17,4 +17,6 @@ public class DirectToSellerChannelResponse {
 
     String message;
 
+    String applicationStatus;
+
 }

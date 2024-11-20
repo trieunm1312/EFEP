@@ -16,5 +16,7 @@ public class CODPaymentResponse {
 
     private String message;
 
+
+
     private Order order;
 }

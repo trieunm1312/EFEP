@@ -175,7 +175,6 @@ public class SellerServiceImpl implements SellerService {
                     .build());
             return "login";
         }
-        Role.changeToSeller(account, accountRepo);
         Object output = viewOrderListLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderListResponse.class)) {
             model.addAttribute("msg", (ViewOrderListResponse) output);
@@ -261,10 +260,13 @@ public class SellerServiceImpl implements SellerService {
         assert order != null;
         Status.changeOrderStatus(order, request.getStatus(), orderRepo);
         if (request.getStatus().equals(Status.ORDER_STATUS_PACKED)) {
+            order.setPackedDate(LocalDateTime.now());
             sendPackedOrderEmail(order, order.getUser());
         } else {
+            order.setCanceledDate(LocalDateTime.now());
             sendCancelOrderEmail(order, order.getUser());
         }
+        orderRepo.save(order);
         if (request.getStatus().equals(Status.ORDER_STATUS_CANCELLED)) {
             order.getOrderDetailList().forEach(orderItem -> {
                 Flower flower = orderItem.getFlower();
@@ -288,7 +290,7 @@ public class SellerServiceImpl implements SellerService {
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setFrom("nguyenngoctram762@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
 
@@ -313,7 +315,7 @@ public class SellerServiceImpl implements SellerService {
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("vannhuquynhp@gmail.com");
+            helper.setFrom("nguyenngoctram762@gmail.com");
 
             helper.setTo(user.getAccount().getEmail());
 
@@ -567,6 +569,7 @@ public class SellerServiceImpl implements SellerService {
                 .orderStatus(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
                 .createdDate(order.getCreatedDate().toLocalDate())
+                .isFeedback(order.isFeedback())
                 .detailList(detailList)
                 .build();
     }

@@ -549,12 +549,12 @@
                         <div class="top-seller__content">
                             <div class="user__rating">
 
-                                <span th:each="i : ${#numbers.sequence(1, item.averageRating.intValue())}">
+                                <span th:if="${item.averageRating.intValue() > 0}" th:each="i : ${#numbers.sequence(1, item.averageRating.intValue())}">
                                     <i class="fa-solid fa-star"></i>
                                 </span>
 
 
-                                <span th:if="${item.averageRating.intValue() < item.averageRating}">
+                                <span  th:if="${item.averageRating.intValue() < item.averageRating}">
                                     <i class="fa-solid fa-star-half-alt"></i>
                                 </span>
 

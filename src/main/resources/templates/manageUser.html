@@ -38,6 +38,14 @@
                 </a>
             </li>
             <li>
+                <a th:href="@{/admin/application/list}" class="sidebar__link">
+                    <div class="sidebar__item">
+                        <i class="fa-solid fa-chart-line sidebar__item-logo"></i>
+                        <span class="sidebar__item-title">Buyer Request</span>
+                    </div>
+                </a>
+            </li>
+            <li>
                 <a th:href="@{/admin/user/list}" class="sidebar__link">
                     <div class="sidebar__item active">
                         <i class="fa-solid fa-user-pen sidebar__item-logo"></i>
@@ -89,31 +97,6 @@
         <!-- Container -->
         <div class="container">
             <div class="grid">
-                <div class="seller-request">
-                    <div class="seller-request__heading">
-                        <h4 class="buyer__title">Buyer Request:</h4>
-                    </div>
-                    <div class="request">
-                        <div class=" request-content" style="animation: slightInLeft ease .3s">
-                            <div class="request__icon">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </div>
-                            <div class="request__body">
-                                <h3 class="request__title">New Request!</h3>
-                                <p class="request__msg">ABC registered to become a seller</p>
-                            </div>
-                            <div class="request-btn">
-                                <form action="">
-                                    <input type="submit" class="decision-btn approve" name="btAction" value="Approve">
-                                </form>
-                                <form action="">
-                                    <input type="submit" class="decision-btn decline" name="btAction" value="Decline">
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
                 <div class="user">
                     <div class="user__heading">
                         <h4 class="user__title">User Table</h4>
@@ -135,7 +118,7 @@
                         </thead>
                         <tbody class="table__body">
                                 <tr th:each="user : ${msg1.userList}" class="table__body-item">
-                                    <div th:if="${user.accountUser.role} == 'seller'">
+                                    <div>
                                         <td class="table__body-user">
                                             <img th:src="${user.avatar == null || user.avatar == ''} ? '/img/default-avatar.jpg' : ${user.avatar}" alt="Avatar" class="table__body-avt">
                                             <span class="table__body-unique">

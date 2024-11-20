@@ -69,6 +69,7 @@
                         </div>
                             <div class="flower-information__img-list">
                                 <img th:each="image : ${msg.flower.imageList}"
+                                     th:if="${image.link != null || image.link != ''}"
                                      class="flower-information__img-item"
                                      th:src="@{${image.link}}" alt="Flower Sub Image">
                             </div>
@@ -78,7 +79,7 @@
                         <hr>
                         <div class="flower-information__short-desc">
                             <span class="flower-information__category">Category:
-                                <div >
+                                <div>
                                     <form th:action="@{/buyer/category/filter}" th:method="post">
                                         <button th:each="cate : ${msg.flower.categoryList}">
                                             <p th:text="${cate.name}"></p>

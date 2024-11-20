@@ -241,12 +241,11 @@
                               data-cod-action="/buyer/order/now/cod" data-vnpay-action="/buyer/order/now/payment"
                               onsubmit="return handleCheckout()">
                         <h3>Information Delivered</h3>
-                        <p class="p-size" th:text="${msg.userName}">Thang</p>
-                        <p class="p-size" th:text="${msg.phone}">09090909</p>
+                        <p class="p-size" th:text="${msg1.userName}">Thang</p>
+                        <p class="p-size" th:text="${msg1.buyerPhone}">09090909</p>
                         <label for="address-buynow">Your Address:</label>
-                        <input type="text" id="address-buynow" name="destination" th:text="${msg.address}"
+                        <input type="text" id="address-buynow" name="destination" th:value="${msg1.address}"
                                pattern="[A-Za-z0-9@/.\s]+" minlength="10" placeholder="Enter your Address" required>
-
                         <hr class="line">
                         <div class="btn-cart">
 
