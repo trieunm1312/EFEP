@@ -1531,8 +1531,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String buyNow(ConfirmOrderRequest request, HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            model.addAttribute("error", "You must log in");
+        if (account == null) {
             return "redirect:/login";
         }
         Role.changeToBuyer(account, accountRepo);

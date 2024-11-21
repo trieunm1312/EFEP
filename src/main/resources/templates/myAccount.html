@@ -73,10 +73,12 @@
                         <h3 class="sidebar__heading">My Account</h3>
                         <ul class="sidebar__list">
                             <li class="sidebar__item">
-                                <a href="#" class="sidebar__item-link">
-                                    <span>Profile</span>
-                                </a>
+                                <form th:action="@{/account/view/profile}" method="get">
+                                    <input type="submit" name="action" class="sidebar__item-link-change-password" value="My profile"></input>
+                                    <input type="hidden" name="id" th:value="${session.acc.id}"></input>
+                                </form>
                             </li>
+
                             <li class="sidebar__item">
                                 <form th:action="@{/change/password}" class="sidebar__item-link">
                                     <input type="submit" class="sidebar__item-link-change-password" value="Change Password"></input>
@@ -119,6 +121,10 @@
                                 <div class="phone profile__information-part">
                                     <h3 class="form-label">Phone</h3>
                                     <input type="tel" id="phone" class="input-form" name="phone" th:value="${msg.phone}">
+                                </div>
+                                <div class="phone profile__information-part">
+                                    <h3 class="form-label">Address</h3>
+                                    <input type="text" id="address" class="input-form" name="address" th:value="${msg.address}">
                                 </div>
 
                             </div>

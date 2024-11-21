@@ -21,6 +21,8 @@ public class UpdateProfileResponse {
 
     private String phone;
 
+    private String address;
+
     private String email;
 
     private String avatar;
