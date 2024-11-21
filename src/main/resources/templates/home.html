@@ -542,7 +542,7 @@
                             <img th:src="${item.avatar == null || item.avatar == ''} ? '/img/default-avatar.jpg' : ${item.avatar}" alt="Seller image">
                         </div>
                         <form th:action="@{/buyer/feedback}" class="form" method="get">
-                            <input type="submit" name="action" th:value="${item.name}" class="top-seller__name">
+                            <input type="submit" th:value="${item.name}" class="top-seller__name">
                             </input>
                             <input type="hidden" name="p" th:value="${item.id}">
                         </form>

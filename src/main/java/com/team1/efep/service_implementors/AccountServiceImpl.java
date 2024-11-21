@@ -99,6 +99,9 @@ public class AccountServiceImpl implements AccountService {
     //-------------------------------------------LOGIN------------------------------------------------------//
     @Override
     public String login(LoginRequest request, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        if (session.getAttribute("acc") != null) {
+            return "redirect:/home";
+        }
         Object output = loginLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, LoginResponse.class) && session.getAttribute("acc") == null) {
             Account acc = accountRepo.findByEmailAndPassword(request.getEmail(), PasswordEncryptUtil.encrypt(request.getPassword())).get();
@@ -169,6 +172,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String viewProfile(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        if (session.getAttribute("acc") == null) {
+            return "redirect:/login";
+        }
         if (model.getAttribute("error") != null) {
             redirectAttributes.addFlashAttribute("error", (Map<String, String>) model.getAttribute("error"));
         }
@@ -283,9 +289,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String changePassword(ChangePasswordRequest request, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            return "redirect:/login";
+        }
         Object output = changePasswordLogic(request);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ChangePasswordResponse.class)) {
-            session.setAttribute("acc", accountRepo.findById(request.getId()).orElse(null));
+            session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             redirectAttributes.addFlashAttribute("msg", (ChangePasswordResponse) output);
             logout(session);
             return "redirect:/login";
