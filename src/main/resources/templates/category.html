@@ -113,7 +113,7 @@
                         </div>
                         <!-- Flower Grid -->
                         <div class="flower__grid active-view">
-                            <div th:each="item : ${msg.flowerList}" class="flower__item">
+                            <div th:each="item : ${msg.flowerList}" th:if="${item.quantity > 0}"  class="flower__item">
                                 <div class="flower__img">
                                     <img th:src="@{${item.images[0].link}}"  alt="Flower Image">
                                     <div class="overlay">

@@ -338,7 +338,7 @@ public class SellerServiceImpl implements SellerService {
     public String viewFlowerListForSeller(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null ) {
+        if (account == null) {
             model.addAttribute(MapConfig.buildMapKey(error, "Please login "));
             return "redirect:/login";
         } else if (!Role.changeToSeller(account, accountRepo)){
@@ -1310,7 +1310,7 @@ public class SellerServiceImpl implements SellerService {
     //----------------------------------------VIEW FEEDBACK---------------------------------------//
 
     @Override
-    public String viewFeedback(int sellerId, Model model, HttpSession session) {
+    public String viewFeedback(Model model, HttpSession session) {
         Account account = Role.getCurrentLoggedAccount(session);
         if(account == null || !Role.checkIfThisAccountIsSeller(account)) {
             model.addAttribute("error", ViewFeedbackResponse.builder()
@@ -1321,7 +1321,7 @@ public class SellerServiceImpl implements SellerService {
         }
         Role.changeToSeller(account, accountRepo);
 
-        Object output = viewFeedbackLogic(sellerId);
+        Object output = viewFeedbackLogic(account.getUser().getSeller().getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewFeedbackResponse.class)) {
             model.addAttribute("msg", (ViewFeedbackResponse) output);
             return "feedback";

@@ -21,8 +21,8 @@ public class UpdateProfileValidation {
             return MapConfig.buildMapKey(error, "Name cannot be empty");
         }
 
-        if (!request.getName().matches("(?i)^[A-Za-z]{1,20}( [A-Za-z]{1,20})*$")) {
-            return MapConfig.buildMapKey(error, "Name must contain only letters and have a maximum length of 16 characters");
+        if (!request.getName().matches("(?i)^[\\p{L}\\s]{1,20}( [\\p{L}\\s]{1,20})*$")) {
+            return MapConfig.buildMapKey(error, "Name must contain only letters (including Vietnamese characters) and have a maximum length of 16 characters");
         }
 
         if(request.getPhone().isEmpty()) {

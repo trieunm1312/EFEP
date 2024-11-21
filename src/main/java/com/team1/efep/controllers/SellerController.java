@@ -30,6 +30,7 @@ public class SellerController {
 
     @GetMapping("/view/flower")
     public String viewFlowerListForSeller(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+
         return sellerService.viewFlowerListForSeller(session, model, redirectAttributes);
     }
 
@@ -154,8 +155,8 @@ public class SellerController {
 
     @GetMapping("/feedback")
     @Operation(hidden = true)
-    public String viewFeedback(int accountId, Model model, HttpSession session) {
-        return sellerService.viewFeedback(accountId, model, session);
+    public String viewFeedback(Model model, HttpSession session) {
+        return sellerService.viewFeedback(model, session);
     }
 
     @GetMapping("/feedback/api/{sellerId}")
