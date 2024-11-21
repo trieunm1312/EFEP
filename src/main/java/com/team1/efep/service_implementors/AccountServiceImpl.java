@@ -179,7 +179,7 @@ public class AccountServiceImpl implements AccountService {
             redirectAttributes.addFlashAttribute("error", (Map<String, String>) model.getAttribute("error"));
         }
         Account account = Role.getCurrentLoggedAccount(session);
-        assert account != null;
+
         ViewProfileRequest profileRequest = ViewProfileRequest.builder().id(account.getUser().getId()).build();
         ViewProfileResponse response = viewProfileLogic(profileRequest);
         session.setAttribute("acc", accountRepo.findById(account.getUser().getId()).orElse(null));

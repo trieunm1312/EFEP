@@ -541,6 +541,9 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String viewOrderHistory(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            return "redirect:/login";
+        }
         Role.changeToBuyer(account, accountRepo);
         Object output = viewOrderHistoryLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {

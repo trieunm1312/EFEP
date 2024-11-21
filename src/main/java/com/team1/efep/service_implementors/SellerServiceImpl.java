@@ -338,7 +338,7 @@ public class SellerServiceImpl implements SellerService {
     public String viewFlowerListForSeller(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Map<String, String> error = new HashMap<>();
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null ) {
+        if (account == null) {
             model.addAttribute(MapConfig.buildMapKey(error, "Please login "));
             return "redirect:/login";
         } else if (!Role.changeToSeller(account, accountRepo)){

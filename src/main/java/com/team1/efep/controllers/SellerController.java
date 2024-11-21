@@ -30,6 +30,7 @@ public class SellerController {
 
     @GetMapping("/view/flower")
     public String viewFlowerListForSeller(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+
         return sellerService.viewFlowerListForSeller(session, model, redirectAttributes);
     }
 
