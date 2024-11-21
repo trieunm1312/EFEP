@@ -18,4 +18,6 @@ public class VNPayRequest {
     private int quantity;
 
     private String destination;
+
+    private String phone;
 }

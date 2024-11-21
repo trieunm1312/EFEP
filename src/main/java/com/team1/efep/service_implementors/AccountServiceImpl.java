@@ -206,6 +206,7 @@ public class AccountServiceImpl implements AccountService {
                     .phone(user.getPhone())
                     .address(user.getAddress())
                     .email(user.getAccount().getEmail())
+                    .address(user.getAddress())
                     .avatar(user.getAvatar())
                     .background(user.getBackground())
                     .totalFlower(user.getSeller().getFlowerList().size())
