@@ -129,7 +129,12 @@
                               onsubmit="return handleCheckout()">
                         <h3 class="total__checkout-header">Information Delivered</h3>
                         <p class="p-size" th:text="${msg.userName}">Thang</p>
-                        <p class="p-size" th:text="${msg.phone}">09090909</p>
+
+                            <label for="phone">Your Phone:</label>
+                            <input type="tel" id="phone" name="phone" th:value="${msg.phone}"
+                                   pattern="^(09|07|08)[0-9]{8}$" maxlength="10" placeholder="Enter your Phone" required
+                            title= "The phone number must start with 09, 07, or 08 and must have 10 digits.">
+
                         <label for="address">Your Address:</label>
                         <input type="text" id="address" name="destination" th:value="${msg.address}"
                                pattern="[A-Za-z0-9/.,\s]+" minlength="10" placeholder="Enter your Address" required>
