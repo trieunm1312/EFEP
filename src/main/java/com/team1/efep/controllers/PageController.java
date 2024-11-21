@@ -126,13 +126,19 @@ public class PageController {
     }
 
     @GetMapping("/admin/dashboard")
-    public String adminDashboardPage(Model model) {
+    public String adminDashboardPage(Model model, HttpSession session) {
+        if (session.getAttribute("acc") == null) {
+            return "redirect:/login";
+        }
         AdminPageConfig.config(model, adminService);
         return "adminDashboard";
     }
 
     @GetMapping("/seller/dashboard")
     public String sellerDashboard(Model model, HttpSession session) {
+        if (session.getAttribute("acc") == null) {
+            return "redirect:/login";
+        }
         SellerPageConfig.config(model, sellerService, session);
         return "sellerDashboard";
     }

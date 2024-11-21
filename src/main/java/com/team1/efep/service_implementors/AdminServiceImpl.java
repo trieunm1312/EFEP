@@ -53,6 +53,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String viewUserList(HttpSession session, Model model) {
+        if (session.getAttribute("acc") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("msg1", viewUserListLogic());
         return "manageUser";
     }
@@ -91,6 +94,9 @@ public class AdminServiceImpl implements AdminService {
     //-------------------------------------SEARCH USER LIST----------------------------//
     @Override
     public String searchUserList(HttpSession session, SearchUserListRequest request, Model model) {
+        if (session.getAttribute("acc") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("msg1", searchUserListLogic(request));
         return "manageUser";
     }
@@ -420,6 +426,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String viewApplicationList(HttpSession session, Model model) {
+        if (session.getAttribute("acc") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("msg", ViewSellerApplicationResponse.builder()
                 .applicationList(viewSellerApplicationLogic())
                 .build());

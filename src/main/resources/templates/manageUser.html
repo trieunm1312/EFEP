@@ -100,10 +100,10 @@
                 <div class="user">
                     <div class="user__heading">
                         <h4 class="user__title">User Table</h4>
-                        <div class="user__create-btn" id="createNewBtn">
-                            <i class="fa-solid fa-plus header__create-btn-icon"></i>
-                            <span>Create New</span>
-                        </div>
+<!--                        <div class="user__create-btn" id="createNewBtn">-->
+<!--                            <i class="fa-solid fa-plus header__create-btn-icon"></i>-->
+<!--                            <span>Create New</span>-->
+<!--                        </div>-->
                     </div>
                     <h4 th:if="${msg1.userList.size() == 0}" th:text="${'There is no Username contains: ' + msg1.keyword}"></h4>
                     <table th:if="${msg1.userList.size() != 0}" class="user__table">

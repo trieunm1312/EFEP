@@ -498,6 +498,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .name(item.getName())
                         .price(item.getPrice())
                         .description(item.getDescription())
+                        .witheringDate(item.getWitheringDate())
                         .quantity(item.getQuantity())
                         .soldQuantity(item.getSoldQuantity())
                         .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
@@ -541,6 +542,9 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String viewOrderHistory(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
+        if (account == null) {
+            return "redirect:/login";
+        }
         Role.changeToBuyer(account, accountRepo);
         Object output = viewOrderHistoryLogic(account.getId());
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, ViewOrderHistoryResponse.class)) {
@@ -806,6 +810,7 @@ public class BuyerServiceImpl implements BuyerService {
                                     .id(flower.getId())
                                     .name(flower.getName())
                                     .price(flower.getPrice())
+                                    .witheringDate(flower.getWitheringDate().toString())
                                     .quantity(flower.getQuantity())
                                     .flowerAmount(flower.getFlowerAmount())
                                     .description(flower.getDescription())
