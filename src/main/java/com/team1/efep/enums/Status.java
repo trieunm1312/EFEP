@@ -15,6 +15,7 @@ public class Status {
     public static String ORDER_STATUS_PROCESSING = "processing";
     public static String ORDER_STATUS_PACKED = "packed";
     public static String ORDER_STATUS_COMPLETED = "completed";
+    public static String ORDER_STATUS_LATE_DELIVERY = "late-delivery";
     public static String ORDER_STATUS_CANCELLED = "cancelled";
     public static String FLOWER_STATUS_AVAILABLE = "available";
     public static String FLOWER_STATUS_OUT_OF_STOCK = "out-of-stock";

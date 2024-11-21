@@ -809,7 +809,7 @@ public class BuyerServiceImpl implements BuyerService {
                                     .quantity(flower.getQuantity())
                                     .flowerAmount(flower.getFlowerAmount())
                                     .description(flower.getDescription())
-
+                                    .witheringDate(flower.getWitheringDate().toString())
                                     .seller(ViewFlowerDetailResponse.Seller.builder()
                                             .id(flower.getSeller().getId())
                                             .name(flower.getSeller().getUser().getName())

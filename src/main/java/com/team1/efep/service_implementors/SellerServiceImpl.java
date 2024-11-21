@@ -1257,6 +1257,8 @@ public class SellerServiceImpl implements SellerService {
                 .flatMap(List::stream)
                 .map(FlowerCategory::getFlower)
                 .filter(flower -> flower.getSeller().getId().equals(seller.getId()))
+                .filter(flower -> flower.getOrderDetailList().stream()
+                        .anyMatch(orderDetail -> orderDetail.getOrder().getStatus().equals(Status.ORDER_STATUS_COMPLETED)))
                 .distinct()
                 .toList();
 
