@@ -265,11 +265,11 @@
                                                                     <div class="right-section">
                                                                         <h4 class="image-title">Upload Image</h4>
                                                                         <div class="input-img">
-                                                                            <input type="file" accept="image/*" value=""
+                                                                            <input type="file" accept="image/*"
                                                                                 id="update-file" class="file-input">
-                                                                            <input type="file" accept="image/*" value=""
+                                                                            <input type="file" accept="image/*"
                                                                                 id="update-file-2" class="file-input">
-                                                                            <input type="file" accept="image/*" value=""
+                                                                            <input type="file" accept="image/*"
                                                                                 id="update-file-3" class="file-input">
                                                                         </div>
                                                                         <div id="imagePreviewContainer">
@@ -283,8 +283,7 @@
                                                                                     type="hidden" name="imageList"
                                                                                     id="flower-img-update"
                                                                                     th:value="${item.imageList[0].link}">
-                                                                                <button
-                                                                                    class="remove-button">&times;</button>
+
                                                                             </div>
                                                                             <div class="image-preview">
                                                                                 <img th:if="${item.imageList.size() > 1}"
@@ -296,8 +295,7 @@
                                                                                     type="hidden" name="imageList"
                                                                                     id="flower-img-update-2"
                                                                                     th:value="${item.imageList[1].link}">
-                                                                                <button
-                                                                                    class="remove-button">&times;</button>
+
                                                                             </div>
                                                                             <div class="image-preview">
                                                                                 <img th:if="${item.imageList.size() > 2}"
@@ -309,8 +307,7 @@
                                                                                     type="hidden" name="imageList"
                                                                                     id="flower-img-update-3"
                                                                                     th:value="${item.imageList[2].link}">
-                                                                                <button
-                                                                                    class="remove-button">&times;</button>
+
                                                                             </div>
                                                                         </div>
                                                                         <h4 class="cate-title">Categories</h4>
@@ -481,7 +478,7 @@
                                                 </div>
                                                 <div>
                                                     <label class="expired" for="expiredDate">Expired date:</label>
-                                                    <input type="date" id="expiredDate" name="witheringDate" min="{{today}}" th:value="${witheringDate}" required>
+                                                    <input type="date" id="expiredDate" name="witheringDate" th:value="${witheringDate}"  min="{{today}}" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -515,7 +512,6 @@
 
         </div>
     </div>
-
     <script type="module">
         // Import Firebase and necessary functions from Firebase Storage
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";

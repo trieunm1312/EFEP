@@ -37,8 +37,9 @@ function closeConfirmDatePopup() {
     document.getElementById("confirm-date").style.display = "none";
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    const today = new Date(); // Lấy ngày hiện tại định dạng 'yyyy-mm-dd'
-    document.getElementById("expiredDate").setAttribute("min", today); // Đặt giá trị min
-});
+const today = new Date();
+const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
+    .toISOString()
+    .split('T')[0];
+document.getElementById('expiredDate').setAttribute('min', localDate);
 
