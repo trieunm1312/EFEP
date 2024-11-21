@@ -68,7 +68,10 @@ public class PageController {
     }
 
     @GetMapping("/change/password")
-    public String changePasswordPage(Model model) {
+    public String changePasswordPage(Model model, HttpSession session) {
+        if (session.getAttribute("acc") == null) {
+            return "redirect:/login";
+        }
         AllPage.allConfig(model, buyerService);
         return "changePassword";
     }
