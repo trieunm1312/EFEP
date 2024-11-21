@@ -107,13 +107,13 @@
                                 <i class="fa-solid fa-list sort-list"></i>
                                 <span>List View</span>
                             </div>
-                            <span>Found: (
-                                <span th:text="${#lists.size(msg.flowerList)}"></span>
-                                ) Results</span>
+<!--                            <span>Found: (-->
+<!--                                <span th:text="${#lists.size(msg.flowerList)}"></span>-->
+<!--                                ) Results</span>-->
                         </div>
                         <!-- Flower Grid -->
                         <div class="flower__grid active-view">
-                            <div th:each="item : ${msg.flowerList}" th:if="${item.quantity > 0}"  class="flower__item">
+                            <div th:each="item : ${msg.flowerList}" th:if="${item.quantity > 0 && item.witheringDate.isAfter(item.today)}"  class="flower__item">
                                 <div class="flower__img">
                                     <img th:src="@{${item.images[0].link}}"  alt="Flower Image">
                                     <div class="overlay">
@@ -152,7 +152,7 @@
                         
                         <!-- Flower List -->
                         <div  class="flower-list ">
-                            <div th:each="item : ${msg.flowerList}" th:if="${item.quantity} > 0" class="flower-list__item">
+                            <div th:each="item : ${msg.flowerList}" th:if="${item.quantity > 0 && item.witheringDate.isAfter(item.today)}" class="flower-list__item">
                                 <img th:src="${item.images[0].link}" alt="">
                                 <div class="flower-list__item-content">
                                     <form th:action="@{/buyer/flower/detail}" class="form" method="get">

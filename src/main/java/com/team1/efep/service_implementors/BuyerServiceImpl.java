@@ -32,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -499,6 +500,7 @@ public class BuyerServiceImpl implements BuyerService {
                         .price(item.getPrice())
                         .description(item.getDescription())
                         .witheringDate(item.getWitheringDate())
+                        .today(LocalDate.now())
                         .quantity(item.getQuantity())
                         .soldQuantity(item.getSoldQuantity())
                         .images(viewImageList(item.getFlowerImageList().stream().map(FlowerImage::getLink).toList()))
@@ -768,6 +770,8 @@ public class BuyerServiceImpl implements BuyerService {
                                                 .name(flower.getName())
                                                 .price(flower.getPrice())
                                                 .description(flower.getDescription())
+                                                .witheringDate(flower.getWitheringDate())
+                                                .today(LocalDate.now())
                                                 .quantity(flower.getQuantity())
                                                 .soldQuantity(flower.getSoldQuantity())
                                                 .images(
@@ -1606,6 +1610,8 @@ public class BuyerServiceImpl implements BuyerService {
                                         .id(flower.getFlower().getId())
                                         .name(flower.getFlower().getName())
                                         .description(flower.getFlower().getDescription())
+                                        .witheringDate(flower.getFlower().getWitheringDate())
+                                        .today(LocalDate.now())
                                         .price(flower.getFlower().getPrice())
                                         .quantity(flower.getFlower().getQuantity())
                                         .soldQuantity(flower.getFlower().getSoldQuantity())
