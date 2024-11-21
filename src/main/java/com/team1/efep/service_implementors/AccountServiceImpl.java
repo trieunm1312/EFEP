@@ -182,7 +182,7 @@ public class AccountServiceImpl implements AccountService {
         assert account != null;
         ViewProfileRequest profileRequest = ViewProfileRequest.builder().id(account.getUser().getId()).build();
         ViewProfileResponse response = viewProfileLogic(profileRequest);
-        session.setAttribute("acc", account);
+        session.setAttribute("acc", accountRepo.findById(account.getUser().getId()).orElse(null));
         redirectAttributes.addFlashAttribute("msg", response);
         switch (account.getRole().toUpperCase()) {
             case "SELLER":
@@ -204,6 +204,7 @@ public class AccountServiceImpl implements AccountService {
                     .id(user.getId())
                     .name(user.getName())
                     .phone(user.getPhone())
+                    .address(user.getAddress())
                     .email(user.getAccount().getEmail())
                     .avatar(user.getAvatar())
                     .background(user.getBackground())
@@ -229,6 +230,7 @@ public class AccountServiceImpl implements AccountService {
                 .id(user.getId())
                 .name(user.getName())
                 .phone(user.getPhone())
+                .address(user.getAddress())
                 .email(user.getAccount().getEmail())
                 .avatar(user.getAvatar())
                 .background(user.getBackground())
@@ -269,6 +271,7 @@ public class AccountServiceImpl implements AccountService {
             User user = account.getUser();
             user.setName(request.getName());
             user.setPhone(request.getPhone());
+            user.setAddress(request.getAddress());
             user.setAvatar(request.getAvatar());
             user = userRepo.save(user);
 
@@ -278,6 +281,7 @@ public class AccountServiceImpl implements AccountService {
                     .id(user.getId())
                     .name(user.getName())
                     .phone(user.getPhone())
+                    .address(user.getAddress())
                     .email(user.getAccount().getEmail())
                     .avatar(user.getAvatar())
                     .build();
