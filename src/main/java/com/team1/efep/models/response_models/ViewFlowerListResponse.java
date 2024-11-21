@@ -38,6 +38,9 @@ public class ViewFlowerListResponse {
 
         private LocalDate witheringDate;
 
+        private LocalDate today;
+
+
         private int quantity;
 
         private int soldQuantity;

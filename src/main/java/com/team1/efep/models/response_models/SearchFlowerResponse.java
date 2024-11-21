@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -34,6 +35,10 @@ public class SearchFlowerResponse {
         private float price;
 
         private String description;
+
+        private LocalDate witheringDate;
+
+        private LocalDate today;
 
         private int quantity;
 
