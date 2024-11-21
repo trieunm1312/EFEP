@@ -1657,7 +1657,7 @@ public class BuyerServiceImpl implements BuyerService {
                 .avatar(seller.getUser().getAvatar())
                 .background(seller.getUser().getBackground())
                 .totalFlower(seller.getFlowerList().size())
-                .sellerRating(seller.getRating())
+                .sellerRating((float) Math.floor(seller.getRating() * 10) / 10)
                 .flowerList(viewFlowerList(flowers))
                 .feedbackList(feedbackDetails)
                 .build();
