@@ -537,7 +537,7 @@
                     <img src="/img/title-flower.png" alt="">
                 </h2>
                 <div class="top-seller__list">
-                    <div th:each="item : ${msg2.sellerList}" class="top-seller__item">
+                    <div th:each="item : ${msg2.sellerList}" th:if="${item.averageRating > 0}" class="top-seller__item">
                         <div class="top-seller__img">
                             <img th:src="${item.avatar == null || item.avatar == ''} ? '/img/default-avatar.jpg' : ${item.avatar}" alt="Seller image">
                         </div>
@@ -559,7 +559,7 @@
                                 </span>
 
 
-                                <span th:if="${item.averageRating.intValue() < 5}" th:each="i : ${#numbers.sequence(item.averageRating.intValue() + (item.averageRating > item.averageRating.intValue() ? 1 : 0), 4)}">
+                                <span th:if="${item.averageRating.intValue() <= 4}" th:each="i : ${#numbers.sequence(item.averageRating.intValue() + (item.averageRating > item.averageRating.intValue() ? 1 : 0), 4)}">
                                     <i class="fa-regular fa-star"></i>
                                 </span>
                             </div>
