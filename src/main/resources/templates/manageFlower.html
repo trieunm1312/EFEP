@@ -317,7 +317,7 @@
                                                                             <label for="multi-select">Choose
                                                                                 categories:</label>
                                                                             <div class="categories">
-                                                                                <select
+                                                                                <select id="single-select" onchange="checkSelection()"
                                                                                     th:each="selected : ${item.categoryList}"
                                                                                     th:if="${selected.id != 0}"
                                                                                     name="categoryIdList"
@@ -493,7 +493,7 @@
                                 </div>
                                 <div id="confirm-date" class="confirmDelete">
                                     <div class="confirmDelete-form">
-                                        <span class="confirm-text">Do you want to create flower with withering date?</span>
+                                        <span class="confirm-text">Do you want to create flower with expired date?</span>
                                         <div class="create-confirm">
                                             <span class="cancel-delete" onclick="closeConfirmDatePopup()">Cancel</span>
                                             <button type="submit" class="save-btn" onclick="return validateSelectionCreate()">Create</button>
@@ -516,29 +516,41 @@
     </div>
     <script>
         function validateSelection() {
+            const singleSelect = document.getElementById('single-select');
             const multiSelect = document.getElementById('multi-select');
             const errorMessage = document.getElementById('error-message');
 
-            if (multiSelect.selectedOptions.length === 0) {
-                // Hiển thị thông báo lỗi nếu không có tùy chọn nào được chọn
+            // Kiểm tra giá trị của cả hai select
+            if (singleSelect.value === "0" && multiSelect.selectedOptions.length === 0) {
+                // Hiển thị thông báo lỗi nếu không có lựa chọn hợp lệ
                 errorMessage.style.display = 'block';
-                return false; // Ngăn chặn form gửi đi
+                return false; // Ngăn form gửi đi
             }
 
-            // Ẩn thông báo lỗi nếu có ít nhất 1 tùy chọn được chọn
+            // Ẩn thông báo lỗi nếu hợp lệ
             errorMessage.style.display = 'none';
             return true; // Cho phép gửi form
         }
-        // Ẩn thông báo lỗi khi người dùng chọn ít nhất một tùy chọn
+
         function hideErrorMessage() {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'none';
+        }
+
+        function checkSelection() {
+            const singleSelect = document.getElementById('single-select');
             const multiSelect = document.getElementById('multi-select');
             const errorMessage = document.getElementById('error-message');
 
-            if (multiSelect.selectedOptions.length > 0) {
-                // Ẩn thông báo lỗi nếu có tùy chọn được chọn
+            // Nếu single-select đã chọn giá trị khác "0", ẩn lỗi và không yêu cầu multi-select
+            if (singleSelect.value !== "0") {
                 errorMessage.style.display = 'none';
+                multiSelect.required = false; // Bỏ yêu cầu bắt buộc của multi-select
+            } else {
+                multiSelect.required = true; // Nếu single-select là "None", yêu cầu chọn multi-select
             }
         }
+
         function validateSelectionCreate() {
             const multiSelect = document.getElementById('multi-select-create');
             const errorMessage = document.getElementById('error-message-create');
