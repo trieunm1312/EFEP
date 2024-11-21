@@ -33,6 +33,10 @@ public class UpdateProfileValidation {
             return MapConfig.buildMapKey(error, "Phone number must start with 09, 07, or 03 and be 10 digits long");
         }
 
+        if(request.getAddress().isEmpty()) {
+            return MapConfig.buildMapKey(error, "Address cannot be empty");
+        }
+
         return error;
     }
 }

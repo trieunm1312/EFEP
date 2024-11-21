@@ -117,8 +117,8 @@ public class BuyerController {
     }
 
     @PostMapping("/order/cod")
-    public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes,@RequestParam String destination) {
-        return buyerService.getCODPaymentResult(params, session, redirectAttributes, destination);
+    public String getCODPaymentResult(@RequestParam Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes,@RequestParam String destination, @RequestParam String phone) {
+        return buyerService.getCODPaymentResult(params, session, redirectAttributes, destination, phone);
     }
 
     @PostMapping("/order/now/cod")

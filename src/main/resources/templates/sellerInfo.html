@@ -78,7 +78,7 @@
                                         </span>
 
 
-                                        <span th:if="${msg.sellerRating.intValue() < 5}" th:each="i : ${#numbers.sequence(msg.sellerRating.intValue() + (msg.sellerRating > msg.sellerRating.intValue() ? 1 : 0), 4)}">
+                                        <span th:if="${msg.sellerRating.intValue() <= 4}" th:each="i : ${#numbers.sequence(msg.sellerRating.intValue() + (msg.sellerRating > msg.sellerRating.intValue() ? 1 : 0), 4)}">
                                             <i class="fa-regular fa-star unfill"></i>
                                         </span>
                                     </div>
@@ -159,7 +159,7 @@
                                     <br>
                                     <div class="user__rating">
                                         <!-- Full stars -->
-                                        <span th:each="i : ${#numbers.sequence(1, buyer.rating.intValue())}">
+                                        <span th:each="i : ${#numbers.sequence(1, buyer.rating.intValue())}" th:if="${buyer.rating.intValue() > 0}">
                                             <i class="fa-solid fa-star"></i>
                                         </span>
 
