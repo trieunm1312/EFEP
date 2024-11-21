@@ -334,13 +334,14 @@
                                                                             <div class="categories">
                                                                                 <select id="multi-select"
                                                                                     name="categoryIdList"
-                                                                                    class="chosen-select" multiple>
+                                                                                    class="chosen-select" multiple onchange="hideErrorMessage()">
                                                                                     <option
                                                                                         th:each="cate : ${msg.allCategory}"
                                                                                         th:text="${cate.name}"
                                                                                         th:value="${cate.id}">
                                                                                     </option>
                                                                                 </select>
+                                                                                <span id="error-message" style="color: red; display: none;">Please select at least one category.</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -350,7 +351,7 @@
                                                                 <div class="popup-buttons">
                                                                     <span
                                                                         th:onclick="'closePopup(' + ${item.id} + ')'">Cancel</span>
-                                                                    <button value="Save">Save</button>
+                                                                    <button type="submit" value="Save" onclick="return validateSelection()">Save</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -470,11 +471,12 @@
                                                 <div class="categories">
                                                     <label for="multi-select-create">Choose categories:</label>
                                                     <select id="multi-select-create" name="categoryIdList"
-                                                        class="chosen-select" multiple>
+                                                        class="chosen-select" multiple onchange="hideErrorMessageCreate()">
                                                         <option th:each="cate : ${msg.allCategory}"
                                                             th:text="${cate.name}" th:value="${cate.id}">
                                                         </option>
                                                     </select>
+                                                    <span id="error-message-create" style="color: red; display: none;">Please select at least one category.</span>
                                                 </div>
                                                 <div>
                                                     <label class="expired" for="expiredDate">Expired date:</label>
@@ -494,7 +496,7 @@
                                         <span class="confirm-text">Do you want to create flower with withering date?</span>
                                         <div class="create-confirm">
                                             <span class="cancel-delete" onclick="closeConfirmDatePopup()">Cancel</span>
-                                            <button type="submit" class="save-btn">Create</button>
+                                            <button type="submit" class="save-btn" onclick="return validateSelectionCreate()">Create</button>
                                         </div>
                                     </div>
                                 </div>
@@ -512,6 +514,56 @@
 
         </div>
     </div>
+    <script>
+        function validateSelection() {
+            const multiSelect = document.getElementById('multi-select');
+            const errorMessage = document.getElementById('error-message');
+
+            if (multiSelect.selectedOptions.length === 0) {
+                // Hiển thị thông báo lỗi nếu không có tùy chọn nào được chọn
+                errorMessage.style.display = 'block';
+                return false; // Ngăn chặn form gửi đi
+            }
+
+            // Ẩn thông báo lỗi nếu có ít nhất 1 tùy chọn được chọn
+            errorMessage.style.display = 'none';
+            return true; // Cho phép gửi form
+        }
+        // Ẩn thông báo lỗi khi người dùng chọn ít nhất một tùy chọn
+        function hideErrorMessage() {
+            const multiSelect = document.getElementById('multi-select');
+            const errorMessage = document.getElementById('error-message');
+
+            if (multiSelect.selectedOptions.length > 0) {
+                // Ẩn thông báo lỗi nếu có tùy chọn được chọn
+                errorMessage.style.display = 'none';
+            }
+        }
+        function validateSelectionCreate() {
+            const multiSelect = document.getElementById('multi-select-create');
+            const errorMessage = document.getElementById('error-message-create');
+
+            if (multiSelect.selectedOptions.length === 0) {
+                // Hiển thị thông báo lỗi nếu không có tùy chọn nào được chọn
+                errorMessage.style.display = 'block';
+                return false; // Ngăn chặn form gửi đi
+            }
+
+            // Ẩn thông báo lỗi nếu có ít nhất 1 tùy chọn được chọn
+            errorMessage.style.display = 'none';
+            return true; // Cho phép gửi form
+        }
+        // Ẩn thông báo lỗi khi người dùng chọn ít nhất một tùy chọn
+        function hideErrorMessageCreate() {
+            const multiSelect = document.getElementById('multi-select-create');
+            const errorMessage = document.getElementById('error-message-create');
+
+            if (multiSelect.selectedOptions.length > 0) {
+                // Ẩn thông báo lỗi nếu có tùy chọn được chọn
+                errorMessage.style.display = 'none';
+            }
+        }
+    </script>
     <script type="module">
         // Import Firebase and necessary functions from Firebase Storage
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
