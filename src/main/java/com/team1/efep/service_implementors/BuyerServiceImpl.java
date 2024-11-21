@@ -1016,6 +1016,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public String createVNPayPaymentLink(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session) {
+        session.setAttribute("phone", request.getPhone());
         session.setAttribute("destination", request.getDestination());
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
@@ -1122,18 +1123,20 @@ public class BuyerServiceImpl implements BuyerService {
         assert account != null;
         Role.changeToBuyer(account, accountRepo);
         String destination = (String) session.getAttribute("destination");
-        Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest, destination);
+        String phone = (String) session.getAttribute("phone");
+        Object output = getPaymentResultLogic(params, account.getId(), httpServletRequest, destination, phone);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             session.removeAttribute("destination");
+            session.removeAttribute("phone");
             return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
         return ((VNPayResponse) output).getPaymentURL();
     }
 
-    private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest, String destination) {
+    private Object getPaymentResultLogic(Map<String, String> params, int accountId, HttpServletRequest httpServletRequest, String destination, String phone) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
         Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
         if (!error.isEmpty()) {
@@ -1142,7 +1145,7 @@ public class BuyerServiceImpl implements BuyerService {
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
             List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-            if (!saveOrder(params, user, items, paymentMethodRepo.findById(2).orElse(null), destination)) {
+            if (!saveOrder(params, user, items, paymentMethodRepo.findById(2).orElse(null), destination, phone)) {
                 return VNPayResponse.builder()
                         .status("400")
                         .message("Your payment is failed")
@@ -1163,7 +1166,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     }
 
-    private boolean saveOrder(Map<String, String> params, User user, List<WishlistItem> items, PaymentMethod paymentMethod, String destination) {
+    private boolean saveOrder(Map<String, String> params, User user, List<WishlistItem> items, PaymentMethod paymentMethod, String destination, String phone) {
 
         Map<Seller, List<WishlistItem>> itemsBySeller = items.stream()
                 .collect(Collectors.groupingBy(item -> item.getFlower().getSeller()));
@@ -1221,6 +1224,7 @@ public class BuyerServiceImpl implements BuyerService {
             sendEmailResult = sendOrderSellerEmail(savedOrder, seller);
         }
         if (sendEmailResult) {
+            user.setPhone(phone);
             wishlistItemRepo.deleteAll(items);
             user.getWishlist().setWishlistItemList(new ArrayList<>());
             userRepo.save(user);
@@ -1287,13 +1291,13 @@ public class BuyerServiceImpl implements BuyerService {
     //-----------------------------------GET COD PAYMENT RESULT--------------------------------------//
 
     @Override
-    public String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes, String destination) {
+    public String getCODPaymentResult(Map<String, String> params, HttpSession session, RedirectAttributes redirectAttributes, String destination, String phone) {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
         Role.changeToBuyer(account, accountRepo);
         User user = account.getUser();
         List<WishlistItem> items = wishlistItemRepo.findAllByWishlist_User_Id(user.getId());
-        if (saveOrder(params, user, items, paymentMethodRepo.findById(1).orElse(null), destination)) {
+        if (saveOrder(params, user, items, paymentMethodRepo.findById(1).orElse(null), destination, phone)) {
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             CODPaymentResponse response = CODPaymentResponse.builder()
                     .status("200")
@@ -1315,7 +1319,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String confirmCheckoutOrder(HttpSession session, Model model) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null){
+        if (account == null) {
             return "redirect:/login";
         }
         Role.changeToBuyer(account, accountRepo);
@@ -1329,11 +1333,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public String createVNPayPaymentLinkForBuyNow(VNPayRequest request, Model model, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes) {
         Account account = Role.getCurrentLoggedAccount(session);
-        if (account == null || !Role.checkIfThisAccountIsBuyer(account)) {
-            redirectAttributes.addFlashAttribute("msg", VNPayResponse.builder()
-                    .status("400")
-                    .message("You must log in with a buyer account to make a payment.")
-                    .build());
+        if (account == null) {
             return "redirect:/login";
         }
         Role.changeToBuyer(account, accountRepo);
@@ -1341,6 +1341,7 @@ public class BuyerServiceImpl implements BuyerService {
         session.setAttribute("flowerId", request.getFlowerId());
         session.setAttribute("quantity", request.getQuantity());
         session.setAttribute("destination", request.getDestination());
+        session.setAttribute("phone", request.getPhone());
         model.addAttribute("msg", vnPayResponse);
         return "redirect:" + vnPayResponse.getPaymentURL();
     }
@@ -1416,20 +1417,21 @@ public class BuyerServiceImpl implements BuyerService {
         Account account = Role.getCurrentLoggedAccount(session);
         assert account != null;
         Role.changeToBuyer(account, accountRepo);
-        Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()), Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), session.getAttribute("destination").toString(), httpServletRequest);
+        Object output = getPaymentResultForBuyNowLogic(params, Integer.parseInt(session.getAttribute("flowerId").toString()), Integer.parseInt(session.getAttribute("quantity").toString()), account.getId(), session.getAttribute("destination").toString(), session.getAttribute("phone").toString(), httpServletRequest);
         if (OutputCheckerUtil.checkIfThisIsAResponseObject(output, VNPayResponse.class)) {
             model.addAttribute("msg", (VNPayResponse) output);
             session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
             session.removeAttribute("flowerId");
             session.removeAttribute("quantity");
             session.removeAttribute("destination");
+            session.removeAttribute("phone");
             return ((VNPayResponse) output).getPaymentURL();
         }
         model.addAttribute("error", (Map<String, String>) output);
         return ((VNPayResponse) output).getPaymentURL();
     }
 
-    private Object getPaymentResultForBuyNowLogic(Map<String, String> params, int flowerId, int quantity, int accountId, String destination, HttpServletRequest httpServletRequest) {
+    private Object getPaymentResultForBuyNowLogic(Map<String, String> params, int flowerId, int quantity, int accountId, String destination, String phone, HttpServletRequest httpServletRequest) {
         User user = Role.getCurrentLoggedAccount(accountId, accountRepo).getUser();
         Map<String, String> error = VNPayValidation.validate(params, httpServletRequest);
         if (!error.isEmpty()) {
@@ -1437,7 +1439,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         String transactionStatus = params.get("vnp_TransactionStatus");
         if ("00".equals(transactionStatus)) {
-            saveOrderNow(destination, flowerId, quantity, user, paymentMethodRepo.findById(2).orElse(null));
+            saveOrderNow(phone, destination, flowerId, quantity, user, paymentMethodRepo.findById(2).orElse(null));
             return VNPayResponse.builder()
                     .status("200")
                     .message("Your payment is successfully")
@@ -1452,7 +1454,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     }
 
-    private void saveOrderNow(String destination, int flowerId, int quantity, User user, PaymentMethod paymentMethod) {
+    private void saveOrderNow(String phone, String destination, int flowerId, int quantity, User user, PaymentMethod paymentMethod) {
         Flower flower = flowerRepo.findById(flowerId).orElse(null);
         assert flower != null;
 
@@ -1466,7 +1468,8 @@ public class BuyerServiceImpl implements BuyerService {
                 .paymentMethod(paymentMethod)
                 .destination(destination)
                 .build());
-
+        user.setPhone(phone);
+        userRepo.save(user);
         flower.setSoldQuantity(flower.getSoldQuantity() + quantity);
         flower.setQuantity(flower.getQuantity() - quantity);
 
@@ -1513,7 +1516,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
         User user = account.getUser();
         Role.changeToBuyer(account, accountRepo);
-        saveOrderNow(request.getDestination(), request.getFlowerId(), request.getQuantity(), user, paymentMethodRepo.findById(1).orElse(null));
+        saveOrderNow(request.getPhone(), request.getDestination(), request.getFlowerId(), request.getQuantity(), user, paymentMethodRepo.findById(1).orElse(null));
         session.setAttribute("acc", accountRepo.findById(account.getId()).orElse(null));
         CODPaymentResponse response = CODPaymentResponse.builder()
                 .status("200")
