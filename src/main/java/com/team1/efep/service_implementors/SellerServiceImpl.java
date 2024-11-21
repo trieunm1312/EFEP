@@ -564,7 +564,7 @@ public class SellerServiceImpl implements SellerService {
                 .sellerName(sellerName)
                 .buyerPhone(order.getUser().getPhone())
                 .buyerName(order.getUser().getName())
-                .address(order.getUser().getAddress())
+                .address(order.getDestination())
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
                 .paymentMethod(order.getPaymentMethod().getName())
