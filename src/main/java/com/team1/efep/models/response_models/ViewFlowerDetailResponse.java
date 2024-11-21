@@ -37,6 +37,8 @@ public class ViewFlowerDetailResponse {
 
         private String description;
 
+        private String witheringDate;
+
         private List<Image> imageList;
 
         private Seller seller;
